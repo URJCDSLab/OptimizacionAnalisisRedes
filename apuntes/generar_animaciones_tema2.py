@@ -36,6 +36,7 @@ def fig_to_pil(fig):
 def gen_seccion_aurea_animation():
     print("Generating Seccion Aurea animation...")
     alpha = (1 + np.sqrt(5)) / 2
+    a_init, b_init = 1.0, 4.0
     a, b = 1.0, 4.0
     tol = 0.15
     n_iter = int(np.ceil((np.log(b - a) - np.log(tol)) / np.log(alpha)))
@@ -60,6 +61,14 @@ def gen_seccion_aurea_animation():
         # Shade active interval
         ax.axvspan(a, b, color=C_BG, alpha=0.5, label=f'Intervalo $[a_k, b_k]$')
         
+        # Shade accumulated discarded regions
+        labeled_hist = False
+        if a > a_init:
+            ax.axvspan(a_init, a, color='#ef4444', alpha=0.08, label='Descartes acumulados')
+            labeled_hist = True
+        if b < b_init:
+            ax.axvspan(b, b_init, color='#ef4444', alpha=0.08, label='Descartes acumulados' if not labeled_hist else None)
+            
         # Draw lambda and mu
         ax.axvline(lmbda, color=C_TEXT_MUTED, linestyle='--', lw=1.2)
         ax.axvline(mu, color=C_TEXT_MUTED, linestyle='--', lw=1.2)
@@ -76,7 +85,7 @@ def gen_seccion_aurea_animation():
             a_next = lmbda
             b_next = b
             
-        ax.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.2, hatch='/', label='Región descartada')
+        ax.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.25, hatch='/', label='Descarte del paso')
         
         # Labels and Title
         ax.set_title(f"Sección Áurea - Paso {k+1}\nIntervalo: [{a:.3f}, {b:.3f}], $I_k$ = {b-a:.3f}", color=C_TEXT, fontsize=12)
@@ -96,11 +105,15 @@ def gen_seccion_aurea_animation():
             ax_pdf = axes_pdf[pdf_idx]
             ax_pdf.plot(x_vals, f(x_vals), color=C_PRIMARY, lw=2)
             ax_pdf.axvspan(a, b, color=C_BG, alpha=0.5)
+            if a > a_init:
+                ax_pdf.axvspan(a_init, a, color='#ef4444', alpha=0.08)
+            if b < b_init:
+                ax_pdf.axvspan(b, b_init, color='#ef4444', alpha=0.08)
             ax_pdf.axvline(lmbda, color=C_TEXT_MUTED, linestyle='--', lw=1)
             ax_pdf.axvline(mu, color=C_TEXT_MUTED, linestyle='--', lw=1)
             ax_pdf.plot(lmbda, f(lmbda), 'o', color=C_ACCENT, markersize=6)
             ax_pdf.plot(mu, f(mu), 'o', color=C_SUCCESS, markersize=6)
-            ax_pdf.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.15, hatch='/')
+            ax_pdf.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.18, hatch='/')
             ax_pdf.set_title(f"Paso {k+1}: [{a:.3f}, {b:.3f}]", fontsize=10)
             ax_pdf.set_xlim(0.8, 4.2)
             ax_pdf.set_ylim(-75, -45)
@@ -128,6 +141,7 @@ def gen_seccion_aurea_animation():
 
 def gen_biseccion_animation():
     print("Generating Biseccion animation...")
+    a_init, b_init = 1.0, 4.0
     a, b = 1.0, 4.0
     tol = 0.15
     frames = []
@@ -148,6 +162,14 @@ def gen_biseccion_animation():
         # Active interval
         ax.axvspan(a, b, color=C_BG, alpha=0.5, label=f'Intervalo $[a_k, b_k]$')
         
+        # Shade accumulated discarded regions
+        labeled_hist = False
+        if a > a_init:
+            ax.axvspan(a_init, a, color='#ef4444', alpha=0.08, label='Descartes acumulados')
+            labeled_hist = True
+        if b < b_init:
+            ax.axvspan(b, b_init, color='#ef4444', alpha=0.08, label='Descartes acumulados' if not labeled_hist else None)
+            
         # Midpoint
         ax.axvline(c, color=C_ACCENT, linestyle='--', lw=1.5)
         ax.plot(c, f(c), 'o', color=C_ACCENT, markersize=8, label=f'Punto medio $c={c:.4f}$')
@@ -167,7 +189,7 @@ def gen_biseccion_animation():
             a_next = a
             b_next = c
             
-        ax.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.2, hatch='\\', label='Región descartada')
+        ax.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.25, hatch='\\', label='Descarte del paso')
         
         ax.set_title(f"Bisección (Bolzano) - Paso {k+1}\nIntervalo: [{a:.4f}, {b:.4f}], $f'(c)$ = {df_c:.4f}", color=C_TEXT, fontsize=12)
         ax.set_xlabel('$x$')
@@ -184,10 +206,14 @@ def gen_biseccion_animation():
             ax_pdf = axes_pdf[pdf_idx]
             ax_pdf.plot(x_vals, f(x_vals), color=C_PRIMARY, lw=2)
             ax_pdf.axvspan(a, b, color=C_BG, alpha=0.5)
+            if a > a_init:
+                ax_pdf.axvspan(a_init, a, color='#ef4444', alpha=0.08)
+            if b < b_init:
+                ax_pdf.axvspan(b, b_init, color='#ef4444', alpha=0.08)
             ax_pdf.axvline(c, color=C_ACCENT, linestyle='--', lw=1)
             ax_pdf.plot(c, f(c), 'o', color=C_ACCENT, markersize=6)
             ax_pdf.plot(tangent_x, tangent_y, color=C_ALERT, lw=1.5)
-            ax_pdf.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.15, hatch='\\')
+            ax_pdf.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.18, hatch='\\')
             ax_pdf.set_title(f"Paso {k+1}: [{a:.3f}, {b:.3f}], $f'(c)$={df_c:.3f}", fontsize=10)
             ax_pdf.set_xlim(0.8, 4.2)
             ax_pdf.set_ylim(-75, -45)
@@ -347,52 +373,112 @@ def gen_tipos_optimos():
     print("Saved tipos_optimos.png")
 
 def gen_busqueda_uniforme_concepto():
-    print("Generating busqueda_uniforme_concepto.png...")
-    fig, ax = plt.subplots(figsize=(8, 5))
+    print("Generating busqueda_uniforme_concepto.png and busqueda_uniforme.gif...")
     
-    x_vals = np.linspace(0.5, 5.5, 300)
-    # Unimodal curve with minimum around 2.7
+    # We will generate frames
+    frames = []
+    
+    # Define function
     f_unimodal = lambda x: (x - 2.7)**2 + 0.8
-    ax.plot(x_vals, f_unimodal(x_vals), color=C_PRIMARY, lw=3, label=r'$f(x)$')
-    
-    # Grid points
+    x_vals = np.linspace(0.5, 5.5, 300)
     a, b = 0.5, 5.5
-    grid_points = np.linspace(a, b, 11) # 10 intervals -> 11 points
+    grid_points = np.linspace(a, b, 11) # 11 points: 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5
     
-    for i, gp in enumerate(grid_points):
-        # Draw vertical lines from x-axis to curve
-        ax.vlines(gp, 0, f_unimodal(gp), colors=C_TEXT_MUTED, linestyles=':', alpha=0.6)
-        # Add labels on x-axis
-        if i == 0:
-            label = r'$a$'
-        elif i == 10:
-            label = r'$b$'
-        else:
-            label = f'$a_{i}$'
-        ax.text(gp, -0.15, label, ha='center', va='top', fontsize=9, color=C_TEXT)
+    # We create the 5 frames
+    for step in range(5):
+        fig, ax = plt.subplots(figsize=(8, 5))
+        ax.plot(x_vals, f_unimodal(x_vals), color=C_PRIMARY, lw=3, label=r'$f(x)$')
         
-    # Minimum point among evaluations: grid_points[4] = 2.5 (f(2.5) = 0.84)
-    # The actual minimum is at 2.7
-    ax.plot(2.5, f_unimodal(2.5), 'o', color=C_ALERT, markersize=8, label=r'$a_{k^*}$ (Mínimo evaluado)')
-    
-    # Highlight new interval: [a_3, a_5] = [2.0, 3.0]
-    ax.axvspan(2.0, 3.0, color=C_BG, alpha=0.5, label='Nuevo intervalo $[a_{k^*-1}, a_{k^*+1}]$')
-    ax.vlines([2.0, 3.0], 0, f_unimodal(np.array([2.0, 3.0])), colors=C_SUCCESS, linestyles='--', lw=1.5)
-    
-    # Settings
-    ax.set_title("Búsqueda Uniforme (Rejilla)", color=C_TEXT, fontsize=12, fontweight='bold')
-    ax.set_xlabel('$x$', labelpad=15)
-    ax.set_ylabel('$f(x)$')
-    ax.set_xlim(0.3, 5.7)
-    ax.set_ylim(0, 9.0)
-    ax.legend(loc='upper right', frameon=True, facecolor='white', edgecolor='none')
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    
-    plt.tight_layout()
-    fig.savefig(os.path.join(output_dir, "busqueda_uniforme_concepto.png"), dpi=300, transparent=True)
-    plt.close(fig)
-    print("Saved busqueda_uniforme_concepto.png")
+        # Frame 0: Initial interval
+        if step == 0:
+            ax.axvspan(a, b, color=C_BG, alpha=0.5, label='Intervalo inicial $[a, b]$')
+            ax.text(a, -0.15, r'$a$', ha='center', va='top', fontsize=9, color=C_TEXT)
+            ax.text(b, -0.15, r'$b$', ha='center', va='top', fontsize=9, color=C_TEXT)
+            
+        # Frame 1: Grid points & evaluations
+        elif step == 1:
+            ax.axvspan(a, b, color=C_BG, alpha=0.5, label='Intervalo inicial $[a, b]$')
+            for i, gp in enumerate(grid_points):
+                ax.vlines(gp, 0, f_unimodal(gp), colors=C_TEXT_MUTED, linestyles=':', alpha=0.6)
+                # Mark evaluations
+                ax.plot(gp, f_unimodal(gp), 'o', color=C_TEXT_MUTED, markersize=5)
+                # Label
+                label = r'$a$' if i == 0 else (r'$b$' if i == 10 else f'$a_{i}$')
+                ax.text(gp, -0.15, label, ha='center', va='top', fontsize=9, color=C_TEXT)
+                
+        # Frame 2: Minimum point
+        elif step == 2:
+            ax.axvspan(a, b, color=C_BG, alpha=0.5, label='Intervalo inicial $[a, b]$')
+            for i, gp in enumerate(grid_points):
+                ax.vlines(gp, 0, f_unimodal(gp), colors=C_TEXT_MUTED, linestyles=':', alpha=0.6)
+                if i == 4:
+                    ax.plot(gp, f_unimodal(gp), 'o', color=C_ALERT, markersize=8, label=r'$a_{k^*}$ (Mínimo evaluado)')
+                else:
+                    ax.plot(gp, f_unimodal(gp), 'o', color=C_TEXT_MUTED, markersize=5)
+                label = r'$a$' if i == 0 else (r'$b$' if i == 10 else f'$a_{i}$')
+                ax.text(gp, -0.15, label, ha='center', va='top', fontsize=9, color=C_TEXT)
+                
+        # Frame 3: Discarded regions
+        elif step == 3:
+            # Show original interval
+            ax.axvspan(a, b, color=C_BG, alpha=0.5)
+            # Show previous/current discards: [a, a_3] and [a_5, b]
+            ax.axvspan(a, 2.0, color='#ef4444', alpha=0.25, hatch='/')
+            ax.axvspan(3.0, b, color='#ef4444', alpha=0.25, hatch='/', label='Regiones descartadas')
+            for i, gp in enumerate(grid_points):
+                ax.vlines(gp, 0, f_unimodal(gp), colors=C_TEXT_MUTED, linestyles=':', alpha=0.6)
+                if i == 4:
+                    ax.plot(gp, f_unimodal(gp), 'o', color=C_ALERT, markersize=8, label=r'$a_{k^*}$')
+                else:
+                    ax.plot(gp, f_unimodal(gp), 'o', color=C_TEXT_MUTED, markersize=5)
+                label = r'$a$' if i == 0 else (r'$b$' if i == 10 else f'$a_{i}$')
+                ax.text(gp, -0.15, label, ha='center', va='top', fontsize=9, color=C_TEXT)
+                
+        # Frame 4: Final active interval
+        elif step == 4:
+            # Shaded discarded regions (hatch)
+            ax.axvspan(a, 2.0, color='#ef4444', alpha=0.25, hatch='/')
+            ax.axvspan(3.0, b, color='#ef4444', alpha=0.25, hatch='/', label='Regiones descartadas')
+            # Highlight new active interval
+            ax.axvspan(2.0, 3.0, color=C_BG, alpha=0.5, label='Nuevo intervalo $[a_{k^*-1}, a_{k^*+1}]$')
+            ax.vlines([2.0, 3.0], 0, f_unimodal(np.array([2.0, 3.0])), colors=C_SUCCESS, linestyles='--', lw=1.5)
+            
+            for i, gp in enumerate(grid_points):
+                ax.vlines(gp, 0, f_unimodal(gp), colors=C_TEXT_MUTED, linestyles=':', alpha=0.6)
+                if i == 4:
+                    ax.plot(gp, f_unimodal(gp), 'o', color=C_ALERT, markersize=8, label=r'$a_{k^*}$')
+                else:
+                    ax.plot(gp, f_unimodal(gp), 'o', color=C_TEXT_MUTED, markersize=5)
+                label = r'$a$' if i == 0 else (r'$b$' if i == 10 else f'$a_{i}$')
+                ax.text(gp, -0.15, label, ha='center', va='top', fontsize=9, color=C_TEXT)
+
+        # Settings
+        ax.set_title(f"Búsqueda Uniforme (Rejilla) - Paso {step}", color=C_TEXT, fontsize=12, fontweight='bold')
+        ax.set_xlabel('$x$', labelpad=15)
+        ax.set_ylabel('$f(x)$')
+        ax.set_xlim(0.3, 5.7)
+        ax.set_ylim(0, 9.0)
+        ax.legend(loc='upper right', frameon=True, facecolor='white', edgecolor='none')
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        
+        plt.tight_layout()
+        img = fig_to_pil(fig)
+        frames.append(img)
+        
+        # Save step 4 as the static image
+        if step == 4:
+            ax.set_title("Búsqueda Uniforme (Rejilla)", color=C_TEXT, fontsize=12, fontweight='bold')
+            plt.tight_layout()
+            fig.savefig(os.path.join(output_dir, "busqueda_uniforme_concepto.png"), dpi=300, transparent=True)
+            print("Saved busqueda_uniforme_concepto.png")
+            
+        plt.close(fig)
+        
+    # Save GIF
+    gif_path = os.path.join(output_dir, "busqueda_uniforme.gif")
+    frames[0].save(gif_path, save_all=True, append_images=frames[1:], optimize=False, duration=1800, loop=0)
+    print(f"Saved: {gif_path}")
 
 def gen_busqueda_dicotomica_insuficiente():
     print("Generating busqueda_dicotomica_insuficiente.png...")
@@ -486,6 +572,7 @@ def gen_busqueda_dicotomica_concepto():
 
 def gen_dicotomica_trace_animation():
     print("Generating Búsqueda Dicotómica animation (dicotomica.gif)...")
+    a_init, b_init = 1.0, 4.0
     a, b = 1.0, 4.0
     tol = 0.15
     delta = 0.02
@@ -511,6 +598,14 @@ def gen_dicotomica_trace_animation():
         # Shade active interval
         ax.axvspan(a, b, color=C_BG, alpha=0.5, label=f'Intervalo $[a_k, b_k]$')
         
+        # Shade accumulated discarded regions
+        labeled_hist = False
+        if a > a_init:
+            ax.axvspan(a_init, a, color='#ef4444', alpha=0.08, label='Descartes acumulados')
+            labeled_hist = True
+        if b < b_init:
+            ax.axvspan(b, b_init, color='#ef4444', alpha=0.08, label='Descartes acumulados' if not labeled_hist else None)
+            
         # Draw lambda and mu
         ax.axvline(lmbda, color=C_ACCENT, linestyle='--', lw=1.2)
         ax.axvline(mu, color=C_SUCCESS, linestyle='--', lw=1.2)
@@ -527,7 +622,7 @@ def gen_dicotomica_trace_animation():
             a_next = lmbda
             b_next = b
             
-        ax.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.2, hatch='/', label='Región descartada')
+        ax.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.25, hatch='/', label='Descarte del paso')
         
         ax.set_title(f"Búsqueda Dicotómica - Paso {k+1}\nIntervalo: [{a:.3f}, {b:.3f}], Amplitud = {b-a:.3f}", color=C_TEXT, fontsize=12)
         ax.set_xlabel('$x$')
@@ -544,11 +639,15 @@ def gen_dicotomica_trace_animation():
             ax_pdf = axes_pdf[pdf_idx]
             ax_pdf.plot(x_vals, f(x_vals), color=C_PRIMARY, lw=2)
             ax_pdf.axvspan(a, b, color=C_BG, alpha=0.5)
+            if a > a_init:
+                ax_pdf.axvspan(a_init, a, color='#ef4444', alpha=0.08)
+            if b < b_init:
+                ax_pdf.axvspan(b, b_init, color='#ef4444', alpha=0.08)
             ax_pdf.axvline(lmbda, color=C_ACCENT, linestyle='--', lw=1)
             ax_pdf.axvline(mu, color=C_SUCCESS, linestyle='--', lw=1)
             ax_pdf.plot(lmbda, f_lmbda, 'o', color=C_ACCENT, markersize=6)
             ax_pdf.plot(mu, f_mu, 'o', color=C_SUCCESS, markersize=6)
-            ax_pdf.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.15, hatch='/')
+            ax_pdf.axvspan(discard_a, discard_b, color='#ef4444', alpha=0.18, hatch='/')
             ax_pdf.set_title(f"Paso {k+1}: [{a:.3f}, {b:.3f}]", fontsize=10)
             ax_pdf.set_xlim(0.8, 4.2)
             ax_pdf.set_ylim(-75, -45)

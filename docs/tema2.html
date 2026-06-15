@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -287,26 +252,29 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#introducción-y-casos-de-estudio" id="toc-introducción-y-casos-de-estudio" class="nav-link active" data-scroll-target="#introducción-y-casos-de-estudio"><span class="header-section-number">2.1</span> Introducción y Casos de Estudio</a>
+  <li><a href="#introducción-y-formulación-de-problemas-no-lineales" id="toc-introducción-y-formulación-de-problemas-no-lineales" class="nav-link active" data-scroll-target="#introducción-y-formulación-de-problemas-no-lineales"><span class="header-section-number">2.1</span> Introducción y Formulación de Problemas No Lineales</a>
   <ul class="collapse">
-  <li><a href="#la-dificultad-de-la-no-linealidad" id="toc-la-dificultad-de-la-no-linealidad" class="nav-link" data-scroll-target="#la-dificultad-de-la-no-linealidad"><span class="header-section-number">2.1.1</span> La Dificultad de la No Linealidad</a></li>
+  <li><a href="#casos-particulares-de-la-optimización-no-lineal" id="toc-casos-particulares-de-la-optimización-no-lineal" class="nav-link" data-scroll-target="#casos-particulares-de-la-optimización-no-lineal"><span class="header-section-number">2.1.1</span> Casos Particulares de la Optimización No Lineal</a></li>
+  <li><a href="#caso-de-estudio-1-el-monopolio-de-cournot-1838" id="toc-caso-de-estudio-1-el-monopolio-de-cournot-1838" class="nav-link" data-scroll-target="#caso-de-estudio-1-el-monopolio-de-cournot-1838"><span class="header-section-number">2.1.2</span> Caso de Estudio 1: El Monopolio de Cournot (1838)</a></li>
+  <li><a href="#caso-de-estudio-2-selección-de-cartera-de-valores-markowitz-1952" id="toc-caso-de-estudio-2-selección-de-cartera-de-valores-markowitz-1952" class="nav-link" data-scroll-target="#caso-de-estudio-2-selección-de-cartera-de-valores-markowitz-1952"><span class="header-section-number">2.1.3</span> Caso de Estudio 2: Selección de Cartera de Valores (Markowitz, 1952)</a></li>
   </ul></li>
   <li><a href="#tipos-de-solución-en-optimización-no-lineal" id="toc-tipos-de-solución-en-optimización-no-lineal" class="nav-link" data-scroll-target="#tipos-de-solución-en-optimización-no-lineal"><span class="header-section-number">2.2</span> Tipos de Solución en Optimización No Lineal</a></li>
   <li><a href="#fundamentos-matemáticos-y-condiciones-de-optimalidad" id="toc-fundamentos-matemáticos-y-condiciones-de-optimalidad" class="nav-link" data-scroll-target="#fundamentos-matemáticos-y-condiciones-de-optimalidad"><span class="header-section-number">2.3</span> Fundamentos Matemáticos y Condiciones de Optimalidad</a>
   <ul class="collapse">
   <li><a href="#desarrollo-de-taylor-multivariable" id="toc-desarrollo-de-taylor-multivariable" class="nav-link" data-scroll-target="#desarrollo-de-taylor-multivariable"><span class="header-section-number">2.3.1</span> Desarrollo de Taylor Multivariable</a></li>
-  <li><a href="#caracterización-de-matrices-simétricas-y-curvatura" id="toc-caracterización-de-matrices-simétricas-y-curvatura" class="nav-link" data-scroll-target="#caracterización-de-matrices-simétricas-y-curvatura"><span class="header-section-number">2.3.2</span> Caracterización de Matrices Simétricas y Curvatura</a></li>
+  <li><a href="#caracterización-de-curvatura-y-clasificación-de-matrices" id="toc-caracterización-de-curvatura-y-clasificación-de-matrices" class="nav-link" data-scroll-target="#caracterización-de-curvatura-y-clasificación-de-matrices"><span class="header-section-number">2.3.2</span> Caracterización de Curvatura y Clasificación de Matrices</a></li>
+  <li><a href="#condiciones-de-optimalidad-y-puntos-estacionarios" id="toc-condiciones-de-optimalidad-y-puntos-estacionarios" class="nav-link" data-scroll-target="#condiciones-de-optimalidad-y-puntos-estacionarios"><span class="header-section-number">2.3.3</span> Condiciones de Optimalidad y Puntos Estacionarios</a></li>
   </ul></li>
   <li><a href="#métodos-numéricos-de-búsqueda-lineal-1d" id="toc-métodos-numéricos-de-búsqueda-lineal-1d" class="nav-link" data-scroll-target="#métodos-numéricos-de-búsqueda-lineal-1d"><span class="header-section-number">2.4</span> Métodos Numéricos de Búsqueda Lineal (1D)</a>
   <ul class="collapse">
-  <li><a href="#métodos-sin-derivadas" id="toc-métodos-sin-derivadas" class="nav-link" data-scroll-target="#métodos-sin-derivadas"><span class="header-section-number">2.4.1</span> Métodos sin Derivadas</a></li>
-  <li><a href="#métodos-con-derivadas" id="toc-métodos-con-derivadas" class="nav-link" data-scroll-target="#métodos-con-derivadas"><span class="header-section-number">2.4.2</span> Métodos con Derivadas</a></li>
+  <li><a href="#métodos-de-búsqueda-lineal-sin-derivadas" id="toc-métodos-de-búsqueda-lineal-sin-derivadas" class="nav-link" data-scroll-target="#métodos-de-búsqueda-lineal-sin-derivadas"><span class="header-section-number">2.4.1</span> Métodos de Búsqueda Lineal sin Derivadas</a></li>
+  <li><a href="#métodos-de-búsqueda-lineal-con-derivadas" id="toc-métodos-de-búsqueda-lineal-con-derivadas" class="nav-link" data-scroll-target="#métodos-de-búsqueda-lineal-con-derivadas"><span class="header-section-number">2.4.2</span> Métodos de Búsqueda Lineal con Derivadas</a></li>
   </ul></li>
   <li><a href="#métodos-multivariables-de-optimización-sin-restricciones" id="toc-métodos-multivariables-de-optimización-sin-restricciones" class="nav-link" data-scroll-target="#métodos-multivariables-de-optimización-sin-restricciones"><span class="header-section-number">2.5</span> Métodos Multivariables de Optimización Sin Restricciones</a>
   <ul class="collapse">
-  <li><a href="#máximo-descenso-steepest-descent" id="toc-máximo-descenso-steepest-descent" class="nav-link" data-scroll-target="#máximo-descenso-steepest-descent"><span class="header-section-number">2.5.1</span> Máximo Descenso (Steepest Descent)</a></li>
-  <li><a href="#método-de-newton-multivariable" id="toc-método-de-newton-multivariable" class="nav-link" data-scroll-target="#método-de-newton-multivariable"><span class="header-section-number">2.5.2</span> Método de Newton Multivariable</a></li>
-  <li><a href="#métodos-cuasi-newton-bfgs" id="toc-métodos-cuasi-newton-bfgs" class="nav-link" data-scroll-target="#métodos-cuasi-newton-bfgs"><span class="header-section-number">2.5.3</span> Métodos Cuasi-Newton (BFGS)</a></li>
+  <li><a href="#método-de-las-coordenadas-cíclicas" id="toc-método-de-las-coordenadas-cíclicas" class="nav-link" data-scroll-target="#método-de-las-coordenadas-cíclicas"><span class="header-section-number">2.5.1</span> Método de las Coordenadas Cíclicas</a></li>
+  <li><a href="#método-del-máximo-descenso-steepest-descent" id="toc-método-del-máximo-descenso-steepest-descent" class="nav-link" data-scroll-target="#método-del-máximo-descenso-steepest-descent"><span class="header-section-number">2.5.2</span> Método del Máximo Descenso (Steepest Descent)</a></li>
+  <li><a href="#métodos-de-newton-multivariable-y-bfgs" id="toc-métodos-de-newton-multivariable-y-bfgs" class="nav-link" data-scroll-target="#métodos-de-newton-multivariable-y-bfgs"><span class="header-section-number">2.5.3</span> Métodos de Newton Multivariable y BFGS</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -333,8 +301,8 @@ window.Quarto = {
 </header>
 
 
-<p>La <strong>optimización no lineal</strong> (Nonlinear Programming, NLP) estudia problemas de decisión donde la función objetivo o alguna de las restricciones presentan comportamientos no lineales. A diferencia de la programación lineal, donde las soluciones óptimas se encuentran siempre en la frontera del conjunto factible (puntos extremos o vértices), en optimización no lineal el óptimo puede situarse en el interior del espacio factible, y la presencia de curvatura exige herramientas avanzadas de análisis multivariable y algoritmos iterativos.</p>
-<p>En este capítulo, estudiaremos la clasificación de los problemas no lineales, los fundamentos matemáticos de las derivadas y las matrices hessianas para caracterizar extremos, y los algoritmos iterativos de búsqueda en una dimensión (sección áurea, Fibonacci, bisección, Newton) y en múltiples dimensiones (descenso de gradiente, Newton multivariable y Quasi-Newton).</p>
+<p>La <strong>optimización no lineal</strong> (Nonlinear Programming, NLP) estudia problemas de decisión donde la función objetivo o alguna de las restricciones presentan comportamientos no lineales. A diferencia de la programación lineal, donde las soluciones óptimas se encuentran siempre en la frontera del conjunto factible (específicamente en sus puntos extremos o vértices), en optimización no lineal el óptimo puede situarse en el interior del espacio factible o en cualquier punto de su frontera. La presencia de curvatura en la función objetivo y en las restricciones exige herramientas avanzadas de análisis diferencial multivariable y algoritmos iterativos complejos.</p>
+<p>En este capítulo, estudiaremos la formulación general de los problemas de optimización no lineal, su clasificación en familias estructurales específicas y su interpretación geométrica. Asimismo, desarrollaremos la fundamentación matemática basada en el gradiente y la matriz hessiana para caracterizar la curvatura local y establecer las condiciones de optimalidad. Por último, abordaremos de forma analítica y práctica los principales métodos numéricos de búsqueda unidimensional (1D) y multivariable sin restricciones, complementándolos con código numérico y simbólico en Python.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Objetivos de aprendizaje">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -347,250 +315,485 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p>Al finalizar este capítulo, serás capaz de:</p>
 <ol type="1">
-<li><strong>Diferenciar</strong> entre mínimos locales y globales (estrictos y no estrictos) y comprender el impacto de la no convexidad en la búsqueda de soluciones.</li>
-<li><strong>Caracterizar la curvatura</strong> de una función multivariable mediante la definición y semidefinición positiva de su matriz hessiana usando determinantes o autovalores.</li>
-<li><strong>Aplicar las condiciones de optimalidad</strong> de primer y segundo orden (FONC, SONC, SOSC) para identificar y clasificar puntos estacionarios.</li>
-<li><strong>Implementar y comparar</strong> algoritmos de búsqueda lineal unidimensional con y sin derivadas (Sección Áurea, Fibonacci, Newton 1D).</li>
-<li><strong>Comprender y programar</strong> métodos de optimización multivariable sin restricciones, analizando las ventajas del método de Newton y Quasi-Newton (BFGS) frente al zigzag del máximo descenso.</li>
+<li><strong>Formular y clasificar</strong> problemas de optimización no lineal en sus distintas familias estructurales.</li>
+<li><strong>Visualizar e interpretar geométricamente</strong> la diferencia entre la optimización lineal y la no lineal a través del análisis de conjuntos factibles convexos y curvas de nivel no lineales.</li>
+<li><strong>Caracterizar la curvatura</strong> de una función multivariable mediante el análisis del gradiente y de la matriz hessiana empleando el criterio de los menores principales.</li>
+<li><strong>Clasificar puntos estacionarios</strong> aplicando las condiciones de optimalidad de primer y segundo orden (FONC, SONC, SOSC).</li>
+<li><strong>Implementar y trazar numéricamente</strong> algoritmos de búsqueda lineal en una dimensión, tanto sin derivadas como con derivadas.</li>
+<li><strong>Comprender y programar</strong> algoritmos de optimización multivariable sin restricciones, analizando el comportamiento de las coordenadas cíclicas, el fenómeno de zigzag del máximo descenso y las ventajas de los métodos de Newton y Cuasi-Newton (BFGS).</li>
 </ol>
 </div>
 </div>
-<section id="introducción-y-casos-de-estudio" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="introducción-y-casos-de-estudio"><span class="header-section-number">2.1</span> Introducción y Casos de Estudio</h2>
-<p>En los problemas reales, las relaciones lineales son aproximaciones simplificadas. La no linealidad surge por factores físicos, económicos o estructurales:</p>
-<ul>
-<li><strong>Economías de escala</strong>: El coste unitario no es constante, sino que disminuye al aumentar el volumen de producción debido a descuentos por volumen o la amortización de costes fijos.</li>
-<li><strong>Elasticidad de la demanda</strong>: Los ingresos no son proporcionales al precio. Si una empresa sube los precios, la demanda disminuye de forma no lineal, lo que genera una función de ingresos cuadrática o cóncava.</li>
-<li><strong>Gestión del riesgo</strong>: En finanzas, el riesgo se mide mediante la varianza del rendimiento de una cartera de activos, que es una función cuadrática de las proporciones de capital invertido.</li>
-</ul>
-<section id="la-dificultad-de-la-no-linealidad" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="la-dificultad-de-la-no-linealidad"><span class="header-section-number">2.1.1</span> La Dificultad de la No Linealidad</h3>
-<p>La transición de modelos lineales a no lineales introduce retos teóricos y algorítmicos formidables. En programación lineal, el teorema fundamental garantiza que si existe una solución óptima, esta se halla en un vértice de la región factible. Esto reduce la búsqueda a un conjunto finito de puntos y permite al algoritmo del Símplex avanzar eficientemente de vértice en vértice.</p>
-<p>En optimización no lineal, esta garantía desaparece por completo:</p>
-<ol type="1">
-<li>El óptimo puede encontrarse en el interior del espacio factible, alejado de cualquier vértice.</li>
-<li>El espacio factible puede ser no convexo, lo que significa que incluso si nos movemos entre puntos factibles, el segmento que los une puede salir de la región de factibilidad.</li>
-<li>La presencia de múltiples mínimos locales impide que los algoritmos locales (que solo “ven” el entorno inmediato del punto actual) garanticen haber hallado la mejor solución global del problema.</li>
-</ol>
-<div class="callout callout-style-default callout-note callout-titled" title="Caso de Estudio 1: El Monopolio de Cournot (1838)">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Caso de Estudio 1: El Monopolio de Cournot (1838)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Consideremos una empresa monopolista que produce un bien <span class="math inline">\(Q\)</span> y desea maximizar su beneficio. La relación entre el precio de venta <span class="math inline">\(P\)</span> y la cantidad demandada <span class="math inline">\(Q\)</span> viene dada por la ecuación de demanda: <span class="math display">\[ Q = 10 - P \]</span> El coste total de fabricación de la cantidad <span class="math inline">\(Q\)</span> es: <span class="math display">\[ C(Q) = 1 + 3Q \]</span> Además, el regulador impone un precio máximo de venta de <span class="math inline">\(8\)</span> unidades monetarias, y la capacidad técnica de la fábrica limita la producción a un máximo de <span class="math inline">\(9\)</span> unidades. El beneficio se define como ingresos menos costes: <span class="math display">\[ B(P, Q) = P \cdot Q - C(Q) = P \cdot Q - 3Q - 1 \]</span> Sustituyendo la ecuación de demanda, el beneficio expresado en función de la cantidad resulta ser una función cuadrática no lineal: <span class="math display">\[ B(Q) = (10 - Q)Q - 3Q - 1 = -Q^2 + 7Q - 1 \]</span> El problema de optimización se formula como: <span class="math display">\[
+<section id="introducción-y-formulación-de-problemas-no-lineales" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introducción-y-formulación-de-problemas-no-lineales"><span class="header-section-number">2.1</span> Introducción y Formulación de Problemas No Lineales</h2>
+<p>En el mundo real, la linealidad es una excepción matemática. Los fenómenos físicos, económicos y tecnológicos se comportan de manera inherentemente no lineal. En la industria, por ejemplo, las <strong>economías de escala</strong> provocan que el coste unitario de producción disminuya a medida que aumenta el volumen debido al reparto de costes fijos o descuentos por cantidad, lo que rompe la relación de proporcionalidad lineal. En el ámbito económico, la <strong>elasticidad de la demanda</strong> determina que la cantidad demandada de un bien sea sensible a su precio de venta, por lo que la función de ingresos resultante (<span class="math inline">\(I = P \cdot Q\)</span>) es cuadrática y no lineal. En el sector financiero, siguiendo el modelo de selección de carteras de Markowitz, el riesgo se mide mediante la varianza del rendimiento de los activos, que constituye una combinación cuadrática de los pesos invertidos, mientras que el rendimiento esperado se mantiene lineal. Finalmente, en la ciencia de datos, la estimación de modelos y algoritmos de aprendizaje automático suele penalizar los errores de ajuste de forma cuadrática (mínimos cuadrados), generando funciones objetivo no lineales.</p>
+<p>Un <strong>problema de optimización no lineal (PNL)</strong> general se define matemáticamente sobre un espacio vectorial <span class="math inline">\(\mathbb{R}^n\)</span> como:</p>
+<p><span class="math display">\[
 \begin{aligned}
-\max_{Q} \quad &amp; -Q^2 + 7Q - 1 \\
-\text{sujeto a} \quad &amp; 0 \le Q \le 9 \\
-&amp; 10 - Q \le 8 \implies Q \ge 2
+\min_{x \in \mathbb{R}^n} \quad &amp; f(x) \\
+\text{sujeto a} \quad &amp; g_i(x) \le 0, \quad i = 1, \dots, m \\
+&amp; h_j(x) = 0, \quad j = 1, \dots, p
 \end{aligned}
-\]</span> Derivando e igualando a cero para encontrar el punto estacionario: <span class="math display">\[ B'(Q) = -2Q + 7 = 0 \implies Q^* = 3.5 \]</span> El precio óptimo es <span class="math inline">\(P^* = 6.5\)</span>, y el beneficio máximo es <span class="math inline">\(B(3.5) = 11.25\)</span>. Dado que <span class="math inline">\(Q^* = 3.5\)</span> cumple con las restricciones de capacidad (<span class="math inline">\(0 \le 3.5 \le 9\)</span>) y de precio regulado (<span class="math inline">\(3.5 \ge 2\)</span>), esta es la solución óptima del monopolista.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled" title="Caso de Estudio 2: Selección de Cartera de Valores (Markowitz, 1952)">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Caso de Estudio 2: Selección de Cartera de Valores (Markowitz, 1952)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Un inversor reparte su capital total <span class="math inline">\(C\)</span> entre <span class="math inline">\(n\)</span> activos financieros disponibles. Sea <span class="math inline">\(x_i\)</span> la cantidad invertida en el activo <span class="math inline">\(i\)</span>. El rendimiento esperado de cada activo se denota por <span class="math inline">\(\mu_i\)</span>, y la variabilidad conjunta (riesgo) se modela mediante la covarianza <span class="math inline">\(\sigma_{ij}\)</span> entre los activos <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span>. El inversor busca maximizar el rendimiento esperado de la cartera al tiempo que minimiza su riesgo, ponderando este último mediante un coeficiente de aversión al riesgo <span class="math inline">\(\beta &gt; 0\)</span>. El modelo se formula como: <span class="math display">\[
+\]</span></p>
+<p>Donde <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> es la función objetivo, <span class="math inline">\(g_i: \mathbb{R}^n \to \mathbb{R}\)</span> representa las restricciones de desigualdad, e <span class="math inline">\(h_j: \mathbb{R}^n \to \mathbb{R}\)</span> representa las restricciones de igualdad. Para que el problema sea clasificado como no lineal, al menos una de estas funciones debe exhibir un comportamiento no lineal en el dominio de interés.</p>
+<p>La transición de modelos lineales a no lineales altera profundamente la geometría del espacio de búsqueda. En programación lineal (LP), el conjunto factible es siempre un poliedro convexo y la solución óptima se localiza en uno de sus vértices. Esto permite que algoritmos como el Símplex resuelvan problemas de millones de variables explorando únicamente un número finito de candidatos. En optimización no lineal (NLP), las restricciones no lineales pueden deformar el conjunto factible, y el óptimo puede hallarse en el interior del espacio factible o en cualquier punto de la frontera. Además, la presencia de no convexidades puede generar múltiples óptimos locales, atrapando a los algoritmos numéricos antes de alcanzar el mínimo global.</p>
+<section id="casos-particulares-de-la-optimización-no-lineal" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="casos-particulares-de-la-optimización-no-lineal"><span class="header-section-number">2.1.1</span> Casos Particulares de la Optimización No Lineal</h3>
+<p>Para abordar la resolución de problemas no lineales de forma eficiente, la disciplina los clasifica en familias estructuradas según las propiedades algebraicas y analíticas de sus funciones:</p>
+<p>La <strong>Programación Cuadrática (QP)</strong> representa problemas donde la función objetivo es cuadrática y las restricciones son afines (lineales), formulándose en su forma estándar como: <span class="math display">\[ \min_{x} \quad \frac{1}{2} x^T Q x - b^T x \quad \text{sujeto a} \quad A x \le d \]</span> Si la matriz <span class="math inline">\(Q\)</span> es semidefinida positiva, el problema es convexo, lo que permite el uso de algoritmos especializados extremadamente eficientes como los métodos de conjuntos activos (<em>active-set</em>) o de punto interior, que resuelven el problema de forma exacta en pocas iteraciones.</p>
+<p>La <strong>Programación Convexa</strong> constituye la clase de problemas más robusta en optimización no lineal. Un problema es convexo si la función objetivo <span class="math inline">\(f(x)\)</span> es convexa, las restricciones de desigualdad <span class="math inline">\(g_i(x)\)</span> son convexas y las restricciones de igualdad <span class="math inline">\(h_j(x)\)</span> son afines. La gran ventaja analítica de la programación convexa es que todo mínimo local es un mínimo global. Esto elimina la necesidad de realizar búsquedas globales exhaustivas y garantiza que métodos locales de gradiente converjan siempre a la solución óptima del sistema.</p>
+<p>La <strong>Programación Separable</strong> se presenta cuando todas las funciones involucradas se pueden descomponer en la suma de funciones que dependen exclusivamente de una sola variable independiente: <span class="math display">\[ f(x) = \sum_{j=1}^n f_j(x_j) \qquad \text{y} \qquad g_i(x) = \sum_{j=1}^n g_{ij}(x_j) \le 0 \]</span> Esta propiedad estructural es muy útil, ya que permite aproximar funciones no lineales arbitrarias mediante funciones lineales a trozos (<em>piecewise linear approximation</em>), transformando el problema en un modelo lineal de variables continuas que se puede resolver con variantes del algoritmo del Símplex.</p>
+<p>La <strong>Programación Geométrica</strong> surge cuando la función objetivo y las restricciones están modeladas por posinomios (sumas de términos monomios con coeficientes reales positivos): <span class="math display">\[ f(x) = \sum_{k} c_k x_1^{a_{1k}} x_2^{a_{2k}} \dots x_n^{a_{nk}} \]</span> Aunque un problema geométrico es inherentemente no convexo en sus variables originales, la aplicación de un cambio de variables logarítmico: <span class="math display">\[ y_j = \ln(x_j) \]</span> transforma el modelo en un problema convexo equivalente en el espacio <span class="math inline">\(y\)</span>, permitiendo su resolución exacta de forma global.</p>
+<p>La <strong>Programación Fraccionaria</strong> se presenta cuando la función objetivo se formula como el cociente de dos funciones reales: <span class="math display">\[ \min_{x} \quad \frac{f_1(x)}{f_2(x)} \]</span> Aparece habitualmente al optimizar ratios de eficiencia, rentabilidad de inversiones o productividad. Bajo condiciones de concavidad y convexidad de las funciones individuales, la transformación de variables de Charnes-Cooper permite linealizar el modelo y resolverlo de forma exacta.</p>
+</section>
+<section id="caso-de-estudio-1-el-monopolio-de-cournot-1838" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="caso-de-estudio-1-el-monopolio-de-cournot-1838"><span class="header-section-number">2.1.2</span> Caso de Estudio 1: El Monopolio de Cournot (1838)</h3>
+<p>Consideremos una empresa que opera en régimen de monopolio y desea maximizar su beneficio. La relación entre la cantidad demandada del mercado <span class="math inline">\(Q\)</span> y el precio de venta <span class="math inline">\(P\)</span> viene dada por la función de demanda inversa del mercado: <span class="math inline">\(P(Q) = 10 - Q\)</span>. El coste total de producción de la empresa es lineal con respecto a la cantidad fabricada: <span class="math inline">\(C(Q) = 1 + 3Q\)</span>. La empresa está sujeta a una limitación de capacidad física máxima de producción de <span class="math inline">\(9\)</span> unidades (<span class="math inline">\(Q \le 9\)</span>). Por su parte, el organismo regulador estatal establece que el precio de venta al público no puede superar las <span class="math inline">\(8\)</span> unidades monetarias (<span class="math inline">\(P \le 8\)</span>).</p>
+<p>Para determinar la política óptima de producción y precios, formulamos el problema como un modelo con dos variables de decisión (<span class="math inline">\(Q\)</span> y <span class="math inline">\(P\)</span>):</p>
+<p><span class="math display">\[
 \begin{aligned}
-\max_{x} \quad &amp; \sum_{i=1}^n \mu_i x_i - \beta \sum_{i=1}^n \sum_{j=1}^n \sigma_{ij} x_i x_j \\
+\max_{Q, P} \quad &amp; B(Q, P) = P \cdot Q - 3Q - 1 \\
+\text{sujeto a} \quad &amp; Q \le 10 - P \\
+&amp; 0 \le P \le 8 \\
+&amp; 0 \le Q \le 9
+\end{aligned}
+\]</span></p>
+<p>Este problema presenta una función objetivo no lineal debido al término cuadrático <span class="math inline">\(P \cdot Q\)</span>. Dado que la empresa busca maximizar el beneficio y el precio está acotado por la demanda, la solución óptima operará exactamente sobre la frontera de la curva de demanda activa (donde la restricción <span class="math inline">\(Q \le 10 - P\)</span> se cumple como igualdad: <span class="math inline">\(P = 10 - Q\)</span>). Sustituyendo el precio en la función de beneficio, reducimos el problema a una única variable real <span class="math inline">\(Q\)</span>:</p>
+<p><span class="math display">\[ B(Q) = (10 - Q)Q - 3Q - 1 = -Q^2 + 7Q - 1 \]</span></p>
+<p>El rango de factibilidad de <span class="math inline">\(Q\)</span> se obtiene combinando las restricciones: <span class="math inline">\(Q \le 9\)</span> y <span class="math inline">\(P \le 8 \implies 10 - Q \le 8 \implies Q \ge 2\)</span>. Por lo tanto, el problema de una sola variable se reduce a:</p>
+<p><span class="math display">\[ \max_{Q} \quad -Q^2 + 7Q - 1 \quad \text{sujeto a} \quad 2 \le Q \le 9 \]</span></p>
+<p>Para hallar el óptimo, derivamos el beneficio con respecto a la cantidad de producción e igualamos a cero: <span class="math inline">\(B'(Q) = -2Q + 7 = 0 \implies Q^* = 3.5\)</span>. Como <span class="math inline">\(Q^* = 3.5\)</span> pertenece al intervalo factible <span class="math inline">\([2, 9]\)</span>, constituye el óptimo global del problema. Sustituyendo, obtenemos el precio óptimo <span class="math inline">\(P^* = 6.5\)</span> y el beneficio máximo de la empresa: <span class="math inline">\(B^* = -(3.5)^2 + 7(3.5) - 1 = 11.25\)</span> u.m.</p>
+<p>La región factible en el plano <span class="math inline">\((Q, P)\)</span> es un polígono convexo con vértices en <span class="math inline">\((0,0)\)</span>, <span class="math inline">\((0,8)\)</span>, <span class="math inline">\((2,8)\)</span>, <span class="math inline">\((9,1)\)</span>, y <span class="math inline">\((9,0)\)</span>. Las curvas de nivel de la función objetivo (curvas de isobeneficio) son hipérbolas de la forma <span class="math inline">\(P = 3 + (B + 1)/Q\)</span>. A medida que el beneficio <span class="math inline">\(B\)</span> aumenta, las hipérbolas se desplazan hacia arriba y a la derecha. El punto óptimo <span class="math inline">\((Q^*, P^*) = (3.5, 6.5)\)</span> es el punto donde la curva de isobeneficio correspondiente a <span class="math inline">\(B = 11.25\)</span> es exactamente tangente al segmento de la frontera <span class="math inline">\(P + Q = 10\)</span>, tal y como se ilustra en la <a href="#fig-cournot-monopolio" class="quarto-xref">Figura&nbsp;<span>2.1</span></a>.</p>
+<div id="fig-cournot-monopolio" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cournot-monopolio-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/cournot_monopolio.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cournot-monopolio-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.1: Geometría del Monopolio de Cournot: el óptimo de tangencia (3.5, 6.5) se sitúa en la frontera y no coincide con ningún vértice de la región factible polimórfica
+</figcaption>
+</figure>
+</div>
+<p>Este resultado ilustra la diferencia fundamental con la programación lineal: la solución óptima de un problema no lineal con restricciones lineales puede situarse en el interior de una de las caras de la región factible y no en un vértice (los vértices adyacentes son <span class="math inline">\((2,8)\)</span> y <span class="math inline">\((9,1)\)</span>, los cuales arrojan beneficios inferiores, de <span class="math inline">\(9.0\)</span> y <span class="math inline">\(8.0\)</span> u.m. respectivamente).</p>
+</section>
+<section id="caso-de-estudio-2-selección-de-cartera-de-valores-markowitz-1952" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="caso-de-estudio-2-selección-de-cartera-de-valores-markowitz-1952"><span class="header-section-number">2.1.3</span> Caso de Estudio 2: Selección de Cartera de Valores (Markowitz, 1952)</h3>
+<p>Supongamos que disponemos de un capital <span class="math inline">\(C\)</span> para invertir entre <span class="math inline">\(n\)</span> activos financieros. Denotamos por <span class="math inline">\(x_i\)</span> la cantidad monetaria asignada al activo <span class="math inline">\(i\)</span>. Cada activo presenta un rendimiento medio esperado <span class="math inline">\(\mu_i\)</span>, y la relación de variabilidad conjunta del mercado se modela a través de la covarianza <span class="math inline">\(\sigma_{ij}\)</span> entre los activos <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span>. La varianza de la cartera (medida del riesgo o volatilidad) viene dada por la forma cuadrática <span class="math inline">\(\sum_{i=1}^n \sum_{j=1}^n \sigma_{ij} x_i x_j\)</span>.</p>
+<p>El inversor busca maximizar el rendimiento esperado de la cartera al tiempo que minimiza su riesgo, penalizándolo mediante un coeficiente de aversión al riesgo <span class="math inline">\(\beta &gt; 0\)</span>. El problema se formula como:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\max_{x \in \mathbb{R}^n} \quad &amp; \sum_{i=1}^n \mu_i x_i - \beta \sum_{i=1}^n \sum_{j=1}^n \sigma_{ij} x_i x_j \\
 \text{sujeto a} \quad &amp; \sum_{i=1}^n x_i \le C \\
 &amp; x_i \ge 0, \quad i = 1, \dots, n
 \end{aligned}
-\]</span> Este problema posee una función objetivo cuadrática no lineal y restricciones lineales, lo que constituye un problema de <strong>Programación Cuadrática (QP)</strong>. Su naturaleza convexa (cuando la matriz de covarianzas es semidefinida positiva) garantiza que cualquier solución óptima local sea también global <span class="citation" data-cites="boyd2004convex hillier2010investigacion">(<a href="references.html#ref-boyd2004convex" role="doc-biblioref">Boyd y Vandenberghe 2004</a>; <a href="references.html#ref-hillier2010investigacion" role="doc-biblioref">Hillier y Lieberman 2010</a>)</span>.</p>
-</div>
-</div>
+\]</span></p>
+<p>Este problema posee una función objetivo cuadrática no lineal y restricciones lineales, lo que constituye un problema clásico de <strong>Programación Cuadrática (QP)</strong>. Su naturaleza estrictamente convexa (cuando la matriz de covarianzas es semidefinida positiva) asegura que cualquier óptimo local sea también el óptimo global del sistema <span class="citation" data-cites="boyd2004convex hillier2010investigacion">(<a href="references.html#ref-boyd2004convex" role="doc-biblioref">Boyd y Vandenberghe 2004</a>; <a href="references.html#ref-hillier2010investigacion" role="doc-biblioref">Hillier y Lieberman 2010</a>)</span>.</p>
 </section>
 </section>
 <section id="tipos-de-solución-en-optimización-no-lineal" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="tipos-de-solución-en-optimización-no-lineal"><span class="header-section-number">2.2</span> Tipos de Solución en Optimización No Lineal</h2>
-<p>Sea <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> una función real definida sobre un conjunto factible <span class="math inline">\(\mathcal{X} \subseteq \mathbb{R}^n\)</span>:</p>
-<ul>
-<li><strong>Mínimo global</strong>: Un punto <span class="math inline">\(x^* \in \mathcal{X}\)</span> es un mínimo global si: <span class="math display">\[ f(x) \ge f(x^*), \quad \forall x \in \mathcal{X} \]</span></li>
-<li><strong>Mínimo global estricto</strong>: Un punto <span class="math inline">\(x^* \in \mathcal{X}\)</span> es un mínimo global estricto si: <span class="math display">\[ f(x) &gt; f(x^*), \quad \forall x \in \mathcal{X} \setminus \{x^*\} \]</span></li>
-<li><strong>Mínimo local</strong>: Un punto <span class="math inline">\(x^* \in \mathcal{X}\)</span> es un mínimo local si existe una bola de radio <span class="math inline">\(\epsilon &gt; 0\)</span> alrededor de <span class="math inline">\(x^*\)</span> tal que: <span class="math display">\[ f(x) \ge f(x^*), \quad \forall x \in \mathcal{X} \text{ tal que } \|x - x^*\| &lt; \epsilon \]</span></li>
-<li><strong>Mínimo local estricto</strong>: Un punto <span class="math inline">\(x^* \in \mathcal{X}\)</span> es un mínimo local estricto si existe un radio <span class="math inline">\(\epsilon &gt; 0\)</span> tal que: <span class="math display">\[ f(x) &gt; f(x^*), \quad \forall x \in \mathcal{X} \setminus \{x^*\} \text{ tal que } \|x - x^*\| &lt; \epsilon \]</span></li>
-</ul>
-<p>En problemas no convexos, el algoritmo de optimización puede converger a mínimos locales que son muy inferiores al mínimo global. Esta es la dificultad fundamental que diferencia la optimización no lineal de la lineal y convexa.</p>
+<p>Sea <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> una función real definida sobre un conjunto factible <span class="math inline">\(\mathcal{X} \subseteq \mathbb{R}^n\)</span>. Un punto <span class="math inline">\(x^* \in \mathcal{X}\)</span> es un <strong>mínimo global</strong> si no existe ningún otro punto factible con un valor inferior de la función objetivo, es decir, <span class="math inline">\(f(x) \ge f(x^*)\)</span> para todo <span class="math inline">\(x \in \mathcal{X}\)</span>. Del mismo modo, <span class="math inline">\(x^*\)</span> es un <strong>mínimo global estricto</strong> si se cumple que <span class="math inline">\(f(x) &gt; f(x^*)\)</span> para cualquier <span class="math inline">\(x \in \mathcal{X} \setminus \{x^*\}\)</span>.</p>
+<p>Por otro lado, un punto <span class="math inline">\(x^*\)</span> constituye un <strong>mínimo local</strong> si es la mejor solución dentro de un entorno local delimitado por una bola de radio <span class="math inline">\(\epsilon &gt; 0\)</span> centrada en él, satisfaciendo <span class="math inline">\(f(x) \ge f(x^*)\)</span> para todo <span class="math inline">\(x \in \mathcal{X}\)</span> tal que <span class="math inline">\(\|x - x^*\| \le \epsilon\)</span>. Finalmente, <span class="math inline">\(x^*\)</span> es un <strong>mínimo local estricto</strong> si existe un radio <span class="math inline">\(\epsilon &gt; 0\)</span> tal que <span class="math inline">\(f(x) &gt; f(x^*)\)</span> para todo <span class="math inline">\(x \in \mathcal{X} \setminus \{x^*\}\)</span> con <span class="math inline">\(\|x - x^*\| \le \epsilon\)</span>.</p>
+<p>En optimización no lineal general, debido a la posible presencia de no convexidades, los algoritmos locales basados en derivadas pueden converger hacia mínimos locales mediocres en lugar de alcanzar el óptimo global. Esta es la complejidad fundamental que diferencia al PNL de la programación lineal (como se ilustra en la <a href="#fig-tipos-optimos" class="quarto-xref">Figura&nbsp;<span>2.2</span></a>).</p>
+<div id="fig-tipos-optimos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tipos-optimos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/tipos_optimos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tipos-optimos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.2: Ilustración de los distintos tipos de óptimos locales y globales (estrictos y no estrictos) sobre funciones convexas y no convexas
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="fundamentos-matemáticos-y-condiciones-de-optimalidad" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="fundamentos-matemáticos-y-condiciones-de-optimalidad"><span class="header-section-number">2.3</span> Fundamentos Matemáticos y Condiciones de Optimalidad</h2>
-<p>Para caracterizar los puntos óptimos localmente, recurrimos al análisis diferencial multivariable. Sea <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> una función con derivadas de segundo orden continuas (clase <span class="math inline">\(\mathcal{C}^2\)</span>).</p>
-<ul>
-<li><strong>Vector Gradiente</strong>: El vector gradiente <span class="math inline">\(\nabla f(x) \in \mathbb{R}^n\)</span> es el vector columna de derivadas parciales de primer orden: <span class="math display">\[ \nabla f(x) = \left( \frac{\partial f(x)}{\partial x_1}, \frac{\partial f(x)}{\partial x_2}, \dots, \frac{\partial f(x)}{\partial x_n} \right)^T \]</span> Físicamente, el gradiente apunta en la dirección de máximo crecimiento local de la función.</li>
-<li><strong>Matriz Hessiana</strong>: La matriz hessiana <span class="math inline">\(\nabla^2 f(x) \in \mathbb{R}^{n \times n}\)</span> es la matriz simétrica de derivadas parciales de segundo orden: <span class="math display">\[ [\nabla^2 f(x)]_{ij} = \frac{\partial^2 f(x)}{\partial x_i \partial x_j} \]</span> La matriz hessiana captura la curvatura local de la función en múltiples dimensiones, de manera análoga a la segunda derivada en una dimensión.</li>
-</ul>
+<p>Para caracterizar y clasificar los puntos óptimos locales en múltiples dimensiones, recurrimos al cálculo diferencial. Consideremos una función <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> diferenciable de clase <span class="math inline">\(\mathcal{C}^2\)</span> (con segundas derivadas continuas).</p>
+<p>El <strong>vector gradiente</strong> representa la dirección de máxima pendiente de subida local de la función y se define como el vector columna de derivadas parciales de primer orden: <span class="math display">\[ \nabla f(x) = \begin{pmatrix} \frac{\partial f(x)}{\partial x_1} \\ \frac{\partial f(x)}{\partial x_2} \\ \vdots \\ \frac{\partial f(x)}{\partial x_n} \end{pmatrix} \]</span> Por su parte, la <strong>matriz hessiana</strong> modela la curvatura local de la función (análoga a la segunda derivada en una dimensión) y se define como la matriz simétrica de segundas derivadas parciales: <span class="math display">\[ [\nabla^2 f(x)]_{ij} = \frac{\partial^2 f(x)}{\partial x_i \partial x_j} \]</span></p>
 <section id="desarrollo-de-taylor-multivariable" class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="desarrollo-de-taylor-multivariable"><span class="header-section-number">2.3.1</span> Desarrollo de Taylor Multivariable</h3>
-<p>El comportamiento local de la función alrededor de un punto de referencia <span class="math inline">\(\bar{x}\)</span> se describe mediante la aproximación cuadrática de Taylor:</p>
-<p><span class="math display">\[ f(x) = f(\bar{x}) + \nabla f(\bar{x})^T (x - \bar{x}) + \frac{1}{2} (x - \bar{x})^T \nabla^2 f(\bar{x}) (x - \bar{x}) + o(\mathcal{\|x - \bar{x}\|^2}) \]</span></p>
-<p>Si la función <span class="math inline">\(f(x)\)</span> es cuadrática, la aproximación de segundo orden es exacta para todo <span class="math inline">\(x\)</span>.</p>
+<p>El comportamiento local de una función no lineal alrededor de un punto de referencia <span class="math inline">\(\bar{x}\)</span> se aproxima mediante su desarrollo cuadrático de Taylor:</p>
+<p><span class="math display">\[ f(x) = f(\bar{x}) + \nabla f(\bar{x})^T (x - \bar{x}) + \frac{1}{2} (x - \bar{x})^T \nabla^2 f(\bar{x}) (x - \bar{x}) + o(\|x - \bar{x}\|^2) \]</span></p>
+<p>Si la función <span class="math inline">\(f(x)\)</span> es cuadrática, esta aproximación de segundo orden es exacta para todo <span class="math inline">\(x \in \mathbb{R}^n\)</span>.</p>
 </section>
-<section id="caracterización-de-matrices-simétricas-y-curvatura" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="caracterización-de-matrices-simétricas-y-curvatura"><span class="header-section-number">2.3.2</span> Caracterización de Matrices Simétricas y Curvatura</h3>
-<p>La curvatura local de la función está determinada por el carácter de la matriz hessiana, clasificado según la forma cuadrática <span class="math inline">\(z^T \nabla^2 f(x) z\)</span>:</p>
+<section id="caracterización-de-curvatura-y-clasificación-de-matrices" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="caracterización-de-curvatura-y-clasificación-de-matrices"><span class="header-section-number">2.3.2</span> Caracterización de Curvatura y Clasificación de Matrices</h3>
+<p>La curvatura local de la función está determinada por el carácter de su matriz hessiana <span class="math inline">\(\nabla^2 f(x)\)</span>, el cual se clasifica analizando la forma cuadrática: <span class="math display">\[ z^T \nabla^2 f(x) z \]</span></p>
 <ul>
-<li><strong>Definida positiva (<span class="math inline">\(\nabla^2 f(x) \succ 0\)</span>)</strong>: <span class="math inline">\(z^T \nabla^2 f(x) z &gt; 0\)</span> para todo vector no nulo <span class="math inline">\(z \in \mathbb{R}^n\)</span>. Esto equivale a que todos los autovalores sean estrictamente positivos, o a que todos los menores principales líderes sean mayores que cero (criterio de Sylvester). La función presenta curvatura hacia arriba (forma de cuenco), garantizando que un punto estacionario sea un mínimo local estricto.</li>
-<li><strong>Semidefinida positiva (<span class="math inline">\(\nabla^2 f(x) \succeq 0\)</span>)</strong>: <span class="math inline">\(z^T \nabla^2 f(x) z \ge 0\)</span> para todo vector <span class="math inline">\(z \in \mathbb{R}^n\)</span>. Todos los autovalores son no negativos.</li>
-<li><strong>Definida negativa (<span class="math inline">\(\nabla^2 f(x) \prec 0\)</span>)</strong>: <span class="math inline">\(z^T \nabla^2 f(x) z &lt; 0\)</span> para todo vector no nulo <span class="math inline">\(z \in \mathbb{R}^n\)</span>. Equivale a menores principales líderes que alternan de signo comenzando por negativo. La función presenta curvatura hacia abajo (forma de cúpula).</li>
-<li><strong>Indefinida</strong>: Existen autovalores positivos y negativos. La función presenta direcciones de subida y de bajada. El punto estacionario resultante es un <strong>punto de silla</strong> (como la función de silla de montar <span class="math inline">\(f(x,y) = x^2 - y^2\)</span> en el origen).</li>
+<li><strong>Definida positiva (<span class="math inline">\(\nabla^2 f(x) \succ 0\)</span>)</strong>: Si <span class="math inline">\(z^T \nabla^2 f(x) z &gt; 0\)</span> para todo vector no nulo <span class="math inline">\(z \in \mathbb{R}^n\)</span>. Todos sus autovalores son estrictamente positivos y todos sus menores principales son mayores que cero. La función se curva hacia arriba en forma de cuenco, lo que garantiza que un punto crítico sea un mínimo local estricto.</li>
+<li><strong>Semidefinida positiva (<span class="math inline">\(\nabla^2 f(x) \succeq 0\)</span>)</strong>: Si <span class="math inline">\(z^T \nabla^2 f(x) z \ge 0\)</span> para todo vector <span class="math inline">\(z \in \mathbb{R}^n\)</span>. Todos sus autovalores son no negativos y todos sus menores principales son no negativos.</li>
+<li><strong>Definida negativa (<span class="math inline">\(\nabla^2 f(x) \prec 0\)</span>)</strong>: Si <span class="math inline">\(z^T \nabla^2 f(x) z &lt; 0\)</span> para todo vector no nulo <span class="math inline">\(z \in \mathbb{R}^n\)</span>. Sus menores principales alternan de signo comenzando por negativo (<span class="math inline">\(M_1 &lt; 0, M_2 &gt; 0, M_3 &lt; 0, \dots\)</span>) y todos sus autovalores son estrictamente negativos. La función se curva hacia abajo en forma de cúpula.</li>
+<li><strong>Semidefinida negativa (<span class="math inline">\(\nabla^2 f(x) \preceq 0\)</span>)</strong>: Si <span class="math inline">\(z^T \nabla^2 f(x) z \le 0\)</span> para todo vector <span class="math inline">\(z\)</span>. Todos sus autovalores son no positivos y todos sus menores principales alternan de signo de forma no estricta o son nulos.</li>
+<li><strong>Indefinida</strong>: Si existen autovalores estrictamente positivos y negativos. El punto crítico resultante constituye un <strong>punto de silla</strong> (con direcciones de subida y direcciones de bajada).</li>
 </ul>
-<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Condiciones de Optimalidad de Segundo Orden (Sin Restricciones)">
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplos: Clasificación de Matrices">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Teorema: Condiciones de Optimalidad de Segundo Orden (Sin Restricciones)
+<span class="screen-reader-only">Nota</span>Ejemplos: Clasificación de Matrices
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Sea <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> una función dos veces diferenciable.</p>
 <ol type="1">
-<li><strong>Condición Necesaria de Primer Orden (FONC)</strong>: Si <span class="math inline">\(x^*\)</span> es un mínimo local, entonces el gradiente se anula: <span class="math display">\[ \nabla f(x^*) = 0 \]</span> Cualquier punto que cumpla esta condición se denomina <strong>punto estacionario</strong> o crítico.</li>
-<li><strong>Condición Necesaria de Segundo Orden (SONC)</strong>: Si <span class="math inline">\(x^*\)</span> es un mínimo local, entonces además de la FONC, la matriz hessiana es semidefinida positiva: <span class="math display">\[ \nabla^2 f(x^*) \succeq 0 \]</span></li>
-<li><strong>Condición Suficiente de Segundo Orden (SOSC)</strong>: Si en un punto <span class="math inline">\(x^*\)</span> se cumple que: <span class="math display">\[ \nabla f(x^*) = 0 \qquad \text{y} \qquad \nabla^2 f(x^*) \succ 0 \]</span> Entonces <span class="math inline">\(x^*\)</span> es un mínimo local estricto.</li>
+<li><p><strong>Matriz Definida Positiva</strong>: Sea la matriz: <span class="math display">\[ A_1 = \begin{pmatrix} 2 &amp; 1 \\ 1 &amp; 2 \end{pmatrix} \]</span> Sus menores principales son: <span class="math display">\[ M_1 = |2| = 2 &gt; 0 \qquad \text{y} \qquad M_2 = \det(A_1) = 4 - 1 = 3 &gt; 0 \]</span> Al ser ambos menores principales estrictamente positivos, se tiene que <span class="math inline">\(A_1 \succ 0\)</span>.</p>
+<p>Resolviendo el polinomio característico: <span class="math display">\[ \det(A_1 - \lambda I) = (2-\lambda)^2 - 1 = 0 \implies \lambda^2 - 4\lambda + 3 = 0 \]</span> obtenemos los autovalores <span class="math inline">\(\lambda_1 = 3\)</span> y <span class="math inline">\(\lambda_2 = 1\)</span>, los cuales confirman que es definida positiva.</p></li>
+<li><p><strong>Matriz Indefinida</strong>: Sea la matriz: <span class="math display">\[ A_2 = \begin{pmatrix} 1 &amp; 2 \\ 2 &amp; 1 \end{pmatrix} \]</span> Sus menores principales son: <span class="math display">\[ M_1 = |1| = 1 &gt; 0 \qquad \text{y} \qquad M_2 = \det(A_2) = 1 - 4 = -3 &lt; 0 \]</span> Dado que el determinante de segundo orden es negativo, la matriz es indefinida.</p>
+<p>Resolviendo el polinomio característico: <span class="math display">\[ \det(A_2 - \lambda I) = (1-\lambda)^2 - 4 = 0 \implies \lambda^2 - 2\lambda - 3 = 0 \]</span> hallamos los autovalores <span class="math inline">\(\lambda_1 = 3\)</span> (positivo) y <span class="math inline">\(\lambda_2 = -1\)</span> (negativo), lo que ratifica el carácter indefinido.</p></li>
+<li><p><strong>Matriz Semidefinida Positiva</strong>: Sea la matriz: <span class="math display">\[ A_3 = \begin{pmatrix} 2 &amp; -3 &amp; -1 \\ -3 &amp; 12 &amp; 6 \\ -1 &amp; 6 &amp; 3.2 \end{pmatrix} \]</span> Sus menores principales de primer y segundo orden son: <span class="math display">\[ M_1 = |2| = 2 &gt; 0 \qquad \text{y} \qquad M_2 = 24 - 9 = 15 &gt; 0 \]</span> y su determinante (menor principal de tercer orden): <span class="math display">\[ M_3 = \det(A_3) = 2(38.4 - 36) + 3(-9.6 + 6) - 1(-18 + 12) = 4.8 - 10.8 + 6 = 0 \]</span> Al ser todos los menores principales no negativos y el determinante nulo, la matriz es semidefinida positiva y singular. Sus autovalores son <span class="math inline">\(\lambda_1 \approx 15.75\)</span>, <span class="math inline">\(\lambda_2 \approx 1.45\)</span>, y <span class="math inline">\(\lambda_3 = 0\)</span>, confirmando la semidefinición (<span class="math inline">\(A_3 \succeq 0\)</span>).</p></li>
 </ol>
+</div>
+</div>
+</section>
+<section id="condiciones-de-optimalidad-y-puntos-estacionarios" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="condiciones-de-optimalidad-y-puntos-estacionarios"><span class="header-section-number">2.3.3</span> Condiciones de Optimalidad y Puntos Estacionarios</h3>
+<p>Las condiciones diferenciales para determinar extremos locales se enuncian en el siguiente teorema.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Condiciones de Optimalidad de Segundo Orden">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Condiciones de Optimalidad de Segundo Orden
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> una función diferenciable de clase <span class="math inline">\(\mathcal{C}^2\)</span>:</p>
+<ol type="1">
+<li><strong>Condición Necesaria de Primer Orden (FONC)</strong>: Si <span class="math inline">\(x^*\)</span> es un mínimo local, entonces el gradiente de la función se anula en dicho punto: <span class="math display">\[ \nabla f(x^*) = 0 \]</span> Cualquier punto que verifique esta condición se denomina <strong>punto estacionario</strong> o punto crítico.</li>
+<li><strong>Condición Necesaria de Segundo Orden (SONC)</strong>: Si <span class="math inline">\(x^*\)</span> es un mínimo local, entonces además de cumplirse la FONC, la matriz hessiana en dicho punto es semidefinida positiva: <span class="math display">\[ \nabla^2 f(x^*) \succeq 0 \]</span></li>
+<li><strong>Condición Suficiente de Segundo Orden (SOSC)</strong>: Si un punto <span class="math inline">\(x^*\)</span> satisface simultáneamente que: <span class="math display">\[ \nabla f(x^*) = 0 \qquad \text{y} \qquad \nabla^2 f(x^*) \succ 0 \]</span> Entonces <span class="math inline">\(x^*\)</span> es un <strong>mínimo local estricto</strong> de la función.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Importancia de la Definición Positiva en SOSC">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Importancia de la Definición Positiva en SOSC
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Es fundamental notar que en la condición suficiente (SOSC), la matriz hessiana debe ser <strong>estrictamente definida positiva</strong> (<span class="math inline">\(\nabla^2 f(x^*) \succ 0\)</span>) y no simplemente semidefinida positiva. Si la hessiana es semidefinida con algún autovalor nulo (por ejemplo, en la función <span class="math inline">\(f(x) = x^4\)</span> en el origen <span class="math inline">\(x^*=0\)</span>, donde <span class="math inline">\(f'(0)=0\)</span> y <span class="math inline">\(f''(0)=0 \succeq 0\)</span>), el análisis de segundo orden es insuficiente para garantizar analíticamente si el punto es un mínimo, un máximo o un punto de inflexión.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplos: Clasificación de Puntos Estacionarios">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Ejemplos: Clasificación de Puntos Estacionarios
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Punto de Silla</strong>: Sea <span class="math inline">\(f(x, y) = \frac{1}{2} x^2 + 2xy + \frac{1}{2} y^2 - y + 9\)</span>. Su gradiente es <span class="math inline">\(\nabla f(x, y) = (x + 2y, 2x + y - 1)^T\)</span>. Igualando a cero obtenemos el punto crítico en <span class="math inline">\(x^* = 2/3, y^* = -1/3\)</span>. La matriz hessiana es <span class="math inline">\(\nabla^2 f = \begin{pmatrix} 1 &amp; 2 \\ 2 &amp; 1 \end{pmatrix}\)</span>. Como su menor principal de segundo orden es <span class="math inline">\(M_2 = -3 &lt; 0\)</span>, la matriz es indefinida, lo que clasifica al punto <span class="math inline">\((2/3, -1/3)\)</span> como un <strong>punto de silla</strong>.</li>
+<li><strong>Mínimo Local Estricto</strong>: Sea <span class="math inline">\(f(x, y) = (x-2)^2 + (y-1)^2\)</span>. Su gradiente es <span class="math inline">\(\nabla f(x, y) = (2(x-2), 2(y-1))^T\)</span>, anulándose en <span class="math inline">\((x^*, y^*) = (2, 1)\)</span>. La matriz hessiana es <span class="math inline">\(\nabla^2 f = \begin{pmatrix} 2 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}\)</span>. Al ser definida positiva (<span class="math inline">\(M_1=2&gt;0, M_2=4&gt;0\)</span>), el punto crítico constituye un <strong>mínimo local estricto</strong>.</li>
+<li><strong>Función Cuadrática Acoplada</strong>: Sea <span class="math inline">\(f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\)</span>. Su gradiente es <span class="math inline">\(\nabla f(x, y) = (16x + 3y - 25, 3x + 14y + 31)^T\)</span>, el cual se anula en el punto crítico <span class="math inline">\(x^* \approx 2.060, y^* \approx -2.656\)</span>. La matriz hessiana es <span class="math inline">\(\nabla^2 f = \begin{pmatrix} 16 &amp; 3 \\ 3 &amp; 14 \end{pmatrix}\)</span>. Sus menores principales son <span class="math inline">\(M_1=16&gt;0\)</span> y <span class="math inline">\(M_2=215&gt;0\)</span>, por lo que la matriz es definida positiva, clasificando al punto como un <strong>mínimo local estricto</strong>.</li>
+</ul>
 </div>
 </div>
 </section>
 </section>
 <section id="métodos-numéricos-de-búsqueda-lineal-1d" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="métodos-numéricos-de-búsqueda-lineal-1d"><span class="header-section-number">2.4</span> Métodos Numéricos de Búsqueda Lineal (1D)</h2>
-<p>Los métodos unidimensionales buscan el mínimo de una función <span class="math inline">\(f: \mathbb{R} \to \mathbb{R}\)</span> en un intervalo cerrado <span class="math inline">\([a, b]\)</span>. Son fundamentales porque resolver problemas multidimensionales suele requerir resolver una sucesión de problemas unidimensionales a lo largo de direcciones de descenso (búsqueda lineal o <em>line search</em>): <span class="math display">\[ \min_{\alpha &gt; 0} \phi(\alpha) = f(x_k + \alpha d_k) \]</span></p>
-<section id="métodos-sin-derivadas" class="level3" data-number="2.4.1">
-<h3 data-number="2.4.1" class="anchored" data-anchor-id="métodos-sin-derivadas"><span class="header-section-number">2.4.1</span> Métodos sin Derivadas</h3>
-<p>Estos métodos solo evalúan la función objetivo y requieren que la función sea <strong>unimodal</strong> en el intervalo <span class="math inline">\([a, b]\)</span>, es decir, que posea un único mínimo local en dicho intervalo.</p>
-<div id="fig-opt-1d-biseccion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<p>Los métodos de búsqueda unidimensional buscan minimizar una función real de una variable <span class="math inline">\(f: \mathbb{R} \to \mathbb{R}\)</span> en un intervalo acotado <span class="math inline">\([a, b]\)</span>. Son fundamentales porque resolver problemas multidimensionales complejos suele requerir resolver una sucesión de problemas unidimensionales a lo largo de direcciones de descenso: <span class="math inline">\(\min_{\alpha &gt; 0} f(x_k + \alpha d_k)\)</span>.</p>
+<section id="métodos-de-búsqueda-lineal-sin-derivadas" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="métodos-de-búsqueda-lineal-sin-derivadas"><span class="header-section-number">2.4.1</span> Métodos de Búsqueda Lineal sin Derivadas</h3>
+<p>Estos métodos solo requieren evaluar el valor de la función objetivo. Exigen que la función sea <strong>unimodal</strong> en el intervalo <span class="math inline">\([a, b]\)</span>, es decir, que posea un único mínimo local en dicho intervalo, decreciendo de forma monótona a la izquierda del mínimo y creciendo a su derecha.</p>
+<p>La <strong>Búsqueda Uniforme (Rejilla)</strong> consiste en dividir el intervalo inicial <span class="math inline">\([a, b]\)</span> en <span class="math inline">\(n\)</span> subintervalos de igual anchura mediante una rejilla de puntos <span class="math inline">\(x_k = a + k \frac{b-a}{n}\)</span> para <span class="math inline">\(k = 0, \dots, n\)</span>. Se evalúa la función en todos los puntos de la rejilla, se identifica el punto mínimo <span class="math inline">\(x_{k^*}\)</span> y se define el nuevo intervalo reducido como <span class="math inline">\([x_{k^*-1}, x_{k^*+1}]\)</span>. Aunque es un método muy robusto, resulta poco eficiente debido a que no aprovecha la información de las evaluaciones previas (ver la <a href="#fig-busqueda-uniforme-concepto" class="quarto-xref">Figura&nbsp;<span>2.3</span></a>).</p>
+<div id="fig-busqueda-uniforme-concepto" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-opt-1d-biseccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/opt_1d_biseccion.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+<div aria-describedby="fig-busqueda-uniforme-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/busqueda_uniforme_concepto.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-opt-1d-biseccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;2.1: Búsqueda unidimensional y reducción de intervalos de incertidumbre
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-busqueda-uniforme-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.3: Concepto de la Búsqueda Uniforme en rejilla: subdivisión equidistante del intervalo y reducción basada en el punto mínimo de la muestra
 </figcaption>
 </figure>
 </div>
-<ul>
-<li><strong>Búsqueda Dicotómica</strong>: Evalúa la función en dos puntos simétricos <span class="math inline">\(\lambda_k\)</span> y <span class="math inline">\(\mu_k\)</span> muy próximos al punto medio del intervalo actual para descartar una porción del intervalo en cada iteración basándose en el signo del cambio.</li>
-<li><strong>Sección Áurea (Golden Section)</strong>: Optimiza la búsqueda manteniendo constante la razón de reducción de la amplitud del intervalo entre iteraciones sucesivas. Para que un punto evaluado en la iteración <span class="math inline">\(k\)</span> pueda ser reutilizado como punto de evaluación en la iteración <span class="math inline">\(k+1\)</span>, los puntos deben colocarse de modo que cumplan la relación del número áureo: <span class="math display">\[ \alpha = \frac{1 + \sqrt{5}}{2} \approx 1.618033988 \]</span> Los puntos de evaluación en cada paso <span class="math inline">\(k\)</span> sobre el intervalo <span class="math inline">\([a_k, b_k]\)</span> se definen como: <span class="math display">\[ \lambda_k = b_k - \frac{b_k - a_k}{\alpha}, \qquad \mu_k = a_k + \frac{b_k - a_k}{\alpha} \]</span> Esto reduce el intervalo de incertidumbre en cada paso en un factor de <span class="math inline">\(1/\alpha \approx 0.618\)</span>, requiriendo una sola evaluación de función por iteración tras la primera.</li>
-<li><strong>Búsqueda de Fibonacci</strong>: A diferencia de la sección áurea, este método requiere fijar de antemano el número total de evaluaciones de función <span class="math inline">\(N\)</span>. Utiliza la sucesión de Fibonacci (<span class="math inline">\(F_k\)</span>) para determinar los puntos de evaluación. Proporciona la máxima reducción teórica del intervalo de incertidumbre posible para un número de pasos preestablecido.</li>
-</ul>
-<div class="callout callout-style-default callout-tip callout-titled" title="Código Python: Método de la Sección Áurea">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<p>La <strong>Búsqueda Dicotómica</strong> evalúa la función en el entorno del punto medio del intervalo actual. Para ilustrar por qué es necesario evaluar al menos dos puntos internos en lugar de uno solo, consideremos la <a href="#fig-busqueda-dicotomica-insuficiente" class="quarto-xref">Figura&nbsp;<span>2.4</span></a>. Si únicamente evaluásemos la función en el punto medio exacto <span class="math inline">\(c\)</span>, obtendríamos la misma información en ambos casos, haciendo imposible deducir si el mínimo se localiza en la mitad izquierda o derecha.</p>
+<div id="fig-busqueda-dicotomica-insuficiente" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-busqueda-dicotomica-insuficiente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/busqueda_dicotomica_insuficiente.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-busqueda-dicotomica-insuficiente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.4: Insuficiencia de evaluar un único punto medio: dos funciones unimodales diferentes pueden tener idéntico valor en <span class="math inline">\(c\)</span> teniendo sus mínimos globales en lados opuestos
+</figcaption>
+</figure>
+</div>
+<p>Para resolver este inconveniente, la Búsqueda Dicotómica calcula en cada iteración <span class="math inline">\(k\)</span> dos puntos simétricos respecto al centro separados por una perturbación infinitesimal <span class="math inline">\(\delta &gt; 0\)</span>: <span class="math inline">\(\lambda_k = \frac{a_k + b_k}{2} - \delta\)</span> y <span class="math inline">\(\mu_k = \frac{a_k + b_k}{2} + \delta\)</span>. Si <span class="math inline">\(f(\lambda_k) &lt; f(\mu_k)\)</span>, el mínimo debe situarse en el intervalo izquierdo, actualizándose a <span class="math inline">\([a_k, \mu_k]\)</span>, mientras que si <span class="math inline">\(f(\lambda_k) &gt; f(\mu_k)\)</span>, se actualiza a <span class="math inline">\([\lambda_k, b_k]\)</span> (ver la <a href="#fig-busqueda-dicotomica-concepto" class="quarto-xref">Figura&nbsp;<span>2.5</span></a>). Cada paso requiere dos evaluaciones y reduce el intervalo a prácticamente la mitad (<span class="math inline">\(I_{k+1} \approx \frac{1}{2} I_k\)</span>).</p>
+<div id="fig-busqueda-dicotomica-concepto" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-busqueda-dicotomica-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/busqueda_dicotomica_concepto.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-busqueda-dicotomica-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.5: Concepto de la Búsqueda Dicotómica: la comparación de <span class="math inline">\(\lambda_k\)</span> y <span class="math inline">\(\mu_k\)</span> descarta con certeza una de las mitades del intervalo
+</figcaption>
+</figure>
+</div>
+<p>La <strong>Sección Áurea (Golden Section)</strong> optimiza la búsqueda dicotómica al colocar los puntos de evaluación de manera que uno de ellos pueda ser reutilizado en la iteración siguiente. Para que se mantenga esta relación de escala constante entre iteraciones, la anchura de los intervalos decrece según la razón áurea <span class="math inline">\(\alpha = (1 + \sqrt{5})/2 \approx 1.618\)</span>. Los puntos en cada paso <span class="math inline">\(k\)</span> sobre el intervalo <span class="math inline">\([a_k, b_k]\)</span> se definen como <span class="math inline">\(\lambda_k = b_k - (b_k - a_k)/\alpha\)</span> y <span class="math inline">\(\mu_k = a_k + (b_k - a_k)/\alpha\)</span>. Este método reduce el intervalo de incertidumbre en cada paso en un factor constante de <span class="math inline">\(1/\alpha \approx 0.618\)</span>. A partir de la segunda iteración, solo se requiere evaluar la función en un único punto nuevo. Dada una tolerancia <span class="math inline">\(\epsilon &gt; 0\)</span>, el número total de iteraciones necesarias se calcula mediante la expresión <span class="math inline">\(N = \lceil (\ln(b - a) - \ln(\epsilon)) / \ln(\alpha) \rceil\)</span>.</p>
+<p>La <strong>Búsqueda de Fibonacci</strong> fija de antemano el número total de evaluaciones de función <span class="math inline">\(N\)</span> y utiliza los términos de la sucesión de Fibonacci (<span class="math inline">\(F_k\)</span>, donde <span class="math inline">\(F_0=1, F_1=1, F_2=2, F_3=3, F_4=5, F_5=8, F_6=13, F_7=21, \dots\)</span>) para situar los puntos de evaluación. En la iteración <span class="math inline">\(k\)</span>, los puntos se colocan en <span class="math inline">\(\mu_k = a_k + \frac{F_{N-k}}{F_{N-k+1}} (b_k - a_k)\)</span> y <span class="math inline">\(\lambda_k = a_k + (1 - \frac{F_{N-k}}{F_{N-k+1}}) (b_k - a_k)\)</span>. Proporciona la máxima reducción teórica del intervalo de incertidumbre para un número de pasos preestablecido. Aunque Fibonacci ofrece una reducción ligeramente mayor, la Sección Áurea suele ser preferida en la práctica porque no exige predeterminar el número total de iteraciones <span class="math inline">\(N\)</span>.</p>
+<p>A modo de ilustración de las trazas numéricas de estos algoritmos, consideremos la minimización en el intervalo <span class="math inline">\([1, 4]\)</span> de la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> (cuyo gráfico se muestra en la <a href="#fig-opt-1d-ejemplo" class="quarto-xref">Figura&nbsp;<span>2.6</span></a>) utilizando una tolerancia de precisión <span class="math inline">\(\epsilon = 0.15\)</span>:</p>
+<div id="fig-opt-1d-ejemplo" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-opt-1d-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/opt_1d_ejemplo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-opt-1d-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.6: Minimización de la función de cuarto grado y su mínimo global en <span class="math inline">\(x^* = 3.0\)</span>
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Búsqueda Dicotómica">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Código Python: Método de la Sección Áurea
+<span class="screen-reader-only">Nota</span>Ejemplo: Búsqueda Dicotómica
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>La sección áurea nos permite acotar el mínimo de una función unimodal sin calcular derivadas:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> seccion_aurea(f, a, b, tol<span class="op">=</span><span class="fl">1e-5</span>):</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> (<span class="dv">1</span> <span class="op">+</span> math.sqrt(<span class="dv">5</span>)) <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Determinamos el numero de iteraciones necesarias para cumplir la tolerancia</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    n_iter <span class="op">=</span> <span class="bu">int</span>(math.ceil((math.log(b <span class="op">-</span> a) <span class="op">-</span> math.log(tol)) <span class="op">/</span> math.log(alpha)))</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        lmbda <span class="op">=</span> b <span class="op">-</span> (b <span class="op">-</span> a) <span class="op">/</span> alpha</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        mu <span class="op">=</span> a <span class="op">+</span> (b <span class="op">-</span> a) <span class="op">/</span> alpha</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> f(lmbda) <span class="op">&lt;</span> f(mu):</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            b <span class="op">=</span> mu</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            a <span class="op">=</span> lmbda</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (a <span class="op">+</span> b) <span class="op">/</span> <span class="dv">2</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-</section>
-<section id="métodos-con-derivadas" class="level3" data-number="2.4.2">
-<h3 data-number="2.4.2" class="anchored" data-anchor-id="métodos-con-derivadas"><span class="header-section-number">2.4.2</span> Métodos con Derivadas</h3>
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con perturbación <span class="math inline">\(\delta = 0.02\)</span> y tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>:</p>
 <ul>
-<li><strong>Método de Bisección (Bolzano)</strong>: Busca el cero de la derivada <span class="math inline">\(f'(x) = 0\)</span>. Requiere que los signos de la derivada en los extremos del intervalo sean opuestos (<span class="math inline">\(f'(a) &lt; 0\)</span> y <span class="math inline">\(f'(b) &gt; 0\)</span>). En cada paso, evalúa la derivada en el punto medio del intervalo y reduce el intervalo exactamente a la mitad.</li>
-<li><strong>Método de Newton 1D</strong>: Aproxima la función en cada paso por un polinomio cuadrático de Taylor de segundo orden en el punto actual <span class="math inline">\(x_k\)</span> y salta directamente al vértice de la parábola: <span class="math display">\[ x_{k+1} = x_k - \frac{f'(x_k)}{f''(x_k)} \]</span> Posee convergencia cuadrática local (orden 2), lo que significa que el número de dígitos significativos se duplica en cada paso cerca del óptimo. Sin embargo, requiere calcular la segunda derivada y exige que esta sea estrictamente positiva (<span class="math inline">\(f''(x_k) &gt; 0\)</span>) para evitar diverger o saltar a un máximo local.</li>
+<li><strong>Iteración 1</strong>: <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. El punto medio es <span class="math inline">\(c = 2.5\)</span>. Evaluamos los puntos simétricos: <span class="math inline">\(\lambda_0 = 2.5 - 0.02 = 2.48 \implies f(2.48) = -68.397\)</span>, y <span class="math inline">\(\mu_0 = 2.5 + 0.02 = 2.52 \implies f(2.52) = -68.490\)</span>. Al cumplirse que <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la porción izquierda <span class="math inline">\([a_0, \lambda_0]\)</span>. El nuevo intervalo es <span class="math inline">\([a_1, b_1] = [2.48, 4]\)</span>.</li>
+<li><strong>Iteración 2</strong>: <span class="math inline">\([a_1, b_1] = [2.48, 4]\)</span>. El punto medio es <span class="math inline">\(c = 3.24\)</span>. Evaluamos <span class="math inline">\(\lambda_1 = 3.24 - 0.02 = 3.22 \implies f(3.22) = -68.730\)</span>, y <span class="math inline">\(\mu_1 = 3.24 + 0.02 = 3.26 \implies f(3.26) = -68.683\)</span>. Al cumplirse que <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la porción derecha <span class="math inline">\([\mu_1, b_1]\)</span>. El nuevo intervalo es <span class="math inline">\([a_2, b_2] = [2.48, 3.26]\)</span>.</li>
+<li><strong>Iteración 3</strong>: <span class="math inline">\([a_2, b_2] = [2.48, 3.26]\)</span>. El punto medio es <span class="math inline">\(c = 2.87\)</span>. Evaluamos <span class="math inline">\(\lambda_2 = 2.87 - 0.02 = 2.85 \implies f(2.85) = -68.711\)</span>, y <span class="math inline">\(\mu_2 = 2.87 + 0.02 = 2.89 \implies f(2.89) = -68.724\)</span>. Dado que <span class="math inline">\(f(\lambda_2) &gt; f(\mu_2)\)</span>, descartamos la izquierda. El nuevo intervalo es <span class="math inline">\([a_3, b_3] = [2.85, 3.26]\)</span>.</li>
+<li><strong>Iteración 4</strong>: <span class="math inline">\([a_3, b_3] = [2.85, 3.26]\)</span>. El punto medio es <span class="math inline">\(c = 3.055\)</span>. Evaluamos <span class="math inline">\(\lambda_3 = 3.055 - 0.02 = 3.035 \implies f(3.035) = -68.744\)</span>, y <span class="math inline">\(\mu_3 = 3.055 + 0.02 = 3.075 \implies f(3.075) = -68.718\)</span>. Dado que <span class="math inline">\(f(\lambda_3) &lt; f(\mu_3)\)</span>, descartamos la derecha. El nuevo intervalo es <span class="math inline">\([a_4, b_4] = [2.85, 3.075]\)</span>.</li>
+<li><strong>Iteración 5</strong>: <span class="math inline">\([a_4, b_4] = [2.85, 3.075]\)</span>. El punto medio es <span class="math inline">\(c = 2.9625\)</span>. Evaluamos <span class="math inline">\(\lambda_4 = 2.9625 - 0.02 = 2.9425 \implies f(2.9425) = -68.730\)</span>, y <span class="math inline">\(\mu_4 = 2.9625 + 0.02 = 2.9825 \implies f(2.9825) = -68.748\)</span>. Como <span class="math inline">\(f(\lambda_4) &gt; f(\mu_4)\)</span>, descartamos la izquierda. El nuevo intervalo es <span class="math inline">\([a_5, b_5] = [2.9425, 3.075]\)</span>. La amplitud resultante es de <span class="math inline">\(3.075 - 2.9425 = 0.1325 \le 0.15\)</span>, finalizando el algoritmo.</li>
 </ul>
+<div id="fig-dicotomica" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dicotomica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/dicotomica.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dicotomica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.7: Animación de la Búsqueda Dicotómica (5 iteraciones)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Sección Áurea">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Ejemplo: Sección Áurea
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. El número de iteraciones requeridas es <span class="math inline">\(N = \lceil (\ln(3.0) - \ln(0.15)) / \ln(1.618) \rceil = 7\)</span>.</p>
+<ul>
+<li><strong>Iteración 1</strong>: <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Amplitud <span class="math inline">\(I_1 = 3.0 / 1.618 = 1.8541\)</span>. Calculamos <span class="math inline">\(\lambda_0 = 4 - 1.8541 = 2.1459 \implies f(2.1459) = -66.692\)</span>, y <span class="math inline">\(\mu_0 = 1 + 1.8541 = 2.8541 \implies f(2.8541) = -68.714\)</span>. Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la izquierda. Nuevo intervalo: <span class="math inline">\([2.1459, 4]\)</span>.</li>
+<li><strong>Iteración 2</strong>: <span class="math inline">\([a_1, b_1] = [2.1459, 4]\)</span>. Amplitud <span class="math inline">\(I_2 = 1.8541 / 1.618 = 1.1459\)</span>. Reutilizamos <span class="math inline">\(\lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) = -68.714\)</span>. Calculamos el nuevo punto <span class="math inline">\(\mu_1 = 2.1459 + 1.1459 = 3.2918 \implies f(3.2918) = -68.654\)</span>. Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la derecha. Nuevo intervalo: <span class="math inline">\([2.1459, 3.2918]\)</span>.</li>
+<li><strong>Iteración 7 (Última)</strong>: El proceso continúa hasta que en la iteración <span class="math inline">\(k=7\)</span> la amplitud es <span class="math inline">\(I_7 = 0.1033 \le 0.15\)</span>, convergiendo en el intervalo final <span class="math inline">\([2.9574, 3.0608]\)</span>, que contiene el mínimo en <span class="math inline">\(x^* = 3.0\)</span>.</li>
+</ul>
+<div id="fig-seccion-aurea" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seccion-aurea-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/seccion_aurea.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seccion-aurea-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.8: Animación de la búsqueda por Sección Áurea (7 iteraciones)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Búsqueda de Fibonacci">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Ejemplo: Búsqueda de Fibonacci
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. Fijamos <span class="math inline">\(N = 6\)</span> evaluaciones de la función (usando <span class="math inline">\(F_7 = 21\)</span>).</p>
+<ul>
+<li><strong>Iteración 1</strong>: <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Amplitud del paso 1: <span class="math inline">\(I_1 = \frac{13}{21} \cdot 3.0 \approx 1.8571\)</span>. Calculamos <span class="math inline">\(\lambda_0 = 4 - 1.8571 = 2.1429 \implies f(2.1429) = -66.673\)</span>, y <span class="math inline">\(\mu_0 = 1 + 1.8571 = 2.8571 \implies f(2.8571) = -68.715\)</span>. Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la izquierda. Nuevo intervalo: <span class="math inline">\([2.1429, 4]\)</span>.</li>
+<li><strong>Iteración 2</strong>: <span class="math inline">\([a_1, b_1] = [2.1429, 4]\)</span>. Amplitud <span class="math inline">\(I_2 = \frac{8}{21} \cdot 3.0 \approx 1.1429\)</span>. Reutilizamos <span class="math inline">\(\lambda_1 = \mu_0 = 2.8571\)</span>. Calculamos <span class="math inline">\(\mu_1 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) = -68.657\)</span>. Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la derecha. Nuevo intervalo: <span class="math inline">\([2.1429, 3.2857]\)</span>.</li>
+<li><strong>Iteración 6 (Última)</strong>: La amplitud se reduce a <span class="math inline">\(I_6 = 0.1429 \le 0.15\)</span>, logrando la convergencia en <span class="math inline">\([2.8541, 3.001]\)</span> con una iteración menos que la sección áurea gracias al uso de la serie de Fibonacci.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="métodos-de-búsqueda-lineal-con-derivadas" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="métodos-de-búsqueda-lineal-con-derivadas"><span class="header-section-number">2.4.2</span> Métodos de Búsqueda Lineal con Derivadas</h3>
+<p>Los métodos con derivadas incorporan información analítica del gradiente para acelerar la convergencia o resolver ecuaciones.</p>
+<p>El <strong>Método de Bisección (Bolzano)</strong> busca el cero de la derivada de primer orden (<span class="math inline">\(f'(x) = 0\)</span>). Requiere que los signos de la derivada en los extremos sean opuestos (<span class="math inline">\(f'(a) &lt; 0\)</span> y <span class="math inline">\(f'(b) &gt; 0\)</span>), lo que garantiza, por el teorema de Bolzano, la existencia de al menos un punto estacionario en el interior. En cada iteración, evalúa la derivada en el punto medio <span class="math inline">\(c = (a+b)/2\)</span>. Si <span class="math inline">\(f'(c) &lt; 0\)</span>, actualiza <span class="math inline">\(a = c\)</span>; si <span class="math inline">\(f'(c) &gt; 0\)</span>, actualiza <span class="math inline">\(b = c\)</span>. El algoritmo reduce el intervalo a la mitad en cada paso.</p>
+<p>El <strong>Método de Newton 1D</strong> aproxima la función objetivo en cada paso mediante un polinomio cuadrático de Taylor de segundo orden en el punto actual <span class="math inline">\(x_k\)</span> y salta directamente al vértice de la parábola: <span class="math inline">\(x_{k+1} = x_k - f'(x_k)/f''(x_k)\)</span>. Presenta una convergencia cuadrática local (orden 2), lo que significa que el número de dígitos significativos de precisión se duplica en cada iteración cerca del óptimo. Requiere calcular la segunda derivada <span class="math inline">\(f''(x)\)</span> en cada paso y exige que sea estrictamente positiva (<span class="math inline">\(f''(x_k) &gt; 0\)</span>).</p>
+<p>El <strong>Método de la Secante</strong> evita el cálculo de la segunda derivada del método de Newton aproximándola numéricamente por diferencias finitas a partir de los dos últimos puntos evaluados: <span class="math inline">\(f''(x_k) \approx (f'(x_k) - f'(x_{k-1})) / (x_k - x_{k-1})\)</span>. Sustituyendo esta aproximación en la fórmula de Newton, el nuevo punto se calcula como <span class="math inline">\(x_{k+1} = x_k - f'(x_k) \frac{x_k - x_{k-1}}{f'(x_k) - f'(x_{k-1})}\)</span>. Presenta una convergencia superlineal de orden <span class="math inline">\(\approx 1.618\)</span>.</p>
+<p>Minimizamos de nuevo la función <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> en <span class="math inline">\([1, 4]\)</span> partiendo del punto inicial <span class="math inline">\(x_0 = 1.0\)</span>. Las derivadas son <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span> y <span class="math inline">\(f''(x) = 3x^2 - 26x + 54\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Método de Bisección">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Ejemplo: Método de Bisección
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. Las derivadas son <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span> y <span class="math inline">\(f''(x) = 3x^2 - 26x + 54\)</span>.</p>
+<ul>
+<li><strong>Iteración 1</strong>: <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Punto medio <span class="math inline">\(c_0 = 2.5 \implies f'(2.5) = -2.6225 &lt; 0\)</span>. Descartamos la izquierda, nuevo intervalo <span class="math inline">\([2.5, 4]\)</span>.</li>
+<li><strong>Iteración 2</strong>: Punto medio <span class="math inline">\(c_1 = 3.25 \implies f'(3.25) = 0.5156 &gt; 0\)</span>. Descartamos la derecha, nuevo intervalo <span class="math inline">\([2.5, 3.25]\)</span>.</li>
+<li><strong>Iteración 3</strong>: <span class="math inline">\(c_2 = 2.875 \implies f'(2.875) = -0.4433 &lt; 0 \implies\)</span> nuevo intervalo <span class="math inline">\([2.875, 3.25]\)</span>.</li>
+<li><strong>Iteración 4</strong>: <span class="math inline">\(c_3 = 3.0625 \implies f'(3.0625) = 0.1760 &gt; 0 \implies\)</span> nuevo intervalo <span class="math inline">\([2.875, 3.0625]\)</span>.</li>
+<li><strong>Iteración 5</strong>: <span class="math inline">\(c_4 = 2.96875 \implies f'(2.96875) = -0.0964 &lt; 0 \implies\)</span> nuevo intervalo <span class="math inline">\([2.96875, 3.0625]\)</span>. La amplitud es de <span class="math inline">\(0.0938 \le 0.15\)</span>, finalizando el algoritmo.</li>
+</ul>
+<div id="fig-biseccion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-biseccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/biseccion.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-biseccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.9: Animación de la búsqueda por Bisección (Bolzano)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Método de Newton 1D">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Ejemplo: Método de Newton 1D
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> partiendo del punto inicial <span class="math inline">\(x_0 = 1.0\)</span>. Las derivadas son <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span> y <span class="math inline">\(f''(x) = 3x^2 - 26x + 54\)</span>.</p>
+<ul>
+<li><strong>Iteración 1</strong>: Partimos de <span class="math inline">\(x_0 = 1.0\)</span>. <span class="math inline">\(f'(1.0) = -30.0\)</span>, <span class="math inline">\(f''(1.0) = 31.0 \implies x_1 = 1.0 - (-30.0 / 31.0) \approx 1.9677\)</span>.</li>
+<li><strong>Iteración 2</strong>: <span class="math inline">\(f'(1.9677) \approx -8.459\)</span>, <span class="math inline">\(f''(1.9677) \approx 14.450 \implies x_2 = 1.9677 - (-8.459 / 14.450) \approx 2.5529\)</span>.</li>
+<li><strong>Iteración 3</strong>: <span class="math inline">\(f'(2.5529) \approx -2.235\)</span>, <span class="math inline">\(f''(2.5529) \approx 7.177 \implies x_3 = 2.5529 - (-2.235 / 7.177) \approx 2.8637\)</span>.</li>
+<li><strong>Iteración 4</strong>: <span class="math inline">\(f'(2.8637) \approx -0.485\)</span>, <span class="math inline">\(f''(2.8637) \approx 4.146 \implies x_4 = 2.8637 - (-0.485 / 4.146) \approx 2.9808\)</span>.</li>
+<li><strong>Iteración 5</strong>: <span class="math inline">\(f'(2.9808) \approx -0.059\)</span>, <span class="math inline">\(f''(2.9808) \approx 3.154 \implies x_5 = 2.9808 - (-0.059 / 3.154) \approx 2.9995 \approx 3.0\)</span>. Convergencia en 5 iteraciones.</li>
+</ul>
+<div id="fig-newton-1d" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-newton-1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/newton_1d.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-newton-1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.10: Animación del método de Newton 1D
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="métodos-multivariables-de-optimización-sin-restricciones" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="métodos-multivariables-de-optimización-sin-restricciones"><span class="header-section-number">2.5</span> Métodos Multivariables de Optimización Sin Restricciones</h2>
-<p>Para minimizar funciones <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> de múltiples variables sin restricciones, se emplea el siguiente esquema iterativo general:</p>
-<p><span class="math display">\[ x_{k+1} = x_k + \alpha_k d_k \]</span></p>
-<p>Donde <span class="math inline">\(d_k\)</span> es la <strong>dirección de descenso</strong> (debe cumplir que <span class="math inline">\(\nabla f(x_k)^T d_k &lt; 0\)</span>) y <span class="math inline">\(\alpha_k &gt; 0\)</span> es el <strong>tamaño de paso</strong> obtenido mediante búsqueda unidimensional lineal.</p>
-<section id="máximo-descenso-steepest-descent" class="level3" data-number="2.5.1">
-<h3 data-number="2.5.1" class="anchored" data-anchor-id="máximo-descenso-steepest-descent"><span class="header-section-number">2.5.1</span> Máximo Descenso (Steepest Descent)</h3>
-<p>La dirección de búsqueda se toma como el opuesto del gradiente, que es la dirección que minimiza localmente la derivada direccional: <span class="math display">\[ d_k = -\nabla f(x_k) \]</span> El tamaño de paso <span class="math inline">\(\alpha_k\)</span> se obtiene resolviendo el problema univariable de búsqueda lineal exacta: <span class="math display">\[ \alpha_k = \arg\min_{\alpha &gt; 0} f(x_k - \alpha \nabla f(x_k)) \]</span></p>
-<ul>
-<li><strong>El Fenómeno del Zigzag</strong>: En búsqueda exacta, se puede demostrar analíticamente que las direcciones de descenso en dos iteraciones consecutivas son ortogonales: <span class="math display">\[ d_k^T d_{k+1} = 0 \]</span> Si la función presenta curvas de nivel muy estiradas (problemas mal acondicionados, donde la relación entre el mayor y el menor autovalor de la hessiana es muy grande), el algoritmo zigzaguea con pasos ortogonales consecutivos, ralentizando drásticamente el avance hacia el óptimo.</li>
-</ul>
-</section>
-<section id="método-de-newton-multivariable" class="level3" data-number="2.5.2">
-<h3 data-number="2.5.2" class="anchored" data-anchor-id="método-de-newton-multivariable"><span class="header-section-number">2.5.2</span> Método de Newton Multivariable</h3>
-<p>El método de Newton incorpora la curvatura local dada por la matriz hessiana para corregir la dirección de búsqueda, apuntando directamente al mínimo de la aproximación cuadrática: <span class="math display">\[ d_k = - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k) \]</span> Si el punto inicial está cerca del mínimo y la hessiana es definida positiva, el método converge en muy pocas iteraciones con tamaño de paso <span class="math inline">\(\alpha_k = 1\)</span> (convergencia cuadrática). <strong>Inconvenientes</strong>:</p>
-<ol type="1">
-<li>Exige calcular explícitamente la matriz hessiana de derivadas de segundo orden en cada paso.</li>
-<li>Requiere resolver un sistema de ecuaciones lineales de tamaño <span class="math inline">\(n \times n\)</span> para calcular <span class="math inline">\([\nabla^2 f(x_k)]^{-1} \nabla f(x_k)\)</span>, con un coste computacional de <span class="math inline">\(O(n^3)\)</span> operaciones, inviable para problemas a gran escala.</li>
-<li>Si la hessiana no es definida positiva, la dirección puede no ser de descenso, provocando que el algoritmo diverja.</li>
-</ol>
-</section>
-<section id="métodos-cuasi-newton-bfgs" class="level3" data-number="2.5.3">
-<h3 data-number="2.5.3" class="anchored" data-anchor-id="métodos-cuasi-newton-bfgs"><span class="header-section-number">2.5.3</span> Métodos Cuasi-Newton (BFGS)</h3>
-<p>Los métodos Cuasi-Newton evitan el cálculo explícito y la inversión de la hessiana. En su lugar, construyen una aproximación simétrica y definida positiva de la inversa de la hessiana <span class="math inline">\(H_k \approx [\nabla^2 f(x_k)]^{-1}\)</span> basándose únicamente en los cambios observados en los vectores de gradiente entre pasos consecutivos, satisfaciendo la <strong>ecuación de la secante</strong>: <span class="math display">\[ H_{k+1} y_k = s_k \]</span> Donde <span class="math inline">\(s_k = x_{k+1} - x_k\)</span> y <span class="math inline">\(y_k = \nabla f(x_{k+1}) - \nabla f(x_k)\)</span>.</p>
-<p>La dirección de descenso se calcula con coste <span class="math inline">\(O(n^2)\)</span> como: <span class="math display">\[ d_k = - H_k \nabla f(x_k) \]</span></p>
-<p>El método más popular y de mayor eficiencia es el algoritmo <strong>BFGS</strong> (Broyden-Fletcher-Goldfarb-Shanno), que actualiza <span class="math inline">\(H_k\)</span> de forma iterativa conservando la simetría y definición positiva de la aproximación, siendo una referencia estándar para la optimización multivariable continua <span class="citation" data-cites="nocedal2006numerical luenberger2015linear">(<a href="references.html#ref-nocedal2006numerical" role="doc-biblioref">Nocedal y Wright 2006</a>; <a href="references.html#ref-luenberger2015linear" role="doc-biblioref">Luenberger y Ye 2015</a>)</span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Código Python: Algoritmo de Descenso de Gradiente con Búsqueda Lineal Exacta">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<p>Para minimizar funciones multivariables <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> sin restricciones, construimos una sucesión iterativa a partir de una dirección de búsqueda <span class="math inline">\(d_k\)</span> y un tamaño de paso <span class="math inline">\(\alpha_k &gt; 0\)</span>: <span class="math inline">\(x_{k+1} = x_k + \alpha_k d_k\)</span>. Para garantizar que el algoritmo avance reduciendo la función en cada paso, la dirección <span class="math inline">\(d_k\)</span> debe ser de descenso, lo que exige matemáticamente que forme un ángulo obtuso con el gradiente de la función en el punto actual: <span class="math inline">\(\nabla f(x_k)^T d_k &lt; 0\)</span>.</p>
+<section id="método-de-las-coordenadas-cíclicas" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="método-de-las-coordenadas-cíclicas"><span class="header-section-number">2.5.1</span> Método de las Coordenadas Cíclicas</h3>
+<p>Es uno de los algoritmos de optimización multivariable más sencillos. Evita por completo el cálculo de derivadas y gradientes. En su lugar, avanza secuencialmente minimizando la función respecto a una única variable de decisión a la vez, manteniendo constantes las restantes <span class="math inline">\(n-1\)</span> variables. Las direcciones de búsqueda coinciden cíclicamente con los vectores de la base canónica de <span class="math inline">\(\mathbb{R}^n\)</span>: <span class="math inline">\(d_k = e_{(k \bmod n) + 1}\)</span>, donde <span class="math inline">\(e_i\)</span> es el <span class="math inline">\(i\)</span>-ésimo vector unitario. En cada paso, se resuelve un subproblema de optimización lineal 1D.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Coordenadas Cíclicas">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Código Python: Algoritmo de Descenso de Gradiente con Búsqueda Lineal Exacta
+<span class="screen-reader-only">Nota</span>Ejemplo: Coordenadas Cíclicas
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Este script implementa el método del máximo descenso en múltiples variables, resolviendo el paso exacto mediante la sección áurea:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> maximo_descenso(f, grad_f, x_init, tol<span class="op">=</span><span class="fl">1e-5</span>, max_iter<span class="op">=</span><span class="dv">1000</span>):</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.array(x_init, dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        g <span class="op">=</span> grad_f(x)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.linalg.norm(g) <span class="op">&lt;</span> tol:</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Convergencia alcanzada en la iteracion </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Definimos la funcion unidimensional para la busqueda del tamano de paso alpha</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">def</span> f_lineal(alpha):</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> f(x <span class="op">-</span> alpha <span class="op">*</span> g)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Resolvemos el problema de linea unidimensional usando la Seccion Aurea</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        alpha_opt <span class="op">=</span> seccion_aurea(f_lineal, <span class="fl">0.0</span>, <span class="fl">1.0</span>, tol<span class="op">=</span><span class="fl">1e-5</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Actualizamos el punto</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> x <span class="op">-</span> alpha_opt <span class="op">*</span> g</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p><strong>Variables Desacopladas</strong>: Minimizamos la función de distancia <span class="math inline">\(f(x, y) = (x-2)^2 + (y-1)^2\)</span> (ver <a href="#fig-coord-ciclicas-1" class="quarto-xref">Figura&nbsp;<span>2.11</span></a>) partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
+<ul>
+<li><em>Paso 1</em>: Minimizamos respecto a <span class="math inline">\(x\)</span>: <span class="math display">\[ \min_{x} \quad f(x, 0) = (x-2)^2 + 1 \implies x_1 = (2, 0)^T \]</span></li>
+<li><em>Paso 2</em>: Minimizamos respecto a <span class="math inline">\(y\)</span>: <span class="math display">\[ \min_{y} \quad f(2, y) = (y-1)^2 \implies x_2 = (2, 1)^T \]</span></li>
+</ul>
+<p>Al no existir términos de acoplamiento cruzado entre las variables (la matriz hessiana es diagonal), el algoritmo localiza el mínimo exacto en una única iteración de <span class="math inline">\(n=2\)</span> pasos ortogonales.</p></li>
+</ul>
+<div id="fig-coord-ciclicas-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coord-ciclicas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/coordenadas_ciclicas_ej1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coord-ciclicas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.11: Descenso por coordenadas cíclicas sobre curvas de nivel circulares independientes
+</figcaption>
+</figure>
+</div>
+<ul>
+<li><p><strong>Variables Acopladas</strong>: Minimizamos <span class="math inline">\(f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\)</span> (ver <a href="#fig-coord-ciclicas-2" class="quarto-xref">Figura&nbsp;<span>2.12</span></a>) partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
+<ul>
+<li><em>Paso 1</em>: Minimizamos respecto a <span class="math inline">\(x\)</span>: <span class="math display">\[ \min_{x} \quad f(x, 0) = 8x^2 - 25x - 29 \implies 16x - 25 = 0 \implies x_1 = (1.5625, 0)^T \]</span></li>
+<li><em>Paso 2</em>: Minimizamos respecto a <span class="math inline">\(y\)</span> manteniendo <span class="math inline">\(x = 1.5625\)</span>: <span class="math display">\[ \min_{y} \quad f(1.5625, y) = 7y^2 + 35.6875y + \text{ct} \implies 14y + 35.6875 = 0 \implies y = -\frac{571}{224} \approx -2.5491 \]</span> Lo que resulta en el punto <span class="math inline">\(x_2 = (1.5625, -2.5491)^T\)</span>.</li>
+<li><em>Paso 3</em>: Minimizamos de nuevo respecto a <span class="math inline">\(x\)</span> con <span class="math inline">\(y = -2.5491\)</span>: <span class="math display">\[ \min_{x} \quad f(x, -2.5491) = 8x^2 - 32.6473x + \text{ct} \implies 16x - 32.6473 = 0 \implies x_3 = (2.0405, -2.5491)^T \]</span></li>
+</ul>
+<p>Debido al acoplamiento bilineal inducido por el término <span class="math inline">\(3xy\)</span>, la trayectoria dibuja un patrón de “escalera”, requiriendo múltiples ciclos para aproximarse al mínimo global situado en <span class="math inline">\(x^* = (2.060, -2.656)\)</span>.</p></li>
+</ul>
+<div id="fig-coord-ciclicas-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coord-ciclicas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/coordenadas_ciclicas_ej2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coord-ciclicas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.12: Trayectoria en escalera del descenso por coordenadas sobre una función cuadrática acoplada
+</figcaption>
+</figure>
 </div>
 </div>
 </div>
+</section>
+<section id="método-del-máximo-descenso-steepest-descent" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="método-del-máximo-descenso-steepest-descent"><span class="header-section-number">2.5.2</span> Método del Máximo Descenso (Steepest Descent)</h3>
+<p>La dirección de búsqueda en el método de máximo descenso se define como la dirección en la que la función decrece más rápidamente a nivel local, dada por el opuesto del vector gradiente: <span class="math inline">\(d_k = -\nabla f(x_k)\)</span>. El tamaño de paso óptimo <span class="math inline">\(\alpha_k\)</span> se calcula mediante búsqueda de línea exacta: <span class="math inline">\(\alpha_k = \arg\min_{\alpha &gt; 0} f(x_k - \alpha \nabla f(x_k))\)</span>.</p>
+<p>Una propiedad matemática de la búsqueda lineal exacta en el método de máximo descenso es que las direcciones de búsqueda en iteraciones consecutivas son estrictamente ortogonales entre sí: <span class="math inline">\(d_k^T d_{k+1} = 0\)</span>.</p>
+<p>Para demostrarlo, definimos la función unidimensional <span class="math inline">\(\phi(\alpha) = f(x_k + \alpha d_k)\)</span> que se minimiza para hallar <span class="math inline">\(\alpha_k\)</span>. La condición de óptimo exige que su derivada con respecto al tamaño de paso sea nula en <span class="math inline">\(\alpha_k\)</span>: <span class="math inline">\(\phi'(\alpha_k) = \nabla f(x_k + \alpha_k d_k)^T d_k = 0\)</span>. Dado que el nuevo punto es <span class="math inline">\(x_{k+1} = x_k + \alpha_k d_k\)</span>, se tiene que <span class="math inline">\(\nabla f(x_{k+1})^T d_k = 0\)</span>. Puesto que las direcciones consecutivas son proporcionales a los gradientes (<span class="math inline">\(d_{k+1} = -\nabla f(x_{k+1})\)</span> y <span class="math inline">\(d_k = -\nabla f(x_k)\)</span>), se concluye de forma directa la ortogonalidad: <span class="math inline">\(d_{k+1}^T d_k = 0\)</span>.</p>
+<p>Esta ortogonalidad geométrica provoca que, si la función presenta curvas de nivel elípticas muy alargadas (problemas mal acondicionados), el algoritmo realice continuos giros de 90°, generando un patrón en <strong>zigzag</strong> que ralentiza la convergencia, tal y como se observa en la <a href="#fig-steepest-descent" class="quarto-xref">Figura&nbsp;<span>2.13</span></a>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Máximo Descenso">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Ejemplo: Máximo Descenso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Minimizamos <span class="math inline">\(f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\)</span> partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
+<ul>
+<li><p><strong>Gradiente en <span class="math inline">\(x_0\)</span></strong>: Calculamos el gradiente de la función y lo evaluamos en el origen: <span class="math display">\[ \nabla f(x_0) = \begin{pmatrix} 16x + 3y - 25 \\ 3x + 14y + 31 \end{pmatrix}_{x=(0,0)} = \begin{pmatrix} -25 \\ 31 \end{pmatrix} \]</span> La dirección de descenso óptima es el gradiente negativo: <span class="math display">\[ d_0 = -\nabla f(x_0) = \begin{pmatrix} 25 \\ -31 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Búsqueda de línea exacta</strong>: Minimizamos la función respecto al tamaño del paso <span class="math inline">\(\alpha\)</span>: <span class="math display">\[ \phi(\alpha) = f(x_0 + \alpha d_0) = f(25\alpha, -31\alpha) = 9402\alpha^2 - 1586\alpha - 29 \]</span> Derivando e igualando a cero: <span class="math display">\[ \phi'(\alpha) = 18804\alpha - 1586 = 0 \implies \alpha_0 = \frac{1586}{18804} \approx 0.0843 \]</span></p></li>
+<li><p><strong>Actualización del punto</strong>: El nuevo punto en la primera iteración es: <span class="math display">\[ x_1 = x_0 + \alpha_0 d_0 = \begin{pmatrix} 0 \\ 0 \end{pmatrix} + 0.0843 \begin{pmatrix} 25 \\ -31 \end{pmatrix} = \begin{pmatrix} 2.109 \\ -2.615 \end{pmatrix} \]</span> El nuevo gradiente en <span class="math inline">\(x_1\)</span> es: <span class="math display">\[ \nabla f(x_1) \approx \begin{pmatrix} 0.8925 \\ 0.7225 \end{pmatrix} \]</span> Verificamos la ortogonalidad respecto a la dirección de búsqueda anterior: <span class="math display">\[ d_0^T \nabla f(x_1) = 25(0.8925) - 31(0.7225) \approx 0 \]</span> Lo cual ilustra la ortogonalidad requerida por la búsqueda exacta.</p></li>
+</ul>
+<div id="fig-steepest-descent" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-steepest-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/steepest_descent_ej.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-steepest-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.13: Trayectoria ortogonal de máximo descenso: giros de 90 grados sobre las curvas de nivel elípticas de la función cuadrática
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="métodos-de-newton-multivariable-y-bfgs" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="métodos-de-newton-multivariable-y-bfgs"><span class="header-section-number">2.5.3</span> Métodos de Newton Multivariable y BFGS</h3>
+<p>El <strong>Método de Newton Multivariable</strong> incorpora información de segundo orden utilizando la aproximación de Taylor cuadrática en el punto <span class="math inline">\(x_k\)</span>, calculando el nuevo punto mediante la expresión: <span class="math inline">\(x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k)\)</span>. Si la función objetivo es cuadrática, el método de Newton localiza el mínimo global del sistema en una sola iteración desde cualquier punto inicial. Si la función es no lineal general, presenta una convergencia cuadrática local de orden 2.</p>
+<p>A pesar de su velocidad de convergencia, el método de Newton tiene importantes limitaciones prácticas. Presenta un <strong>coste computacional elevado</strong> debido a que en cada iteración se debe calcular la matriz hessiana y resolver un sistema de ecuaciones lineales, lo que supone un coste de <span class="math inline">\(O(n^3)\)</span> operaciones. Asimismo, exige que la matriz hessiana sea <strong>estrictamente definida positiva</strong> para garantizar que la dirección obtenida sea de descenso; si el algoritmo entra en una región cóncava o se topa con un punto de silla, puede diverger. Por último, su convergencia es de <strong>carácter local</strong>, estando garantizada solo si el punto inicial <span class="math inline">\(x_0\)</span> se encuentra cerca del óptimo.</p>
+<p>Los <strong>Métodos Cuasi-Newton (BFGS)</strong> eliminan estos inconvenientes estimando iterativamente una aproximación simétrica y definida positiva de la inversa de la hessiana, denotada por <span class="math inline">\(H_k \approx [\nabla^2 f(x_k)]^{-1}\)</span>. Esta matriz se actualiza utilizando únicamente la información de los gradientes de los dos puntos consecutivos, forzando a que se cumpla la <strong>ecuación de la secante</strong>: <span class="math inline">\(H_{k+1} y_k = s_k\)</span>, donde <span class="math inline">\(s_k = x_{k+1} - x_k\)</span> y <span class="math inline">\(y_k = \nabla f(x_{k+1}) - \nabla f(x_k)\)</span>. El algoritmo BFGS actualiza la matriz aproximada mediante la expresión <span class="math inline">\(H_{k+1} = (I - \rho_k s_k y_k^T) H_k (I - \rho_k y_k s_k^T) + \rho_k s_k s_k^T\)</span>, donde <span class="math inline">\(\rho_k = 1 / (y_k^T s_k)\)</span>. Garantiza que la aproximación se mantenga definida positiva en cada paso si la búsqueda de línea satisface las condiciones de Wolfe, proporcionando una convergencia superlineal con un coste por iteración de tan solo <span class="math inline">\(O(n^2)\)</span> operaciones <span class="citation" data-cites="nocedal2006numerical luenberger2015linear">(<a href="references.html#ref-nocedal2006numerical" role="doc-biblioref">Nocedal y Wright 2006</a>; <a href="references.html#ref-luenberger2015linear" role="doc-biblioref">Luenberger y Ye 2015</a>)</span>.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">

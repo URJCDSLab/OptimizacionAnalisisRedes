@@ -16,7 +16,7 @@ Al finalizar este capítulo, serás capaz de:
 :::
 
 
-## Introducción y Formulación de Problemas No Lineales
+## Formulación de Problemas No Lineales
 
 En el mundo real, la linealidad es una excepción matemática. Los fenómenos físicos, económicos y tecnológicos se comportan de manera inherentemente no lineal. En la industria, por ejemplo, las **economías de escala** provocan que el coste unitario de producción disminuya a medida que aumenta el volumen debido al reparto de costes fijos o descuentos por cantidad, lo que rompe la relación de proporcionalidad lineal. En el ámbito económico, la **elasticidad de la demanda** determina que la cantidad demandada de un bien sea sensible a su precio de venta, por lo que la función de ingresos resultante ($I = P \cdot Q$) es cuadrática y no lineal. En el sector financiero, siguiendo el modelo de selección de carteras de Markowitz, el riesgo se mide mediante la varianza del rendimiento de los activos, que constituye una combinación cuadrática de los pesos invertidos, mientras que el rendimiento esperado se mantiene lineal. Finalmente, en la ciencia de datos, la estimación de modelos y algoritmos de aprendizaje automático suele penalizar los errores de ajuste de forma cuadrática (mínimos cuadrados), generando funciones objetivo no lineales.
 
@@ -59,7 +59,7 @@ $$ \min_{x} \quad \frac{f_1(x)}{f_2(x)} $$
 Aparece habitualmente al optimizar ratios de eficiencia, rentabilidad de inversiones o productividad. Bajo condiciones de concavidad y convexidad de las funciones individuales, la transformación de variables de Charnes-Cooper permite linealizar el modelo y resolverlo de forma exacta.
 
 
-### Caso de Estudio 1: El Monopolio de Cournot (1838)
+### El Monopolio de Cournot (1838)
 
 Consideremos una empresa que opera en régimen de monopolio y desea maximizar su beneficio. La relación entre la cantidad demandada del mercado $Q$ y el precio de venta $P$ viene dada por la función de demanda inversa del mercado: $P(Q) = 10 - Q$. El coste total de producción de la empresa es lineal con respecto a la cantidad fabricada: $C(Q) = 1 + 3Q$. La empresa está sujeta a una limitación de capacidad física máxima de producción de $9$ unidades ($Q \le 9$). Por su parte, el organismo regulador estatal establece que el precio de venta al público no puede superar las $8$ unidades monetarias ($P \le 8$). 
 
@@ -90,7 +90,7 @@ La región factible en el plano $(Q, P)$ es un polígono convexo con vértices e
 
 Este resultado ilustra la diferencia fundamental con la programación lineal: la solución óptima de un problema no lineal con restricciones lineales puede situarse en el interior de una de las caras de la región factible y no en un vértice (los vértices adyacentes son $(2,8)$ y $(9,1)$, los cuales arrojan beneficios inferiores, de $9.0$ y $8.0$ u.m. respectivamente).
 
-### Caso de Estudio 2: Selección de Cartera de Valores (Markowitz, 1952)
+### Selección de Cartera de Valores (Markowitz, 1952)
 
 Supongamos que disponemos de un capital $C$ para invertir entre $n$ activos financieros. Denotamos por $x_i$ la cantidad monetaria asignada al activo $i$. Cada activo presenta un rendimiento medio esperado $\mu_i$, y la relación de variabilidad conjunta del mercado se modela a través de la covarianza $\sigma_{ij}$ entre los activos $i$ y $j$. La varianza de la cartera (medida del riesgo o volatilidad) viene dada por la forma cuadrática $\sum_{i=1}^n \sum_{j=1}^n \sigma_{ij} x_i x_j$.
 
@@ -107,7 +107,7 @@ $$
 Este problema posee una función objetivo cuadrática no lineal y restricciones lineales, lo que constituye un problema clásico de **Programación Cuadrática (QP)**. Su naturaleza estrictamente convexa (cuando la matriz de covarianzas es semidefinida positiva) asegura que cualquier óptimo local sea también el óptimo global del sistema [@boyd2004convex; @hillier2010investigacion].
 
 
-## Tipos de Solución en Optimización No Lineal
+## Tipos de Soluciones
 
 Sea $f: \mathbb{R}^n \to \mathbb{R}$ una función real definida sobre un conjunto factible $\mathcal{X} \subseteq \mathbb{R}^n$. Un punto $x^* \in \mathcal{X}$ es un **mínimo global** si no existe ningún otro punto factible con un valor inferior de la función objetivo, es decir, $f(x) \ge f(x^*)$ para todo $x \in \mathcal{X}$. Del mismo modo, $x^*$ es un **mínimo global estricto** si se cumple que $f(x) > f(x^*)$ para cualquier $x \in \mathcal{X} \setminus \{x^*\}$. 
 
@@ -118,7 +118,7 @@ En optimización no lineal general, debido a la posible presencia de no convexid
 ![Ilustración de los distintos tipos de óptimos locales y globales (estrictos y no estrictos) sobre funciones convexas y no convexas](images/tipos_optimos.png){#fig-tipos-optimos fig-align="center" width="80%"}
 
 
-## Fundamentos Matemáticos y Condiciones de Optimalidad
+## Fundamentos Matemáticos
 
 Para caracterizar y clasificar los puntos óptimos locales en múltiples dimensiones, recurrimos al cálculo diferencial. Consideremos una función $f: \mathbb{R}^n \to \mathbb{R}$ diferenciable de clase $\mathcal{C}^2$ (con segundas derivadas continuas).
 
@@ -221,7 +221,13 @@ Estos métodos solo requieren evaluar el valor de la función objetivo. Exigen q
 
 La **Búsqueda Uniforme (Rejilla)** consiste en dividir el intervalo inicial $[a, b]$ en $n$ subintervalos de igual anchura mediante una rejilla de puntos $x_k = a + k \frac{b-a}{n}$ para $k = 0, \dots, n$. Se evalúa la función en todos los puntos de la rejilla, se identifica el punto mínimo $x_{k^*}$ y se define el nuevo intervalo reducido como $[x_{k^*-1}, x_{k^*+1}]$. Aunque es un método muy robusto, resulta poco eficiente debido a que no aprovecha la información de las evaluaciones previas (ver la @fig-busqueda-uniforme-concepto).
 
+::: {.content-visible when-format="html"}
+![Concepto de la Búsqueda Uniforme en rejilla: subdivisión equidistante del intervalo y reducción basada en el punto mínimo de la muestra](images/busqueda_uniforme.gif){#fig-busqueda-uniforme-concepto fig-align="center" width="65%"}
+:::
+
+::: {.content-visible when-format="pdf"}
 ![Concepto de la Búsqueda Uniforme en rejilla: subdivisión equidistante del intervalo y reducción basada en el punto mínimo de la muestra](images/busqueda_uniforme_concepto.png){#fig-busqueda-uniforme-concepto fig-align="center" width="70%"}
+:::
 
 La **Búsqueda Dicotómica** evalúa la función en el entorno del punto medio del intervalo actual. Para ilustrar por qué es necesario evaluar al menos dos puntos internos en lugar de uno solo, consideremos la @fig-busqueda-dicotomica-insuficiente. Si únicamente evaluásemos la función en el punto medio exacto $c$, obtendríamos la misma información en ambos casos, haciendo imposible deducir si el mínimo se localiza en la mitad izquierda o derecha. 
 
