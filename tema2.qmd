@@ -38,15 +38,26 @@ La transición de modelos lineales a no lineales altera profundamente la geometr
 
 Para abordar la resolución de problemas no lineales de forma eficiente, la disciplina los clasifica en familias estructuradas según las propiedades algebraicas y analíticas de sus funciones:
 
-La **Programación Cuadrática (QP)** representa problemas donde la función objetivo es cuadrática y las restricciones son afines (lineales), formulándose como $\min_{x} \frac{1}{2} x^T Q x - b^T x$ sujeto a $A x \le d$. Si la matriz $Q$ es semidefinida positiva, el problema es convexo, lo que permite el uso de algoritmos especializados extremadamente eficientes como los métodos de conjuntos activos (*active-set*) o de punto interior, que resuelven el problema de forma exacta en pocas iteraciones.
+La **Programación Cuadrática (QP)** representa problemas donde la función objetivo es cuadrática y las restricciones son afines (lineales), formulándose en su forma estándar como:
+$$ \min_{x} \quad \frac{1}{2} x^T Q x - b^T x \quad \text{sujeto a} \quad A x \le d $$
+Si la matriz $Q$ es semidefinida positiva, el problema es convexo, lo que permite el uso de algoritmos especializados extremadamente eficientes como los métodos de conjuntos activos (*active-set*) o de punto interior, que resuelven el problema de forma exacta en pocas iteraciones.
 
 La **Programación Convexa** constituye la clase de problemas más robusta en optimización no lineal. Un problema es convexo si la función objetivo $f(x)$ es convexa, las restricciones de desigualdad $g_i(x)$ son convexas y las restricciones de igualdad $h_j(x)$ son afines. La gran ventaja analítica de la programación convexa es que todo mínimo local es un mínimo global. Esto elimina la necesidad de realizar búsquedas globales exhaustivas y garantiza que métodos locales de gradiente converjan siempre a la solución óptima del sistema.
 
-La **Programación Separable** se presenta cuando todas las funciones involucradas se pueden descomponer en la suma de funciones que dependen exclusivamente de una sola variable independiente, es decir, $f(x) = \sum_{j=1}^n f_j(x_j)$ y $g_i(x) = \sum_{j=1}^n g_{ij}(x_j) \le 0$. Esta propiedad estructural es muy útil, ya que permite aproximar funciones no lineales arbitrarias mediante funciones lineales a trozos (*piecewise linear approximation*), transformando el problema en un modelo lineal de variables continuas que se puede resolver con variantes del algoritmo del Símplex.
+La **Programación Separable** se presenta cuando todas las funciones involucradas se pueden descomponer en la suma de funciones que dependen exclusivamente de una sola variable independiente:
+$$ f(x) = \sum_{j=1}^n f_j(x_j) \qquad \text{y} \qquad g_i(x) = \sum_{j=1}^n g_{ij}(x_j) \le 0 $$
+Esta propiedad estructural es muy útil, ya que permite aproximar funciones no lineales arbitrarias mediante funciones lineales a trozos (*piecewise linear approximation*), transformando el problema en un modelo lineal de variables continuas que se puede resolver con variantes del algoritmo del Símplex.
 
-La **Programación Geométrica** surge cuando la función objetivo y las restricciones están modeladas por posinomios (sumas de términos monomios con coeficientes reales positivos de la forma $c x_1^{a_1} x_2^{a_2} \dots x_n^{a_n}$). Aunque un problema geométrico es inherentemente no convexo en sus variables originales, la aplicación de un cambio de variables logarítmico de la forma $y_j = \ln(x_j)$ transforma el modelo en un problema convexo equivalente en el espacio $y$, permitiendo su resolución exacta de forma global.
+La **Programación Geométrica** surge cuando la función objetivo y las restricciones están modeladas por posinomios (sumas de términos monomios con coeficientes reales positivos):
+$$ f(x) = \sum_{k} c_k x_1^{a_{1k}} x_2^{a_{2k}} \dots x_n^{a_{nk}} $$
+Aunque un problema geométrico es inherentemente no convexo en sus variables originales, la aplicación de un cambio de variables logarítmico:
+$$ y_j = \ln(x_j) $$
+transforma el modelo en un problema convexo equivalente en el espacio $y$, permitiendo su resolución exacta de forma global.
 
-La **Programación Fraccionaria** se presenta cuando la función objetivo se formula como el cociente de dos funciones reales, es decir, $\min_{x} f_1(x) / f_2(x)$. Aparece habitualmente al optimizar ratios de eficiencia, rentabilidad de inversiones o productividad. Bajo condiciones de concavidad y convexidad de las funciones individuales, la transformación de variables de Charnes-Cooper permite linealizar el modelo y resolverlo de forma exacta.
+La **Programación Fraccionaria** se presenta cuando la función objetivo se formula como el cociente de dos funciones reales:
+$$ \min_{x} \quad \frac{f_1(x)}{f_2(x)} $$
+Aparece habitualmente al optimizar ratios de eficiencia, rentabilidad de inversiones o productividad. Bajo condiciones de concavidad y convexidad de las funciones individuales, la transformación de variables de Charnes-Cooper permite linealizar el modelo y resolverlo de forma exacta.
+
 
 ### Caso de Estudio 1: El Monopolio de Cournot (1838)
 
@@ -102,14 +113,19 @@ Sea $f: \mathbb{R}^n \to \mathbb{R}$ una función real definida sobre un conjunt
 
 Por otro lado, un punto $x^*$ constituye un **mínimo local** si es la mejor solución dentro de un entorno local delimitado por una bola de radio $\epsilon > 0$ centrada en él, satisfaciendo $f(x) \ge f(x^*)$ para todo $x \in \mathcal{X}$ tal que $\|x - x^*\| \le \epsilon$. Finalmente, $x^*$ es un **mínimo local estricto** si existe un radio $\epsilon > 0$ tal que $f(x) > f(x^*)$ para todo $x \in \mathcal{X} \setminus \{x^*\}$ con $\|x - x^*\| \le \epsilon$.
 
-En optimización no lineal general, debido a la posible presencia de no convexidades, los algoritmos locales basados en derivadas pueden converger hacia mínimos locales mediocres en lugar de alcanzar el óptimo global. Esta es la complejidad fundamental que diferencia al PNL de la programación lineal.
+En optimización no lineal general, debido a la posible presencia de no convexidades, los algoritmos locales basados en derivadas pueden converger hacia mínimos locales mediocres en lugar de alcanzar el óptimo global. Esta es la complejidad fundamental que diferencia al PNL de la programación lineal (como se ilustra en la @fig-tipos-optimos).
 
 ![Ilustración de los distintos tipos de óptimos locales y globales (estrictos y no estrictos) sobre funciones convexas y no convexas](images/tipos_optimos.png){#fig-tipos-optimos fig-align="center" width="80%"}
 
 
 ## Fundamentos Matemáticos y Condiciones de Optimalidad
 
-Para caracterizar y clasificar los puntos óptimos locales en múltiples dimensiones, recurrimos al cálculo diferencial. Consideremos una función $f: \mathbb{R}^n \to \mathbb{R}$ diferenciable de clase $\mathcal{C}^2$ (con segundas derivadas continuas). El **vector gradiente** representa la dirección de máxima pendiente de subida local de la función y se define como el vector columna de derivadas parciales de primer orden: $\nabla f(x) = \left( \frac{\partial f(x)}{\partial x_1}, \frac{\partial f(x)}{\partial x_2}, \dots, \frac{\partial f(x)}{\partial x_n} \right)^T$. Por su parte, la **matriz hessiana** modela la curvatura local de la función (análoga a la segunda derivada en una dimensión) y se define como la matriz simétrica de segundas derivadas parciales $[\nabla^2 f(x)]_{ij} = \frac{\partial^2 f(x)}{\partial x_i \partial x_j}$.
+Para caracterizar y clasificar los puntos óptimos locales en múltiples dimensiones, recurrimos al cálculo diferencial. Consideremos una función $f: \mathbb{R}^n \to \mathbb{R}$ diferenciable de clase $\mathcal{C}^2$ (con segundas derivadas continuas).
+
+El **vector gradiente** representa la dirección de máxima pendiente de subida local de la función y se define como el vector columna de derivadas parciales de primer orden:
+$$ \nabla f(x) = \begin{pmatrix} \frac{\partial f(x)}{\partial x_1} \\ \frac{\partial f(x)}{\partial x_2} \\ \vdots \\ \frac{\partial f(x)}{\partial x_n} \end{pmatrix} $$
+Por su parte, la **matriz hessiana** modela la curvatura local de la función (análoga a la segunda derivada en una dimensión) y se define como la matriz simétrica de segundas derivadas parciales:
+$$ [\nabla^2 f(x)]_{ij} = \frac{\partial^2 f(x)}{\partial x_i \partial x_j} $$
 
 ### Desarrollo de Taylor Multivariable
 
@@ -121,7 +137,8 @@ Si la función $f(x)$ es cuadrática, esta aproximación de segundo orden es exa
 
 ### Caracterización de Curvatura y Clasificación de Matrices
 
-La curvatura local de la función está determinada por el carácter de su matriz hessiana $\nabla^2 f(x)$, el cual se clasifica analizando la forma cuadrática $z^T \nabla^2 f(x) z$:
+La curvatura local de la función está determinada por el carácter de su matriz hessiana $\nabla^2 f(x)$, el cual se clasifica analizando la forma cuadrática:
+$$ z^T \nabla^2 f(x) z $$
 
 *   **Definida positiva ($\nabla^2 f(x) \succ 0$)**: Si $z^T \nabla^2 f(x) z > 0$ para todo vector no nulo $z \in \mathbb{R}^n$. Todos sus autovalores son estrictamente positivos y todos sus menores principales son mayores que cero. La función se curva hacia arriba en forma de cuenco, lo que garantiza que un punto crítico sea un mínimo local estricto.
 *   **Semidefinida positiva ($\nabla^2 f(x) \succeq 0$)**: Si $z^T \nabla^2 f(x) z \ge 0$ para todo vector $z \in \mathbb{R}^n$. Todos sus autovalores son no negativos y todos sus menores principales son no negativos.
@@ -132,13 +149,35 @@ La curvatura local de la función está determinada por el carácter de su matri
 ::: {.callout-note title="Ejemplos: Clasificación de Matrices"}
 
 1.  **Matriz Definida Positiva**:
-    Sea $A_1 = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$. Sus menores principales son $M_1 = |2| = 2 > 0$, y $M_2 = \det(A_1) = 4 - 1 = 3 > 0$. Al ser ambos menores principales estrictamente positivos, $A_1 \succ 0$. Resolviendo el polinomio característico $\det(A_1 - \lambda I) = (2-\lambda)^2 - 1 = 0 \implies \lambda^2 - 4\lambda + 3 = 0$, obtenemos los autovalores $\lambda_1 = 3$ y $\lambda_2 = 1$, los cuales confirman que es definida positiva.
+    Sea la matriz:
+    $$ A_1 = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix} $$
+    Sus menores principales son:
+    $$ M_1 = |2| = 2 > 0 \qquad \text{y} \qquad M_2 = \det(A_1) = 4 - 1 = 3 > 0 $$
+    Al ser ambos menores principales estrictamente positivos, se tiene que $A_1 \succ 0$.
+    
+    Resolviendo el polinomio característico:
+    $$ \det(A_1 - \lambda I) = (2-\lambda)^2 - 1 = 0 \implies \lambda^2 - 4\lambda + 3 = 0 $$
+    obtenemos los autovalores $\lambda_1 = 3$ y $\lambda_2 = 1$, los cuales confirman que es definida positiva.
 
 2.  **Matriz Indefinida**:
-    Sea $A_2 = \begin{pmatrix} 1 & 2 \\ 2 & 1 \end{pmatrix}$. Sus menores principales son $M_1 = |1| = 1 > 0$, y $M_2 = \det(A_2) = 1 - 4 = -3 < 0$. Dado que el determinante es negativo en dimensión 2, la matriz es indefinida. Resolviendo $\det(A_2 - \lambda I) = (1-\lambda)^2 - 4 = 0 \implies \lambda^2 - 2\lambda - 3 = 0$, hallamos los autovalores $\lambda_1 = 3$ (positivo) y $\lambda_2 = -1$ (negativo), lo que ratifica el carácter indefinido.
+    Sea la matriz:
+    $$ A_2 = \begin{pmatrix} 1 & 2 \\ 2 & 1 \end{pmatrix} $$
+    Sus menores principales son:
+    $$ M_1 = |1| = 1 > 0 \qquad \text{y} \qquad M_2 = \det(A_2) = 1 - 4 = -3 < 0 $$
+    Dado que el determinante de segundo orden es negativo, la matriz es indefinida.
+    
+    Resolviendo el polinomio característico:
+    $$ \det(A_2 - \lambda I) = (1-\lambda)^2 - 4 = 0 \implies \lambda^2 - 2\lambda - 3 = 0 $$
+    hallamos los autovalores $\lambda_1 = 3$ (positivo) y $\lambda_2 = -1$ (negativo), lo que ratifica el carácter indefinido.
 
 3.  **Matriz Semidefinida Positiva**:
-    Sea $A_3 = \begin{pmatrix} 2 & -3 & -1 \\ -3 & 12 & 6 \\ -1 & 6 & 3.2 \end{pmatrix}$. Sus menores principales son $M_1 = |2| = 2 > 0$, $M_2 = 24 - 9 = 15 > 0$, y $M_3 = \det(A_3) = 2(38.4 - 36) + 3(-9.6 + 6) - 1(-18 + 12) = 4.8 - 10.8 + 6 = 0$. Al ser todos los menores principales no negativos y el determinante nulo, la matriz es semidefinida positiva y singular. Sus autovalores son $\lambda_1 \approx 15.75$, $\lambda_2 \approx 1.45$, y $\lambda_3 = 0$, confirmando la semidefinición ($A_3 \succeq 0$).
+    Sea la matriz:
+    $$ A_3 = \begin{pmatrix} 2 & -3 & -1 \\ -3 & 12 & 6 \\ -1 & 6 & 3.2 \end{pmatrix} $$
+    Sus menores principales de primer y segundo orden son:
+    $$ M_1 = |2| = 2 > 0 \qquad \text{y} \qquad M_2 = 24 - 9 = 15 > 0 $$
+    y su determinante (menor principal de tercer orden):
+    $$ M_3 = \det(A_3) = 2(38.4 - 36) + 3(-9.6 + 6) - 1(-18 + 12) = 4.8 - 10.8 + 6 = 0 $$
+    Al ser todos los menores principales no negativos y el determinante nulo, la matriz es semidefinida positiva y singular. Sus autovalores son $\lambda_1 \approx 15.75$, $\lambda_2 \approx 1.45$, y $\lambda_3 = 0$, confirmando la semidefinición ($A_3 \succeq 0$).
 :::
 
 ### Condiciones de Optimalidad y Puntos Estacionarios
@@ -169,46 +208,7 @@ Es fundamental notar que en la condición suficiente (SOSC), la matriz hessiana 
 *   **Función Cuadrática Acoplada**: Sea $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$. Su gradiente es $\nabla f(x, y) = (16x + 3y - 25, 3x + 14y + 31)^T$, el cual se anula en el punto crítico $x^* \approx 2.060, y^* \approx -2.656$. La matriz hessiana es $\nabla^2 f = \begin{pmatrix} 16 & 3 \\ 3 & 14 \end{pmatrix}$. Sus menores principales son $M_1=16>0$ y $M_2=215>0$, por lo que la matriz es definida positiva, clasificando al punto como un **mínimo local estricto**.
 :::
 
-### Resolución Simbólica con Python y SymPy
 
-El análisis algebraico de gradientes, matrices hessianas y sistemas de ecuaciones no lineales puede automatizarse de forma exacta utilizando la biblioteca de computación simbólica **SymPy** de Python. El siguiente fragmento de código ilustra cómo definir la función acoplada del ejemplo anterior, calcular de forma analítica su gradiente y su matriz hessiana, y resolver el sistema $\nabla f(x,y) = 0$ para encontrar las coordenadas exactas de su punto crítico:
-
-```python
-import sympy as sp
-
-# 1. Definir las variables simbólicas reales
-x, y = sp.symbols('x y', real=True)
-
-# 2. Definir la función objetivo cuadrática acoplada
-f = 8*x**2 + 3*x*y + 7*y**2 - 25*x + 31*y - 29
-
-# 3. Calcular el gradiente simbólico (derivadas parciales de primer orden)
-grad_f = [sp.diff(f, var) for var in (x, y)]
-print("Gradiente Simbólico:")
-print(f"  df/dx = {grad_f[0]}")
-print(f"  df/dy = {grad_f[1]}\n")
-
-# 4. Calcular la matriz Hessiana simbólica
-H = sp.hessian(f, (x, y))
-print("Matriz Hessiana:")
-sp.pprint(H)
-print()
-
-# 5. Clasificar la matriz calculando sus menores principales
-m1 = H[0, 0]
-m2 = H.det()
-print(f"Menor principal M1 = {m1}")
-print(f"Menor principal M2 = {m2}")
-if m1 > 0 and m2 > 0:
-    print("La matriz es definida positiva.\n")
-
-# 6. Resolver el sistema grad_f = 0 para hallar los puntos críticos
-soluciones = sp.solve(grad_f, (x, y))
-print(f"Punto crítico exacto: (x, y) = ({soluciones[x]}, {soluciones[y]})")
-print(f"Punto crítico aproximado: (x, y) = ({float(soluciones[x]):.4f}, {float(soluciones[y]):.4f})")
-```
-
-La ejecución de este código devuelve de manera inmediata la solución exacta $(x^*, y^*) = (443/215, -571/215)$, lo que demuestra cómo las herramientas de software facilitan la validación rápida de resultados analíticos complejos.
 
 
 ## Métodos Numéricos de Búsqueda Lineal (1D)
@@ -225,9 +225,9 @@ La **Búsqueda Uniforme (Rejilla)** consiste en dividir el intervalo inicial $[a
 
 La **Búsqueda Dicotómica** evalúa la función en el entorno del punto medio del intervalo actual. Para ilustrar por qué es necesario evaluar al menos dos puntos internos en lugar de uno solo, consideremos la @fig-busqueda-dicotomica-insuficiente. Si únicamente evaluásemos la función en el punto medio exacto $c$, obtendríamos la misma información en ambos casos, haciendo imposible deducir si el mínimo se localiza en la mitad izquierda o derecha. 
 
-Para resolver este inconveniente, la Búsqueda Dicotómica calcula en cada iteración $k$ dos puntos simétricos respecto al centro separados por una perturbación infinitesimal $\delta > 0$: $\lambda_k = \frac{a_k + b_k}{2} - \delta$ y $\mu_k = \frac{a_k + b_k}{2} + \delta$. Si $f(\lambda_k) < f(\mu_k)$, el mínimo debe situarse en el intervalo izquierdo, actualizándose a $[a_k, \mu_k]$, mientras que si $f(\lambda_k) > f(\mu_k)$, se actualiza a $[\lambda_k, b_k]$ (ver la @fig-busqueda-dicotomica-concepto). Cada paso requiere dos evaluaciones y reduce el intervalo a prácticamente la mitad ($I_{k+1} \approx \frac{1}{2} I_k$).
-
 ![Insuficiencia de evaluar un único punto medio: dos funciones unimodales diferentes pueden tener idéntico valor en $c$ teniendo sus mínimos globales en lados opuestos](images/busqueda_dicotomica_insuficiente.png){#fig-busqueda-dicotomica-insuficiente fig-align="center" width="85%"}
+
+Para resolver este inconveniente, la Búsqueda Dicotómica calcula en cada iteración $k$ dos puntos simétricos respecto al centro separados por una perturbación infinitesimal $\delta > 0$: $\lambda_k = \frac{a_k + b_k}{2} - \delta$ y $\mu_k = \frac{a_k + b_k}{2} + \delta$. Si $f(\lambda_k) < f(\mu_k)$, el mínimo debe situarse en el intervalo izquierdo, actualizándose a $[a_k, \mu_k]$, mientras que si $f(\lambda_k) > f(\mu_k)$, se actualiza a $[\lambda_k, b_k]$ (ver la @fig-busqueda-dicotomica-concepto). Cada paso requiere dos evaluaciones y reduce el intervalo a prácticamente la mitad ($I_{k+1} \approx \frac{1}{2} I_k$).
 
 ![Concepto de la Búsqueda Dicotómica: la comparación de $\lambda_k$ y $\mu_k$ descarta con certeza una de las mitades del intervalo](images/busqueda_dicotomica_concepto.png){#fig-busqueda-dicotomica-concepto fig-align="center" width="70%"}
 
@@ -341,22 +341,32 @@ Para minimizar funciones multivariables $f: \mathbb{R}^n \to \mathbb{R}$ sin res
 Es uno de los algoritmos de optimización multivariable más sencillos. Evita por completo el cálculo de derivadas y gradientes. En su lugar, avanza secuencialmente minimizando la función respecto a una única variable de decisión a la vez, manteniendo constantes las restantes $n-1$ variables. Las direcciones de búsqueda coinciden cíclicamente con los vectores de la base canónica de $\mathbb{R}^n$: $d_k = e_{(k \bmod n) + 1}$, donde $e_i$ es el $i$-ésimo vector unitario. En cada paso, se resuelve un subproblema de optimización lineal 1D.
 
 ::: {.callout-note title="Ejemplo: Coordenadas Cíclicas"}
-*   **Variables Desacopladas**: Minimizamos la función de distancia $f(x, y) = (x-2)^2 + (y-1)^2$ (ver @fig-coord-ciclicas-1) partiendo de $x_0 = (0, 0)$.
-    *   *Paso 1*: Minimizamos respecto a $x$: $\min_{x} f(x, 0) = (x-2)^2 + 1 \implies x_1 = 2 \implies x_1 = (2, 0)$.
-    *   *Paso 2*: Minimizamos respecto a $y$: $\min_{y} f(2, y) = (y-1)^2 \implies y_1 = 1 \implies x_2 = (2, 1)$.
+*   **Variables Desacopladas**:
+    Minimizamos la función de distancia $f(x, y) = (x-2)^2 + (y-1)^2$ (ver @fig-coord-ciclicas-1) partiendo de $x_0 = (0, 0)^T$.
+    
+    *   *Paso 1*: Minimizamos respecto a $x$:
+        $$ \min_{x} \quad f(x, 0) = (x-2)^2 + 1 \implies x_1 = (2, 0)^T $$
+    *   *Paso 2*: Minimizamos respecto a $y$:
+        $$ \min_{y} \quad f(2, y) = (y-1)^2 \implies x_2 = (2, 1)^T $$
+    
     Al no existir términos de acoplamiento cruzado entre las variables (la matriz hessiana es diagonal), el algoritmo localiza el mínimo exacto en una única iteración de $n=2$ pasos ortogonales.
 
 ![Descenso por coordenadas cíclicas sobre curvas de nivel circulares independientes](images/coordenadas_ciclicas_ej1.png){#fig-coord-ciclicas-1 fig-align="center" width="50%"}
 
-*   **Variables Acopladas**: Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ (ver @fig-coord-ciclicas-2) partiendo de $x_0 = (0, 0)$.
-    *   *Paso 1*: Minimizamos respecto a $x$: $\min_{x} f(x, 0) = 8x^2 - 25x - 29 \implies 16x - 25 = 0 \implies x_1 = (1.5625, 0)$.
-    *   *Paso 2*: Minimizamos respecto a $y$ manteniendo $x = 1.5625$: $\min_{y} f(1.5625, y) = 7y^2 + 35.6875y + \text{ct} \implies 14y + 35.6875 = 0 \implies y = -571/224 \approx -2.5491 \implies x_2 = (1.5625, -2.5491)$.
-    *   *Paso 3*: Minimizamos de nuevo respecto a $x$ con $y = -2.5491$: $\min_{x} f(x, -2.5491) = 8x^2 - 32.6473x + \text{ct} \implies 16x - 32.6473 = 0 \implies x_3 = (2.0405, -2.5491)$.
+*   **Variables Acopladas**:
+    Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ (ver @fig-coord-ciclicas-2) partiendo de $x_0 = (0, 0)^T$.
+    
+    *   *Paso 1*: Minimizamos respecto a $x$:
+        $$ \min_{x} \quad f(x, 0) = 8x^2 - 25x - 29 \implies 16x - 25 = 0 \implies x_1 = (1.5625, 0)^T $$
+    *   *Paso 2*: Minimizamos respecto a $y$ manteniendo $x = 1.5625$:
+        $$ \min_{y} \quad f(1.5625, y) = 7y^2 + 35.6875y + \text{ct} \implies 14y + 35.6875 = 0 \implies y = -\frac{571}{224} \approx -2.5491 $$
+        Lo que resulta en el punto $x_2 = (1.5625, -2.5491)^T$.
+    *   *Paso 3*: Minimizamos de nuevo respecto a $x$ con $y = -2.5491$:
+        $$ \min_{x} \quad f(x, -2.5491) = 8x^2 - 32.6473x + \text{ct} \implies 16x - 32.6473 = 0 \implies x_3 = (2.0405, -2.5491)^T $$
+    
     Debido al acoplamiento bilineal inducido por el término $3xy$, la trayectoria dibuja un patrón de "escalera", requiriendo múltiples ciclos para aproximarse al mínimo global situado en $x^* = (2.060, -2.656)$.
 
 ![Trayectoria en escalera del descenso por coordenadas sobre una función cuadrática acoplada](images/coordenadas_ciclicas_ej2.png){#fig-coord-ciclicas-2 fig-align="center" width="50%"}
-
-
 :::
 
 ### Método del Máximo Descenso (Steepest Descent)
@@ -369,16 +379,33 @@ Para demostrarlo, definimos la función unidimensional $\phi(\alpha) = f(x_k + \
 
 Esta ortogonalidad geométrica provoca que, si la función presenta curvas de nivel elípticas muy alargadas (problemas mal acondicionados), el algoritmo realice continuos giros de 90°, generando un patrón en **zigzag** que ralentiza la convergencia, tal y como se observa en la @fig-steepest-descent.
 
+
 ::: {.callout-note title="Ejemplo: Máximo Descenso"}
-Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ partiendo de $x_0 = (0, 0)$.
-*   *Gradiente en $x_0$*: $\nabla f(x_0) = (16x - 25 + 3y, 3x + 14y + 31)^T_{x=(0,0)} = (-25, 31)^T$. La dirección de descenso es $d_0 = -\nabla f(x_0) = (25, -31)^T$.
-*   *Búsqueda de línea*: Minimizamos $\phi(\alpha) = f(25\alpha, -31\alpha) = 9402\alpha^2 - 1586\alpha - 29$. Derivando e igualando a cero: $\phi'(\alpha) = 18804\alpha - 1586 = 0 \implies \alpha_0 \approx 0.0843$.
-*   *Actualización*: $x_1 = x_0 + \alpha_0 d_0 = (0, 0)^T + 0.0843 (25, -31)^T = (2.109, -2.615)^T$. El nuevo gradiente en $x_1$ es $\nabla f(x_1) \approx (0.8925, 0.7225)^T$. Su producto escalar con la dirección anterior es $d_0^T \nabla f(x_1) = 25(0.8925) - 31(0.7225) \approx 0$, lo que ilustra la ortogonalidad.
+Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ partiendo de $x_0 = (0, 0)^T$.
 
+*   **Gradiente en $x_0$**:
+    Calculamos el gradiente de la función y lo evaluamos en el origen:
+    $$ \nabla f(x_0) = \begin{pmatrix} 16x + 3y - 25 \\ 3x + 14y + 31 \end{pmatrix}_{x=(0,0)} = \begin{pmatrix} -25 \\ 31 \end{pmatrix} $$
+    La dirección de descenso óptima es el gradiente negativo:
+    $$ d_0 = -\nabla f(x_0) = \begin{pmatrix} 25 \\ -31 \end{pmatrix} $$
 
-:::
+*   **Búsqueda de línea exacta**:
+    Minimizamos la función respecto al tamaño del paso $\alpha$:
+    $$ \phi(\alpha) = f(x_0 + \alpha d_0) = f(25\alpha, -31\alpha) = 9402\alpha^2 - 1586\alpha - 29 $$
+    Derivando e igualando a cero:
+    $$ \phi'(\alpha) = 18804\alpha - 1586 = 0 \implies \alpha_0 = \frac{1586}{18804} \approx 0.0843 $$
+
+*   **Actualización del punto**:
+    El nuevo punto en la primera iteración es:
+    $$ x_1 = x_0 + \alpha_0 d_0 = \begin{pmatrix} 0 \\ 0 \end{pmatrix} + 0.0843 \begin{pmatrix} 25 \\ -31 \end{pmatrix} = \begin{pmatrix} 2.109 \\ -2.615 \end{pmatrix} $$
+    El nuevo gradiente en $x_1$ es:
+    $$ \nabla f(x_1) \approx \begin{pmatrix} 0.8925 \\ 0.7225 \end{pmatrix} $$
+    Verificamos la ortogonalidad respecto a la dirección de búsqueda anterior:
+    $$ d_0^T \nabla f(x_1) = 25(0.8925) - 31(0.7225) \approx 0 $$
+    Lo cual ilustra la ortogonalidad requerida por la búsqueda exacta.
 
 ![Trayectoria ortogonal de máximo descenso: giros de 90 grados sobre las curvas de nivel elípticas de la función cuadrática](images/steepest_descent_ej.png){#fig-steepest-descent fig-align="center" width="55%"}
+:::
 
 ### Métodos de Newton Multivariable y BFGS
 
