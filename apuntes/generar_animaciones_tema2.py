@@ -58,9 +58,6 @@ def gen_seccion_aurea_animation():
         x_vals = np.linspace(0.5, 4.5, 300)
         ax.plot(x_vals, f(x_vals), color=C_PRIMARY, lw=2.5, label=r'$f(x)$')
         
-        # Shade active interval
-        ax.axvspan(a, b, color=C_BG, alpha=0.5, label=f'Intervalo $[a_k, b_k]$')
-        
         # Shade accumulated discarded regions
         labeled_hist = False
         if a > a_init:
@@ -104,7 +101,6 @@ def gen_seccion_aurea_animation():
         if (k + 1) in pdf_steps:
             ax_pdf = axes_pdf[pdf_idx]
             ax_pdf.plot(x_vals, f(x_vals), color=C_PRIMARY, lw=2)
-            ax_pdf.axvspan(a, b, color=C_BG, alpha=0.5)
             if a > a_init:
                 ax_pdf.axvspan(a_init, a, color='#ef4444', alpha=0.08)
             if b < b_init:
@@ -159,9 +155,6 @@ def gen_biseccion_animation():
         x_vals = np.linspace(0.5, 4.5, 300)
         ax.plot(x_vals, f(x_vals), color=C_PRIMARY, lw=2.5, label=r'$f(x)$')
         
-        # Active interval
-        ax.axvspan(a, b, color=C_BG, alpha=0.5, label=f'Intervalo $[a_k, b_k]$')
-        
         # Shade accumulated discarded regions
         labeled_hist = False
         if a > a_init:
@@ -205,7 +198,6 @@ def gen_biseccion_animation():
         if (k + 1) in pdf_steps:
             ax_pdf = axes_pdf[pdf_idx]
             ax_pdf.plot(x_vals, f(x_vals), color=C_PRIMARY, lw=2)
-            ax_pdf.axvspan(a, b, color=C_BG, alpha=0.5)
             if a > a_init:
                 ax_pdf.axvspan(a_init, a, color='#ef4444', alpha=0.08)
             if b < b_init:
@@ -595,9 +587,6 @@ def gen_dicotomica_trace_animation():
         x_vals = np.linspace(0.5, 4.5, 300)
         ax.plot(x_vals, f(x_vals), color=C_PRIMARY, lw=2.5, label=r'$f(x)$')
         
-        # Shade active interval
-        ax.axvspan(a, b, color=C_BG, alpha=0.5, label=f'Intervalo $[a_k, b_k]$')
-        
         # Shade accumulated discarded regions
         labeled_hist = False
         if a > a_init:
@@ -638,7 +627,6 @@ def gen_dicotomica_trace_animation():
         if (k + 1) in pdf_steps:
             ax_pdf = axes_pdf[pdf_idx]
             ax_pdf.plot(x_vals, f(x_vals), color=C_PRIMARY, lw=2)
-            ax_pdf.axvspan(a, b, color=C_BG, alpha=0.5)
             if a > a_init:
                 ax_pdf.axvspan(a_init, a, color='#ef4444', alpha=0.08)
             if b < b_init:
