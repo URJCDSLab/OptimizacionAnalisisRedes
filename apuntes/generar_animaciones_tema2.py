@@ -384,8 +384,8 @@ def gen_busqueda_uniforme_concepto():
         # Frame 0: Initial interval
         if step == 0:
             ax.axvspan(a, b, color=C_BG, alpha=0.5, label='Intervalo inicial $[a, b]$')
-            ax.text(a, -0.15, r'$a$', ha='center', va='top', fontsize=9, color=C_TEXT)
-            ax.text(b, -0.15, r'$b$', ha='center', va='top', fontsize=9, color=C_TEXT)
+            ax.text(a, -0.12, r'$a$', transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=9, color=C_TEXT)
+            ax.text(b, -0.12, r'$b$', transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=9, color=C_TEXT)
             
         # Frame 1: Grid points & evaluations
         elif step == 1:
@@ -396,7 +396,7 @@ def gen_busqueda_uniforme_concepto():
                 ax.plot(gp, f_unimodal(gp), 'o', color=C_TEXT_MUTED, markersize=5)
                 # Label
                 label = r'$a$' if i == 0 else (r'$b$' if i == 10 else f'$a_{i}$')
-                ax.text(gp, -0.15, label, ha='center', va='top', fontsize=9, color=C_TEXT)
+                ax.text(gp, -0.12, label, transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=9, color=C_TEXT)
                 
         # Frame 2: Minimum point
         elif step == 2:
@@ -408,7 +408,7 @@ def gen_busqueda_uniforme_concepto():
                 else:
                     ax.plot(gp, f_unimodal(gp), 'o', color=C_TEXT_MUTED, markersize=5)
                 label = r'$a$' if i == 0 else (r'$b$' if i == 10 else f'$a_{i}$')
-                ax.text(gp, -0.15, label, ha='center', va='top', fontsize=9, color=C_TEXT)
+                ax.text(gp, -0.12, label, transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=9, color=C_TEXT)
                 
         # Frame 3: Discarded regions
         elif step == 3:
@@ -424,7 +424,7 @@ def gen_busqueda_uniforme_concepto():
                 else:
                     ax.plot(gp, f_unimodal(gp), 'o', color=C_TEXT_MUTED, markersize=5)
                 label = r'$a$' if i == 0 else (r'$b$' if i == 10 else f'$a_{i}$')
-                ax.text(gp, -0.15, label, ha='center', va='top', fontsize=9, color=C_TEXT)
+                ax.text(gp, -0.12, label, transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=9, color=C_TEXT)
                 
         # Frame 4: Final active interval
         elif step == 4:
@@ -442,7 +442,7 @@ def gen_busqueda_uniforme_concepto():
                 else:
                     ax.plot(gp, f_unimodal(gp), 'o', color=C_TEXT_MUTED, markersize=5)
                 label = r'$a$' if i == 0 else (r'$b$' if i == 10 else f'$a_{i}$')
-                ax.text(gp, -0.15, label, ha='center', va='top', fontsize=9, color=C_TEXT)
+                ax.text(gp, -0.12, label, transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=9, color=C_TEXT)
 
         # Settings
         ax.set_title(f"Búsqueda Uniforme (Rejilla) - Paso {step}", color=C_TEXT, fontsize=12, fontweight='bold')
@@ -484,9 +484,9 @@ def gen_busqueda_dicotomica_insuficiente():
     ax1.plot(3.0, f1(3.0), 'o', color=C_ALERT, markersize=8)
     # Boundaries
     ax1.vlines([1.0, 5.0], 0, [f1(1.0), f1(5.0)], colors=C_TEXT_MUTED, linestyles=':')
-    ax1.text(1.0, -0.2, '$a$', ha='center', va='top', fontsize=10)
-    ax1.text(5.0, -0.2, '$b$', ha='center', va='top', fontsize=10)
-    ax1.text(3.0, -0.2, '$c$', ha='center', va='top', fontsize=10, color=C_ALERT, fontweight='bold')
+    ax1.text(1.0, -0.12, '$a$', transform=ax1.get_xaxis_transform(), ha='center', va='top', fontsize=10)
+    ax1.text(5.0, -0.12, '$b$', transform=ax1.get_xaxis_transform(), ha='center', va='top', fontsize=10)
+    ax1.text(3.0, -0.12, '$c$', transform=ax1.get_xaxis_transform(), ha='center', va='top', fontsize=10, color=C_ALERT, fontweight='bold')
     ax1.set_title("Caso 1: Mínimo a la izquierda de $c$", color=C_TEXT, fontsize=11)
     ax1.set_xlabel('$x$')
     ax1.set_ylabel('$f(x)$')
@@ -503,9 +503,9 @@ def gen_busqueda_dicotomica_insuficiente():
     ax2.plot(3.0, f2(3.0), 'o', color=C_ALERT, markersize=8)
     # Boundaries
     ax2.vlines([1.0, 5.0], 0, [f2(1.0), f2(5.0)], colors=C_TEXT_MUTED, linestyles=':')
-    ax2.text(1.0, -0.2, '$a$', ha='center', va='top', fontsize=10)
-    ax2.text(5.0, -0.2, '$b$', ha='center', va='top', fontsize=10)
-    ax2.text(3.0, -0.2, '$c$', ha='center', va='top', fontsize=10, color=C_ALERT, fontweight='bold')
+    ax2.text(1.0, -0.12, '$a$', transform=ax2.get_xaxis_transform(), ha='center', va='top', fontsize=10)
+    ax2.text(5.0, -0.12, '$b$', transform=ax2.get_xaxis_transform(), ha='center', va='top', fontsize=10)
+    ax2.text(3.0, -0.12, '$c$', transform=ax2.get_xaxis_transform(), ha='center', va='top', fontsize=10, color=C_ALERT, fontweight='bold')
     ax2.set_title("Caso 2: Mínimo a la derecha de $c$", color=C_TEXT, fontsize=11)
     ax2.set_xlabel('$x$')
     ax2.set_ylabel('$f(x)$')
@@ -542,11 +542,11 @@ def gen_busqueda_dicotomica_concepto():
     # Shading discarded region: since f(lambda) < f(mu), we discard [mu, b]
     ax.axvspan(mu, b, color='#ef4444', alpha=0.2, hatch='//', label='Región descartada')
     
-    ax.text(a, -0.15, '$a_k$', ha='center', va='top', fontsize=10)
-    ax.text(b, -0.15, '$b_k$', ha='center', va='top', fontsize=10)
-    ax.text(lmbda, -0.15, r'$\lambda_k$', ha='center', va='top', fontsize=10, color=C_ACCENT, fontweight='bold')
-    ax.text(mu, -0.15, r'$\mu_k$', ha='center', va='top', fontsize=10, color=C_SUCCESS, fontweight='bold')
-    ax.text(c, -0.15, r'$c$', ha='center', va='top', fontsize=10)
+    ax.text(a, -0.12, '$a_k$', transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=10)
+    ax.text(b, -0.12, '$b_k$', transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=10)
+    ax.text(lmbda, -0.12, r'$\lambda_k$', transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=10, color=C_ACCENT, fontweight='bold')
+    ax.text(mu, -0.12, r'$\mu_k$', transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=10, color=C_SUCCESS, fontweight='bold')
+    ax.text(c, -0.12, r'$c$', transform=ax.get_xaxis_transform(), ha='center', va='top', fontsize=10)
     
     ax.set_title("Búsqueda Dicotómica: Descarte de Intervalo ($f(\lambda_k) < f(\mu_k)$)", color=C_TEXT, fontsize=12, fontweight='bold')
     ax.set_xlabel('$x$', labelpad=15)
