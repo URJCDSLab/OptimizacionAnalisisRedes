@@ -1,0 +1,666 @@
+%%
+\chapter{Conjuntos convexos}
+%%
+El concepto de convexidad es uno de los m\'{a}s importantes dentro de los problemas de
+optimizaci\'{o}n. Los conjuntos convexos, los poliedros, los teoremas de separaci\'{o}n aparecen muy a
+menudo en el an\'{a}lisis de estos problemas. En este cap\'{\i}tulo vamos a desarrollar los conceptos
+m\'{a}s importantes.
+%%
+\section{Conjuntos convexos y envoltura convexa}
+%%
+\begin{definicion}
+Un conjunto $\SS$  se dice que es convexo si para cada par de puntos $\vx_1$ y $\vx_2$, los
+puntos de la forma $\lambda\vx_1+(1-\lambda)\vx_2$, $\lambda\in(0,1)$, tambi\'{e}n pertenecen al
+conjunto.
+
+Un punto de la forma $\lambda\vx_1+(1-\lambda)\vx_2$ con $\lambda\in(0,1)$ se denomina
+combinaci\'{o}n lineal convexa de $\vx_1$ y $\vx_2$.
+\end{definicion}
+Gr\'{a}ficamente, todos los puntos del segmento que une $\vx_1$ y $\vx_2$ son combinaci\'{o}n lineal
+convexa de $\vx_1$ y $\vx_2$.
+\begin{center}
+\begin{pspicture}(0,-2)(6,4)
+    \psset{yunit=15mm,xunit=15mm,unit=15mm}
+    %\psline[linestyle=dashed]{<->}(-2.5,0)(2.5,0)
+    %\psline[linestyle=dashed]{<->}(0,-2.5)(0,2.5)
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \pscurve(0.5,0.5)(0.7,1)(3,1)(4,0.5)(2,-0.5)(0.7,0)(0.5,0.5)
+    }
+    \psline{*-*}(1,0.75)(3,0.75)
+    \rput(1,0.5){\footnotesize $\vx_1$}
+    \rput(3,0.5){\footnotesize $\vx_2$}
+    \rput(2,-1){\footnotesize Convexo}
+\end{pspicture}
+\begin{pspicture}(0,-2)(6,3)
+    \psset{yunit=15mm,xunit=15mm,unit=15mm}
+    %\psline[linestyle=dashed]{<->}(-2.5,0)(2.5,0)
+    %\psline[linestyle=dashed]{<->}(0,-2.5)(0,2.5)
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \pscurve(0.5,0.5)(0.7,1)(2,0.5)(3,1)(4,0.5)(2,0)(0.7,0)(0.5,0.5)
+    }
+    \psline{*-*}(1,0.75)(3,0.75)
+    \rput(1,0.5){\footnotesize $\vx_1$}
+    \rput(3,0.5){\footnotesize $\vx_2$}
+    \rput(2,-1){\footnotesize No convexo}
+\end{pspicture}
+\end{center}
+Esta definici\'{o}n se puede generalizar y as\'{\i}, dados un conjunto de $k$ puntos
+$\vx_1,\dots,\vx_k$, los puntos de la forma
+  $$
+    \sum_{i=1}^k\lambda_i\vx_i\qquad\text{con}\qquad\lambda_i\geq
+    0\quad\text{y}\quad\sum_{i=1}^k\lambda_i=1
+  $$
+se denominan {\em combinaciones lineales} de los puntos $\vx_1,\dots,\vx_k$. Si se relaja la
+condici\'{o}n de no negatividad de los par\'{a}metros, se denominan {\em combinaciones afines.} Y si,
+por \'{u}ltimo, se elimina la condici\'{o}n de que la suma sea 1, se denominan {\em combinaciones
+convexas}.
+\begin{ejemplo}
+Los siguientes conjuntos son convexos:
+\begin{enumerate}
+\item $\SS=\{(x_1,x_2,x_3)\,/\, x_1+2x_2-x_3=4\}$. Este conjunto corresponde con un plano en
+$\Re^3$.
+
+En general, los  conjuntos de la forma $\SS=\{\vx\,/\,\vp^t\vx=\alpha\}$ son convexos y se
+denominan hiperplanos de $\Re^n$, donde $\vp$ es un vector no nulo de $\Re^n$ (normalmente se
+denomina gradiente) y $\alpha$ es un escalar.
+
+N\'{o}tese que si $\ovx\in\SS$, entonces $\vp^T\ovx=\alpha$ y, por tanto, el conjunto $\SS$ se
+puede expresar como $\SS=\vx\,/\,\vp^t(\vx-\ovx)=0\}$. De esta expresi\'{o}n se deduce que el
+vector $\vp$ es perpendicular a la cara del hiperplano.
+%%
+\item $\SS=\{(x_1,x_2,x_3)\,/\, x_1+2x_2-x_3\leq 4\}$. Este conjunto es un semiespacio.
+En general, los semiespacios $\SS=\{\vx\,/\,\vp^t\vx=\alpha\}$ son convexos.
+%%
+\item $\SS=\{(x_1,x_2,x_3)\,/\, x_1+2x_2-x_3\leq 4,\, 2x_1-x_2+x_3\leq 6\}$.
+Este conjunto es la intersecci\'{o}n de dos semiespacios. En general, los conjuntos de la forma
+$\SS=\{\vx\,/\,\vA\vx=\vb\}$, donde $\vA$ es una matriz $m\times n$ y $\vb$ un vector de
+dimensi\'{o}n $m$, son convexos y se denominan poliedros.
+%%
+\item $\SS=\{(x_1,x_2)\,/\, x_2\geq\abs{x_1}\}$. Este conjunto es un cono.
+\begin{center}
+  \begin{pspicture}(-4,0)(4,4)
+    \psset{yunit=6mm,xunit=6mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline{<->}(-3.5,3.5)(0,0)(3.5,3.5)
+    }
+    \psline{->}(-4,0)(4,0)
+    \psline{->}(0,0)(0,4)
+  \end{pspicture}
+\end{center}
+%%
+\item $\SS=\{(x_1,x_2)\,/\, x_1^2+x_2^2\leq 4\}$, c\'{\i}rculo de radio 2 y centro en $(0,0)$.
+\begin{center}
+  \begin{pspicture}(-3,-3)(3,3)
+    \psset{yunit=6mm,xunit=6mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \rput(0,0){\pscircle{2}}
+    }
+    \psline{->}(-4,0)(4,0)
+    \psline{->}(0,0)(0,4)
+  \end{pspicture}
+\end{center}
+\end{enumerate}
+\end{ejemplo}
+\begin{lema}
+Sean $\SS_1$ y $\SS_2$ dos conjuntos convexos. Entonces,
+  \begin{enumerate}
+    \item $\SS_1\cap\SS_2$ es un conjunto convexo.
+    \item $\SS_1\oplus\SS_2=\{\vx_1+\vx_2\,/\, \vx_1\in\SS_1,\,\vx_2\in\SS_2\}$ es
+    convexo.
+    \item $\SS_1\ominus\SS_2=\{\vx_1-\vx_2\,/\, \vx_1\in\SS_1,\,\vx_2\in\SS_2\}$ es
+    convexo.
+  \end{enumerate}
+\end{lema}
+\begin{demostracion}
+Inmediata.
+\end{demostracion}
+A continuaci\'{o}n definimos el siguiente conjunto convexo que se puede generar a partir de
+cualquier conjunto, convexo o no, de $\Re^n$.
+\begin{definicion}[envoltura convexa]
+Sea $\SS$ un conjunto cualquiera de $\Re^n$. La envoltura convexa de $\SS$, denotada por
+$H(\SS)$ es la conjunto de todos los puntos que se pueden poner como combinaci\'{o}n lineal de
+puntos de $\SS$, esto es:
+  $$
+  \vx\in H(\SS)\qquad\iff\qquad\vx=\sum_{j=1}^k\lambda_j\vx_j
+  $$
+con $\vx_j\in\SS$, $j=1,\dots,k$, $\lambda_j\geq 0$, $j=1,\dots,k$ y
+$\sum_{j=1}^k\lambda_j=1$.
+\end{definicion}
+\begin{center}
+\begin{pspicture}(0,-2)(6,3)
+    \psset{yunit=15mm,xunit=15mm,unit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \pscurve(0.5,0.5)(0.7,1)(2,0.5)(3,1)(4,0.5)(2,0)(0.7,0)(0.5,0.5)
+    }
+    \psline{*-*}(1,0.75)(3,0.75)
+    \rput(1,0.5){\footnotesize $\vx_1$}
+    \rput(3,0.5){\footnotesize $\vx_2$}
+    \rput(2,-1){\footnotesize No convexo}
+    \psline[linestyle=dashed](0.85,1.04)(3.15,0.995)
+    \psline[linestyle=dashed](1.1,-0.13)(3.15,0.018)
+\end{pspicture}
+\end{center}
+Una consecuencia inmediata de esta definici\'{o}n es  un conjunto convexo es igual a su envoltura
+convexa.
+%%
+\begin{lema}
+Sea $\SS$ un conjunto cualquiera de $\Re^n$. La envoltura convexa de $\SS$ es el menor
+conjunto convexo que contiene a $\SS$. Esto es, $H(\SS)$ es la intersecci\'{o}n de todos los
+conjuntos convexos que contienen a $\SS$.
+\end{lema}
+\begin{demostracion}
+Por reducci\'{o}n al absurdo, supongamos que existe un conjunto convexo $\C$ tal que
+$\SS\subseteq\C$, con $\vx\in H(\SS)$ y $\vx\notin\C$ y . Por definici\'{o}n de $H(\SS)$, se tiene
+que:
+  $$
+     \vx=\sum_{j=1}^k\lambda_j\vx_j,
+  $$
+con $\vx_j\in\SS$, $j=1,\dots,k$, $\lambda_j\geq 0$, $j=1,\dots,k$ y
+$\sum_{j=1}^k\lambda_j=1$. Adem\'{a}s, por ser $\SS\subseteq\C$, se tiene que $\vx_j\in\C$ y, por
+tanto, puesto que $\C$ es convexo:
+  $$
+  \vx\in\C,
+  $$
+que entra en contradicci\'{o}n con la hip\'{o}tesis inicial.
+\end{demostracion}
+%%
+%%
+\section{Teorema de Caratheodory}
+%%
+
+%%
+\section{Poliedros}
+%%
+\begin{definicion}[Politopo y simplex]
+La envoltura convexa de un n\'{u}mero finito de puntos se denomina politopo.
+
+Si adem\'{a}s los puntos son af\'{\i}nmente independientes, entonces el politopo se denomina simplex.
+\end{definicion}
+\begin{center}
+\begin{pspicture}(0,-2)(6,4)
+    \psset{yunit=15mm,xunit=15mm,unit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline(0.5,0.5)(1,1)(2,1)(3,0.7)(2.5,0)(0.5,0.5)
+    }
+    \psline{*-*}(0.5,0.5)(1,1)
+    \psline{*-*}(1,1)(2,1)
+    \psline{*-*}(2,1)(3,0.7)
+    \psline{*-*}(3,0.7)(2.5,0)
+    \psline{*-*}(2.5,0)(0.5,0.5)
+    \rput(2,-1){\footnotesize Politopo}
+ \end{pspicture}
+\begin{pspicture}(0,-2)(6,4)
+    \psset{yunit=15mm,xunit=15mm,unit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline(0.5,0.5)(2,2)(3,0)(0.5,0.5)
+    }
+    \psline{*-*}(0.5,0.5)(2,2)
+    \psline{*-*}(2,2)(3,0)
+    \psline{*-*}(3,0)(0.5,0.5)
+    \rput(0.5,0.3){\footnotesize $x_1$}
+    \rput(2,2.2){\footnotesize $x_2$}
+    \rput(3,-0.2){\footnotesize $x_3$}
+    \rput(2,-1){\footnotesize Simplex}
+ \end{pspicture}
+\end{center}
+\begin{observacion}
+Los puntos $\vx_1,\dots,\vx_k$ son af\'{\i}nmente independientes si los vectores $\vx_2-\vx_1$,
+$\vx_3-\vx_1$, \dots, $\vx_k-\vx_1$ son linealmente independientes. Por tanto, puesto que en
+$\Re^n$ el n\'{u}mero m\'{a}ximo de vectores linealmente independientes es $n$, un simplex no puede
+tener m\'{a}s de $n+1$ v\'{e}rtices.
+\begin{center}
+\begin{pspicture}(0,-2)(6,4)
+    \psset{yunit=15mm,xunit=15mm,unit=15mm}
+    \psline{->}(0.5,0.5)(2,2)
+    \psline{<-}(3,0)(0.5,0.5)
+    \rput(0.5,0.3){\footnotesize $x_1$}
+    \rput(2,2.2){\footnotesize $x_2$}
+    \rput(3,-0.2){\footnotesize $x_3$}
+    \rput(2,-1){\footnotesize Simplex}
+ \end{pspicture}
+\end{center}
+\end{observacion}
+%%
+En concreto, vamos a estudiar un tipo especial de conjuntos extremos, construidos a partir de
+hiperplanos, que recordemos, son conjuntos convexos.
+%%
+\begin{definicion}
+Dado $\SS\in\Re^n$, se dice que $\SS$ es una regi\'{o}n si la intersecci\'{o}n finita de semiespacios
+cerrados:
+    $$
+        \SS=\{\vx\in\Re^n\tq \va_i\vx\leq \al_i,\, i=1,\dots,n\}
+    $$
+\end{definicion}
+Como los semiespacios son convexos y cerrados, una regi\'{o}n es un conjunto convexo y cerrado.
+\begin{ejemplo}
+%%
+Sea el siguiente conjunto:
+\begin{equation}
+  \begin{array}{r@{\hspace*{1mm}}l@{\hspace*{1mm}}r@{\hspace*{1mm}}l@{\hspace*{1mm}}r}
+     -x_1 & +&x_2  & \leq &   2,  \\
+      x_1 & +&x_2  & \leq &   4,  \\
+     5x_1 & +&3x_2 & \leq &  15, \\
+      x_1 &,   &x_2& \geq &  0.
+  \end{array}
+\end{equation}
+N\'{o}tese que cada inecuaci\'{o}n define un semiplano. En la siguiente figura representamos cada una
+de las tres restricciones, m\'{a}s las dos de no negatividad.
+\begin{center}
+\begin{pspicture}(-1,-2)(6,7)
+    \psset{yunit=15mm,xunit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{\psline(0,0)(3,0)(1.5,2.5)(1,3)(0,2)(0,0)}
+    \psline{->}(0,0)(4,0)
+    \psline{->}(0,0)(0,4)
+    \psline(0,2)(1,3)
+    \psline[linestyle=dashed](-1,1)(2,4)\rput(2.8,4){\makebox(3,0.5){\footnotesize $-x_1+x_2=2$}}
+    \psline(1,3)(1.5,2.5)
+    \psline[linestyle=dashed](0.5,3.5)(2.5,1.5)\rput(3.3,1.5){\makebox(3,0.5){\footnotesize $x_1-x_2=4$}}
+    \psline(1.5,2.5)(3,0)
+    \psline[linestyle=dashed](1,3.334)(3.5,-0.8334)\rput(4.3,-0.833){\makebox(3,0.5){\footnotesize $5x_1+3x_2=15$}}
+\end{pspicture}
+\end{center}
+\end{ejemplo}
+%%
+Como se puede ver, la regi\'{o}n factible de un problema de programaci\'{o}n lineal es precisamente lo
+que entendemos por {\em regi\'{o}n}.
+
+Es m\'{a}s, si la regi\'{o}n est\'{a} acotada, es un politopo que se puede definir como la envoltura
+convexa de los v\'{e}rtices de la misma. Estos v\'{e}rtices reciben el nombre de {\em puntos extremos}
+y su definici\'{o}n formal es la siguiente:
+%%
+\section{Punto extremo y direcci\'{o}n extrema}
+%%
+Los conceptos que se desarrollan en esta secci\'{o}n juegan un papel esencial dentro de la
+Programaci\'{o}n Lineal. En principio se desarrollan para conjuntos convexos en general, pero
+luego nos centramos s\'{o}lo en los poliedros, ya que estos son los conjuntos que aparecen en
+Programaci\'{o}n Lineal.
+%%
+\begin{definicion}[punto extremo]
+Dado $\SS\neq\emptyset$, $\SS\subset\Re^n$ y convexo. Sea $\vx\in\SS$, se dice que $\vx$ es un
+punto extremo si y s\'{o}lo $\vx$ no se puede presentar como combinaci\'{o}n lineal convexa de dos
+puntos distintos de $\SS$, esto es:
+$$
+\vx=\lambda \vx_1+(1-\lambda)\vx_2\quad\text{ con }\quad
+\vx_1,\vx_2\in\SS,\lambda\in(0,1)\implica \vx=\vx_1=\vx_2
+$$
+\end{definicion}
+\begin{ejemplo}
+En la figura anterior hay cinco puntos extremos:
+\begin{center}
+\begin{pspicture}(-1,-2)(6,7)
+    \psset{yunit=15mm,xunit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{\psline(0,0)(3,0)(1.5,2.5)(1,3)(0,2)(0,0)}
+    \psline{->}(0,0)(4,0)
+    \psline{->}(0,0)(0,4)
+    %\psline(0,2)(1,3)
+    %\psline(1,3)(1.5,2.5)
+    %\psline(1.5,2.5)(3,0)
+        \rput(0.02,0){\circle*{0.1}}
+        \rput(3.02,0){\circle*{0.1}}
+    \rput(1.52,2.5){\circle*{0.1}}
+        \rput(1.02,3){\circle*{0.1}}
+        \rput(0.02,2){\circle*{0.1}}
+\end{pspicture}
+\end{center}
+En el siguiente c\'{\i}rculo, todos los puntos de la circunferencia son puntos extremos
+\begin{center}
+\begin{pspicture}(0,0)(5,5)
+    \psset{yunit=15mm,xunit=15mm}
+    \rput(2,2){\circle{100}}
+\end{pspicture}
+\end{center}
+\end{ejemplo}
+%%
+En estos dos ejemplos se puede comprobar como cualquier punto que no sea extremo se puede
+poner como combinaci\'{o}n lineal de puntos extremos. Pero, sin embargo, en el ejemplo que sigue,
+esto no es posible:
+\begin{ejemplo}
+\begin{center}
+\begin{pspicture}(0,0)(6,4)
+    \psset{unit=10mm,yunit=10mm,xunit=10mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{\psline(6,0.5)(0,0)(6,4)}
+    \psline{->}(0,0)(6,4)
+    \psline{->}(0,0)(6,0.5)
+    \rput(0.02,0){\circle*{0.1}}
+\end{pspicture}
+\end{center}
+Esta conjunto tiene un s\'{o}lo punto extremo y no es posible representar ning\'{u}n otro punto como
+combinaci\'{o}n lineal de puntos extremos.
+\end{ejemplo}
+%%
+Esto es as\'{\i} por ser el conjunto anterior no acotado. Esto nos lleva a introducir el concepto
+de {\em direcci\'{o}n}. Estas direcciones van a ser vectores orientados hacia la zona de no
+acotamiento del conjunto.
+%%
+\begin{definicion}[direcci\'{o}n]
+Dado $\SS\neq\emptyset$, $\SS\subset\Re^n$, convexo y cerrado. Un vector $\vd\in\Re^n$,
+$\vd\neq \vv$ es una direcci\'{o}n de $\SS$ si
+  $$
+  \forall\vx\in\SS\implica \vx+\lambda\vd\in\SS,\qquad\forall\lambda\geq 0.
+  $$
+Dos direcciones $\vd_1$ y $\vd_2$ son distintas si $\vd_1\neq\alpha\vd_2$, para todo
+$\alpha>0$.
+\end{definicion}
+%%
+\begin{observacion}
+Un conjunto acotado no tiene direcciones.
+\end{observacion}
+%%
+\begin{ejemplo}
+En el cono anterior, existen infinitas direcciones, tantas como vectores podemos encontrar con
+origen en el v\'{e}rtice del cono y contenido en el cono. Pero si observamos, cualquier direcci\'{o}n
+de ese conjunto se puede poner como combinaci\'{o}n lineal positiva de otras direcciones, salvo
+los dos extremos.
+\begin{center}
+\begin{pspicture}(0,0)(6,4)
+    \psset{unit=10mm,yunit=10mm,xunit=10mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{\psline(6,0.5)(0,0)(6,4)}
+    \psline{->}(0,0)(6,4)
+    \psline{->}(0,0)(6,0.5)
+    \rput(0.02,0){\circle*{0.1}}
+    \psline{->}(0,0)(3,2)
+    \psline{->}(0,0)(2,0.1667)
+    \psline{->}(0,0)(5,2.1667)
+    \psline[linestyle=dashed](3,2)(5,2.1667)(2,0.1667)
+\end{pspicture}
+\end{center}
+\end{ejemplo}
+Esto nos lleva a introducir el concepto de direcci\'{o}n extrema.
+%%
+\begin{definicion}[direcci\'{o}n extrema]
+Una direcci\'{o}n es extrema si no se puede poner como combinaci\'{o}n lineal positiva de dos
+direcciones distintas.
+\end{definicion}
+%%
+Estos dos conceptos, punto extremo y direcci\'{o}n extrema juegan un papel b\'{a}sico en la
+Programaci\'{o}n Lineal. Como veremos m\'{a}s adelante, para resolver un problema de programaci\'{o}n
+lienal podemos reducir el estudio a estas dos familias de elementos.
+
+De aqu\'{\i} la importancia de resultados que nos permitan caracterizar los puntos extremos y
+direcciones extremas de cualquier regi\'{o}n.
+%%
+\begin{teorema}[caracterizaci\'{o}n de puntos extremos]
+Sea $ \SS=\{\vx\tq \vA\vx=\vb,\, \vx\geq \vv\}$, donde $\vA\in\M_{m\times n}$, el rango de
+$\vA$ es $m$ y $\vb\in\Re^m$. Entonces, $\vx$ es una punto extremo de $\SS$ si y s\'{o}lo si $\vA$
+se puede descomponer en $(\vB,\vN)$ (con una reordenaci\'{o}n adecuada de las columnas de $\vA$)
+donde $\vB\in\M_{m\times m}$, el rango de $\vB$ es $m$ y $\vN\in\M_{m\times (n-m)}$, de forma
+que:
+  $$
+  \vx=\begin{pmatrix} \vx_b \\ \vv\end{pmatrix}\quad\text{ y }\quad \vB^{-1}\vb\geq 0
+  $$
+\end{teorema}
+%%
+\begin{demostracion}
+Veamos primero la condici\'{o}n suficiente, esto, supongamos que la matriz $\vA$ se puede
+descomponer en dos submatrices $\vB$ y $\vN$ de forma que
+  $$
+  \vx=\begin{pmatrix} \vx_b \\ \vv\end{pmatrix}\quad\text{ y }\quad \vB^{-1}\vb\geq 0
+  $$
+Es evidente que $\vx$ pertenece a $\SS$. Veamos que adem\'{a}s es un punto extremo: Por reducci\'{o}n
+al absurdo, supongamos que no lo es, esto es, existen $\vx_1$ y $\vx_2$ de $\SS$ tales que:
+ $$
+ \vx=\lambda\vx_1+(1-\lambda)\vx_2\qquad\text{con $\lambda\in(0.1)$.}
+ $$
+Entonces:
+ $$
+  \vx=\begin{pmatrix} \vx_b \\ \vv\end{pmatrix}=\lambda\begin{pmatrix} \vx_{11} \\ \vx_{12}\end{pmatrix}
+  +(1-\lambda)\begin{pmatrix} \vx_{21} \\ \vx_{22}\end{pmatrix}
+ $$
+Por ser $\vx_1$ y $\vx_2$ puntos de $\SS$, $\vx_{12}$ y $\vx_{22}$ son vectores no negativos.
+Adem\'{a}s, como $\lambda\geq 0$, se tiene que $\vx_{12}=\vx_{22}=\vv$.
+
+Adem\'{a}s, por ser $\vA\vx_1=\vA\vx_2=\vb$, se tiene que $\vB\vx_{11}=\vB\vx_{21}=\vb$ y, por
+tanto,
+  $$
+  \vx_{11}=\vx_{21}=\vB^{-1}\vb
+  $$
+Por tanto, $\vx=\vx_1=\vx_2$.
+\bigskip
+
+Para comprobar la otra implicaci\'{o}n, supongamos, sin p\'{e}rdida de generalidad, que $\vx$ es de la
+forma:
+  $$
+  \vx=(x_1,\dots,x_k,0,\dots,0)\qquad\text{ con $x_1>0$.}
+  $$
+Veamos que las $k$ primeras columnas /asociadas a variables $x_i>0$) son linealmente
+independientes. Si no fuera as\'{\i}, existir\'{\i}an $\lambda_i$, $i=1,\dots,k$ no todos nulos tales
+que:
+  $$
+  \sum_{j=1}^k\lambda_j\va_j=\vv
+  $$
+Si consideramos el vector $\B{\lambda}=(\lambda_1,\dots,\lambda_k,0,\dots,0)$ y construimos
+los dos vectores:
+  \begin{align*}
+    \vx_1 & =\vx+\alpha\B{\lambda}
+    \\
+    \vx_2 & =\vx-\alpha\B{\lambda}
+  \end{align*}
+con $\alpha$ suficientemente peque\~{n}o como para que $\vx_1$ y $\vx_2$ sean no negativos. Se
+tiene que:
+  \begin{align*}
+    \vA\vx_1 &
+    =\vA(\vx+\alpha\B{\lambda})=\sum_{j=1}^k\va_jx_j+\alpha\sum_{j=1}^k\lambda_j\va_j=b
+    \\
+    \vA\vx_2 &
+    =\vA(\vx-\alpha\B{\lambda})=\sum_{j=1}^k\va_jx_j-\alpha\sum_{j=1}^k\lambda_j\va_j=b
+  \end{align*}
+Por tanto, $\vx_1,\vx_2\in\SS$. Adem\'{a}s,
+  $$
+  \vx=\frac{1}{2}\vx_1+\frac{1}{2}\vx_2
+  $$
+Como $\alpha\neq 0$, $\vx_1\neq\vx_2$ y $\vx$ se puede poner como combinaci\'{o}n lineal convexa
+de estos dos punts, lo que es contradictorio con el hecho de que $\vx$ sea un punto extremo.
+
+Entonces los vectores $\va_i$, $i=1,\dots,k$ son linealmente independientes con $k\leq m$.
+Como $\vA$ es de rango $m$, se pueden encontrar $m-k$ vectores que junto con los $k$ restantes
+formen una base y definan la matriz $\vB$. El resto de las columnas definen la matriz $\vN$.
+\end{demostracion}
+%%
+\begin{corolario}
+El n\'{u}mero de puntos extremos es finito.
+\end{corolario}
+%%
+\begin{demostracion}
+El n\'{u}mero de puntos extremos est\'{a} acotado por el n\'{u}mero de bases en $\vA$ y este est\'{a} acotado
+por:
+  $$
+  \binom{n}{m}=\frac{n!}{m!(n-m)!}
+  $$
+\end{demostracion}
+%%
+\begin{teorema}
+Sea $ \SS=\{\vx\tq \vA\vx=\vb,\, \vx\geq \vv\}$, con $\SS\neq \emptyset$, entonces $\SS$ tiene
+al menos un punto extremo.
+\end{teorema}
+%%
+\begin{teorema}[caracterizaci\'{o}n de direcciones extremas]
+Sea $ \SS=\{\vx\tq \vA\vx=\vb,\, \vx\geq \vv\}$, donde $\vA\in\M_{m\times n}$, el rango de
+$\vA$ es $m$ y $\vb\in\Re^m$. Entonces, $\vd$ es una direcci\'{o}n extrema  de $\SS$ si y s\'{o}lo si
+$\vA$ se puede descomponer en $(\vB,\vN)$ (con una reordenaci\'{o}n adecuada de las columnas de
+$\vA$) donde $\vB\in\M_{m\times m}$, el rango de $\vB$ es $m$ y $\vN\in\M_{m\times (n-m)}$, de
+forma que para alguna columna $\va_j$ de $\vN$:
+  $$
+  \vd=\alpha\begin{pmatrix} -\vB^{-1}\va_j \\ \ve_j \end{pmatrix}\quad\text{ y }\quad \vB^{-1}\va_j\leq 0
+  $$
+con $\alpha>0$ y $\ve_j$ es el vector unitario $j$-\'{e}simo.
+\end{teorema}
+%%
+\begin{demostracion}
+En primer lugar, notemos que si $\vd$ es una direcci\'{o}n de $\SS$, entonces:
+  $$
+  \forall \vx\in\SS, \lambda\geq 0,\qquad\text{se tiene}\qquad \vx+\lambda\vd\in\SS
+  $$
+Por tanto, $\vd\geq 0$. Por otro lado,
+  $$
+  \vA(\vx+\lambda\vd)=\vA\vx+\lambda\vA\vd=b,
+  $$
+de donde, $\va\vd=0$.
+
+Ahora demostremos la condici\'{o}n suficiente. Esto es, supongamos que $\vA$ se puede descomponer
+en $(\vB,\vN)$ con:
+  $$
+  \vd=\alpha\begin{pmatrix} -\vB^{-1}\va_j \\ \ve_j \end{pmatrix}\quad\text{ y }\quad \vB^{-1}\va_j\leq 0
+  $$
+con $\alpha>0$ y $\ve_j$ es el vector unitario $j$-\'{e}simo. Veamos que $\vd$ es direcci\'{o}n
+extrema.
+
+Si no lo fuese, existir\'{\i}an dos direcciones de $\SS$, $\vd_1$ y $\vd_2$, tales que
+  $$
+  \vd=\lambda_1\vd_1+\lambda_2\vd_2\qquad\text{con}\qquad\lambda_1,\lambda_2\geq 0
+  $$
+Por tener $\vd$ $n-m-1$ componentes nulas,, tambi\'{e}n lo ser\'{a}n las componentes de $\vd_1$ y
+$\vd_2$:
+  $$
+  \vd_1=\alpha_1\begin{pmatrix} -\vd_{11} \\ \ve_j \end{pmatrix}\quad\text{ y }\quad \vd_2=\alpha_2\begin{pmatrix} -\vd_{21} \\ \ve_j \end{pmatrix}
+  $$
+con $\alpha_1,\alpha_2\geq 0$. Como $\vA\vd_1=\vA\vd_2=0$, $\vd_{11}$ y $\vd_{21}$ son iguales
+y, por tanto, $\vd=\vd_1=\vd_2$ y $\vd$ es una direcci\'{o}n extrema.
+\bigskip
+
+Para demostrar la otra implicaci\'{o}n, supongamos que $\vd$ es una direcci\'{o}n extrema de la forma
+  $$
+  \vd=(d_1,\dots,d_k,0,\dots,d_j,\dots,0)
+  $$
+con $d_i>0$, $i=1,\dots,k,j$.
+
+Entonces, por un razonamiento similar al realizado en el teorema de caracterizaci\'{o}n de puntos
+extremos, los vectores $\va_1,\dots,\va_k$ son linealmente independientes. Completando estos
+$k$ vectores hasta $m$ para formar una base, se tiene:
+  $$
+  \vA\vd=\vv\implica \vB\vd^*+\va_jd_j=\vv\implica \vd^*=-d_j\vb^{-1}\va_j
+  $$
+Tomando $\alpha=d_j$, se obtiene el resultado buscado.
+\end{demostracion}
+%%
+\begin{corolario}
+El n\'{u}mero de direcciones extremas es finito.
+\end{corolario}
+%%
+\begin{demostracion}
+Cada direcci\'{o}n tiene asociada una base de $\vA$ y un vector que no pertenece a la base. El
+n\'{u}mero de bases est\'{a} acotado por $\binom{n}{m}$ y el n\'{u}mero de vectores no b\'{a}sicos para cada
+base es de $n-m$. Por tanto, el n\'{u}mero de direcciones extremas est\'{a} acotado por:
+  $$
+  (n-m)\binom{n}{m}=\frac{n!}{m!(n-m-1)!}
+  $$
+\end{demostracion}
+%%
+El siguiente teorema de representaci\'{o}n pone de relieve la importancia de los puntos extremos y
+direcciones extremas
+%%
+\begin{teorema}
+Sea $ \SS=\{\vx\tq \vA\vx=\vb,\, \vx\geq \vv\}$, donde $\vA\in\M_{m\times n}$, el rango de
+$\vA$ es $m$ y $\vb\in\Re^m$ y sean $\vx_1,\dots,\vx_k$ los puntos extremos y
+$\vd_1,\dots,\vd_\ell$ las direcciones extremas. Entonces:
+$$
+x\in\SS\siysolosi x=\sum_{j=1}^k\lambda_j\vx_j+\sum_{j=1}^\ell \mu_j\vd_j
+$$
+con
+$$
+\qquad\sum\lambda_j=1,\qquad\lambda_j\geq 0,\qquad\forall j=1,\dots,k
+$$
+y
+$$
+\mu_j\geq 0\qquad\forall j=1,\dots,\ell
+$$
+\end{teorema}
+%%
+Esto es, todo punto de $\SS$ se puede representar como una combinaci\'{o}n lineal convexa de
+puntos extremos m\'{a}s una combinaci\'{o}n lineal positiva de direcciones extremas.
+
+En concreto, si $\SS$ es acotado, todo punto se podr\'{a} poner como combinaci\'{o}n lineal convexa de
+sus puntos extremos.
+%%
+\begin{corolario}\label{existeextremo}
+Si $\SS$ es no vac\'{\i}o, tiene al menos un punto extremo.
+\end{corolario}
+%%
+\begin{corolario}
+En las condiciones del teorema anterior, $\SS$ tiene al menos una direcci\'{o}n extrema si y s\'{o}lo
+si $\SS$ no est\'{a} acotado.
+\end{corolario}
+%%
+\begin{demostracion}
+La implicaci\'{o}n directa es trivial. Para demostrar la inversa, si $\SS$ no tiene direcciones
+extremas, usando la desigualdad de Schwartz:
+  $$
+  \Vert\vx\Vert=\Vert \sum_{j=1}^k\lambda_j\vx_j\Vert
+    \leq\sum_{j=1}^k\lambda_j\Vert \vx_j\Vert\leq \sum_{j=1}^k\Vert \vx_j\Vert<+\infty,
+  $$
+  para todo $\vx\in\SS$. Por tanto, $\SS$ est\'{a} acotado.
+\end{demostracion}
+%%
+\section{Aplicaci\'{o}n al problema de programaci\'{o}n lineal}
+%%
+\begin{teorema}\label{aplilineal}
+Sea el problema de programaci\'{o}n lineal:
+$$
+\begin{array}{rr@{\hspace*{1mm}}l}
+ \min & z  =   \V{c}^t &\V{x}
+\\
+ \text{s.a.}  &  \V{A} &\V{x} =     \V{b},
+\\
+               &       &  \V{x}   \geq  \V{0},
+\end{array}
+$$
+donde $\V{c}\in\rn{n}$ es el vector de costes, $\V{b}\in\rn{m}$ el vector de recursos,
+$\V{A}\in \M_{m\times n}$ la matriz de restricciones y $\V{x}\in\rn{n}$ el vector de
+variables. Sean $\vx_1,\dots,\vx_k$ los puntos extremos y $\vd_1,\dots,\vd_\ell$ las
+direcciones extremas. Entonces, existe una soluci\'{o}n \'{o}ptima finita si y s\'{o}lo si $\vc^T\vd_j\geq
+0$, para $j=1,\dots,\ell$. En este caso, existe un punto extremo que resuelve el problema.
+\end{teorema}
+\begin{demostracion}
+Por el teorema de representaci\'{o}n, tenemos que cualquier soluci\'{o}n del problema se puede poner
+en funci\'{o}n de los puntos extremos y direcciones extremas de la regi\'{o}n factible:
+$$
+\vx=\sum_{j=1}^k\lambda_j\vx_j+\sum_{j=1}^\ell \mu_j\vd_j
+$$
+con
+$$
+\qquad\sum\lambda_j=1,\qquad\lambda_j\geq 0,\qquad\forall j=1,\dots,k
+$$
+y
+$$
+\mu_j\geq 0\qquad\forall j=1,\dots,\ell
+$$
+Por tanto, el problema de programaci\'{o}n lineal se puede plantear como:
+$$
+\min \vc^T \sum_{j=1}^k\lambda_j\vx_j+\sum_{j=1}^\ell \mu_j\vd_j
+$$
+Si existe un $j$, $\vc^T\vd_j<0$, tomando $\mu_j$ suficientemente grande, se puede conseguir
+que la funci\'{o}n objetivo tome un valor tan peque\~{n}o como queramos y la soluci\'{o}n es no acotada.
+
+Por tanto, para que la soluci\'{o}n est\'{e} acotada, es necesario que $\vc^t\vd_j\geq 0$, para
+$j=1,\dots,\ell$. Entonces, tomando $\mu_j=0$, para $j=1,\dots,\ell$, el problema resulta:
+$$
+\min \vc^T \sum_{j=1}^k\lambda_j\vx_j
+$$
+Sea $\vx^*$ el punto extremo que minimiza tal que:
+$$
+\vc^T\vx^*=\min_{j=1,\dots,k} \vc^T \vx_j
+$$
+´Como el n\'{u}mero de puntos extremos es finito, este m\'{\i}nimo es finito. Entonces:
+$$
+\vc^T\vx^*=\vc^T\vx^*\sum_{j=1}^k\lambda_j=\vc^T\sum_{j=1}^k\lambda_j\vx_j
+$$
+y, por tanto, el punto extremo $vx^*$ es una soluci\'{o}n \'{o}ptima para el problema original.
+\end{demostracion}
+%%
+Seg\'{u}n estos resultados, el problema de programaci\'{o}n lineal ya est\'{a} resuelto desde un punto de
+vista te\'{o}rico, ya que:
+%%
+\begin{itemize}
+\item Si tiene soluci\'{o}n finita:
+  \begin{itemize}
+    \item La soluci\'{o}n se encuentra en un punto extremo
+    \item Se tienen caracterizados los puntos extremos.
+    \item Estos existen en un n\'{u}mero finito.
+  \end{itemize}
+\item En caso de que el problema tenga soluci\'{o}n no acotada
+    \begin{itemize}
+        \item Se tienen caracterizados los puntos extremos y las direcciones extremas.
+        \item Estas existen en un n\'{u}mero finito.
+    \end{itemize}
+\item El problema no tiene soluci\'{o}n: la regi\'{o}n es vac\'{\i}a y, por tanto, no existen puntos
+extremos.
+\end{itemize}

@@ -1,0 +1,190 @@
+# Introducción a la Investigación Operativa
+
+La **Investigación Operativa** (conocida internacionalmente como *Operations Research* o *Management Science*) es la disciplina científica que aplica métodos analíticos avanzados para dar soporte a la toma de decisiones complejas en sistemas reales. Lejos de constituir un mero conjunto de herramientas analíticas o algoritmos aislados, representa una metodología sistemática y estructurada. Combina la modelización matemática, el análisis estadístico y la optimización para diseñar, gestionar y mejorar sistemas complejos bajo condiciones de recursos limitados.
+
+En este capítulo de apertura, estableceremos las bases conceptuales y epistemológicas de la disciplina. Exploraremos el origen histórico de la Investigación Operativa, formalizaremos el concepto de modelo matemático, detallaremos las fases fundamentales del ciclo de modelización y describiremos los elementos estructurales de un problema de optimización. Finalmente, introduciremos las dos grandes vertientes que estructuran este volumen: la optimización no lineal y la optimización en redes.
+
+::: {.callout-important title="Objetivos de aprendizaje"}
+Al finalizar este capítulo, serás capaz de:
+
+1.  **Definir** el alcance, el origen y las herramientas esenciales de la Investigación Operativa en el ámbito profesional y académico.
+2.  **Diferenciar** entre modelos físicos (concretos) y matemáticos (abstractos), comprendiendo el equilibrio crítico entre realismo y manejabilidad matemática.
+3.  **Describir y aplicar** las cuatro fases del ciclo de vida de un proyecto de modelización matemática.
+4.  **Estructurar formalmente** un problema de optimización matemática, identificando sus variables de decisión, restricciones y función objetivo.
+5.  **Clasificar** los problemas de optimización atendiendo a criterios de linealidad, dominio de variables y presencia de incertidumbre.
+:::
+
+
+## Definición e Historia de la Investigación Operativa
+
+### Raíces Históricas y el Nacimiento de la Disciplina
+
+La Investigación Operativa no nació en laboratorios académicos aislados, sino en el fragor de la necesidad estratégica y militar durante la Segunda Guerra Mundial. A finales de la década de 1930, el mando militar británico se enfrentaba a la inminente amenaza aérea del régimen nazi. Para contrarrestarla, desarrollaron el sistema de radares costeros, pero se percataron rápidamente de que disponer de la tecnología no bastaba: era imperativo aprender a utilizarla de manera integrada y eficiente.
+
+Fue entonces cuando el físico británico Patrick Blackett organizó un grupo multidisciplinar de científicos (que incluía matemáticos, físicos, astrofísicos y militares) conocido históricamente como el **"Blackett's Circus"** (el Circo de Blackett). Este equipo analizó científicamente las operaciones militares reales, logrando hitos memorables como la determinación del tamaño óptimo de los convoyes navales de suministro para minimizar las pérdidas causadas por los submarinos alemanes, o la calibración de la profundidad de detonación de las cargas antisubmarinas en los bombarderos.
+
+Paralelamente, en la Unión Soviética, el matemático y economista **Leonid Kantorovich** desarrolló de forma independiente técnicas de planificación matemática para la industria del carbón y del acero en 1939. Kantorovich sentó las bases de lo que hoy conocemos como Programación Lineal, trabajo que le valdría el Premio Nobel de Economía en 1975 por su teoría sobre la asignación óptima de recursos.
+
+Tras la finalización del conflicto mundial, en 1947, el matemático estadounidense **George Dantzig** revolucionó la disciplina al proponer el **método del Símplex**, un algoritmo sistemático y extremadamente eficiente para resolver problemas de programación lineal. Este descubrimiento coincidió con la invención y el rápido desarrollo de las primeras computadoras electrónicas, lo que permitió aplicar las metodologías de la Investigación Operativa a la planificación industrial, la logística comercial, el sector financiero y la administración pública. La rápida expansión económica de la posguerra demandaba una gestión científica y optimizada de las grandes corporaciones, consolidando el éxito de esta disciplina.
+
+### Definiciones Formales
+
+Existen dos definiciones clásicas promovidas por las instituciones profesionales de referencia a nivel mundial:
+
+-   **The Operational Research Society (Reino Unido)**:
+    La Investigación Operativa es la aplicación del método científico a problemas complejos en la dirección y gestión de grandes sistemas de personas, máquinas, materiales y recursos financieros en la industria, el comercio, la administración pública y la defensa. Su enfoque característico reside en construir un modelo científico del sistema, incorporando factores de riesgo e incertidumbre, para predecir y comparar las consecuencias de diversas decisiones, estrategias y controles alternativos.
+-   **Institute for Operations Research and the Management Sciences (INFORMS, EE.UU.)**:
+    La Investigación Operativa se define como el empleo de la ciencia de la decisión y la modelización analítica avanzada para resolver problemas y mejorar el rendimiento de sistemas y procesos de negocio complejos.
+
+### Herramientas de la Investigación Operativa
+
+Para dar respuesta a problemas de diversa naturaleza, la Investigación Operativa se sirve de un amplio catálogo de metodologías científicas:
+
+-   **Optimización matemática**:
+    Modelos lineales, enteros, no lineales y dinámicos orientados a maximizar rendimientos o minimizar costes bajo restricciones de recursos.
+-   **Teoría de grafos y optimización en redes**:
+    Algoritmos discretos para resolver problemas de conectividad, distribución, transporte y caminos óptimos.
+-   **Procesos estocásticos y teoría de colas**:
+    Modelización del comportamiento de sistemas sujetos a aleatoriedad y análisis de líneas de espera en sistemas de servicios, logística y telecomunicaciones.
+-   **Simulación computacional**:
+    Simulación analítica (como los métodos de Montecarlo o la simulación de eventos discretos) para evaluar el rendimiento de sistemas complejos cuando las soluciones analíticas cerradas resultan inviables.
+-   **Teoría de juegos y decisión multicriterio**:
+    Análisis de interacciones estratégicas entre agentes competitivos y metodologías para tomar decisiones cuando existen múltiples objetivos contrapuestos.
+
+
+## El Concepto de Modelo en Ciencias de la Decisión
+
+Un **modelo** es una representación simplificada, abstracta y selectiva de un sistema real destinada a facilitar la comprensión de su estructura interna y predecir su comportamiento bajo diversos escenarios. 
+
+La labor del modelador matemático es similar a la del cartógrafo. Tal y como enunció el filósofo Alfred Korzybski, *"el mapa no es el territorio"*. Un mapa a escala 1:1 sería perfectamente inútil por su inmanejabilidad. De igual modo, un modelo matemático que pretenda incluir cada mínimo detalle físico del sistema real resultará intratable computacionalmente. La clave reside en realizar una **abstracción selectiva**: identificar y capturar las variables esenciales del problema eliminando el ruido irrelevante, logrando un equilibrio óptimo entre fidelidad (realismo) y manejabilidad (capacidad de resolución).
+
+### Clasificación General de los Modelos
+
+Atendiendo a su naturaleza física o abstracta, los modelos se dividen clásicamente en:
+
+-   **Modelos concretos o icónicos**:
+    Representaciones físicas a escala del sistema real. Ejemplos de esto son las maquetas de aviones ensayadas en túneles de viento o los modelos tridimensionales de proteínas. Su análisis se realiza mediante experimentación directa.
+-   **Modelos abstractos o analíticos**:
+    Representaciones formales donde las variables del sistema y sus relaciones lógicas se expresan mediante ecuaciones, inecuaciones y funciones matemáticas. Son el objeto de estudio de la optimización y permiten una manipulación analítica o numérica asistida por computadoras.
+
+Desde la perspectiva de su propósito metodológico, podemos catalogar los modelos matemáticos en tres niveles de madurez analítica:
+
+1.  **Modelos Descriptivos**: Representan la estructura del sistema para responder a la pregunta *"¿qué está ocurriendo?"*.
+2.  **Modelos Predictivos**: Utilizan datos históricos y estadística para responder a la pregunta *"¿qué podría ocurrir en el futuro?"*.
+3.  **Modelos Prescriptivos**: Integran los niveles anteriores para responder a la pregunta *"¿qué decisión debemos tomar para optimizar el rendimiento del sistema?"*. La optimización matemática pertenece a esta última categoría.
+
+### El Ciclo de Vida del Modelado Matemático
+
+La resolución de un problema mediante la Investigación Operativa no consiste en un proceso lineal, sino en un ciclo iterativo de retroalimentación constante que consta de cuatro fases diferenciadas:
+
+1.  **Observación y definición del problema**:
+    Se estudian los límites del sistema real y se identifican las metas del decisor. Se recopilan, depuran y analizan los datos empíricos relevantes del problema.
+2.  **Formulación matemática**:
+    Se eligen las variables que representan las decisiones controlables, se describen las limitaciones físicas y operativas mediante restricciones (ecuaciones e inecuaciones) y se formaliza la métrica de éxito o coste como una función objetivo.
+3.  **Validación y análisis de sensibilidad**:
+    Se resuelve el modelo numéricamente y se contrasta si las soluciones obtenidas son coherentes con la realidad del sistema. Se evalúa la robustez del modelo mediante el análisis de sensibilidad, midiendo cómo varían las decisiones óptimas ante perturbaciones en los parámetros del modelo.
+4.  **Implementación e integración**:
+    Se traduce la solución matemática en decisiones operativas ejecutables por la organización. Se diseñan sistemas informáticos de soporte a la decisión y se establecen mecanismos de supervisión para detectar cambios en el sistema real que exijan reformular el modelo.
+
+
+## Formulación General de Modelos de Optimización
+
+Un modelo de optimización matemática busca seleccionar la mejor alternativa posible dentro de un conjunto de soluciones factibles. Su formulación matemática genérica se escribe formalmente como:
+
+$$
+\begin{aligned}
+\min_{x} \text{ o } \max_{x} \quad & f(x) \\
+\text{sujeto a} \quad & g_i(x) \le 0, \quad i = 1, \dots, m \\
+& h_j(x) = 0, \quad j = 1, \dots, p \\
+& x \in X \subseteq \mathbb{R}^n
+\end{aligned}
+$$
+
+Donde los componentes esenciales del modelo son:
+
+-   **Variables de decisión ($x$)**:
+    El vector $x = (x_1, x_2, \dots, x_n)^T$ de dimensiones $n$ que representa los factores bajo control directo del decisor que se desea determinar.
+-   **Función objetivo ($f(x)$)**:
+    La función escalar de las variables de decisión que mide la efectividad, el coste, el tiempo o el beneficio del sistema y que se pretende optimizar (minimizar o maximizar).
+-   **Restricciones de desigualdad ($g_i(x) \le 0$) e igualdad ($h_j(x) = 0$)**:
+    Ecuaciones o inecuaciones que representan límites físicos (capacidad, stock), económicos (presupuesto), técnicos o de balance de flujo del sistema. Definen el **espacio factible** (o región factible) $\mathcal{S}$ del problema.
+-   **Espacio de definición ($X$)**:
+    El dominio general donde viven las variables (por ejemplo, números reales, enteros, no negativos, etc.).
+
+::: {.callout-note title="Ejemplo Ilustrativo: La Dieta Óptima (Formulación Paso a Paso)"}
+Supongamos que deseamos diseñar una dieta de bajo coste utilizando dos alimentos básicos: Leche ($x_1$) y Verdura ($x_2$). Disponemos de los siguientes datos de coste y nutrición:
+
+-   Un litro de leche cuesta $0.80$ € y aporta $3$ unidades de calcio y $1$ unidad de hierro.
+-   Un kilo de verdura cuesta $1.20$ € y aporta $1$ unidad de calcio y $2$ unidades de hierro.
+-   Los requisitos mínimos diarios de un individuo son $6$ unidades de calcio y $4$ unidades de hierro.
+
+Para formular el modelo matemático de este problema operativo:
+
+1.  **Variables de decisión**:
+    -   $x_1$: Litros de leche consumidos al día.
+    -   $x_2$: Kilos de verdura consumidos al día.
+2.  **Función objetivo (minimizar el coste total diario)**:
+    $$ \min \quad 0.80 x_1 + 1.20 x_2 $$
+3.  **Restricciones**:
+    -   Requisito de Calcio: $3 x_1 + 1 x_2 \ge 6 \implies 6 - 3 x_1 - x_2 \le 0$
+    -   Requisito de Hierro: $1 x_1 + 2 x_2 \ge 4 \implies 4 - x_1 - 2 x_2 \le 0$
+    -   No negatividad (no se puede consumir comida negativa): $x_1, x_2 \ge 0$
+:::
+
+### Clasificación de los Modelos de Optimización
+
+Atendiendo a las propiedades algebraicas y analíticas de sus componentes, los problemas de optimización se clasifican de la siguiente manera:
+
+-   **Según la linealidad**:
+    -   *Programación Lineal (LP)*:
+        Tanto la función objetivo $f(x)$ como todas las funciones de restricciones $g_i(x)$ e $h_j(x)$ son funciones afines (de primer grado). Permiten la aplicación del algoritmo del Símplex y métodos de punto interior. Su resolución numérica es sumamente rápida, pudiendo manejar millones de variables y restricciones.
+    -   *Programación No Lineal (NLP)*:
+        Al menos una de las funciones involucradas ($f$, $g_i$ o $h_j$) presenta curvatura o componentes no lineales (como potencias, exponenciales, logaritmos o funciones trigonométricas). La búsqueda del óptimo requiere herramientas de cálculo multivariable y análisis de curvatura.
+-   **Según el dominio de definición**:
+    -   *Optimización Continua*:
+        El espacio de búsqueda $X$ es continuo ($x \in \mathbb{R}^n$). Esto nos permite explotar las derivadas de la función (gradiente, hessiana) para dirigir la búsqueda.
+    -   *Optimización Entera o Discreta (IP)*:
+        Las variables de decisión solo pueden tomar valores en el conjunto de los números enteros ($x \in \mathbb{Z}^n$). Estos problemas son combinatorios y presentan una alta dificultad de resolución (son NP-duros).
+    -   *Optimización Binaria*:
+        Las variables se restringen a $x_j \in \{0, 1\}$, representando decisiones lógicas excluyentes del tipo "sí" o "no" (por ejemplo, construir una planta o no).
+    -   *Optimización Entera Mixta (MIP)*:
+        Coexisten variables continuas y enteras/binarias dentro del mismo modelo, permitiendo modelar simultáneamente decisiones lógicas y cantidades físicas continuas.
+-   **Según la presencia de incertidumbre**:
+    -   *Optimización Determinista*:
+        Todos los coeficientes y parámetros del modelo se conocen con absoluta certeza.
+    -   *Optimización Estocástica*:
+        Algunos parámetros del modelo se comportan como variables aleatorias con distribuciones de probabilidad conocidas. Se busca optimizar el valor esperado o cumplir restricciones de probabilidad (restricciones de azar).
+
+
+## La Estructura del Libro: Optimización No Lineal y en Redes
+
+Este volumen se organiza en dos bloques metodológicos bien diferenciados por su naturaleza matemática, geométrica y algorítmica:
+
+### Bloque I: Optimización No Lineal (Temas 2 a 6)
+
+Cuando abandonamos la hipótesis de linealidad, la optimización matemática gana sustancialmente en realismo, pero incrementa de manera drástica su complejidad teórica y computacional.
+
+-   **Métodos Numéricos (Tema 2)**:
+    Estudiaremos las herramientas fundamentales de la optimización continua sin restricciones en una y múltiples dimensiones. Analizaremos algoritmos de búsqueda unidimensional (sección áurea, Fibonacci, bisección, Newton) y métodos multivariables basados en el gradiente (descenso de gradiente, método de Newton y técnicas Quasi-Newton como BFGS).
+-   **Análisis Convexo (Tema 3)**:
+    Estableceremos las propiedades de los conjuntos y funciones convexas. En este marco matemático se formula el resultado cardinal de la optimización: cualquier mínimo local es de forma garantizada un mínimo global, dotando a los algoritmos numéricos de una gran estabilidad. Introduciremos el concepto de subgradiente para manejar funciones no diferenciables.
+-   **Condiciones KKT (Temas 4 y 5)**:
+    Analizaremos las condiciones necesarias y suficientes de optimalidad para problemas restringidos mediante los multiplicadores de Lagrange y las condiciones de Karush-Kuhn-Tucker. Estudiaremos su aplicación a la programación lineal y cuadrática (el algoritmo del Símplex de Wolfe).
+-   **Ciencia de Datos (Tema 6)**:
+    Veremos la aplicación de la optimización continua en el aprendizaje automático moderno, analizando la regresión robusta bajo diferentes normas ($\ell_1$, $\ell_2$, $\ell_\infty$), las Máquinas de Vectores de Soporte (SVM) y la explicabilidad mediante contrafácticos.
+
+### Bloque II: Optimización en Redes (Temas 7 a 11)
+
+La optimización en redes aprovecha la estructura combinatorial de los grafos para resolver problemas de gran envergadura de forma extremadamente eficiente.
+
+-   **Representación y Estructura (Tema 7)**:
+    Modelado formal de redes empleando matrices de adyacencia e incidencia. Analizaremos la propiedad de total unimodularidad, que permite resolver problemas discretos de redes como si fuesen continuos sin perder la integridad de las soluciones. Estudiaremos la obtención de árboles soporte mínimos (MST).
+-   **Caminos Mínimos (Tema 8)**:
+    Algoritmos clásicos de Dijkstra, Bellman-Ford y Floyd-Warshall. Abordaremos la formulación matemática dual del camino mínimo expresada como tensiones y potenciales de nodos.
+-   **Flujos en Redes (Tema 9)**:
+    Estudio del espacio vectorial de flujos. Analizaremos el Lema de Coloración de Minty y el teorema cardinal de Flujo Máximo - Corte Mínimo de Ford-Fulkerson.
+-   **Emparejamientos (Tema 10)**:
+    Teoría de emparejamientos y asignación óptima de tareas mediante el algoritmo Húngaro.
+-   **Rutas y TSP (Tema 11)**:
+    Planificación de rutas de reparto (el Cartero Chino y el TSP) mediante formulaciones lineales enteras con eliminación exponencial de subtours, heurísticas y algoritmos de aproximación.
+

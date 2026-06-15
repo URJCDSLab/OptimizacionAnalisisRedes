@@ -1,0 +1,1847 @@
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+\documentclass[aspectratio=169]{beamer}
+
+
+\mode<presentation> {
+	\usetheme{Boadilla}
+%	\setbeamercovered{transparent}
+}
+
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows}
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+%\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\usepackage{pgfplots}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+\parskip=0.1cm
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+  \href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+\setbeamercolor{alerted text}{fg=blue}
+\setbeamertemplate{navigation symbols}{}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on en Redes] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+      \textbf{Optimizaci\'on y An\'alisis de Redes} \\ Problema de emparejamiento
+}
+
+\author[]
+{      Antonio Alonso Ayuso \\
+      {\ttfamily antonio.alonso@urjc.es}
+}
+
+\institute[]
+{
+      Universidad Rey Juan Carlos\\
+
+  %there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{\today}
+
+
+\AtBeginSubsection[] % Do nothing for \subsection*
+{
+	\begin{frame}<beamer>
+	\frametitle{Contenidos}
+	\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded,subsubsectionstyle=hide]
+	%\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+\AtBeginSection[] % Do nothing for \subsection*
+{
+\begin{frame}<beamer>
+\frametitle{Contenidos}
+\tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide,subsubsectionstyle=hide]
+\end{frame}
+}
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+  \newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+%%
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+  \titlepage % call the title page information from above
+\end{frame}}
+
+
+\begin{frame}
+\frametitle{Contenidos del tema}
+  \tableofcontents
+\end{frame}
+
+\section{Emparejamiento en grafos}
+
+\begin{frame}{Definici\'on del problema a resolver}
+	
+	\begin{exampleblock}{Tripulaciones}
+		Los aviones de la RAF deben llevar 2 pilotos que deben hablar un mismo idioma común. Actualmente hay 7 pilotos que hablan los siguientes idiomas: \{polaco\}, \{polaco e inglés\}, \{polaco\}, \{inglés\}, \{alemán\}, \{alemán, inglés\}, \{francés, inglés\}.
+		
+		¿Cuántas tripulaciones se pueden formar?
+	\end{exampleblock}
+	\visible<2->{
+		Se puede representar el problema en un grafo $G=\{N,E\}$, con un vértice por cada piloto y un arista entre dos vértices si los pilotos asociados hablan el mismo idioma.
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,3) {P} ;
+				\node[node_style] (b) at (2,3) {PI} ;
+				\node[node_style] (c) at (1,1.5) {P'} ;
+				\node[node_style] (d) at (4,1.5) {I} ;
+				\node[node_style] (e) at (6,1.5) {A} ;
+				\node[node_style] (f) at (6,3) {AI} ;
+				\node[node_style] (g) at (4,2.25) {FI} ;
+				\draw  [line width=1.5pt] (a) edge (b) ;
+				\draw  [line width=1.5pt] (a) edge (c) ;
+				\draw  [line width=1.5pt] (b) edge (c) ;
+				\draw  [line width=1.5pt] (b) edge (d) ;
+				\draw  [line width=1.5pt] (b) edge (f) ;
+				\draw  [line width=1.5pt] (b) edge (g) ;
+				\draw  [line width=1.5pt] (d) edge (g) ;
+				\draw  [line width=1.5pt] (d) edge (f) ;
+				\draw  [line width=1.5pt] (g) edge (f) ;
+				\draw  [line width=1.5pt] (e) edge (f) ;
+				\only<3>{
+					\draw  [line width=1.5pt,color=blue] (a) edge (b) ;
+					\draw  [line width=1.5pt,color=blue] (e) edge (f) ;
+					\draw  [line width=1.5pt,color=red] (a) edge (c) ;
+					\draw  [line width=1.5pt,color=red] (b) edge (d) ;
+					\draw  [line width=1.5pt,color=red] (f) edge (g) ;
+				}
+			\end{tikzpicture}
+		\end{center}	
+	}
+\end{frame}
+\begin{frame}{Problema de emparejamiento}
+	\begin{block}{Definición}
+		Dado un grafo no dirigido $G=(V,E)$, un \alert{emparejamiento} es un subconjunto $K \subset E$ que no contiene dos aristas adyacentes, es decir, con un extremo en com\'{u}n.
+	\end{block}
+	\begin{block}{Proposición}
+		Dado un grafo $G=(V,E)$ y un emparejamiento $K$ de $G$, cualquier subconjunto de $K$ es también un emparejamiento de $G$.
+	\end{block}
+	\alert{Demostración:} trivial. 
+	\begin{block}{Problema de emparejamiento de máximo cardinal}
+		Dado $G$, determinar el emparejamiento $K$ de cardinal máximo. 
+	\end{block}
+\end{frame}
+
+\section{Resolución}
+
+\begin{frame}{Emparejamiento}
+	\begin{block}{Definición}
+		Se dice que un v\'{e}rtice $x \in V$ est\'{a} \alert{saturado} por el emparejamiento $K$ si existe una arista $\{ x,y \} \in K$.
+		
+		En caso contrario, se dice que el v\'{e}rtice est\'{a} \alert{expuesto} o no saturado.
+	\end{block}
+	\begin{block}{Proposición}
+		Dado un grafo $G=(V,E)$ y un emparejamiento $K$ de $G$, si el número de vértices no saturados es 0 o 1, el emparejamiento es máximo.
+	\end{block}
+	\alert{Demostración:} trivial. 
+	\begin{block}{Definición}
+		Si $G$ no tiene vértices no saturados, se dice que el emparejamiento es perfecto.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Emparejamiento}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (a) at (0,4) {P} ;
+			\node[node_style] (b) at (2,4) {PI} ;
+			\node[node_style] (c) at (1,0) {P'} ;
+			\node[node_style] (d) at (4,0) {I} ;
+			\node[node_style] (e) at (6,0) {A} ;
+			\node[node_style] (f) at (6,4) {AI} ;
+			\node[node_style] (g) at (4,2) {FI} ;
+			\draw  [line width=1.5pt] (b) edge (c) ;
+			\draw  [line width=1.5pt] (b) edge (f) ;
+			\draw  [line width=1.5pt] (b) edge (g) ;
+			\draw  [line width=1.5pt] (d) edge (g) ;
+			\draw  [line width=1.5pt] (d) edge (f) ;
+			\draw  [line width=1.5pt,color=blue] (a) edge (b) ;
+			\draw  [line width=1.5pt,color=blue] (e) edge (f) ;
+			\draw  [line width=1.5pt,color=red] (a) edge (c) ;
+			\draw  [line width=1.5pt,color=red] (b) edge (d) ;
+			\draw  [line width=1.5pt,color=red] (f) edge (g) ;
+			\node[blue] at (11,4) {Emparejamiento \{(P,PI), (A,AI)\}} ;
+			\node[blue] at (11,3.25) {Saturados: P, PI, A, AI. Expuestos: P',FI,I} ;
+			\node[red] at (11,1.75) {Emparejamiento \{(P,P'), (PI,I), (AI,FI)\}} ;	
+			\node[red] at (11,1) {Saturados: P, PI, P', I, AI, FI. Expuestos: A} ;
+		\end{tikzpicture}
+	\end{center}	
+\end{frame}
+
+\subsection{Cadenas alternantes}
+
+\begin{frame}{Emparejamiento}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (a) at (0,1.5) {1} ;
+			\node[node_style] (b) at (2,3) {2} ;
+			\node[node_style] (c) at (2,0) {3} ;
+			\node[node_style] (d) at (4,1.5) {4} ;
+			\node[node_style] (e) at (6,3) {5} ;
+			\node[node_style] (f) at (6,0) {6} ;
+			\draw  [line width=1.5pt] (a) edge (b) ;
+			\draw  [line width=1.5pt] (a) edge (c) ;
+			\draw  [line width=1.5pt] (b) edge (c) ;
+			\draw  [line width=1.5pt] (b) edge (e) ;
+			\draw  [line width=1.5pt] (c) edge (d) ;
+			\draw  [line width=1.5pt] (c) edge (f) ;
+			\draw  [line width=1.5pt] (d) edge (e) ;
+			\draw  [line width=1.5pt] (d) edge (f) ;
+			\draw  [line width=1.5pt] (e) edge (f) ;
+			\only<2-4>{
+				\draw  [line width=1.5pt,color=blue] (b) edge (c) ;
+				\draw  [line width=1.5pt,color=blue] (e) edge (f) ;
+			}
+			\only<3>{
+				\node[node_style,line width=2.2pt] (a) at (0,1.5) {1} ;
+				\node[node_style,color=blue,line width=2.2pt] (b) at (2,3) {2} ;
+				\node[node_style,color=blue,line width=2.2pt] (c) at (2,0) {3} ;
+				\node[node_style,line width=2.2pt] (d) at (4,1.5) {4} ;
+				
+				\draw  [dashed,line width=3pt] (a) edge (b) ;
+				\draw  [dashed,line width=3pt] (c) edge (d) ;
+				\draw  [dashed,line width=3pt,color=blue] (b) edge (c) ;
+			}
+			\only<4->{
+				\draw  [line width=1.5pt,color=blue] (a) edge (b) ;
+				\draw  [line width=1.5pt,color=blue] (c) edge (d) ;
+				\draw  [dashed,line width=3pt,color=blue] (a) edge (b) ;
+				\draw  [dashed,line width=3pt,color=blue] (c) edge (d) ;
+				\draw  [line width=1.5pt,color=black] (c) edge (b) ;
+				\draw  [dashed,line width=3pt,color=black] (c) edge (b) ;
+				\draw  [line width=1.5pt,color=blue] (e) edge (f) ;
+			}
+		\end{tikzpicture}
+	\end{center}	
+	
+	\visible<2->{Vértices no saturados o expuestos: 1, 4.}
+	
+	\visible<3->{La cadena 1-2-3-4 une vértices no saturados.}
+	
+	\visible<4->{Se puede obtener un nuevo emparejamiento eliminando \{2,3\}  y añadiendo \{1,2\} y \{3,4\}.}
+	
+	\visible<5->{Esta operación se denomina \alert{transferencia}.
+		\begin{itemize}
+			\item Incrementa el cardinal del emparejamiento en 1 unidad. 
+			\item Se basa en cadenas con extremos en vértices no saturados y que alterna aristas dentro y fuera del emparejamiento.
+	\end{itemize} }
+\end{frame}
+\begin{frame}{Emparejamientos}
+	
+	\begin{block}{Definición}
+		Dados un grafo $G=(V,E)$ y un emparejamiento $K \subset E$, se define una \alert{cadena} \alert{alternante} como una cadena en la que las aristas pertenecen y no pertenecen alternativamente al emparejamiento.
+	\end{block}
+	\begin{block}{Definición}
+		Una cadena alternante $\mu[x,y]$, con $x \neq y$, se dice \alert{incremental} si sus extremos $x$ e $y$ son no saturados por el emparejamiento $K$.
+	\end{block}
+	\begin{itemize}
+		\item Una cadena incremental tiene un n\'{u}mero impar de aristas. 
+		\item El n\'{u}mero de aristas que no pertenecen al emparejamiento siempre es una unidad mayor que el n\'{u}mero de aristas del emparejamiento.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Cadena incremental y transferencia}
+	\begin{itemize}
+		\item  Las cadenas incrementales permiten aumentar el cardinal del emparejamiento en una unidad mediante una \alert{transferencia}.
+		\item La transferencia en una cadena incremental $\mu[x,y]$ respecto del emparejamiento $K$ consiste en permutar la pertenencia y no pertenencia de las aristas de la cadena a dicho emparejamiento.
+	\end{itemize}
+	\begin{block}{Transferencia}
+		Dado un emparejamiento $K$ y una cadena incremental $\mu[x,y]$ respecto del mismo, la transferencia es la diferencia sim\'{e}trica entre la cadena y el emparejamiento:
+		$K' = K \bigtriangleup \mu[x,y]$. Se verifica que $\vert K' \vert = \vert K \vert + 1 $.
+	\end{block}	
+	\footnotesize
+	\alert{Nota:} la diferencia sim\'{e}trica de dos conjuntos $A \bigtriangleup B$ es el conjunto de elementos que pertenecen exclusivamente a uno solo de los dos conjuntos: 
+	$A \bigtriangleup B \equiv \{ x \in A \cup B \ / \ x \not\in A \cap B \}$
+\end{frame}
+
+\begin{frame}{Emparejamientos}
+	\begin{block}{Teorema}
+		Dado un grafo $G=(V,E)$, un emparejamiento $K \subset E$ es de m\'{a}ximo cardinal si y solo si no existe ninguna cadena incremental respecto de $K$.
+	\end{block}
+	\begin{block}{Lema}
+		Dados dos emparejamientos $K_1$ y $K_2$ en un grafo simple $G=(V,E)$, al considerar el grafo parcial $G'=(V,K_1 \bigtriangleup K_2)$ se verifica que todas sus componentes conexas son de alguno de los tres tipos:
+		\begin{itemize}
+			\item V\'{e}rtice aislado
+			\item Ciclo elemental alternante (con aristas de $K_1$ y $K_2$ alternativamente). Un ciclo alternante tiene necesariamente un n\'{u}mero par de aristas.
+			
+			\item Cadena elemental alternante. Una cadena alternante puede tener un n\'{u}mero par o impar de aristas.
+		\end{itemize}
+	\end{block}
+	\alert{Nota:} alternante $(K_1,K_2)$ indica que las aristas pertenecen alternativamente a $K_1$ y $K_2$.
+	
+\end{frame}
+\begin{frame}{Emparejamientos}
+	\alert{Demostración (lema):}
+	
+	Analicemos qué tipo de vértices podemos tener en el grafo $G$:
+	\begin{itemize}
+		\item Nodos no saturados por ninguno de los emparejamientos: serán de grado 0 en $G'$. Son vértices aislados.
+		\item Nodos saturados solo por uno de los emparejamientos: serán de grado 1 en $G'$ y, por tanto, extremos en las cadenas alternantes.
+		\item Nodos saturados por los dos emparejamientos:
+		\begin{itemize}
+			\item Saturados por la misma arista en los dos emparejamientos: serán de grado 0 en $G'$ y, por tanto, son vértices aislados. 	
+			\item Saturados por distintas aristas en cada caso: serán vértices de grado 2 en $G'$ y, por tanto, formarán parte de un ciclo alternante o del interior de una cadena alternante. 
+		\end{itemize}
+	\end{itemize}
+	Por tanto, en $G'$ no hay vértices de grado mayor que 2. Las únicas estructuras posibles son las indicadas en el enunciado del lema.
+\end{frame}
+
+\begin{frame}{Emparejamientos}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\begin{scope}
+				\node[node_style] (1) at (1,4) {1} ;
+				\node[node_style] (2) at (2,4) {2} ;
+				\node[node_style] (3) at (2,3) {3} ;
+				\node[node_style] (4) at (1,3) {4} ;
+				\node[node_style] (5) at (2,2) {5} ;
+				\node[node_style] (6) at (1,2) {6} ;
+				\node[node_style] (7) at (0,4) {7} ;
+				\node[node_style] (8) at (-1,4) {8} ;
+				\node[node_style] (9) at (0,3) {9} ;
+				\node[node_style] (10) at (0,2) {10} ;
+				\draw  [line width=1.5pt,color=blue] (1) edge (2) ;
+				\draw  [line width=1.5pt] (2) edge (3) ;
+				\draw  [line width=1.5pt,color=blue] (3) edge (4) ;
+				\draw  [line width=1.5pt] (3) edge (5) ;
+				\draw  [line width=1.5pt,color=blue] (5) edge (6) ;
+				\draw  [line width=1.5pt] (6) edge (4) ;
+				\draw  [line width=1.5pt] (4) edge (7) ;
+				\draw  [line width=1.5pt] (7) edge (8) ;
+				\draw  [line width=1.5pt,color=blue] (7) edge (9) ;
+				\draw  [line width=1.5pt] (8) edge (9) ;
+				\draw  [line width=1.5pt] (10) edge (9) ;
+			\end{scope}
+			\begin{scope}[xshift=5cm]
+				\node[node_style] (1) at (1,4) {1} ;
+				\node[node_style] (2) at (2,4) {2} ;
+				\node[node_style] (3) at (2,3) {3} ;
+				\node[node_style] (4) at (1,3) {4} ;
+				\node[node_style] (5) at (2,2) {5} ;
+				\node[node_style] (6) at (1,2) {6} ;
+				\node[node_style] (7) at (0,4) {7} ;
+				\node[node_style] (8) at (-1,4) {8} ;
+				\node[node_style] (9) at (0,3) {9} ;
+				\node[node_style] (10) at (0,2) {10} ;
+				\draw  [line width=1.5pt,color=red] (1) edge (2) ;
+				\draw  [line width=1.5pt] (2) edge (3) ;
+				\draw  [line width=1.5pt] (3) edge (4) ;
+				\draw  [line width=1.5pt,color=red] (3) edge (5) ;
+				\draw  [line width=1.5pt] (5) edge (6) ;
+				\draw  [line width=1.5pt,color=red] (6) edge (4) ;
+				\draw  [line width=1.5pt] (4) edge (7) ;
+				\draw  [line width=1.5pt,color=red] (7) edge (8) ;
+				\draw  [line width=1.5pt] (7) edge (9) ;
+				\draw  [line width=1.5pt] (8) edge (9) ;
+				\draw  [line width=1.5pt,color=red] (10) edge (9) ;
+			\end{scope}
+			\begin{scope}[yshift=-4cm,xshift=2.5cm]
+				\node[node_style] (1) at (1,4) {1} ;
+				\node[node_style] (2) at (2,4) {2} ;
+				\node[node_style] (3) at (2,3) {3} ;
+				\node[node_style] (4) at (1,3) {4} ;
+				\node[node_style] (5) at (2,2) {5} ;
+				\node[node_style] (6) at (1,2) {6} ;
+				\node[node_style] (7) at (0,4) {7} ;
+				\node[node_style] (8) at (-1,4) {8} ;
+				\node[node_style] (9) at (0,3) {9} ;
+				\node[node_style] (10) at (0,2) {10} ;
+				%\draw  [line width=1.5pt,color=red] (1) edge (2) ;
+				%\draw  [line width=1.5pt] (2) edge (3) ;
+				\draw  [line width=1.5pt,color=blue] (3) edge (4) ;
+				\draw  [line width=1.5pt,color=red] (3) edge (5) ;
+				\draw  [line width=1.5pt,color=blue] (5) edge (6) ;
+				\draw  [line width=1.5pt,color=red] (6) edge (4) ;
+				%\draw  [line width=1.5pt] (4) edge (7) ;
+				\draw  [line width=1.5pt,color=red] (7) edge (8) ;
+				\draw  [line width=1.5pt,color=blue] (7) edge (9) ;
+				%\draw  [line width=1.5pt] (8) edge (9) ;
+				\draw  [line width=1.5pt,color=red] (10) edge (9) ;
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}	
+	
+	
+\end{frame}
+
+
+\begin{frame}{Emparejamientos}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},x=0.5cm,scale=0.7]
+			\begin{scope}
+				\node[node_style] (1) at (0,3) {1} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (2) at (3,3) {2} ;
+				\node[node_style] (3) at (6,3) {3} ;
+				\node[node_style] (4) at (9,3) {4} ;
+				\node[node_style] (5) at (12,3) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above] { 50.0 } (f);
+				\node[node_style] (6) at (0,0) {6} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (7) at (3,0) {7} ;
+				\node[node_style] (8) at (6,0) {8} ;
+				\node[node_style] (9) at (9,0) {9} ;
+				\node[node_style] (10) at (12,0) {10} ;
+				
+				\draw (1) edge[-]  node[left] { } (7) ;
+				\draw (2) edge[-,very thick,color=blue]  node[left] { } (7) ;
+				\draw (2) edge[-]  node[left] { } (8) ;
+				\draw (3) edge[-]  node[right] { } (6) ;
+				\draw (3) edge[-,very thick,color=blue]  node[right] {} (8) ;
+				\draw (3) edge[-]  node[right] { } (9) ;
+				\draw (3) edge[-]  node[right] {} (10) ;
+				\draw (4) edge[-] node[right] {} (7) ;
+				\draw (4) edge[-]  node[right] { } (9) ;
+				\draw (4) edge[-] node[right] {} (10) ;
+				\draw (5) edge[-] node[right] {} (7) ;
+				\draw (5) edge[-]  node[right] { } (8) ;
+				\draw (5) edge[-,very thick,color=blue]  node[right] {} (10) ;
+			\end{scope}
+			\begin{scope}[xshift=10cm]
+				\node[node_style] (1) at (0,3) {1} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (2) at (3,3) {2} ;
+				\node[node_style] (3) at (6,3) {3} ;
+				\node[node_style] (4) at (9,3) {4} ;
+				\node[node_style] (5) at (12,3) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above] { 50.0 } (f);
+				\node[node_style] (6) at (0,0) {6} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (7) at (3,0) {7} ;
+				\node[node_style] (8) at (6,0) {8} ;
+				\node[node_style] (9) at (9,0) {9} ;
+				\node[node_style] (10) at (12,0) {10} ;
+				
+				\draw (1) edge[-]  node[left] { } (7) ;
+				\draw (2) edge[-]  node[left] { } (7) ;
+				\draw (2) edge[-]  node[left] { } (8) ;
+				\draw (3) edge[-]  node[right] { } (6) ;
+				\draw (3) edge[-]  node[right] {} (8) ;
+				\draw (3) edge[-]  node[right] { } (9) ;
+				\draw (3) edge[-,very thick,color=red]  node[right] {} (10) ;
+				\draw (4) edge[-] node[right] {} (7) ;
+				\draw (4) edge[-]  node[right] { } (9) ;
+				\draw (4) edge[-] node[right] {} (10) ;
+				\draw (5) edge[-] node[right] {} (7) ;
+				\draw (5) edge[-,very thick,color=red]  node[right] { } (8) ;
+				\draw (5) edge[-]  node[right] {} (10) ;
+			\end{scope}
+			\begin{scope}[yshift=-5cm,xshift=5cm]
+				\node[node_style] (1) at (0,3) {1} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (2) at (3,3) {2} ;
+				\node[node_style] (3) at (6,3) {3} ;
+				\node[node_style] (4) at (9,3) {4} ;
+				\node[node_style] (5) at (12,3) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above] { 50.0 } (f);
+				\node[node_style] (6) at (0,0) {6} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (7) at (3,0) {7} ;
+				\node[node_style] (8) at (6,0) {8} ;
+				\node[node_style] (9) at (9,0) {9} ;
+				\node[node_style] (10) at (12,0) {10} ;
+				
+				\draw (2) edge[-,very thick,color=blue]  node[left] { } (7) ;
+				\draw (3) edge[-,very thick,color=blue]  node[right] {} (8) ;
+				\draw (3) edge[-,very thick,color=red]  node[right] {} (10) ;
+				\draw (5) edge[-,very thick,color=red]  node[right] { } (8) ;
+				\draw (5) edge[-,very thick,color=blue]  node[right] {} (10) ;
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}	
+	
+\end{frame}
+
+\begin{frame}{Emparejamientos}\footnotesize
+	\alert{Demostración (teorema):}
+	\begin{description}
+		\item[$\Rightarrow$] Sea $K$ un emparejamiento máximal. Si existiera una cadena alternante incremental, sería posible obtener un nuevo emparejamiento de cardinal una unidad mayor!!!!!!.
+		\item[$\Leftarrow$]  Sea $K_1$ un emparejamiento que no admite una cadena alternante incremental y $K_2$ un emparejamiento maximal (que siempre existe). Veamos que necesariamente tienen el mismo cardinal y, por tanto, $K_1$ también es maximal. 
+		
+		Por el lema anterior, el grafo $G'$ tiene tres tipos de componentes. Los vértices aislados y los ciclos no aportan información sobre la diferencia de cardinal entre $K_1$ y $K_2$ (los ciclos siempre son de cardinal par).
+		
+		Las cadenas alternantes tienen que ser siempre de cardinal par ya que una cadena de cardinal impar, esta sería alternante incremental: 
+		\begin{itemize}
+			\item Los extremos no pueden ser de $K_1$, ya que $K_1$ no tiene cadenas incrementales.
+			\item Los extremos no pueden ser de $K_2$, ya que en ese caso $K_2$ no sería maximal.
+		\end{itemize}
+		Por tanto, las cadenas son siempre de  cardinal par y, por tanto, $K_1$ y $K_2$ tienen el mismo cardinal.
+	\end{description}
+\end{frame}
+
+\begin{frame}{Emparejamientos}
+	El problema se reduce a encontrar cadenas alternantes incrementales o demostrar que no existen.
+	
+	\bigskip
+	
+	\begin{columns}
+		\column{0.3\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\begin{scope}
+					\node[node_style] (6) at (-1,2) {6} ;
+					\node[node_style] (7) at (0,3) {7} ;
+					\node[node_style] (8) at (2,3) {8} ;
+					\draw  [line width=1.5pt] (6) edge (7) ;
+					\draw  [line width=1.5pt] (7) edge (8) ;
+					\only<1-6,9>{
+						\node[node_style] (1) at (1,2) {1} ;
+						\node[node_style] (2) at (2,2) {2} ;
+						\node[node_style] (3) at (2,1) {3} ;
+						\node[node_style] (4) at (1,1) {4} ;
+						\node[node_style] (5) at (0,2) {5} ;
+						\draw  [line width=1.5pt] (1) edge (2) ;
+						\draw  [line width=1.5pt] (2) edge (3) ;
+						\draw  [line width=1.5pt] (3) edge (4) ;
+						\draw  [line width=1.5pt] (4) edge (5) ;
+						\draw  [line width=1.5pt] (4) edge (6) ;
+						\draw  [line width=1.5pt] (1) edge (5) ;
+						\draw  [line width=1.5pt] (1) edge (7) ;
+						\draw  [line width=1.5pt] (2) edge (8) ;
+						\only<3-6>{
+							\node[node_style,line width=2pt,color=blue] (1) at (1,2) {1} ;
+							\node[node_style,line width=2pt,color=blue] (2) at (2,2) {2} ;
+							\draw  [line width=2pt,color=blue] (1) edge (2) ;
+						}
+						\only<4-6>{
+							\node[node_style,line width=2pt,color=blue] (3) at (2,1) {3} ;
+							\node[node_style,line width=2pt,color=blue] (4) at (1,1) {4} ;
+							\draw  [line width=2pt,color=blue] (3) edge (4) ;
+						}
+						\only<5-6>{
+							\draw  [dashed,line width=2pt,color=magenta] (1) edge (2) ;
+							\draw  [dashed,line width=2pt,color=magenta] (2) edge (3) ;
+							\draw  [dashed,line width=2pt,color=magenta] (3) edge (4) ;
+							\draw  [dashed,line width=2pt,color=magenta] (4) edge (5) ;
+							\draw  [dashed,line width=2pt,color=magenta] (5) edge (1) ;
+						}
+						\only<9>{\draw  [line width=2pt,color=blue] (1) edge (5) ;}
+						\only<9>{\draw  [line width=2pt,color=blue] (2) edge (3) ;}
+					}
+					\only<7-8>{
+						\node[node_style] (W) at (1.5,1.5) {W} ;
+						\draw  [line width=1.5pt] (6) edge (W) ;
+						\draw  [line width=1.5pt] (7) edge (W) ;
+						\draw  [line width=1.5pt] (8) edge (W) ;
+					}
+					\only<8>{
+						\node[node_style,line width=2pt,color=blue] (W) at (1.5,1.5) {W} ;
+						\node[node_style,line width=2pt,color=blue] (6) at (-1,2) {6} ;
+						\node[node_style,line width=2pt,color=blue] (7) at (0,3) {7} ;
+						\node[node_style,line width=2pt,color=blue] (8) at (2,3) {8} ;
+						\draw  [line width=2pt,color=blue] (6) edge (W) ;
+						\draw  [line width=2pt,color=blue] (7) edge (8) ;
+					}
+					\only<9>{
+						\draw  [line width=2pt,color=blue] (6) edge (4) ;
+						\draw  [line width=2pt,color=blue] (7) edge (8) ;
+					}
+				\end{scope}
+			\end{tikzpicture}
+		\end{center}	
+		\column{.7\textwidth}\small
+		\begin{itemize}
+			\item<2->{Inicialmente $K=\emptyset$.}
+			
+			\item<3->{$K=\{(1,2)\}.$}
+			
+			\item<4->{$K=\{(1,2), (3,4)\}$.}
+			
+			\item<5->{El siguiente vértice no saturado es el 5: forma un ciclo de cardinal impar.
+				
+				En este ciclo el emparejamiento máximal es de cardinal 2.}
+			
+			\only<6>{
+				\begin{center}
+					\begin{tikzpicture}[scale=0.7,node_style/.style={draw,circle,minimum size=0.3cm,inner sep=1,font=\footnotesize}]
+						\begin{scope}
+							\node[node_style] (1) at (1,2) {1} ;
+							\node[node_style] (2) at (2,2) {2} ;
+							\node[node_style] (3) at (2,1) {3} ;
+							\node[node_style] (4) at (1,1) {4} ;
+							\node[node_style] (5) at (0,2) {5} ;
+							\node[node_style,line width=1.25pt,color=blue] (1) at (1,2) {1} ;
+							\node[node_style,line width=1.25pt,color=blue] (2) at (2,2) {2} ;
+							\node[node_style,line width=1.25pt,color=blue] (3) at (2,1) {3} ;
+							\node[node_style,line width=1.25pt,color=blue] (4) at (1,1) {4} ;
+							\draw  [line width=1pt] (1) edge (2) ;
+							\draw  [line width=1pt] (2) edge (3) ;
+							\draw  [line width=1pt] (3) edge (4) ;
+							\draw  [line width=1pt] (4) edge (5) ;
+							\draw  [line width=1pt] (1) edge (5) ;
+							\draw  [line width=1.25pt,color=blue] (1) edge (2) ;
+							\draw  [line width=1.25pt,color=blue] (3) edge (4) ;
+						\end{scope}
+						\begin{scope}[xshift=2.8cm]
+							\node[node_style] (1) at (1,2) {1} ;
+							\node[node_style] (2) at (2,2) {2} ;
+							\node[node_style] (3) at (2,1) {3} ;
+							\node[node_style] (4) at (1,1) {4} ;
+							\node[node_style] (5) at (0,2) {5} ;
+							\draw  [line width=1pt] (1) edge (2) ;
+							\draw  [line width=1pt] (2) edge (3) ;
+							\draw  [line width=1pt] (3) edge (4) ;
+							\draw  [line width=1pt] (4) edge (5) ;
+							\draw  [line width=1pt] (1) edge (5) ;
+							\node[node_style,line width=1.25pt,color=blue] (1) at (1,2) {1} ;
+							\node[node_style,line width=1.25pt,color=blue] (5) at (0,2) {5} ;
+							\node[node_style,line width=1.25pt,color=blue] (2) at (2,2) {2} ;
+							\node[node_style,line width=1.25pt,color=blue] (3) at (2,1) {3} ;
+							\draw  [line width=1.25pt,color=blue] (1) edge (5) ;
+							\draw  [line width=1.25pt,color=blue] (3) edge (2) ;
+						\end{scope}
+						\begin{scope}[xshift=5.6cm]
+							\node[node_style] (1) at (1,2) {1} ;
+							\node[node_style] (2) at (2,2) {2} ;
+							\node[node_style] (3) at (2,1) {3} ;
+							\node[node_style] (4) at (1,1) {4} ;
+							\node[node_style] (5) at (0,2) {5} ;
+							\draw  [line width=1pt] (1) edge (2) ;
+							\draw  [line width=1pt] (2) edge (3) ;
+							\draw  [line width=1pt] (3) edge (4) ;
+							\draw  [line width=1pt] (4) edge (5) ;
+							\draw  [line width=1pt] (1) edge (5) ;
+							\node[node_style,line width=1.25pt,color=blue] (1) at (1,2) {1} ;
+							\node[node_style,line width=1.25pt,color=blue] (5) at (0,2) {5} ;
+							\node[node_style,line width=1.25pt,color=blue] (2) at (2,2) {2} ;
+							\node[node_style,line width=1.25pt,color=blue] (4) at (1,1) {4} ;
+							\draw  [line width=1.25pt,color=blue] (1) edge (2) ;
+							\draw  [line width=1.25pt,color=blue] (5) edge (4) ;
+						\end{scope}
+						
+						\begin{scope}[xshift=8.4cm]
+							\node[node_style] (1) at (1,2) {1} ;
+							\node[node_style] (2) at (2,2) {2} ;
+							\node[node_style] (3) at (2,1) {3} ;
+							\node[node_style] (4) at (1,1) {4} ;
+							\node[node_style] (5) at (0,2) {5} ;
+							\draw  [line width=1pt] (1) edge (2) ;
+							\draw  [line width=1pt] (2) edge (3) ;
+							\draw  [line width=1pt] (3) edge (4) ;
+							\draw  [line width=1pt] (4) edge (5) ;
+							\draw  [line width=1pt] (1) edge (5) ;
+							\node[node_style,line width=1.25pt,color=blue] (1) at (1,2) {1} ;
+							\node[node_style,line width=1.25pt,color=blue] (5) at (0,2) {5} ;
+							\node[node_style,line width=1.25pt,color=blue] (3) at (2,1) {3} ;
+							\node[node_style,line width=1.25pt,color=blue] (4) at (1,1) {4} ;
+							\draw  [line width=1.25pt,color=blue] (1) edge (5) ;
+							\draw  [line width=1.25pt,color=blue] (3) edge (4) ;
+						\end{scope}
+						\begin{scope}[xshift=11.2cm]
+							\node[node_style] (1) at (1,2) {1} ;
+							\node[node_style] (2) at (2,2) {2} ;
+							\node[node_style] (3) at (2,1) {3} ;
+							\node[node_style] (4) at (1,1) {4} ;
+							\node[node_style] (5) at (0,2) {5} ;
+							\draw  [line width=1pt] (1) edge (2) ;
+							\draw  [line width=1pt] (2) edge (3) ;
+							\draw  [line width=1pt] (3) edge (4) ;
+							\draw  [line width=1pt] (4) edge (5) ;
+							\draw  [line width=1pt] (1) edge (5) ;
+							\node[node_style,line width=1.25pt,color=blue] (4) at (1,1) {4} ;
+							\node[node_style,line width=1.25pt,color=blue] (5) at (0,2) {5} ;
+							\node[node_style,line width=1.25pt,color=blue] (2) at (2,2) {2} ;
+							\node[node_style,line width=1.25pt,color=blue] (3) at (2,1) {3} ;
+							\draw  [line width=1.25pt,color=blue] (4) edge (5) ;
+							\draw  [line width=1.25pt,color=blue] (3) edge (2) ;
+						\end{scope}
+					\end{tikzpicture}
+				\end{center}	
+				Cualquier vértice puede quedar expuesto y el resto saturados.
+			}
+			
+			
+			\item<7->{Se realiza una comprensión de este ciclo en un solo vértice.}
+			
+			\item<8->{Se completa un emparejamiento en el grafo comprimido.}
+			
+			
+			\item<9->{Se recupera el grafo original y se ajusta el emparejamiento del ciclo.}
+		\end{itemize}
+		
+	\end{columns}
+	
+\end{frame}
+\begin{frame}{Emparejamientos}
+	\begin{block}{Comprensión de un grafo}
+		Dado un grafo $G=(V,E)$ y un subconjunto de vértices $W\subset V$, se define el grafo comprimnido $G/W$ como:
+		$$
+		G/W =\bigl( V\setminus W\cup\{w\}, E/W\bigr)
+		$$
+		donde $E/W$ es el conjunto de aristas
+		$$
+		E/W=\bigl\{\{i,j\}\,\vert\, i,j\notin W\bigr\}\cup \bigl\{\{w,j\}\,\vert\, \{j,i\}\in E,  j\in W, i\notin W\bigl\}
+		$$
+	\end{block}
+\end{frame}
+\begin{frame}{Emparejamientos}
+	\begin{block}{Teorema}
+		Sea $G=(V,E)$ un grafo, $W\subset V$ un subconjunto de vértices asociado a un ciclo impar y $K_1$ un emparejamiento en el grafo comprimido $G/W$. Entonces, existe un emparejamiento $K_W$ en el subgrafo generado por $W$  tal que $K=K_1\cup K_W$ es un emparejamiento de $G$.
+	\end{block}
+	Nota: 
+	\begin{itemize}
+		\item La clave está en que al ser un ciclo impar, siempre queda un vértice no saturado en $W$ respecto de $K_W$.
+		\item Siempre se puede elegir qué vértice del ciclo es el que se queda no saturado
+		\item Si el vértice asociado al ciclo comprimido está saturado en $K_1$, se deja como no saturado en el ciclo precisamente el vértice asociado a la arista que satura al vértice $w$.
+	\end{itemize}
+\end{frame}
+\begin{frame}{Emparejamientos}
+	Nota: que $K_1$ sea un ciclo maximal en $G/W$ no implica que $K$ lo sea en $G$.
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (6) at (-1,2) {6} ;
+			\node[node_style] (1) at (0,2) {1} ;
+			\node[node_style] (2) at (1,3) {2} ;
+			\node[node_style] (3) at (1,1) {3} ;
+			\node[node_style] (4) at (2,3) {4} ;
+			\node[node_style] (5) at (2,1) {5} ;
+			\draw  [line width=1.5pt,color=red] (1) edge (6) ;
+			\draw  [line width=1.5pt] (1) edge (2) ;
+			\draw  [line width=1.5pt] (1) edge (3) ;
+			\draw  [line width=1.5pt] (2) edge (3) ;
+			\draw  [line width=1.5pt,color=red] (2) edge (4) ;
+			\draw  [line width=1.5pt,color=red] (3) edge (5) ;
+		\end{tikzpicture}
+	\end{center}	
+\end{frame}
+
+
+
+\subsection{\'{A}rbol alternante}
+
+\begin{frame}{Árbol alternante}
+	
+	\begin{itemize}\itemsep 3mm
+		\item Dado un emparejamiento y un v\'{e}rtice expuesto, se trata de encontrar una cadena incremental impar que parta de dicho v\'{e}rtice.
+		\item Los v\'{e}rtices $x \in V$ saturados por el emparejamiento se identificar\'{a}n por $sat(x)=1$; los v\'{e}rtices expuestos o no saturados verificar\'{a}n $sat(x)=0$.
+		\item A partir de un emparejamiento,  se construye un conjunto de \'{a}rboles alternantes inconexos, que se puede definir como un bosque alternante.
+		\item \alert{Nota:} a partir de un emparejamiento en un grafo, bipartito o no, siempre se puede construir un grafo bipartito a partir del grafo parcial que resulta de seleccionar las aristas
+		del emparejamiento.
+	\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Árbol alternante}
+	
+	\begin{block}{Definición}
+		Dados un grafo $G=(V,E)$ y un emparejamiento $K \subset E$, un 	\alert{\'{a}rbol alternante} es un subgrafo parcial $H=(W,T)$, con 	$W \subset V$ y $T \subset E$ con las siguientes propiedades:
+		\begin{enumerate}
+			\item $H$ es un \'{a}rbol.
+			\item Existe un v\'{e}rtice $r \in W$, que se denomina ra\'{\i}z del \'{a}rbol alternante,
+			y que es un v\'{e}rtice expuesto respecto del emparejamiento $K$.
+			\item Cualquier cadena elemental que une un v\'{e}rtice $w \in W$  con la ra\'{\i}z $r$ es una
+			cadena alternante.
+		\end{enumerate}
+	\end{block}
+	\alert{Notación:} cada \'{a}rbol alternante se nota a partir de su raiz, de forma que se denotar\'{a} por $H(r)=(W(r),T(r))$.
+\end{frame}
+
+\begin{frame}{Emparejamientos}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (1) at (2,2) {1} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (2) at (4,2) {2} ;
+			\node[node_style] (3) at (6,2) {3} ;
+			\node[node_style] (4) at (2,0) {4} ;
+			\node[node_style] (5) at (4,0) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			\node[node_style] (6) at (0,0) {6} ;
+			
+			\only<2->{
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5},dashed,line width=2.2pt]
+					\draw[blue] (1) edge[-]  (4) ;
+					\draw (1) edge[-]   (6) ;
+					\draw[blue] (2) edge[-]  (5) ;
+					\draw (3) edge[-] (5) ;
+				\end{scope}
+			}
+			
+			\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+				\draw[blue,very thick] (1) edge[-] (4) ;
+				\draw (1) edge[-]  (5) ;
+				\draw (1) edge[-]  (6) ;
+				\draw[blue,very thick] (2) edge[-]  (5) ;
+				\draw (3) edge[-]  (5) ;
+			\end{scope}			
+		\end{tikzpicture}
+		
+		\bigskip
+		
+		\visible<3->{
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},scale=0.7]
+				\node[node_style] (1) at (0,3) {1} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (2) at (3,3) {2} ;
+				\node[node_style] (3) at (6,3) {3} ;
+				\node[node_style] (4) at (9,3) {4} ;
+				\node[node_style] (5) at (12,3) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above] { 50.0 } (f);
+				\node[node_style] (6) at (0,0) {6} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (7) at (3,0) {7} ;
+				\node[node_style] (8) at (6,0) {8} ;
+				\node[node_style] (9) at (9,0) {9} ;
+				\node[node_style] (10) at (12,0) {10} ;
+				
+				\only<4>{
+					\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5},dashed,line width=2.2pt]
+						\draw (1) edge[-]  node[left] { } (7) ;
+						\draw (2) edge[-,color=blue]  node[left] { } (7) ;
+						\draw (2) edge[-]  node[left] { } (8) ;
+						\draw (3) edge[-]  node[right] { } (6) ;
+						\draw (3) edge[-,color=blue]  node[right] {} (8) ;
+						\draw (3) edge[-]  node[right] { } (9) ;
+						\draw (3) edge[-]  node[right] {} (10) ;
+						\draw (5) edge[-,color=blue]  node[right] {} (10) ;
+					\end{scope}
+				}
+				
+				
+				\draw (1) edge[-]  node[left] { } (7) ;
+				\draw (2) edge[-,very thick,color=blue]  node[left] { } (7) ;
+				\draw (2) edge[-]  node[left] { } (8) ;
+				\draw (3) edge[-]  node[right] { } (6) ;
+				\draw (3) edge[-,very thick,color=blue]  node[right] {} (8) ;
+				\draw (3) edge[-]  node[right] { } (9) ;
+				\draw (3) edge[-]  node[right] {} (10) ;
+				\draw (4) edge[-] node[right] {} (7) ;
+				\draw (4) edge[-]  node[right] { } (9) ;
+				\draw (4) edge[-] node[right] {} (10) ;
+				\draw (5) edge[-] node[right] {} (7) ;
+				\draw (5) edge[-]  node[right] { } (8) ;
+				\draw (5) edge[-,very thick,color=blue]  node[right] {} (10) ;
+			\end{tikzpicture}
+		}
+		
+		
+		
+	\end{center}	
+\end{frame}
+
+
+\begin{frame}{Árbol alternante}
+	
+	\begin{itemize}\itemsep 5mm
+		\item Sea $R \subset V$ el conjunto de las ra\'{\i}ces del bosque alternante que se construye en el grafo $G=(V,E)$ a partir de un 	emparejamiento $K \subset E$. 
+		\item El bosque alternante se caracteriza por el vector ${\bf p}$ (indica, para cada vértice, cuál es su padre).
+		\item Cada ra\'{\i}z $r \in R$ de un \'{a}rbol alternante $H(r)=(W(r),T(r))$ se identifica por $p(r)=r$. 
+		\item La \'{u}nica cadena alternante que une cualquier v\'{e}rtice $w \in W(r)$ del \'{a}rbol con su ra\'{\i}z $r$ es: 
+		$$ 
+		w \longleftrightarrow  p(w)  \longleftrightarrow  p(p(w)) \longleftrightarrow \cdots  \longleftrightarrow p(\cdots(p(w)) \cdots)  \longleftrightarrow  r 
+		$$
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Emparejamientos}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (1) at (2,2) {1} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (2) at (4,2) {2} ;
+			\node[node_style] (3) at (6,2) {3} ;
+			\node[node_style] (4) at (2,0) {4} ;
+			\node[node_style] (5) at (4,0) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			\node[node_style] (6) at (0,0) {6} ;
+			
+			\only<1->{
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5},dashed,line width=2.2pt]
+					\draw[blue] (1) edge[-]  (4) ;
+					\draw (1) edge[-]   (6) ;
+					\draw[blue] (2) edge[-]  (5) ;
+					\draw (3) edge[-] (5) ;
+				\end{scope}
+			}
+			
+			\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+				\draw[blue,very thick] (1) edge[-] (4) ;
+				\draw (1) edge[-]  (5) ;
+				\draw (1) edge[-]  (6) ;
+				\draw[blue,very thick] (2) edge[-]  (5) ;
+				\draw (3) edge[-]  (5) ;
+			\end{scope}			
+			
+			\node at (10,1.5){$R=\{3,6\}$};
+			\node at (10,1){$\vp^T=(6,5,3,1,3,6)$};
+			
+		\end{tikzpicture}
+	\end{center}	
+	\begin{itemize}
+		\item Este bosque alternante tiene dos componentes conexas:
+		\begin{align*}
+			H(3) & = (W(3),T(3)) & W(3) & = \{ 2,3,5 \} & T(3) &= \left\{ \{ 3,5 \} ; \{ 2,5 \} \right\}
+			\\
+			H(6)&  = (W(6),T(6)) & W(6) &= \{ 1,4,6 \} &T(6) &= \left\{ \{ 6,1 \} ; \{ 1,4 \} \right\} 
+		\end{align*}
+		\item No existen cadenas incrementales, por lo que el emparejamiento es de m\'{a}ximo cardinal.
+	\end{itemize}
+	
+\end{frame}
+\begin{frame}{Emparejamientos}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},scale=0.7]
+			\node[node_style] (1) at (0,3) {1} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (2) at (3,3) {2} ;
+			\node[node_style] (3) at (6,3) {3} ;
+			\node[node_style] (4) at (9,3) {4} ;
+			\node[node_style] (5) at (12,3) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above] { 50.0 } (f);
+			\node[node_style] (6) at (0,0) {6} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (7) at (3,0) {7} ;
+			\node[node_style] (8) at (6,0) {8} ;
+			\node[node_style] (9) at (9,0) {9} ;
+			\node[node_style] (10) at (12,0) {10} ;
+			
+			\only<1>{
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5},dashed,line width=2.2pt]
+					\draw (1) edge[-]  node[left] { } (7) ;
+					\draw (2) edge[-,color=blue]  node[left] { } (7) ;
+					\draw (2) edge[-]  node[left] { } (8) ;
+					\draw (3) edge[-]  node[right] { } (6) ;
+					\draw (3) edge[-,color=blue]  node[right] {} (8) ;
+					\draw (3) edge[-]  node[right] { } (9) ;
+					\draw (3) edge[-]  node[right] {} (10) ;
+					\draw (5) edge[-,color=blue]  node[right] {} (10) ;
+				\end{scope}
+			}
+			
+			
+			\draw (1) edge[-]  node[left] { } (7) ;
+			\draw (2) edge[-,very thick,color=blue]  node[left] { } (7) ;
+			\draw (2) edge[-]  node[left] { } (8) ;
+			\draw (3) edge[-]  node[right] { } (6) ;
+			\draw (3) edge[-,very thick,color=blue]  node[right] {} (8) ;
+			\draw (3) edge[-]  node[right] { } (9) ;
+			\draw (3) edge[-]  node[right] {} (10) ;
+			\draw (4) edge[-] node[right] {} (7) ;
+			\draw (4) edge[-]  node[right] { } (9) ;
+			\draw (4) edge[-] node[right] {} (10) ;
+			\draw (5) edge[-] node[right] {} (7) ;
+			\draw (5) edge[-]  node[right] { } (8) ;
+			\draw (5) edge[-,very thick,color=blue]  node[right] {} (10) ;
+			
+			\node at (14.67,2){$R=\{1\}$};
+			\node at (17,1){$\vp^T=(1,7,8,0,10,3,1,2,3,3)$};
+			
+		\end{tikzpicture}
+		
+		
+		
+	\end{center}	
+	\begin{itemize}
+		\item Se identifican dos cadenas incrementales asociadas a los v\'{e}rtices expuestos $6$ y $9$: 
+		\begin{align*}
+			6 \longleftrightarrow p(6)=3 \longleftrightarrow p(3)=8 \longleftrightarrow p(8)=2 \longleftrightarrow p(2)=7 \longleftrightarrow p(7)=1 
+			\\
+			9 \longleftrightarrow  p(9)=3  \longleftrightarrow  p(3)=8 \longleftrightarrow  p(8)=2  \longleftrightarrow  p(2)=7 \longleftrightarrow  p(7)=1 
+		\end{align*}
+		\item La transferencia por la cadena incremental que sale del v\'{e}rtice $6$ permite obtener el emparejamiento
+		$$ K'_1 = \{ \{ 6,3 \} ; \{ 8,2 \} ;\{ 7,1 \} ;\{ 5,10 \} \} $$
+		que tiene una arista m\'{a}s que $K_1$.
+		
+	\end{itemize}
+	
+\end{frame}
+
+
+
+\begin{frame}{Emparejamientos. Algoritmo}
+	\begin{description}\itemsep 3mm
+		\item[Paso A.-] Encontrar un emparejamiento $K$ inicial (por ejemplo $K=\emptyset$).
+		\item[Paso B.-] Si el número de vértices no saturados es 0 o 1, PARAR. En otro caso ir al siguiente paso.
+		\item[Paso C.-] Construir un árbol alternante asociado a $K$:
+		\begin{enumerate}\itemsep 2mm
+			\item Inicializar el árbol alternante.
+			\item Construir el árbol alternante:
+			\begin{description}\itemsep 1mm
+				\item[Caso 1:] Se detecta un ciclo impar, se contrae (modificando el grafo) y se va al  al paso C.2.
+				\item[Caso 2:] Se amplía el árbol alternante y se va al paso C.2.
+				\item[Caso 3:] Se detecta una cadena alternante. Se incrementa $K$ y se va al paso B.
+				\item[Caso 4:] En el resto de los casos, PARAR, $K$ es maximal.
+			\end{description}
+		\end{enumerate}
+	\end{description}
+\end{frame}
+\begin{frame}{Emparejamientos}
+	Para aplicar el paso C del algoritmo se necesitan los siguientes elementos:
+	\begin{itemize}
+		\item $(Y,T)$, árbol alternante ($Y\subset V$, $T\subset E$).
+		\item $Y^0$, vértices pares, esto es, vértices de $Y$ conectados con la raíz del árbol (incluida ella misma) por una cadena alternante par.
+		\item Las hojas del árbol tienen que ser siempre pares.
+	\end{itemize}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style,color=red] (0) at (0,1.5) {0} ;
+			\node[node_style] (1) at (2,2) {1} ;
+			\node[node_style] (3) at (2,1) {3} ;
+			\node[node_style,color=red] (2) at (4,2) {2} ;
+			\node[node_style,color=red] (4) at (4,1) {4} ;
+			\node[node_style] (5) at (6,2) {5} ;
+			\node[node_style] (7) at (6,0) {7} ;
+			\node[node_style,color=red] (6) at (8,2) {6} ;
+			\node[node_style,color=red] (8) at (8,0) {8} ;
+			\draw  [line width=1.5pt] (0) edge (1) ;
+			\draw  [line width=1.5pt] (0) edge (3) ;
+			\draw  [line width=1.5pt] (1) edge (2) ;
+			\draw  [line width=1.5pt] (3) edge (4) ;
+			\draw  [line width=1.5pt] (4) edge (5) ;
+			\draw  [line width=1.5pt] (4) edge (7) ;
+			\draw  [line width=1.5pt] (5) edge (6) ;
+			\draw  [line width=1.5pt] (7) edge (8) ;
+		\end{tikzpicture}
+	\end{center}	
+	En este ejemplo $Y=\{0,1,2,3,4,5,6,7,8\}$ e $Y^0=\{0,2,4,6,8\}$.
+	
+\end{frame}
+\begin{frame}{Emparejamientos}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style,color=red] (0) at (0,1.5) {0} ;
+			\node[node_style] (1) at (2,2) {1} ;
+			\node[node_style] (3) at (2,1) {3} ;
+			\node[node_style,color=red] (2) at (4,2) {2} ;
+			\node[node_style,color=red] (4) at (4,1) {4} ;
+			\node[node_style] (5) at (6,2) {5} ;
+			\node[node_style] (7) at (6,0) {7} ;
+			\node[node_style,color=red] (6) at (8,2) {6} ;
+			\node[node_style,color=red] (8) at (8,0) {8} ;
+			\draw  [line width=1.5pt] (0) edge (1) ;
+			\draw  [line width=1.5pt] (0) edge (3) ;
+			\draw  [line width=1.5pt] (1) edge (2) ;
+			\draw  [line width=1.5pt] (3) edge (4) ;
+			\draw  [line width=1.5pt] (4) edge (5) ;
+			\draw  [line width=1.5pt] (4) edge (7) ;
+			\draw  [line width=1.5pt] (5) edge (6) ;
+			\draw  [line width=1.5pt] (7) edge (8) ;
+		\end{tikzpicture}
+	\end{center}	
+	En este ejemplo $Y=\{0,1,2,3,4,5,6,7,8\}$ e $Y^0=\{0,2,4,6,8\}$.
+	\begin{itemize}
+		\item Los ciclos impares se detectan si hay dos nodos de $Y^0$ conectados.
+		\item Si no hay ciclos impares, se expande el árbol a partir $Y^0$:
+		\begin{itemize}
+			\item Con vértices adyacentes no saturados (se detectan cadenas alternantes).
+			\item Con vértices adyacentes saturados: se añade un arco del emparejamiento al árbol y nun vértice a $Y^0$.
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+\begin{frame}{Emparejamientos}\small
+	\begin{columns}
+		\column{0.3\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				
+				\node[node_style] (8) at (2,3) {8} ;
+				\only<-26>{
+					\node[node_style] (6) at (-1,2) {6} ;
+					\node[node_style] (7) at (0,3) {7} ;
+					\draw  [line width=1.5pt] (6) edge (7) ;
+					\draw  [line width=1.5pt] (7) edge (8) ;
+				}
+				\only<1-19>{
+					\node[node_style] (1) at (1,2) {1} ;
+					\node[node_style] (2) at (2,2) {2} ;
+					\node[node_style] (3) at (2,1) {3} ;
+					\node[node_style] (4) at (1,1) {4} ;
+					\node[node_style] (5) at (0,2) {5} ;
+					\draw  [line width=1.5pt] (1) edge (2) ;
+					\draw  [line width=1.5pt] (2) edge (3) ;
+					\draw  [line width=1.5pt] (3) edge (4) ;
+					\draw  [line width=1.5pt] (4) edge (5) ;
+					\draw  [line width=1.5pt] (4) edge (6) ;
+					\draw  [line width=1.5pt] (1) edge (5) ;
+					\draw  [line width=1.5pt] (1) edge (7) ;
+					\draw  [line width=1.5pt] (2) edge (8) ;
+					\only<4-5>{\node[node_style,line width=2pt,color=red] (1) at (1,2) {1} ;}
+					\only<5>{\node[node_style,line width=2pt] (1) at (2,2) {2} ;}
+					\only<6->{
+						\node[node_style,line width=1.5pt,color=blue] (1) at (1,2) {1} ;
+						\node[node_style,line width=1.5pt,color=blue] (2) at (2,2) {2} ;
+						\draw  [line width=1.5pt,color=blue] (1) edge (2) ;
+					}
+					\only<7-11>{\node[node_style,line width=2pt,color=red] (3) at (2,1) {3} ;}
+					\only<8-11>{
+						\node[dashed,node_style,line width=2pt,color=red] (1) at (1,2) {1} ;
+						\draw  [line width=2pt,color=white,dashed] (1) edge (2) ; 
+						\draw  [line width=2pt,color=white,dashed] (2) edge (3) ; 
+					}
+					\only<12->{
+						\node[node_style,line width=1.5pt,color=blue] (3) at (2,1) {3} ;
+						\node[node_style,line width=1.5pt,color=blue] (4) at (1,1) {4} ;
+						\draw  [line width=1.5pt,color=blue] (3) edge (4) ; 
+					}
+					\only<11>{
+						\node[node_style,line width=2pt,color=black] (4) at (1,1) {4} ;
+						%\node[node_style,line width=2pt,color=blue] (2) at (2,2) {2} ;
+						%\node[node_style,line width=2pt,color=blue] (3) at (2,1) {3} ;
+					}
+					\only<14-19>{
+						\node[node_style,line width=2pt,color=red] (5) at (0,2) {5} ;
+						\visible<15->{
+							\node[node_style,color=blue] (1) at (1,2) {1} ;
+							\node[node_style,color=red,dashed] (2) at (2,2) {2} ;
+							\draw  [line width=2pt,color=white,dashed] (1) edge (2) ; 
+							\draw  [line width=2pt,color=white,dashed] (5) edge (1) ; 
+						}
+						\visible<16->{
+							\node[node_style,color=red,dashed] (3) at (2,1) {3} ;
+							\node[node_style,color=blue] (4) at (1,1) {4} ;
+							\draw  [line width=2pt,color=white,dashed] (3) edge (4) ; 
+							\draw  [line width=2pt,color=white,dashed] (5) edge (4) ; 
+						}
+						\visible<18->{
+							\draw  [line width=2pt,color=white,dashed] (2) edge (3) ; 
+						}
+					}
+				}
+				\only<20-26>{
+					\only<20-21>{\node[node_style,line width=2pt,color=red] (w) at (1,1.5) {w} ;}
+					\draw  [line width=1.5pt] (w) edge (6) ;
+					\draw  [line width=1.5pt] (w) edge (7) ;
+					\draw  [line width=1.5pt] (w) edge (8) ;
+					\only<21>{\node[node_style,line width=2pt] (6) at (-1,2) {6} ;}
+					\only<22-26>{
+						\node[node_style,color=blue] (w) at (1,1.5) {w} ;
+						\node[node_style,color=blue] (6) at (-1,2) {6} ;
+						\draw  [line width=1.5pt,color=blue] (w) edge (6) ; 
+					}
+					\only<23->{\node[node_style,line width=2pt,color=red] (7) at (0,3) {7} ;}
+					\only<24-26>{
+						\node[node_style,color=red,dashed] (6) at (-1,2) {6} ;
+						\draw  [line width=2pt,color=white,dashed] (7) edge (w) ; 
+						\draw  [line width=2pt,color=white,dashed] (6) edge (w) ; 
+						\only<26->{\draw  [line width=2pt,color=white,dashed] (6) edge (7) ; }
+					}
+				}
+				\only<27-28>{
+					\node[node_style] (w2) at (0,2) {w'} ;
+					\draw  [line width=1.5pt] (w2) edge (8) ;
+					\only<28->{
+						\node[node_style,color=blue] (w2) at (0,2) {w'} ;
+						\node[node_style,color=blue] (8) at (2,3) {8} ;
+						\draw  [line width=2pt,color=blue] (w2) edge (8) ; 
+					}
+				}
+				\only<29>{
+					\node[node_style,color=blue] (w) at (1,1.5) {w} ;
+					\node[node_style,color=blue] (6) at (-1,2) {6} ;
+					\node[node_style,color=blue] (7) at (0,3) {7} ;
+					\node[node_style,color=blue] (8) at (2,3) {8} ;
+					\draw  [line width=2pt,color=blue] (7) edge (8) ; 
+					\draw  [line width=2pt,color=blue] (6) edge (w) ; 
+					\draw  [line width=2pt] (7) edge (6) ; 
+					\draw  [line width=2pt] (w) edge (8) ; 
+				}
+				
+				\only<30>{
+					\node[node_style, line width=1.5pt,color=blue] (1) at (1,2) {1} ;
+					\node[node_style,line width=1.5pt,color=blue] (2) at (2,2) {2} ;
+					\node[node_style, line width=1.5pt,color=blue] (3) at (2,1) {3} ;
+					\node[node_style, line width=1.5pt,color=blue] (4) at (1,1) {4} ;
+					\node[node_style, line width=1.5pt,color=blue] (5) at (0,2) {5} ;
+					\node[node_style, line width=1.5pt,color=blue] (6) at (-1,2) {6} ;
+					\node[node_style, line width=1.5pt,color=blue] (7) at (0,3) {7} ;
+					\node[node_style, line width=1.5pt,color=blue] (8) at (2,3) {8} ;
+					\draw  [line width=1.5pt] (6) edge (7) ;
+					\draw  [line width=1.5pt,color=blue] (7) edge (8) ;
+					\draw  [line width=1.5pt] (1) edge (2) ;
+					\draw  [line width=1.5pt,color=blue] (2) edge (3) ;
+					\draw  [line width=1.5pt] (3) edge (4) ;
+					\draw  [line width=1.5pt] (4) edge (5) ;
+					\draw  [line width=1.5pt,color=blue] (4) edge (6) ;
+					\draw  [line width=1.5pt,color=blue] (1) edge (5) ;
+					\draw  [line width=1.5pt] (1) edge (7) ;
+					\draw  [line width=1.5pt] (2) edge (8) ;
+				}
+			\end{tikzpicture}
+		\end{center}	
+		\column{0.7\textwidth}
+		\only<2-5>{
+			
+			\visible<2->{\textbf{Paso A}. $K=\emptyset$}
+			
+			\visible<3->{\textbf{Paso B.} Hay más de 1 vértice no saturado. Ir a C}
+			
+			\visible<4->{\textbf{Paso C.1.} Inicializar el árbol alternante
+				
+				\begin{itemize}
+					\item Seleccionar un vértice no saturado: $i_0=1$.
+					\item $Y=Y^0=\{1\}$, $T=\emptyset$.
+			\end{itemize}}
+			
+			\visible<5->{\textbf{Paso C.2.} 
+				
+				Caso 1:  ¿Hay ciclo impar? NO.
+				
+				Caso 2: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ saturado por $K$ tal que $e=\{i,j\}\in E$? NO
+				
+				Caso 3: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ no saturado por $K$ tal que $e=\{i,j\}\in E$?
+				
+				\begin{itemize}
+					\item  SÍ: $i=1$, $j=2$. $e=\{1,2\}$. Se ha detectado una cadena alternante. 
+					\item Se hace la transferencia: $K=\bigl\{\{1,2\}\bigr\}$.
+					\item Se vuelve al paso B.
+				\end{itemize}
+			}
+		}
+		\only<6-8>{
+			
+			\visible<6->{$K=\bigl\{\{1,2\}\bigr\}$
+							
+			\bigskip
+			}
+			
+			\visible<6->{\textbf{Paso B.} Hay más de 1 vértice no saturado. Ir a C}
+			
+			\visible<7->{\textbf{Paso C.1.} Inicializar el árbol alternante
+				\begin{itemize}
+					\item Seleccionar un vértice no saturado: $i_0=3$.
+					\item $Y=Y^0=\{3\}$, $T=\emptyset$.
+			\end{itemize}}
+			\visible<8->{\textbf{Paso C.2.} 
+				
+				Caso 1: ¿Hay ciclo impar? NO.
+				
+				Caso 2: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ saturado por $K$ tal que $e=\{i,j\}\in E$? 
+				
+				\begin{itemize}
+					\item  SÍ: $i=3$, $j=2$. $e=\{3,4\}$. 
+					\item Actualizar el árbol: $Y=\{1,2,3\}$, $Y^0=\{1,3\}$, $T=\bigl\{\{1,2\},\{2,3\}\bigr\}$.
+					\item Se vuelve al paso C.2.
+				\end{itemize}
+			}
+		}
+		
+		
+		\only<9-11>{
+			
+			\visible<9->{$K=\bigl\{\{1,2\}\bigr\}$
+				
+				$Y=\{1,2,3\}$, $Y^0=\{1,3\}$, $T=\bigl\{\{1,2\},\{2,3\}\bigr\}$.	
+				
+				\bigskip
+			}
+			
+			\visible<10->{\textbf{Paso C.2.} 
+				
+				Caso 1: ¿Hay ciclo impar? NO.
+				
+				Caso 2: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ saturado por $K$ tal que $e=\{i,j\}\in E$? NO
+			}
+			\visible<11->{
+				
+				Caso 3: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ no saturado por $K$ tal que $e=\{i,j\}\in E$?
+				
+				\begin{itemize}
+					\item  SI: $i=3$, $j=4$. Se ha detectado una cadena alternante: $3-4$. 
+					\item Se hace la transferencia: $K=\bigl\{\{1,2\},\{3,4\}\bigr\}$.
+					\item Se vuelve al paso B.
+				\end{itemize}
+			}
+		}
+		
+		
+		
+		\only<12-16>{\footnotesize
+			
+			\visible<12->{$K=\bigl\{\{1,2\},\{3,4\}\bigr\}$
+							
+			\bigskip
+			}
+			
+			\visible<13->{\textbf{Paso B.} Hay más de 1 vértice no saturado. Ir a C}
+			
+			\visible<14->{\textbf{Paso C.1.} Inicializar el árbol alternante
+				
+				\begin{itemize}
+					\item Seleccionar un vértice no saturado: $i_0=5$.
+					\item $Y=Y^0=\{5\}$, $T=\emptyset$.
+			\end{itemize}}
+		
+			\visible<15->{\textbf{Paso C.2.}  
+				Caso 1: ¿Hay ciclo impar? NO
+				
+				Caso 2: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ saturado por $K$ tal que $e=\{i,j\}\in E$? SÍ: $i=5$, $j=1$. $e=\{3,4\}$. 
+				
+				\begin{itemize}
+					\item Actualizar el árbol: $Y=\{1,2,5\}$, $Y^0=\{1,5\}$, $T=\bigl\{\{1,2\},\{1,5\}\bigr\}$.
+					\item Se vuelve al paso C.2.
+				\end{itemize}
+			}
+			
+			\visible<16->{\textbf{Paso C.2.} 				
+				Caso 1: ¿Hay ciclo impar? NO
+				
+				Caso 2: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ saturado por $K$ tal que $e=\{i,j\}\in E$? SÍ: $i=5$, $j=4$. $e=\{4,5\}$. 
+				
+				\begin{itemize}
+					\item Actualizar el árbol: $Y=\{1,2,4,3,5\}$, $Y^0=\{2,3,5\}$, $T=\bigl\{\{1,2\},\{1,5\},\{4,5\},\{4,3\}\bigr\}$.
+					\item Se vuelve al paso C.2.
+				\end{itemize}
+			}
+		}
+		
+		
+		\only<17-19>{\footnotesize
+			
+			\visible<17->{$K=\bigl\{\{1,2\},\{3,4\}\bigr\}$
+				
+				$Y=\{1,2,4,3,5\}$, $Y^0=\{2,3,5\}$, $T=\bigl\{\{1,2\},\{1,5\},\{4,5\},\{4,3\}\bigr\}$.	
+								
+				\bigskip
+				
+			}
+			
+			\visible<18->{\textbf{Paso C.2.} 
+				
+				Caso 1: ¿Hay ciclo impar, $\exists i,j\in Y^0: (i,j)\in E$? SI. Contracción del grafo.}
+			\visible<19->{
+				
+				$W=$ vértices del ciclo impar. $Y=Y\setminus W\cup\{w\}$. $T=T$ menos las aristas del ciclo. $Y^0=Y^0\cup\{w\}$ menos los vértices pares del ciclo.
+				
+				En nuestro caso: $W=\{1,2,3,4,5\}$, $Y=\{w\}$, $T=\emptyset$ e $Y^0=\{w\}$
+				
+				Se vuelve al paso C.2.
+			}
+		}
+		
+		
+		\only<20-21>{\footnotesize
+			
+			\visible<20->{$K=\emptyset$
+				
+				$Y=\{w\}$, $T=\emptyset$ e $Y^0=\{w\}$
+				
+				\bigskip
+			}
+			
+			\visible<21->{\textbf{Paso C.2.} 
+				
+				Caso 1:  ¿Hay ciclo impar? NO.
+				
+				Caso 2: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ saturado por $K$ tal que $e=\{i,j\}\in E$? NO
+				
+				Caso 3: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ no saturado por $K$ tal que $e=\{i,j\}\in E$?
+				
+				\begin{itemize}
+					\item  SÍ: $i=w$, $j=6$. $e=\{1,2\}$. Se ha detectado una cadena alternante. 
+					\item Se hace la transferencia: $K=\bigl\{\{w,6\}\bigr\}$.
+					\item Se vuelve al paso B.
+				\end{itemize}
+			}
+		}
+		
+		\only<22-24>{
+			
+			\visible<22->{$K=\bigl\{\{w,6\}\bigr\}$
+							
+			\bigskip
+			}
+			
+			\visible<22->{\textbf{Paso B.} Hay más de 1 vértice no saturado. Ir a C}
+			
+			\visible<23->{\textbf{Paso C.1.} Inicializar el árbol alternante
+				
+				\begin{itemize}
+					\item Seleccionar un vértice no saturado: $i_0=7$.
+					\item $Y=Y^0=\{i_0\}$, $T=\emptyset$.
+			\end{itemize}}
+		
+			\visible<24->{\textbf{Paso C.2.} 
+				
+				Caso 1: ¿Hay ciclo impar? NO.
+				
+				Caso 2: ¿$\exists i\in Y^0\wedge \exists j\notin Y$, $j$ saturado por $K$ tal que $e=\{i,j\}\in E$? 
+				
+				\begin{itemize}
+					\item  SÍ: $i=7$, $j=w$. $e=\{7,w\}$. 
+					\item Actualizar el árbol: $Y=\{w,6,7\}$, $Y^0=\{6,7\}$, $T=\bigl\{\{7,w\},\{w,6\}\bigr\}$.
+					\item Se vuelve al paso C.2.
+				\end{itemize}
+			}
+		}
+		
+		
+		\only<25-26>{
+			
+			\visible<25->{$K=\bigl\{\{w,6\}\bigr\}$
+				
+				$Y=\{w,6,7\}$, $Y^0=\{6,7\}$, $T=\bigl\{\{7,w\},\{w,6\}\bigr\}$.
+								
+				\bigskip
+				
+			}
+			\visible<26->{\textbf{Paso C.2.} 
+				
+				Caso 1: ¿Hay ciclo impar? SI. Contracción del grafo	}
+		}
+		
+		\only<27-30>{
+		Como solo hay una arista, se define el emparejamiento máxima  $K=\bigl\{\{w',8\}\bigr\}$
+
+		\bigskip
+		
+		\visible<28-30>{Se inicia la descompresión}
+
+		\bigskip
+
+		\visible<29-30>{Se realiza la segunda descompresión}
+
+		\bigskip
+		
+		\visible<29-30>{Como la arista $\{6,w\}$ pertenece al emparejamiento, en el ciclo impar se deja un nodo que esté conectado con 6 sin saturar.
+		}
+		}
+		
+		
+		
+		
+		
+	\end{columns}
+\end{frame}
+
+\section{Problemas de recubrimiento en grafos}
+
+\begin{frame}{Introducción. Ejemplo}
+	
+	En la siguiente fortaleza, determinar en qué murallas se deben poner soldados, de forma que todas las torres queden vigiladas, si un soldado puede vigilar las dos torres que delimitan su muralla.
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (1) at (0,4) {1} ;
+			\node[node_style] (2) at (1,3) {2} ;
+			\node[node_style] (3) at (1,2) {3} ;
+			\node[node_style] (4) at (2,1) {4} ;
+			\node[node_style] (5) at (1,0) {5} ;
+			\node[node_style] (6) at (3,1) {6} ;
+			\node[node_style] (7) at (4,0) {7} ;
+			\node[node_style] (8) at (4,3) {8} ;
+			\node[node_style] (9) at (5,2) {9} ;
+			\node[node_style] (10) at (5,4) {10} ;
+			\node[node_style] (11) at (2.5,4) {11} ;
+			\node[node_style] (12) at (0,2) {12} ;
+			\draw  [line width=1.5pt] (1) edge (2) ;
+			\draw  [line width=1.5pt] (2) edge (12) ;
+			\draw  [line width=1.5pt] (2) edge (3) ;
+			\draw  [line width=1.5pt] (3) edge (4) ;
+			\draw  [line width=1.5pt] (4) edge (5) ;
+			\draw  [line width=1.5pt] (4) edge (6) ;
+			\draw  [line width=1.5pt] (6) edge (7) ;
+			\draw  [line width=1.5pt] (6) edge (8) ;
+			\draw  [line width=1.5pt] (8) edge (9) ;
+			\draw  [line width=1.5pt] (8) edge (10) ;
+			\draw  [line width=1.5pt] (8) edge (11) ;
+			\draw  [line width=1.5pt] (11) edge (2) ;
+			\draw  [line width=1.5pt] (1) edge (2) ;
+			\only<2->{
+				\draw  [line width=1.5pt,color=red] (1) edge (2) ;
+				\draw  [line width=1.5pt,color=red] (12) edge (2) ;
+				\draw  [line width=1.5pt,color=red] (3) edge (2) ;
+				\draw  [line width=1.5pt,color=red] (4) edge (5) ;
+				\draw  [line width=1.5pt,color=red] (6) edge (7) ;
+				\draw  [line width=1.5pt,color=red] (8) edge (9) ;
+				\draw  [line width=1.5pt,color=red] (8) edge (10) ;
+				\draw  [line width=1.5pt,color=red] (8) edge (11) ;
+			}
+		\end{tikzpicture}
+	\end{center}	
+	
+\end{frame}
+
+\subsection{Recubrimiento en un grafo}
+
+\begin{frame}{Recubrimiento}
+	El problema de recubrimiento está relacionado con el problema de emparejamiento
+	\begin{itemize}
+		\item  Emparejamiento: subconjunto de aristas con la propiedad de no haber aristas adyacentes.
+		\item Recubrimiento: subconjunto de aristas con la propiedad de ser todos los v\'{e}rtices incidentes en, al menos, alguna de las aristas seleccionadas.
+		\item Es decir, es un problema similar al de emparejamiento, pero ahora todos los vértices tienen que estar saturados.
+	\end{itemize}
+	\begin{block}{Recubrimiento}
+		Dado un grafo $G=(V,E)$, un \alert{recubrimiento} es un subconjunto de aristas $F \subset E$ de forma que cualquier v\'{e}rtice del grafo es incidente en alguna arista de $F$.
+	\end{block}
+	Nota: en grafos conexos el propio conjunto $E$ es un recubrimiento
+\end{frame}
+
+\begin{frame}{Recubrimiento}
+	
+	\begin{block}{Proposición}
+		Dado un grafo $G=(V,E)$ y  $F$ un recubrimiento de $G$, si $F'$ es tal que $F\subset F'$, $F'$ es un recubrimiento de $G$.
+	\end{block}
+	
+	¿Cuál es el recubrimiento de mínimo cardinal (recubrimiento minimal o recubrimiento de mínimo cardinal)?
+	
+	Este problema está relacionado con el problema de emparejamiento de máximo cardinal.
+\end{frame}
+
+
+\begin{frame}{Cubrimiento}
+	
+	\begin{block}{Teorema}
+		Sea un grafo simple $G=(V,E)$ con $\vert V\vert=n$, $K_0$ un emparejamiento de máximo cardinal y $F_0$ un recubrimiento de mínimo cardinal. Entonces:
+		\begin{enumerate}
+			\item $\vert K_0\vert + \vert F_0\vert =n$
+			\item $F_1=K_0\cup \{$una arista incidente en cada vértice no saturado por $K_0\}$ es un recubrimiento de mínimo cardinal.
+			\item $K_1=F_0\setminus \{$todas las aristas menos una de las que inciden en cada vértice saturado 2 o más veces por $F_0\}$ es un emparejamiento de máximo cardinal.
+		\end{enumerate}
+	\end{block}
+	\begin{itemize}
+		\item 	Este teorema permite resolver el problema de recubrimiento de mínimo cardinal a partir de la solución al problema de emparejamiento de máximo cardinal.
+		\item  Solo se añade un procedimiento de complejidad $\theta(n)$ al algoritmo de emparejamiento de máximo cardinal.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Recubrimiento}
+	
+	En el siguiente grafo con 11 vértices, los aristas rojos forman un recubrimiento de mínimo cardinal (7 aristas) y los aristas intermitentes un emparejamiento de máximo cardinal (4 aristas). 
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (1) at (0,4) {1} ;
+			\node[node_style] (2) at (1,3) {2} ;
+			\node[node_style] (4) at (2,1) {4} ;
+			\node[node_style] (5) at (1,0) {5} ;
+			\node[node_style] (6) at (3,1) {6} ;
+			\node[node_style] (7) at (4,0) {7} ;
+			\node[node_style] (8) at (4,3) {8} ;
+			\node[node_style] (9) at (5,2) {9} ;
+			\node[node_style] (10) at (5,4) {10} ;
+			\node[node_style] (11) at (2.5,4) {11} ;
+			\node[node_style] (3) at (0,2) {3} ;
+			\draw  [line width=1.5pt] (2) edge (12) ;
+			\draw  [line width=1.5pt] (2) edge (4) ;
+			\draw  [line width=1.5pt] (4) edge (6) ;
+			\draw  [line width=1.5pt] (6) edge (8) ;
+			\draw  [line width=1.5pt] (11) edge (2) ;
+			\draw  [dashed,line width=1.5pt,color=red] (1) edge (2) ;
+			\draw  [line width=1.5pt,color=red] (3) edge (2) ;
+			\draw  [dashed,line width=1.5pt,color=red] (4) edge (5) ;
+			\draw  [dashed,line width=1.5pt,color=red] (6) edge (7) ;
+			\draw  [dashed,line width=1.5pt,color=red] (8) edge (9) ;
+			\draw  [line width=1.5pt,color=red] (8) edge (10) ;
+			\draw  [line width=1.5pt,color=red] (8) edge (11) ;
+		\end{tikzpicture}
+	\end{center}	
+	Se puede comprobar que se verifican las tres propiedades del teorema.
+\end{frame}
+
+\begin{frame}{Recubrimiento}
+	\alert{Demostración:}
+	\begin{itemize}\itemsep 3mm
+		\item Sea $K_0$ un emparejamiento de máximo cardinal. Entonces $K_0$ satura $2\vert K_0\vert$ vértices y quedan $n-2\vert K_0\vert$ vértices sin saturar.
+		\item Construimos el recubrimiento $F_1$ añadiendo a $K_0$ una arista incidente en cada uno de los vértices no saturados. 
+		\item Por tanto, $F_1$ tiene $\vert K_0\vert + n-2\vert K_0\vert= n-\vert K_0\vert$ aristas. Por tanto:
+		$$
+		\vert F_1\vert + \vert K_0\vert =n
+		$$
+		\item Obviamente $F_1$ es un recubrimiento. Si, además, demostramos que $F_1$ es un recubrimiento de mínimo cardinal, entonces, ya estará demostrado el apartado 2. Además, como $\vert F_1 \vert +\vert K_0\vert=n$, también quedará demostrado el apartado 1.  
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Recubrimiento}
+	\begin{itemize}\itemsep 3mm
+		\item Sea $F_0$ un recubrimiento de mínimo cardinal. Todos los vértices están saturados y las cadenas de $F_0$ tienen longitud menor o igual a 2.
+		\item Sea $K_1$ a partir de $F_0$: $\forall n: grado(n)>1$ en $F_0$, se quitan $grad(n)-1$ aristas.
+		\item Es obvio que $K_1$ es un emparejamiento: ningún vértice tendrá grado mayor que 1. 
+		\item En $F_0$ todos los vértices están saturados y en $K_1$ puede haber vértices no saturados. Cada arista que se elimina de $F_0$ deja de saturar exactamente un vértice.
+		\item Por tanto, el número de vértices no saturados en $K_1$ es igual al número de aristas eliminadas de $F_0$:
+		$$
+		\vert K_1\vert = \vert F_0\vert -(n-2\vert K_1\vert)\Rightarrow  \vert F_0\vert + \vert K_1\vert =n
+		$$
+		
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Recubrimiento}
+	\begin{itemize}\itemsep 5mm
+		\item 	¿Es $K_1$ un emparejamiento de máximo cardinal y $F_1$ un recubrimiento de mínimo cardinal?
+		\begin{itemize}\itemsep 2mm
+			\item 		Por ser $K_1$ emparejamiento: $\vert K_1\vert \leq \vert K_0\vert$.
+			\item Por ser $F_1$ recubrimiento: $\vert F_1\vert \geq \vert F_0\vert$.
+		\end{itemize}
+		\item Por tanto:
+		$$
+		n = \vert F_1\vert + \vert K_0\vert \geq  \vert F_1\vert + \vert K_1\vert \geq  \vert F_0\vert + \vert K_1 \vert = n
+		$$
+		\item Por tanto, $\vert F_1\vert = \vert F_0\vert $ y $\vert K_1\vert = \vert K_0\vert$ .
+		\item Es decir, $K_1$ es un emparejamiento de máximo cardinal y $F_1$ es un recubrimiento minimo.
+	\end{itemize}
+\end{frame}
+
+\section{Emparejamiento de máximo peso}
+
+\begin{frame}{Emparejamiento de máximo peso}{Definición del problema}
+	
+	\begin{block}{Emparejamiento de máximo peso}
+		Dado una grafo $G=(V,E)$ y un vector $p$ de pesos asociados a las aristas $\{p(e)\,\vert\, e\in E\})$ el problema de emparejamiento de máximo peso trata de determinar un subconjunto $K\subset E$ de aristas tal que:
+		\begin{itemize}
+			\item $K$ es un emparejamiento de $G$.
+			\item Para cualquier otro emparejamiento $K'$, $p(K')\leq p(K)$.
+		\end{itemize}
+	\end{block}Este problema es una generalización del problema del emparejamiento de máximo cardinal. 
+\end{frame}
+
+\begin{frame}{Emparejamiento de máximo peso}
+	\begin{itemize}\itemsep 5mm
+		\item En el problema de emparejamiento de máximo cardinal, la clave es la \alert{cadena alternante incremental}.
+		\item En este problema, el objetivo no es incrementar el cardinal, sino el peso.
+		\item En ocasiones, esto se puede lograr reduciendo el cardinal del emparejamiento.
+		\item Por tanto, el concepto que hay que manejar es el de cadena alternante.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Emparejamiento de máximo peso}{Definición del problema}
+	\begin{block}{Definición}
+		Dado un grafo $G=(V,E)$, unos pesos $p$ sobre las aristas, un emparejamiento $K$ de $G$ y una cadena alternante $L$, se define el coste reducido de $L$ respecto de $K$, $\delta_L$ como:
+		$$
+		\delta_L=p(L\cap\overline{K})-p(L\cap K)
+		$$
+		donde $\overline{K} =E\setminus K$. 
+	\end{block}	
+	\begin{itemize}
+		\item Si $\delta_L >0$, la transferencia mejora.
+		\item Si $\delta_L =0$, la transferencia no cambia el peso de la solución.
+		\item Si $\delta_L <0$, la transferencia empeora  el peso de la solución.
+	\end{itemize}
+	\begin{block}{Definición}
+		Un ciclo alternante es una cadena alternante par y cerrada.
+	\end{block}	
+\end{frame}
+
+\begin{frame}{Emparejamiento de máximo peso}
+	\begin{block}{Teorema}
+		Dado un grafo $G=(V,E)$ y unos pesos $p$ sobre las aristas, un emparejamiento $K$ de $G$ es de máximo peso si y solo si no existen cadenas alternantes con coste reducido estrictamente positivo.
+	\end{block}
+	\visible<2>{
+	\alert{Demostración:}\small
+	\begin{itemize}
+		\item $\Rightarrow$: Trivial, ya que si existiera esta cadena, sería posible obtener un emparejamiento de mayor peso y $K$ no sería de máximo peso.
+		\item $\Leftarrow$:  Sea $K_1$ un emparejamiento de máximo peso. Por tanto, $p(K_1)\geq p(K)$.  Veamos que $p(K_1)\leq p(K)$.
+		
+		Consideremos el grafo parcial $H=(V,E_H)$, donde $E_H=(K\setminus K_1)\cup (K_1\setminus K)$
+		
+		El grafo $H$ tiene componentes conexas de tres tipos: vértices aislados, cadenas alternantes y ciclos alternantes. 
+		
+		Los vértices aislados no influyen en la solución. Los ciclos alternantes y las cadenas alternantes respecto de $K$ no pueden tener coste reducido positivo. Por tanto, trivialmente $p(K_1)\leq p(K)$ y $K$ es una solución del problema. 
+		
+	\end{itemize}}
+\end{frame}
+
+\begin{frame}{Emparejamiento de máximo peso}
+	
+	El algoritmo de resolución se basa en ir obteniendo los emparejamientos $K^m$ de máximo peso con exactamente $m$ aristas:
+	\begin{itemize}\itemsep 2mm
+		\item $K^1$ es la arista de máximo peso en $E$.
+		\item $K^2$ es el par de aristas disjuntas (sin vértices en común) de máximo peso.
+	\end{itemize}
+	\begin{block}{Teorema}
+		Sea $G=(V,E)$ un grafo, $K^m$ el emparejamiento de máximo peso de cardinal $m$ y sea $L$ una cadena alternante \alert{incremental} respecto de $K^m$ con coste reducido máximo. Entonces, el emparejamiento $K^{m+1}$ obtenido a partir de $K^m$ por la transferencia de $ L$ es el emparejamiento de máximo peso de cardinal $m+1$.
+	\end{block}
+	Nota: $K^{m+1}$ no tiene por qué ser el emparejamiento óptimo de $m+1$ o menos aristas. 
+	
+\end{frame}
+
+\begin{frame}{Emparejamiento de máximo peso}
+	\alert{Demostración:}
+	
+	Sea $K^*$ el emparejamiento de máximo peso con $m+1$ aristas. Y sea $H=(V,E_H)$, donde $E_H=(K^*\setminus K^m)\cup (K^m\setminus K^*)$
+	
+	\bigskip
+	
+	El grafo $H$ tiene componentes conexas de tres tipos: vértices aislados, cadenas alternantes y ciclos alternantes. 
+	\begin{itemize}\itemsep 5mm
+		\item Los vértices aislados no influyen.
+		\item Los ciclos alternantes deben ser tales que su coste reducido sea 0, ya que tanto $K^*$ como $K^m$ son óptimos. 
+		\item Las cadenas alternantes pares también tiene coste reducido 0.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Emparejamiento de máximo peso}
+	\alert{Demostración (cont.):}
+	
+	Cadenas alternantes impares: decimos que domina el emparejamiento que tiene más aristas en la cadena.
+	
+	Como $K^*$ tiene una arista más que $K^m$, $K^*$ dominará una cadena más que $K^m$: si hay $s$ cadenas dominadas por $K^m$, habrá $s+1$ dominadas por $K^*$.
+	
+	Las $s$ cadenas dominadas por $K^m$ se pueden compensar con $s$ cadenas dominadas por $K^*$. 
+	
+	Además, todas estas cadenas {\em compensadas} tienen coste reducido 0.
+	
+	La única cadena {\em no compensada} , $L^*$, es una cadena alternante \alert{incremental}.
+	
+	Esta cadena concentra toda la diferencia en peso entre $K^*$ y $K^m$:
+	$$
+	w(K^*)=w(K^m)+\delta(L^*)
+	$$
+\end{frame}
+
+\begin{frame}{Emparejamiento de máximo peso}
+	\alert{Demostración (cont.):}
+	
+	Esta cadena concentra toda la diferencia en peso entre $K^*$ y $K^m$:
+	$$
+	w(K^*)=w(K^m)+\delta(L^*)
+	$$
+	Por otro lado, 
+	$$
+	w(K^{m+1})=w(K^m)+\delta(L)
+	$$
+	Como $K^*$ es el emparejamiento de peso máximo con $m+1$ aristas:
+	$$
+	w(K^{m+1})\leq w(K^*)\quad\Rightarrow\quad  \delta(L^*) \geq \delta(L)
+	$$
+	Por tanto, 
+	$$
+	\delta(L^*) = \delta(L)
+	$$
+	y $K^{m+1}$ es un emparejamiento de peso máximo con $m+1$ aristas.
+\end{frame}
+\begin{frame}{Emparejamiento de máximo peso}{Ejemplo}
+	Aplicar el algoritmo al siguiente grafo:
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (1) at (2,5) {1} ;
+			\node[node_style] (2) at (5,4) {2} ;
+			\node[node_style] (3) at (2,2) {3} ;
+			\node[node_style] (4) at (2,0) {4} ;
+			\node[node_style] (5) at (0,1) {5} ;
+			\node[node_style] (6) at (-1,3) {6} ;
+			\draw  [line width=1.5pt] (1) edge node[above] {2} (2) ;
+			\draw  [line width=1.5pt] (1) edge node[above] {1} (6) ;
+			\draw  [line width=1.5pt] (6) edge node[above] {2} (2) ;
+			\draw  [line width=1.5pt] (6) edge node[below] {3} (3) ;
+			\draw  [line width=1.5pt] (2) edge node[below] {3} (3) ;
+			\draw  [line width=1.5pt] (2) edge node[right] {1} (4) ;
+			\draw  [line width=1.5pt] (3) edge node[left] {4} (4) ;
+			\draw  [line width=1.5pt] (4) edge node[below] {5} (5) ;
+			\draw  [line width=1.5pt] (6) edge node[left] {2} (5) ;
+		\end{tikzpicture}
+	\end{center}	
+	
+\end{frame}
+
+
+
+\end{document}

@@ -1,0 +1,3258 @@
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+\documentclass[aspectratio=169]{beamer}
+
+
+\mode<presentation> {
+	\usetheme{Boadilla}
+	%	\setbeamercovered{transparent}
+}
+
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows}
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+%\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\usepackage{pgfplots}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+\parskip=0.1cm
+
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+
+\newcommand{\vf}{\V{f}}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+	\href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on en Redes] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+	\textbf{Optimizaci\'on y An\'alisis de Redes} \\ Problemas de flujo
+}
+
+\author[]
+{      Antonio Alonso Ayuso \\
+	{\ttfamily antonio.alonso@urjc.es}
+}
+
+\institute[]
+{
+	Universidad Rey Juan Carlos\\
+	
+	%there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{\today}
+
+
+\AtBeginSubsection[] % Do nothing for \subsection*
+{
+	\begin{frame}<beamer>
+	\frametitle{Contenidos}
+	\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded,subsubsectionstyle=hide]
+	%\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+\AtBeginSection[] % Do nothing for \subsection*
+{
+\begin{frame}<beamer>
+\frametitle{Contenidos}
+\tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide,subsubsectionstyle=hide]
+\end{frame}
+}
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+\newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+%%
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+
+
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+\titlepage % call the title page information from above
+\end{frame}}
+
+
+\begin{frame}
+\frametitle{Contenidos del tema}
+\tableofcontents
+\end{frame}
+
+\section{Introducción}
+%%
+\begin{frame}{Introducción}
+	\begin{itemize}\itemsep 2mm
+		\item Muchos problemas reales se plantean al moverse determinadas unidades (coches, agua, fluido el\'{e}ctrico, etc.) por determinados conductos (carreteras, canales, cables, etc.). 
+		\item Estos conductos tienen una capacidad limitada. 
+		\item Adem\'{a}s, estas redes no tiene pérdidas: en cada punto de la red salen tantas unidades como entran.
+		\item Además, muchos problemas de optimización pueden ser modelizados como problemas de flujo, identificando las
+		unidades que se mueven por el digrafo correspondiente como operaciones l\'{o}gicas sobre los elementos que relacionan los arcos
+		de la red.
+		\item Al conjunto de unidades, f\'{\i}sicas o l\'{o}gicas, que se mueven por
+		unidad de tiempo en una red se denomina \alert{flujo}. 
+	\end{itemize}	
+\end{frame}
+
+
+\section{Concepto de flujo}
+\begin{frame}{Flujo en un digrafo}
+	\begin{block}{Flujo en un digrafo}
+		Dado un digrafo conexo con $m$ arcos, un \alert{flujo} es un vector ${\bf f} = (f_1, \ldots , f_m)^t \in I \! \! R^m$ verificando la denominada \alert{ley de conservaci\'{o}n de flujo}: 
+		$$ 
+		\sum_{u \in w^+(i)} f_u = \sum_{u \in w^-(i)} f_u \quad
+		\forall i
+		\in \{ 1, \ldots ,n \} 
+		$$
+	\end{block}
+\end{frame}
+
+%\end{document}
+
+\begin{frame}{Flujo en un digrafo}
+	
+	\begin{columns}
+		\column{0.3\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line width=.3mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (2,2) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (e) at (2,0) {e} ;
+				
+				\node at (2,-1) {$\vf^1=(2.7;2;2;2;2.7;-0.7;0)$} ;
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					
+					\draw (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$2.7$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$2$}  (c) ;
+					\draw (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$2$}  (d) ;
+					\draw (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$2$}  (e) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$2.7$}  (a) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$-0.7$}  (b) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$0$}  (c) ;
+				\end{scope}	
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{0.3\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line width=.3mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (2,2) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (e) at (2,0) {e} ;
+				
+				\node at (2,-1) {$\vf^2=(0,1,1,1,0,1,0)$} ;
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					
+					\draw (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$0$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$1$}  (c) ;
+					\draw (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$1$}  (d) ;
+					\draw (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$1$}  (e) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$0$}  (a) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$1$}  (b) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$0$}  (c) ;
+				\end{scope}	
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{0.3\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line width=.3mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (2,2) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (e) at (2,0) {e} ;
+				
+				\node at (2,-1) {$\vf^3=(1,0,-1,-1,1,-1,-1)$} ;
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					
+					\draw (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$1$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$0$}  (c) ;
+					\draw (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$-1$}  (d) ;
+					\draw (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$-1$}  (e) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$1$}  (a) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$-1$}  (b) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$-1$}  (c) ;
+				\end{scope}	
+			\end{tikzpicture}
+		\end{center}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Flujo en árboles}
+	
+	Obviamente, el vector con todas las componentes nulas es un flujo (flujo nulo o trivial)
+	$$ f_u = 0, \quad \forall u \in U$$
+	
+	\begin{block}{Lema}
+		Un flujo definido sobre un \'{a}rbol (digrafo conexo sin ciclos) es necesariamente nulo.
+	\end{block}
+	\alert{Demostración:} 
+	\begin{itemize}
+		\item 	El \'{a}rbol tiene $n$ v\'{e}rtices y $n-1$ arcos.
+		\item Tiene al menos un vértice pendiente, sea $x_1$.
+		\item El flujo en el único arco que incide en $x_1$ tiene que ser necesariamente cero.
+		\item Repitiendo el razonamiento para el subgrafo generado por $V\setminus\{ x_1 \}$ y se
+		concluye que todos los arcos tienen un flujo nulo.
+	\end{itemize}	
+\end{frame}
+
+\begin{frame}{Combinación de flujos}
+	\begin{block}{Lema}
+		Cualquier combinación lineal de flujos es un flujo.
+	\end{block}
+	%\colorbox{green!03}{
+		\begin{columns}
+			\column{0.7\textwidth}
+			\begin{center}
+				\begin{tikzpicture}[line width=.3mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1},scale=1.2]
+					\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+					\node[node_style] (b) at (2,2) {b} ;
+					\node[node_style] (c) at (4,2) {c} ;
+					\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+					\node[node_style] (e) at (2,0) {e} ;
+					
+					
+					\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+						
+						\draw (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$2.4$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+						\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$5$}  (c) ;
+						\draw (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$8$}  (d) ;
+						\draw (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$8$}  (e) ;
+						\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$2.4$}  (a) ;
+						\draw (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$2.6$}  (b) ;
+						\draw (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$3$}  (c) ;
+					\end{scope}	
+				\end{tikzpicture}
+				$$
+				\begin{array}{r@{\,}r@{\,}r@{\,}r@{\,}r@{\,}r@{\,}r@{\,}rl}
+					\vf^1 =(&2.7;&2;&2;&2;&2.7;&-0.7;&0) &\\
+					\vf^2 =(&0;&1;&1;&1;&0;&1;&0) &\\
+					\vf^3 =(&1;&0;&-1;&-1;&1;&-1;&-1)&\\
+					\vf=2\vf^1+\vf^2-3\vf^3=(&2.4;&5;&8;&8;&2.4;&2.6;&3)&
+				\end{array}
+				$$	
+			\end{center}
+			%}
+		\column{0.3\textwidth}
+		\begin{center}
+			\scalebox{0.5}{
+				\begin{tikzpicture}[line width=.3mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+					\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+					\node[node_style] (b) at (2,2) {b} ;
+					\node[node_style] (c) at (4,2) {c} ;
+					\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+					\node[node_style] (e) at (2,0) {e} ;
+					
+					\node at (2,-1) {$\vf^1=(2.7;2;2;2;2.7;-0.7;0)$} ;
+					
+					\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+						
+						\draw (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$2.7$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+						\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$2$}  (c) ;
+						\draw (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$2$}  (d) ;
+						\draw (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$2$}  (e) ;
+						\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$2.7$}  (a) ;
+						\draw (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$-0.7$}  (b) ;
+						\draw (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$0$}  (c) ;
+					\end{scope}	
+					\begin{scope}[yshift=-4cm]
+						\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+						\node[node_style] (b) at (2,2) {b} ;
+						\node[node_style] (c) at (4,2) {c} ;
+						\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+						\node[node_style] (e) at (2,0) {e} ;
+						
+						\node at (2,-1) {$\vf^2=(0,1,1,1,0,1,0)$} ;
+						
+						\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+							
+							\draw (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$0$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+							\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$1$}  (c) ;
+							\draw (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$1$}  (d) ;
+							\draw (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$1$}  (e) ;
+							\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$0$}  (a) ;
+							\draw (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$1$}  (b) ;
+							\draw (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$0$}  (c) ;
+						\end{scope}	
+					\end{scope}
+					\begin{scope}[yshift=-8cm]
+						\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+						\node[node_style] (b) at (2,2) {b} ;
+						\node[node_style] (c) at (4,2) {c} ;
+						\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+						\node[node_style] (e) at (2,0) {e} ;
+						
+						\node at (2,-1) {$\vf^3=(1,0,-1,-1,1,-1,-1)$} ;
+						
+						\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+							
+							\draw (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$1$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+							\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$0$}  (c) ;
+							\draw (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$-1$}  (d) ;
+							\draw (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$-1$}  (e) ;
+							\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$1$}  (a) ;
+							\draw (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$-1$}  (b) ;
+							\draw (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$-1$}  (c) ;
+						\end{scope}	
+					\end{scope}
+				\end{tikzpicture}
+			}
+		\end{center}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Combinación de flujos}
+	\begin{itemize}\itemsep 4mm
+		\item El resultado anterior prueba que el conjunto de flujos definidos sobre un digrafo es un espacio
+		vectorial. 
+		\item Para identificar su dimensi\'{o}n y una base de flujos que permita caracterizarlos todos, es preciso estudiar la relaci\'{o}n que
+		existe entre los ciclos y los flujos de un digrafo.
+	\end{itemize}
+\end{frame}
+
+\subsection{Flujos y ciclos de un digrafo. Estudio algebraico}
+\begin{frame}{Flujos, ciclos y cociclos}
+	
+	Dado un digrafo $G=(V,U)$, un ciclo es una cadena simple (no se repiten arcos) cuyos nodos inicial y final coinciden. 
+	
+	\medskip
+	
+	En un ciclo $\mu$ en un digrafo conexo $G=(V,U)$, al dotarlo de un sentido de giro, los arcos $u \in \mu$ se clasifican en 	positivos $u \in \mu^+$ o negativos $u \in \mu^-$ dependiendo de que tengan dicho sentido o el contrario respectivamente.
+	
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (s) at (0,1.5) {s} ;
+			\node[node_style] (b) at (3,3) {b} ;
+			\node[node_style] (c) at (4,0) {c} ;
+			\node[node_style] (d) at (6,3) {d} ;
+			\node[node_style] (t) at (9,1.5) {t} ;
+			\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+				\draw  [line width=1.5pt, color=red] (s) edge[->] node[noded]{\tiny\color{black} 1}  (b) ;
+				\draw  [line width=1.5pt] (b) edge[->] node[noded]{\tiny\color{black} 2}  (c) ;
+				\draw  [line width=1.5pt,color=red] (c) edge[->] node[noded]{\tiny\color{black} 3}  (s) ;
+				\draw  [line width=1.5pt,color=red] (b) edge[->] node[noded]{\tiny\color{black} 4}  (d) ;
+				\draw  [line width=1.5pt] (d) edge[->] node[noded]{\tiny\color{black} 5}   (c) ;
+				\draw  [line width=1.5pt,color=blue] (t) edge[->] node[noded]{\tiny\color{black} 6}  (d) ;
+				\draw  [line width=1.5pt,color=blue] (c) edge[->] node[noded]{\tiny\color{black} 7}  (t) ;
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}	
+	Nota: a cada ciclo le podemos dar dos orientaciones
+\end{frame}	
+\begin{frame}{Ciclos}
+	Un ciclo se puede representar mediante un vector $\mu$ de dimensión $m$ (número de arcos) tal que la componente asociada al arco $u$ es:
+	$$
+	\mu_u=\begin{cases}
+		1 &\text{ si $u\in\mu^+$} \\
+		-1 &\text{ si $u\in\mu^-$} \\
+		0 &\text{ si $u\notin\mu$} \\
+	\end{cases}
+	$$
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (s) at (0,1.5) {s} ;
+			\node[node_style] (b) at (3,3) {b} ;
+			\node[node_style] (c) at (4,0) {c} ;
+			\node[node_style] (d) at (6,3) {d} ;
+			\node[node_style] (t) at (9,1.5) {t} ;
+			\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+				\draw  [line width=1.5pt, color=red] (s) edge[->] node[noded]{\tiny\color{black} 1}  (b) ;
+				\draw  [line width=1.5pt] (b) edge[->] node[noded]{\tiny\color{black} 2}  (c) ;
+				\draw  [line width=1.5pt,color=red] (c) edge[->] node[noded]{\tiny\color{black} 3}  (s) ;
+				\draw  [line width=1.5pt,color=red] (b) edge[->] node[noded]{\tiny\color{black} 4}  (d) ;
+				\draw  [line width=1.5pt] (d) edge[->] node[noded]{\tiny\color{black} 5}   (c) ;
+				\draw  [line width=1.5pt,color=blue] (t) edge[->] node[noded]{\tiny\color{black} 6}  (d) ;
+				\draw  [line width=1.5pt,color=blue] (c) edge[->] node[noded]{\tiny\color{black} 7}  (t) ;
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}	
+	\Large
+	$$
+	(1,0,1,1,0,-1,-1)
+	$$
+\end{frame}	
+\begin{frame}{Ciclos}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (s) at (0,1.5) {s} ;
+			\node[node_style] (b) at (3,3) {b} ;
+			\node[node_style] (c) at (4,0) {c} ;
+			\node[node_style] (d) at (6,3) {d} ;
+			\node[node_style] (t) at (9,1.5) {t} ;
+			\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+				\draw  [line width=1.5pt] (s) edge[->] node[noded] {\tiny\color{black} 1} (b) ;
+				\draw  [line width=1.5pt] (b) edge[->] node[noded] {\tiny\color{black} 2} (c) ;
+				\draw  [line width=1.5pt] (c) edge[->] node[noded] {\tiny\color{black} 3} (s) ;
+				\draw  [line width=1.5pt] (b) edge[->] node[noded] {\tiny\color{black} 4} (d) ;
+				\draw  [line width=1.5pt] (d) edge[->] node[noded] {\tiny\color{black} 5} (c) ;
+				\draw  [line width=1.5pt] (t) edge[->] node[noded] {\tiny\color{black} 6} (d) ;
+				\draw  [line width=1.5pt] (c) edge[->] node[noded] {\tiny\color{black}7} (t) ;
+			\end{scope}
+		\end{tikzpicture}
+	\end{center}	
+	\begin{align*}
+		\mu_1 & = (1,1,1,0,0,0,0)  & \mu_3 & =(1,0,1,1,1,0,0)\\
+		\mu_2 & = (0,-1.0,1,1,0,0) & \mu_4 & = (-1,-1,-1,0,-1,-1,-1) \\
+		\mu_5 & =(-1,-1,-1,0,0,0,0)
+	\end{align*}
+\end{frame}	
+\begin{frame}{Ciclos}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\begin{scope}[scale=0.6]
+					\node[node_style] (s) at (0,1.5) {\tiny s} ;
+					\node[node_style] (b) at (3,3) {\tiny b} ;
+					\node[node_style] (c) at (4,0) {\tiny c} ;
+					\node[node_style] (d) at (6,3) {\tiny d} ;
+					\node[node_style] (t) at (9,1.5) {\tiny t} ;
+					\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+						\draw  [line width=1.5pt] (s) edge[->] node[noded] {\tiny\color{black} 1} (b) ;
+						\draw  [line width=1.5pt] (b) edge[->] node[noded] {\tiny\color{black} 2} (c) ;
+						\draw  [line width=1.5pt] (c) edge[->] node[noded] {\tiny\color{black} 3} (s) ;
+						\draw  [line width=1.5pt] (b) edge[->] node[noded] {\tiny\color{black} 4} (d) ;
+						\draw  [line width=1.5pt] (d) edge[->] node[noded] {\tiny\color{black} 5} (c) ;
+						\draw  [line width=1.5pt] (t) edge[->] node[noded] {\tiny\color{black} 6} (d) ;
+						\draw  [line width=1.5pt] (c) edge[->] node[noded] {\tiny\color{black} 7} (t) ;
+					\end{scope}
+				\end{scope}
+			\end{tikzpicture}
+		\end{center}	
+		\column{.5\textwidth}
+		\begin{align*}
+			\mu_1 & = (1,1,1,0,0,0,0)  \\ 
+			\mu_2 & = (0,-1.0,1,1,0,0) \\ 
+			\mu_3 & =(1,0,1,1,1,0,0)\\
+			\mu_4 & = (-1,-1,-1,0,-1,-1,-1) \\
+			\mu_5 & =(-1,-1,-1,0,0,0,0)
+		\end{align*}
+	\end{columns}
+	
+	\medskip
+	
+	Estos vectores permiten relacionar los ciclos: $$\mu_1=-\mu_5, \qquad  \mu_3=\mu_1+\mu_2$$
+\end{frame}	
+
+\begin{frame}{Ciclos}
+	\begin{block}{Proposición}
+		Un ciclo en un digrafo es un flujo.
+	\end{block}
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line width=.3mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (2,2) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (e) at (2,0) {e} ;
+				
+				\node at (2,-1) {$\vf^2=(0,1,1,1,0,1,0)$} ;
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					
+					\draw (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$0$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw[red] (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$1$}  (c) ;
+					\draw[red] (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$1$}  (d) ;
+					\draw[red] (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$1$}  (e) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$0$}  (a) ;
+					\draw[red] (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$1$}  (b) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$0$}  (c) ;
+				\end{scope}	
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line width=.3mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (2,2) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (e) at (2,0) {e} ;
+				
+				\node at (2,-1) {$\vf^3=(1,0,-1,-1,1,-1,-1)$} ;
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					
+					\draw[red] (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$1$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$0$}  (c) ;
+					\draw[blue] (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$-1$}  (d) ;
+					\draw[blue] (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$-1$}  (e) ;
+					\draw[red] (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$1$}  (a) ;
+					\draw[blue] (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$-1$}  (b) ;
+					\draw[blue] (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$-1$}  (c) ;
+				\end{scope}	
+			\end{tikzpicture}
+		\end{center}
+	\end{columns}
+	\begin{block}{Corolario}
+		\label{c-ciclo+flujo} Dado un flujo en un digrafo, si se le suma el vector asociado a un ciclo multiplicado por una constante, se obtiene otro flujo.
+	\end{block}
+	
+\end{frame}	
+
+\begin{frame}{Base de flujos}
+	\begin{itemize}\itemsep 5mm
+		\item Obviamente, no todos los flujos son ciclos.
+		\item Sin embargo, cualquier flujo se puede expresar como combinaci\'{o}n lineal de ciclos. 
+		\item Además, es posible identificar una base del espacio vectorial de los flujos de un digrafo.
+		\item Esta base está formada solo por ciclos y se obtiene a partir de un árbol soporte del digrafo
+		\item Por tanto, cada árbol soporte da lugar a una base distinta.
+	\end{itemize}	
+\end{frame}
+
+\begin{frame}{Base de flujos}
+	\begin{block}{Flujos independientes}
+		Dado un digrafo $G=(V,U)$, un conjunto de flujos del mismo es \alert{independiente} si lo son sus vectores de $I \! \! R^m$ asociados.
+	\end{block}
+	
+	\begin{block}{Teorema. Base de ciclos}
+		Sea $G=(V,U)$ un digrafo conexo con $n$ v\'{e}rtices y $m$ arcos y $H=(V,T)$ un \'{a}rbol soporte de $G$. Al a\~nadir a $T$ cualquier arco $u \in U\setminus T$ se forma un \'{u}nico ciclo elemental $\mu^u$ en $G$ con $\mu^u_u = 1$. El conjunto de ciclos $H$ es $H=\{ \mu^u \ / \ u \in U\setminus T \}$ es una base del espacio vectorial de flujos del digrafo $G$.
+	\end{block}
+	\begin{block}{Número ciclomático}
+		Se define $\nu(G)$, número ciclomático, como la dimensión de una base de flujos
+	\end{block}
+\end{frame}
+
+\begin{frame}{Base de flujos}\small
+	Sea $G=(V,U)$ un digrafo conexo con $n$ v\'{e}rtices y $m$ arcos y $H=(V,T)$ un \'{a}rbol soporte de $G$. Al a\~nadir a $T$ cualquier arco $u \in U\setminus T$ se forma un \'{u}nico ciclo elemental $\mu^u$ en $G$ con $\mu^u_u = 1$. 
+	\begin{columns}
+		\column{0.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line width=.4mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {\small a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (2,2) {\small b} ;
+				\node[node_style] (c) at (4,2) {\small c} ;
+				\node[node_style] (d) at (4,0) {\small d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (e) at (2,0) {\small e} ;
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					
+					\draw[blue] (a) edge[->] node[noded] {\tiny\color{black} 1}   (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  (c) ;
+					\draw (c) edge[->] node[noded] {\tiny\color{black} 3}   (d) ;
+					\draw[blue] (d) edge[->] node[noded] {\tiny\color{black} 4}  (e) ;
+					\draw[blue] (e) edge[->] node[noded] {\tiny\color{black} 5} (a) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 6}  (b) ;
+					\draw[blue] (e) edge[->] node[noded] {\tiny\color{black} 7}  (c) ;
+					\only<2>{
+						\draw[red] (b) edge[->] node[noded] {\tiny\color{black} 2}  (c) ;
+					}
+					\only<3>{
+						\draw[red] (c) edge[->] node[noded] {\tiny\color{black} 3}   (d) ;
+					}
+					\only<4>{
+						\draw[red] (e) edge[->] node[noded] {\tiny\color{black} 6}  (b) ;
+					}
+				\end{scope}	
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{0.6\textwidth}
+		$$ 
+		\visible<2->{\mu^2 = \begin{pmatrix} 1 \\ 1 \\ 0 \\ 0 \\ 1 \\ 0 \\
+				-1 \end{pmatrix}}
+		\quad 
+		\visible<3->{\mu^3 = \begin{pmatrix} 0
+				\\ 0 \\ 1 \\ 1 \\ 0 \\ 0 \\ 1 \end{pmatrix} }
+		\quad
+		\visible<4->{\mu^6 = \begin{pmatrix} -1 \\ 0 \\ 0 \\ 0 \\ -1 \\ 1 \\
+				0 \end{pmatrix} }
+		$$
+	\end{columns}
+	
+	\bigskip
+	\visible<5->{
+		\begin{itemize}
+			\item Se pueden formar $m - n + 1 = 7-5+1 = 3$ ciclos distintos, uno por cada arco que no está en el árbol.
+			\item Este número se denomina \alert{n\'{u}mero ciclom\'{a}tico} del grafo.
+			\item Además, estos vectores, forman una base de flujos: $ \left\{ \mu^2,\mu^3,\mu^6 \right\} $
+			\item Es decir, cualquier flujo se puede poner como combinación lineal de estos ciclos.
+		\end{itemize}
+	}
+\end{frame}
+
+\begin{frame}{Base de flujos}
+	\alert{Demostración} 
+	
+	Una base es un conjunto de vectores linealmente independiente y generador. 
+	\begin{itemize}
+		\item Independencia: cada arco $u\in U\setminus T$ tiene coordenada no nula en un único ciclo de la base. 
+		\item Generador. Sea $\vf=(f_1,f_2,\dots,f_m$), entonces:
+		$$
+		\vf =\sum_{u\in U\setminus T} f_u\mu^u
+		$$
+		Para demostrarlo, distinguimos entre las componentes de $T$ y las de $U\setminus T$.
+		\begin{itemize}
+			\item Para $u\in U\setminus T$, trivial, ya que hemos definido $\mu^u$ para que su vector tenga un 1 en la coordenada de $u$.
+			
+			\item Para $u\in T$:  tenemos que 
+			$$
+			\vf -\sum_{u\in U\setminus T} f_u\mu^u=\vv 
+			$$
+			y, por tanto, es un flujo nulo.
+			
+			En las componentes que no son de $T$, este flujo es nulo, por tanto, en las componentes de $T$ (árbol), también debe serlo. 
+		\end{itemize}
+	\end{itemize}
+\end{frame}	
+
+
+\begin{frame}{Base de flujos}
+	\begin{columns}
+		\column{0.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line width=.4mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {\small a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (2,2) {\small b} ;
+				\node[node_style] (c) at (4,2) {\small c} ;
+				\node[node_style] (d) at (4,0) {\small d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (e) at (2,0) {\small e} ;
+				
+				\node at (2,-1) {$\vf^2=(3,4,6,6,3,1,2)$} ;
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					\draw[blue] (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above]{3}   (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above]{4}  (c) ;
+					\draw (c) edge[->] node[noded] {\tiny\color{black} 3}   node[right]{6}  (d) ;
+					\draw[blue] (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below]{6}  (e) ;
+					\draw[blue] (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below]{3} (a) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 6} node[left]{1}   (b) ;
+					\draw[blue] (e) edge[->] node[noded] {\tiny\color{black} 7}  node[left]{2}  (c) ;
+				\end{scope}	
+				
+				
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{0.6\textwidth}
+		$$ 
+		\vf = \begin{pmatrix} 3 \\ 4 \\ 6 \\ 6 \\ 3 \\ 1 \\ 2 \end{pmatrix}=
+		4 \begin{pmatrix} 1 \\ 1 \\ 0 \\ 0 \\ 1 \\ 0 \\ -1 \end{pmatrix} +
+		6 \begin{pmatrix} 0 \\ 0 \\ 1 \\ 1 \\ 0 \\ 0 \\ 1 \end{pmatrix} + 
+		1 \begin{pmatrix} -1 \\ 0 \\ 0 \\ 0 \\ -1 \\ 1 \\ 0 \end{pmatrix} 
+		$$
+	\end{columns}
+\end{frame}
+
+
+
+\subsection{Lema de coloraci\'{o}n de arcos}
+
+\begin{frame}{Lema de coloracion de arcos}
+	
+	\begin{itemize}
+		\item Introducido por Minty en 1966
+		\item Es muy útil en la demostración de muchos resultados teóricos que justifican los algoritmos de los problemas de flujo: Problema
+		de flujo m\'{a}ximo, flujo compatible y coste m\'{\i}nimo, etc.
+		
+	\end{itemize}	
+\end{frame}
+
+\begin{frame}{Cociclos en un digrafo}
+	\begin{block}{Cociclo}
+		Dado $G=(V,U)$ un digrafo conexo y un subconjunto de vértices $A
+		\subset V$, se define el \alert{cociclo} como el subconjunto de 
+		arcos $$ w(A) = \{ u = (i,j) \in U \ / \  i \in A \ j \not\in A \}
+		\cup \{ u = (j,i) \in U \ / \  i \in A \ j \not\in A \}$$
+		
+		A los arcos del primer tipo se les denota por $w^+(A)$ y a los del
+		segundo por $w^-(A)$.
+		
+	\end{block}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\begin{scope}[scale=0.6]
+					\node[node_style,color=blue] (s) at (0,1.5) {\tiny s} ;
+					\node[node_style,color=blue] (b) at (3,3) {\tiny b} ;
+					\node[node_style,color=blue] (c) at (4,0) {\tiny c} ;
+					\node[node_style] (d) at (6,3) {\tiny d} ;
+					\node[node_style] (t) at (9,1.5) {\tiny t} ;
+					\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=1}]
+						\draw  [line width=1.5pt] (s) edge[->] node[noded] {\tiny\color{black}  $1$} (b) ;
+						\draw  [line width=1.5pt] (b) edge[->] node[noded] {\tiny\color{black}  $2$} (c) ;
+						\draw  [line width=1.5pt] (c) edge[->] node[noded] {\tiny\color{black}  $3$} (s) ;
+						\draw  [line width=1.5pt,color=red] (b) edge[->] node[noded] {\tiny\color{black}  $4$} (d) ;
+						\draw  [line width=1.5pt,color=red] (d) edge[->] node[noded] {\tiny\color{black}  $5$} (c) ;
+						\draw  [line width=1.5pt] (t) edge[->] node[noded] {\tiny\color{black}  $6$} (d) ;
+						\draw  [line width=1.5pt,color=red] (c) edge[->] node[noded] {\tiny\color{black}  $7$} (t) ;
+					\end{scope}
+				\end{scope}
+			\end{tikzpicture}
+		\end{center}	
+		\column{.5\textwidth}
+		\begin{align*}
+			A & = \{s,b,c\}\\
+			w(A)  & = \{4,5,7\} \\
+			w^+(A)  & = \{4,7\} \\
+			w^-(A)  & = \{5\} \\
+		\end{align*}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Cociclos en un digrafo}
+	
+	\begin{block}{Representación de un cociclo}
+		Dado un digrafo $G=(V,U)$ conexo y el cociclo asociado a un conjunto $A\subset V$,  $\theta = w(A)$, se define el vector $(\theta_1, \ldots ,\theta_m)$ verificando 
+		$$ 
+		\theta_u = \left\{
+		\begin{array}{rl} +1 & u \in w^+(A) \\ -1 & u \in w^-(A)
+			\\ 0 & u \not\in w(A)   \end{array} \right. $$
+	\end{block}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\begin{scope}[scale=0.6]
+					\node[node_style,color=blue] (s) at (0,1.5) {\tiny s} ;
+					\node[node_style,color=blue] (b) at (3,3) {\tiny b} ;
+					\node[node_style,color=blue] (c) at (4,0) {\tiny c} ;
+					\node[node_style] (d) at (6,3) {\tiny d} ;
+					\node[node_style] (t) at (9,1.5) {\tiny t} ;
+					\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=1}]
+						\draw  [line width=1.5pt] (s) edge[->] node[noded] {\tiny\color{black}  $1$} (b) ;
+						\draw  [line width=1.5pt] (b) edge[->] node[noded] {\tiny\color{black}  $2$} (c) ;
+						\draw  [line width=1.5pt] (c) edge[->] node[noded] {\tiny\color{black}  $3$} (s) ;
+						\draw  [line width=1.5pt,color=red] (b) edge[->] node[noded] {\tiny\color{black}  $4$} (d) ;
+						\draw  [line width=1.5pt,color=red] (d) edge[->] node[noded] {\tiny\color{black}  $5$} (c) ;
+						\draw  [line width=1.5pt] (t) edge[->] node[noded] {\tiny\color{black}  $6$} (d) ;
+						\draw  [line width=1.5pt,color=red] (c) edge[->] node[noded] {\tiny\color{black}  $7$} (t) ;
+					\end{scope}
+				\end{scope}
+			\end{tikzpicture}
+		\end{center}	
+		\column{.5\textwidth}
+		\begin{align*}
+			A & = \{s,b,c\}\\
+			w(A)  & = \{4,5,7\} \\
+			w^+(A)  & = \{4,7\} \\
+			w^-(A)  & = \{5\} \\[2mm]
+			\theta_u=(0,0,0,&1,-1,0,1)
+		\end{align*}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Cociclos}
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line width=.4mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style,blue] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style,blue] (b) at (2,2) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style,blue] (e) at (2,0) {e} ;
+				
+				\node at (2,-1.0) {$A=\{a,b,c\}$} ;
+				\node at (2,-1.7) {$w^+(A)=\{2,7\},\quad w^-(A)=\{4\}$} ;
+				\node at (2,-2.4) {$\theta=(0,1,0,-1,0,0,1)$} ;
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					
+					\draw (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$0$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw[red] (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$1$}  (c) ;
+					\draw (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$0$}  (d) ;
+					\draw[red] (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$-1$}  (e) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$0$}  (a) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$0$}  (b) ;
+					\draw[red] (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$1$}  (c) ;
+				\end{scope}	
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line width=.4mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style,blue] (b) at (2,2) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style,blue] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (e) at (2,0) {e} ;
+				
+				\node at (2,-1.0) {$A=\{b,d\}$} ;
+				\node at (2,-1.7) {$w^+(A)=\{2,4\},\quad w^-(A)=\{1,3,6\}$} ;
+				\node at (2,-2.4) {$\theta=(-1,1,-1,1,0,-1,0)$} ;
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					
+					\draw[red] (a) edge[->] node[noded] {\tiny\color{black} 1}  node[above] {$-1$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw[red] (b) edge[->] node[noded] {\tiny\color{black} 2}  node[above] {$1$}  (c) ;
+					\draw[red] (c) edge[->] node[noded] {\tiny\color{black} 3}  node[right] {$-1$}  (d) ;
+					\draw[red] (d) edge[->] node[noded] {\tiny\color{black} 4}  node[below] {$1$}  (e) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 5}  node[below] {$0$}  (a) ;
+					\draw[red] (e) edge[->] node[noded] {\tiny\color{black} 6}  node[left] {$-1$}  (b) ;
+					\draw (e) edge[->] node[noded] {\tiny\color{black} 7}  node[right] {$0$}  (c) ;
+				\end{scope}	
+			\end{tikzpicture}
+		\end{center}
+	\end{columns}
+\end{frame}	
+
+\begin{frame}{Lema de coloración de arcos}
+	Sea $G=(V,U)$ un digrafo conexo cuyos arcos pueden estar (arbitrariamente) coloreados de negro $N$, verde $V$, rojo $R$ o no estar coloreados $0$, pero con al menos el arco $u_0\in U$ coloreado de negro. 
+	
+	Entonces, se verifica una, y solo una, de las dos aseveraciones siguientes:
+	\begin{itemize}\itemsep 5mm
+		\item El arco $u_0$ pertenece a un ciclo elemental con arcos coloreados de negro, verde o rojo. Los negros tienen orientación positiva en el ciclo, los verdes orientación negativa y los rojos pueden tener cualquier orientación.
+		\item El arco $u_0$ pertenece a un cociclo elemental formado por arcos negros, verdes o no coloreados. Los arcos negros mantienen el sentido del arco de referencia; los verdes est\'{a}n orientados en sentido contrario; y los arcos no coloreados
+		pueden estar orientados en cualquier sentido.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Lema de coloración de arcos. Demostraci\'{o}n}
+	
+	La demostraci\'{o}n es constructiva y se basa en un proceso de etiquetado de v\'{e}rtices.
+	
+	Sea $u_0=(t,s)$ el arco de referencia.
+	\begin{enumerate}\itemsep 2mm
+		\item Etiquetar $s$: $p(s)=s$
+		
+		El resto de los v\'{e}rtices no est\'{a} etiquetado $p(j)=0 \quad \forall j\neq s$
+		
+		\item Repetir este paso mientras se puedan etiquetar v\'{e}rtices:
+		
+		Dados un v\'{e}rtice $i$ etiquetado ($p(i)\neq 0$) y un v\'{e}rtice $j$ no etiquetado ($p(j)=0$) de forma que ambos son adyacentes en $G$, etiquetar $j$, es decir $p(j)=i$ si se verifica alguna de las condiciones siguientes:
+		\begin{itemize}\itemsep 3mm
+			\item $u = (i,j) \in U$ y $u$ está coloreado de negro o rojo.
+			\item $u = (j,i) \in U$ y $u$ está coloreado de verde o rojo.
+		\end{itemize}
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Lema de coloración de arcos. Demostraci\'{o}n}
+	Despu\'{e}s del proceso de etiquetado, se encontramos en una y solo una de las siguientes situaciones:
+	\begin{itemize}
+		\item $p(t) \neq 0$ (el vértice $t$ está etiquetado). En este caso, se tiene el siguiente ciclo de arcos negros, rojos y verdes 
+		$$ 
+		t - p(t) - p(p(t)) - \cdots - s 
+		$$
+		
+		\item $p(t) = 0$ (el vértice $t$ no ha podido ser etiquetado). Entonces, se puede definir un cociclo a partir de los vértices etiquetados:
+		$$ 
+		A = \{ i \in V \ / \ p(i) \neq 0 \} 
+		$$
+	\end{itemize}
+	Tanto el ciclo como el cociclo, por construcción, verifican las hipótesis del lema
+\end{frame}
+
+
+\begin{frame}{Lema de coloración. Ejemplo}
+	\begin{columns}
+		\column{0.45\textwidth}
+		
+		\begin{tikzpicture} [node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (b) at (2,2) {b} ;
+			\node[node_style] (c) at (4,2) {c} ;
+			\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (e) at (2,0) {e} ;
+			
+			\visible<2->{\node[node_style,label=above:{$c$}] (c) at (4,2) {c} ;}
+			\visible<3->{\node[node_style,label=below:{$c$}] (d) at (4,0) {d} ;}
+			\visible<3->{\node[node_style,label=below:{$c$}] (e) at (2,0) {e} ;}
+			\visible<4->{\node[node_style,label=above:{$e$}] (b) at (2,2) {b} ;}
+			
+			
+			\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+				\draw[dashed] (a) edge[->] node[above,draw=none] {0} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw[green,line width=1.75pt] (a) edge[->] (e) ;
+				\draw[line width=1.75pt] (b) edge[->] node[noded] {$u_0$}  (c) ;
+				\draw[line width=1.75pt] (c) edge[->](d) ;
+				\draw[green,line width=1.75pt] (d) edge[->](e) ;
+				\draw[red,line width=1.75pt] (e) edge[->] (b) ;
+				\draw[green,line width=1.75pt] (e) edge[->] (c) ;
+			\end{scope}
+			
+		\end{tikzpicture}
+		\visible<5->{
+			
+			Se forma el ciclo: $b-e-c-b$ con:
+			\begin{align*}
+				\mu & =\{ (e,b) ; (e,c) ; (b,c) \}
+				\\
+				\mu^+ & =\{ (e,b) ; (b,c) \}
+				\\
+				\mu^- & =\{  (e,c) \}
+			\end{align*}
+		}
+		
+		\column{0.45\textwidth}
+		
+		\visible<6->{
+			\begin{tikzpicture} [node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (2,2) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (4,0) {d} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (e) at (2,0) {e} ;
+				
+				\visible<7->{\node[node_style,label=above:{$c$}] (c) at (4,2) {c} ;}
+				\visible<8->{\node[node_style,label=below:{$c$}] (e) at (2,0) {e} ;}
+				
+				
+				\begin{scope}[noded/.style={fill=lightgray,circle,inner sep=0.5}]
+					\draw[line width=1.75pt] (a) edge[->]  (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw[dashed] (a) edge[->] (e) ;
+					\draw[line width=1.75pt] (b) edge[->]  node[noded] {$u_0$} (c) ;
+					\draw[green,line width=1.75pt] (c) edge[->]  (d) ;
+					\draw[line width=1.75pt] (d) edge[->]  (e) ;
+					\draw[green,line width=1.75pt] (e) edge[->]  (b) ;
+					\draw[green,line width=1.75pt] (e) edge[->]  (c) ;
+				\end{scope}
+				
+			\end{tikzpicture}
+			\visible<9->{
+				
+				Se forma el cociclo: $w(A)$ con
+				\begin{align*}
+					A & = \{ c,e \} 
+					\\
+					w^+(A) & = \{ (c,d) ; (e,b) \}
+					\\
+					w^-(A) & = \{ (b,c) ; (d,e) ; (a,e) \}
+				\end{align*}
+			}
+			
+		}
+		
+	\end{columns}
+	
+\end{frame}
+
+\begin{frame}{Lema de coloración. Observaciones}\footnotesize
+	\begin{itemize}\itemsep 1mm
+		\item En la demostración del lema no se ha comprobado que los ciclos y cociclos resultantes sean elementales.
+		\item Si lo que se obtiene es un ciclo, este tiene que ser elemental, ya que por la regla de etiquetado, no puede repetirse ningún vértice: un vértice repetido implica que se ha etiquetado dos veces y eso no es posible.
+		\item Si lo que se obtiene es un cociclo, para que sea elemental, los subgrafos generados por $A$ y $V\setminus A$ deben ser conexos: 
+		\begin{itemize}\footnotesize
+			\item Es obvio que el subgrafo generado por $A$ es conexo (solo se etiquetan vértices adyacentes a vértices ya etiquetados). 
+			\item En  el caso del subgrafo generado por $V\setminus A$, si no fuera conexo, sería porque habría $k \geq 2$ subconjuntos de vértices conexos y disjuntos entre sí verificando 
+			$$ V\setminus A = \bigcup_{h=1}^k B_h  \qquad B_h \cap B_{h'} = \emptyset, \forall h,h' \in \{ 1,2,\ldots,k \}: h \neq h'
+			$$ 
+			\item Como el vértice $t$ no se ha etiquetado, pertenece a uno de ellos, por ejemplo, $t \in B_1$.
+			\item El cociclo obtenido es elemental ya que $(t,s) \in w(A \cup_{h=2}^k B_h) \subset w(A) $ y el cociclo  $w(A \cup_{h=2}^k B_h)$ tiene las propiedades del cociclo $w(A)$ y es elemental, ya que si el conjunto $(A \bigcup_{h=2}^k B_h)$ no fuera conexo, no lo sería tampoco el grafo original $G$.
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+
+\section{Problema de flujo máximo}
+%%
+\begin{frame}{Introducción}
+	\begin{itemize}\itemsep 2mm
+		\item Un problema de flujo que surge de forma natural es obtener la m\'{a}xima cantidad de flujo que se pueden mover entre dos v\'{e}rtices del digrafo. Es el problema de
+		flujo m\'{a}ximo.
+		\item En este problema, cada arco del digrafo tiene una capacidad limitada (cantidad de flujo que puede pasar a través de él).
+		\item Esto nos lleva a introducir el  el concepto de red de transporte, que valora cada arco por la capacidad del flujo que puede soportar.
+	\end{itemize}	
+\end{frame}
+
+\begin{frame}{Ejemplo}
+	\begin{itemize}\itemsep 5mm
+		\item La capacidad de tr\'{a}fico de las calles se mide por el n\'{u}mero de autom\'{o}viles que pueden circular por minuto. 
+		\item En una determinada zona  se especifican las calles por arcos y se desea saber cu\'{a}l es la cantidad m\'{a}xima de autom\'{o}viles que pueden circular entre las zonas $s$ y $t$.
+	\end{itemize}
+	
+	\begin{center}
+		\begin{tikzpicture} [line width = 1pt,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (b) at (2,0) {b} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (s) at (0,2) {s} ;
+			\node[node_style] (t) at (4,0) {t} ;
+			\node[node_style] (a) at (2,2) {a} ;
+			
+			\draw (s) edge[->] node[left,draw=none] {(100)} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw (s) edge[->] node[above,draw=none] {(100)}  (a) ;
+			\draw (a) edge[->] node[right,draw=none] {(50)}  (b) ;
+			\draw (a) edge[->] node[right,draw=none] {(75)}  (t) ;
+			\draw (b) edge[->] node[above,draw=none] {(100)}  (t) ;
+		\end{tikzpicture}
+	\end{center}  
+	
+\end{frame}
+
+\begin{frame}{Ejemplo}
+	En una oficina hay tres empleados (E1,E2,E3) y 	tres tareas (T1,T2,T3), cada una de las cuales requiere unos conocimientos espec\'{\i}ficos que no todos los empleados poseen. Cada empleado puede realizar alguna de las tareas. En el siguiente digrafo se representan los empleados y tareas por v\'{e}rtices y cada arco que une un empleado y una tarea representa la compatibilidad de ambos. Se desea saber c\'{o}mo asignar las tareas a los empleados para tratar de realizarlas todas.
+	
+	\begin{center}
+		\begin{tikzpicture} [line width = 1pt,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (E1) at (0,3) {E1} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (E2) at (0,1.5) {E2} ;
+			\node[node_style] (E3) at (0,0) {E3} ;
+			\node[node_style] (T1) at (3,3) {T1} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (T2) at (3,1.5) {T2} ;
+			\node[node_style] (T3) at (3,0) {T3} ;
+			
+			\draw (E1) edge[->] node[left,draw=none] {} (T1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw (E1) edge[->] node[above,draw=none] {}  (T2) ;
+			\draw (E2) edge[->] node[left,draw=none] {} (T1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw (E2) edge[->] node[above,draw=none] {}  (T3) ;
+			\draw (E3) edge[->] node[left,draw=none] {} (T1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw (E3) edge[->] node[above,draw=none] {}  (T3) ;
+			
+		\end{tikzpicture}
+	\end{center}	
+\end{frame}
+
+\subsection{Red de transporte y flujo compatible}
+\begin{frame}{Red de transporte}
+	
+	\begin{block}{Red de transporte}
+		Una \underline{red de transporte} es el par $(G=(V,U) ; \{ c_u , u 	\in U \})$ donde $G$ es un digrafo sin bucles y $c_u$ es la \underline{capacidad del arco} $u \in U$.
+	\end{block}
+	\begin{center}\vspace*{-5mm}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (s) at (0,1.5) {s} ;
+			\node[node_style] (b) at (3,3) {b} ;
+			\node[node_style] (c) at (3,0) {c} ;
+			\node[node_style] (d) at (6,3) {d} ;
+			\node[node_style] (e) at (6,0) {e} ;
+			\node[node_style] (t) at (9,1.5) {t} ;
+			\draw  [line width=1.5pt] (s) edge[->] node[above] {(5)} (b) ;
+			\draw  [line width=1.5pt] (s) edge[->] node[above] {(3)} (c) ;
+			\draw  [line width=1.5pt] (b) edge[->,bend right=8] node[below] {(4)} (d) ;
+			\draw  [line width=1.5pt] (b) edge[->] node[left] {(3)} (c) ;
+			\draw  [line width=1.5pt] (c) edge[->,bend right=8] node[below] {(3)} (e) ;
+			\draw  [line width=1.5pt] (c) edge[->,bend right=8] node[below] {(4)} (d) ;
+			\draw  [line width=1.5pt] (d) edge[->,bend right=8] node[above] {(2)} (b) ;
+			\draw  [line width=1.5pt] (d) edge[->,bend right=8] node[above] {(1)} (c) ;
+			\draw  [line width=1.5pt] (d) edge[->,bend right=8] node[left] {(3)} (e) ;
+			\draw  [line width=1.5pt] (d) edge[->] node[above] {(5)} (t) ;
+			\draw  [line width=1.5pt] (e) edge[->,bend right=8] node[above] {(1)} (c) ;
+			\draw  [line width=1.5pt] (e) edge[->,bend right=8] node[right] {(3)} (d) ;
+			\draw  [line width=1.5pt] (e) edge[->,bend right=8] node[below] {(5)} (t) ;
+			\draw  [line width=1.5pt] (t) edge[->,bend right=8] node[above] {(1)} (e) ;
+			%	\draw  [line width=1.5pt] (t) edge[->,bend left=60] node[below] {8} (s) ;
+		\end{tikzpicture}
+	\end{center}	
+\end{frame}
+\begin{frame}{Flujo compatible}
+	\begin{block}{Flujo compatible}
+		Dada una red de transporte $\bigl\{G=(V,U),\vc\bigl\}$, se define un \underline{flujo
+			compatible} como un vector de dimensi\'{o}n $m = |U|$ $\vf^t =
+		(f_1, \ldots ,f_m)$ verificando:
+		\begin{itemize}
+			\item Ley de conservaci\'{o}n de flujo
+			
+			$$ \sum_{u \in w^+(i)} f_u - \sum_{u \in w^-(i)} f_u = 0 \quad \forall
+			i \in V $$
+			
+			\item Compatibilidad del flujo
+			
+			$$ 0 \leq f_u \leq c_u \quad \forall u \in U $$
+			
+		\end{itemize}	
+	\end{block}
+	
+\end{frame}
+
+\begin{frame}{Ejemplo de flujo compatible}
+	
+	En el siguiente digrafo el único flujo compatible es el flujo trivial que asigna el flujo $0$ a cada arco ya que del v\'{e}rtice $t$ no sale ning\'{u}n arco y al v\'{e}rtice $s$ no llega ninguno.
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},scale=0.85]
+			\node[node_style] (s) at (0,2) {s} ;
+			\node[node_style] (1) at (2,4) {1} ;
+			\node[node_style] (2) at (6,4) {2} ;
+			\node[node_style] (3) at (2,0) {3} ;
+			\node[node_style] (4) at (6,0) {4} ;
+			\node[node_style] (t) at (8,2) {t} ;
+			
+			\draw [line width=1.5pt] (s) edge[->] node[left]  {\textcolor{red}{0},\textcolor{blue}{(5)}} (1) ;
+			\draw [line width=1.5pt] (s) edge[->] node[left]  {\textcolor{red}{0},\textcolor{blue}{(7)}} (3) ;
+			\draw [line width=1.5pt] (3) edge[->] node[right] {\textcolor{red}{0},\textcolor{blue}{(5)}} (1) ;
+			\draw [line width=1.5pt] (1) edge[->] node[right] {\textcolor{red}{0},\textcolor{blue}{(6)}} (4) ;
+			\draw [line width=1.5pt] (1) edge[->] node[above] {\textcolor{red}{0},\textcolor{blue}{(4)}} (2) ;
+			\draw [line width=1.5pt] (3) edge[->] node[below] {\textcolor{red}{0},\textcolor{blue}{(5)}} (4) ;
+			\draw[line width=1.5pt]  (4) edge[->] node[right] {\textcolor{red}{0},\textcolor{blue}{(2)}} (2) ;
+			\draw [line width=1.5pt] (2) edge[->] node[right] {\textcolor{red}{0},\textcolor{blue}{(5)}} (t) ;
+			\draw [line width=1.5pt] (4) edge[->] node[right] {\textcolor{red}{0},\textcolor{blue}{(6)}} (t) ;
+		\end{tikzpicture}
+	\end{center}
+Por tanto, si no se excluye la ley de conservación de flujo de los nodos $s$ y $t$  no es posible enviar ningún flujo del nodo $s$ al $t$. 
+
+\end{frame}
+
+\begin{frame}{Flujo compatible}\small
+	\begin{itemize}\itemsep 1mm
+		\item Para evitar este problema cuando se trata de enviar flujo entre un  par de v\'{e}rtices fijados previamente, $s,t \in V$, se introduce un
+		arco ficticio entre estos dos v\'{e}rtices. 
+		\item El flujo del arco $(t,s)$ devuelve a $s$ todo el flujo que va desde $s$ a $t$ por el digrafo $G$.
+		\item Al flujo $f_0$ de este arco, que se etiqueta como arco $0$, se denomina \underline{valor del flujo}.
+	\end{itemize}
+	\begin{columns}
+		\column{0.6\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},scale=0.8]
+				\node[node_style] (s) at (0,2) {s} ;
+				\node[node_style] (1) at (2,4) {1} ;
+				\node[node_style] (2) at (6,4) {2} ;
+				\node[node_style] (3) at (2,0) {3} ;
+				\node[node_style] (4) at (6,0) {4} ;
+				\node[node_style] (t) at (8,2) {t} ;
+				
+				\draw [line width=1.5pt] (s) edge[->] node[left]  {\textcolor{red}{3},\textcolor{blue}{(5)}} (1) ;
+				\draw [line width=1.5pt] (s) edge[->] node[left]  {\textcolor{red}{5},\textcolor{blue}{(7)}} (3) ;
+				\draw [line width=1.5pt] (3) edge[->] node[right] {\textcolor{red}{2},\textcolor{blue}{(5)}} (1) ;
+				\draw [line width=1.5pt] (1) edge[->] node[right] {\textcolor{red}{3},\textcolor{blue}{(6)}} (4) ;
+				\draw [line width=1.5pt] (1) edge[->] node[above] {\textcolor{red}{2},\textcolor{blue}{(4)}} (2) ;
+				\draw [line width=1.5pt] (3) edge[->] node[below] {\textcolor{red}{3},\textcolor{blue}{(5)}} (4) ;
+				\draw[line width=1.5pt]  (4) edge[->] node[right] {\textcolor{red}{2},\textcolor{blue}{(2)}} (2) ;
+				\draw [line width=1.5pt] (2) edge[->] node[right] {\textcolor{red}{4},\textcolor{blue}{(5)}} (t) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {\textcolor{red}{4},\textcolor{blue}{(6)}} (t) ;
+				\draw  [line width=1.5pt] (t) edge[->,bend left=100] node[below] {8,\textcolor{blue}{($\infty$)}} (s) ;
+				
+			\end{tikzpicture}
+		\end{center}
+		\column{0.4\textwidth}
+		\colorbox{blue!5}{
+			\begin{minipage}{0.9\textwidth}
+				Formalmente, dada  una red de transporte y fijados dos v\'{e}rtices $s$ y $t$, se define un \underline{$(s,t)$-flujo} como un flujo en la red ampliada con el arco ficticio $(t,s)$ con capacidad no limitada.
+		\end{minipage}}
+		
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}{Ejemplo de flujo compatible}
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},scale=0.9]
+			\node[node_style] (s) at (1,2) {s} ;
+			\node[node_style] (b) at (4,4) {b} ;
+			\node[node_style] (c) at (4,0) {c} ;
+			\node[node_style] (d) at (8,4) {d} ;
+			\node[node_style] (e) at (8,0) {e} ;
+			\node[node_style] (t) at (11,2) {t} ;
+			\draw  [line width=1.5pt] (s) edge[->] node[above] {\textcolor{red}{5},\textcolor{blue}{(5)}} (b) ;
+			\draw  [line width=1.5pt] (s) edge[->] node[above] {\textcolor{red}{3},\textcolor{blue}{(3)}} (c) ;
+			\draw  [line width=1.5pt] (b) edge[->,bend right=8] node[below] {\textcolor{red}{4},\textcolor{blue}{(4)}} (d) ;
+			\draw  [line width=1.5pt] (b) edge[->] node[left] {\textcolor{red}{2},\textcolor{blue}{(3)}} (c) ;
+			\draw  [line width=1.5pt] (c) edge[->,bend right=8] node[below] {\textcolor{red}{3},\textcolor{blue}{(3)}} (e) ;
+			\draw  [line width=1.5pt] (d) edge[->,bend right=8] node[above] {\textcolor{red}{1},\textcolor{blue}{(2)}} (b) ;
+			\draw  [line width=1.5pt] (d) edge[->,bend right=8] node[above] {\textcolor{red}{1},\textcolor{blue}{(1)}} (c) ;
+			\draw  [line width=1.5pt] (d) edge[->] node[above] {\textcolor{red}{4},\textcolor{blue}{(5)}} (t) ;
+			\draw  [line width=1.5pt] (e) edge[->,bend right=8] node[right] {\textcolor{red}{2},\textcolor{blue}{(3)}} (d) ;
+			\draw  [line width=1.5pt] (e) edge[->,bend right=8] node[below] {\textcolor{red}{5},\textcolor{blue}{(5)}} (t) ;
+			\draw  [line width=1.5pt] (t) edge[->,bend right=8] node[above] {\textcolor{red}{1},\textcolor{blue}{(1)}} (e) ;
+			\draw  [line width=1.5pt] (t) edge[->,bend left=80] node[below] {8,\textcolor{blue}{($\infty$)}} (s) ;
+			\only<1>{
+				\draw  [line width=1.5pt] (c) edge[->,bend right=8] node[below] {\textcolor{red}{3},\textcolor{blue}{(4)}} (d) ;
+				\draw  [line width=1.5pt] (d) edge[->,bend right=8] node[left] {\textcolor{red}{2},\textcolor{blue}{(3)}} (e) ;
+				\draw  [line width=1.5pt] (e) edge[->,bend right=8] node[above] {\textcolor{red}{0},\textcolor{blue}{(1)}} (c) ;
+			}
+			\only<2>{
+				\draw  [line width=1.5pt,color=red] (c) edge[->,bend right=8] node[below] {\textcolor{red}{5},\textcolor{blue}{(4)}} (d) ;
+				\draw  [line width=1.5pt,color=red] (d) edge[->,bend right=8] node[left] {\textcolor{red}{4},\textcolor{blue}{(3)}} (e) ;
+				\draw  [line width=1.5pt,color=red] (e) edge[->,bend right=8] node[above] {\textcolor{red}{2},\textcolor{blue}{(1)}} (c) ;
+			}
+			%	\draw  [line width=1.5pt] (t) edge[->,bend left=60] node[below] {8} (s) ;
+		\end{tikzpicture}
+		
+		\visible<2>{  Si incrementamos el flujo a lo largo del circuito $c\fld d\fld e$ en dos unidades,
+			el flujo resultante ya no es compatible:}
+	\end{center}	
+	
+\end{frame}
+
+\begin{frame}{Definici\'on del problema a resolver}
+	\begin{block}{Problema de flujo m\'aximo}
+		Dada una red de transporte $\bigl\{G=(V,U),\vc\bigl\}$ y fijados dos v\'{e}rtices $s,t \in V$,
+		determinar un $(s,t)$-flujo de forma que el flujo por el arco de
+		retorno $f_0$ sea m\'{a}ximo.
+	\end{block}
+	\alert{Valor del flujo:}  cantidad de flujo que sale de $s$ y llega a $t$.
+	$$
+	f_0=\sum_{j\in\Gamma^{+}(s)}f_{sj}=\sum_{j\in\Gamma^{-}(t)}f_{jt}
+	$$ 
+\end{frame}
+
+
+\begin{frame}{Ejemplo}\small
+	\begin{itemize}
+		\item En una oficina hay tres empleados (E1,E2,E3) y 	tres tareas (T1,T2,T3).
+		\item Cada empleado puede realizar alguna de las tareas. 
+		\item En el siguiente digrafo los vértices representan a empleados y tareas. Cada arco que une un empleado y una tarea representa la compatibilidad de ambos. 
+		\item Se desea saber c\'{o}mo asignar las tareas a los empleados para tratar de realizarlas todas.
+	\end{itemize}
+	
+	\begin{center}
+		\begin{tikzpicture} [line width= 1pt,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1},scale=0.9]
+			\node[node_style] (E1) at (0,3) {E1} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (E2) at (0,1.5) {E2} ;
+			\node[node_style] (E3) at (0,0) {E3} ;
+			\node[node_style] (T1) at (3,3) {T1} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (T2) at (3,1.5) {T2} ;
+			\node[node_style] (T3) at (3,0) {T3} ;
+			
+			\only<1>{
+				\draw (E1) edge[->]  (T1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (E1) edge[->]  (T2) ;
+				\draw (E2) edge[->] (T1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (E2) edge[->]  (T3) ;
+				\draw (E3) edge[->]  (T1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (E3) edge[->]  (T3) ;
+			}	
+			
+			\only<2>{
+				\node[node_style] (s) at (-3,3) {s} ;
+				\node[node_style] (t) at (6,3) {t} ;
+				\draw (E1) edge[->] node[above,draw=none] {(1)} (T1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (E1) edge[->] node[above,draw=none] {(1)}  (T2) ;
+				\draw (E2) edge[->] node[left,draw=none] {(1)} (T1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (E2) edge[->] node[below] {(1)}  (T3) ;
+				\draw (E3) edge[->] node[right] {(1)} (T1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (E3) edge[->] node[below] {(1)}  (T3) ;
+				
+				\draw (s) edge[->] node[below] {(1)} (E1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (s) edge[->] node[below] {(1)}  (E2) ;
+				\draw (s) edge[->] node[below] {(1)}  (E3) ;
+				\draw (T1) edge[->] node[below] {(1)} (t) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (T2) edge[->] node[below] {(1)}  (t) ;
+				\draw (T3) edge[->] node[below] {(1)}  (t) ;
+				\draw (t) edge[->,bend right=20] node[above,draw=none] {($\infty$)}  (s) ;
+			}
+			
+		\end{tikzpicture}
+	\end{center}	
+\end{frame}
+
+\begin{frame}{Algoritmo para el flujo máximo}
+	\begin{itemize}\itemsep 4mm
+		\item El esquema general de cualquier algoritmo de flujo es:
+		\begin{enumerate}\itemsep 2mm
+			\item Partir de un flujo inicial (que puede ser el trivial). 
+			\item Buscar busca otro flujo que se aproxime a la soluci\'{o}n del problema planteado.
+			\item Repetir el procedimiento a partir del nuevo flujo.
+		\end{enumerate}  
+		\item Cualquier flujo es combinaci\'{o}n lineal de ciclos.
+		\item Por tanto, la diferencia entre dos flujos es siempre una combinaci\'{o}n de ciclos.
+		\item El algoritmo estudia si la red tiene un ciclo que incluya el arco $(t,s)$ que admita un incremento de al menos una unidad de flujo.
+		\item Esto lleva a introducir los conceptos de cadena y ciclo incremental.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo para el flujo máximo}
+	\begin{block}{Cadena incremental}
+		Dado un flujo compatible $\vf$ en la red de transporte $\bigl\{G=(V,U),\vc\bigl\}$, se dice que $\mu[a,b]$ es una \underline{cadena incremental} si verifica:
+		$$f_u < c_u \quad \forall u \in \mu^+,\qquad  f_u > 0 \quad \forall u \in \mu^-$$
+		Un \underline{ciclo incremental} es una cadena incremental cerrada.
+	\end{block}
+	En el problema de flujo m\'{a}ximo, el objetivo es incrementar el flujo por el arco de retorno, por lo que se tratar\'{a} de buscar una cadena incremental entre los v\'{e}rtices $s$ y $t$.
+	\begin{block}{Capacidad de una cadena}
+		La \underline{capacidad} $c(\mu)$de la cadena incremental $\mu[a,b]$ es la m\'{a}xima cantidad de flujo que se puede a\~{n}adir por dicha cadena:
+		$$ c(\mu) =\min \{ \min_{u \in 	\mu^+} (c_u - f_u) ; \min_{u \in \mu^-} f_u \} $$
+	\end{block}
+\end{frame}
+
+
+\subsection{Problema de flujo m\'{a}ximo en grafos no dirigidos}
+
+\begin{frame}{Problema de flujo m\'{a}ximo en grafos no dirigidos}
+	\begin{itemize}
+		\item En el caso de un grafo no dirigido $G=(V,E)$, el problema de flujo no queda bien definido.
+		\item La capacidad de una arista $e = \{ a,b \} \in E$ puede ser saturada en el sentido $(a,b)$ o en el sentido contrario $(b,a)$.
+		\item Para evitar enviar flujo en los dos sentidos de forma que se verifique $f_{(a,b)} + f_{(b,a)} \leq c_e$ siendo ambos flujos
+		positivos, hay que transformar el grafo en un digrafo equivalente de forma que se evite el flujo en sentido inverso en un mismo
+		arco.
+		\item Cada arista $e = \{ a,b \} \in E$ se sustituye por un conjunto de cinco arcos que ligan los v\'{e}rtices $a$ y $b$ con dos nuevos v\'{e}rtices $a'$ y $b'$ seg\'{u}n la siguiente estructura:
+		\begin{center}
+			\begin{tikzpicture} [line width=.4mm,node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (a) at (0,1) {$a$} ;
+				\node[node_style] (b) at (3,1) {$b$} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (a1) at (6,1) {$a$} ;
+				\node[node_style] (a2) at (8,2) {$a'$} ;
+				\node[node_style] (b1) at (10,1) {$b$} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b2) at (8,0) {$b'$} ;
+				
+				
+				\draw (a) edge[-] node[above] {\footnotesize $(c)$} (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (a1) edge[->] node[above left] {\footnotesize $(c)$}  (a2) ;
+				\draw (b1) edge[->] node[above right] {\footnotesize $(c)$}  (a2) ;
+				\draw (a2) edge[->] node[right] {\footnotesize $(c)$} (b2) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (b2) edge[->] node[below right] {\footnotesize $(c)$}  (b1) ;
+				\draw (b2) edge[->] node[below left] {\footnotesize  $(c)$}  (a1) ;
+			\end{tikzpicture}
+		\end{center}
+	\end{itemize}
+\end{frame}
+
+\subsection{Flujo m\'{a}ximo y corte m\'{\i}nimo}
+
+\begin{frame}{Definiciones}
+	
+	
+	\begin{block}{Corte}
+		Dada la red de transporte $\bigl\{G=(V,U),\vc\bigl\}$, un \underline{corte que separa $s$ y $t$} o \underline{$(s,t)$-corte} es un conjunto de arcos $w^+(N)$ verificando $N \subset V$ y $s \in N$, $t \not\in N$.
+	\end{block}
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.4cm,inner sep=0.5,font = {\footnotesize}},scale=0.8,font={\tiny}]
+			\node[node_style] (s) at (0,1.5) {s} ;
+			\node[node_style] (b) at (3,3) {b} ;
+			\node[node_style] (c) at (3,0) {c} ;
+			\node[node_style] (d) at (6,3) {d} ;
+			\node[node_style] (e) at (6,0) {e} ;
+			\node[node_style] (t) at (9,1.5) {t} ;
+			\draw  [line width=1.15pt] (s) edge[->] node[above] {(5)} (b) ;
+			\draw  [line width=1.15pt] (s) edge[->] node[above] {(3)} (c) ;
+			\draw  [line width=1.15pt] (b) edge[->,bend right=8] node[below] {(4)} (d) ;
+			\draw  [line width=1.15pt] (b) edge[->] node[left] {(3)} (c) ;
+			\draw  [line width=1.15pt] (c) edge[->,bend right=8] node[below] {(3)} (e) ;
+			\draw  [line width=1.15pt] (c) edge[->,bend right=8] node[below] {(4)} (d) ;
+			\draw  [line width=1.15pt] (d) edge[->,bend right=8] node[above] {(2)} (b) ;
+			\draw  [line width=1.15pt] (d) edge[->,bend right=8] node[above] {(1)} (c) ;
+			\draw  [line width=1.15pt] (d) edge[->,bend right=8] node[left] {(3)} (e) ;
+			\draw  [line width=1.15pt] (d) edge[->] node[above] {(5)} (t) ;
+			\draw  [line width=1.15pt] (e) edge[->,bend right=8] node[above] {(1)} (c) ;
+			\draw  [line width=1.15pt] (e) edge[->,bend right=8] node[right] {(3)} (d) ;
+			\draw  [line width=1.15pt] (e) edge[->,bend right=8] node[below] {(5)} (t) ;
+			\draw  [line width=1.15pt] (t) edge[->,bend right=8] node[above] {(1)} (e) ;
+			
+			\draw [dashed, very thick,color=red] (2,-0.2) -- (2,3.5);
+			\draw [dashed, very thick,color=blue] (4,-1.1) -- (4,3.5);
+			\draw [dashed, very thick,color=magenta] (7,-0.3) -- (7,3.5);
+			
+			\node at (1.9,-0.4) {\color{red} $N=\{s\}$};
+			\node at (1.9,-0.8) {\color{red} $w^+(N)=\{(s,b),(s,c)\}$};
+			
+			\node at (3.8,-1.2) {\color{blue} $N=\{s,b,c\}$};
+			\node at (3.8,-1.6) {\color{blue} $w^+(N)=\{(b,d),(c,d),(c,e)\}$};
+			
+			\node at (7,-0.7) {\color{magenta} $N=\{s,b,c,d,e\}$};
+			\node at (7,-1.1) {\color{magenta} $w^+(N)=\{(d,t),(e,t)\}$};
+			%	\draw  [line width=1.5pt] (t) edge[->,bend left=60] node[below] {8} (s) ;
+		\end{tikzpicture}
+	\end{center}	
+	
+\end{frame}
+
+
+\begin{frame}{Capacidad de un corte}\small
+	
+	\begin{block}{Capacidad de un corte}
+		Dada la red de transporte $\bigl\{G=(V,U),\vc\bigl\}$, se define la {\it capacidad} de  un $(s,t)$-corte como la suma de las capacidades de los arcos que lo componen: $\displaystyle c(w^+(N)) = \sum_{\begin{array}{c}u \in w^+(N) \\  \end{array}} c_u $
+	\end{block}
+	\begin{center}\vspace*{-2mm}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},scale=0.9,font = {\tiny}]
+			\node[node_style] (s) at (0,1.5) {s} ;
+			\node[node_style] (b) at (3,3) {b} ;
+			\node[node_style] (c) at (3,0) {c} ;
+			\node[node_style] (d) at (6,3) {d} ;
+			\node[node_style] (e) at (6,0) {e} ;
+			\node[node_style] (t) at (9,1.5) {t} ;
+			\draw  [line width=1.15pt] (s) edge[->] node[above] {(5)} (b) ;
+			\draw  [line width=1.15pt] (s) edge[->] node[above] {(3)} (c) ;
+			\draw  [line width=1.15pt] (b) edge[->,bend right=8] node[below] {(4)} (d) ;
+			\draw  [line width=1.15pt] (b) edge[->] node[left] {(3)} (c) ;
+			\draw  [line width=1.15pt] (c) edge[->,bend right=8] node[below] {(3)} (e) ;
+			\draw  [line width=1.15pt] (c) edge[->,bend right=8] node[below] {(4)} (d) ;
+			\draw  [line width=1.15pt] (d) edge[->,bend right=8] node[above] {(2)} (b) ;
+			\draw  [line width=1.15pt] (d) edge[->,bend right=8] node[above] {(1)} (c) ;
+			\draw  [line width=1.15pt] (d) edge[->,bend right=8] node[left] {(3)} (e) ;
+			\draw  [line width=1.15pt] (d) edge[->] node[above] {(5)} (t) ;
+			\draw  [line width=1.15pt] (e) edge[->,bend right=8] node[above] {(1)} (c) ;
+			\draw  [line width=1.15pt] (e) edge[->,bend right=8] node[right] {(3)} (d) ;
+			\draw  [line width=1.15pt] (e) edge[->,bend right=8] node[below] {(5)} (t) ;
+			\draw  [line width=1.15pt] (t) edge[->,bend right=8] node[above] {(1)} (e) ;
+			
+			\draw [dashed, very thick,color=red] (2,-0.2) -- (2,3.5);
+			\draw [dashed, very thick,color=blue] (4,-1.1) -- (4,3.5);
+			\draw [dashed, very thick,color=magenta] (7,-0.3) -- (7,3.5);
+			
+			\node at (1.9,-0.4) {\color{red} $N=\{s\}$};
+			\node at (1.9,-0.8) {\color{red} $w^+(N)=\{(s,b),(s,c)\}$};
+			\node at (1.9,-1.2) {\color{red} $Cap: 5+3=8$};
+			
+			\node at (3.8,-1.6) {\color{blue} $N=\{s,b,c\}$};
+			\node at (3.8,-2.0) {\color{blue} $w^+(N)=\{(b,d),(c,d),(c,e)\},\quad Cap: 4+4+3=11$};
+			
+			\node at (7,-0.7) {\color{magenta} $N=\{s,b,c,d,e\}$};
+			\node at (7,-1.1) {\color{magenta} $w^+(N)=\{(d,t),(e,t)\}$};
+			\node at (7,-1.5) {\color{magenta} $Cap: 5+5=10$};
+			%	\draw  [line width=1.5pt] (t) edge[->,bend left=60] node[below] {8} (s) ;
+		\end{tikzpicture}
+	\end{center}	
+	
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Problema de corte de m\'inima capacidad}
+	
+	\begin{block}{Problema de corte de m\'inima capacidad}
+		El \textbf{problema de corte de m\'inima capacidad} trata de determinar en una red de transporte el corte cuya capacidad sea m\'inima.
+	\end{block}
+	
+	\pause
+	
+	\begin{block}{Proposición}
+		Dada una red de transporte $\bigl\{G=(V,U),\vc\bigl\}$ y fijados los v\'{e}rtices $s,t \in V$, para cualquier $(s,t)$-flujo $\vf$ se verifica que su valor de flujo $f_0$ est\'{a} acotado por la capacidad de cualquier $(s,t)$-corte. Es decir 
+		$$ 
+		f_0 \leq \sum_{\begin{array}{c}u \in w^+(N) \\  \end{array}} c_u, \qquad \forall N \subset V \ s \in N, \ t \not\in N
+		$$
+	\end{block}
+\end{frame}
+
+\begin{frame}{Capacidad de un corte}
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},scale=0.95,font = {\footnotesize}]
+			\begin{scope}[scale=0.95]
+				\node[node_style] (s) at (0,1.5) {s} ;
+				\node[node_style] (b) at (3,3) {b} ;
+				\node[node_style] (c) at (3,0) {c} ;
+				\node[node_style] (d) at (6,3) {d} ;
+				\node[node_style] (e) at (6,0) {e} ;
+				\node[node_style] (t) at (9,1.5) {t} ;
+				\draw  [line width=1.15pt] (s) edge[->] node[above] {\small \textcolor{red}{5},\textcolor{blue}{(5)}} (b) ;
+				\draw  [line width=1.15pt] (s) edge[->] node[above] {\small\textcolor{red}{3},\textcolor{blue}{(3)}} (c) ;
+				\draw  [line width=1.15pt] (b) edge[->,bend right=8] node[below] {\small\textcolor{red}{4},\textcolor{blue}{(4)}} (d) ;
+				\draw  [line width=1.15pt] (b) edge[->] node[left] {\small\textcolor{red}{2},\textcolor{blue}{(3)}} (c) ;
+				\draw  [line width=1.15pt] (c) edge[->,bend right=8] node[below] {\small\textcolor{red}{3},\textcolor{blue}{(3)}} (e) ;
+				\draw  [line width=1.15pt] (d) edge[->,bend right=8] node[above] {\small\textcolor{red}{1},\textcolor{blue}{(2)}} (b) ;
+				\draw  [line width=1.15pt] (d) edge[->,bend right=8] node[above] {\small\textcolor{red}{1},\textcolor{blue}{(1)}} (c) ;
+				\draw  [line width=1.15pt] (d) edge[->] node[above] {\small\textcolor{red}{4},\textcolor{blue}{(5)}} (t) ;
+				\draw  [line width=1.15pt] (e) edge[->,bend right=8] node[right] {\small\textcolor{red}{2},\textcolor{blue}{(3)}} (d) ;
+				\draw  [line width=1.15pt] (e) edge[->,bend right=8] node[below] {\small\textcolor{red}{5},\textcolor{blue}{(5)}} (t) ;
+				\draw  [line width=1.15pt] (t) edge[->,bend right=8] node[above] {\textcolor{red}{1},\textcolor{blue}{(1)}} (e) ;
+				\draw  [line width=1.15pt] (c) edge[->,bend right=8] node[below] {\textcolor{red}{3},\textcolor{blue}{(4)}} (d) ;
+				\draw  [line width=1.15pt] (d) edge[->,bend right=8] node[left] {\textcolor{red}{2},\textcolor{blue}{(3)}} (e) ;
+				\draw  [line width=1.15pt] (e) edge[->,bend right=8] node[above] {\textcolor{red}{0},\textcolor{blue}{(1)}} (c) ;
+				
+				\draw [dashed, very thick,color=red] (2,-0.2) -- (2,3.5);
+				\draw [dashed, very thick,color=blue] (4,-2) -- (4,3.5);
+				\draw [dashed, very thick,color=magenta] (7,-0.3) -- (7,3.5);
+				
+				\node at (1.9,-0.4) {\color{red} $N=\{s\}$};
+				\node at (1.9,-0.8) {\color{red} $w^+(N)=\{(s,b),(s,c)\}$};
+				\node at (1.9,-1.2) {\color{red} $Cap: 5+3=8$};
+				
+				\node at (3.8,-2.1) {\color{blue} $N=\{s,b,c\}$};
+				\node at (3.8,-2.5) {\color{blue} $w^+(N)=\{(b,d),(c,d),(c,e)\}$};
+				\node at (3.8,-2.9) {\color{blue} $Cap: 4+4+3=11$};
+				
+				\node at (7,-0.7) {\color{magenta} $N=\{s,b,c,d,e\}$};
+				\node at (7,-1.1) {\color{magenta} $w^+(N)=\{(d,t),(e,t)\}$};
+				\node at (7,-1.5) {\color{magenta} $Cap: 5+5=10$};
+				%\draw  [line width=1.5pt] (t) edge[->,bend left=80] node[below] {8} (s) ;
+			\end{scope}
+		\end{tikzpicture}
+		
+		\small 
+		La capacidad del corte rojo es 8 y el flujo de $s$ a $t$ es 8. Por tanto, este flujo es una solución óptima al problema de flujo máximo y de corte de capacidad mínima.
+	\end{center}	
+	
+\end{frame}
+
+
+\begin{frame}{Demostración}
+	
+	Sea $N\in V$, tal que $s\in N$ y $t\notin N$.
+	
+	Sea $\vf=(f_0,f_1,\dots,f_m)$ un flujo compatible en la red.
+	
+	Por la ley de conservación de flujo, la suma de los flujos que entran en $N$ es igual a la suma de los flujos que salen de $N$:
+	$$
+	f_0+\sum_{\substack{(i,j)\in w^-(N) \\ (i,j)\neq (t,s)}}f_{ij}= \sum_{(i,j)\in w^+(N)}f_{ij}
+	$$
+	
+	Por tanto, 
+	$$
+	f_0=\sum_{(i,j)\in w^+(N)}f_{ij}-\sum_{\substack{(i,j)\in w^-(N) \\ (i,j)\neq (t,s)}}f_{ij}.
+	$$
+\end{frame}
+
+\begin{frame}{Demostración}
+	
+	Tenemos,
+	$$
+	f_0=\sum_{(i,j)\in w^+(N)}f_{ij}-\sum_{\substack{(i,j)\in w^-(N) \\ (i,j)\neq (t,s)}}f_{ij}.
+	$$
+	
+	Como $0\leq f_{ij}\leq u_{ij}$, $\forall (i,j)\in U$:
+	$$
+	f_0\leq \sum_{(i,j)\in w^+(N)} u_{ij}.
+	$$
+	
+	Esto es cierto para cualquier conjunto $N\subset V$, para cada flujo $\vf$ compatible con las capacidades $u_{ij}$.
+	
+	En particular, también para el flujo que maximiza $f_0$:
+	$$
+	\max f_0\leq \min_{\substack{N\subset V \\ s\in N,\, t\notin N }} \Bigr\{\sum_{(i,j)\in w^+(N)} u_{ij}\Bigl\}.
+	$$
+\end{frame}
+\begin{frame}{Flujo máximo y corte de capacidad mínima}
+	\begin{block}{Corolario}
+		Si un flujo $\vf$ y un corte $w^+(N)$ que separe $s$ y $t$ son tales que el valor del flujo es igual a la capacidad del
+		corte, entonces $\vf$ es el flujo máximo de $s$ a $t$ y $w^+(N)$ es el corte de mínima capacidad que separa $s$ de $t$.
+	\end{block}
+	\alert{Demostración:} Trivial.
+\end{frame}
+
+\begin{frame}{Flujo máximo y corte de capacidad mínima}
+	
+	\begin{block}{Corolario}
+		El problema del flujo máximo de $s$ a $t$ tiene solución si y sólo si no existe un camino de $s$ a $t$, sea $\mu(s,t)$, con capacidad infinita en todos los arcos de $\mu$. 
+	\end{block}
+	\alert{Demostración:} 
+	
+	$\Rightarrow$ Trivial. 
+	
+	\medskip
+	$\Leftarrow$. El grafo parcial $G'$ definido por todos los arcos de capacidad infinita no puede contener un camino de $s$ a $t$.  
+	\\[2mm]
+	Sea $N$ el conjunto de nodos para los que existe un camino desde $s$ en el grafo $G'$. 
+	\\[2mm]
+	La capacidad del corte asociado a $N$ en la red de transporte es finita.
+\end{frame}
+
+\begin{frame}{Flujo máximo y corte de capacidad mínima}
+	
+	Los resultados anteriores relacionan fuertemente el flujo máximo y
+	la capacidad de un corte.
+	
+	El siguiente teorema fortalece estos resultados.
+	
+	\begin{block}{Teorema (Ford-Fulkerson)}
+		\label{t-flujo-maximo-corte-minimo} Dada la red de transporte $\bigl\{G=(V,U),\vc\bigl\}$, fijados dos v\'{e}rtices $s,t \in V$, el $(s,t)$-flujo m\'{a}ximo coincide con la m\'{\i}nima capacidad de los $(s,t)$-cortes.
+	\end{block}
+	La relación entre el valor del flujo máximo y el corte de capacidad no queda limitada a este resultado.
+	
+	\begin{center}
+		\colorbox{red!5}{
+			\begin{minipage}{0.8\textwidth}
+				Los problemas de encontrar el flujo máximo que puede circular por una red y el corte de mínima capacidad son duales entre sí.
+			\end{minipage}
+		}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}{Flujo máximo y corte de capacidad mínima}
+	\alert{Demostración:}
+	
+	Sea $f=(f_0,\dots,f_m)$ una solución óptima del problema de flujo máximo de $s$ a $t$. Según el teorema, existe al menos subcobjunto $N$ de nodos (con $s\in N, t\notin N$), tal que $c(w(N^+))=f_0$.
+	
+	Se utiliza la siguiente regla para colorear los arcos:
+	\begin{itemize}
+		\item Arco de retorno $(t,s)$, negro.
+		\item Arco $v$ tal que $0 = f_a = c_a$, sin colorear.
+		\item Arco $v$ tal que $0 = f_a < c_a$, negro.
+		\item Arco $v$ tal que $0 < f_a = c_a$, verde.
+		\item Arco $v$ tal que $0 < f_a < c_a$, rojo.
+	\end{itemize}
+	Es decir, en los arcos negros solo se puede incrementar el flujo, en los verdes, reducir y en los rojos, aumentar y reducir. En los no coloreados n0 se puede incrementar ni reducir.
+\end{frame}
+
+\begin{frame}{Flujo máximo y corte de capacidad mínima}
+	\alert{Demostración (cont.):}
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (s) at (0,1.75) {s} ;
+			\node[node_style] (1) at (2,3.25) {1} ;
+			\node[node_style] (2) at (6,3.25) {2} ;
+			\node[node_style] (3) at (2,0.25) {3} ;
+			\node[node_style] (4) at (6,0.25) {4} ;
+			\node[node_style] (t) at (8,1.75) {t} ;
+			
+			\draw [line width=1.5pt, color=red] (s) edge[->] node[left]  {\textcolor{red}{5},\textcolor{blue}{(6)}} (1) ;
+			\draw [line width=1.5pt, color=red] (s) edge[->] node[left]  {\textcolor{red}{5},\textcolor{blue}{(7)}} (3) ;
+			\draw [line width=1.5pt] (3) edge[->] node[right] {\textcolor{red}{0},\textcolor{blue}{(5)}} (1) ;
+			\draw [line width=1.5pt, color=green] (1) edge[->] node[right] {\textcolor{red}{1},\textcolor{blue}{(1)}} (4) ;
+			\draw [line width=1.5pt, color=green] (1) edge[->] node[above] {\textcolor{red}{4},\textcolor{blue}{(4)}} (2) ;
+			\draw [line width=1.5pt, color=green] (3) edge[->] node[below] {\textcolor{red}{5},\textcolor{blue}{(5)}} (4) ;
+			\draw[line width=1.5pt, color=green]  (4) edge[->] node[right] {\textcolor{red}{2},\textcolor{blue}{(2)}} (2) ;
+			\draw [line width=1.5pt, color=red] (2) edge[->] node[right] {\textcolor{red}{6},\textcolor{blue}{(7)}} (t) ;
+			\draw [line width=1.5pt, color=red] (4) edge[->] node[right] {\textcolor{red}{4},\textcolor{blue}{(6)}} (t) ;
+			\draw  [line width=1.5pt] (t) edge[->,bend left=100] node[below] {10,\textcolor{blue}{($\infty$)}} (s) ;
+		\end{tikzpicture}
+	\end{center}
+	
+\end{frame}
+
+\begin{frame}{Flujo máximo y corte de capacidad mínima}
+	\alert{Demostración (cont.):}
+	\begin{itemize}\itemsep 4mm
+		\item Se inicia un proceso de marcado de vértices.
+		\begin{itemize}
+			\item Sea $S\in V$ el conjunto de vértices marcados. Inicialmente $S=\{s\}$.
+			\item El resto de vértices se marcan en función de los arcos que inciden en ellos. Para cada arco $(i,j)$
+			\begin{itemize}
+				\item Si $i$ está marcado, $j$ no está marcado e $(i,j)$ es negro o rojo: marcar $j$.
+				\item Si $j$ está marcado $i$ no está marcado e $(i,j)$ es verde o rojo: marcar $i$.
+			\end{itemize}
+			\item Repetir el proceso hasta marcar el máximo posible de vértices.
+		\end{itemize}
+		\item Si al final el vértice $t$ resulta marcado, $(t,s)$ pertenece a un ciclo por el que es posible incrementar el flujo de $s$ a $t$.
+		\item Pero, dado que $f_0$ es máximo, este ciclo no puede existir y, por el lema de coloración de arcos, $(t,s)$ necesariamente  pertenece al cociclo asociado a los vértices marcados.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Flujo máximo y corte de capacidad mínima}
+	\begin{itemize}\itemsep 4mm
+		\item El cociclo define un corte. 
+		\item La capacidad de este corte viene determinada por la capacidad de los arcos verdes del mismo.
+		\item Falta por ver que el flujo que pasa de $s$ a $t$ a través de ese corte es igual a la suma de las capacidades de los arcos verdes. 
+		\item Por la ley de conservación de flujo:
+		$$
+		\sum_{u\in w^+(N)} f_u = \sum_{u\in w^-(N)} f_u = f_0 + \sum_{\substack{u\in w^-(N) \\ u\neq (t,s)}} f_u
+		$$
+		\item Como los arcos verdes están a máxima capacidad y los negros a 0, se concluye que:
+		$$
+		\sum_{u\in w^+(N)} c_u  = \sum_{u\in w^+(N)} f_u = f_0 
+		$$
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Flujo máximo y corte de capacidad mínima}
+	
+	\alert{¿Qué ocurre en este ejemplo?}
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (s) at (0,1.75) {s} ;
+			\node[node_style] (1) at (2,3.25) {1} ;
+			\node[node_style] (2) at (6,3.25) {2} ;
+			\node[node_style] (3) at (2,0.25) {3} ;
+			\node[node_style] (4) at (6,0.25) {4} ;
+			\node[node_style] (t) at (8,1.75) {t} ;
+			
+			\draw [line width=1.5pt, color=red] (s) edge[->] node[left]  {\textcolor{red}{5},\textcolor{blue}{(6)}} (1) ;
+			\draw [line width=1.5pt, color=red] (s) edge[->] node[left]  {\textcolor{red}{5},\textcolor{blue}{(7)}} (3) ;
+			\draw [line width=1.5pt] (3) edge[->] node[right] {\textcolor{red}{0},\textcolor{blue}{(5)}} (1) ;
+			\draw [line width=1.5pt, color=red] (1) edge[->] node[right] {\textcolor{red}{1},\textcolor{blue}{(6)}} (4) ;
+			\draw [line width=1.5pt, color=green] (1) edge[->] node[above] {\textcolor{red}{4},\textcolor{blue}{(4)}} (2) ;
+			\draw [line width=1.5pt, color=green] (3) edge[->] node[below] {\textcolor{red}{5},\textcolor{blue}{(5)}} (4) ;
+			\draw[line width=1.5pt, color=green]  (4) edge[->] node[right] {\textcolor{red}{2},\textcolor{blue}{(2)}} (2) ;
+			\draw [line width=1.5pt, color=red] (2) edge[->] node[right] {\textcolor{red}{6},\textcolor{blue}{(7)}} (t) ;
+			\draw [line width=1.5pt, color=red] (4) edge[->] node[right] {\textcolor{red}{4},\textcolor{blue}{(6)}} (t) ;
+			\draw  [line width=1.5pt] (t) edge[->,bend left=100] node[below] {10,\textcolor{blue}{($\infty$)}} (s) ;
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson I}
+	
+	Se public\'o en 1956 en \cite{fordfulkerson1956}.
+	
+	\begin{figure}
+		\centering
+		\subfloat[L.R. Ford, 1927-2017]{\makebox[.18\textwidth]{\includegraphics[width=0.15\textwidth]{fig/ford}}} \hspace{0.25cm}
+		\subfloat[D.R. Fulkerson, 1924-1976]{\makebox[.18\textwidth]{\includegraphics[width=0.15\textwidth]{fig/fulkerson}}}
+	\end{figure}
+	
+	\pause
+	
+	Se conoce tambi\'en como algoritmo del camino de aumento, ya que la idea principal consiste en aumentar la capacidad de los flujos en los caminos del origen al destino.
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson I}
+	
+	Aplicando la regla de coloreado de arcos anterior y etiquetando/marcando arcos según se indica en el lema de coloreado de arcos, es posible determinar si un flujo es óptimo o no. 
+	
+	Además, en caso de que no sea óptimo, este procedimiento nos indica un ciclo por el que es posible incrementar el flujo. 
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson I}
+	
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (s) at (0,1.75) {s} ;
+			\node[node_style] (2) at (2,3.25) {2} ;
+			\node[node_style] (4) at (6,3.25) {4} ;
+			\node[node_style] (3) at (2,0.25) {3} ;
+			\node[node_style] (5) at (6,0.25) {5} ;
+			\node[node_style] (t) at (8,1.75) {t} ;
+			
+			\draw [line width=1.5pt, color=green] (s) edge[->] node[left]  {\textcolor{red}{2}\textcolor{blue}{(2)}} (3) ;
+			\draw [line width=1.5pt, color=black] (3) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (2) ;
+			\draw [line width=1.5pt, color=green] (3) edge[->] node[below] {\textcolor{red}{2}\textcolor{blue}{(2)}} (5) ;
+			\draw [line width=1.5pt, color=black] (4) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (3) ;
+			\draw [line width=1.5pt, color=red] (5) edge[->] node[right] {\textcolor{red}{1}\textcolor{blue}{(2)}} (t) ;
+			\draw[line width=1.5pt, color=green]  (5) edge[->] node[right] {\textcolor{red}{1}\textcolor{blue}{(1)}} (4) ;
+			\only<1-3>{
+				\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {3\textcolor{blue}{($\infty$)}} (s) ;
+			}
+			\only<1>{
+				\draw [line width=1.5pt, color=red] (s) edge[->] node[left]  {\textcolor{red}{1}\textcolor{blue}{(3)}} (2) ;
+				\draw [line width=1.5pt, color=red] (2) edge[->] node[above] {\textcolor{red}{1}\textcolor{blue}{(2)}} (4) ;
+				\draw [line width=1.5pt, color=red] (4) edge[->] node[right] {\textcolor{red}{2}\textcolor{blue}{(3)}} (t) ;
+			}
+			\only<2-3>{
+				\draw [line width=3pt, color=orange] (s) edge[->] node[left]  {\textcolor{red}{1}\textcolor{blue}{(3)}} (2) ;
+				\draw [line width=3pt, color=orange] (2) edge[->] node[above] {\textcolor{red}{1}\textcolor{blue}{(2)}} (4) ;
+				\draw [line width=3pt, color=orange] (4) edge[->] node[right] {\textcolor{red}{2}\textcolor{blue}{(3)}} (t) ;
+			}
+			\only<4-5>{
+				\draw [line width=1.5pt, color=red] (s) edge[->] node[left]  {\textcolor{red}{2}\textcolor{blue}{(3)}} (2) ;
+				\draw [line width=1.5pt, color=green] (2) edge[->] node[above] {\textcolor{red}{2}\textcolor{blue}{(2)}} (4) ;
+				\draw [line width=1.5pt, color=green] (4) edge[->] node[right] {\textcolor{red}{3}\textcolor{blue}{(3)}} (t) ;
+				\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {4\textcolor{blue}{($\infty$)}} (s); 
+			}
+		\end{tikzpicture}
+		
+		\only<3>{Es posible incrementar una unidad por el camino de arcos naranjas}
+		\only<5>{Ya no es posible marcar $t$}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Ford-Fulkerson I}
+	
+	\begin{block}{Definición}
+		Planteado un problema de flujo m\'{a}ximo de $s$ a $t$ en la red de transporte $\bigl\{G=(V,U),\vc\bigl\}$, y dado un flujo compatible $\vf$, se define el \underline{grafo incremental} $G(\vf)$ al digrafo $G(\vf) = (V,U({\bf 	f}))$, en el que el conjunto de arcos $U(\vf)$ se construye de la
+		siguiente forma: 
+		$$ 
+		\forall u =(i,j) \in U \left\{ \begin{array}{lrr} u^+=(i,j) \in U(\vf) & si & f_u < c_u \\[3mm] 	u^-=(j,i) \in U(\vf) & si & f_u > 0 \end{array} \right. 
+		$$
+	\end{block}
+	\footnotesize
+	\begin{itemize}
+		\item Se añade un arco al grafo incremental en el mismo sentido que el arco de la red cuando el flujo del arco en la red se puede incrementar. Se le asocia un peso $\ell_u=c_u - f_u$
+		\item Se añade un arco al grafo incremental en sentiod contrario al del arco de la red, cuando el flujo del arco en la red se puede reducir. Se le asocia un peso $\ell_u=f_u$
+		\item Estas operaciones no son excluyentes. 
+		\item El arco de retorno no se incluye en el grafo incremental.
+		\item A cada arco de $U({\bf f})$ se le asocia una cantidad que representa el flujo que admite el arco en cuesti\'{o}n: cuando el arco permita incremento de flujo y $f_u$ cuando permita la disminuci\'{o}n del mismo.
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson I}
+	
+	Construir el red asociada a la siguiente red de transporte:
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (s) at (0,1.75) {s} ;
+			\node[node_style] (2) at (2,3.25) {2} ;
+			\node[node_style] (4) at (6,3.25) {4} ;
+			\node[node_style] (3) at (2,0.25) {3} ;
+			\node[node_style] (5) at (6,0.25) {5} ;
+			\node[node_style] (t) at (8,1.75) {t} ;
+			\only<1>{
+				\draw [line width=1.15pt, color=green] (s) edge[->] node[left]  {\textcolor{red}{2}\textcolor{blue}{(2)}} (3) ;
+				\draw [line width=1.15pt, color=black] (3) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (2) ;
+				\draw [line width=1.15pt, color=green] (3) edge[->] node[below] {\textcolor{red}{2}\textcolor{blue}{(2)}} (5) ;
+				\draw [line width=1.15pt, color=black] (4) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (3) ;
+				\draw [line width=1.15pt, color=red] (5) edge[->] node[right] {\textcolor{red}{1}\textcolor{blue}{(2)}} (t) ;
+				\draw[line width=1.15pt, color=green]  (5) edge[->] node[right] {\textcolor{red}{1}\textcolor{blue}{(1)}} (4) ;
+				\draw  [line width=1.15pt, color=black] (t) edge[->,bend left=100] node[below] {3\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.15pt, color=red] (s) edge[->] node[left]  {\textcolor{red}{1}\textcolor{blue}{(3)}} (2) ;
+				\draw [line width=1.15pt, color=red] (2) edge[->] node[above] {\textcolor{red}{1}\textcolor{blue}{(2)}} (4) ;
+				\draw [line width=1.15pt, color=red] (4) edge[->] node[right] {\textcolor{red}{2}\textcolor{blue}{(3)}} (t) ;
+			}
+			\only<2>{
+				\draw [line width=1.15pt] (s) edge[<-] node[left]  {2} (3) ;
+				\draw [line width=1.15pt] (3) edge[->] node[right] {1} (2) ;
+				\draw [line width=1.15pt] (3) edge[<-] node[below] {2} (5) ;
+				\draw [line width=1.15pt] (4) edge[->] node[right] {1} (3) ;
+				\draw [line width=1.15pt] (5) edge[->,bend left=8] node[above] {1} (t) ;
+				\draw [line width=1.15pt] (5) edge[<-,bend right=8] node[below] {1} (t) ;
+				\draw[line width=1.15pt]  (5) edge[<-] node[right] {1} (4) ;
+				%		\draw  [line width=1.5pt] (t) edge[->,bend left=100] node[below] {3\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.15pt] (s) edge[->,bend left=8] node[above]  {2} (2) ;
+				\draw [line width=1.15pt] (s) edge[<-,bend right=8] node[below]  {1} (2) ;
+				\draw [line width=1.15pt] (2) edge[->,bend left=8] node[above] {1} (4) ;
+				\draw [line width=1.15pt] (2) edge[<-,bend right=8] node[below] {1} (4) ;
+				\draw [line width=1.15pt] (4) edge[->,bend left=8] node[above] {1} (t) ;
+				\draw [line width=1.15pt] (4) edge[<-,bend right=8] node[below] {2} (t) ;
+			}
+		\end{tikzpicture}
+		
+	\end{center}
+\end{frame}
+
+
+
+\begin{frame}{Algoritmo de Ford-Fulkerson I}
+	\begin{block}{Clave}
+		La clave del algoritmo radica en que el flujo ${\bf f}$ permite un incremento de flujo en el valor del flujo $f_0$ si, y s\'{o}lo si, existe un camino $\mu[s,t]$ en el grafo incremental $G({\bf f})$. 
+	\end{block}
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson I}
+	\begin{enumerate}[\mbox{Paso} 1]\itemsep 2mm
+		\item $k=0$. Determinar un flujo inicial $f^0=(f_0^0,f_1^0,\dots,f_m^0)$.
+		\item Definir la red incremental $G(\vf^k)=(V,U(\vf^k))$. 
+		
+		Buscar un camino $\mu^k$ de $s$ a $t$ en $G(\vf^k)$.
+		\begin{itemize}
+			\item Si no existe el camino: PARAR, $\vf^k$ es óptimo.
+			\item En caso contrario, ir al paso siguiente.
+		\end{itemize}
+		\item Sea $\epsilon^k=\min\{\ell_u\tq u\in\mu^k,\, u\in U(\vf^k)\}$
+		
+		Para cada arco $u\in U$ de la red de transporte:
+		$$
+		f_u^{k+1} = \begin{cases}
+			f_u^{k+1} = f_u^k +\epsilon^k & \text{ si } u\in\mu^k(+) \\
+			f_u^{k+1} = f_u^k -\epsilon^k & \text{ si } u\in\mu^k(-) \\
+			f_u^{k+1} = f_u^k  & \text{ si } a\notin\mu^k(+)\cup\{(t,s)\} \\
+			f_u^{k+1} = f_u^k +\epsilon^k  & \text{ si } u=(t,s)\\
+		\end{cases}
+		$$
+		Hacer $k=k+1$ e ir al paso 2.
+	\end{enumerate}
+\end{frame}
+\begin{frame}{Algoritmo de Ford-Fulkerson I}
+	
+	\only<1>{Aplicar el algoritmo anterior a esta red de transporte}
+	\only<2>{Paso 1. $k=0$. $f_0=(0,0,\dots,0)$}
+	\only<3>{Paso 2. Red incremental}
+	\only<4>{Paso 2. Camino $(s-2-4-t)$. $\epsilon=\min\{3,2,3\}=2$}
+	\only<5>{Paso 3. Se actualiza el flujo por el camino}
+	\only<6>{Paso 2. Red incremental}
+	\only<7>{Paso 2. Camino $(s-3-5-t)$. $\epsilon=\min\{2,2,2\}=2$}
+	\only<8>{Paso 3. Se actualiza el flujo por el camino}
+	\only<9>{Paso 2. Red incremental. No existe camino. Flujo óptimo}
+	\visible<10>{Único vértice alcanzable: 2. $N=\{s,2\}$: corte capacidad mínima}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\only<1-9>{
+				\node[node_style] (s) at (0,1.75) {s} ;
+				\node[node_style] (2) at (2,3.25) {2} ;
+			}
+			\only<10>{
+				\node[node_style,color=limegreen] (s) at (0,1.75) {s} ;
+				\node[node_style,color=limegreen] (2) at (2,3.25) {2} ;
+			}
+			\node[node_style] (4) at (6,3.25) {4} ;
+			\node[node_style] (3) at (2,0.25) {3} ;
+			\node[node_style] (5) at (6,0.25) {5} ;
+			\node[node_style] (t) at (8,1.75) {t} ;
+			\only<1>{
+				\draw [line width=1.5pt] (s) edge[->] node[left]  {\textcolor{red}{}\textcolor{blue}{(2)}} (3) ;
+				\draw [line width=1.5pt] (3) edge[->] node[right] {\textcolor{red}{}\textcolor{blue}{(1)}} (2) ;
+				\draw [line width=1.5pt] (3) edge[->] node[below] {\textcolor{red}{}\textcolor{blue}{(2)}} (5) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {\textcolor{red}{}\textcolor{blue}{(1)}} (3) ;
+				\draw [line width=1.5pt] (5) edge[->] node[right] {\textcolor{red}{}\textcolor{blue}{(2)}} (t) ;
+				\draw[line width=1.5pt]  (5) edge[->] node[right] {\textcolor{red}{}\textcolor{blue}{(1)}} (4) ;
+				\draw  [line width=1.5pt] (t) edge[->,bend left=100] node[below] {\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.5pt] (s) edge[->] node[left]  {\textcolor{red}{}\textcolor{blue}{(3)}} (2) ;
+				\draw [line width=1.5pt] (2) edge[->] node[above] {\textcolor{red}{}\textcolor{blue}{(2)}} (4) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {\textcolor{red}{}\textcolor{blue}{(3)}} (t) ;
+			}
+			\only<2>{
+				\draw [line width=1.5pt, color=black] (s) edge[->] node[left]  {\textcolor{red}{0}\textcolor{blue}{(2)}} (3) ;
+				\draw [line width=1.5pt, color=black] (3) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (2) ;
+				\draw [line width=1.5pt, color=black] (3) edge[->] node[below] {\textcolor{red}{0}\textcolor{blue}{(2)}} (5) ;
+				\draw [line width=1.5pt, color=black] (4) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (3) ;
+				\draw [line width=1.5pt, color=black] (5) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(2)}} (t) ;
+				\draw[line width=1.5pt, color=black]  (5) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (4) ;
+				\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {0\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.5pt, color=black] (s) edge[->] node[left]  {\textcolor{red}{0}\textcolor{blue}{(3)}} (2) ;
+				\draw [line width=1.5pt, color=black] (2) edge[->] node[above] {\textcolor{red}{0}\textcolor{blue}{(2)}} (4) ;
+				\draw [line width=1.5pt, color=black] (4) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(3)}} (t) ;
+			}
+			\only<3>{
+				\draw [line width=1.5pt] (s) edge[->] node[left]  {2} (3) ;
+				\draw [line width=1.5pt] (3) edge[->] node[right] {1} (2) ;
+				\draw [line width=1.5pt] (3) edge[->] node[below] {2} (5) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {1} (3) ;
+				\draw [line width=1.5pt] (5) edge[->] node[right] {2} (t) ;
+				\draw[line width=1.5pt]  (5) edge[->] node[right] {1} (4) ;
+				%	\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {0\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.5pt] (s) edge[->] node[left]  {3} (2) ;
+				\draw [line width=1.5pt] (2) edge[->] node[above] {2} (4) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {3} (t) ;
+			}
+			\only<4>{
+				\draw [line width=1.5pt] (s) edge[->] node[left]  {2} (3) ;
+				\draw [line width=1.5pt] (3) edge[->] node[right] {1} (2) ;
+				\draw [line width=1.5pt] (3) edge[->] node[below] {2} (5) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {1} (3) ;
+				\draw [line width=1.5pt] (5) edge[->] node[right] {2} (t) ;
+				\draw[line width=1.5pt]  (5) edge[->] node[right] {1} (4) ;
+				%	\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {0\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=2.5pt] (s) edge[->] node[left]  {3} (2) ;
+				\draw [line width=2.5pt] (2) edge[->] node[above] {2} (4) ;
+				\draw [line width=2.5pt] (4) edge[->] node[right] {3} (t) ;
+			}
+			\only<5>{
+				\draw [line width=1.5pt, color=black] (s) edge[->] node[left]  {\textcolor{red}{0}\textcolor{blue}{(2)}} (3) ;
+				\draw [line width=1.5pt, color=black] (3) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (2) ;
+				\draw [line width=1.5pt, color=black] (3) edge[->] node[below] {\textcolor{red}{0}\textcolor{blue}{(2)}} (5) ;
+				\draw [line width=1.5pt, color=black] (4) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (3) ;
+				\draw [line width=1.5pt, color=black] (5) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(2)}} (t) ;
+				\draw[line width=1.5pt, color=black]  (5) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (4) ;
+				\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {2\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.5pt, color=red] (s) edge[->] node[left]  {\textcolor{red}{2}\textcolor{blue}{(3)}} (2) ;
+				\draw [line width=1.5pt, color=green] (2) edge[->] node[above] {\textcolor{red}{2}\textcolor{blue}{(2)}} (4) ;
+				\draw [line width=1.5pt, color=red] (4) edge[->] node[right] {\textcolor{red}{2}\textcolor{blue}{(3)}} (t) ;
+			}
+			\only<6>{
+				\draw [line width=1.5pt] (s) edge[->] node[left]  {2} (3) ;
+				\draw [line width=1.5pt] (3) edge[->] node[right] {1} (2) ;
+				\draw [line width=1.5pt] (3) edge[->] node[below] {2} (5) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {1} (3) ;
+				\draw [line width=1.5pt] (5) edge[->] node[right] {2} (t) ;
+				\draw[line width=1.5pt]  (5) edge[->] node[right] {1} (4) ;
+				%	\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {0\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.5pt] (s) edge[->,bend left=8] node[above]  {1} (2) ;
+				\draw [line width=1.5pt] (s) edge[<-,bend right=8] node[below]  {2} (2) ;
+				\draw [line width=1.5pt] (2) edge[<-] node[above] {2} (4) ;
+				\draw [line width=1.5pt] (4) edge[->,bend left=8] node[above] {1} (t) ;
+				\draw [line width=1.5pt] (4) edge[<-,bend right=8] node[below] {2} (t) ;
+			}
+			\only<7>{
+				\draw [line width=2.5pt] (s) edge[->] node[left]  {2} (3) ;
+				\draw [line width=1.5pt] (3) edge[->] node[right] {1} (2) ;
+				\draw [line width=2.5pt] (3) edge[->] node[below] {2} (5) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {1} (3) ;
+				\draw [line width=2.5pt] (5) edge[->] node[right] {2} (t) ;
+				\draw[line width=1.5pt]  (5) edge[->] node[right] {1} (4) ;
+				%	\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {0\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.5pt] (s) edge[->,bend left=8] node[above]  {1} (2) ;
+				\draw [line width=1.5pt] (s) edge[<-,bend right=8] node[below]  {2} (2) ;
+				\draw [line width=1.5pt] (2) edge[<-] node[above] {2} (4) ;
+				\draw [line width=1.5pt] (4) edge[->,bend left=8] node[above] {1} (t) ;
+				\draw [line width=1.5pt] (4) edge[<-,bend right=8] node[below] {2} (t) ;
+			}
+			\only<8>{
+				\draw [line width=1.5pt, color=green] (s) edge[->] node[left]  {\textcolor{red}{2}\textcolor{blue}{(2)}} (3) ;
+				\draw [line width=1.5pt, color=black] (3) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (2) ;
+				\draw [line width=1.5pt, color=green] (3) edge[->] node[below] {\textcolor{red}{2}\textcolor{blue}{(2)}} (5) ;
+				\draw [line width=1.5pt, color=black] (4) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (3) ;
+				\draw [line width=1.5pt, color=green] (5) edge[->] node[right] {\textcolor{red}{2}\textcolor{blue}{(2)}} (t) ;
+				\draw[line width=1.5pt, color=black]  (5) edge[->] node[right] {\textcolor{red}{0}\textcolor{blue}{(1)}} (4) ;
+				\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {4\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.5pt, color=red] (s) edge[->] node[left]  {\textcolor{red}{2}\textcolor{blue}{(3)}} (2) ;
+				\draw [line width=1.5pt, color=green] (2) edge[->] node[above] {\textcolor{red}{2}\textcolor{blue}{(2)}} (4) ;
+				\draw [line width=1.5pt, color=red] (4) edge[->] node[right] {\textcolor{red}{2}\textcolor{blue}{(3)}} (t) ;
+			}
+			\only<9>{
+				\draw [line width=1.5pt] (s) edge[<-] node[left]  {2} (3) ;
+				\draw [line width=1.5pt] (3) edge[->] node[right] {1} (2) ;
+				\draw [line width=1.5pt] (3) edge[<-] node[below] {2} (5) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {1} (3) ;
+				\draw [line width=1.5pt] (5) edge[<-] node[right] {2} (t) ;
+				\draw[line width=1.5pt]  (5) edge[->] node[right] {1} (4) ;
+				%	\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {0\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.5pt] (s) edge[->,bend left=8] node[above]  {1} (2) ;
+				\draw [line width=1.5pt] (s) edge[<-,bend right=8] node[below]  {2} (2) ;
+				\draw [line width=1.5pt] (2) edge[<-] node[above] {2} (4) ;
+				\draw [line width=1.5pt] (4) edge[->,bend left=8] node[above] {1} (t) ;
+				\draw [line width=1.5pt] (4) edge[<-,bend right=8] node[below] {2} (t) ;
+			}
+			\only<10>{
+				\draw [line width=1.5pt,color=blue] (s) edge[<-] node[left]  {2} (3) ;
+				\draw [line width=1.5pt,color=blue] (3) edge[->] node[right] {1} (2) ;
+				\draw [line width=1.5pt] (3) edge[<-] node[below] {2} (5) ;
+				\draw [line width=1.5pt] (4) edge[->] node[right] {1} (3) ;
+				\draw [line width=1.5pt] (5) edge[<-] node[right] {2} (t) ;
+				\draw[line width=1.5pt]  (5) edge[->] node[right] {1} (4) ;
+				%	\draw  [line width=1.5pt, color=black] (t) edge[->,bend left=100] node[below] {0\textcolor{blue}{($\infty$)}} (s) ;
+				\draw [line width=1.5pt] (s) edge[->,bend left=8] node[above]  {1} (2) ;
+				\draw [line width=1.5pt] (s) edge[<-,bend right=8] node[below]  {2} (2) ;
+				\draw [line width=1.5pt,color=blue] (2) edge[<-] node[above] {2} (4) ;
+				\draw [line width=1.5pt] (4) edge[->,bend left=8] node[above] {1} (t) ;
+				\draw [line width=1.5pt] (4) edge[<-,bend right=8] node[below] {2} (t) ;
+			}
+		\end{tikzpicture}
+		\vfill
+	\end{center}
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Ford-Fulkerson. Etiquetado de vértices}
+	
+	\begin{itemize}\itemsep 5mm	
+		\item El algoritmo se puede plantear de forma más sencilla, sin necesidad de plantear explícitamente el grafo incremental en cada iteración. 
+		\item Para ello, se sigue una regla de etiquetado de vértices.
+		\item Inicialmente se asigna una etiqueta al vértice inicial $s$ y, paso a paso se asignan etiquetas al resto de los vértices.
+		\item La etiqueta de un vértice se asigna a partir de:
+		\begin{itemize}\itemsep 2mm
+			\item la etiqueta de un vértice adyacente suyo,
+			\item el flujo que circula a través del arco que une estos dos	vértices,
+			\item la capacidad de ese arco.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson. Etiquetado de vértices}
+	Las etiquetas tienen dos tipos de información
+	\alert{\large
+		$$
+		(\pm i, \delta_j)
+		$$
+	}
+	\begin{enumerate}\itemsep 5mm
+		
+		\item La primera parte, {\color{blue} $+i$} ó {\color{blue} $-i$}, indica el nodo que se utiliza para etiquetar el nodo $j$.
+		
+		$i$ debe ser un nodo ya etiquetado.
+		
+		\item La segunda parte, {\color{blue} $\delta_j$}, indica el flujo incremental que es posible enviar a $j$ desde $s$ a través del $i$.
+	\end{enumerate}
+	
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson. Etiquetado de vértices}
+	\begin{itemize}
+		\item 	Si el arco que une el nodo $i$ que se utiliza para etiquetar el vértice $j$ (no etiquetado) tiene origen en $i$ y final en $j$, se etiqueta con $\color{blue} +i$.
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node at (0,0.5) {$(k,\delta_i)$} ;
+				\node at (3,0.5) {$(+i,\delta_j)$} ;
+				\node[node_style] (i) at (0,0) {$i$} ;
+				\node[node_style] (j) at (3,0) {$j$} ;
+				\draw [line width=1.5pt] (i) edge[->] node[above] {\textcolor{red}{$f_{ij}$}\textcolor{blue}{($c_{ij}$)}} (j) ;
+			\end{tikzpicture}
+		\end{center}
+		
+		\item Si el arco que une el nodo $i$ que se utiliza para etiquetar el vértice $j$  (no etiquetado)  tiene origen en $j$ y final en $i$, se etiqueta con $\color{blue} -i$.
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node at (0,0.5) {$(k,\delta_i)$} ;
+				\node at (3,0.5) {$(-i,\delta_j)$} ;
+				\node[node_style] (i) at (0,0) {$i$} ;
+				\node[node_style] (j) at (3,0) {$j$} ;
+				\draw [line width=1.5pt] (i) edge[<-] node[above] {\textcolor{red}{$f_{ji}$}\textcolor{blue}{($c_{ji}$)}} (j) ;
+			\end{tikzpicture}
+		\end{center}
+	\end{itemize}
+	Al final, el flujo del arco se puede modificar:
+	\begin{itemize}
+		\item $+i$:  se incrementa el flujo del arco $(i,j)$ en $\delta_j$ unidades
+		\item $-i$:  debe reducirse el flujo del arco $(j,i)$ en $\delta_j$ unidades.
+	\end{itemize} 
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Ford-Fulkerson. Etiquetado de vértices}
+	\begin{itemize}\itemsep 5mm
+		\item Para asignar las etiquetas a los vértices de la red, se empieza
+		por la fuente y se va etiquetando en cada iteración un nuevo
+		vértice.
+		\item Si al final del proceso el vértice sumidero resulta etiquetado, se
+		ha encontrado una cadena de arcos por los que incrementar el flujo
+		de $s$ a $t$.
+		\item Si no es posible etiquetar el sumidero, entonces ya se ha
+		encontrado el flujo máximo.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson. Etiquetado de vértices}{Regla de etiquetado}\small
+	
+	El vértice $i$ está etiquetado y se quiere etiquetar el vértice $j$.
+	\begin{enumerate}\itemsep 0mm
+		\item Si existe el arco $(i,j)$ y $\mathbf{f_{ij}<c_{ij}}$, etiquetar $j$ como $(+i,\delta_j)$
+		donde
+		$
+		\delta_j=\min\{\delta_i,c_{ij}-f_{ij}\}
+		$
+		y representa el flujo que se puede enviar de $s$ a $j$.
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node at (0,0.5) {$(k,\delta_i)$} ;
+				\node at (3,0.5) {$(+i,\delta_j)$} ;
+				\node[node_style] (i) at (0,0) {$i$} ;
+				\node[node_style] (j) at (3,0) {$j$} ;
+				\draw [line width=1.5pt] (i) edge[->] node[above] {\textcolor{red}{$f_{ij}$}\textcolor{blue}{($c_{ij}$)}} (j) ;
+			\end{tikzpicture}
+		\end{center}
+		\item Si existe el arco $(j,i)$ y $\mathbf{0<f_{ij}}$, etiquetar $j$ como $(-i,\delta_j)$
+		donde
+		$
+		\delta_j=\min\{\delta_i,f_{ji}\}
+		$
+		y representa el flujo que se puede enviar de $s$ a $j$.
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node at (0,0.5) {$(k,\delta_i)$} ;
+				\node at (3,0.5) {$(-i,\delta_j)$} ;
+				\node[node_style] (i) at (0,0) {$i$} ;
+				\node[node_style] (j) at (3,0) {$j$} ;
+				\draw [line width=1.5pt] (i) edge[<-] node[above] {\textcolor{red}{$f_{ji}$}\textcolor{blue}{($c_{ji}$)}} (j) ;
+			\end{tikzpicture}
+		\end{center}
+	\end{enumerate}
+	Un vértice está explorado si está etiquetado o no se puede etiquetar desde ninguno de sus nodos adyacentes.
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson. Etiquetado de vértices}\small
+	\begin{enumerate}\itemsep 1mm
+		\item Asignar un flujo inicial (por ejemplo, $\vf=\vv$ y etiquetar $s$ con
+		$(-,\delta_s=+\infty)$.
+		\item ¿Todos los vértices no etiquetados han sido explorados? SI: paso 6. NO: paso 3.
+		\item Etiquetar todos los vértices posibles con la regla anterior.
+		\item ¿$t$ ha sido etiquetado? SI: $\Delta=\delta_t$ e ir al paso 5. NO: paso 2.
+		\item Modificar el flujo actual:
+		\begin{enumerate}\itemsep 0mm
+			\item Hacer $k\leftarrow t$.
+			\item Si la etiqueta del vértice $k$ es $(+i,\delta_k)$, $f_{ik}\leftarrow f_{ik}+\Delta$.
+			\item Si la etiqueta del vértice $k$ es $(-i,\delta_k)$, $f_{ki}\leftarrow f_{ki}-\Delta$.
+			\item Hacer $k\leftarrow i$. ¿$i=s$? SI: borrar todas las etiquetas (excepto la de $s$) e ir al paso 2. NO: ir al paso  5.2.
+		\end{enumerate}
+		\item El flujo actual es máximo. El corte de capacidad mínima esta definido por los
+		vértices etiquetados.
+	\end{enumerate}
+	
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Ejemplo}
+	
+	\begin{block}{Ejemplo}
+		Encontrar el flujo m\'aximo del nodo $s$ al nodo $t$ e identificar el corte de capacidad m\'inima en la siguiente red de transporte usando el algoritmo de Ford-Fulkerson:
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (s) at (0,1.5) {s} ;
+				\node[node_style] (1) at (2,3) {1} ;
+				\node[node_style] (2) at (2,0) {2} ;
+				\node[node_style] (3) at (4,3) {3} ;
+				\node[node_style] (4) at (4,0) {4} ;
+				\node[node_style] (5) at (6,3) {5} ;
+				\node[node_style] (6) at (6,0) {6} ;
+				\node[node_style] (t) at (8,1.5) {t} ;
+				
+				\draw [thick] (s) edge[->] node[above] {(7)} (1) ;
+				\draw [thick] (s) edge[->] node[below] {(2)} (2) ;
+				\draw [thick] (1) edge[->] node[above] {(5)} (3) ;
+				\draw [thick] (1) edge[->] node[left]  {(1)} (2) ;
+				\draw [thick] (2) edge[->] node[below] {(4)} (4) ;
+				\draw [thick] (3) edge[->] node[right] {(3)} (2) ;
+				\draw [thick] (3) edge[->] node[right] {(2)} (4) ;
+				\draw [thick] (3) edge[->] node[above] {(4)} (5) ;
+				\draw [thick] (4) edge[->] node[below] {(5)} (6) ;
+				\draw [thick] (5) edge[->] node[right] {(3)} (6) ;
+				\draw [thick] (5) edge[->] node[above] {(3)} (t) ;
+				\draw [thick] (6) edge[->] node[below] {(6)} (t) ;
+			\end{tikzpicture}
+		\end{center}
+	\end{block}
+	
+\end{frame}
+
+
+\begin{frame}
+	
+	\frametitle{Resoluci\'on}
+	
+	\only<1>{Iteraci\'on 1:}
+	\only<2>{Iteraci\'on 2:}
+	\only<3>{Iteraci\'on 3:}
+	\only<4>{Iteraci\'on 4:}
+	\only<5>{Iteraci\'on 5:}
+	\only<6>{Iteraci\'on 6, s\'olo se pueden etiquetar $s$, $1$:}
+	
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\resizebox{\textwidth}{!}{\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+					\node[node_style] (s) at (0,1.5) {s} ;
+					\node[node_style] (1) at (2,3) {1} ;
+					\node[node_style] (2) at (2,0) {2} ;
+					\node[node_style] (3) at (4,3) {3} ;
+					\node[node_style] (4) at (4,0) {4} ;
+					\node[node_style] (5) at (6,3) {5} ;
+					\node[node_style] (6) at (6,0) {6} ;
+					\node[node_style] (t) at (8,1.5) {t} ;
+					
+					\onslide<1>{\draw[color=blue, very thick] (0,2.1) node {$(-,M)$};
+						\draw[color=blue, very thick] (2,3.6) node {$(+s,7)$};
+						\draw[color=blue, very thick] (2,-0.6) node {$(+s,2)$};
+						\draw[color=blue, very thick] (4,3.6) node {$(+1,5)$};
+						\draw[color=blue, very thick] (4,-0.6) node {$(+2,2)$};
+						\draw[color=blue, very thick] (6,3.6) node {$(+3,4)$};
+						\draw[color=blue, very thick] (6,-0.6) node {$(+4,2)$};
+						\draw[color=blue, very thick] (8,2.1) node {$(+6,2)$};}
+					
+					\onslide<2>{\draw[color=blue, very thick] (0,2.1) node {$(-,M)$};
+						\draw[color=blue, very thick] (2,3.6) node {$(+s,7)$};
+						\draw[color=blue, very thick] (2,-0.6) node {$(+1,1)$};
+						\draw[color=blue, very thick] (4,3.6) node {$(+1,5)$};
+						\draw[color=blue, very thick] (4,-0.6) node {$(+3,2)$};
+						\draw[color=blue, very thick] (6,3.6) node {$(+3,4)$};
+						\draw[color=blue, very thick] (6,-0.6) node {$(+4,2)$};
+						\draw[color=blue, very thick] (8,2.1) node {$(+5,3)$};}
+					
+					\onslide<3>{\draw[color=blue, very thick] (0,2.1) node {$(-,M)$};
+						\draw[color=blue, very thick] (2,3.6) node {$(+s,4)$};
+						\draw[color=blue, very thick] (2,-0.6) node {$(+1,1)$};
+						\draw[color=blue, very thick] (4,3.6) node {$(+1,2)$};
+						\draw[color=blue, very thick] (4,-0.6) node {$(+3,2)$};
+						\draw[color=blue, very thick] (6,3.6) node {$(+3,1)$};
+						\draw[color=blue, very thick] (6,-0.6) node {$(+5,1)$};
+						\draw[color=blue, very thick] (8,2.1) node {$(+6,1)$};}
+					
+					\onslide<4>{\draw[color=blue, very thick] (0,2.1) node {$(-,M)$};
+						\draw[color=blue, very thick] (2,3.6) node {$(+s,3)$};
+						\draw[color=blue, very thick] (2,-0.6) node {$(+1,1)$};
+						\draw[color=blue, very thick] (4,3.6) node {$(+1,1)$};
+						\draw[color=blue, very thick] (4,-0.6) node {$(+3,1)$};
+						\draw[color=blue, very thick] (6,3.6) node {$(-6,1)$};
+						\draw[color=blue, very thick] (6,-0.6) node {$(+4,1)$};
+						\draw[color=blue, very thick] (8,2.1) node {$(+6,1)$};}
+					
+					\onslide<5>{\draw[color=blue, very thick] (0,2.1) node {$(-,M)$};
+						\draw[color=blue, very thick] (2,3.6) node {$(+s,2)$};
+						\draw[color=blue, very thick] (2,-0.6) node {$(+1,1)$};
+						\draw[color=blue, very thick] (4,3.6) node {$(-4,1)$};
+						\draw[color=blue, very thick] (4,-0.6) node {$(+2,1)$};
+						\draw[color=blue, very thick] (6,3.6) node {$(-6,1)$};
+						\draw[color=blue, very thick] (6,-0.6) node {$(+4,1)$};
+						\draw[color=blue, very thick] (8,2.1) node {$(+6,1)$};}
+					
+					\onslide<6>{\draw[color=blue, very thick] (0,2.1) node {$(-,M)$};
+						\draw[color=blue, very thick] (2,3.6) node {$(+s,1)$};}
+					
+					\onslide<1>{\draw [thick] (s) edge[->] node[above] {(7),\textcolor{red}{0}} (1) ;
+						\draw [thick] (s) edge[->] node[below] {(2),\textcolor{red}{0}} (2) ;
+						\draw [thick] (1) edge[->] node[above]  {(5),\textcolor{red}{0}} (3) ;
+						\draw [thick] (1) edge[->] node[left]  {(1),\textcolor{red}{0}} (2) ;
+						\draw [thick] (2) edge[->] node[below]  {(4),\textcolor{red}{0}} (4) ;
+						\draw [thick] (3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick] (3) edge[->] node[right] {(2),\textcolor{red}{0}} (4) ;
+						\draw [thick] (3) edge[->] node[above]  {(4),\textcolor{red}{0}} (5) ;
+						\draw [thick] (4) edge[->] node[below]  {(5),\textcolor{red}{0}} (6) ;
+						\draw [thick] (5) edge[->] node[right]  {(3),\textcolor{red}{0}} (6) ;
+						\draw [thick] (5) edge[->] node[above]  {(3),\textcolor{red}{0}} (t) ;
+						\draw [thick] (6) edge[->] node[below]  {(6),\textcolor{red}{0}} (t) ;}
+					
+					\onslide<2>{\draw [thick] (s) edge[->] node[above] {(7),\textcolor{red}{0}} (1) ;
+						\draw [thick] (s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick] (1) edge[->] node[above]  {(5),\textcolor{red}{0}} (3) ;
+						\draw [thick] (1) edge[->] node[left]  {(1),\textcolor{red}{0}} (2) ;
+						\draw [thick] (2) edge[->] node[below]  {(4),\textcolor{red}{2}} (4) ;
+						\draw [thick] (3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick] (3) edge[->] node[right] {(2),\textcolor{red}{0}} (4) ;
+						\draw [thick] (3) edge[->] node[above]  {(4),\textcolor{red}{0}} (5) ;
+						\draw [thick] (4) edge[->] node[below]  {(5),\textcolor{red}{2}} (6) ;
+						\draw [thick] (5) edge[->] node[right]  {(3),\textcolor{red}{0}} (6) ;
+						\draw [thick] (5) edge[->] node[above]  {(3),\textcolor{red}{0}} (t) ;
+						\draw [thick] (6) edge[->] node[below]  {(6),\textcolor{red}{2}} (t) ;}
+					
+					\onslide<3>{\draw [thick] (s) edge[->] node[above] {(7),\textcolor{red}{3}} (1) ;
+						\draw [thick] (s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick] (1) edge[->] node[above]  {(5),\textcolor{red}{3}} (3) ;
+						\draw [thick] (1) edge[->] node[left]  {(1),\textcolor{red}{0}} (2) ;
+						\draw [thick] (2) edge[->] node[below]  {(4),\textcolor{red}{2}} (4) ;
+						\draw [thick] (3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick] (3) edge[->] node[right] {(2),\textcolor{red}{0}} (4) ;
+						\draw [thick] (3) edge[->] node[above]  {(4),\textcolor{red}{3}} (5) ;
+						\draw [thick] (4) edge[->] node[below]  {(5),\textcolor{red}{2}} (6) ;
+						\draw [thick] (5) edge[->] node[right]  {(3),\textcolor{red}{0}} (6) ;
+						\draw [thick] (5) edge[->] node[above]  {(3),\textcolor{red}{3}} (t) ;
+						\draw [thick] (6) edge[->] node[below]  {(6),\textcolor{red}{2}} (t) ;}
+					
+					\onslide<4>{\draw [thick] (s) edge[->] node[above] {(7),\textcolor{red}{4}} (1) ;
+						\draw [thick] (s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick] (1) edge[->] node[above]  {(5),\textcolor{red}{4}} (3) ;
+						\draw [thick] (1) edge[->] node[left]  {(1),\textcolor{red}{0}} (2) ;
+						\draw [thick] (2) edge[->] node[below]  {(4),\textcolor{red}{2}} (4) ;
+						\draw [thick] (3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick] (3) edge[->] node[right] {(2),\textcolor{red}{0}} (4) ;
+						\draw [thick] (3) edge[->] node[above]  {(4),\textcolor{red}{4}} (5) ;
+						\draw [thick] (4) edge[->] node[below]  {(5),\textcolor{red}{2}} (6) ;
+						\draw [thick] (5) edge[->] node[right]  {(3),\textcolor{red}{1}} (6) ;
+						\draw [thick] (5) edge[->] node[above]  {(3),\textcolor{red}{3}} (t) ;
+						\draw [thick] (6) edge[->] node[below]  {(6),\textcolor{red}{3}} (t) ;}
+					
+					\onslide<5>{\draw [thick] (s) edge[->] node[above] {(7),\textcolor{red}{5}} (1) ;
+						\draw [thick] (s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick] (1) edge[->] node[above]  {(5),\textcolor{red}{5}} (3) ;
+						\draw [thick] (1) edge[->] node[left]  {(1),\textcolor{red}{0}} (2) ;
+						\draw [thick] (2) edge[->] node[below]  {(4),\textcolor{red}{2}} (4) ;
+						\draw [thick] (3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick] (3) edge[->] node[right] {(2),\textcolor{red}{1}} (4) ;
+						\draw [thick] (3) edge[->] node[above]  {(4),\textcolor{red}{4}} (5) ;
+						\draw [thick] (4) edge[->] node[below]  {(5),\textcolor{red}{3}} (6) ;
+						\draw [thick] (5) edge[->] node[right]  {(3),\textcolor{red}{1}} (6) ;
+						\draw [thick] (5) edge[->] node[above]  {(3),\textcolor{red}{3}} (t) ;
+						\draw [thick] (6) edge[->] node[below]  {(6),\textcolor{red}{4}} (t) ;}
+					
+					\onslide<6>{\draw [thick] (s) edge[->] node[above] {(7),\textcolor{red}{6}} (1) ;
+						\draw [thick] (s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick] (1) edge[->] node[above]  {(5),\textcolor{red}{5}} (3) ;
+						\draw [thick] (1) edge[->] node[left]  {(1),\textcolor{red}{1}} (2) ;
+						\draw [thick] (2) edge[->] node[below]  {(4),\textcolor{red}{3}} (4) ;
+						\draw [thick] (3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick] (3) edge[->] node[right] {(2),\textcolor{red}{1}} (4) ;
+						\draw [thick] (3) edge[->] node[above]  {(4),\textcolor{red}{4}} (5) ;
+						\draw [thick] (4) edge[->] node[below]  {(5),\textcolor{red}{4}} (6) ;
+						\draw [thick] (5) edge[->] node[right]  {(3),\textcolor{red}{1}} (6) ;
+						\draw [thick] (5) edge[->] node[above]  {(3),\textcolor{red}{3}} (t) ;
+						\draw [thick] (6) edge[->] node[below]  {(6),\textcolor{red}{5}} (t) ;}
+					
+			\end{tikzpicture}}
+			
+		\end{center}
+		
+		\column{.5\textwidth}
+		\begin{center}
+			\resizebox{\textwidth}{!}{\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+					\onslide<1-5>{\node[node_style] (s) at (0,1.5) {s} ;
+						\node[node_style] (1) at (2,3) {1} ;
+						\node[node_style] (2) at (2,0) {2} ;
+						\node[node_style] (3) at (4,3) {3} ;
+						\node[node_style] (4) at (4,0) {4} ;
+						\node[node_style] (5) at (6,3) {5} ;
+						\node[node_style] (6) at (6,0) {6} ;
+						\node[node_style] (t) at (8,1.5) {t} ;}
+					
+					\onslide<6>{\node[node_style,color=orange] (s) at (0,1.5) {s} ;
+						\node[node_style,color=orange] (1) at (2,3) {1} ;
+						\node[node_style,color=limegreen] (2) at (2,0) {2} ;
+						\node[node_style,color=limegreen] (3) at (4,3) {3} ;
+						\node[node_style,color=limegreen] (4) at (4,0) {4} ;
+						\node[node_style,color=limegreen] (5) at (6,3) {5} ;
+						\node[node_style,color=limegreen] (6) at (6,0) {6} ;
+						\node[node_style,color=limegreen] (t) at (8,1.5) {t} ;}
+					
+					\onslide<1>{\draw [thick](s) edge[->] node[above] {(7),\textcolor{red}{0}} (1) ;
+						\draw [thick](s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick](1) edge[->] node[above]  {(5),\textcolor{red}{0}} (3) ;
+						\draw [thick](1) edge[->] node[left]  {(1),\textcolor{red}{0}} (2) ;
+						\draw [thick](2) edge[->] node[below]  {(4),\textcolor{red}{2}} (4) ;
+						\draw [thick](3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick](3) edge[->] node[right] {(2),\textcolor{red}{0}} (4) ;
+						\draw [thick](3) edge[->] node[above]  {(4),\textcolor{red}{0}} (5) ;
+						\draw [thick](4) edge[->] node[below]  {(5),\textcolor{red}{2}} (6) ;
+						\draw [thick](5) edge[->] node[right]  {(3),\textcolor{red}{0}} (6) ;
+						\draw [thick](5) edge[->] node[above]  {(3),\textcolor{red}{0}} (t) ;
+						\draw [thick](6) edge[->] node[below]  {(6),\textcolor{red}{2}} (t) ;}
+					
+					\onslide<2>{\draw [thick](s) edge[->] node[above] {(7),\textcolor{red}{3}} (1) ;
+						\draw [thick](s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick](1) edge[->] node[above]  {(5),\textcolor{red}{3}} (3) ;
+						\draw [thick](1) edge[->] node[left]  {(1),\textcolor{red}{0}} (2) ;
+						\draw [thick](2) edge[->] node[below]  {(4),\textcolor{red}{2}} (4) ;
+						\draw [thick](3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick](3) edge[->] node[right] {(2),\textcolor{red}{0}} (4) ;
+						\draw [thick](3) edge[->] node[above]  {(4),\textcolor{red}{3}} (5) ;
+						\draw [thick](4) edge[->] node[below]  {(5),\textcolor{red}{2}} (6) ;
+						\draw [thick](5) edge[->] node[right]  {(3),\textcolor{red}{0}} (6) ;
+						\draw [thick](5) edge[->] node[above]  {(3),\textcolor{red}{3}} (t) ;
+						\draw [thick](6) edge[->] node[below]  {(6),\textcolor{red}{2}} (t) ;}
+					
+					\onslide<3>{\draw [thick](s) edge[->] node[above] {(7),\textcolor{red}{4}} (1) ;
+						\draw [thick](s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick](1) edge[->] node[above]  {(5),\textcolor{red}{4}} (3) ;
+						\draw [thick](1) edge[->] node[left]  {(1),\textcolor{red}{0}} (2) ;
+						\draw [thick](2) edge[->] node[below]  {(4),\textcolor{red}{2}} (4) ;
+						\draw [thick](3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick](3) edge[->] node[right] {(2),\textcolor{red}{0}} (4) ;
+						\draw [thick](3) edge[->] node[above]  {(4),\textcolor{red}{4}} (5) ;
+						\draw [thick](4) edge[->] node[below]  {(5),\textcolor{red}{2}} (6) ;
+						\draw [thick](5) edge[->] node[right]  {(3),\textcolor{red}{1}} (6) ;
+						\draw [thick](5) edge[->] node[above]  {(3),\textcolor{red}{3}} (t) ;
+						\draw [thick](6) edge[->] node[below]  {(6),\textcolor{red}{3}} (t) ;}
+					
+					\onslide<4>{\draw [thick](s) edge[->] node[above] {(7),\textcolor{red}{5}} (1) ;
+						\draw [thick](s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick](1) edge[->] node[above]  {(5),\textcolor{red}{5}} (3) ;
+						\draw [thick](1) edge[->] node[left]  {(1),\textcolor{red}{0}} (2) ;
+						\draw [thick](2) edge[->] node[below]  {(4),\textcolor{red}{2}} (4) ;
+						\draw [thick](3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick](3) edge[->] node[right] {(2),\textcolor{red}{1}} (4) ;
+						\draw [thick](3) edge[->] node[above]  {(4),\textcolor{red}{4}} (5) ;
+						\draw [thick](4) edge[->] node[below]  {(5),\textcolor{red}{3}} (6) ;
+						\draw [thick](5) edge[->] node[right]  {(3),\textcolor{red}{1}} (6) ;
+						\draw [thick](5) edge[->] node[above]  {(3),\textcolor{red}{3}} (t) ;
+						\draw [thick](6) edge[->] node[below]  {(6),\textcolor{red}{4}} (t) ;}
+					
+					\onslide<5>{\draw [thick](s) edge[->] node[above] {(7),\textcolor{red}{6}} (1) ;
+						\draw [thick](s) edge[->] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick](1) edge[->] node[above]  {(5),\textcolor{red}{5}} (3) ;
+						\draw [thick](1) edge[->] node[left]  {(1),\textcolor{red}{1}} (2) ;
+						\draw [thick](2) edge[->] node[below]  {(4),\textcolor{red}{3}} (4) ;
+						\draw [thick](3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick](3) edge[->] node[right] {(2),\textcolor{red}{1}} (4) ;
+						\draw [thick](3) edge[->] node[above]  {(4),\textcolor{red}{4}} (5) ;
+						\draw [thick](4) edge[->] node[below]  {(5),\textcolor{red}{4}} (6) ;
+						\draw [thick](5) edge[->] node[right]  {(3),\textcolor{red}{1}} (6) ;
+						\draw [thick](5) edge[->] node[above]  {(3),\textcolor{red}{3}} (t) ;
+						\draw [thick](6) edge[->] node[below]  {(6),\textcolor{red}{5}} (t) ;}
+					
+					\onslide<6>{\draw [thick](s) edge[->] node[above] {(7),\textcolor{red}{6}} (1) ;
+						\draw [thick](s) edge[->,color=blue,line width=1.3pt] node[below] {(2),\textcolor{red}{2}} (2) ;
+						\draw [thick](1) edge[->,color=blue,line width=1.3pt] node[above]  {(5),\textcolor{red}{5}} (3) ;
+						\draw [thick](1) edge[->,color=blue,line width=1.3pt] node[left]  {(1),\textcolor{red}{1}} (2) ;
+						\draw [thick](2) edge[->] node[below]  {(4),\textcolor{red}{3}} (4) ;
+						\draw [thick](3) edge[->] node[right]  {(3),\textcolor{red}{0}} (2) ;
+						\draw [thick](3) edge[->] node[right] {(2),\textcolor{red}{1}} (4) ;
+						\draw [thick](3) edge[->] node[above]  {(4),\textcolor{red}{4}} (5) ;
+						\draw [thick](4) edge[->] node[below]  {(5),\textcolor{red}{4}} (6) ;
+						\draw [thick](5) edge[->] node[right]  {(3),\textcolor{red}{1}} (6) ;
+						\draw [thick](5) edge[->] node[above]  {(3),\textcolor{red}{3}} (t) ;
+						\draw [thick](6) edge[->] node[below]  {(6),\textcolor{red}{5}} (t) ;}
+					
+			\end{tikzpicture}}
+		\end{center}
+	\end{columns}
+	
+	\visible<6>{El corte divide el grafo con los v\'ertices $s$ y $1$ por un lado, es decir, los arcos $(s,2)$, $(1,3)$ y $(1,2)$}
+\end{frame}
+
+
+
+\begin{frame}{Algoritmo de Ford-Fulkerson}
+	Aplicar el algoritmo a la siguiente red de transporte:
+	\begin{center}\vspace*{-5mm}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (s) at (0,1.5) {s} ;
+			\node[node_style] (b) at (3,3) {b} ;
+			\node[node_style] (c) at (3,0) {c} ;
+			\node[node_style] (d) at (6,3) {d} ;
+			\node[node_style] (e) at (6,0) {e} ;
+			\node[node_style] (t) at (9,1.5) {t} ;
+			\draw  [line width=1.5pt] (s) edge[->] node[above] {(5)} (b) ;
+			\draw  [line width=1.5pt] (s) edge[->] node[above] {(3)} (c) ;
+			\draw  [line width=1.5pt] (b) edge[->,bend right=8] node[below] {(4)} (d) ;
+			\draw  [line width=1.5pt] (b) edge[->] node[left] {(3)} (c) ;
+			\draw  [line width=1.5pt] (c) edge[->,bend right=8] node[below] {(3)} (e) ;
+			\draw  [line width=1.5pt] (c) edge[->,bend right=8] node[below] {(4)} (d) ;
+			\draw  [line width=1.5pt] (d) edge[->,bend right=8] node[above] {(2)} (b) ;
+			\draw  [line width=1.5pt] (d) edge[->,bend right=8] node[above] {(1)} (c) ;
+			\draw  [line width=1.5pt] (d) edge[->,bend right=8] node[left] {(3)} (e) ;
+			\draw  [line width=1.5pt] (d) edge[->] node[above] {(5)} (t) ;
+			\draw  [line width=1.5pt] (e) edge[->,bend right=8] node[above] {(1)} (c) ;
+			\draw  [line width=1.5pt] (e) edge[->,bend right=8] node[right] {(3)} (d) ;
+			\draw  [line width=1.5pt] (e) edge[->,bend right=8] node[below] {(5)} (t) ;
+			\draw  [line width=1.5pt] (t) edge[->,bend right=8] node[above] {(1)} (e) ;
+			%	\draw  [line width=1.5pt] (t) edge[->,bend left=60] node[below] {8} (s) ;
+		\end{tikzpicture}
+	\end{center}	
+	Solución óptima: $f_0=8$.
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Ford-Fulkerson}
+	\begin{itemize}\itemsep 2mm
+		\item Si las capacidades son números enteros, la solución es entera.
+		\item En algún caso, con capacidades irracionales no se ha logrado convergencia finita del algoritmo. 
+		\item La complejidad depende del paso 3 (que tiene complejidad $m$) y de $v$, número de incrementos.
+		\item Como en cada iteración se incrementa al menos una unidad, $v$ suele estar acotado por el máximo de las capacidades de los arcos. 
+	\end{itemize}
+	\begin{block}{Teorema de Edmods y Karp (1972) (publicado previamente por Dinitz (1970))}
+		Si cada incremeto de flujo se realiza por la cadena con menor número de arcos en el grafo incremental, el flujo máximo se obtiene con no mas de $\frac{1}{2}mn$ incrementos de flujo.
+	\end{block}
+\end{frame}
+
+\subsection{Modelo de Optimización Lineal}
+
+\begin{frame}{Formulaci\'on de optimización lineal}
+	
+	El problema de flujo m\'aximo entre los v\'ertices $s$ y $t$ de una red de transporte puede modelarse del siguiente modo:
+	\begin{itemize}\itemsep 3mm
+		\item \alert{Datos:}   $i = 1,\ldots,n,s,t$, vértices de la red de transporte y $c_{ij}$, capacidad del arco $(i,j)$.
+		\item \alert{Variables:} $f_{ij}$, flujo enviado del vértice $i$ al vértice $j$.
+		\item \alert{Modelo:}
+	\begin{align*}
+	\max\;\;     & f_0 \\
+	\textrm{s.a.:\;\;} &   \sum_{j:(j,i)\in V} f_{ji} - \sum_{j:(i,j) \in V} f_{ij} = \begin{cases}-f_0 & \textrm{si }i=s\\ 0 & \textrm{si }i \neq s,t\\ f_0 & \textrm{si }i=t\end{cases} \\
+	&   0 \leqslant f_{ij} \leqslant c_{ij} \quad \forall (i,j) \in V
+	\end{align*}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Formulaci\'on de programaci\'on lineal}{Ejemplo}
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (2.5,2.5) {1} ;
+				\node[node_style] (t) at (5,0) {t} ;
+				\only<1>{
+					\node[node_style] (s) at (0,0) {s} ;
+					\draw [thick] (s) edge[->] node[below] {$x_{st}$ $c_{st}=2$} (t) ;
+					\draw [thick] (s) edge[->] node[left] {$c_{s1}=3$} node[right] {$x_{s1}$} (1) ;
+					\draw [thick] (1) edge[->] node[right] {$c_{1t}=4$} node[left] {$x_{1t}$} (t) ;
+				}
+				
+				
+				\only<2>{
+					\node[node_style] (s) at (0,0) {s} ;
+					\draw [thick,blue] (s) edge[->] node[below] {$x_{st}=2$ $c_{st}=2$} (t) ;
+					\draw [thick,blue] (s) edge[->] node[left] {$c_{s1}=3$} node[right] {$x_{s1}=3$} (1) ;
+					\draw [thick] (1) edge[->] node[right] {$c_{1t}=4$} node[below left] {$x_{1t}=3$} (t) ;
+				}
+				
+				
+			\end{tikzpicture}
+		\end{center}
+		\column{0.5\textwidth}
+		\begin{align*}
+			max\, & f_0 
+			\\
+			\text{s.a. }\, & 0-x_{s1}-x_{st} = - f_0 & (i=s)
+			\\
+			& x_{s1}-x_{1t}=0 & (i=1)
+			\\
+			& x_{st}+x_{1t} = f_0
+			\\
+			&x_{s1} \leq 3
+			\\
+			&x_{st} \leq 2
+			\\
+			&x_{1t} \leq 4
+			\\
+			&x_{s1},x_{st},x_{1t} \geq 0
+		\end{align*}
+	\end{columns}
+	
+	\bigskip
+	
+	\visible<2>{Solución óptima: $f_0=5$, $x_{s1}=x_{1t}=3$, $x_{st}=2$. \quad Corte: $\{(s,1),(s,t)\}$ }
+\end{frame}
+
+
+\begin{frame}{Formulaci\'on de programaci\'on lineal}{Ejemplo}
+	\begin{columns}
+		\column{0.35\textwidth}
+		\begin{align*}
+			\max\, & f_0 
+			\\
+			\text{sujeto a}\quad & 0-x_{s1}-x_{st} = - f_0 
+			\\
+			& x_{s1}-x_{1t}=0 
+			\\
+			& x_{st}+x_{1t} = f_0
+			\\
+			&x_{s1} \leq 3
+			\\
+			&x_{st} \leq 2
+			\\
+			&x_{1t} \leq 4
+			\\
+			&x_{s1},x_{st},x_{1t} \geq 0
+		\end{align*}
+		\column{0.55\textwidth}
+		\alert{Variables del dual:}
+		\begin{itemize}
+			\item $u_i$, $i\in V$, asociadas a la ley de conservación de flujo. 
+			\item $w_{ij}$, $(i,j)\in U$ asociadas a la capacidad.
+		\end{itemize}
+		\alert{Formulación del dual}
+		\begin{align*}
+			\min\, & 3w_{s1}+2w_{st}+ 4 w_{1t} 
+			\\
+			\text{sujeto a}\quad, & u_s-u_t = 1
+			\\
+			& u_1-u_s+w_{s1} \geq 0
+			\\
+			& u_t-u_s+w_{st} \geq 0
+			\\
+			& u_t-u_1+w_{1t} \geq 0
+			\\
+			& w_{s1},w_{st},w_{1t} \geq 0
+		\end{align*}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Flujo máximo y corte de capacidad mínima. Relación}
+	Sea el modelo matemático para el problema de flujo
+	máximo:
+	\begin{align*}
+		\max\;\;     & f_0 \\
+		\text{sujeto a}\quad  &   \sum_{j:(j,i)\in U} f_{ji} - \sum_{j:(i,j) \in U} f_{ij} = \begin{cases}-f_0 & \textrm{si }i=s\\ 0 & \textrm{si }i \neq s,t\\ f_0 & \textrm{si }i=t\end{cases} \\
+		&   0 \leqslant f_{ij} \leqslant \overline{f}_{ij} \quad \forall (i,j) \in U
+	\end{align*}
+	
+	\noindent El dual de este modelo es:
+	\begin{align*}
+		\min &\sum_{(i,j)\in U} \overline{f}_{ij}w_{ij}
+		\\
+		\text{sujeto a }\quad & u_j-u_i+w_{ij} \geq 0, &&\forall (i,j)\in U,
+		\\
+		&  v_s-v_t = 1,                   
+		\\
+		&  w_{ij}\geq 0,   && \forall (i,j)\in U,      
+		\\
+		& v_i\text{ no restringida,} && \forall i\in V.
+	\end{align*}
+\end{frame}
+
+\begin{frame}{Flujo máximo y corte de capacidad mínima. Relación}
+	Ecuaciones de conservación de flujo del problema primal:
+	$$
+	\sum_{j:(j,i)\in U} f_{ji} - \sum_{j:(i,j) \in U} f_{ij} =
+	\begin{cases}
+		-f_0 & \textrm{si }i=s\\
+		0 & \textrm{si }i \neq s,t\\ 
+		f_0 & \textrm{si }i=t
+	\end{cases} 
+	$$
+	Una es redundante y se puede eliminar. Seleccionamos la asociada al nodo $t$. Su correspondiente variable del dual se anula ($u_t=0$) y por tanto, $u_s=1$. En el ejemplo resulta:
+	\begin{columns}
+		\column{0.4\textwidth}
+		\begin{align*}
+			\min\, & 3w_{s1}+2w_{st}+ 4 w_{1t} 
+			\\
+			\text{s.a. }\, & 
+			\\
+			& u_1+w_{s1} \geq 1
+			\\
+			& w_{st} \geq 1
+			\\
+			&-u_1+w_{1t} \geq 0
+			\\
+			& w_{s1},w_{st},w_{1t} \geq 0
+		\end{align*} 
+		\column{0.5\textwidth}
+		Solución óptima:
+		\begin{align*}
+			& w_{s1}=1 &\quad u_1=0 \\
+			& w_{st}=1 &\quad u_s=1 \\
+			& w_{1t}=0 & \quad u_t=0 
+		\end{align*}
+		Definen precisamente el corte de capacidad mínima.
+	\end{columns}
+\end{frame}
+
+\section[Flujo compatible]{Problema de flujo con coste m\'inimo}
+
+\begin{frame}{Flujo con coste mínimo}\small
+Sea un problema de asignación planteado como un problema de flujo
+  \begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (s) at (0,2) {s} ;
+	\node (x1) at (3,4.5) {Máquinas} ;
+	\node (x2) at (6,4.5) {Tareas} ;
+	\node (x3) at (4.5,4.25) {$c_a=1$} ;
+	\node (o1) at (3,4) {$m_1$} ;
+	\node (o2) at (3,3) {$m_2$} ;
+	\node (o3) at (3,2) {$\vdots$} ;
+	\node (o4) at (3,1) {} ;
+	\node (o5) at (3,0) {$m_n$} ;
+	\node (t1) at (6,4) {$t_1$} ;
+	\node (t2) at (6,3) {$t_2$} ;
+	\node (t3) at (6,2) {$\vdots$} ;
+	\node (t4) at (6,1) {} ;
+	\node (t5) at (6,0) {$t_n$} ;
+	\node[node_style] (t) at (8,2) {t} ;
+	\draw [thick] (s) edge[->]  (o1) ;
+	\draw [thick] (s) edge[->]  (o2) ;
+	\draw [thick] (s) edge[->]  (o4) ;
+	\draw [thick] (s) edge[->]  (o5) ;
+	\draw [thick] (t1) edge[->]  (t) ;
+	\draw [thick] (t2) edge[->]   (t) ;
+	\draw [thick] (t4) edge[->]  (t) ;
+	\draw [thick] (t5) edge[->]  (t) ;
+	\draw [thick] (t4) edge[->]  (t) ;
+	\draw [thick] (o1) edge[->]  (t1) ;
+	\draw [thick] (o1) edge[->]  (t2) ;
+	\draw [thick] (o1) edge[->]  (t4) ;
+%	\draw [thick] (o1) edge[->]  (t5) ;
+	\draw [thick] (o2) edge[->]  (t1) ;
+	\draw [thick] (o2) edge[->]  (t2) ;
+	\draw [thick] (o2) edge[->]  (t4) ;
+	\draw [thick] (o2) edge[->]  (t5) ;
+%	\draw [thick] (o5) edge[->]  (t1) ;
+	\draw [thick] (o5) edge[->]  (t2) ;
+	\draw [thick] (o5) edge[->]  (t4) ;
+	\draw [thick] (o5) edge[->]  (t5) ;
+	\end{tikzpicture}
+	
+	Cada máquina se une mediante u arco con las tareas que puede realizar.
+\end{center}
+
+La solución del problema de flujo máximo determina el número de tareas que se pueden realizar. 
+
+El problema se complica si cada asignación tiene un coste diferente.
+\end{frame}
+
+\begin{frame}{Flujo compatible a coste mínimo}
+
+Sea una red de transporte $G=(V,U)$, se incorpora, además de la capacidad de cada arco, un coste unitario $p_{ij}$, $(i,j)\in U$, por el flujo que transita a través de él. Fijados los nodos fuente $s$ y sumidero $t$ y un flujo $\nu$ de $s$ a $t$, el problema consiste en encontrar un flujo compatible a coste mínimo:
+$$
+0\leq f_u\leq c_u\quad \forall u\in U,\quad\text{tal que}\quad f_0=\nu
+$$
+tal que:
+$$
+\min  \sum_{i=1}^n\sum_{j=1}^n p_{ij}x_{ij},
+$$
+\end{frame}
+
+
+\begin{frame}{Flujo compatible a coste mínimo}
+\visible<2->{Para $\nu=4$ hay dos soluciones:}
+  \begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},noded/.style={fill=lightgray,circle,inner sep=0.5}]
+
+			
+	\node[node_style] (s) at (0,1.5) {s} ;
+	\node[node_style] (a) at (3,3) {a} ;
+	\node[node_style] (b) at (3,0) {b} ;
+	\node[node_style] (c) at (6,2.5) {c} ;
+	\node[node_style] (t) at (8,0) {t} ;
+	\only<1>{
+		\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 1} node[above]{(3)[3]} (a) ;
+		\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 2} node[below]{(4)[1]} (b);
+		\draw [thick] (a) edge[->] node[noded] {\tiny\color{black} 3} node[above]{(3)[2]} (c);
+		\draw [thick] (b) edge[->]node[noded] {\tiny\color{black} 4}  node[left]{(1)[5]} (c);
+		\draw [thick] (b) edge[->] node[noded] {\tiny\color{black} 5} node[below]{(4)[2]} (t);
+		\draw [thick] (c) edge[->] node[noded] {\tiny\color{black} 6} node[right]{(3)[1]} (t);
+	}
+	\only<2->{
+		\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 1} node[above]{(3)[3]} node[below]{ {\color{red} 1} \, {\color{blue} 2} } (a) ;
+		\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 2} node[below]{(4)[1]} node[above]{ {\color{red} 3}\, {\color{blue} 2}} (b) ;
+		\draw [thick] (a) edge[->] node[noded] {\tiny\color{black} 3}  node[above]{(3)[2]} node[below]{ {\color{red} 1}\, {\color{blue} 2}} (c) ;
+		\draw [thick] (b) edge[->] node[noded] {\tiny\color{black} 4}  node[left]{(1)[5]} node[right]{ {\color{red} 1}\, {\color{blue} 0}} (c) ;
+		\draw [thick] (b) edge[->] node[noded] {\tiny\color{black} 5}  node[below]{(4)[2]} node[above]{{\color{red} 2}\, {\color{blue} 2}} (t) ;
+		\draw [thick] (c) edge[->] node[noded] {\tiny\color{black} 6} node[right]{(3)[1]} node[left]{{\color{red} 2}\, {\color{blue} 2}} (t) ;
+ 	}
+	\only<2>{\node (d1) at (9,3) {\color{red} A: $c_A=19$}};
+	\only<2>{\node (d2) at (9,2.5) {\color{blue} B: $c_B=18$}};
+	\end{tikzpicture}
+\end{center}
+\visible<3->{
+	\begin{align*}
+	\vf^A & = (1,3,1,1,2,2)
+	\\
+	\vf^B & = (2,2,2,0,2,2)
+	\\
+	\mu^1=\vf^A-\vf^B & = (-1,1,-1,1,0,0) \qquad c_{A-B}=1
+	\end{align*}
+}
+\end{frame}
+\begin{frame}{Flujo compatible a coste mínimo}
+La diferencia entre las dos soluciones es un ciclo.
+
+Por tanto, es posible pasar de $\vf^A$ a $\vf^B$ \alert{\em sumando} un ciclo. 
+
+\begin{block}{Definición}
+El coste de una cadena es la suma del coste de los arcos que la componen (considerando el signo de la orientación del arco dentro de la cadena)
+\end{block}
+\begin{block}{Definición}
+Una cadena incremental	es una cadena que admite un incremento de flujo. 
+\end{block}
+A partir de $\vf^A$, $\mu^1$ NO es cadena incremental, pero $-\mu^1$ SÍ.
+\end{frame}
+
+\begin{frame}{Flujo compatible a coste mínimo}
+\begin{block}{Teorema 1}
+Un flujo con valor $f_0=\nu$ es de coste mínimo si y solo si  no admite ciclos incrementales que no incluyan el arco $(s,t)$ de coste negativo 
+\end{block}
+\alert{Demostración:} se basa en que un flujo es una combinación lineal de ciclos.
+\end{frame}
+\begin{frame}{Flujo compatible a coste mínimo}
+En este ejemplo hay tres ciclos (con dos orientaciones cada uno).
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},noded/.style={fill=lightgray,circle,inner sep=0.5}]
+	\node[node_style] (s) at (0,1.5) {s} ;
+	\node[node_style] (a) at (3,3) {a} ;
+	\node[node_style] (b) at (3,0) {b} ;
+	\node[node_style] (c) at (6,2.5) {c} ;
+	\node[node_style] (t) at (8,0) {t} ;
+		\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 1} node[above]{(3)[3]} node[below]{ {\color{red} 1} } (a) ;
+		\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 2} node[below]{(4)[1]} node[above]{ {\color{red} 3}} (b) ;
+		\draw [thick] (a) edge[->] node[noded] {\tiny\color{black} 3}  node[above]{(3)[2]} node[below]{ {\color{red} 1}} (c) ;
+		\draw [thick] (b) edge[->] node[noded] {\tiny\color{black} 4} node[left]{(1)[5]} node[right]{ {\color{red} 1} } (c) ;
+		\draw [thick] (b) edge[->] node[noded] {\tiny\color{black} 5}  node[below]{(4)[2]} node[above]{{\color{red} 2}} (t) ;
+		\draw [thick] (c) edge[->] node[noded] {\tiny\color{black} 6} node[right]{(3)[1]} node[left]{{\color{red} 2}} (t) ;
+	\end{tikzpicture}
+\end{center}
+¿Hay algún ciclo incremental? ¿Tiene coste negativo?
+\end{frame}
+
+\begin{frame}{Flujo compatible a coste mínimo}
+\begin{block}{Teorema 2}
+Dado un flujo $\vf_0$ con valor $\nu$ y de coste mínimo, si se incrementa en $\delta$ unidades el flujo $\vf_0$ en los arcos de la cadena de $s$ a $t$ con coste mínimo, se obtiene el flujo de coste mínimo para el valor del flujo $\nu+\delta$.
+\end{block}
+Es decir, si tenemos la solución óptima para in determinado flujo $\vf_0$, podemos ir incrementando el flujo de $s$ a $t$, obteniendo en cada caso la solución óptima para el nuevo flujo.
+\end{frame}
+
+\begin{frame}{Flujo compatible a coste mínimo}
+Se puede iniciar el proceso con el flujo nulo ($\vf_0=0$), aunque si la red tiene un circuito incremental de coste negativo, la solución no es óptima.
+
+\medskip
+
+Nota: si los costes son no negativos, no existe tal circuito.
+
+\medskip
+
+Aplicando el teorema 1 se puede encontrar la solución optima inicial.
+
+\medskip
+
+Aplicando el teorema 2 se puede ir incrementando el flujo de $s$ a $t$ hasta encontrar el valor de flujo $\nu$  prefijado en el problema. 
+\end{frame}
+\begin{frame}{Flujo compatible a coste mínimo}
+En este ejemplo el flujo nulo es óptimo para $\nu_0=0$. Se busca la solución a coste mínimo para $\nu=4$.
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},noded/.style={fill=lightgray,circle,inner sep=0.5}]
+	\node[node_style] (s) at (0,1.5) {s} ;
+	\node[node_style] (a) at (3,3) {a} ;
+	\node[node_style] (b) at (3,0) {b} ;
+	\node[node_style] (c) at (6,2.5) {c} ;
+	\node[node_style] (t) at (8,0) {t} ;
+	\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 1} node[above]{(3)[3]} node[below]{ {\color{red} 0} } (a) ;
+	\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 2} node[below]{(4)[1]} node[above]{ {\color{red} 0}} (b) ;
+	\draw [thick] (a) edge[->] node[noded] {\tiny\color{black} 3} node[above]{(3)[2]} node[below]{ {\color{red} 0}} (c) ;
+	\draw [thick] (b) edge[->] node[noded] {\tiny\color{black} 4} node[left]{(1)[5]} node[right]{ {\color{red} 0} } (c) ;
+	\draw [thick] (b) edge[->] node[noded] {\tiny\color{black} 5} node[below]{(4)[2]} node[above]{{\color{red} 0}} (t) ;
+	\draw [thick] (c) edge[->] node[noded] {\tiny\color{black} 6}  node[right]{(3)[1]} node[left]{{\color{red} 0}} (t) ;
+	\end{tikzpicture}
+
+\vfill
+\end{center}
+\only<2>{
+Hay tres cadenas de $s$ a $t$:
+\begin{align*}
+& s\rightarrow a\rightarrow c\rightarrow t & \text{ Coste: } 6
+\\
+& s\rightarrow b\rightarrow t & \text{ Coste: } 3
+\\
+& s\rightarrow b\rightarrow c\rightarrow t & \text{ Coste: } 7
+\end{align*}
+Se selecciona la de menor coste y se incrementa en 4 unidades. 
+}
+\only<3>{¿Cuál es la solución óptima para $\nu=3$ o $\nu=5$?}
+\end{frame}
+
+\begin{frame}{Flujo compatible a coste mínimo}
+\alert{Demostración del teorema 2}
+
+Partimos de la solución a coste mínimo para un valor de flujo $\nu$ y se encuentra una cadena incremental de $s$ a $t$ de coste mínimo.
+
+Hay que demostrar que al incrementar el flujo a lo largo de la cadena de $\delta$ unidades, la solución es óptima para $\nu+\delta$.
+
+Por reducción al absurdo y aplicando el teorema 1, si no lo fuera, existiría un ciclo incremental de coste negativo:
+\begin{itemize}
+	\item Si este ciclo NO comparte arcos con la cadena, la solucion inicial no sería óptima para $\nu$.
+	\item Por tanto, el ciclo y la cadena comparten arcos:  uniéndolos se puede formar una nueva cadena incremental de menor coste, lo que es contradictorio con que la cadena sea de coste mínimo.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Flujo compatible a coste mínimo}{Algoritmo}
+Partiendo de la red $G=(V,U)$ y un flujo inicial $\vf$, se define el siguiente grafo asociado a las distancias: $G(\vf)=(V,U')$.
+
+\medskip
+
+Para cada par de nodos $a,b\in V$, se definen los siguientes arcos en $U'$, 
+\begin{itemize}
+	\item $(a,b)\in U'$ con peso $p_{ab}$ si $f_{ab}<c_{ab}$ y $f_{ba}=0$. 
+	\item $(a,b)\in U'$ con peso $\min\{p_{ab},-p_{ba}\}$ si $f_{ab}<c_{ab}$ y $f_{ba}>0$. 
+	\item $(a,b)\in U'$ con peso $-p_{ab}$ si $f_{ab}=c_{ab}$ y $f_{ba}>0$. 
+	\item $(a,b)\in U'$ con peso $+\infty$ si $f_{ab}=c_{ab}$ y $f_{ba}=0$. 
+\end{itemize}
+Nota: si en el grafo original no existe el arco de $(i,j)$, se considera $f_{ij}=c_{ij}=0$.
+\end{frame}
+
+\begin{frame}{Flujo compatible a coste mínimo}{Algoritmo}
+El problema de encontrar cadenas incrementales de coste mínimo en la red inicial se traduce en encontrar caminos de longitud mínima entre $s$ y $t$ en este nuevo grafo.
+
+\medskip
+
+Una vez obtenido el camino mínimo, el siguiente paso es determinar el incremento de flujo a lo largo del mismo.
+
+\medskip
+
+Nota: un circuito de longitud negativa en $G(\vf)$ se corresponde con un ciclo incremental de coste negativo.
+\end{frame}
+
+\begin{frame}{Flujo compatible a coste mínimo}{Algoritmo}\small
+\begin{enumerate}[\mbox{P} 1] 
+	\item Inicialización. Obtener un flujo compatible inicial $\vf$.
+	\item Eliminación de ciclos con coste negativo.
+	\begin{enumerate}
+	\item Construir el grafo $G(\vf)$.
+	\item Si tiene circuitos de longitud negativa, modificar el flujo y repetir el paso 2.
+	\item En caso contrario, ir al paso 3.
+	\end{enumerate}
+	\item Aumento del valor del flujo.
+	
+	Si $f_0=\nu$, parar. En caso contrario, buscar en $G(\vf)$ el camino de longitud mínima de $s$ a $t$.
+	\begin{enumerate}
+		\item Si no existe, parar, el problema no tiene solución.
+		\item En caso contrario, calcular la capacidad mínima residual de la cadena asociada al camino $c(s,t)$.
+		\item Variar el flujo en los arcos del camino en $\min\{c(s,t),\nu-f_0\}$.
+		\item Construir el grafo asociado al nuevo flujo e ir al paso 3.
+	\end{enumerate}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Flujo compatible a coste mínimo}{Algoritmo. Ejemplo}
+\only<1>{Objetivo: $\nu=5$}
+\only<2>{Paso 0. $\vf = \vec{0}$}
+\only<3>{Paso 1. Grafo $G(\vf)$}
+\only<4>{Paso 1. Grafo $G(\vf)$. Circuito de longitud negativa (cap. res = 2)}
+\only<5>{Paso 1. Se incrementa el flujo en el circuito}
+\only<6>{Paso 1. Nuevo grafo $G(\vf)$}
+\only<7>{Paso 1. Nuevo grafo $G(\vf)$. No tiene circuitos de longitud negativa. Ir al paso 2}
+\only<8>{Paso 2. Como $f_0=0<5=\nu$, obtener el camino mínimo de $s$ a $t$}
+\only<9>{Paso 2. Coste del camino $s-a-t$: 3-1=2. Capacidad residual: 3. Incremento $\min\{3,4-0\}=3$}
+\only<10>{Paso 2. Se incrementa el flujo en el camino, $f_0=3$}
+\only<11>{Paso 2. Como $f_0=3<5=\nu$, se actualiza el grafo}
+\only<12>{Paso 2. Se obtiene el camino mínimo de $s$ a $t$}
+\only<13>{Paso 2. Coste del camino: 2. Capacidad residual: 1. Incremento $\min\{1,5-3\}=1$}
+\only<14>{Paso 2. Se incrementa el flujo en el camino, $f_0=4$}
+\only<15>{Paso 2. Como $f_0<\nu$, se actualiza el grafo}
+\only<16>{Paso 2. Se obtiene el camino mínimo de $s$ a $t$}
+\only<17>{Paso 2. Coste del camino: 4. Capacidad residual: 1. Incremento $\min\{1,5-4\}=1$}
+\only<18>{Paso 2. Se incrementa el flujo en el camino, $f_0=5$}
+\only<19>{Paso 2. Como $f_0=\nu$, se para. La solución actual es óptima}
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},noded/.style={fill=lightgray,circle,inner sep=0.5}]
+	\node[node_style] (s) at (0,1.5) {s} ;
+	\node[node_style] (a) at (3,3) {a} ;
+	\node[node_style] (b) at (3,0) {b} ;
+	\node[node_style] (c) at (6,0.5) {c} ;
+	\node[node_style] (t) at (8,2.5) {t} ;
+	\only<1>{
+	\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 1} node[above]{(3)[3]}  (a) ;
+	\draw [thick] (s) edge[->] node[noded] {\tiny\color{black} 2} node[below]{(2)[3]}  (b) ;
+	\draw [thick] (a) edge[->] node[noded] {\tiny\color{black} 3} node[above]{(2)[-1]}  (c) ;
+	\draw [thick] (a) edge[->] node[noded] {\tiny\color{black} 4} node[above]{(4)[-1]}  (t) ;
+	\draw [thick] (b) edge[->] node[noded] {\tiny\color{black} 5} node[left]{(2)[-2]}  (a) ;
+	\draw [thick] (c) edge[->] node[noded] {\tiny\color{black} 6} node[below]{(2)[1]} (b) ;
+	\draw [thick] (c) edge[->] node[noded] {\tiny\color{black} 7} node[right]{(5)[2]}  (t) ;
+	}
+	\onslide<2>{
+		\draw [thick] (s) edge[->]  node[above]{(3)[3]} node[below]{ {\color{red} 0} } (a) ;
+		\draw [thick] (s) edge[->]  node[below]{(2)[3]} node[above]{ {\color{red} 0}} (b) ;
+		\draw [thick] (a) edge[->]  node[right]{(2)[-1]} node[left]{ {\color{red} 0}} (c) ;
+		\draw [thick] (a) edge[->]  node[above]{(4)[-1]} node[below]{ {\color{red} 0}} (t) ;
+		\draw [thick] (b) edge[->]  node[left]{(2)[-2]} node[right]{ {\color{red} 0} } (a) ;
+		\draw [thick] (c) edge[->]  node[below]{(2)[1]} node[above]{{\color{red} 0}} (b) ;
+		\draw [thick] (c) edge[->]  node[right]{(5)[2]} node[left]{{\color{red} 0}} (t) ;
+	}
+	\only<3-4>{
+		\draw [thick,color=blue] (s) edge[->]  node[above]{3}  (a) ;
+		\draw [thick,color=blue] (s) edge[->]  node[below]{3}  (b) ;
+		\draw [thick,color=blue] (a) edge[->]  node[above]{-1}  (t) ;
+		\draw [thick,color=blue] (c) edge[->]  node[right]{2} (t) ;
+		\only<3>{
+			\draw [thick,color=blue] (a) edge[->]  node[right]{-1}  (c) ;
+			\draw [thick,color=blue] (b) edge[->]  node[left]{-2}  (a) ;
+			\draw [thick,color=blue] (c) edge[->]  node[below]{1}  (b) ;
+		}
+		\only<4>{
+			\draw [very thick,color=red] (a) edge[->]  node[right]{-1}  (c) ;
+			\draw [very thick,color=red] (b) edge[->]  node[left]{-2}  (a) ;
+			\draw [very thick,color=red] (c) edge[->]  node[below]{1}  (b) ;
+		}
+	}
+	\only<5>{
+		\draw [thick] (s) edge[->]  node[above]{(3)[3]} node[below]{ {\color{red} 0} } (a) ;
+		\draw [thick] (s) edge[->]  node[below]{(2)[3]} node[above]{ {\color{red} 0}} (b) ;
+		\draw [thick] (a) edge[->]  node[right]{(2)[-1]} node[left]{ {\color{red} 2}} (c) ;
+		\draw [thick] (a) edge[->]  node[above]{(4)[-1]} node[below]{ {\color{red} 0}} (t) ;
+		\draw [thick] (b) edge[->]  node[left]{(2)[-2]} node[right]{ {\color{red} 2} } (a) ;
+		\draw [thick] (c) edge[->]  node[below]{(2)[1]} node[above]{{\color{red} 2}} (b) ;
+		\draw [thick] (c) edge[->]  node[right]{(5)[2]} node[left]{{\color{red} 0}} (t) ;
+	}
+	\only<6-7>{
+		\draw [thick,color=blue] (s) edge[->]  node[above]{3}  (a) ;
+		\draw [thick,color=blue] (s) edge[->]  node[below]{3}  (b) ;
+		\draw [thick,color=blue] (a) edge[->]  node[above]{-1}  (t) ;
+		\draw [thick,color=blue] (c) edge[->]  node[right]{2} (t) ;
+		\draw [thick,color=blue] (c) edge[->]  node[right]{1}  (a) ;
+		\draw [thick,color=blue] (a) edge[->]  node[left]{2}  (b) ;
+		\draw [thick,color=blue] (b) edge[->]  node[below]{-1}  (c) ;
+	}
+	\only<8-9>{
+	\draw [thick,color=blue] (s) edge[->]  node[below]{3}  (b) ;
+	\draw [thick,color=blue] (c) edge[->]  node[right]{2} (t) ;
+	\draw [thick,color=blue] (a) edge[->]  node[right]{-1}  (c) ;
+	\draw [thick,color=blue] (b) edge[->]  node[left]{-2}  (a) ;
+	\draw [thick,color=blue] (c) edge[->]  node[below]{1}  (b) ;
+	\only<8>{
+		\draw [thick,color=blue] (s) edge[->]  node[above]{3}  (a) ;
+		\draw [thick,color=blue] (a) edge[->]  node[above]{-1}  (t) ;
+	}
+	\only<9>{
+		\draw [very thick,color=red] (s) edge[->]  node[above]{3}  (a) ;
+		\draw [very thick,color=red] (a) edge[->]  node[above]{-1}  (t) ;
+	}
+	}
+	\only<10>{
+		\draw [thick] (s) edge[->]  node[above]{(3)[3]} node[below]{ {\color{red} 3} } (a) ;
+		\draw [thick] (s) edge[->]  node[below]{(2)[3]} node[above]{ {\color{red} 0}} (b) ;
+		\draw [thick] (a) edge[->]  node[right]{(2)[-1]} node[left]{ {\color{red} 2}} (c) ;
+		\draw [thick] (a) edge[->]  node[above]{(4)[-1]} node[below]{ {\color{red} 3}} (t) ;
+		\draw [thick] (b) edge[->]  node[left]{(2)[-2]} node[right]{ {\color{red} 2} } (a) ;
+		\draw [thick] (c) edge[->]  node[below]{(2)[1]} node[above]{{\color{red} 2}} (b) ;
+		\draw [thick] (c) edge[->]  node[right]{(5)[2]} node[left]{{\color{red} 0}} (t) ;
+	}
+	\only<11-13>{
+		\draw [thick,color=blue] (c) edge[->]  node[right]{2} (t) ;
+		\draw [thick,color=blue] (a) edge[->]  node[left]{2}  (b) ;
+		\draw [thick,color=blue] (a) edge[->]  node[above]{-3}  (s) ;
+		\draw [thick,color=blue] (t) edge[->,bend right=8]  node[above]{1}  (a) ;
+		\only<11>{
+			\draw [thick,color=blue] (s) edge[->]  node[below]{3}  (b) ;
+			\draw [thick,color=blue] (b) edge[->]  node[below]{-1}  (c) ;
+			\draw [thick,color=blue] (c) edge[->]  node[right]{1}  (a) ;
+			\draw [thick,color=blue] (a) edge[->,bend right=8]  node[below]{-1}  (t) ;
+		}
+		\only<12-13>{
+			\draw [very thick,color=red] (s) edge[->]  node[below]{3}  (b) ;
+			\draw [very thick,color=red] (b) edge[->]  node[below]{-1}  (c) ;
+			\draw [very thick,color=red] (c) edge[->]  node[right]{1}  (a) ;
+			\draw [very thick,color=red] (a) edge[->,bend right=8]  node[below]{1}  (t) ;
+		}
+	}
+	\only<14>{
+		\draw [thick] (s) edge[->]  node[above]{(3)[3]} node[below]{ {\color{red} 3} } (a) ;
+		\draw [thick] (s) edge[->]  node[below]{(2)[3]} node[above]{ {\color{red} 1}} (b) ;
+		\draw [thick] (a) edge[->]  node[right]{(2)[-1]} node[left]{ {\color{red} 1}} (c) ;
+		\draw [thick] (a) edge[->]  node[above]{(4)[-1]} node[below]{ {\color{red} 4}} (t) ;
+		\draw [thick] (b) edge[->]  node[left]{(2)[-2]} node[right]{ {\color{red} 2} } (a) ;
+		\draw [thick] (c) edge[->]  node[below]{(2)[1]} node[above]{{\color{red} 1}} (b) ;
+		\draw [thick] (c) edge[->]  node[right]{(5)[2]} node[left]{{\color{red} 0}} (t) ;
+	}
+	\only<15-17>{
+	\draw [thick,color=blue] (b) edge[->,bend right=8]  node[above]{-3}  (s) ;
+	\draw [thick,color=blue] (a) edge[->]  node[above]{-3}  (s) ;
+	\draw [thick,color=blue] (a) edge[->]  node[left]{2}  (b) ;
+	\draw [thick,color=blue] (a) edge[->,bend right=8]  node[below]{-1}  (c) ;
+	\draw [thick,color=blue] (c) edge[->,bend right=8]  node[above]{1}  (a) ;
+	\draw [thick,color=blue] (t) edge[->]  node[below]{1}  (a) ;
+	\draw [thick,color=blue] (c) edge[->,bend right=8]  node[above]{1}  (b) ;
+	\only<15>{
+		\draw [thick,color=blue] (s) edge[->,bend right=8]  node[below]{3}  (b) ;
+		\draw [thick,color=blue] (b) edge[->,bend right=8]  node[below]{-1}  (c) ;
+		\draw [thick,color=blue] (c) edge[->]  node[right]{2} (t) ;
+	}
+	\only<16-17>{
+		\draw [very thick,color=red] (s) edge[->,bend right=8]  node[below]{3}  (b) ;
+		\draw [very thick,color=red] (b) edge[->,bend right=8]  node[below]{-1}  (c) ;
+		\draw [very thick,color=red] (c) edge[->]  node[right]{2} (t) ;
+	}
+}
+\only<18-19>{
+	\draw [thick] (s) edge[->]  node[above]{(3)[3]} node[below]{ {\color{red} 3} } (a) ;
+	\draw [thick] (s) edge[->]  node[below]{(2)[3]} node[above]{ {\color{red} 2}} (b) ;
+	\draw [thick] (a) edge[->]  node[right]{(2)[-1]} node[left]{ {\color{red} 1}} (c) ;
+	\draw [thick] (a) edge[->]  node[above]{(4)[-1]} node[below]{ {\color{red} 4}} (t) ;
+	\draw [thick] (b) edge[->]  node[left]{(2)[-2]} node[right]{ {\color{red} 2} } (a) ;
+	\draw [thick] (c) edge[->]  node[below]{(2)[1]} node[above]{{\color{red} 0}} (b) ;
+	\draw [thick] (c) edge[->]  node[right]{(5)[2]} node[left]{{\color{red} 1}} (t) ;
+}
+	\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\section{Problema del transbordo}
+\begin{frame}{Problema del transbordo}
+%%
+El problema consiste en determinar cómo transportar una mercancía a través de una red de capacidad limitada (con cotas $\ell_{ij}$ y $u_{ij}$ en cada arco), en la que algunos nodos ofertan mercancía y otros la demanda, de forma que este transporte se haga a coste mínimo
+
+\begin{itemize}
+	\item
+	Variables: $f_{ij}$, número de unidades enviadas de $i$ a $j$,
+	$\forall (i,j)\in U$.
+	\item
+	Costes: $p_{ij}$, coste unitario de transporte de $i$ a $j$,
+	$\forall (i,j)\in U$.
+	\item
+	Mercancía disponibles en un nodo $i$, $i\in V$:
+	\begin{itemize}
+		\item $b_i>0$, oferta
+		\item $b_i<0$, demanda
+		\item $b_i=0$, transbordo
+	\end{itemize}
+\end{itemize}
+Se puede asumir que el problema es equilibrado (la oferta total es igual a la demanda total).
+\end{frame}
+
+\begin{frame}{Problema del transbordo}
+%%
+
+\alert{Restricciones:}
+\begin{itemize}
+	\item Conservación de flujo (se extiende la definición):
+	\begin{itemize}
+		\item El flujo que sale del nodo $i$, $\sum_{j=1}^n f_{ij}$,
+		\item menos el flujo que llega al nodo $i$, $\sum_{k=1}^n f_{ki}$,
+		\item debe coincidir con el recurso disponible en el nodo $i$, $b_i$.
+	\end{itemize}
+	$$
+	\sum_{j=1}^n f_{ij} - \sum_{k=1}^n f_{ki} = b_i, \quad i\in V
+	$$
+	\item Cotas: $\ell_{ij}\leq f_{ij} \leq c_{ij}$, $\forall (i,j)\in U$.
+\end{itemize} 
+
+\alert{Objetivo:}
+$$\displaystyle
+\min\sum_{i=1}^n\sum_{j=1}^n p_{ij}f_{ij}
+$$
+\end{frame}
+
+\begin{frame}{Problema del transbordo}{Casos particulares}
+\begin{itemize}\itemsep 5mm
+	\item Problema de asignación
+	\item Problema del transporte
+	\item Problema de flujo máximo
+	\item Problema de flujo compatible a coste mínimo.
+	\item Problema de camino mínimo.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+
+ \frametitle{Bibliograf\'ia}
+
+  \bibliographystyle{plain}
+  \begin{thebibliography}{10}
+
+  \bibitem{ford1956}
+  Lester R. Ford.
+  \newblock Network flow theory.
+  \newblock {\em Paper P-923, RAND Corporation},
+  1956.
+
+  \bibitem{fordfulkerson1956}
+  Lester R. Ford and Delbert R. Fulkerson.
+  \newblock Maximal flow through a network.
+  \newblock {\em Canadian Journal of Mathematics}, 8:399-404,
+  1956.
+
+  \end{thebibliography}
+
+\end{frame}
+
+
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+  \titlepage % call the title page information from above
+\end{frame}}
+
+\end{document} 

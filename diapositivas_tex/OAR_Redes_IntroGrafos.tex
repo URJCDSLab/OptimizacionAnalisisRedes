@@ -1,0 +1,3238 @@
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+\documentclass[aspectratio=169]{beamer}
+
+
+\mode<presentation> {
+	\usetheme{Boadilla}
+%	\setbeamercovered{transparent}
+	\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+%\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows,shapes,positioning}
+\usetikzlibrary{graphs}
+\usetikzlibrary{decorations.markings}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\usepackage{pgfplots}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+\parskip=0.1cm
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+  \href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on en Redes] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+	\textbf{Optimizaci\'on y An\'alisis de Redes} \\ Introducci\'on a la optimizaci\'on en redes
+}
+
+\author[]
+{      Antonio Alonso Ayuso \\
+	{\ttfamily antonio.alonso@urjc.es}
+}
+
+\institute[]
+{
+	Universidad Rey Juan Carlos\\
+	
+	%there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{\today}
+
+\AtBeginSection[] % Do nothing for \subsection*
+{
+	%\begin{frame}[plain,noframenumbering]
+	%	\titlepage
+	%\end{frame}
+	\begin{frame}<beamer>
+		\frametitle{Contenidos}
+		\tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide,subsubsectionstyle=hide]
+\end{frame}}
+
+\AtBeginSubsection[] % Do nothing for \subsection*
+{\begin{frame}<beamer>
+		\frametitle{Contenidos}
+		\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/hide,subsubsectionstyle=hide]
+		%\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}}
+
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+  \newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+%%
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+  \titlepage % call the title page information from above
+\end{frame}}
+
+
+\begin{frame}{Contenidos del tema}
+		\tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide,subsubsectionstyle=hide]
+\end{frame}
+
+\section{Introducci\'on}
+
+\begin{frame}
+
+ \frametitle{Introducci\'on I}
+
+El origen de la teor\'ia de grafos se sit\'ua en 1736 cuando Euler
+public\'o {\em Solutio Problematis ad Geometriam Situs Pertinentis} en
+el que enunciaba la soluci\'on al conocido problema de los puentes de
+K\"onigsberg.
+
+ \begin{columns}
+\column{.48\textwidth}
+\begin{center}
+ \begin{figure}
+ \centering
+ \subfloat[L.P. Euler, 1707-1783]{\makebox[.6\textwidth]{\includegraphics[width=0.50\textwidth]{fig/euler}}}
+ \end{figure}
+\end{center}
+\column{.48\textwidth}
+\begin{center}
+	\begin{figure}
+		\centering
+		\subfloat[K\"onigsberg]{\makebox[.60\textwidth]{\includegraphics[width=0.80\textwidth]{fig/fig_koenigsberg_a}}}
+	\end{figure}
+\end{center}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+
+ \frametitle{Introducci\'on II}
+\begin{center}
+	{\em Encontrar un recorrido que pase por todos los puentes una sola	vez y vuelva al punto de partida}
+\end{center}
+ \begin{columns}
+	\column<1->{.33\textwidth}
+	\begin{center}
+		\begin{figure}
+			\centering
+			\subfloat[K\"onigsberg]{\makebox[.60\textwidth]{\includegraphics[width=0.80\textwidth]{fig/fig_koenigsberg_a}}}
+		\end{figure}
+	\end{center}
+	\column<2->{.33\textwidth}
+\begin{center}
+	\begin{figure}
+		\centering
+		\subfloat[El rio y los puentes]{\makebox[.60\textwidth]{\includegraphics[width=0.80\textwidth]{fig/fig_koenigsberg_aa}}}
+	\end{figure}
+\end{center}
+	\column<3->{.33\textwidth}
+\begin{center}
+	\begin{figure}
+		\centering
+		\subfloat[Representación]{\makebox[.60\textwidth]{\includegraphics[width=0.80\textwidth]{fig/fig_koenigsberg_aaa}}}
+	\end{figure}
+\end{center}
+\end{columns}
+
+\end{frame}
+
+\section{Definiciones b\'asicas}
+
+\begin{frame}{Ejemplo introductorio}
+	\begin{columns}\itemsep 5mm
+		\column{0.6\textwidth}
+		\begin{itemize}\itemsep 5mm
+			\item 	Se quieren analizar las distintas alternativas para para ir
+			de Madrid a Tokio.
+			\item Se dispone de la informaci\'{o}n de vuelos compatibles entre distintos aeropuertos:
+			
+			\centering{Madrid (m), Londres (l), Frankfurt (f), Par\'{\i}s (p), Singapur (s) y
+			Tokio (t)}
+			
+		\end{itemize}
+		
+		\column{0.4\textwidth}
+		
+		  \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+			\node[node_style]  (m) at (0,0) {m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (p) at (2,0) {p} ;
+			\node[node_style] (t) at (4,0) {t} ;
+			\node[node_style] (l) at (0,2) {l} ;
+			\node[node_style] (f) at (2,2) {f} ;
+			\node[node_style] (s) at (4,2) {s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			
+			
+			\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw[line width=1.25pt] (m) edge[->] (f) ;
+			\draw[line width=1.25pt] (m) edge[->] (p) ;
+			\draw[line width=1.25pt] (l) edge[->] (f) ;
+			% \draw (2) edge[->, loop above] (2) ;
+			\draw[line width=1.25pt] (p) edge[->,bend left=20] (f) ;
+			\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+			%  \draw (p) edge[->] (f) ;
+			\draw[line width=1.25pt] (p) edge[->] (s) ;
+			\draw[line width=1.25pt] (p) edge[->] (t) ;
+			\draw[line width=1.25pt] (f) edge[->] (s) ;
+			\draw[line width=1.25pt] (s) edge[->] (t) ;
+			
+		\end{tikzpicture}
+		
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+ \frametitle[t]{Definiciones previas I}
+\begin{block}{Digrafo o Grafo dirigido}
+Un \alert{digrafo} o \alert{grafo dirigido} es un par $G = (V,U)$, donde $V$ es un conjunto finito cuyos elementos $i \in V$ se denominan \alert{nodos} o \alert{v\'{e}rtices}, y $U
+\subset V \times V$ es el subconjunto de \alert{arcos} o pares ordenados de v\'{e}rtices.
+
+\medskip
+
+Dado un arco $u = (i,j) \in U$, al v\'{e}rtice $i \in V$ se le denomina \alert{extremo inicial} del arco y a $j\in V$ \alert{extremo final}. 
+
+
+\medskip
+
+Un arco cuyos extremos coinciden se denomina \alert{bucle}.
+\end{block}
+\end{frame}
+\begin{frame}
+	\frametitle[t]{Definiciones previas I}
+ \begin{columns}
+  \column{.4\textwidth}
+  \begin{center}
+  \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+  \node[node_style] (1) at (0,1) {1} ;
+  \node[node_style] (2) at (3,1) {2} ;
+  \node[node_style] (3) at (1.5,0) {3} ;
+  \node[node_style] (4) at (4.5,0) {4} ;
+  \draw  [line width=1.25pt] (1) edge[->,bend left=20] (2) ;
+  \draw  [line width=1.25pt] (2) edge[->,bend left=20] (1) ;
+  \draw  [line width=1.25pt] (2) edge[->,bend left=20] (4) ;
+  \draw  [line width=1.25pt] (4) edge[->,bend left=20] (2) ;
+  \draw  [line width=1.25pt] (2) edge[->, loop above] (2) ;
+  \draw  [line width=1.25pt] (1) edge[->] (3) ;
+  \draw  [line width=1.25pt] (3) edge[->] (2) ;
+  \draw  [line width=1.25pt] (4) edge[->] (3) ;
+  \end{tikzpicture}
+  
+  \vspace*{10mm}
+  
+	  \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+		\node[node_style]  (m) at (0,0) {m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+		\node[node_style] (p) at (2,0) {p} ;
+		\node[node_style] (t) at (4,0) {t} ;
+		\node[node_style] (l) at (0,2) {l} ;
+		\node[node_style] (f) at (2,2) {f} ;
+		\node[node_style] (s) at (4,2) {s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+		
+		
+		\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+		\draw[line width=1.25pt] (m) edge[->] (f) ;
+		\draw[line width=1.25pt] (m) edge[->] (p) ;
+		\draw[line width=1.25pt] (l) edge[->] (f) ;
+		% \draw (2) edge[->, loop above] (2) ;
+		\draw[line width=1.25pt] (p) edge[->,bend left=20] (f) ;
+		\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+		%  \draw (p) edge[->] (f) ;
+		\draw[line width=1.25pt] (p) edge[->] (s) ;
+		\draw[line width=1.25pt] (p) edge[->] (t) ;
+		\draw[line width=1.25pt] (f) edge[->] (s) ;
+		\draw[line width=1.25pt] (s) edge[->] (t) ;
+		
+	\end{tikzpicture}
+	  \end{center}
+	
+  \column{.6\textwidth}
+	  \begin{align*}
+		G = & (V,U) \\
+		V = & \{1,2,3,4\} \\
+		U = & \big\{(1,2),(1,3),(2,1),(2,2), (2,4),(3,2),(4,2),(4,3)\big\}
+		\\[15mm]
+		G = & (V,U) \\
+		V = &  \{ m,l,p,f,s,t \} \\
+		U = & \{ (m,l);(m,p);(m,f);(l,f);(p,f);\\ &\quad (p,s);(p,t);(f,p);(f,s);	(s,t) \} 
+	\end{align*}
+	 \end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Adyacencia de un nodo}
+\begin{columns}
+	\column{.6\textwidth}
+
+\begin{itemize}
+	\item  \alert{Sucesores.} el nodo $j$ es sucesor del nodo $i$ si existe un arco con $i$ su nodo inicial y $j$ su nodo final.
+			$$\Gamma^+(i) = \{ j \in V \ / \ (i,j) \in U \} $$
+	\item \alert{Predecesores.} el nodo $j$ es predecesor del nodo $i$ si el arco $(j,i)$ pertenece a $U$.
+			$$\Gamma^-(i) = \{ j \in V \ / \ (j,i) \in U \} $$
+	\item \alert{Nodos adyacentes.-} El conjunto $\Gamma(i)=\Gamma^+(i)\cup\Gamma^-(i)$ es el conjunto de nodos adyacentes al nodo $i$.
+	\item Dos arcos son \alert{adyacentes} cuando tienen un extremo com\'{u}n.
+\end{itemize}
+	\column{.40\textwidth}
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+		\node[node_style] (1) at (0,1) {1} ;
+		\node[node_style] (2) at (3,1) {2} ;
+		\node[node_style, color=red] (3) at (1.5,0) {3} ;
+		\node[node_style] (4) at (4.5,0) {4} ;
+		\draw  [line width=1.5pt] (1) edge[->,bend left=20] (2) ;
+		\draw  [line width=1.5pt] (2) edge[->,bend left=20] (1) ;
+		\draw  [line width=1.5pt] (2) edge[->,bend left=20] (4) ;
+		\draw  [line width=1.5pt] (4) edge[->,bend left=20] (2) ;
+		\draw  [line width=1.5pt] (2) edge[->, loop above] (2) ;
+		\draw  [line width=1.5pt] (1) edge[->] (3) ;
+		\draw  [line width=1.5pt] (3) edge[->] (2) ;
+		\draw  [line width=1.5pt] (4) edge[->] (3) ;
+	\end{tikzpicture}
+\end{center}
+\begin{align*}
+	\Gamma^+(3) = & \{2\} \\[2mm]
+	\Gamma^-(3) = & \{1,4\} \\[2mm]
+	\Gamma(3) = & \{1,2,4\}
+\end{align*}
+\footnotesize Los arcos $(1,2)$ y $(2,4)$ son adyacentes.
+\end{columns}
+\end{frame}
+
+\begin{frame}{Grado de un nodo}
+	\begin{columns}
+		\column{.6\textwidth}
+			\begin{itemize}\itemsep 3mm
+				\item \alert{Semigrado exterior} de un v\'{e}rtice $i \in V$
+				$$ d^+(i) = card( \Gamma^+(i)) $$
+				
+				\item \alert{Semigrado interior} de un v\'{e}rtice $i \in V$
+				$$ d^-(i) = card(  \Gamma^-(i) ) $$
+				
+				\item \alert{Grado} de un v\'{e}rtice $i \in V$
+				$$ d(i) = d^+(i) + d^-(i)  $$
+				
+				\item Un v\'{e}rtice $x\in V$ tal que $d(x)=1$ se denomina \alert{pendiente}.
+			\end{itemize}
+		\column{.40\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (0,1) {1} ;
+				\node[node_style] (2) at (3,1) {2} ;
+				\node[node_style, color=red] (3) at (1.5,0) {3} ;
+				\node[node_style] (4) at (4.5,0) {4} ;
+				\draw  [line width=1.5pt] (1) edge[->,bend left=20] (2) ;
+				\draw  [line width=1.5pt] (2) edge[->,bend left=20] (1) ;
+				\draw  [line width=1.5pt] (2) edge[->,bend left=20] (4) ;
+				\draw  [line width=1.5pt] (4) edge[->,bend left=20] (2) ;
+				\draw  [line width=1.5pt] (2) edge[->, loop above] (2) ;
+				\draw  [line width=1.5pt] (1) edge[->] (3) ;
+				\draw  [line width=1.5pt] (3) edge[->] (2) ;
+				\draw  [line width=1.5pt] (4) edge[->] (3) ;
+				\node at (2,-1.5) {$d^+(3)=1, d^-(3)=2, d(3)=3)$};
+				\node at (2,-2.3) {$d^+(2)=3, d^-(2)=4, d(2)=6)$};
+			\end{tikzpicture}
+		\end{center}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Grado de un nodo}
+		\begin{itemize}\itemsep 3mm
+			\item \alert{Incidencia exterior} de un conjunto $A \subset V$
+			$$ w^+(A) = \{ u = (i,j) \in U \ / \  i \in A, \ j \not\in A \} $$
+			\item \alert{Incidencia interior} de un conjunto $A \subset V$
+			$$ w^-(A) = \{ u = (i,j) \in U \ / \  i \not\in A, \ j \in A \} $$
+			\item \alert{Incidencia} de un conjunto $A \subset V$
+			$$ w(A) = w^+(A) \cup w^-(A) $$
+		\end{itemize}
+\end{frame}
+\begin{frame}{Incidencia de un conjunto de nodos}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+		\node[node_style] (1) at (0,1) {1} ;
+		\node[node_style,color=red] (2) at (2,2.25) {2} ;
+		\node[node_style, color=red] (3) at (1.5,0) {3} ;
+		\node[node_style] (4) at (4.5,2.5) {4} ;
+		\node[node_style] (5) at (4,0) {5} ;
+		\draw  [line width=1.5pt,color=blue] (1) edge[->] (2) ;
+		\draw  [line width=1.5pt] (2) edge[->,bend left=20] (3) ;
+		\draw  [line width=1.5pt,color=magenta] (2) edge[->] (4) ;
+		\draw  [line width=1.5pt,color=magenta] (3) edge[->] (1) ;
+		\draw  [line width=1.5pt] (3) edge[->,bend left=20] (2) ;
+		\draw  [line width=1.5pt,color=magenta] (3) edge[->] (5) ;
+		\draw  [line width=1.5pt,color=blue] (4) edge[->] (3) ;
+		\draw  [line width=1.5pt] (5) edge[->] (4) ;
+		\end{tikzpicture}
+	\end{center}
+Para $A=\{2,3\}$, resulta:
+\begin{align*}
+& \color{magenta} w^+(A)=w^+\bigl(\{2,3\}\bigr)= \bigl\{(2,4),(3,1),(3,5)\bigr\}
+\\[2mm]
+& \color{blue} w^-(A)=w^+\bigl(\{2,3\}\bigr)= \bigl\{(1,2),(4,3)\bigr\}
+\\[2mm]
+&  w(A)=w\bigl(\{2,3\}\bigr)= \bigl\{{\color{blue}(1,2)},{\color{magenta}(2,4)}, {\color{magenta}(3,1)},{\color{magenta} (3,5)}, \alert{\color{blue}(4,3)}\bigr\}
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Grafos}
+	\begin{itemize}
+		\item Los arcos de un digrafo establecen una relación asim\'{e}trica (ordenada) entre sus extremos.
+		\item Para representar relaciones simétricas (no ordenadas) es necesario introducir los grafos.
+	\end{itemize}
+		\begin{center}
+			  \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1pt}]
+				
+				\node[node_style] (a) at (2,2) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (0,0) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (5,0) {d} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+				\node[node_style] (e) at (2.5,-1.0) {e} ;
+				
+				\draw[line width=1.25pt] (b) edge (a) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw[line width=1.25pt] (b) edge (d) ;
+				\draw[line width=1.25pt] (b) edge (c) ;
+				\draw[line width=1.25pt] (b) edge (e) ;
+				\draw[line width=1.25pt] (a) edge (c) ;
+				\draw[line width=1.25pt] (c) edge (d) ;
+				\draw[line width=1.25pt] (d) edge (e) ;
+				
+			\end{tikzpicture}
+		\end{center}		
+\end{frame}
+
+\begin{frame}{Grafo}
+	\begin{block}{Grafo}
+	Un \alert{grafo} o \alert{grafo no dirigido} es un par $G= (V,E)$, donde $V$ es el conjunto de v\'{e}rtices y $E \subset V 	\times V$ es el conjunto de \alert{aristas}, que es un
+	subconjunto de pares no ordenados de v\'{e}rtices. 
+		
+	\medskip
+	
+	Los extremos de las aristas son indistinguibles, es decir, $\{ i,j 	\} = \{ j,i \}$.
+	\end{block}
+
+	\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1pt}]
+		
+		\node[node_style] (a) at (2,2) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+		\node[node_style] (b) at (0,0) {b} ;
+		\node[node_style] (c) at (4,2) {c} ;
+		\node[node_style] (d) at (5,0) {d} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+		\node[node_style] (e) at (2.5,-1.0) {e} ;
+		
+		\draw[line width=1.25pt] (b) edge (a) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+		\draw[line width=1.25pt] (b) edge (d) ;
+		\draw[line width=1.25pt] (b) edge (c) ;
+		\draw[line width=1.25pt] (b) edge (e) ;
+		\draw[line width=1.25pt] (a) edge (c) ;
+		\draw[line width=1.25pt] (c) edge (d) ;
+		\draw[line width=1.25pt] (d) edge (e) ;
+		
+		\node at (9,1.2) {$ V = \{ a,b,c,d,e \} $};
+		\node at (9,.30) {$ E = \bigl\{ \{ a,b \} ; \{ a,c \} ;\{ b,c \} ;\{ b,d \} ;$};
+		\node at (9,-.30) {$\{ b,e\} ;\{ c,d \} ;\{ d,e \} \bigr\} $};
+	\end{tikzpicture}
+\end{center}		
+\end{frame}
+
+\begin{frame}{Adyacencia e incidencia en un grafo}
+	\begin{itemize}
+		\item En un grafo solo tiene sentido definir los conjuntos $\Gamma(i)$ 	y $w(A)$, as\'{\i} como la funci\'{o}n $d(i)$ para cualquier v\'{e}rtice $i \in
+		V$ y subconjunto de v\'{e}rtices $A \subset V$.
+	\end{itemize}
+	
+	\medskip
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1pt}]
+			
+			\node[node_style] (a) at (2,2) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (b) at (0,0) {b} ;
+			\node[node_style] (c) at (4,2) {c} ;
+			\node[node_style] (d) at (5,0) {d} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			\node[node_style] (e) at (2.5,-1.0) {e} ;
+			
+			\draw[line width=1.25pt] (b) edge (a) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw[line width=1.25pt] (b) edge (d) ;
+			\draw[line width=1.25pt] (b) edge (c) ;
+			\draw[line width=1.25pt] (b) edge (e) ;
+			\draw[line width=1.25pt] (a) edge (c) ;
+			\draw[line width=1.25pt] (c) edge (d) ;
+			\draw[line width=1.25pt] (d) edge (e) ;
+			
+			\node at (9.5,+2.0) {$\Gamma( \{ b,c \} ) = \{ a,d,e \} \subset V$};
+			\node at (9.5,+1.2) {$\Gamma( \{ d,e \} ) = \{ b,c \} \subset V$};
+			\node at (9.5,+0.4) {$w( \{ b,c,d \} ) = \bigl\{ \{a,b \};\{ a,c \}; \{ b,e \}; \{ d,e 	\}\bigr \} \subset E $};
+			\node at (9.5,-0.4) {$ d(b)=4 \quad d(a)=2  $};
+		\end{tikzpicture}
+	\end{center}		
+\end{frame}
+
+
+\begin{frame}{Multigrafos}
+
+\begin{itemize}\itemsep 4mm
+	\item Un \alert{multigrafo $G=(V,E)$ (multidigrafo $G=(V,U)$ )} es un grafo (digrafo) en el que existen $n,m\in V$ tal que $\{m,n\}$ ($(m,n)$) se repiten (esto es, hay aristas/arcos iguales).
+	\item \alert{Multiplicidad de un arista.-} n\'umero de veces que se repite en el grafo.
+	\item \alert{$p$-grafo.-} un multigrafo en el que al menos una arista tiene multiplicidad $p$, pero no hay aristas con multiplicidad mayor a $p$.
+\end{itemize}
+
+\begin{center}
+  \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+	
+	\node[node_style] (a) at (0,0) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+	\node[node_style] (b) at (3,0) {b} ;
+	\node[node_style] (c) at (0,-3) {c} ;
+	\node[node_style] (d) at (3,-3) {d} ;    %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+	
+	
+	\draw[line width=1.25pt]  (b) edge (a) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+	\draw[line width=1.25pt]  (b) edge[bend left=20] (a) ;
+	\draw[line width=1.25pt]  (a) edge (c) ;
+	\draw[line width=1.25pt]  (b) edge (c) ;
+	\draw[line width=1.25pt] (c) edge (d);
+	\draw[line width=1.25pt]  (c) edge[bend left=20] (d);
+	\draw[line width=1.25pt]  (c) edge[bend right=20] (d);
+	\node at (6,-1.5) {\large\color{blue} $3$-grafo};
+	
+	
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Tipos de grafos}
+\begin{itemize}\itemsep 5mm
+\item \alert{Grafo simple.-} un 1-grafo sin bucles. An\'{a}logamente, se define un \alert{digrafo simple}.
+\item Un grafo $G=(V,E)$ es \alert{completo} si verifica $ \{ i,j \} \in E \quad \forall i,j \in V, i \neq j $.
+\item Un digrafo $G=(V,U)$ es \alert{completo} si verifica $(i,j) \not\in U \Rightarrow (j,i) \in U $.
+\item Un \alert{clan} $K_n$ (en ingl\'{e}s \alert{clique}) es un grafo $G=(V,E)$ simple y completo ($n=card\{V\}$).
+\begin{center}
+		\begin{tabular}{c@{\hspace*{1.5cm}}c@{\hspace*{1.5cm}}c}
+		Digrafo completo & $K_4$ & $K_5$\\[3mm]
+		\begin{tikzpicture}[node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+			\node[node_style]  (a) at (0,0) {a} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (d) at (2,0) {d} ;
+			\node[node_style] (c) at (2,2) {c} ;
+			\node[node_style] (b) at (0,2) {b} ;
+			
+			\draw[line width=1.25pt] (a) edge[->] (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw[line width=1.25pt] (a) edge[->] (c) ;
+			\draw[line width=1.25pt] (a) edge[->] (d) ;
+			\draw[line width=1.25pt] (b) edge[->] (c) ;
+			\draw[line width=1.25pt] (b) edge[->] (d) ;
+			\draw[line width=1.25pt] (c) edge[->] (d) ;
+			
+		\end{tikzpicture}
+		&
+		{\tikz[line width=1pt] \graph [clockwise=4,phase=225] { { [clique] a, b, c, d } };}
+		& 
+		{\tikz[line width=1pt] \graph [clockwise=5,phase=225] { { [clique] a, b, c, d , e} };}
+	\end{tabular}
+	\end{center}
+
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Subgrafo}
+
+Dado un digrafo (grafo) $G= (V,U)$ ($G=(V,E)$), a partir de $A \subset V$ se define el \alert{subgrafo generado por $A$} como el digrafo (grafo) $ G_A = (A, U_A)$ ($G_A = (A, E_A) $), donde $$
+U_A = \{ u \in U \ / \ u=(i,j), i,j \in A \}\qquad\qquad E_A = \{ e \in E \ / \ e = \{ i,j \}, i,j \in A \} $$
+
+\medskip 
+
+\begin{columns}
+	\column[t]{.4\textwidth}
+	\begin{center}
+	\begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (1) at (0,1) {1} ;
+	\node[node_style] (2) at (1.25,2.25) {2} ;
+	\node[node_style] (3) at (1.5,0) {3} ;
+	\node[node_style] (4) at (4.5,2.5) {4} ;
+	\node[node_style] (5) at (4.75,-0.25) {5} ;
+	\draw  [line width=1.25pt] (1) edge[->,bend right=50] (5) ;
+	\draw  [line width=1.25pt] (1) edge[->] (2) ;
+	\draw  [line width=1.25pt] (2) edge[->,bend left=20] (3) ;
+	\draw  [line width=1.25pt] (2) edge[->] (4) ;
+	\draw  [line width=1.25pt] (2) edge[->] (5) ;
+	\draw  [line width=1.25pt] (3) edge[->] (1) ;
+	\draw  [line width=1.25pt] (3) edge[->,bend left=20] (2) ;
+	\draw  [line width=1.25pt] (3) edge[->] (5) ;
+	\draw  [line width=1.25pt] (4) edge[->] (3) ;
+	\draw  [line width=1.25pt] (5) edge[->] (4) ;
+	\node at (3,3.4) {$G=(V,U)$};
+	\end{tikzpicture}
+\end{center}	
+\column[t]{.3\textwidth}
+\begin{center}
+	\begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (1) at (0,1) {1} ;
+	\node[node_style] (2) at (1.25,2.25) {2} ;
+%	\node[node_style] (3) at (1.5,0) {3} ;
+%	\node[node_style] (4) at (4.5,2.5) {4} ;
+	\node[node_style] (5) at (4.75,-0.25) {5} ;
+	\draw  [line width=1.25pt] (1) edge[->,bend right=50] (5) ;
+	\draw  [line width=1.25pt] (1) edge[->] (2) ;
+%	\draw  [line width=1.5pt] (2) edge[->,bend left=20] (3) ;
+%	\draw  [line width=1.5pt] (2) edge[->] (4) ;
+	\draw  [line width=1.25pt] (2) edge[->] (5) ;
+%	\draw  [line width=1.5pt] (3) edge[->] (1) ;
+%	\draw  [line width=1.5pt] (3) edge[->,bend left=20] (2) ;
+%	\draw  [line width=1.5pt] (3) edge[->] (5) ;
+%	\draw  [line width=1.5pt] (4) edge[->] (3) ;
+%	\draw  [line width=1.5pt] (5) edge[->] (4) ;
+	\node at (2,3.4) {$A=\{1,2,5\}$};
+	\end{tikzpicture}
+\end{center}	
+\column[t]{.3\textwidth}
+\begin{center}
+	\begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+		\node[node_style] (1) at (0,1) {1} ;
+		\node[node_style] (2) at (1.25,2.25) {2} ;
+		\node[node_style] (3) at (1.5,0) {3} ;
+		%	\node[node_style] (4) at (4.5,2.5) {4} ;
+		%\node[node_style] (5) at (4.75,-0.25) {5} ;
+		%\draw  [line width=1.25pt] (1) edge[->,bend right=50] (5) ;
+		\draw  [line width=1.25pt] (1) edge[->] (2) ;
+		\draw  [line width=1.5pt] (2) edge[->,bend left=20] (3) ;
+		%	\draw  [line width=1.5pt] (2) edge[->] (4) ;
+		%\draw  [line width=1.25pt] (2) edge[->] (5) ;
+		\draw  [line width=1.5pt] (3) edge[->] (1) ;
+		\draw  [line width=1.5pt] (3) edge[->,bend left=20] (2) ;
+		%	\draw  [line width=1.5pt] (3) edge[->] (5) ;
+		%	\draw  [line width=1.5pt] (4) edge[->] (3) ;
+		%	\draw  [line width=1.5pt] (5) edge[->] (4) ;
+		\node at (1.25,3.4) {$A=\{1,2,3\}$};
+	\end{tikzpicture}
+\end{center}	
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Grafo parcial}
+
+Dado un digrafo (grafo) $G= (V,U)$ ($G=(V,E)$), a partir de un subconjunto de arcos $W \subset U$ (o de aristas $F \subset E$) se define el \alert{grafo parcial generado por $W$ ($F$)} como el
+digrafo (grafo) $ G(W) = (V, W)$ ($G(F) = (V, F) $).
+
+\medskip 
+
+\begin{columns}
+	\column[t]{.3\textwidth}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+		\node[node_style] (1) at (0,1) {1} ;
+		\node[node_style] (2) at (1.25,2.25) {2} ;
+		\node[node_style] (3) at (1.5,0) {3} ;
+		\node[node_style] (4) at (4.5,2.5) {4} ;
+		\node[node_style] (5) at (4.75,-0.25) {5} ;
+		\draw  [line width=1.25pt] (1) edge[->,bend right=50] (5) ;
+		\draw  [line width=1.25pt] (1) edge[->] (2) ;
+		\draw  [line width=1.25pt] (2) edge[->,bend left=20] (3) ;
+		\draw  [line width=1.25pt] (2) edge[->] (4) ;
+		\draw  [line width=1.25pt] (2) edge[->] (5) ;
+		\draw  [line width=1.25pt] (3) edge[->] (1) ;
+		\draw  [line width=1.25pt] (3) edge[->,bend left=20] (2) ;
+		\draw  [line width=1.25pt] (3) edge[->] (5) ;
+		\draw  [line width=1.25pt] (4) edge[->] (3) ;
+		\draw  [line width=1.25pt] (5) edge[->] (4) ;
+		\node at (3,3.4) {$G=(V,U)$};
+		\end{tikzpicture}
+	\end{center}	
+	\column[t]{.3\textwidth}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+		\node[node_style] (1) at (0,1) {1} ;
+		\node[node_style] (2) at (1.25,2.25) {2} ;
+		\node[node_style] (3) at (1.5,0) {3} ;
+		\node[node_style] (4) at (4.5,2.5) {4} ;
+		\node[node_style] (5) at (4.75,-0.25) {5} ;
+		%	\draw  [line width=1.5pt] (1) edge[->,bend right=50] (5) ;
+		\draw  [line width=1.5pt] (1) edge[->] (2) ;
+		%	\draw  [line width=1.5pt] (2) edge[->,bend left=20] (3) ;
+		\draw  [line width=1.5pt] (2) edge[->] (4) ;
+		%	\draw  [line width=1.5pt] (2) edge[->] (5) ;
+		%	\draw  [line width=1.5pt] (3) edge[->] (1) ;
+		%	\draw  [line width=1.5pt] (3) edge[->,bend left=20] (2) ;
+		%	\draw  [line width=1.5pt] (3) edge[->] (5) ;
+		%	\draw  [line width=1.5pt] (4) edge[->] (3) ;
+		\draw  [line width=1.5pt] (5) edge[->] (4) ;
+		\node at (2,3.4) {$W=\{(1,2), (2,4), (5,4)\}$};
+		
+		\end{tikzpicture}
+	\end{center}	
+	\column[t]{.33\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (0,1) {1} ;
+				\node[node_style] (2) at (1.25,2.25) {2} ;
+				\node[node_style] (3) at (1.5,0) {3} ;
+				\node[node_style] (4) at (4.5,2.5) {4} ;
+				\node[node_style] (5) at (4.75,-0.25) {5} ;
+				%	\draw  [line width=1.5pt] (1) edge[->,bend right=50] (5) ;
+				\draw  [line width=1.5pt] (1) edge[->] (2) ;
+				%	\draw  [line width=1.5pt] (2) edge[->,bend left=20] (3) ;
+				\draw  [line width=1.5pt] (2) edge[->] (4) ;
+					\draw  [line width=1.5pt] (2) edge[->] (5) ;
+					\draw  [line width=1.5pt] (3) edge[->] (1) ;
+				%	\draw  [line width=1.5pt] (3) edge[->,bend left=20] (2) ;
+				%	\draw  [line width=1.5pt] (3) edge[->] (5) ;
+				%	\draw  [line width=1.5pt] (4) edge[->] (3) ;
+				%\draw  [line width=1.5pt] (5) edge[->] (4) ;
+				\node at (2,3.4) {$W=\{(1,2), (2,4), (2,5),(3,1)\}$};
+				
+			\end{tikzpicture}
+		\end{center}	
+\end{columns}
+
+
+
+\end{frame}
+
+\begin{frame}{Grafo complementario}
+Dado un grafo $G=(V,E)$, se define el \alert{grafo complementario} como el grafo cuyas aristas son las no incluidas en $E$: 
+	$$\bar{G} = (V, \bar{E})\quad\text{tal que} \quad \{ i,j \} \in \bar{E} \Longleftrightarrow \{ i,j \} \not\in E	$$
+
+\begin{columns}
+	\column[t]{.48\textwidth}
+			\begin{center}
+		\begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1pt}]
+			
+			\node[node_style] (a) at (2,2) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (b) at (0,0) {b} ;
+			\node[node_style] (c) at (4,2) {c} ;
+			\node[node_style] (d) at (5,0) {d} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			\node[node_style] (e) at (2.5,-1.0) {e} ;
+			
+			\draw[line width=1.25pt] (b) edge (a) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw[line width=1.25pt] (b) edge (d) ;
+			\draw[line width=1.25pt] (b) edge (c) ;
+			\draw[line width=1.25pt] (b) edge (e) ;
+			\draw[line width=1.25pt] (a) edge (c) ;
+			\draw[line width=1.25pt] (c) edge (d) ;
+			\draw[line width=1.25pt] (d) edge (e) ;
+		\node at (2.5,3) {$G=(V,E)$};
+			
+		\end{tikzpicture}
+	\end{center}		
+	\column[t]{.48\textwidth}
+			\begin{center}
+	\begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1pt}]
+		
+		\node[node_style] (a) at (2,2) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+		\node[node_style] (b) at (0,0) {b} ;
+		\node[node_style] (c) at (4,2) {c} ;
+		\node[node_style] (d) at (5,0) {d} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+		\node[node_style] (e) at (2.5,-1.0) {e} ;
+		
+		\draw[line width=1.25pt] (a) edge (e) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+		\draw[line width=1.25pt] (a) edge (d) ;
+		\draw[line width=1.25pt] (e) edge (c) ;
+		\node at (2.5,3) {$\bar{G} = (V, \bar{E})$};
+		
+	\end{tikzpicture}
+\end{center}		
+\end{columns}	
+	
+\end{frame}
+
+\subsection{Cadenas y caminos}
+
+\begin{frame}{Cadenas}
+\begin{itemize}\itemsep 2mm
+\item
+En un digrafo $G=(V,U)$, una \alert{cadena} de longitud $q$, $q \geq 1$, es una sucesi\'{o}n de $q$ arcos adyacentes  $\mu = (u_1, \ldots ,u_q)$ verificando:
+$$ \wedge 
+\left\{ \begin{array}{rl} u_k \text{ tiene un extremo
+		com{\'{u}}n con } u_{k+1} & \forall k=1,\ldots , q-1 \\
+	u_{k} \text{ tiene un extremo com{\'{u}}n con } u_{k-1} & \forall
+	k=2,\ldots , q \end{array} \right. 
+$$ 
+\noindent y siendo distintos cualquier par de arcos adyacentes.
+
+\item Los extremos no ligados $i\in V$ del primer arco $u_1$ y $j\in V$ del \'{u}ltimo arco $u_q$ son los \alert{extremos} de la cadena $\mu[i,j]$.
+\item En una cadena los arcos pueden estar orientados en sentido contrario.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cadenas}
+
+ \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+	\node[node_style]  (m) at (0,0) {m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+	\node[node_style] (p) at (2,0) {p} ;
+	\node[node_style] (t) at (4,0) {t} ;
+	\node[node_style] (l) at (0,2) {l} ;
+	\node[node_style] (f) at (2,2) {f} ;
+	\node[node_style] (s) at (4,2) {s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+	
+	
+	\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+	\draw[line width=1.25pt] (m) edge[->] (f) ;
+	\draw[line width=1.25pt] (m) edge[->] (p) ;
+	\draw[line width=1.25pt] (l) edge[->] (f) ;
+	% \draw (2) edge[->, loop above] (2) ;
+	\draw[line width=1.25pt] (p) edge[->,bend left=20] (f) ;
+	\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+	%  \draw (p) edge[->] (f) ;
+	\draw[line width=1.25pt] (p) edge[->] (s) ;
+	\draw[line width=1.25pt] (p) edge[->] (t) ;
+	\draw[line width=1.25pt] (f) edge[->] (s) ;
+	\draw[line width=1.25pt] (s) edge[->] (t) ;
+
+	\begin{scope}[xshift=5.5cm,yshift=2cm,scale=0.75]
+		\node[node_style]  (m) at (0,0) {\small m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+		\node[node_style] (p) at (2,0) {\small p} ;
+		\node[node_style] (t) at (4,0) {\small t} ;
+		\node[node_style] (l) at (0,2) {\small l} ;
+		\node[node_style] (f) at (2,2) {\small f} ;
+		\node[node_style] (s) at (4,2) {\small s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+		
+		
+		\draw[line width=1.25pt,color=blue] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+		\draw[line width=1.25pt] (m) edge[->] (f) ;
+		\draw[line width=1.25pt] (m) edge[->] (p) ;
+		\draw[line width=1.25pt,color=blue] (l) edge[->] (f) ;
+		% \draw (2) edge[->, loop above] (2) ;
+		\draw[line width=1.25pt,color=blue] (p) edge[->,bend left=20] (f) ;
+		\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+		%  \draw (p) edge[->] (f) ;
+		\draw[line width=1.25pt] (p) edge[->] (s) ;
+		\draw[line width=1.25pt] (p) edge[->] (t) ;
+		\draw[line width=1.25pt] (f) edge[->] (s) ;
+		\draw[line width=1.25pt] (s) edge[->] (t) ;
+		
+		\node at (2,3.5) {\small $ \mu^1[m,p] =$};
+		\node at (2,2.9) {\small $\{ (m,l);(l,f);(p,f) \}$};
+	\end{scope}
+	\begin{scope}[xshift=5.5cm,yshift=-2cm,scale=0.75]
+	\node[node_style]  (m) at (0,0) {\small m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+	\node[node_style] (p) at (2,0) {\small p} ;
+	\node[node_style] (t) at (4,0) {\small t} ;
+	\node[node_style] (l) at (0,2) {\small l} ;
+	\node[node_style] (f) at (2,2) {\small f} ;
+	\node[node_style] (s) at (4,2) {\small s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+	
+	
+	\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+	\draw[line width=1.25pt] (m) edge[->] (f) ;
+	\draw[line width=1.25pt] (m) edge[->] (p) ;
+	\draw[line width=1.25pt] (l) edge[->] (f) ;
+	% \draw (2) edge[->, loop above] (2) ;
+	\draw[line width=1.25pt,color=blue] (p) edge[->,bend left=20] (f) ;
+	\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+	%  \draw (p) edge[->] (f) ;
+	\draw[line width=1.25pt] (p) edge[->] (s) ;
+	\draw[line width=1.25pt] (p) edge[->] (t) ;
+	\draw[line width=1.25pt,color=blue] (f) edge[->] (s) ;
+	\draw[line width=1.25pt,color=blue] (s) edge[->] (t) ;
+	
+			\node at (2,3.5) {\small $ \mu^2[m,p] =$};
+	\node at (2,3) {\small $ \{(p,f);(f,s);(s,t) \} $};
+	
+\end{scope}
+	\begin{scope}[xshift=11cm,yshift=2cm,scale=0.75]
+	\node[node_style]  (m) at (0,0) {\small m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+	\node[node_style] (p) at (2,0) {\small p} ;
+	\node[node_style] (t) at (4,0) {\small t} ;
+	\node[node_style] (l) at (0,2) {\small l} ;
+	\node[node_style] (f) at (2,2) {\small f} ;
+	\node[node_style] (s) at (4,2) {\small s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+	
+	
+	\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+	\draw[line width=1.25pt] (m) edge[->] (f) ;
+	\draw[line width=1.25pt,color=blue] (m) edge[->] (p) ;
+	\draw[line width=1.25pt] (l) edge[->] (f) ;
+	% \draw (2) edge[->, loop above] (2) ;
+	\draw[line width=1.25pt,color=blue] (p) edge[->,bend left=20] (f) ;
+	\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+	%  \draw (p) edge[->] (f) ;
+	\draw[line width=1.25pt,color=blue] (p) edge[->] (s) ;
+	\draw[line width=1.25pt,color=blue] (p) edge[->] (t) ;
+	\draw[line width=1.25pt,color=blue] (f) edge[->] (s) ;
+	\draw[line width=1.25pt] (s) edge[->] (t) ;
+	
+			\node at (2,3.5) {\small $ \mu^3[m,p] =$};
+	\node at (2,3) {\small $ \{ (m,p);(p,f);(f,s);(p,s);(p,t) \} $};
+\end{scope}
+	\begin{scope}[xshift=11cm,yshift=-2cm,scale=0.75]
+	\node[node_style]  (m) at (0,0) {\small m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+	\node[node_style] (p) at (2,0) {\small p} ;
+	\node[node_style] (t) at (4,0) {\small t} ;
+	\node[node_style] (l) at (0,2) {\small l} ;
+	\node[node_style] (f) at (2,2) {\small f} ;
+	\node[node_style] (s) at (4,2) {\small s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+	
+	
+	\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+	\draw[line width=1.25pt] (m) edge[->] (f) ;
+	\draw[line width=1.25pt] (m) edge[->] (p) ;
+	\draw[line width=1.25pt,color=blue] (l) edge[->] (f) ;
+	% \draw (2) edge[->, loop above] (2) ;
+	\draw[line width=1.25pt,color=blue] (p) edge[->,bend left=20] (f) ;
+	\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+	%  \draw (p) edge[->] (f) ;
+	\draw[line width=1.25pt,color=blue] (p) edge[->] (s) ;
+	\draw[line width=1.25pt] (p) edge[->] (t) ;
+	\draw[line width=2.25pt,color=blue] (f) edge[->] (s) ;
+	\draw[line width=1.25pt,color=blue] (s) edge[->] (t) ;
+	
+			\node at (2,3.5) {\small $ \mu^4[m,p] =$};
+	\node at (2,3) {\small $\{ (l,f);(f,s);(p,s);(p,f);(f,s);(s,t) \} $};
+	
+\end{scope}
+
+
+	
+\end{tikzpicture}
+\end{frame}
+
+
+
+\begin{frame}{Caminos}
+	
+Para el caso en que se exija que los arcos est\'{e}n orientados en el mismo sentido, se introduce la siguiente definici\'{o}n.
+	
+\begin{block}{Camino}
+		En un digrafo $G=(V,U)$, un \alert{camino} es una cadena con
+		todos los arcos orientados en el mismo sentido; es decir, el
+		extremo final de $u_k$ coincide con el extremo inicial de
+		$u_{k+1}$ para todo $k=1,\ldots,q-1$.
+\end{block}
+	\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+		\node[node_style]  (m) at (0,0) {m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+		\node[node_style] (p) at (2,0) {p} ;
+		\node[node_style] (t) at (4,0) {t} ;
+		\node[node_style] (l) at (0,2) {l} ;
+		\node[node_style] (f) at (2,2) {f} ;
+		\node[node_style] (s) at (4,2) {s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+		
+		
+		\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+		\draw[line width=1.25pt] (m) edge[->] (f) ;
+		\draw[line width=1.25pt] (m) edge[->] (p) ;
+		\draw[line width=1.25pt] (l) edge[->] (f) ;
+		% \draw (2) edge[->, loop above] (2) ;
+		\draw[line width=1.25pt] (p) edge[->,bend left=20] (f) ;
+		\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+		%  \draw (p) edge[->] (f) ;
+		\draw[line width=1.25pt] (p) edge[->] (s) ;
+		\draw[line width=1.25pt] (p) edge[->] (t) ;
+		\draw[line width=1.25pt] (f) edge[->] (s) ;
+		\draw[line width=1.25pt] (s) edge[->] (t) ;
+		
+		\begin{scope}[xshift=7.5cm,yshift=0cm,scale=1]
+			\node[node_style]  (m) at (0,0) {\small m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (p) at (2,0) {\small p} ;
+			\node[node_style] (t) at (4,0) {\small t} ;
+			\node[node_style] (l) at (0,2) {\small l} ;
+			\node[node_style] (f) at (2,2) {\small f} ;
+			\node[node_style] (s) at (4,2) {\small s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			
+			
+			\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw[line width=1.25pt] (m) edge[->] (f) ;
+			\draw[line width=1.25pt] (m) edge[->] (p) ;
+			\draw[line width=1.25pt] (l) edge[->] (f) ;
+			% \draw (2) edge[->, loop above] (2) ;
+			\draw[line width=1.25pt,color=blue] (p) edge[->,bend left=20] (f) ;
+			\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+			%  \draw (p) edge[->] (f) ;
+			\draw[line width=1.25pt] (p) edge[->] (s) ;
+			\draw[line width=1.25pt] (p) edge[->] (t) ;
+			\draw[line width=1.25pt,color=blue] (f) edge[->] (s) ;
+			\draw[line width=1.25pt,color=blue] (s) edge[->] (t) ;
+			
+			\node at (2,3) {\small $ \mu^2[m,p] =\{(p,f);(f,s);(s,t) \} $};
+			
+		\end{scope}
+	
+
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Cadenas y caminos}
+	\begin{itemize}
+		\item Una cadena o camino es \alert{elemental} cuando no repite v\'{e}rtices. 
+		\item Se dice \alert{simple} si no repite arcos.
+	\end{itemize}
+	
+	 \begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+		\node[node_style]  (m) at (0,0) {m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+		\node[node_style] (p) at (2,0) {p} ;
+		\node[node_style] (t) at (4,0) {t} ;
+		\node[node_style] (l) at (0,2) {l} ;
+		\node[node_style] (f) at (2,2) {f} ;
+		\node[node_style] (s) at (4,2) {s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+		
+		
+		\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+		\draw[line width=1.25pt] (m) edge[->] (f) ;
+		\draw[line width=1.25pt] (m) edge[->] (p) ;
+		\draw[line width=1.25pt] (l) edge[->] (f) ;
+		% \draw (2) edge[->, loop above] (2) ;
+		\draw[line width=1.25pt] (p) edge[->,bend left=20] (f) ;
+		\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+		%  \draw (p) edge[->] (f) ;
+		\draw[line width=1.25pt] (p) edge[->] (s) ;
+		\draw[line width=1.25pt] (p) edge[->] (t) ;
+		\draw[line width=1.25pt] (f) edge[->] (s) ;
+		\draw[line width=1.25pt] (s) edge[->] (t) ;
+		
+		\begin{scope}[xshift=6cm,yshift=2cm,scale=0.75]
+			\node[node_style]  (m) at (0,0) {\small m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (p) at (2,0) {\small p} ;
+			\node[node_style] (t) at (4,0) {\small t} ;
+			\node[node_style] (l) at (0,2) {\small l} ;
+			\node[node_style] (f) at (2,2) {\small f} ;
+			\node[node_style] (s) at (4,2) {\small s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			
+			
+			\draw[line width=1.25pt,color=blue] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw[line width=1.25pt] (m) edge[->] (f) ;
+			\draw[line width=1.25pt] (m) edge[->] (p) ;
+			\draw[line width=1.25pt,color=blue] (l) edge[->] (f) ;
+			% \draw (2) edge[->, loop above] (2) ;
+			\draw[line width=1.25pt,color=blue] (p) edge[->,bend left=20] (f) ;
+			\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+			%  \draw (p) edge[->] (f) ;
+			\draw[line width=1.25pt] (p) edge[->] (s) ;
+			\draw[line width=1.25pt] (p) edge[->] (t) ;
+			\draw[line width=1.25pt] (f) edge[->] (s) ;
+			\draw[line width=1.25pt] (s) edge[->] (t) ;
+			
+			\node at (2,3.5) {\tiny $ \mu^1[m,p] =$};
+			\node at (2,2.9) {\tiny $\{ (m,l);(l,f);(p,f) \}$};
+			\node at (2,4) {\tiny\color{red} Elemental y simple};
+		\end{scope}
+		\begin{scope}[xshift=6cm,yshift=-2cm,scale=0.75]
+			\node[node_style]  (m) at (0,0) {\small m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (p) at (2,0) {\small p} ;
+			\node[node_style] (t) at (4,0) {\small t} ;
+			\node[node_style] (l) at (0,2) {\small l} ;
+			\node[node_style] (f) at (2,2) {\small f} ;
+			\node[node_style] (s) at (4,2) {\small s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			
+			
+			\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw[line width=1.25pt] (m) edge[->] (f) ;
+			\draw[line width=1.25pt] (m) edge[->] (p) ;
+			\draw[line width=1.25pt] (l) edge[->] (f) ;
+			% \draw (2) edge[->, loop above] (2) ;
+			\draw[line width=1.25pt,color=blue] (p) edge[->,bend left=20] (f) ;
+			\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+			%  \draw (p) edge[->] (f) ;
+			\draw[line width=1.25pt] (p) edge[->] (s) ;
+			\draw[line width=1.25pt] (p) edge[->] (t) ;
+			\draw[line width=1.25pt,color=blue] (f) edge[->] (s) ;
+			\draw[line width=1.25pt,color=blue] (s) edge[->] (t) ;
+			
+			\node at (2,3.5) {\tiny $ \mu^2[m,p] =$};
+			\node at (2,3) {\tiny $ \{(p,f);(f,s);(s,t) \} $};
+			\node at (2,4) {\tiny\color{red} Elemental y simple};
+			
+		\end{scope}
+		\begin{scope}[xshift=12cm,yshift=2cm,scale=0.75]
+			\node[node_style]  (m) at (0,0) {\small m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (p) at (2,0) {\small p} ;
+			\node[node_style] (t) at (4,0) {\small t} ;
+			\node[node_style] (l) at (0,2) {\small l} ;
+			\node[node_style] (f) at (2,2) {\small f} ;
+			\node[node_style] (s) at (4,2) {\small s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			
+			
+			\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw[line width=1.25pt] (m) edge[->] (f) ;
+			\draw[line width=1.25pt,color=blue] (m) edge[->] (p) ;
+			\draw[line width=1.25pt] (l) edge[->] (f) ;
+			% \draw (2) edge[->, loop above] (2) ;
+			\draw[line width=1.25pt,color=blue] (p) edge[->,bend left=20] (f) ;
+			\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+			%  \draw (p) edge[->] (f) ;
+			\draw[line width=1.25pt,color=blue] (p) edge[->] (s) ;
+			\draw[line width=1.25pt,color=blue] (p) edge[->] (t) ;
+			\draw[line width=1.25pt,color=blue] (f) edge[->] (s) ;
+			\draw[line width=1.25pt] (s) edge[->] (t) ;
+			
+			\node at (2,3.5) {\tiny $ \mu^3[m,p] =$};
+			\node at (2,3) {\tiny $ \{ (m,p);(p,f);(f,s);(p,s);(p,t) \} $};
+			\node at (2,4) {\tiny\color{red} No elemental y sí simple};
+		\end{scope}
+		\begin{scope}[xshift=12cm,yshift=-2cm,scale=0.75]
+			\node[node_style]  (m) at (0,0) {\small m} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (p) at (2,0) {\small p} ;
+			\node[node_style] (t) at (4,0) {\small t} ;
+			\node[node_style] (l) at (0,2) {\small l} ;
+			\node[node_style] (f) at (2,2) {\small f} ;
+			\node[node_style] (s) at (4,2) {\small s} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			
+			
+			\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw[line width=1.25pt] (m) edge[->] (f) ;
+			\draw[line width=1.25pt] (m) edge[->] (p) ;
+			\draw[line width=1.25pt,color=blue] (l) edge[->] (f) ;
+			% \draw (2) edge[->, loop above] (2) ;
+			\draw[line width=1.25pt,color=blue] (p) edge[->,bend left=20] (f) ;
+			\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+			%  \draw (p) edge[->] (f) ;
+			\draw[line width=1.25pt,color=blue] (p) edge[->] (s) ;
+			\draw[line width=1.25pt] (p) edge[->] (t) ;
+			\draw[line width=2.25pt,color=blue] (f) edge[->] (s) ;
+			\draw[line width=1.25pt,color=blue] (s) edge[->] (t) ;
+			
+			\node at (2,3.5) {\small $ \mu^4[m,p] =$};
+			\node at (2,3) {\small $\{ (l,f);(f,s);(p,s);(p,f);(f,s);(s,t) \} $};
+				\node at (2,4) {\tiny\color{red} Ni elemental ni simple};
+		\end{scope}
+	\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}{Cadenas}
+\begin{columns}
+\column{0.3\textwidth}
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (1) at (0,0) {1} ;
+	\node[node_style] (2) at (0,2) {2} ;
+	\node[node_style] (3) at (3,0) {3} ;
+	\node[node_style] (4) at (3,2) {4} ;
+	\node[node_style] (5) at (1.5,4) {5} ;
+	\draw  [line width=1.5pt] (1) edge (2) ;
+	\draw  [line width=1.5pt] (1) edge (3) ;
+	\draw  [line width=1.5pt] (1) edge (4) ;
+	\draw  [line width=1.5pt] (1) edge[bend left=50] (5) ;
+	\draw  [line width=1.5pt] (2) edge (3) ;
+	\draw  [line width=1.5pt] (2) edge (4) ;
+	\draw  [line width=1.5pt] (2) edge (5) ;
+	\draw  [line width=1.5pt] (3) edge (4) ;
+	\draw  [line width=1.5pt] (3) edge[bend right=50]  (5) ;
+	\draw  [line width=1.5pt] (4) edge (5) ;
+	\only<2>{
+		\draw  [line width=1.5pt,color=red] (1) edge (2) ;
+		\draw  [line width=1.5pt,color=red] (2) edge (3) ;
+		\draw  [line width=1.5pt,color=red] (3) edge (4) ;
+		\draw  [line width=1.5pt,color=red] (4) edge (5) ;
+	}
+	\only<3>{
+		\draw  [line width=1.5pt,color=red] (1) edge (2) ;
+		\draw  [line width=1.5pt,color=red] (2) edge (3) ;
+		\draw  [line width=1.5pt,color=red] (3) edge (4) ;
+		\draw  [line width=1.5pt,color=red] (4) edge (2) ;
+		\draw  [line width=1.5pt,color=red] (2) edge (5) ;
+}
+	\only<4>{
+	\draw  [line width=1.5pt,color=red] (1) edge (2) ;
+	\draw  [line width=1.5pt,color=red] (2) edge (4) ;
+	\draw  [line width=1.5pt,color=red] (4) edge (3) ;
+	\draw  [line width=1.5pt,color=red] (3) edge (2) ;
+	\draw  [line width=1.5pt,color=red] (2) edge (1) ;
+}
+	\end{tikzpicture}
+\end{center}	
+\column{0.65\textwidth}
+\begin{gather*}
+\only<2>{\color{red}}  \{1,2\},\{2,3\},\{3,4\},\{4,5\}
+\visible<2>{\text{\quad \alert{(elemental y simple)}}}
+\\[3mm]
+\only<3>{\color{red}} \{1,2\},\{2,3\},\{3,4\},\{4,2\},\{2,5\}
+\visible<3>{\text{\quad \alert{(simple pero no elemental)}}}
+\\[3mm]
+\only<4>{\color{red}}  \{1,2\},\{2,4\},\{4,3\},\{3,2\},\{2,1\}
+\visible<4>{\text{\quad \alert{(ni elemental ni simple)}}}
+\end{gather*}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Caminos}
+	\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (a) at (0,1) {a} ;
+	\node[node_style] (b) at (2,2) {b} ;
+	\node[node_style] (c) at (2,1) {c} ;
+	\node[node_style] (d) at (2,0) {d} ;
+	\node[node_style] (e) at (4,1) {e} ;
+	\node[node_style] (f) at (6,2) {f} ;
+	\node[node_style] (g) at (6,0) {g} ;
+	\draw  [line width=1.5pt] (a) edge[->] (b) ;
+	\draw  [line width=1.5pt] (a) edge[->] (c) ;
+	\draw  [line width=1.5pt] (a) edge[->] (d) ;
+	\draw  [line width=1.5pt] (b) edge[->] (c) ;
+	\draw  [line width=1.5pt] (b) edge[->] (e) ;
+	\draw  [line width=1.5pt] (c) edge[->] (e) ;
+	\draw  [line width=1.5pt] (c) edge[->] (d) ;
+	\draw  [line width=1.5pt] (c) edge[->] (g) ;
+	\draw  [line width=1.5pt] (c) edge[->] (g) ;
+	\draw  [line width=1.5pt] (e) edge[->] (f) ;
+	\draw  [line width=1.5pt] (e) edge[->] (g) ;
+	\draw  [line width=1.5pt] (f) edge[->] (b) ;
+	\draw  [line width=1.5pt] (f) edge[->,bend right=20] (g) ;
+	\draw  [line width=1.5pt] (g) edge[->,bend right=20] (f) ;
+	\draw  [line width=1.5pt] (g) edge[->] (d) ;
+	\only<2>{
+		\draw  [line width=1.5pt,color=red] (a) edge[->] (b) ;
+		\draw  [line width=1.5pt,color=red] (b) edge[->] (c) ;
+		\draw  [line width=1.5pt,color=red] (c) edge[->] (e) ;
+		\draw  [line width=1.5pt,color=red] (e) edge[->] (f) ;
+	}
+	\only<3>{
+	\draw  [line width=1.5pt,color=red] (c) edge[->] (g) ;
+	\draw  [line width=1.5pt,color=red] (g) edge[->,bend right=20] (f) ;
+	\draw  [line width=1.5pt,color=red] (f) edge[->] (b) ;
+	\draw  [line width=1.5pt,color=red] (b) edge[->] (c) ;
+	\draw  [line width=1.5pt,color=red] (c) edge[->] (e) ;
+	}
+	\only<4>{
+	\draw  [line width=1.5pt,color=red] (c) edge[->] (e) ;
+	\draw  [line width=1.5pt,color=red] (e) edge[->] (f) ;
+	\draw  [line width=1.5pt,color=red] (f) edge[->] (b) ;
+	\draw  [line width=1.5pt,color=red] (b) edge[->] (c) ;
+	\draw  [line width=2.5pt,color=red] (c) edge[->] (e) ;
+	\draw  [line width=1.5pt,color=red] (e) edge[->] (g) ;
+	}
+	
+	\end{tikzpicture}
+\end{center}	
+\begin{gather*}
+\only<2>{\color{red}}  (a,b),(b,c),(c,e),(e,f) 
+\visible<2>{\text{\quad \alert{(elemental y simple)}}}
+\\
+\only<3>{\color{red}}  (c,g),(g,f),(f,b),(b,c),(c,e)
+\visible<3>{\text{\quad \alert{(simple pero no elemental)}}}
+\\
+\only<4>{\color{red}}  (c,e),(e,f),(f,b),(b,c),(c,e),(e,g)
+\visible<4>{\text{\quad \alert{(ni elemental ni simple)}}}
+\end{gather*}
+\end{frame}
+
+
+\begin{frame}{Cadenas}
+	%%%%%%%%%%%
+	
+	\alert{Longitud de una cadena.-} n\'umero de arcos que la
+	componen
+	
+	\alert{Distancia geod\'esica entre dos nodos.-} longitud de la cadena m\'as corta que los une.
+	
+	\alert{Di\'ametro de un grafo.-} mayor distancia geod\'esica entre dos nodos.
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (1) at (0,1) {1} ;
+			\node[node_style] (2) at (1.25,2.25) {2} ;
+			\node[node_style] (3) at (1.5,0) {3} ;
+			\node[node_style] (4) at (4.5,2.5) {4} ;
+			\node[node_style] (5) at (4.75,-0.25) {5} ;
+			\draw  [line width=1.5pt] (1) edge[->,bend right=50] (5) ;
+			\draw  [line width=1.5pt] (1) edge[->] (2) ;
+			\draw  [line width=1.5pt] (2) edge[->,bend left=20] (3) ;
+			\draw  [line width=1.5pt] (2) edge[->] (4) ;
+			\draw  [line width=1.5pt] (2) edge[->] (5) ;
+			\draw  [line width=1.5pt] (3) edge[->] (1) ;
+			\draw  [line width=1.5pt] (3) edge[->,bend left=20] (2) ;
+			\draw  [line width=1.5pt] (3) edge[->] (5) ;
+			\draw  [line width=1.5pt] (4) edge[->] (3) ;
+			\draw  [line width=1.5pt] (5) edge[->] (4) ;
+		\end{tikzpicture}
+		
+		El di\'ametro de este grafo es 2
+	\end{center}	
+\end{frame}
+
+\subsection{Conectividad}
+
+\begin{frame}{Conectividad}
+Un grafo es  \alert{conexo} si entre cualquier par de vértices existe una cadena.
+\\[4mm]
+Un digrafo es  \alert{fuertemente conexo} si entre cualquier par de vertices existe un camino.
+\\[8mm]
+Este digrafo es conexo pero no fuertemente conexo (desde el  vértice $d$ no existen caminos hasta ning\'un otro vértice del digrafo).
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (a) at (0,1) {a} ;
+	\node[node_style] (b) at (2,2) {b} ;
+	\node[node_style] (c) at (2,1) {c} ;
+	\node[node_style] (d) at (2,0) {d} ;
+	\node[node_style] (e) at (4,1) {e} ;
+	\node[node_style] (f) at (6,2) {f} ;
+	\node[node_style] (g) at (6,0) {g} ;
+	\draw  [line width=1.5pt] (a) edge[->] (b) ;
+	\draw  [line width=1.5pt] (a) edge[->] (c) ;
+	\draw  [line width=1.5pt] (a) edge[->] (d) ;
+	\draw  [line width=1.5pt] (b) edge[->] (c) ;
+	\draw  [line width=1.5pt] (b) edge[->] (e) ;
+	\draw  [line width=1.5pt] (c) edge[->] (e) ;
+	\draw  [line width=1.5pt] (c) edge[->] (d) ;
+	\draw  [line width=1.5pt] (c) edge[->] (g) ;
+	\draw  [line width=1.5pt] (c) edge[->] (g) ;
+	\draw  [line width=1.5pt] (e) edge[->] (f) ;
+	\draw  [line width=1.5pt] (e) edge[->] (g) ;
+	\draw  [line width=1.5pt] (f) edge[->] (b) ;
+	\draw  [line width=1.5pt] (f) edge[->,bend right=20] (g) ;
+	\draw  [line width=1.5pt] (g) edge[->,bend right=20] (f) ;
+	\draw  [line width=1.5pt] (g) edge[->] (d) ;
+	\end{tikzpicture}
+\end{center}	
+\end{frame}
+
+\begin{frame}{Conectividad}
+\begin{itemize}
+	\item Se puede definir una relaci\'on entre vértices:
+	$$
+	\forall i,j\in V, iRj\Longleftrightarrow \exists \text{ una cadena entre $i$ y $j$}
+	$$
+	\item La relaci\'on $R$ es una relaci\'on de equivalencia (reflexiva, sim\'etrica y transitiva).
+	\item Las clases de esta relaci\'on definen las \alert{componentes conexas} del digrafo (grafo).
+\end{itemize}
+  \centering
+\begin{tikzpicture}[scale=0.8,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	
+	\node[node_style] (a) at (0,0) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+	\node[node_style] (b) at (2,-2) {b} ;
+	\node[node_style] (c) at (2,2) {c} ;
+	\node[node_style] (d) at (4,0) {d} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+	\node[node_style] (e) at (6,2) {e} ;
+	\node[node_style] (f) at (8,0) {f} ;
+	\node[node_style] (g) at (6,-2) {g} ;
+	
+	\draw [line width=1pt]  (b) edge (a) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+	\draw[line width=1pt] (b) edge (c) ;
+	\draw[line width=1pt] (b) edge (d) ;
+	\draw[line width=1pt] (d) edge (c) ;
+	\draw[line width=1pt] (e) edge (f) ;
+	\draw[line width=1pt] (f) edge (g) ;
+	
+	\node at (12,0.5) {\small Grafo con dos};
+	\node at (12,0) {\small componentes conexas};
+	
+	
+	
+	
+\end{tikzpicture}
+\end{frame}
+\begin{frame}{Ciclos y circuitos. \'Arboles}
+\begin{itemize}\itemsep 3mm
+\item Un  \alert{ciclo} es una cadena simple cuyos nodos inicial y final coinciden.
+\item Una \alert{bucle} es un ciclo con una única arista.
+\item Un  \alert{circuito} es un camino simple en el que los nodos inicial y final coinciden.
+\item Un  \alert{\'arbol} es un grafo conexo sin ciclos.
+	\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (a) at (0,1) {a} ;
+	\node[node_style] (b) at (1,2) {b} ;
+	\node[node_style] (c) at (1,1) {c} ;
+	\node[node_style] (d) at (1,0) {d} ;
+	\node[node_style] (e) at (2,1) {e} ;
+	\node[node_style] (f) at (3,2) {f} ;
+	\node[node_style] (g) at (3,0) {g} ;
+	\draw  [line width=1.5pt] (a) edge (b) ;
+	\draw  [line width=1.5pt] (a) edge (c) ;
+	\draw  [line width=1.5pt] (b) edge (e) ;
+	\draw  [line width=1.5pt] (c) edge (d) ;
+	\draw  [line width=1.5pt] (c) edge (g) ;
+	\draw  [line width=1.5pt] (c) edge (g) ;
+	\draw  [line width=1.5pt] (f) edge (g) ;
+	\end{tikzpicture}\qquad\qquad\qquad
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (a) at (1,1) {a} ;
+			\node[node_style] (b) at (0,0) {b} ;
+			\node[node_style] (c) at (0,1) {c} ;
+			\node[node_style] (d) at (0,2) {d} ;
+			\node[node_style] (e) at (1,2) {e} ;
+			\node[node_style] (f) at (1,0) {f} ;
+			\node[node_style] (g) at (2,0) {g} ;
+			\node[node_style] (h) at (2,1) {h} ;
+			\node[node_style] (i) at (2,2) {i} ;
+\draw  [line width=1.5pt] (a) edge (b) ;
+\draw  [line width=1.5pt] (a) edge (c) ;
+\draw  [line width=1.5pt] (a) edge (d) ;
+\draw  [line width=1.5pt] (a) edge (e) ;
+\draw  [line width=1.5pt] (a) edge (f) ;
+\draw  [line width=1.5pt] (a) edge (g) ;
+\draw  [line width=1.5pt] (a) edge (h) ;
+\draw  [line width=1.5pt] (a) edge (i) ;
+\end{tikzpicture}
+\end{center}	
+\end{itemize}
+%%
+\end{frame}
+
+\begin{frame}{Ciclos y circuitos}
+	Algunas propiedades de los grafos asociadas a los ciclos:
+	\begin{itemize}\itemsep 5mm
+		\item Un grafo conexo con $n = |V| > 1$ sin v\'{e}rtices pendientes tiene al menos un ciclo.
+		\item Un grafo conexo con $n > 1$ v\'{e}rtices y sin ciclos tiene al menos un v\'{e}rtice pendiente.
+		\item Dado un grafo conexo, una arista $e \in E$ pertenece a un ciclo $\mu$ si y solo si su eliminaci\'{o}n no desconecta el grafo.
+	\end{itemize}
+\end{frame}
+
+\section{Representaci\'{o}n de grafos}
+
+
+\begin{frame}{Introducción}
+	\begin{itemize}\itemsep 3mm
+		\item La forma de representar un grafo es muy importante. 
+		\item Un tipo de grafos especiales son los grafos planares  (se pueden representar en un plano)
+		\item Pero lo más importante es la representaci\'{o}n codificada de un grafo, para su manipulaci\'{o}n en un ordenador.
+	\end{itemize}
+\end{frame}
+
+\subsection{Representaci\'{o}n geom\'{e}trica. Grafo planar}
+
+\begin{frame}{Representaci\'{o}n geom\'{e}trica. Grafo planar}
+	\begin{itemize}\itemsep 3mm
+		\item Una propiedad deseable a la hora de {\em dibujar} un grafo es que se pueda hacer sin que las aristas se corten, salvo que sean adyacentes y lo hagan en el extremo com\'{u}n.
+		\item Un grafo que tenga esta propiedad se dice que es un \alert{grafo planar}.
+		\item $K_4$, es un grafo planar si se dibujan convenientemente las aristas:
+		\begin{center}
+			
+			\begin{tabular}{cc}
+				\begin{tikzpicture} [node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1},line width=1pt]
+					\node[node_style]  (a) at (0,0) {a} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+					\node[node_style] (d) at (2,0) {d} ;
+					\node[node_style] (c) at (2,2) {c} ;
+					\node[node_style] (b) at (0,2) {b} ;
+					\draw (a) edge (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw (a) edge (c) ;
+					\draw (a) edge (d) ;
+					\draw (b) edge (c) ;
+					\draw (b) edge (d) ;
+					\draw (c) edge (d) ;
+				\end{tikzpicture}
+				&
+				\begin{tikzpicture} [node_style/.style={scale=1.1,draw,circle,minimum size=0.5cm,inner sep=1}]
+					\node[node_style]  (a) at (1,1) {a} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+					\node[node_style] (d) at (2,0) {d} ;
+					\node[node_style] (c) at (2,2) {c} ;
+					\node[node_style] (b) at (0,2) {b} ;
+					
+					\draw (a) edge (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw (a) edge (c) ;
+					\draw (a) edge (d) ;
+					\draw (b) edge (c) ;
+					\draw (b) edge[bend right=40]  (d) ;
+					\draw (c) edge (d) ;
+				\end{tikzpicture}
+			\end{tabular}
+		\end{center}
+		\item También son planares $K_2$, $K_3$, pero $K_n$ con $n\geq 5$ ya son planares. 
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Representaci\'{o}n geom\'{e}trica. Grafo planar}
+	\begin{itemize}\itemsep 5mm
+		\item M\"{o}bius, durante una clase en 1840, present{\'{o}} el siguiente
+		problema en forma de cuento: 
+		\begin{center}
+			\begin{minipage}{0.8\textwidth}
+				\em Hab{\'{i}}a un rey que ten{\'{i}}a 5 hijos;
+				en su testamento dej{\'{o}} escrito que a su muerte se dividiera el reino
+				en 5 regiones para que fueran asignadas a cada uno de sus hijos,
+				pero que ten{\'{i}}an que tener todas ellas frontera con las otras 4
+				regiones. 
+			\end{minipage}
+		\end{center}
+		\item ¿Es posible cumplir este testamento?
+		\begin{itemize}\itemsep 3mm
+			\item<2> La respuesta es NO:  la solución se puede representar mediante un grafo con 5 vértices (uno por región) y una arista entre cada par de regiones con adyacente.
+			\item<2> Esto da lugar a un grafo completo con $5$ vértices, un $K_5$, que no puede ser planar.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Grafos bipartitos}
+	Otro tipo de grafos interesantes al analizar la planaridad son los \alert{grafos bipartitos completos}
+	\begin{block}{Dudeney (1958)}
+		¿Se puede suministrar agua (A), gas (G) y electricidad (E) a tres  casas ($C_1 , C_2 , C_3$) sin que se crucen las distintas conducciones?
+	\end{block}
+	\pause
+	La respuesta es negativa
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=0.7,line width=1pt,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (f1) at (0,4) {\color{red} A} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (f2) at (0,2) {\color{red} G} ;
+			\node[node_style] (f3) at (0,0) {\color{red} E} ;
+			\node[node_style] (c1) at (4,4) {$C_1$} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (c2) at (4,2) {$C_2$} ;
+			\node[node_style] (c3) at (4,0) {$C_3$} ;
+			
+			\draw (f1) edge (c1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw (f1) edge (c2) ;
+			\draw (f1) edge (c3) ;
+			\draw (f2) edge (c1) ;
+			\draw (f2) edge (c2) ;
+			\draw (f2) edge (c3) ;
+			\draw (f3) edge (c1) ;
+			\draw (f3) edge (c2) ;
+			\draw (f3) edge (c3) ;
+			\begin{scope}[xshift=6cm]
+				\node[node_style] (f1) at (7,2) {\color{red} A} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (f2) at (0,2) {\color{red} G} ;
+				\node[node_style] (f3) at (3,1) {\color{red} E} ;
+				\node[node_style] (c1) at (4,4) {$C_1$} ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (c2) at (4,2) {$C_2$} ;
+				\node[node_style] (c3) at (4,0) {$C_3$} ;
+				
+				\draw (f1) edge (c1) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (f1) edge (c2) ;
+				\draw (f1) edge (c3) ;
+				\draw (f2) edge (c1) ;
+				\draw (f2) edge (c2) ;
+				\draw (f2) edge (c3) ;
+				\draw (f3) edge (c1) ;
+				\draw (f3) edge (c2) ;
+				\draw (f3) edge (c3) ;
+			\end{scope}
+			
+		\end{tikzpicture}
+	\end{center}	
+\end{frame}
+
+
+\begin{frame}{Grafos bipartitos}
+	\begin{itemize}\itemsep 5mm
+		\item 	Un grafo $G=(V,E)$ se dice que es \alert{bipartito} si el
+		conjunto de v\'{e}rtices $V$ admite una partici\'{o}n $$ V = V_1 \cup V_2
+		\qquad V_1 \cap V_2 = \emptyset $$ \noindent de forma que todas
+		las aristas tienen un extremo en $V_1$ y el otro en $V_2$.
+		\item Un \alert{grafo bipartito completo} es un grafo bipartito
+		$G=(V_1 \cup V_2,E)$ verificando  $$ \{ v_1 , v_2 \} \in E \qquad
+		\forall v_1 \in V_1 \ , \  \forall v_2 \in V_2 $$
+		\item 
+		Un grafo bipartito completo y simple verificando $|V_1|=n_1$ y
+		$|V_2|=n_2$ se denota por $K_{n_1,n_2}$.
+	\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Homeomorfismos en grafos}
+	
+	\begin{block}{Grafos homeomórficos}
+		Dos grafos $G_1$ y $G_2$ son \alert{homeom\'{o}rficos} si uno de ellos se puede obtener a partir del otro insertando o borrando v\'{e}rtices de grado $2$.
+	\end{block}
+	El siguiente resultado permite caracterizar la no planaridad de un grafo:
+	\begin{block}{Teorema (Kuratowski, 1930)}
+		Un grafo es no planar $\Longleftrightarrow $ contiene un grafo parcial
+		homeom\'{o}rfico a $K_5$ \'{o} $K_{3,3}$.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Grafo de Petersen}
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{itemize}
+			\item Es un grafo regular de grado 3 (todos los vértices tienen grado 3)
+			\item Dos vértices adyacentes no tienen vecinos en común.
+			\item Dos vértices no adyacentes tienen exactamente un vecino en común.
+		\end{itemize}
+		\column{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture} [line width=1pt,node_style/.style={scale=0.8,draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (e) at (0,0) {e}  ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (j) at (1,0) {j} ;
+				\node[node_style] (g) at (3,0) {g} ;
+				\node[node_style] (b) at (4,0) {b} ;
+				\node[node_style] (a) at (2,2) {a} ;
+				\node[node_style] (f) at (2,1) {f} ;
+				\node[node_style] (i) at (1.5,-1) {i} ;
+				\node[node_style] (h) at (2.5,-1) {h} ;
+				\node[node_style] (d) at (1,-2) {d} ;
+				\node[node_style] (c) at (3,-2) {c} ;
+				
+				\draw (a) edge (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (b) edge (c) ;
+				\draw (c) edge (d) ;
+				\draw (d) edge (e) ;
+				\draw (e) edge (a) ;
+				
+				\draw (a) edge (f) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw (b) edge (g) ;
+				\draw (c) edge (h) ;
+				\draw (d) edge (i) ;
+				\draw (e) edge (j) ;
+				
+				\draw (f) edge (h) ;
+				\draw (h) edge (j) ;
+				\draw (j) edge (g) ;
+				\draw (g) edge (i) ;
+				\draw (i) edge (f) ;
+				
+				\only<2>{
+					\node[node_style,blue] (e) at (0,0) {e}  ; % etiqueta encima del vértice \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+					\node[node_style,red] (j) at (1,0) {j} ;
+					\node[node_style,blue] (b) at (4,0) {b} ;
+					\node[node_style,red] (a) at (2,2) {a} ;
+					\node[node_style,blue] (f) at (2,1) {f} ;
+					\node[node_style,red] (d) at (1,-2) {d} ;
+					\node[node_style,orange] (g) at (3,0) {g} ;
+					\node[node_style,orange] (i) at (1.5,-1) {i} ;
+					\node[node_style,orange] (h) at (2.5,-1) {h} ;
+					
+					
+					\draw[orange] (a) edge (b) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw[orange] (b) edge (c) ;
+					\draw[orange] (c) edge (d) ;
+					\draw[orange] (d) edge (e) ;
+					\draw[orange] (e) edge (a) ;
+					
+					\draw[orange] (a) edge (f) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+					\draw[orange] (b) edge (g) ;
+					\draw[lightgray] (c) edge (h) ;
+					\draw[orange] (d) edge (i) ;
+					\draw[orange] (e) edge (j) ;
+					
+					\draw[orange] (f) edge (h) ;
+					\draw[orange] (h) edge (j) ;
+					\draw[orange] (j) edge (g) ;
+					\draw[lightgray] (g) edge (i) ;
+					\draw[orange] (i) edge (f) ;
+				}
+				
+				
+				
+			\end{tikzpicture}
+			
+			\bigskip
+			
+			\visible<2>{No planar, ya que es contiene un grafo parcial homeom\'{o}rfico a $K_{3,3}$, donde $V_1 = \{ j,a,d \}$ y $V_2 = \{ e,f,b \}$}
+		\end{center}
+	\end{columns}
+	
+\end{frame}
+
+\begin{frame}{Teorema de Euler}
+	A partir del resultado anterior, se observa que un grafo con muchas aristas
+	es m\'{a}s dif\'{\i}cil que sea planar que otro con menos aristas.
+	
+	
+	\begin{block}{Regiones en grafos planares}
+		Dado un grafo planar, se definen las \alert{regiones} por las zonas del
+		plano donde se representa el grafo limitadas por aristas.
+		
+		Siempre hay una regi\'{o}n no acotada exterior al grafo.
+	\end{block}
+	
+	
+	
+	\begin{block}{Teorema de Euler}
+		Dado un grafo $G=(V,E)$ planar conexo con $|V|=n $
+		v\'{e}rtices y $|E|=m $ aristas, si $r$ es el n\'{u}mero de regiones
+		determinadas por $G$, incluida la no acotada, se verifica la
+		relaci\'{o}n $$ n + r = m + 2 $$
+	\end{block}
+\end{frame}
+\begin{comment}
+\begin{frame}{Teorema de Euler. Demostración}
+	Por inducción sobre el número de aristas, $m$:
+	\begin{itemize}\itemsep 5mm
+		\item \alert{$m=1$:} 
+		\begin{itemize}\itemsep 2mm
+			\item   Una arista cuyos extremos coinciden $e=\{ 1,1 \}$.
+			
+			En este caso se verifica la relaci\'{o}n al ser $n =1$, $m=1$ y $r=2$
+			
+			\item  Una arista con extremos distintos $e = \{ 1,2 \}$.
+			
+			En este caso se verifica tambi\'{e}n la relaci\'{o}n al ser $n =2$, $m=1$ y $r=1$
+		\end{itemize}
+		
+		\item Asumimos que es cierto para \alert{$m=k$}, es decir, que en un grafo con $k$ aristas verifica $n+r=k+2$.
+		
+		\item ¿Es cierto para \alert{$m=k+1$}?
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Teorema de Euler. Demostración}
+	
+	Sea $G=(V,E)$ el grafo con $n$ v\'{e}rtices, $k+1$ aristas y $r$ regiones. 
+	Hay dos posibilidades:
+	\begin{itemize}\itemsep 2mm
+		\item $G$ tiene un v\'{e}rtice pendiente: $a \in V$ tal que $d(a)=1$.
+		\begin{itemize}\itemsep 1mm
+			\item Sea $G_a$ el subgrafo generado por $V\setminus\{ a \}$.
+			\item Al ser $a$ un v\'{e}rtice pendiente, $G_a$ tiene $n-1$ v\'{e}rtices, $k$ aristas y
+			mantiene el n\'{u}mero de regiones $r$. ´
+			\item Por hipótesis de inducción $(n-1) + r = k + 2$
+			\item Esto es equivalente a $ n + r= (k + 1) + 2$, que es lo que se quería demostrar.
+		\end{itemize}
+		\item $G$ no tiene v\'{e}rtices pendientes:
+		\begin{itemize}\itemsep 1mm
+			\item 	Un grafo no trivial ($n > 1$) sin v\'{e}rtices pendientes contiene al menos un ciclo $\mu \subset E$.
+			\item Por tanto, existe una arista $\{ a,b \} \in \mu$  que cierra una regi\'{o}n finita cuyos bordes son las aristas del ciclo.
+			\item Sea $G_{a,b}$ el grafo parcial obtenido al eliminar la arista $\{ a,b \}$.
+			\item $G_{a,b}$ tiene $n$ vértices, $k$ aristas y $r-1$ regiones.
+			\item Por hipótesis de inducción: $n+r-1=k+2$
+			\item Esto es equivalente a $ n + r = (k + 1) + 2$, que es lo que se quería demostrar.
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+\end{comment}
+
+\begin{frame}{Teorema de Euler}
+	\begin{block}{Corolario}
+		Si $G=(V,E)$ es un grafo planar conexo y simple ($1$-grafo sin bucles) con $|V|=n$ v\'{e}rtices, $|E|=m \geq 2$ 	aristas y $r$ regiones, se verifica entonces que $$ 3 r \leq 2 m\qquad m \leq 3 n - 6 $$
+	\end{block}
+
+%	\alert{\bf Demostraci\'{o}n}
+%	\begin{itemize}\itemsep 3mm
+%		\item Al no tener bucles y ser un $1$-grafo, la frontera de cualquier regi\'{o}n (incluida la no acotada) tiene al menos $3$ aristas. Se excluyen aqu\'{\i} los casos $m=0$ y $m=1$.
+%		\item Sea $inc$ al n\'{u}mero de incidencias regi\'{o}n-arista: se contabiliza as\'{\i} el n\'{u}mero de contactos entre cada arista y la regi\'{o}n que \'{e}sta delimita.
+%		\item Cada arista aporta $2$ incidencias, por lo que $inc = 2m$ (Puede darse el caso de que las dos incidencias de una arista se produzcan en la misma regi\'{o}n).
+%	\end{itemize}
+%\end{frame}
+%
+%\begin{frame}{Teorema de Euler}
+%	\begin{itemize}\itemsep 3mm
+%		\item Cada regi\'{o}n tiene al menos tres contactos con aristas, independientemente del n\'{u}mero de regiones.
+%		\item Por tanto, $ inc \geq 3 r $, es decir $3r\leq 2m$.
+%		\item Por el teorema de Euler: 
+%		$$
+%		n + r = m + 2
+%		\Longleftrightarrow r = m - n + 2 
+%		\Longleftrightarrow 3 r = 3 (m - n + 2) $$
+%		\item Por tanto, $$  3 m - 3 n + 6 \leq 2 m
+%		\Longleftrightarrow m \leq 3 n - 6 $$
+%	\end{itemize}
+%	\begin{flushright} $\bullet$ \end{flushright}
+%\end{frame}
+%
+%\begin{frame}{Teorema de Euler}
+
+	\begin{itemize}\itemsep 5mm
+		\item Este corolario aporta una condici\'{o}n necesaria de planaridad.
+		\item Permite identificar algunos grafos no planares.
+		\item Por ejemplo, para el grafo $K_5$ (simple y conexo) con $n=5$ y $m=10$, resulta:
+		$$ 
+		10 \nleq 3 \times 5 - 6 = 9 
+		$$
+		\item Pero al no ser una condición suficiente, hay grafos no planares que sí las verifican, como el $K_{3,3}$.
+	\end{itemize}
+\end{frame}
+
+
+\subsection{Representaci\'on matricial}
+
+\begin{frame}{Matriz de incidencia}
+	\begin{block}{Matriz de incidencia de un grafo}
+		La \alert{matriz de incidencia}  $G=(V,E)$ con $n$ v\'{e}rtices y $m$ aristas es una matriz $A = (a_{ik})$ con
+		$i \in \{ 1, \ldots , n \}$ y $k \in \{ 1, \ldots , m \}$ verificando
+		$$
+		a_{ik} = \left\{ \begin{array}{rl} 1 & e_k= \{ i,* \} \in E \\
+			0 & \text{en  otro  caso} \end{array}
+		\right.
+		$$
+	\end{block}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[
+				scale=0.8,
+				node_style/.style={draw,circle,minimum size=0.6cm,inner sep=0.75}
+				]
+				\node[node_style] (1) at (0,4) {1} ;
+				\node[node_style] (2) at (4,4) {2} ;
+				\node[node_style] (3) at (0,0) {3} ;
+				\node[node_style] (4) at (4,0) {4} ;
+				\begin{scope}[noded/.style={fill=white,circle,inner sep=1}]
+					
+					\draw  [line width=1.5pt] (1) edge node[noded]{\footnotesize 1}  (2) ;
+					\draw  [line width=1.5pt] (1) edge node[noded]{\footnotesize 2} (3) ;
+					\draw  [line width=1.5pt] (2) edge node[noded]{\footnotesize 3} (3) ;
+					\draw  [line width=1.5pt] (2) edge node[noded]{\footnotesize 4} (4) ;
+					\draw  [line width=1.5pt] (3) edgenode[noded]{\footnotesize 5} (4) ;
+				\end{scope}
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{.5\textwidth}
+		$$A=\left(\begin{array}{rrrrr}
+			1 & 1 & 0 & 0 & 0 \\
+			1 & 0 & 1 & 1 & 0 \\
+			0 & 1 & 1 & 0 & 1 \\
+			0 & 0 & 0 & 1 & 1 \end{array}\right)$$
+		%	
+		%	$$A=\left(\begin{array}{rrrr}
+			%		0 & 1 & 1 & 0 \\
+			%		1 & 0 & 1 & 1 \\
+			%		1 & 1 & 0 & 1 \\
+			%		0 & 1 & 1 & 0 \end{array}\right)$$
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Matriz de incidencia}
+	\begin{block}{Matriz de incidencia de un digrafo}
+		La \alert{matriz de incidencia}  $G=(V,U)$ con $n$ v\'{e}rtices y $m$ arcos es una matriz $A = (a_{ik})$ con
+		$i \in \{ 1, \ldots , n \}$ y $k \in \{ 1, \ldots , m \}$ verificando
+		$$
+		a_{ik} = \left\{ \begin{array}{rl} 1 & u_k=(i,*) \in U \\
+			-1 & u_k = (*,i) \in U \\ 0 & \text{en  otro  caso}\end{array}
+		\right.
+		$$
+	\end{block}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[
+				scale=0.75,
+				node_style/.style={draw,circle,minimum size=0.6cm,inner sep=0.75},
+				noded/.style={fill=white,circle,inner sep=1}
+				]
+				\node[node_style] (1) at (0,4) {1} ;
+				\node[node_style] (2) at (4,4) {2} ;
+				\node[node_style] (3) at (0,0) {3} ;
+				\node[node_style] (4) at (4,0) {4} ;
+				\draw  [line width=1.5pt] (1) edge[->] node[noded]{\footnotesize 1}  (2) ;
+				\draw  [line width=1.5pt] (3) edge[->] node[noded]{\footnotesize 2} (1) ;
+				\draw  [line width=1.5pt] (3) edge[->] node[noded]{\footnotesize 3} (2) ;
+				\draw  [line width=1.5pt] (2) edge[->] node[noded]{\footnotesize 4} (4) ;
+				\draw  [line width=1.5pt] (4) edge[->] node[noded]{\footnotesize 5} (3) ;
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{.5\textwidth}
+		$$
+		A=\left(\begin{array}{rrrrr}
+			-1 &  1 &  0 &  0 &  0 \\
+			1 &  0 &  1 & -1 &  0 \\
+			0 & -1 & -1 &  0 &  1 \\
+			0 &  0 &  0 &  1 & -1 \end{array}\right)$$
+	\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Matriz de adyacencia}
+	\begin{block}{Matriz de adyacencia de un grafo}
+		La \alert{matriz de adyacencia}  $G=(V,E)$ con $n$ v\'{e}rtices y $m$ aristas es una matriz $B = (b_{ik})$ con $i ,k \in \{ 1, \ldots , n \}$ verificando
+		$$ 
+		b_{ij} = \left\{ \begin{array}{rl} 1 & (i,j) \in E \\
+			0 & (i,j) \not\in E \end{array}
+		\right.
+		$$
+	\end{block}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[
+				scale=0.8,
+				node_style/.style={draw,circle,minimum size=0.6cm,inner sep=0.75}
+				]
+				\node[node_style] (1) at (0,4) {1} ;
+				\node[node_style] (2) at (4,4) {2} ;
+				\node[node_style] (3) at (0,0) {3} ;
+				\node[node_style] (4) at (4,0) {4} ;
+				\begin{scope}[noded/.style={fill=white,circle,inner sep=1}]
+					
+					\draw  [line width=1.5pt] (1) edge node[noded]{\footnotesize 1}  (2) ;
+					\draw  [line width=1.5pt] (1) edge node[noded]{\footnotesize 2} (3) ;
+					\draw  [line width=1.5pt] (2) edge node[noded]{\footnotesize 3} (3) ;
+					\draw  [line width=1.5pt] (2) edge node[noded]{\footnotesize 4} (4) ;
+					\draw  [line width=1.5pt] (3) edgenode[noded]{\footnotesize 5} (4) ;
+				\end{scope}
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{.5\textwidth}
+		$$B=\left(\begin{array}{rrrr}
+			0 & 1 & 1 & 0 \\
+			1 & 0 & 1 & 1 \\
+			1 & 1 & 0 & 1 \\
+			0 & 1 & 1 & 0 \end{array}\right)$$
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Matriz de adyacencia}
+	\begin{block}{Matriz de adyacencia de un digrafo}
+		La \alert{matriz de adyacencia}  $G=(V,U)$ con $n$ v\'{e}rtices y $m$ arcos es una matriz $B = (a_{ik})$ con $i,k \in \{ 1, \ldots , n \}$ verificando
+		$$
+		b_{ik} = \left\{ 
+		\begin{array}{rl} 
+			1 & (i,k) \in U 
+			\\ 
+			0 & \text{en  otro  caso}
+		\end{array}
+		\right.
+		$$
+	\end{block}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[
+				scale=0.75,
+				node_style/.style={draw,circle,minimum size=0.6cm,inner sep=0.75},
+				noded/.style={fill=white,circle,inner sep=1}
+				]
+				\node[node_style] (1) at (0,4) {1} ;
+				\node[node_style] (2) at (4,4) {2} ;
+				\node[node_style] (3) at (0,0) {3} ;
+				\node[node_style] (4) at (4,0) {4} ;
+				\draw  [line width=1.5pt] (1) edge[->] node[noded]{\footnotesize 1}  (2) ;
+				\draw  [line width=1.5pt] (3) edge[->] node[noded]{\footnotesize 2} (1) ;
+				\draw  [line width=1.5pt] (3) edge[->] node[noded]{\footnotesize 3} (2) ;
+				\draw  [line width=1.5pt] (2) edge[->] node[noded]{\footnotesize 4} (4) ;
+				\draw  [line width=1.5pt] (4) edge[->] node[noded]{\footnotesize 5} (3) ;
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{.5\textwidth}
+		$$
+		B=\left(\begin{array}{rrrr}
+			0 & 1 & 0 & 0 \\
+			0 & 0 & 0 & 1 \\
+			1 & 1 & 0 & 0 \\
+			0 & 0 & 1 & 0 \end{array}\right)
+		$$
+	\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Representación matricial}
+	\begin{itemize}\itemsep 3mm
+		\item  Las dos representaciones (adyacencia e incidencia) son ineficientes y requieren una gran cantidad de memoria para representar grafos de grandes dimensiones
+		\item Por ejemplo, para un grafo con $n=10000$ y $m=30000$, se necesitan		
+		$$ 
+		10000 \cdot 30000 \cdot 1 \ bytes = 3 \cdot 10^8 bytes \simeq
+		300000 \ Kb = 300 \ Mb 
+		$$
+		\item Son matrices muy poco densas (con pocos elementos no nulos)
+		\item La matriz de adyacencia de un grafo es simétrica y esto permite reducir la información a guardar.
+		\item Las definiciones anteriores son válidas para (di)grafos simples (sin bucles y multiplicidad 1), pero se pueden generalizar fácilmente.
+	\end{itemize}
+\end{frame}
+
+\subsection{Representación vectorial}
+
+
+\begin{frame}{Representación vectorial de Digrafos}
+	\begin{itemize}\itemsep 5mm
+		\item Para representar un digrafo $G=(V,U)$ con $n$ vértices y $M$ arcos, se utilizan solo dos vectores:
+		\begin{itemize}\itemsep 2mm
+			\item $\alpha$ de dimensión  $n+1$, 
+			\item $\beta$ de dimensión $m$.
+		\end{itemize}
+		\item El ahorro de memoria se logra ordenando previamente los vértices y los arcos
+		\item Si los vértices no tienen un orden natural, siempre se puede establecer uno.
+		\item Si $V=(\{ 1, \ldots ,n \}$, el conjunto de arcos $U=\{ u_1=(i_1,j_1), \ldots ,u_m=(i_m,j_m) \} )$ es tal que:
+		\begin{itemize}\itemsep 2mm
+			\item $i_1 \leq i_2 \leq \cdots \leq i_m \quad i_k \in \{ 1,\ldots,n \} \ \forall k \in \{ 1,\ldots,m \} $
+			\item $ j_k \leq j_{k+1} \quad \forall k \in \left\{ \{ 1,\ldots,m \} \ 	/ \ i_k = i_{k+1} \right\} $
+		\end{itemize}
+		(orden lexicográfico)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Representación vectorial de digrafos}{Ordenación de arcos}
+	\begin{columns}
+		\column{.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[
+				scale=0.75,
+				node_style/.style={draw,circle,minimum size=0.6cm,inner sep=0.75},
+				noded/.style={fill=white,circle,inner sep=1}
+				]
+				\node[node_style] (1) at (0,4) {1} ;
+				\node[node_style] (2) at (4,4) {2} ;
+				\node[node_style] (3) at (0,0) {3} ;
+				\node[node_style] (4) at (4,0) {4} ;
+				\draw  [line width=1.5pt] (1) edge[->] node[noded]{\footnotesize 1}  (2) ;
+				\draw  [line width=1.5pt] (3) edge[->] node[noded]{\footnotesize 3} (1) ;
+				\draw  [line width=1.5pt] (3) edge[->] node[noded]{\footnotesize 4} (2) ;
+				\draw  [line width=1.5pt] (2) edge[->] node[noded]{\footnotesize 2} (4) ;
+				\draw  [line width=1.5pt] (4) edge[->] node[noded]{\footnotesize 5} (3) ;
+			\end{tikzpicture}
+		\end{center}
+		$$
+		V=\{1,2,3,4\}
+		$$
+		$$
+		U=\{(1,2);(2,4);(3,1);(3,2);(4,3)\}
+		$$
+		\column{.6\textwidth}
+		\begin{itemize}\itemsep 5mm
+			\item El vector $\beta$ tiene en la posición $k$-ésima el vértice final del $k$-ésimo arco.
+			$$
+			\beta =(2,4,1,2,3)
+			$$
+			\item El vector $\alpha$ se construye de la siguiente manera:
+			\begin{itemize}\itemsep 3mm
+				\item En la posición $n+1$ tiene siempre el valor $m+1$.
+				\item Para las posiciones $k=n,\dots,1$: $\alpha(k)=\alpha(k+1)-d^+(i_k)$, donde $i_k$ es el $k$-ésimo vértice en $V$.
+			\end{itemize}
+			$$
+			\alpha=\{1,2,3,5,6\}
+			$$
+		\end{itemize}
+	\end{columns}
+	
+	
+\end{frame}
+
+
+\begin{frame}{Representación vectorial de digrafos}{Ordenación de arcos}
+	\begin{columns}
+		\column{.4\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[
+				scale=0.75,
+				node_style/.style={draw,circle,minimum size=0.6cm,inner sep=0.75},
+				noded/.style={fill=white,circle,inner sep=1}
+				]
+				\node[node_style] (1) at (0,4) {1} ;
+				\node[node_style] (2) at (4,4) {2} ;
+				\node[node_style] (3) at (0,0) {3} ;
+				\node[node_style] (4) at (4,0) {4} ;
+				\draw  [line width=1.5pt] (1) edge[->] node[noded]{\footnotesize 1}  (2) ;
+				\draw  [line width=1.5pt] (3) edge[->] node[noded]{\footnotesize 3} (1) ;
+				\draw  [line width=1.5pt] (3) edge[->] node[noded]{\footnotesize 4} (2) ;
+				\draw  [line width=1.5pt] (2) edge[->] node[noded]{\footnotesize 2} (4) ;
+				\draw  [line width=1.5pt] (4) edge[->] node[noded]{\footnotesize 5} (3) ;
+			\end{tikzpicture}
+		\end{center}
+		$$
+		V=\{1,2,3,4\}
+		$$
+		$$
+		U=\{(1,2);(2,4);(3,1);(3,2);(4,3)\}
+		$$
+		\column{.6\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[
+				x=1.5cm,
+				scale=0.75,
+				node_style/.style={draw,circle,minimum size=0.6cm,inner sep=0.75},
+				noded/.style={fill=white,circle,inner sep=1}
+				]
+				\node (01) at (0,7) {$V$} ;
+				\node (1) at (1,7) {1} ;
+				\node (2) at (2,7) {2} ;
+				\node (3) at (3,7) {3} ;
+				\node (4) at (4,7) {4} ;
+				%\node (5) at (5,7) {5} ;
+				
+				\node (1) at (1,4) {1} ;
+				\node (2) at (2,4) {2} ;
+				\node (3) at (3,4) {3} ;
+				\node (4) at (4,4) {4} ;
+				\node (5) at (5,4) {5} ;
+				
+				\node (01) at (0,3) {$U$} ;
+				\node (01) at (1,3) {$(1,2)$} ;
+				\node (01) at (2,3) {$(2,4)$} ;
+				\node (01) at (3,3) {$(3,1)$} ;
+				\node (01) at (4,3) {$(3,2)$} ;
+				\node (01) at (5,3) {$(4,3)$} ;
+				
+				\node (01) at (0,1) {$\beta=( $} ;
+				\node (01) at (1.2,1) {$2,$} ;
+				\node (01) at (2.2,1) {$4,$} ;
+				\node (01) at (3.2,1) {$1,$} ;
+				\node (01) at (4.2,1) {$2,$} ;
+				\node (01) at (5.2,1) {$3$} ;
+				\node (01) at (6,1) {$ ) $} ;
+				
+				
+				\node (01) at (0,6) {$\alpha=( $} ;
+				\node (01) at (1,6) {$1,$} ;
+				\node (01) at (2,6) {$2,$} ;
+				\node (01) at (3,6) {$3,$} ;
+				\node (01) at (4,6) {$5,$} ;
+				\node (01) at (5,6) {$6$} ;
+				\node (01) at (6,6) {$ ) $} ;
+				\draw  [line width=0.75pt,dashed,->,red] (1.18,2.7) --++ (0,-1.4);
+				\draw  [line width=0.75pt,dashed,->,red] (2.18,2.7) --++ (0,-1.4);
+				\draw  [line width=0.75pt,dashed,->,red] (3.18,2.7) --++ (0,-1.4);
+				\draw  [line width=0.75pt,dashed,->,red] (4.18,2.7) --++ (0,-1.4);
+				\draw  [line width=0.75pt,dashed,->,red] (5.18,2.7) --++ (0,-1.4);
+				\draw  [line width=0.75pt,dashed,->,blue] (1,4.4) --++ (0,1.3);
+				\draw  [line width=0.75pt,dashed,->,blue] (2,4.4) --++ (0,1.3);
+				\draw  [line width=0.75pt,dashed,->,blue] (3,4.4) --++ (0,1.3);
+				\draw  [line width=0.75pt,dashed,->,blue] (5,4.4) --++ (-1,1.3);
+				
+				\draw  [line width=0.75pt,dashed,->,blue] (0.85,3.34) --++ (0.15,0.4);
+				\draw  [line width=0.75pt,dashed,->,blue] (1.85,3.34) --++ (0.15,0.4);
+				\draw  [line width=0.75pt,dashed,->,blue] (2.85,3.34) --++ (0.15,0.4);
+				\draw  [line width=0.75pt,dashed,->,blue] (4.85,3.34) --++ (0.15,0.4);
+			\end{tikzpicture}
+		\end{center}
+		
+	\end{columns}
+	
+	
+\end{frame}
+
+\begin{frame}{Representación vectorial de digrafos}
+	\begin{columns}
+		
+		\column{0.4\textwidth}
+		\begin{center}		
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+				\node[node_style]  (m) at (0,0) {$m$} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (p) at (2,0) {$p$} ;
+				\node[node_style] (t) at (4,0) {$t$} ;
+				\node[node_style] (l) at (0,2) {$l$} ;
+				\node[node_style] (f) at (2,2) {$f$} ;
+				\node[node_style] (s) at (4,2) {$s$} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+				
+				
+				\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw[line width=1.25pt] (m) edge[->] (f) ;
+				\draw[line width=1.25pt] (m) edge[->] (p) ;
+				\draw[line width=1.25pt] (l) edge[->] (f) ;
+				% \draw (2) edge[->, loop above] (2) ;
+				\draw[line width=1.25pt] (p) edge[->,bend left=20] (f) ;
+				\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+				%  \draw (p) edge[->] (f) ;
+				\draw[line width=1.25pt] (p) edge[->] (s) ;
+				\draw[line width=1.25pt] (p) edge[->] (t) ;
+				\draw[line width=1.25pt] (f) edge[->] (s) ;
+				\draw[line width=1.25pt] (s) edge[->] (t) ;
+				
+			\end{tikzpicture}
+		\end{center}
+		$$
+		V=\{m,l,f,p,s,t\}
+		$$
+		\begin{align*}
+			d(m)&=3 & d(l)&=1 
+			\\ 
+			d(f)&=2 & d(p)&=3 
+			\\
+			d(s)&=1 & d(t)&=0 
+		\end{align*}
+		
+		\column{0.6\textwidth}
+		$$ 
+		\begin{array}{|c|c|c|}
+			\hline arco & j & \beta(j) \\ \hline
+			(m,l) & 1 & l \\ (m,f) & 2 & f \\(m,p) & 3 & p \\(l,f) & 4 & f
+			\\(f,p) & 5 & p \\(f,s) & 6 & s \\(p,f) & 7 & f \\(p,s) & 8 & s \\
+			(p,t) & 9 & t \\(s,t) & 10 & t \\ \hline 
+		\end{array} 
+		\quad
+		\begin{array}{|l|} \hline \alpha(t+1)=11 \\  \alpha(t)=11 \\
+			\alpha(s)=10 \\ \alpha(p)=7 \\ \alpha(f)=5 \\ \alpha(l)=4 \\
+			\alpha(m)=1 \\ \hline
+		\end{array} 
+		$$
+		
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Representación vectorial de grafos}
+	\begin{itemize}\itemsep 1mm
+		\item El esquema se extiende de forma natural a los grafos.
+		\item En este caso, se pueden considerar las dos orientaciones de las aristas (cada arista se duplica en este esquema de representación).
+	\end{itemize}
+	\begin{columns}
+		
+		\column{0.4\textwidth}
+		\begin{center}		
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1pt}]
+				
+				\node[node_style] (a) at (2,2) {$a$} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (0,0) {$b$} ;
+				\node[node_style] (c) at (4,2) {$c$} ;
+				\node[node_style] (d) at (5,0) {$d$} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+				\node[node_style] (e) at (2.5,-1.0) {$e$} ;
+				
+				\draw[line width=1.25pt] (b) edge (a) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw[line width=1.25pt] (b) edge (d) ;
+				\draw[line width=1.25pt] (b) edge (c) ;
+				\draw[line width=1.25pt] (b) edge (e) ;
+				\draw[line width=1.25pt] (a) edge (c) ;
+				\draw[line width=1.25pt] (c) edge (d) ;
+				\draw[line width=1.25pt] (d) edge (e) ;
+				
+			\end{tikzpicture}
+		\end{center}
+		$$
+		V=\{a,b,c,d,e\}
+		$$
+		
+		\column{0.6\textwidth}
+		$$ 
+		\begin{array}{|c|r|c|} \hline arista & j & \beta(j) \\ \hline
+			\{ a,b \} & 1 & b \\ \{ a,c \} & 2 & c \\ \{ b,c \} & 3 & c \\ \{
+			b,d \} & 4 & d \\ \{ b,e \}& 5 & e \\ \{ c,d \} & 6 & d \\ \{ d,e
+			\} & 7 & e \\ \hline \end{array} 
+		\quad 
+		\begin{array}{|l|l|} \hline \alpha(e+1)=8 & \\  \alpha(e)=8  & d(e)=0\\
+			\alpha(d)=7  & d(d)=1\\ \alpha(c)=6  & d(c)=1\\ \alpha(b)=3 & d(b)=3 \\ \alpha(a)=1  & d(a)=2\\ \hline
+		\end{array} 
+		$$
+	\end{columns}
+	Nota: para obtener el vector $\alpha$, $d(i)$ se define como el número de aristas con nodo inicial $i$.
+\end{frame}
+
+
+
+\subsection{Representaci\'{o}n por lista de adyacencia}
+
+\begin{frame}{Representaci\'{o}n por lista de adyacencia}
+	\begin{itemize}\itemsep 5mm
+		\item Consiste definir una lista de vértices sucesores (adyacentes) para cada vértice del digrafo (grafo).
+		\item La principal ventaja es que no necesitan dimensionarse previamente, haciendo uso del almacenamiento dinámico.
+		\item Esto permite almacenar fácilmente grafos que vayan evolucionando con el tiempo.
+	\end{itemize}
+\end{frame}
+\begin{frame}{Representaci\'{o}n por lista de adyacencia}{Ejemplo de digrafo}
+	\begin{columns}
+		
+		\column{0.5\textwidth}
+		\begin{center}		
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1.25pt}]
+				\node[node_style]  (m) at (0,0) {$m$} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (p) at (2,0) {$p$} ;
+				\node[node_style] (t) at (4,0) {$t$} ;
+				\node[node_style] (l) at (0,2) {$l$} ;
+				\node[node_style] (f) at (2,2) {$f$} ;
+				\node[node_style] (s) at (4,2) {$s$} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+				
+				
+				\draw[line width=1.25pt] (m) edge[->] (l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw[line width=1.25pt] (m) edge[->] (f) ;
+				\draw[line width=1.25pt] (m) edge[->] (p) ;
+				\draw[line width=1.25pt] (l) edge[->] (f) ;
+				% \draw (2) edge[->, loop above] (2) ;
+				\draw[line width=1.25pt] (p) edge[->,bend left=20] (f) ;
+				\draw[line width=1.25pt] (f) edge[->,bend left=20] (p) ;             % arcos rectos
+				%  \draw (p) edge[->] (f) ;
+				\draw[line width=1.25pt] (p) edge[->] (s) ;
+				\draw[line width=1.25pt] (p) edge[->] (t) ;
+				\draw[line width=1.25pt] (f) edge[->] (s) ;
+				\draw[line width=1.25pt] (s) edge[->] (t) ;
+				
+			\end{tikzpicture}
+		\end{center}
+		$$
+		V=\{m,l,f,p,s,t\}
+		$$
+		\column{0.5\textwidth}
+		$$ \begin{array}{|ccccccc|} \hline \downarrow & & & & & & \\ m &
+			\rightarrow & l & \rightarrow & f &  \rightarrow  & p \\
+			\downarrow & & & & & & \\ l &
+			\rightarrow & f &  &  &  &  \\
+			\downarrow & & & & & & \\ f &
+			\rightarrow & p & \rightarrow & s & &  \\
+			\downarrow & & & & & & \\ p &
+			\rightarrow & f & \rightarrow & s &\rightarrow  & t \\
+			\downarrow & & & & & & \\ s &
+			\rightarrow & t &  &  &  &  \\
+			\downarrow & & & & & & \\ t & &  &  & &  &  \\ \hline \end{array} $$
+	\end{columns}
+	
+\end{frame}
+\begin{frame}{Representaci\'{o}n por lista de adyacencia}{Ejemplo de grafo}
+	\begin{columns}\itemsep 5mm
+		
+		\column{0.5\textwidth}
+		\begin{center}		
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1,line width=1pt}]
+				
+				\node[node_style] (a) at (2,2) {$a$} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (0,0) {$b$} ;
+				\node[node_style] (c) at (4,2) {$c$} ;
+				\node[node_style] (d) at (5,0) {$d$} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+				\node[node_style] (e) at (2.5,-1.0) {$e$} ;
+				
+				\draw[line width=1.25pt] (b) edge (a) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+				\draw[line width=1.25pt] (b) edge (d) ;
+				\draw[line width=1.25pt] (b) edge (c) ;
+				\draw[line width=1.25pt] (b) edge (e) ;
+				\draw[line width=1.25pt] (a) edge (c) ;
+				\draw[line width=1.25pt] (c) edge (d) ;
+				\draw[line width=1.25pt] (d) edge (e) ;
+				
+			\end{tikzpicture}
+		\end{center}
+		$$
+		V=\{a,b,c,d,e\}
+		$$
+		
+		\column{0.5\textwidth}
+		$$ \begin{array}{|ccccccccc|} \hline \downarrow & & & & & & & &
+			\\ a & \rightarrow & b & \rightarrow & c &  & & & \\
+			\downarrow & & & & & & & & \\ b &
+			\rightarrow & a  & \rightarrow & c &\rightarrow   & d &
+			\rightarrow  & e \\
+			\downarrow & & & & & & & & \\ c &
+			\rightarrow & a & \rightarrow & b & \rightarrow & d &  &  \\
+			\downarrow & & & & & & & & \\ d &
+			\rightarrow & b & \rightarrow & c & \rightarrow & e & &
+			\\
+			\downarrow & & & & & & & & \\ e &
+			\rightarrow & b & \rightarrow & d &
+			&  &  &  \\
+			\hline \end{array} $$
+	\end{columns}
+\end{frame}
+
+\section{Árbol}
+\begin{frame}{Árbol}
+	\begin{block}{Definición de árbol}
+		Un \alert{\'{a}rbol} es un grafo conexo sin ciclos.
+	\end{block}
+	El grafo definido por la siguiente matriz de incidencia es un árbol:
+	\begin{center}
+		\begin{columns}
+			
+			\column{0.5\textwidth}
+			$$ 
+			A = \left( \begin{array}{cccc} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0
+				\\1 & 1 & 1 & 0 \\0 & 0 & 1 & 1 \\0 & 0 & 0 & 1 \end{array}
+			\right) 
+			$$
+			\column{0.5\textwidth}
+			
+			\begin{tikzpicture}[scale=0.7,line width=1.2pt,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (0,0) {1}  ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (2) at (0,3){2} ;
+				\node[node_style] (3) at (3,0) {3} ;
+				\node[node_style] (4) at (3,3) {4} ;
+				\node[node_style] (5) at (5.5,1.5) {5} ;
+				
+				
+				\draw (1) edge (3) ;  % \draw (1) edge[->]  node[above,draw=none] { 3 } (2) ;
+				\draw (2) edge  (3) ;
+				\draw (3) edge  (4) ;
+				\draw (4) edge  (5) ;
+			\end{tikzpicture}
+		\end{columns}
+	\end{center}
+\end{frame}
+\begin{frame}{Caracterización}
+	\begin{block}{Teorema}
+		Las cuatro siguientes propiedades de un grafo $G=(V,E)$ son equivalentes:
+		\begin{enumerate}\itemsep 3mm
+			\item $G$ es un \'{a}rbol.
+			\item $G$ no tiene ciclos y si se a\~{n}ade una arista se forma un \'{u}nico ciclo.
+			\item $\forall x,y \in V$ con $x \neq y$, existe una \'{u}nica cadena simple
+			$\mu [x,y]$.
+			\item $G$ es conexo y si se quita una arista deja de serlo.
+		\end{enumerate}
+	\end{block}
+	Se puede comprobar en el ejemplo anterior cómo estas caracterizaciones son ciertas.
+\end{frame}
+\begin{frame}{Caracterización}
+	\begin{itemize}\itemsep 2mm
+		\item Seg\'{u}n este teorema, un \'{a}rbol es un grafo cr\'{\i}tico en el sentido de tener el m\'{a}ximo n\'{u}mero de aristas sin formar ciclos y el m\'{\i}nimo n\'{u}mero de aristas siendo conexo. 
+		\item El siguiente teorema de caracterizaci\'{o}n permite especificar exactamente el n\'{u}mero de aristas que debe tener un \'{a}rbol.
+	\end{itemize}
+	\begin{block}{Teorema}
+		\label{t-caracterizacion-2}
+		Las tres siguientes propiedades de un grafo $G=(V,E)$, con $|V|=n$, son
+		equivalentes:
+		\begin{enumerate}\itemsep 3mm
+			\item $G$ es un \'{a}rbol
+			\item $G$ tiene $n-1$ aristas y no tiene ciclos.
+			\item $G$ tiene $n-1$ aristas y es conexo.
+		\end{enumerate}
+	\end{block}
+	En el ejemplo anterior se comprueba que $n=5$ y $m=4 = n-1 $.
+\end{frame}
+
+\begin{frame}{Caracterización}
+	\begin{itemize}\itemsep 5mm
+		\item Como consecuencia, un \'{a}rbol es un grafo con $n$ v\'{e}rtices que tiene dos de las tres propiedades siguientes:
+		\begin{itemize}\itemsep 3mm
+			\item conexo
+			\item sin ciclos
+			\item $n-1$ aristas
+		\end{itemize}
+		\item El n\'{u}mero de \'{a}rboles que se pueden construir con $n$ v\'{e}rtices es $n^{n-2}$.
+	\end{itemize}
+\end{frame}
+%\section{Representaci\'{o}n vectorial de un \'{a}rbol}
+\begin{frame}{Representaci\'{o}n vectorial de un \'{a}rbol}
+	\begin{itemize}\itemsep 5mm
+		\item Las propiedades particulares de un árbol permiten una representación vectorial con solo un vector de dimensión $n$ (número de vértices).
+		\item Como n o tiene ciclos:
+		\begin{itemize}\itemsep 3mm
+			\item Se elige como v\'{e}rtice inicial un v\'{e}rtice arbitrario $x_0\in V$. 
+			\item El resto de los v\'{e}rtices quedar\'{a}n etiquetados a partir del nodo anterior (padre) en el único camino que hay hasta ese nodo desde el nodo raíz. 
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\begin{frame}{Representaci\'{o}n vectorial de un \'{a}rbol}
+	\begin{center}
+		\begin{columns}
+			\column{0.5\textwidth}
+			Se selecciona $x_0 = 1$ como v\'{e}rtice inicial:
+			\begin{align*}
+				p(1)&= 1 & p(2)&=3 & p(3)&=1 \\ p(4)&=3 &p(5)&=4	 	
+			\end{align*}
+			\begin{center}
+				\begin{tikzpicture}[scale=0.7,line width=1.2pt,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+					\node[node_style] (1) at (1.5,1.5) {1}  ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+					\node[node_style] (2) at (4.5,3){2} ;
+					\node[node_style] (3) at (3,1.5) {3} ;
+					\node[node_style] (4) at (4.5,0) {4} ;
+					\node[node_style] (5) at (6,0) {5} ;
+					
+					
+					\draw (1) edge (3) ;  % \draw (1) edge[->]  node[above,draw=none] { 3 } (2) ;
+					\draw (2) edge  (3) ;
+					\draw (3) edge  (4) ;
+					\draw (4) edge  (5) ;
+				\end{tikzpicture}
+			\end{center}
+			\column{0.5\textwidth}
+			Se selecciona $x_0 = 5$ como v\'{e}rtice inicial:
+			\begin{align*}
+				p(1) &= 3 & p(2)&=3 & p(3)&=4 \\ p(4)&=5 & p(5)&=5
+			\end{align*}
+			\begin{center}
+				\begin{tikzpicture}[scale=0.7,line width=1.2pt,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+					\node[node_style] (1) at (6,0) {1}  ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+					\node[node_style] (2) at (6,3){2} ;
+					\node[node_style] (3) at (4.5,1.5) {3} ;
+					\node[node_style] (4) at (3,1.5) {4} ;
+					\node[node_style] (5) at (1.5,1.5) {5} ;
+					
+					
+					\draw (1) edge (3) ;  % \draw (1) edge[->]  node[above,draw=none] { 3 } (2) ;
+					\draw (2) edge  (3) ;
+					\draw (3) edge  (4) ;
+					\draw (4) edge  (5) ;
+				\end{tikzpicture}
+			\end{center}
+		\end{columns}
+	\end{center}
+\end{frame}
+
+\section{Árbol soporte de mínimo peso en una red no dirigida}
+%%
+\begin{frame}{Optimizaci\'on en redes}
+	%%
+	\begin{itemize}\itemsep 3mm
+		\item 
+		Los grafos permiten modelar muchos problemas y obtener m\'etodos de soluci\'on muy eficientes.
+		\item 
+		Este tipo de problemas suelen llevar asociados costes en los arcos/aristas o vértices, dando lugar a lo que se conoce como  \alert{	red}. 
+		\item 
+		Una  \alert{red} es un digrafo $G=(N,A)$ tal que a cada arco $(i,j)$ se le asigna un valor $c_{ij}$.
+		\begin{block}{Red}
+			Una \alert{red} es un grafo en el que las aristas est\'{a}n valorados. Se representa por el par $(G,{\bf d})$, siendo $G$ un grafo y ${\bf d} \in I \! \! R^m$ un vector cuyas componentes identifican el valor num\'{e}rico de cada arista. El peso de cada arista se denota por $d(e)$ o $d_e$, con $e \in E$.
+		\end{block}
+		\item Se hablar\'{a} de \alert{red no dirigida} o  \alert{red dirigida} para distinguir los casos de grafo o digrafo con aristas o arcos valuados.
+	\end{itemize}
+\end{frame}
+%%
+\begin{frame}{Árbol soporte de mínimo peso en una red no dirigida}
+	%%
+	\begin{itemize}\itemsep 5mm
+		\item Una red no dirigida tiene muchos árboles soporte diferentes.
+		\item En este caso, puede interesar determinar el \'{a}rbol soporte
+		que acumula un peso/valor total menor de sus aristas. 
+		\item Se tiene as\'{\i} planteado el problema del \'{a}rbol soporte de m\'{\i}nimo peso.  
+		\item A continuación se presentan dos algoritmos resuelven este problema: el de
+		Kruskal (1956) y el de Prim (1958)
+		%\item Además, se plantea el modelo de optimización matem\'{a}tica asociado.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Árbol soporte de mínimo peso en una red no dirigida}
+	%%
+	\begin{block}{Problema del árbol soporte de mínimo peso}
+		Dada una red no dirigida $(G,{\bf d})$, con $G=(V,E)$ conexo y $\{
+		d_e, e \in E \} $, determinar el \'{a}rbol soporte $H=(V,T), T \subset
+		E$ que minimiza el peso total $$ d(T) = \sum_{e \in T} d_e $$
+	\end{block}
+	%\end{frame}
+	
+	
+	
+	%\begin{frame}{Árbol soporte de mínimo peso en una red no dirigida}
+	\begin{columns}
+		\column{0.33\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[scale=0.8,line width=1.2pt,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				
+				\node[node_style] (a) at (2,2) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (0,0) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (5,0) {d} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+				\node[node_style] (e) at (2.5,-1.0) {e} ;
+				
+				\draw[red] (b) edge node[above,draw=none] { 3 }(a) ;  % \draw (1) edge[->]  node[above,draw=none] { 7 } (2) ;
+				\draw (b) edge node[above,draw=none] { 2 }(d) ;
+				\draw (b) edge node[above,draw=none] { 6 }(c) ;
+				\draw (b) edge node[above,draw=none] { 1 }(e) ;
+				\draw[red] (a) edge node[above,draw=none] { 2 }(c) ;
+				\draw[red] (c) edge node[above,draw=none] { 4 }(d) ;
+				\draw[red] (d) edge node[above,draw=none] { 1 }(e) ;
+				\node at (2.5,3) {$d(T_1)=10$} ;
+				
+			\end{tikzpicture}
+		\end{center}
+		\column{0.33\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[scale=0.8,line width=1.2pt,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				
+				\node[node_style] (a) at (2,2) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (0,0) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (5,0) {d} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+				\node[node_style] (e) at (2.5,-1.0) {e} ;
+				
+				\draw[red] (b) edge node[above,draw=none] { 3 }(a) ;  % \draw (1) edge[->]  node[above,draw=none] { 7 } (2) ;
+				\draw[red] (b) edge node[above,draw=none] { 2 }(d) ;
+				\draw[red] (b) edge node[above,draw=none] { 6 }(c) ;
+				\draw[red] (b) edge node[above,draw=none] { 1 }(e) ;
+				\draw (a) edge node[above,draw=none] { 2 }(c) ;
+				\draw (c) edge node[above,draw=none] { 4 }(d) ;
+				\draw (d) edge node[above,draw=none] { 1 }(e) ;
+				\node at (2.5,3) {$d(T_2)=12$} ;
+				
+			\end{tikzpicture}
+		\end{center}
+		\column{0.33\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[scale=0.8,line width=1.2pt,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				
+				\node[node_style] (a) at (2,2) {a} ;  % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+				\node[node_style] (b) at (0,0) {b} ;
+				\node[node_style] (c) at (4,2) {c} ;
+				\node[node_style] (d) at (5,0) {d} ;     %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+				\node[node_style] (e) at (2.5,-1.0) {e} ;
+				
+				\draw[red] (b) edge node[above,draw=none] { 3 }(a) ;  % \draw (1) edge[->]  node[above,draw=none] { 7 } (2) ;
+				\draw (b) edge node[above,draw=none] { 2 }(d) ;
+				\draw (b) edge node[above,draw=none] { 6 }(c) ;
+				\draw[red] (b) edge node[above,draw=none] { 1 }(e) ;
+				\draw[red] (a) edge node[above,draw=none] { 2 }(c) ;
+				\draw (c) edge node[above,draw=none] { 4 }(d) ;
+				\draw[red] (d) edge node[above,draw=none] { 1 }(e) ;
+				\node at (2.5,3) {$d(T_1)=7$} ;
+			\end{tikzpicture}
+			
+		\end{center}
+	\end{columns}
+\end{frame}
+
+\subsection{Algorithmo de Kruskal (1956)}
+
+\begin{frame}
+	
+	\frametitle{Algorithmo de Kruskal (1956)}
+	\begin{columns}
+		\column{0.74\textwidth}
+		\begin{block}{Idea}
+			\begin{itemize}
+				\item 	Inicialmente, $H=(V,T)$ con $T=\emptyset$.
+				\item En cada iteración se selecciona la arista de menor peso que NO ha
+				sido seleccionada anteriormente y que NO forme ciclo con las ya seleccionadas.
+				\item Por tanto, las aristas que en una iteración ya han sido seleccionadas	forman un grafo parcial sin ciclos, aunque no necesariamente conexo.
+				\item El algoritmo para cuando ya se han incluido $n$ aristas ($\vert V\vert=n$).
+			\end{itemize}
+		\end{block}
+		\column{0.23\textwidth}
+		\includegraphics[width=0.75\textwidth]{fig/kruskal}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Algoritmo}
+	
+	Sea $G=(V,E)$ con $n=\textrm{card}(V)>1$, sin lazos y con pesos de las aristas $d(e)$.
+	
+	\begin{description}
+		\item[Paso 0.] Inicializar $T=\varnothing$, $A\leftarrow E$.
+		\item[Paso 1.] Repetir hasta que $\textrm{card}(T)=n-1$ o $A=\varnothing$:
+		\begin{itemize}
+			\item Encontrar la arista de menor peso $e \in A$
+			\item Actualizar $A=A\setminus\{e\}$
+			\item Si $T\cup\{e\}$ no tiene ciclos, actualizar $T=T\cup\{e\}$
+		\end{itemize}
+		\item[Paso 2.] Parar.
+		\begin{itemize}
+			\item Si $\textrm{card}(T)<n-1$ entonces $G$ no es conexo.
+			\item Si $\textrm{card}(T)=n-1$ entonces $(V,T)$ es un \'arbol de mínimo peso.
+		\end{itemize}
+	\end{description}
+	
+\end{frame}
+
+\begin{frame} \frametitle{Detecci\'on de ciclos}
+	\begin{itemize}\itemsep 5mm
+		\item  Para detectar si una arista $a \notin T$ forma un ciclo con las aristas de $T$, se debe comenzar el algoritmo con los $n$ vértices en subconjuntos disjuntos.
+		\item A medida que se selecciona una arista $(i,j)$, se unen los subconjuntos que contienen a los vértices $i$ y $j$.
+		\item Se pueden eliminar de $A$ todas las aristas que unan vértices del subconjunto de $i$ con el subconjunto de $j$.
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Ejemplo}
+	
+	\begin{block}{Ejemplo}
+		Obtener el \'arbol de expansi\'on de peso m\'inimo mediante el algoritmo de Kruskal del siguiente grafo:
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (0,2) {1} ;
+				\node[node_style] (2) at (3,4) {2} ;
+				\node[node_style] (3) at (1.5,2) {3} ;
+				\node[node_style] (4) at (3,0) {4} ;
+				\node[node_style] (5) at (5,3) {5} ;
+				\node[node_style] (6) at (5,1) {6} ;
+				\draw  [line width=1.5pt] (1) edge node[above] {1} (2) ;
+				\draw  [line width=1.5pt] (1) edge node[above] {9} (5) ;
+				\draw  [line width=1.5pt] (1) edge node[below] {5} (3) ;
+				\draw  [line width=1.5pt] (1) edge node[below] {7} (4) ;
+				\draw  [line width=1.5pt] (2) edge node[left] {6} (3) ;
+				\draw  [line width=1.5pt] (2) edge node[left] {4} (4) ;
+				\draw  [line width=1.5pt] (2) edge node[above] {3} (5) ;
+				\draw  [line width=1.5pt] (3) edge node[left] {5} (4) ;
+				\draw  [line width=1.5pt] (3) edge node[above] {10} (6) ;
+				\draw  [line width=1.5pt] (4) edge node[above] {8} (5) ;
+				\draw  [line width=1.5pt] (4) edge node[below] {3} (6) ;
+			\end{tikzpicture}
+		\end{center}
+	\end{block}
+	
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Resoluci\'on}
+	
+	\begin{columns}
+		\column{.35\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\onslide<1-2>{\node[node_style] (1) at (0,2) {1} ;}
+				\onslide<1-2>{\node[node_style] (2) at (3,4) {2} ;}
+				\onslide<1-6>{\node[node_style] (3) at (1.5,2) {3} ;}
+				\onslide<1-4>{\node[node_style] (4) at (3,0) {4} ;}
+				\onslide<1-3>{\node[node_style] (5) at (5,3) {5} ;}
+				\onslide<1-4>{\node[node_style] (6) at (5,1) {6} ;}
+				\onslide<1-2>{\draw  [line width=1.5pt] (1) edge node[above] {1} (2) ;}
+				\draw  [line width=1.5pt] (1) edge node[above] {9} (5) ;
+				\onslide<1-6,8>{\draw  [line width=1.5pt] (1) edge node[below] {5} (3) ;}
+				\draw  [line width=1.5pt] (1) edge node[below] {7} (4) ;
+				\draw  [line width=1.5pt] (2) edge node[left] {6} (3) ;
+				\onslide<1-5>{\draw  [line width=1.5pt] (2) edge node[left] {4} (4) ;}
+				\onslide<1-3>{\draw  [line width=1.5pt] (2) edge node[above] {3} (5) ;}
+				\onslide<1-7>{\draw  [line width=1.5pt] (3) edge node[left] {5} (4) ;}
+				\draw  [line width=1.5pt] (3) edge node[above] {10} (6) ;
+				\draw  [line width=1.5pt] (4) edge node[above] {8} (5) ;
+				\onslide<1-4>{\draw  [line width=1.5pt] (4) edge node[below] {3} (6) ;}
+				\onslide<3->{
+					\node[node_style,color=red,line width=1pt] (1) at (0,2) {1} ;
+					\node[node_style,color=red,line width=1pt] (2) at (3,4) {2} ;
+					\draw  [line width=1.5pt] (1) edge[line width=1pt,color=blue] node[above] {1} (2) ;}
+				\onslide<4->{
+					\node[node_style,color=red,line width=1pt] (5) at (5,3) {5} ;
+					\draw  [line width=1.5pt] (2) edge[line width=1pt,color=blue] node[above] {3} (5) ;}
+				\onslide<5->{
+					\node[node_style,color=red,line width=1pt] (4) at (3,0) {4} ;
+					\node[node_style,color=red,line width=1pt] (6) at (5,1) {6} ;
+					\draw  [line width=1.5pt] (4) edge[line width=1pt,color=blue] node[below] {3} (6) ;}
+				\onslide<6->{\draw  [line width=1.5pt] (2) edge[line width=1pt,color=blue] node[left] {4} (4) ;}
+				\onslide<7->{\node[node_style,color=red,line width=1pt] (3) at (1.5,2) {3} ;}
+				\onslide<7>{\draw  [line width=1.5pt] (1) edge[line width=1pt,color=blue] node[below] {5} (3) ;}
+				\onslide<8>{\draw  [line width=1.5pt] (3) edge[line width=1pt,color=blue] node[left] {5} (4) ;}
+			\end{tikzpicture}
+		\end{center}
+		\column{.6\textwidth}
+		\only<1>{La matriz de pesos es:
+			\begin{small}
+				$$B=\left(\begin{array}{cccccc}
+					.      & 1      & 5      & 7 & 9      & \infty \\
+					1      & .      & 6      & 4 & 3      & \infty \\
+					5      & 6      & .      & 5 & \infty & 10     \\
+					7      & 4      & 5      & . & 8      & 3      \\
+					9      & 3      & \infty & 8 & .      & \infty \\
+					\infty & \infty & 10     & 3 & \infty & .      \\ \end{array}\right)$$
+		\end{small}}
+		\only<2>{Se tiene inicialmente:
+			$$T=\varnothing$$
+			$$\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}$$}
+		\only<3>{Se selecciona la arista de menor peso, $(1,2)$:
+			$$\{1,2\},\{3\},\{4\},\{5\},\{6\}$$
+			$$T=\{(1,2)\}$$}
+		\only<4>{Se selecciona la arista de menor peso, $(2,5)$ (hay empate):
+			$$\{1,2,5\},\{3\},\{4\},\{6\}$$
+			$$T=\{(1,2),(2,5)\}$$}
+		\only<5>{Se selecciona la arista de menor peso, $(4,6)$:
+			$$\{1,2,5\},\{3\},\{4,6\}$$
+			$$T=\{(1,2),(2,5),(4,6)\}$$}
+		\only<6>{Se selecciona la arista de menor peso, $(2,4)$:
+			$$\{1,2,4,5,6\},\{3\}$$
+			$$T=\{(1,2),(2,5),(4,6),(2,4)\}$$}
+		\only<7>{Se selecciona la arista de menor peso, $(1,3)$ (hay empate):
+			$$\{1,2,3,4,5,6\}$$
+			y se obtiene el \'arbol de expansi\'on de peso m\'inimo:
+			\begin{small}
+				$$T=\{(1,2),(2,5),(4,6),(2,4),(1,3)\}$$
+		\end{small}}
+		\only<8>{Sin embargo, la soluci\'on no es \'unica:
+			\begin{small}
+				$$T=\{(1,2),(2,5),(4,6),(2,4),(3,4)\}$$
+		\end{small}}
+	\end{columns}
+	
+\end{frame}
+
+\begin{frame}{Algoritmo de Kruskal}
+	\begin{itemize}\itemsep 3mm
+		\item Si las aristas están ordenadas según el peso, la complejidad del algoritmo de Kruskal es  $O(m \cdot n)$.
+		\item No obstante, si las aristas no est\'{a}n ordenadas, y utilizando el
+		algoritmo {\it Heapsort}, se puede conseguir una complejidad de
+		orden $O(m \cdot \ln(m))$ con una estructura de datos apropiada.
+	\end{itemize}
+	\begin{block}{Teorema}
+		El algoritmo de Kruskal construye el \'{a}rbol soporte de m\'{\i}nimo peso.
+	\end{block}
+\end{frame}
+
+\subsection{Algoritmo de Prim}
+
+
+\begin{frame}{Algoritmo de Prim I}
+	
+	Robert C. Prim lo public\'o en 1957, aunque previamente fue publicado por Jarn\'ik en 1930 y posteriormente por Dijkstra en 1959.
+	
+	\begin{figure}
+		\centering
+		\subfloat[R.C. Prim, 1921-2021]{\makebox[.18\textwidth]{\includegraphics[width=0.15\textwidth]{fig/prim}}} \hspace{0.25cm}
+		\subfloat[V. Jarn\'ik, 1897-1970]{\makebox[.18\textwidth]{\includegraphics[width=0.15\textwidth]{fig/jarnik}}} \hspace{0.25cm}
+		\subfloat[E.W. Dijkstra, 1930-2002]{\makebox[.18\textwidth]{\includegraphics[width=0.15\textwidth]{fig/dijkstra}}}
+	\end{figure}
+	
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Prim II}
+	\begin{block}{Idea}
+		\begin{itemize}\itemsep 5mm
+			\item  El algoritmo de Prim construye el \'{a}rbol soporte de m\'{\i}nimo peso
+			a\~{n}adiendo v\'{e}rtices a un conjunto $P \subset V$ que, inicialmente,
+			es un v\'{e}rtice arbitrario. 
+			\item El conjunto $P$ va incorporando en cada iteraci\'{o}n aquel v\'{e}rtice de $V\setminus P$ tal que:
+			\begin{itemize}\itemsep 3mm
+				\item Es adyacente a algún vértice de $P$.
+				\item La arista que une ese vértice con $P$ es la de menor peso entre todas las aristas incidentes en $P$
+			\end{itemize} 
+			(es decir, esa arista es la arista con menor peso del cociclo $w(P)$).
+			
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Prim III}
+	
+	Sea $G=(V,E)$ con $n=\textrm{card}(V)>1$, sin lazos y con pesos de las aristas $d(e)$.
+	\begin{description}\itemsep 5mm
+		\item[Paso 0.] Elegir $v_1 \in V$. Inicializar $P=\{v_1\}$, $N=V\setminus \{v_1\}$, $T=\varnothing$, $i=1$.
+		\item[Paso 1.] Elegir $e^* = (x^*,y^*) \in E$ tal que  $x^* \in P$, $y^* \in N$ y $d(e^*)=\min\big\{d(e):e\in E\big\}$
+		\begin{itemize}\itemsep 2mm
+			\item Si $d(e^*) = \infty$, parar: $G$ no es conexo.
+			\item Si $d(e^*) < \infty$, hacer $P=P\cup\{y^*\}$, $N=N\setminus \{y^*\}$, $T=T\cup\{e^*\}$
+		\end{itemize}
+		\item[Paso 2.]
+		\begin{itemize}\itemsep 2mm
+			\item Si $i=n-1$, parar: $(V,T)$ es un \'arbol de expansi\'on de peso m\'inimo.
+			\item Si $i<n-1$, hacer $i=i+1$. Ir al Paso 1.
+		\end{itemize}
+		
+	\end{description}
+	
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Ejemplo}
+	
+	\begin{block}{Ejemplo}
+		Obtener el \'arbol de expansi\'on de peso m\'inimo mediante el algoritmo de Prim del siguiente grafo:
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (0,2) {1} ;
+				\node[node_style] (2) at (3,4) {2} ;
+				\node[node_style] (3) at (1.5,2) {3} ;
+				\node[node_style] (4) at (3,0) {4} ;
+				\node[node_style] (5) at (5,3) {5} ;
+				\node[node_style] (6) at (5,1) {6} ;
+				\draw  [line width=1.5pt] (1) edge node[above] {1} (2) ;
+				\draw  [line width=1.5pt] (1) edge node[above] {9} (5) ;
+				\draw  [line width=1.5pt] (1) edge node[below] {5} (3) ;
+				\draw  [line width=1.5pt] (1) edge node[below] {7} (4) ;
+				\draw  [line width=1.5pt] (2) edge node[left] {6} (3) ;
+				\draw  [line width=1.5pt] (2) edge node[left] {4} (4) ;
+				\draw  [line width=1.5pt] (2) edge node[above] {3} (5) ;
+				\draw  [line width=1.5pt] (3) edge node[left] {5} (4) ;
+				\draw  [line width=1.5pt] (3) edge node[above] {10} (6) ;
+				\draw  [line width=1.5pt] (4) edge node[above] {8} (5) ;
+				\draw  [line width=1.5pt] (4) edge node[below] {3} (6) ;
+			\end{tikzpicture}
+		\end{center}
+	\end{block}
+	
+\end{frame}
+
+\begin{frame}{Resoluci\'on}
+	
+	\begin{columns}
+		\column{.35\textwidth}
+		\begin{figure}
+			\centering
+			\begin{center}
+				\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+					\onslide<1>{\node[node_style] (1) at (0,2) {1} ;}
+					\onslide<1-3>{\node[node_style] (2) at (3,4) {2} ;}
+					\onslide<1-11>{\node[node_style] (3) at (1.5,2) {3} ;}
+					\onslide<1-7>{\node[node_style] (4) at (3,0) {4} ;}
+					\onslide<1-5>{\node[node_style] (5) at (5,3) {5} ;}
+					\onslide<1-9>{\node[node_style] (6) at (5,1) {6} ;}
+					\onslide<1-2>{\draw  [line width=1.5pt] (1) edge node[above] {1} (2) ;}
+					\draw  [line width=1.5pt] (1) edge node[above] {9} (5) ;
+					\onslide<1-10,13>{\draw  [line width=1.5pt] (1) edge node[below] {5} (3) ;}
+					\draw  [line width=1.5pt] (1) edge node[below] {7} (4) ;
+					\draw  [line width=1.5pt] (2) edge node[left] {6} (3) ;
+					\onslide<1-6>{\draw  [line width=1.5pt] (2) edge node[left] {4} (4) ;}
+					\onslide<1-4>{\draw  [line width=1.5pt] (2) edge node[above] {3} (5) ;}
+					\onslide<1-12>{\draw  [line width=1.5pt] (3) edge node[left] {5} (4) ;}
+					\draw  [line width=1.5pt] (3) edge node[above] {10} (6) ;
+					\draw  [line width=1.5pt] (4) edge node[above] {8} (5) ;
+					\onslide<1-8>{\draw  [line width=1.5pt] (4) edge node[below] {3} (6) ;}
+					\onslide<2->{\node[node_style,color=red,line width=1pt] (1) at (0,2) {1} ;}
+					\onslide<3->{\draw  [line width=1.5pt] (1) edge[line width=1pt,color=blue] node[above] {1} (2) ;}
+					\onslide<4->{\node[node_style,color=red,line width=1pt] (2) at (3,4) {2} ;}
+					\onslide<5->{\draw  [line width=1.5pt] (2) edge[line width=1pt,color=blue] node[above] {3} (5) ;}
+					\onslide<6->{\node[node_style,color=red,line width=1pt] (5) at (5,3) {5} ;}
+					\onslide<7->{\draw  [line width=1.5pt] (2) edge[line width=1pt,color=blue] node[left] {4} (4) ;}
+					\onslide<8->{\node[node_style,color=red,line width=1pt] (4) at (3,0) {4} ;}
+					\onslide<9->{\draw  [line width=1.5pt] (4) edge[line width=1pt,color=blue] node[below] {3} (6) ;}
+					\onslide<10->{\node[node_style,color=red,line width=1pt] (6) at (5,1) {6} ;}
+					\onslide<11,12>{\draw  [line width=1.5pt] (1) edge[line width=1pt,color=blue] node[below] {5} (3) ;}
+					\onslide<12->{\node[node_style,color=red,line width=1pt] (3) at (1.5,2) {3} ;}
+					\onslide<13->{\draw  [line width=1.5pt] (3) edge[line width=1pt,color=blue] node[left] {5} (4) ;}
+				\end{tikzpicture}
+			\end{center}
+		\end{figure}
+		
+		\column{.60\textwidth}
+		\only<1>{La matriz de pesos es:
+			\begin{small}
+				$$B=\left(\begin{array}{cccccc}
+					.      & 1      & 5      & 7 & 9      & \infty \\
+					1      & .      & 6      & 4 & 3      & \infty \\
+					5      & 6      & .      & 5 & \infty & 10     \\
+					7      & 4      & 5      & . & 8      & 3      \\
+					9      & 3      & \infty & 8 & .      & \infty \\
+					\infty & \infty & 10     & 3 & \infty & .      \\ \end{array}\right)$$
+		\end{small}}
+		\only<2>{Sea $v_1=1$.
+			$$P=\{1\} \quad N=\{2,3,4,5,6\}$$
+			$$T=\varnothing \quad i=1$$}
+		\only<3>{
+			$$e^* = (1,2)$$}
+		\only<4>{$$P=\{1,2\} \quad N=\{3,4,5,6\}$$
+			$$T=\big\{(1,2)\big\} \quad i=2$$}
+		\only<5>{
+			$$e^* = (2,5)$$}
+		\only<6>{$$P=\{1,2,5\} \quad N=\{3,4,6\}$$
+			$$T=\big\{(1,2),(2,5)\big\} \quad i=3$$}
+		\only<7>{
+			$$e^* = (2,4)$$}
+		\only<8>{$$P=\{1,2,4,5\} \quad N=\{3,6\}$$
+			$$T=\big\{(1,2),(2,5),(2,4)\big\} \quad i=4$$}
+		\only<9>{
+			$$e^* = (4,6)$$}
+		\only<10>{$$P=\{1,2,4,5,6\} \quad N=\{3\}$$
+			$$T=\big\{(1,2),(2,5),(2,4),(4,6)\big\}$$
+			$$i=5$$}
+		\only<11>{Hay empate:
+			$$e^* = (1,3)$$}
+		\only<12>{$$P=\{1,2,3,4,5,6\} \quad N=\varnothing$$
+			\begin{scriptsize}$$T=\big\{(1,2),(2,5),(2,4),(4,6),(1,3)\big\}$$\end{scriptsize}
+			$$i=6$$}
+		\only<13>{Hay otra soluci\'on alternativa:
+			$$P=\{1,2,3,4,5,6\} \quad N=\varnothing$$
+			\begin{scriptsize}$$T=\big\{(1,2),(2,5),(2,4),(4,6),(3,4)\big\}$$\end{scriptsize}
+			$$i=6$$}
+	\end{columns}
+	
+\end{frame}
+
+%\begin{frame}{\'Arbol soporte de peso m\'inimo}
+%	El siguiente resultado justifica el algoritmo de Prim.
+%	\begin{block}{Teorema}
+%		\label{t-Prim} Dado el grafo conexo $G=(V,E)$, $H=(V,T)$ es el
+%		\'{a}rbol soporte de m\'{\i}nimo peso si y s\'{o}lo si $\forall e \in T$ se
+%		verifica $d(e) \leq d(e') \ \forall e' \in \theta^e$, siendo
+%		$\theta^e$ el cociclo definido a partir de la base asociada a
+%		$T$.
+%	\end{block}
+%\end{frame}
+
+
+\subsection{El árbol soporte de mínimo peso como herramienta de clasificación}
+
+\begin{frame}{Aprendizaje no supervisado: clasificación}
+	
+	\begin{itemize}\itemsep 4mm
+		\item Un objetivo clave en aprendizaje no supervisado (datos no etiquetados) en ciencia de datos es descubrir patrones de interés entre los datos, describir los datos encontrando grupos de observaciones similares entre sí (Clustering).
+		\item La agrupación se hace en función de la (de)semejanza entre las observaciones:
+		\item La medida de desemejanza entre dos variables $x$ e $y$ es una función $\delta(x, y)$ que cumple:
+		\begin{itemize}
+			\item $\delta(x, y) = 0$ si y solo si $x = y$.
+			\item $\delta(x, y) \geq 0$ (no negatividad).
+			\item $\delta(x, y) = \delta(y, x)$ (simetría).
+			\item Si además verifica la desigualdad triangular se trataría de una distancia: $\delta(x, y) \leq \delta(x, z) + \delta(y, z)$.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Clasificación . $k$-medias}
+	\begin{itemize}\itemsep 2mm
+		\item El algoritmo de las k-medias es el algoritmo de aprendizaje automático no supervisado más utilizado para agrupar un conjunto de observaciones en un conjunto de grupos o clústeres.
+		\item La idea de este procedimiento es definir clústeres de tal modo que se minimice la variabilidad total dentro de los clústeres (\textit{within-cluster variation}):
+		$$
+		W(S,c)= \sum_{k=1}^K W(S_k)= \sum_{k=1}^K\sum_{x_i\in S_k}^K(x_i  - c_k)^2
+		$$
+		siendo $K$ el número total de clusters, $S_k$ el cluster $k$, $x_i$ cada una de las observaciones del conjunto de datos y $c_k$ el centroide del cluster $S_k$ (la media de los elementos de dicho cluster). 
+		\item $K$ representa el número de grupos pre-especificados por el científico de datos.
+		\item Los clústeres resultantes $S = \{S_1,...,S_K\}$ son disjuntos:  $S_i\cap S_j=\emptyset$, $\forall i,j=1,\dots,K:i\neq j$.
+	\end{itemize}
+\end{frame}
+%%
+\begin{frame}{Representando los datos en un grafo}
+	\begin{itemize}\itemsep 3mm
+		\item La relación que hay entre las distintas observaciones se puede representar mediante un grafo valuado o red, $G=(V,E,\delta)$
+		\begin{itemize}
+			\item El conjunto de vértices $V$ es el conjunto de observaciones
+			\item El grafo es completo.
+			\item El peso asignado a la arista $\{i,j\}$ corresponde a la medida de desemejanza entre esas dos observaciones. 
+		\end{itemize}
+		\item En este grafo, es posible obtener un árbol soporte, $T(W,E')$ con $\vert E'\vert=n-1$ aristas, siendo $n$ el número de observaciones. 
+		\item Si se eliminan $K-1$ aristas de $T$, se obtienen exactamente $K$ componentes conexas, que pueden interpretarse como clústeres de observaciones.
+		\item Una alternativa para construir clusteres homogéneos es obtener el árbol soporte de mínimo peso y quitar las $K$ aristas de mayor peso (mayor desemejanza).
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Agrupando con el Árbol Soporte de Mínimo peso}
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{itemize}\itemsep 3mm
+			\item El árbol soporte de mínimo peso (MST) se puede calcular con algoritmos muy eficientes ($O(n^2)$), ya que son algoritmos greedy. 
+			\item El algoritmo de $k$-medias está relacionado con los diagramas de Voronoi, mientras que la clasificación utilizando MST puede detectar grupos bien separados pero con formas más complejas.
+		\end{itemize}
+		\column{0.5\textwidth}
+		\begin{center}
+			\includegraphics[width=0.95\textwidth]{fig/MST_clustering_1}
+		\end{center}
+	\end{columns}
+	
+\end{frame}
+
+
+\begin{frame}{Generalización}
+	\begin{itemize}\itemsep 3mm
+		\item Partiendo del MST, la primera idea es quitar los $K-1$ links de mayor peso.
+		\item Sin embargo, es posible encontrar reglas mucho más elaboradas y que se ajusten mejor a la naturaleza y la estructura de los datos
+		\item Sea $F:{\cal X}_\ell \rightarrow\Re$ una función definida sobre el conjunto de posibles particiones de las observaciones en $\ell$ conjuntos o clústeres.
+		\item Esta función puede medir la {\em calidad} o {\em validez} de cada partición  de $\ell$ conjuntos, y el objetivo es encontrar la partición que maximiza esta función. 
+	\end{itemize}
+	Notación: dado un grafo $G=(V,E)$ asociado a un conjunto de observaciones $\mathbf{X}$ y un subgrafo de $G$, $G'=(V,E'')$ con $\ell$ componentes conexas, denotaremos por $C(V,E'')=(X_1,X_2,\dots,X_\ell)\in{\cal X}_\ell$ a la partición asociada a $G'$.
+\end{frame}
+
+\begin{frame}{Maximización de $F$ en un MST}
+	
+	El siguiente algoritmo voraz se puede aplicar sobre el MST asociado a $G$ para obtener una partición de $K$ grupos.
+	\begin{description}
+		\item[Paso 1] Sea $T=MST(G)=(V,E',\delta)$;
+		\item[Paso 2] Sea $E'' = E'$ ;
+		\item[Paso 3] 	Para $i =1,...,k-1$, hacer:
+		\begin{itemize}
+			\item Encontrar una arista $\{u,v\}\in E''$ tal que:
+			$$
+			\{u,v\}=\arg\max_{E''}F(C(V,E''\setminus\bigl\{\{u,v\}\bigr\}))
+			$$
+			\item Eliminar $\{u,v\}$ de $E''$
+		\end{itemize}
+		\item[Paso 4] Terminar y devolver a $C(V,E'')$ como resultado
+	\end{description}
+\end{frame}
+
+\begin{frame}{La función $F$}
+	La función $F$ puede ser de muy diversas formas. Algunas que podemos encontrar en la literatura son:
+	\begin{itemize}
+		\item $\displaystyle F(X_1,\dots,X_\ell)= \sum_{i=1}^\ell\sum_{x_j\in X_i} x_j$ (corresponde a eliminar las $K-1$ aristas de mayor peso en el MST).
+		\item $\displaystyle -WCSS(X_1,\dots,X_\ell)= -\sum_{i=1}^\ell\sum_{x_j\in X_i}\Vert x_j-\mu_i\Vert^2$, donde $\mu_i$ es el centroide del $i$-ésimo cluster.
+		\item $\displaystyle IC(X_1,\dots,X_\ell)= -d\sum_{i=1}^\ell\frac{n_i}{n}\log\frac{L_i}{n_i}-\sum_{i=1}^\ell\frac{n_i}{n}\log\frac{n_i}{n}$, donde $L_i$ es la suma de los pesos de las aristas en el subárbol del MST asociado al $i$-ésimo clúster y $n_i$ el número de observaciones en ese cluster.
+		\item Desviación típica de los pesos de las aristas.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Maximización de $F$ en un MST}\footnotesize
+	
+	Una alternativa al algoritmo anterior es utilizar una estrategia acumulativa: ir añadiendo aristas una a una hasta lograr $K-1$ componentes conexas.
+	\begin{description}
+		\item[Paso 1] Sea $T=MST(G)=(V,E',\delta)$;
+		\item[Paso 2] Sea $E'' = \emptyset$ ;
+		\item[Paso 3] 	Para $i =1,...,k-1$, hacer:
+		\begin{itemize}
+			\item Encontrar una arista $\{u,v\}\in E''$ tal que:
+			$$
+			\{u,v\}=\arg\max_{E''}F(C(V,E''\cup\bigl\{\{u,v\}\bigr\}))
+			$$
+			\item Añadir $\{u,v\}$ de $E''$
+		\end{itemize}
+		\item[Paso 4] Terminar y devolver a $C(V,E'')$ como resultado
+	\end{description}
+	\begin{itemize}
+		\item Esta estrategia se parece al algoritmo de Kruskal.
+		\item Computacionalmente puede ser poco eficiente. Además, la función puede presentar problemas cuando hay grupos con una o pocas observaciones, algo que ocurre siempre en las primeras iteraciones de este algoritmo.
+		\item Algunos autores modifican este algoritmo incluyendo condiciones que dan prioridad (o directamente restringiendo el paso 3) a los grupos más pequeños de la partición cuando hay demasiada diferencia en la dimensión de los grupos (utilizando el índice de Gini)
+	\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Bibliograf\'ia}\footnotesize
+\alert{General:}
+\begin{itemize}
+	\item 	Ahuja R., Magnanti T. and Orlin J.. {\em Network Flows: Theory, Algorithms, and Applications}. Prentice Hall, 1993.
+\end{itemize}
+\alert{Árbol soporte:}
+	\begin{itemize}
+		
+		%	\bibitem{bellman1958}
+		%	Richard Bellman.
+		%	\newblock On a routing problem.
+		%	\newblock {\em Quarterly of Applied Mathematics}, 16:87-90,
+		%	1958.
+		
+		\item Edsger W. Dijkstra. A note on two problems in connecxion with graphs. {\em Numerische Mathematik}, 1(1):269--271,
+		1959.
+		
+		%	\bibitem{floyd1962}
+		%	Robert W. Floyd.
+		%	\newblock Algorithm 97: Shortest Path.
+		%	\newblock {\em Communications of the ACM}, 5(6):345,
+		%	1962.
+		
+		%	\bibitem{ford1956}
+		%	Lester R. Ford.
+		%	\newblock Network flow theory.
+		%	\newblock {\em Paper P-923, RAND Corporation},
+		%	1956.
+		
+		%	\bibitem{fordfulkerson1956}
+		%	Lester R. Ford and Delbert R. Fulkerson.
+		%	\newblock Maximal flow through a network.
+		%	\newblock {\em Canadian Journal of Mathematics}, 8:399-404,
+		%	1956.
+		
+		%	\bibitem{hadleywhitin1963}
+		%	G. Hadley and T.M. Whitin.
+		%	\newblock Analysis of Inventory Systems.
+		%	\newblock {\em Prentice-Hall},
+		%	1963.
+		
+		%	\bibitem{harris1913}
+		%	Ford~W. Harris.
+		%	\newblock How many parts to make at once.
+		%	\newblock {\em The magazine of management}, 10(2):135--136,
+		%	1913.
+		
+		\item
+		Vojt\v{e}ch Jarn\'ik. O jist\'em probl\'emu minim\'aln\'im (about a certain minimal problem).
+		{\em Pr\'ace Moravsk\'e P\v{r}\'irodov\v{e}deck\'e Spole\v{c}nosti}, 6(4):57--63,
+		1930.
+		
+		\item
+		Joseph B. Kruskal. On the shortest spanning subtree of a graph and the traveling salesman problem.
+		{\em Proceedings of the American Mathematical Society}, 7:48--50,
+		1956.
+		
+		%	\bibitem{moore1959}
+		%	Edward F. Moore.
+		%	\newblock The shortest path through a maze.
+		%	\newblock {\em Proceedings of the International Symposium Switching Theory, Part II}, 285--292,
+		%	1959.
+		
+		\item
+		Robert C. Prim. Shortest connection networks and some generalisations.
+		{\em Bell System Technical Journal}, 36:1389--1401,
+		1957.
+		
+		%	\bibitem{roy1959}
+		%	Bernard Roy.
+		%	\newblock Transitivit\'e et connexit\'e.
+		%	\newblock {\em Comptes rendus de l'Acad\'emie des Sciences}, 249:216--218,
+		%	1959.
+		
+		%	\bibitem{shimbel1955}
+		%	Alfonso Shimbel.
+		%	\newblock Structure in communication nets.
+		%	\newblock {\em Proceedings of the Symposium on Information Networks}, 199--203,
+		%	1955.
+		
+		%	\bibitem{warshall1962}
+		%	Stephen Warshall.
+		%	\newblock A theorem on Boolean matrices.
+		%	\newblock {\em Journal of the ACM}, 9(1):11--12,
+		%	1962.
+		
+		%	\bibitem{wilson1934}
+		%	R.~H. Wilson.
+		%	\newblock A scientific routine for stock control.
+		%	\newblock {\em Harvard Business Review}, 13(1):116--128,
+		%	1934.
+	\end{itemize}
+\alert{Clasificación:}
+\begin{itemize}
+		\item Gagolewski, M., Cena, A., Bartoszuk, M. et al. Clustering with Minimum Spanning Trees: How Good Can It Be?. Journal of Classification (2024). \url{https://doi.org/10.1007/s00357-024-09483-1}
+
+\end{itemize}
+	
+\end{frame}
+
+
+\end{document}

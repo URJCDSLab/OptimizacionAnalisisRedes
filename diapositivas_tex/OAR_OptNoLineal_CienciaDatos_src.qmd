@@ -1,0 +1,822 @@
+\documentclass[aspectratio=169]{beamer}
+\beamertemplatenavigationsymbolsempty
+\mode<presentation> {
+	\usetheme{Boadilla}
+	%	\setbeamercovered{transparent}
+}
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+%\usepackage{pstcol,fancybox,pst-node,pst-tree}
+
+\usepackage{pgf,tikz}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows}
+
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+%\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\usepackage{pgfplots}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+	\href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on no lineal] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+	\textbf{Optimizaci\'on no lineal} \\ Ciencia de Datos
+}
+
+\author[]
+{      Antonio Alonso Ayuso \\
+	{\ttfamily antonio.alonso@urjc.es}
+}
+
+\institute[]
+{
+	Universidad Rey Juan Carlos\\
+	
+	%there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{}
+
+
+\AtBeginSubsection[] 
+{
+	\begin{frame}<beamer>
+	\frametitle{Contenidos}
+	\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded,subsubsectionstyle=hide]
+	%\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+\AtBeginSection[] 
+{
+\begin{frame}<beamer>
+\frametitle{Contenidos}
+\tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide,subsubsectionstyle=hide]
+\end{frame}
+}
+
+
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+\newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vQ}{\V{Q}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+\newcommand{\vV}{\V{v}}
+%%
+%%
+%%
+%% Letras griegas (son las dos primeras letras)
+%%
+\newcommand{\al}{\alpha}
+\newcommand{\be}{\beta}
+\newcommand{\te}{\theta}
+\newcommand{\Te}{\Theta}
+\newcommand{\et}{\hat{\theta}}
+\newcommand{\olambda}{\overline{\lambda}}
+%%
+%% Letras con raya superior
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+\newcommand{\ovy}{\overline{\V{y}}}
+\newcommand{\od}{\overline{d}}
+\newcommand{\oH}{\overline{H}}
+\newcommand{\oJ}{\overline{J}}
+\newcommand{\oN}{\overline{N}}
+\newcommand{\op}{\overline{p}}
+\newcommand{\oQ}{\overline{Q}}
+\newcommand{\oR}{\overline{R}}
+\newcommand{\oS}{\overline{S}}
+\newcommand{\oT}{\overline{T}}
+\newcommand{\ox}{\overline{x}}
+\newcommand{\oy}{\overline{y}}
+\newcommand{\oz}{\overline{z}}
+\newcommand{\oV}{\overline{V}}
+\newcommand{\oW}{\overline{W}}
+\newcommand{\oX}{\overline{X}}
+\newcommand{\oY}{\overline{Y}}
+\newcommand{\oZ}{\overline{Z}}
+%%
+%% gradientes
+%%
+\newcommand{\gf}{\B{\nabla} f}
+\renewcommand{\gg}{\B{\nabla} g}
+\newcommand{\gh}{\B{\nabla} h}
+%%
+%% Flechas
+%%
+\DeclareMathOperator{\implica}{\qquad\Longrightarrow\qquad}
+\DeclareMathOperator{\siysolosi}{\qquad\Longleftrightarrow\qquad}
+%%
+%% n{\'\i}nimo, maxino y limite con acento
+%%
+\mathchardef\isinpunto="0010
+\renewcommand{\min}{\mathop{\rm m\acute{\isinpunto}n}}
+\renewcommand{\lim}{\mathop{\rm l\acute{\isinpunto}m}}
+\renewcommand{\max}{\mathop{\rm m\acute{a}x}}
+\newcommand{\mini}{\mathop{\rm m\acute{\isinpunto}n}}
+\newcommand{\limi}{\mathop{\rm l\acute{\isinpunto}m}}
+\newcommand{\maxi}{\mathop{\rm m\acute{a}x}}
+\newcommand{\seno}{\mathop{\rm sen}}
+%%
+%% alguna notaci{\'o}n del simplex
+%%
+\newcommand{\inte}{\text{inte}}
+\newcommand{\so}{{\mathbf x}^*}
+\newcommand{\sor}{{\overline{\mathbf x}^*}}
+\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+\newcommand{\sori}{{\overline{x}^*_i}}
+\newcommand{\Bi}{{\mathbf B}^{-1}}
+%%
+%\newcolumntype{d}[1]{D{.}{.}{#1}}
+%%
+%% comandos de los colores
+%%
+%\newcommand{\azul}[1]{ {\color{blue} #1}}
+%\newcommand{\rojo}[1]{ {\color{red} #1}}
+%\newcommand{\verde}[1]{ {\color{green} #1}}
+%\newcommand{\cyan}[1]{ {\color{cyan} #1}}
+%\newcommand{\magenta}[1]{{\color{magenta} #1}}
+%\newcommand{\negro}[1]{ {\color{black} #1}}
+
+\newtheorem{ejemplin}{\bf Ejemplo}
+\newcommand{\ds}{\displaystyle}
+%\newcommand{\nat}{I\!\! N}
+%\newcommand{\real}{I\!\! R}
+%\newcommand{\ent}{\mathbb{Z}}
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+%%%%
+%\newcommand{\inte}{\text{inte}}
+%\newcommand{\so}{{\mathbf x}^*}
+%\newcommand{\sor}{{\overline{\mathbf x}^*}}
+%\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+%\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+%\newcommand{\sori}{{\overline{x}^*_i}}
+%\newcommand{\Bi}{{\mathbf B}^{-1}}
+\newcommand{\dif}[1]{\widetilde{#1}}
+%%
+%%
+%% tipos de teoremas
+%%
+\theoremstyle{remark}
+\newtheorem{observacion}{\bf Observaci\'on}
+\newtheorem*{nota}{\bf Nota}
+% %%
+\theoremstyle{plain}
+\newtheorem{relacion}{\bf Relaci\'on}
+\newtheorem{proposicion}{\bf Proposici\'on}
+\newtheorem{lema}{\bf Lema}
+\newtheorem{corolario}{\bf Corolario}
+\newtheorem{teorema}{\bf Teorema}
+%%
+\theoremstyle{definition}
+\newtheorem{definicion}{\bf Definici\'on}
+
+\parskip 5mm
+
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+\titlepage % call the title page information from above
+\end{frame}}
+
+
+\begin{frame}
+\frametitle{Contenidos del tema}
+\tableofcontents
+\end{frame}
+
+\section{Introducción}
+
+\begin{frame}{Introducción}\small
+	\begin{itemize}\itemsep 1mm
+		\item Muchos problemas en Ciencia de datos necesitan la optimización.
+		\item Es habitual que a partir de unos datos, se busque un modelo matemático (sistema de ecuaciones, funciones, etc.) que mejor se ajuste al modelo.
+		\item La optimización aparece cuando se quieren obtener los valores para los parámetros del modelo que reduzcan una medida de error.
+		\begin{itemize}\itemsep 0mm
+			\item Estimación puntual: maximizar la función de verosimilitud, minimizar el error cuadrático medio
+			\item Estimación por intervalos: minimizar la amplitud del intervalo sin reducir el nivel de confianza.
+			\item Contraste de hipótesis: maximizar la potencia del test, manteniendo acotada la probabilidad de error 1.
+			\item Modelos lineales: minimizar el error cuadrático medio.
+			\item Clasificación: minimizar la variabilidad entre grupos.
+			\item etc.
+		\end{itemize}
+		\item En muchas ocasiones, estos modelos incluyen objetivos y restricciones no lineales (aunque se buscan funciones con buenas propiedades, como la convexidad).
+	\end{itemize}
+\end{frame}
+%%
+
+
+\section{Problema de ajuste de datos}
+\begin{frame}{Ajuste de datos}
+	\begin{itemize}
+		\item Se han observado dos variables $x$ e $y$ en un conjunto de 20 individuos, obteniendo los siguientes resultados:
+		\begin{center}\small
+			%\scalebox{\textwidth}{
+				\begin{tabular}{lc@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}r@{\,\,\,\,}c@{\,\,\,\,}c@{\,\,\,\,}c@{\,\,\,\,}r@{\,\,\,\,}r}
+					$x$ & $0.0$ &  $0.5$ & $1.0$ &  $1.5$ & $1.9$ & $2.5$ & $3.0$ & $3.5$ & $4.0$ & $4.5$ & $5.0$ & $5.5$ & $6.0$ & $6.6$ & $7.0$ & $7.6$ & $8.5$ & $9.0$ & $10$
+					\\
+					$y$ & $1.0$ &  $0.9$ & $0.7$ &  $1.5$ & $2.0$ & $2.4$ & $3.2$ & $2.0$ & $2.7$ & $3.5$ & $1.0$ & $4.0$ & $3.6$ & $2.7$ & $5.7$ & $4.6$ & $6.0$ & $6.8$ & $7.3$
+				\end{tabular}
+				%}
+		\end{center}
+		\begin{center}
+			\scalebox{0.63}{
+				\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm]
+					%\fill[color=blue!30,fill=blue!90,opacity=0.25] (0,8) -- (2,8) -- (9,1) -- (9,0) -- (0,0);
+					\draw [color=lightgray!20, xstep=1cm,ystep=1cm] (-0.3,-0.3) grid (10.2,7.5);	
+					\draw (0,7.7) node {$y$};
+					\draw (10,-0.9) node {$x$};
+					\draw[->,color=black] (-1,0) -- (10.2,0);
+					\foreach \x in {-1,1,2,3,4,5,6,7,8,9,10}
+					\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};
+					\draw[->,color=black] (0,-1) -- (0,7.5);
+					\foreach \y in {-1,1,2,3,4,5,6,7}
+					\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+					\fill[color=blue]  (0.0,1.0)  circle (2pt);
+					\fill[color=blue]  (0.5,0.9)  circle (2pt);
+					\fill[color=blue]  (1.0,0.7)  circle (2pt);
+					\fill[color=blue]  (1.5,1.5)  circle (2pt);
+					\fill[color=blue]  (1.9,2.0)  circle (2pt);
+					\fill[color=blue]  (2.5,2.4)  circle (2pt);
+					\fill[color=blue]  (3.0,3.2)  circle (2pt);
+					\fill[color=blue]  (3.5,2.0)  circle (2pt);
+					\fill[color=blue]  (4.0,2.7)  circle (2pt);
+					\fill[color=blue]  (4.5,3.5)  circle (2pt);
+					\fill[color=blue]  (5.0,1.0)  circle (2pt);
+					\fill[color=blue]  (5.5,4.0)  circle (2pt);
+					\fill[color=blue]  (6.0,3.6)  circle (2pt);
+					\fill[color=blue]  (6.6,2.7)  circle (2pt);
+					\fill[color=blue]  (7.0,5.7)  circle (2pt);
+					\fill[color=blue]  (7.6,4.6)  circle (2pt);
+					\fill[color=blue]  (8.5,6.0)  circle (2pt);
+					\fill[color=blue]  (9.0,6.8)  circle (2pt);
+					\fill[color=blue]  (10,7.3)  circle (2pt);
+					%\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+					%				\visible<2>{
+						%					\draw [domain=2:9,line width=2pt,color=red] plot(\x,{(12.25+3*\x)/\x}) node[right] {$P\cdot Q-3Q-1=11.25$};
+						%					\draw [domain=2.35:9,line width=0.25pt,color=red!50] plot(\x,{(14.25+3*\x)/\x}) ;
+						%					\draw [domain=2.65:9,line width=0.25pt,color=red!30] plot(\x,{(16.25+3*\x)/\x}) ;
+						%					\draw [dash pattern=on 3pt off 4pt,color=red,line width=1.5pt] (3.5,0) -- (3.5,6.5) -- (0,6.5);
+						%					\fill[color=red]  (3.5,6.5)  circle (3pt)  node[right] {\color{red} $\Bigl(\frac{5}{2},\frac{13}{2}\Bigr)$. Beneficio: $11.25$};
+						%				}
+					%\draw [dash pattern=on 3pt off 4pt,color=red,domain=3:21,line width=1.5pt] plot(\x,{(\x+48.19)/11});
+				\end{tikzpicture}
+			}
+		\end{center}
+	\end{itemize}
+\end{frame}
+\begin{frame}{Ajuste de datos. Regresión lineal}
+	\begin{itemize}
+		\item La regresión lineal consiste en encontrar una recta $y=a+bx+\epsilon$ que permita obtener una estimación del valor de la variable $y$ a partir del valor de la variable $x$, donde $\epsilon$ es un término aletorio que recoge los factores de la realidad no controlables u observables (por tanto, se asocian al azar), y es la que confiere al modelo su carácter estocástico.
+		\item Para determinar los valores que deben tomar los parámetros, se utilizan los datos de la muestra para encontrar la recta que minimice el error cuadrático medio:
+		\begin{itemize}
+			\item Para cada observación de la muestra se tiene que el valor proporcionado por la muestra $\hat{y}_i=a+bx_i$
+			\item Los valores de $a$ y $b$ se obtienen resolviendo el siguiente problema de optimización:
+			$$
+			\min_{a,b} \sum_{i=1,\dots,n} (a+bx_i-y_i)^2
+			$$
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Ajuste de datos. Regresión lineal}\small
+	\begin{columns}
+		\column{0.5\textwidth}
+		Solución: 
+		\begin{itemize}
+			\item Solución: como el objetivo es convexo y diferenciable, el mínimo se alcanza cuando se anula el gradiente:
+			$$\color{red}
+			\sum_{i=1,\dots,n} (a+bx_i-y_i)=0\quad  \sum_{i=1,\dots,n} (a+bx_i-y_i)x_i=0
+			$$
+			\item La solución es:
+			$$
+			a=\ovy-b\ovx \qquad b =\frac{\sigma_{xy}}{\sigma^2_x}
+			$$
+			\item<2-> En nuestro caso
+			$$
+			Y= 0,4261 + 0,6108x
+			$$
+		\end{itemize}
+		\column{0.5\textwidth}
+		\begin{center}
+			\scalebox{0.65}{
+				\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm]
+					%\fill[color=blue!30,fill=blue!90,opacity=0.25] (0,8) -- (2,8) -- (9,1) -- (9,0) -- (0,0);
+					\draw [color=lightgray!20, xstep=1cm,ystep=1cm] (-0.3,-0.3) grid (10.2,7.5);	
+					\draw (0,7.7) node {$y$};
+					\draw (10,-0.9) node {$x$};
+					\draw[->,color=black] (-1,0) -- (10.2,0);
+					\foreach \x in {-1,1,2,3,4,5,6,7,8,9,10}
+					\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};
+					\draw[->,color=black] (0,-1) -- (0,7.5);
+					\foreach \y in {-1,1,2,3,4,5,6,7}
+					\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+					\fill[color=blue]  (0.0,1.0)  circle (2pt);
+					\fill[color=blue]  (0.5,0.9)  circle (2pt);
+					\fill[color=blue]  (1.0,0.7)  circle (2pt);
+					\fill[color=blue]  (1.5,1.5)  circle (2pt);
+					\fill[color=blue]  (1.9,2.0)  circle (2pt);
+					\fill[color=blue]  (2.5,2.4)  circle (2pt);
+					\fill[color=blue]  (3.0,3.2)  circle (2pt);
+					\fill[color=blue]  (3.5,2.0)  circle (2pt);
+					\fill[color=blue]  (4.0,2.7)  circle (2pt);
+					\fill[color=blue]  (4.5,3.5)  circle (2pt);
+					\fill[color=blue]  (5.0,1.0)  circle (2pt);
+					\fill[color=blue]  (5.5,4.0)  circle (2pt);
+					\fill[color=blue]  (6.0,3.6)  circle (2pt);
+					\fill[color=blue]  (6.6,2.7)  circle (2pt);
+					\fill[color=blue]  (7.0,5.7)  circle (2pt);
+					\fill[color=blue]  (7.6,4.6)  circle (2pt);
+					\fill[color=blue]  (8.5,6.0)  circle (2pt);
+					\fill[color=blue]  (9.0,6.8)  circle (2pt);
+					\fill[color=blue]  (10,7.3)  circle (2pt);
+					\visible<2->{\draw [domain=0:10,line width=1.5pt,color=black] plot(\x,{(0.61077*\x+0.42613)}) ;% node[right] {\footnotesize $ y=0.6375x+0.5812$};
+					}
+				\end{tikzpicture}
+			}
+		\end{center}
+	\end{columns}
+	
+\end{frame}
+
+
+\begin{frame}{Ajuste de datos. Alternativas lineales}
+	\begin{itemize}\itemsep 5mm
+		\item Encontrar ajuste lineal ($y=a+bx$) o cuadrático ($y=a+bx+cx^2$) utilizando distintas funciones objetivo:
+		\begin{itemize}\itemsep 3mm
+			\item Minimización del error cuadrático medio (norma $\ell_2$)
+			\item Minimización de la suma de las desviaciones absolutas entre cada valor observado de $y$ y el obtenido mediante este ajuste lineal. (norma $\ell_1$)
+			\item Minimización de la máxima desviación absoluta entre cada valor observado de $y$ y el obtenido mediante este ajuste lineal. (norma $\ell_\infty$)
+			
+		\end{itemize}
+		\item Encontrar el mejor ajuste cuadrático , utilizando las funciones objetivos de los puntos anteriores.
+	\end{itemize}
+\end{frame}
+\begin{frame}{Ajuste de datos}\small
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{itemize}
+			\item<1-> Ajuste lineal y minimizar $\ell_1$:
+			\\
+			$\color{red}
+			y=0.6375x+0.5812
+			$
+			\\ $z_{\ell_1} = 11.46\qquad  z_{\ell_\infty} = 2.77$ (en $x=5$)
+			
+			\item<2-> Ajuste lineal y minimizar $\ell_\infty$:
+			\\	$\color{black}
+			y=0.6245x-0.4
+			$
+			\\ $z_{\ell_1} = 19.95\qquad  z_{\ell_\infty} = 1.725$ (en $x=3,5,7$)
+			\item<3-> Ajuste cuadrático y minimizar $\ell_1$:
+			\\	$\color{magenta}
+			y=0.0337x^2 + 0.2945x + 0.9823
+			$
+			\\ $z_{\ell_1} = 10.45\qquad  z_{\ell_\infty} = 2.2973$  (en $x=5$)
+			\item<4-> Ajuste cuadrático y minimizar $\ell_\infty$:
+			\\ $\color{orange}
+			y=0.125x^2 -0.625x + 2.475.
+			$
+			\\ $z_{\ell_\infty} = 1.475$ (en $x=0,3,5,7$)
+			
+		\end{itemize}
+		\column{0.5\textwidth}
+		\begin{center}
+			\scalebox{0.65}{
+				\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm]
+					%\fill[color=blue!30,fill=blue!90,opacity=0.25] (0,8) -- (2,8) -- (9,1) -- (9,0) -- (0,0);
+					\draw [color=lightgray!20, xstep=1cm,ystep=1cm] (-0.3,-0.3) grid (10.2,7.5);	
+					\draw (0,7.7) node {$y$};
+					\draw (10,-0.9) node {$x$};
+					\draw[->,color=black] (-1,0) -- (10.2,0);
+					\foreach \x in {-1,1,2,3,4,5,6,7,8,9,10}
+					\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};
+					\draw[->,color=black] (0,-1) -- (0,7.5);
+					\foreach \y in {-1,1,2,3,4,5,6,7}
+					\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+					\fill[color=blue]  (0.0,1.0)  circle (2pt);
+					\fill[color=blue]  (0.5,0.9)  circle (2pt);
+					\fill[color=blue]  (1.0,0.7)  circle (2pt);
+					\fill[color=blue]  (1.5,1.5)  circle (2pt);
+					\fill[color=blue]  (1.9,2.0)  circle (2pt);
+					\fill[color=blue]  (2.5,2.4)  circle (2pt);
+					\fill[color=blue]  (3.0,3.2)  circle (2pt);
+					\fill[color=blue]  (3.5,2.0)  circle (2pt);
+					\fill[color=blue]  (4.0,2.7)  circle (2pt);
+					\fill[color=blue]  (4.5,3.5)  circle (2pt);
+					\fill[color=blue]  (5.0,1.0)  circle (2pt);
+					\fill[color=blue]  (5.5,4.0)  circle (2pt);
+					\fill[color=blue]  (6.0,3.6)  circle (2pt);
+					\fill[color=blue]  (6.6,2.7)  circle (2pt);
+					\fill[color=blue]  (7.0,5.7)  circle (2pt);
+					\fill[color=blue]  (7.6,4.6)  circle (2pt);
+					\fill[color=blue]  (8.5,6.0)  circle (2pt);
+					\fill[color=blue]  (9.0,6.8)  circle (2pt);
+					\fill[color=blue]  (10,7.3)  circle (2pt);
+					\draw [domain=0:10,dashed, line width=1.5pt,color=gray] plot(\x,{(0.61077*\x+0.42613)}) ;% node[right] {\footnotesize $ y=0.6375x+0.5812$};
+						
+					\visible<1->{\draw [domain=0:10,line width=1.5pt,color=red] plot(\x,{(0.6375*\x+0.5812)}) ;% node[right] {\footnotesize $ y=0.6375x+0.5812$};
+					}
+					\visible<2->{\draw [domain=0:10,line width=1.5pt,color=black] plot(\x,{(0.6245*\x-0.4)}) ;% node[right] {\footnotesize $ y=0.6375x+0.5812$};
+					}
+					\visible<3->{\draw [domain=0:10,line width=1.5pt,color=magenta] plot(\x,{(0.0337*\x*\x+0.2945*\x+0.9823)}) ;% node[right] {\footnotesize $ y=0.6375x+0.5812$};
+					}
+					\visible<4->{\draw [domain=0:10,line width=1.5pt,color=orange] plot(\x,{(0.125*\x*\x-0.625*\x+2.475)}) ;% node[right] {\footnotesize $ y=0.6375x+0.5812$};
+					}
+				\end{tikzpicture}
+			}
+		\end{center}
+	\end{columns}
+	
+\end{frame}
+
+\begin{frame}{Regresión lineal múltiple}
+El modelo anterior se extiende al caso en el que se dispone de más de una variable explicativa:
+\begin{itemize}
+\item Denominaremos $Y$ a la variable dependiente y $X_1\dots,X_m$ a las $m$ variables independientes o explicativas. El modelo en cuestión es:
+$$
+Y=\beta_0+\beta_1X_1+\dots+\beta_mX_m+\epsilon,
+$$
+donde $\beta_0,\dots,\beta_m$ son los parámetros del modelo que miden la influencia que las variables explicativas tienen sobre la variable $Y$. 
+\item Esta ecuación define un hiperplano en $\mathbb{R}^{n+1}$.
+\item Se asume que la relación es lineal y, por tanto, para la $i$-ésima observación de la muestra se tiene:
+$$
+y_i=\beta_0+\beta_1x_{1i}+\dots+\beta_mx_{mi}+\epsilon_i.
+$$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Regresión lineal múltiple}
+	\begin{itemize}
+\item El objetivo es obtener una estimación de estos valores a partir de la muestra. Una vez obtenida esta estimación, el modelo resultante es:
+$$
+Y=\hat{\beta}_0+\hat{\beta}_1X_1+\dots+\hat{\beta}_mX_m+\hat{\epsilon}
+$$
+\item Aplicando este modelo a los datos de la muestra se obtiene:
+$$
+\hat{y}_i=\hat{\beta}_0+\hat{\beta}_1x_{1i}+\dots+\hat{\beta}_mx_{mi}+\hat{\epsilon}_i
+$$
+donde $\hat{e}_i=\vert y_i-\hat{y}_i\vert $ es el error cometido al utilizar el modelo para obtener el valor de la $i$-ésima observación de $Y$ en la muestra en lugar del verdadero valor $y_i$. 
+\item El objetivo que se plantea es minimizar el error cometido y la alternativa más utilizada es el método de los mínimos cuadrados:
+$$
+\Bigl\{\hat{\beta}_i\Bigr\}_{i=0,\dots,m}={\arg\min}_ {\{\beta_i\}_{i=0,\dots,m}} \sum_i (y_i-\beta_0-\beta_1x_{1i}-\dots-\beta_mx_{mi})^2
+$$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Regresión lineal múltiple. Extensión}
+\begin{itemize}\itemsep 3mm
+\item El modelo anterior asume que todas las variables explicativas tienen influencia, pero en la práctica puede ocurrir que el impacto de alguna de estas variables sea muy bajo;
+\item Esto se refleja en que el correspondiente coeficiente en la regresión toma un valor próximo a cero. 
+\item Incluso hay ocasiones en las que se quiere limitar el número de variables explicativas. 
+\item Hay varias alternativas para lograr esto. 
+\item Una de ellas es añadir una penalización en el modelo (por ejemplo, añadir la suma del cuadrado de los estimadores en la función a minimizar). 
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Regresión lineal múltiple. Extensión}
+\begin{itemize}
+\item Otra alternativa es valerse de las variables binarias: $\delta_i=1$ si el parámetro $\beta_i$ es distinto de cero y 0 en otro caso. 
+\item Esto se puede representar de la siguiente forma:
+$$
+\underline{\beta}_i\delta_i\leq \beta_i\leq \overline{\beta}_i\delta_i
+$$
+donde $\underline{\beta}_i$ y $\overline{\beta}_i$ son cotas inferiores y superiores al valor que puede tomar $\beta_i$ en caso de que sea no nulo. 
+\item En particular, se puede fijar la cota inferior en 0 y la superior en un valor suficientemente grande. 
+\item Una vez definidas estas variables binarias y las restricciones que ligan su valor con el valor de los parámetros, es posible añadir todo tipo de restricciones sobre el modelo. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Regresión lineal múltiple. Extensión}
+\begin{itemize}
+	\item Número máximo de parámetros distintos de cero:
+	$$
+	\sum_{i=1,\dots,m} \delta_i \leq M_{\max}
+	$$
+	\item Número mínimo de parámetros distintos de cero:
+	$$
+	\sum_{i=1,\dots,m} \delta_i \geq M_{\min}
+	$$
+	\item Los parámetros asociados a las variables $i$ y $j$ no pueden no nulos simultáneamente:
+	$$
+	\delta_i+\delta_j\leq 1
+	$$
+	\item Al menos uno de los parámetros asociados a las variables $i$ y $j$ debe ser no nulo:
+	$$
+	\delta_i+\delta_j\geq 1
+	$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Regresión lineal múltiple. Extensión. Modelo}
+
+El modelo más básico resulta:
+$$
+\Bigl\{\hat{\beta}_i\Bigr\}_{i=o,\dots,m}={\arg\min}_ {\bigl\{\beta_i\bigr\}_{i=o,\dots,m}} \sum_i (y_i-\beta_0-\beta_1x_{1i}-\dots-\beta_mx_{mi})^2
+$$
+sujeto a
+\begin{align}
+	\underline{\beta}_i\delta_i\leq \beta_i\leq \overline{\beta}_i\delta_i & \qquad\forall i=1,\dots,m
+	\\
+	M_{\min}\leq \sum_{i=1,\dots,m} \delta_i \leq M_{\max} &
+	\\
+	\delta_i\in\{0,1\} & \qquad\forall i=1,\dots,m
+\end{align}
+\end{frame}
+
+\section{Explicabilidad y contrafácticos}
+\begin{frame}{Modelos de clasificación}
+\begin{itemize}
+	\item En muchas situaciones reales se plantea el problema de clasificar individuos a partir de los valores observados en ciertos atributos:
+	\begin{itemize}
+		\item Concesión o no de un crédito.
+		\item Cribado en el diagnóstico de ciertas enfermedades.
+		\item Contratación de personal,
+		\item Etc.
+	\end{itemize}
+	\item Cada vez es más importante que sea posible justificar/explicar la clasificación otorgada a un individuo.
+	\item La Unión Europea está tomando cartas en el asunto y legislando en esta dirección, para evitar sesgos.
+	\item Esto dificulta el uso de técnicas tipo {\em caja negra}, como los que se utilizan en muchas técnicas de {\em deep learning}.
+	\item Y una forma de explicar muchos modelos es el uso de \alert{contrafácticos}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Contrafácticos (o contrafactuales)}
+	\begin{itemize}
+		\item Supongamos un sistema de clasificación (por simplicidad, supongamos que es binario, -1, +1), y un individuo que ha sido clasificado en una categoría concreta.
+		\item El análisis de contrafácticos trata de analizar qué cambios tienen que producirse en los valores de los atributos de ese individuo para que su clasificación cambie.
+		\item Por ejemplo, si a una persona se le deniega un crédito, ¿qué debería cambiar para que se lo pudieran  conceder: aumentar ingresos, lograr un aval, etc.?
+		\item Estos cambios:
+		\begin{itemize}
+			\item No son únicos, hay varios posibles cambios que implican una modificación en la clasificación.
+			\item Cada posible cambio tiene un coste asociado.
+			\item Pueden referirse a un único individuo o a un conjunto de individuos.
+		\end{itemize}
+		\item Surge entonces un problema de decisión/optimización: qué cambios son los que tienen menor coste.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Modelos de optimización para la búsqueda de contrafácticos}
+	\begin{itemize}\itemsep 3mm
+		\item El problema trata de encontrar contrafácticos en un espacio $\X$.
+		\item Partimos de una clasificación binaria (+1 y -1), donde +1 se considera el grupo {\em adecuado}.
+		\item Se cuenta con un clasificador:
+		$$
+		P:\X \longrightarrow [0,1]
+		$$
+		tal que $P(\vx)$ representa la probabilidad de que el individuo $\vx$ sea clasificado como positivo.
+		\item En un clasificador determinista, se fija un nivel $\tau$ tal que si $P(\vx)\geq\tau$, el individuo $\vx$ es clasificado como positivo. 
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Modelos de optimización para la búsqueda de contrafácticos}
+	\begin{itemize}
+		\item Como resultado del análisis, existe un individuo $\vx^0$ con $P(\vx)<\tau$, es decir, clasificado como negativo y se quiere estudiar cómo debería cambiar este individuo para lograr ser clasificado como positivo.
+		\item Se define un conjunto de factibilidad $\X(\vx^0)\subset\X$,  tal que los puntos $\vx\in\X(\vx^0)$ sí se han clasificado como positivos y el costo de perturbar $\vx^0$ para alcanzar $\vx$ es suficientemente pequeño.
+		\item Si $C(\vx^0,\vx)$ es el costo de perturbar $\vx^0$ para alcanzar $\vx$, se puede plantear el siguiente problema biobjetivo:
+		$$
+		\min_{\vx\in\X(\vx^0)} \bigl\{C(\vx^0,\vx),-P(\vx)\bigr\}
+		$$
+		\item Para encontrar el conjunto de soluciones eficientes (frontera de Pareto), se puede plantear el problema:
+		$$
+			\min_{\vx\in\X(\vx^0)} C(\vx^0,\vx)\quad\text{sujeto a }\quad P(\vx)\geq \nu
+		$$
+		y resolverlo para un conjunto de valores de $\nu$ en [0,1].
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Modelos de optimización para la búsqueda de contrafácticos}
+	\begin{itemize}\itemsep 3mm
+		\item En estos modelos es importante definir el conjunto de búsqueda $\X$. 
+		\item Una aproximación al problema es suponer que $\X$ está compuesto por un conjunto finito de individuos y observaciones, \alert{contrafácticos endógenos}. Tiene la ventaja de que los contrafácticos son individuos reales. 
+		\item La alternativa es considerar que los contrafácticos pueden ser sintéticos, dando lugar a un conjunto $\X$ no finito, \alert{contrafácticos exógenos}. Esta aproximación es más habitual en la literatura.
+		\item Los modelos de optimización que surgen en el primer caso son similares a los que aparecen en los problemas de localización discreta mientras que en el caso de los contrafácticos exógenos, los modelos que surgen se parecen a los de la localización continua. 
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Modelos de optimización para la búsqueda de contrafácticos}
+	\begin{itemize}\itemsep 3mm
+		\item Muchos clasificadores se basan en una función $f:\X\rightarrow\mathbb{R}$ de puntuación y una probabilidad de $\vx$ de ser clasificado en la clase positiva:
+		$$
+		P(\vx)=\varphi\bigl(f(\vx)\bigr),
+		$$
+		donde $\varphi$ es una función creciente. 
+		\item El caso más sencillo es el clasificador lineal, en el que $f$ se define de la forma $f(\vx)=\vw^T\vx+b$
+		\item Por ejemplo, para la regresión logística, la probabilidad de que $\vx$ sea clasificado como positivo $\varphi\bigl(f(\vx)\bigr)$ se obtiene con la función
+		$$
+		\varphi(t)=\frac{1}{1+e^{-t}},\qquad \varphi\bigl(f(\vx)\bigr)=\frac{1}{1+e^{-\vw^T\vx-b}}
+		$$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Modelos de optimización para la búsqueda de contrafácticos}
+	\begin{itemize}
+		\item Una posible función de coste incluye coste por cambiar y penalización por el número de cambios:
+		$$
+		C(\vx^0,\vx)=\norma{\vx^0,\vx}^2+\lambda \norma{\vx^0,\vx}_0
+		$$
+		donde $\lambda$ es un parámetro que pondera la penalización por el número de cambios realizados para moverse de $\vx^0$ a $\vx$.
+		\item Se puede plantear el problema:
+		\begin{align*}
+			\min\, & \norma{\vx^0,\vx}^2+\lambda \norma{\vx^0,\vx}_0
+			\\ \text{sujeto a } & 
+			\\ &  f(\vx)\geq \varphi^{-1}(\nu)
+			\\ &\vx\in\X^0
+		\end{align*}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Modelos de optimización para la búsqueda de contrafácticos}
+	\begin{itemize}
+		\item El modelo general anterior se puede formular como un modelo de optimización con variables binarias.
+		\item Se define la variable binaria $\delta_k=1$ si la característica $k$-ésima de $\vx^0$ se modifica y 0 en otro caso y se considera la restricción:
+		$$
+		-M_k\delta_k\leq x_k^0-x_k\leq M_k\delta_k,\qquad k=1,\dots, K
+		$$
+		donde $M_k$ es una constante suficientemente grande.
+		\item Se puede añadir una restricción que limite el número de características que se pueden modificar:
+		$$
+		\underline{n}\leq \sum_k\delta_k\leq\overline{n} 
+		$$
+		\item Y para el caso de la regresión logística, la restricción $ f(\vx)\geq \varphi^{-1}(\nu)$ resulta:
+		$$
+		\vw^T\vx-b\geq  \varphi^{-1}(\nu)
+		$$
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Modelos de optimización para la búsqueda de contrafácticos}
+	Otras restricciones que pueden aparecer en el modelo
+	\begin{itemize}\itemsep 5mm
+		\item Elegir contrafácticos que no estén muy alejados del individuo analizado:
+		$$
+		\norma{\vx^0-\vx}\leq D
+		$$
+		donde $D$ es una cota máxima a la norma/disimilaridad entre $\vx^0$ y su contrafáctico.
+		\item Hay características de $\vx^0$ que no se pueden modificar
+		$$
+		x^0_k=x_k\qquad\text{para la característica $k$-ésima que no se puede modificar}.
+		$$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Modelo lineal}
+	\begin{itemize}
+	\item Si en todas las expresiones anteriores se usan solo las nomas $\ell_1$ o $\ell_\infty$, se obtienen modelos lineales.
+	\item Si en la función objetivo se usa la norma $\ell_2$, el modelo es cuadrático.
+	\begin{align*}
+		\min\, & \sum_k (x_k^0-x_k)^2+\lambda \sum_k\delta_k
+		\\ \text{sujeto a } & 
+		\\  & \sum_k w_kx_k-b\geq  \varphi^{-1}(\nu)
+		\\  & -M_k\delta_k\leq x_k^0-x_k\leq M_k\delta_k,&& k=1,\dots, K
+		\\  &  \sum_k \vert x_k^0-x_k\vert \leq D, && (\text{norma $\ell_1$}) 
+		\\  & x^0_k=x_k && \text{si la característica $k$-ésima no se puede modificar}.
+		\\  &\ \underline{n}\leq \sum_k\delta_k\leq\overline{n} 
+	\end{align*}
+	\end{itemize}
+	
+\end{frame}
+
+
+
+
+
+
+\end{document}

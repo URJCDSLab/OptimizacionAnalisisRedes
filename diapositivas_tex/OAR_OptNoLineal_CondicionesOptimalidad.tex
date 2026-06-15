@@ -1,0 +1,3122 @@
+\documentclass[aspectratio=169]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+\mode<presentation> {
+	\usetheme{Boadilla}
+	%	\setbeamercovered{transparent}
+}
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+%\usepackage{pstcol,fancybox,pst-node,pst-tree}
+
+\usepackage{pgf,tikz}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows}
+
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+%\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\usepackage{pgfplots}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+\usepackage{version} 
+\usepackage{alltt} 
+%%
+\newenvironment{profesor}{}{}
+\newenvironment{alumno}{}{}
+%\excludeversion{profesor}\includeversion{alumno}
+\includeversion{profesor}\excludeversion{alumno}
+
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+	\href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on no lineal] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+	\textbf{Optimizaci\'on no lineal} \\ Optimización con restricciones
+}
+
+\author[]
+{      Antonio Alonso Ayuso \\
+	{\ttfamily antonio.alonso@urjc.es}
+}
+
+\institute[]
+{
+	Universidad Rey Juan Carlos\\
+	
+	%there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{}
+
+
+\AtBeginSubsection[] 
+{
+	\begin{frame}<beamer>
+	\frametitle{Contenidos}
+	\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded,subsubsectionstyle=hide]
+	%\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+\AtBeginSection[] 
+{
+\begin{frame}<beamer>
+\frametitle{Contenidos}
+\tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide,subsubsectionstyle=hide]
+\end{frame}
+}
+
+
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+\newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+%%
+%%
+%%
+%% Letras griegas (son las dos primeras letras)
+%%
+\newcommand{\al}{\alpha}
+\newcommand{\be}{\beta}
+\newcommand{\te}{\theta}
+\newcommand{\Te}{\Theta}
+\newcommand{\et}{\hat{\theta}}
+\newcommand{\olambda}{\overline{\lambda}}
+%%
+%% Letras con raya superior
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+\newcommand{\ovy}{\overline{\V{y}}}
+\newcommand{\od}{\overline{d}}
+\newcommand{\oH}{\overline{H}}
+\newcommand{\oJ}{\overline{J}}
+\newcommand{\oN}{\overline{N}}
+\newcommand{\op}{\overline{p}}
+\newcommand{\oQ}{\overline{Q}}
+\newcommand{\oR}{\overline{R}}
+\newcommand{\oS}{\overline{S}}
+\newcommand{\oT}{\overline{T}}
+\newcommand{\ox}{\overline{x}}
+\newcommand{\oy}{\overline{y}}
+\newcommand{\oz}{\overline{z}}
+\newcommand{\oV}{\overline{V}}
+\newcommand{\oW}{\overline{W}}
+\newcommand{\oX}{\overline{X}}
+\newcommand{\oY}{\overline{Y}}
+\newcommand{\oZ}{\overline{Z}}
+%%
+%% gradientes
+%%
+\newcommand{\gf}{\B{\nabla} f}
+\renewcommand{\gg}{\B{\nabla} g}
+\newcommand{\gh}{\B{\nabla} h}
+%%
+%% Flechas
+%%
+\DeclareMathOperator{\implica}{\qquad\Longrightarrow\qquad}
+\DeclareMathOperator{\siysolosi}{\qquad\Longleftrightarrow\qquad}
+%%
+%% n{\'\i}nimo, maxino y limite con acento
+%%
+\mathchardef\isinpunto="0010
+\renewcommand{\min}{\mathop{\rm m\acute{\isinpunto}n}}
+\renewcommand{\lim}{\mathop{\rm l\acute{\isinpunto}m}}
+\renewcommand{\max}{\mathop{\rm m\acute{a}x}}
+\newcommand{\mini}{\mathop{\rm m\acute{\isinpunto}n}}
+\newcommand{\limi}{\mathop{\rm l\acute{\isinpunto}m}}
+\newcommand{\maxi}{\mathop{\rm m\acute{a}x}}
+\newcommand{\seno}{\mathop{\rm sen}}
+%%
+%% alguna notaci{\'o}n del simplex
+%%
+\newcommand{\inte}{\text{inte}}
+\newcommand{\so}{{\mathbf x}^*}
+\newcommand{\sor}{{\overline{\mathbf x}^*}}
+\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+\newcommand{\sori}{{\overline{x}^*_i}}
+\newcommand{\Bi}{{\mathbf B}^{-1}}
+%%
+%\newcolumntype{d}[1]{D{.}{.}{#1}}
+%%
+%% comandos de los colores
+%%
+%\newcommand{\azul}[1]{ {\color{blue} #1}}
+%\newcommand{\rojo}[1]{ {\color{red} #1}}
+%\newcommand{\verde}[1]{ {\color{green} #1}}
+%\newcommand{\cyan}[1]{ {\color{cyan} #1}}
+%\newcommand{\violet}[1]{{\color{violet} #1}}
+%\newcommand{\negro}[1]{ {\color{black} #1}}
+
+\newtheorem{ejemplin}{\bf Ejemplo}
+\newcommand{\ds}{\displaystyle}
+%\newcommand{\nat}{I\!\! N}
+%\newcommand{\real}{I\!\! R}
+%\newcommand{\ent}{\mathbb{Z}}
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+%%%%
+%\newcommand{\inte}{\text{inte}}
+%\newcommand{\so}{{\mathbf x}^*}
+%\newcommand{\sor}{{\overline{\mathbf x}^*}}
+%\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+%\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+%\newcommand{\sori}{{\overline{x}^*_i}}
+%\newcommand{\Bi}{{\mathbf B}^{-1}}
+\newcommand{\dif}[1]{\widetilde{#1}}
+%%
+%%
+%% tipos de teoremas
+%%
+\theoremstyle{remark}
+\newtheorem{observacion}{\bf Observaci\'on}
+\newtheorem*{nota}{\bf Nota}
+% %%
+\theoremstyle{plain}
+\newtheorem{relacion}{\bf Relaci\'on}
+\newtheorem{proposicion}{\bf Proposici\'on}
+\newtheorem{lema}{\bf Lema}
+\newtheorem{corolario}{\bf Corolario}
+\newtheorem{teorema}{\bf Teorema}
+%%
+\theoremstyle{definition}
+\newtheorem{definicion}{\bf Definici\'on}
+
+\parskip 5mm
+
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+\titlepage % call the title page information from above
+\end{frame}}
+
+
+\begin{frame}
+\frametitle{Contenidos del tema}
+\tableofcontents
+\end{frame}
+
+\section{Introducción}
+%%
+\begin{frame}{Introducción}
+Las funciones convexas proporcionan buenas condiciones para garantizar optimalidad. 
+\begin{block}{Óptimos de funciones convexas}
+Sea  $f$ una función diferenciable y convexa, con $\SS$ conjunto convexo. Entonnces, $\ovx\in\SS$ es mínimo local si y solo si $\gf(\vx)^T(\vx-\ovx)\geq 0$ para todo $\vx\in\SS$. 
+\end{block}
+En este tema se abordan las condiciones de optimalidad en un contexto más general, en el que ni $f$ ni $\SS$ son necesariamente convexas y  el conjunto $\SS$ viene dado en t\'{e}rminos de desigualdades e igualdades.
+
+Como paso previo, se introducen algunos resultados cl\'{a}sicos dentro de la optimizaci\'{o}n sin restricciones.
+
+\end{frame}
+%%
+\section{Optimización sin restricciones}
+%%
+\begin{frame}{Optimización sin restricciones}
+Supongamos el siguiente problema: 
+$$
+\mini f(\vx) \quad\text{con}\quad \vx\in\Re^n
+$$ 
+Este tipo de problemas rara vez aparecen en situaciones reales, pero su estudio est\'{a} justificado ya que las condiciones de optimalidad para problemas
+con restricciones son una extensi\'{o}n de las condiciones para problemas no restringidos.
+\begin{teorema}\label{t412}
+	Dada $f: \Re^n\rightarrow\Re$, diferenciable en $\ovx$, si existe un vector $\vd\in\Re^n$ tal que
+	$\gf(\ovx)^T\vd<0$, entonces, existe un $\delta>0$ tal que:
+	$$
+	f(\ovx+\lambda\vd)< f(\ovx),\qquad \forall \lambda\in (0,\delta).
+	$$
+\end{teorema}
+\begin{definicion}[direcci\'{o}n de descenso]
+	El vector $\vd$ recibe el nombre de direcci\'{o}n de descenso de $f$ en $\ovx$.
+\end{definicion}
+\end{frame}
+\begin{frame}{Optimización sin restricciones}
+\alert{Demostración}
+\begin{itemize}
+	\item  Por ser $f$ diferenciable en $\ovx$:
+$$
+f(\ovx+\lambda\vd)=f(\ovx)+\lambda\gf(\ovx)^T\vd+\lambda\norma{\vd}\alpha(\ovx,\lambda\vd),
+$$
+donde $\alpha(\ovx,\lambda\vd)\rightarrow 0$ cuando $\lambda\rightarrow 0$. 
+\item Reordenando t\'{e}rminos y dividiendo por $\lambda$ resulta:
+$$
+\frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda}=\gf(\ovx)^T\vd+\norma{\vd}\alpha(\ovx,\lambda\vd).
+$$
+\item Como $\gf(\ovx)^T\vd<0$ y  $\alpha(\ovx,\lambda\vd)\rightarrow 0$ cuando $\lambda\rightarrow 0$:
+$$
+\exists \delta>0:\quad \gf(\ovx)^T\vd+\norma{\vd}\alpha(\ovx,\lambda\vd)<0,\qquad\forall \lambda\in(0,\delta).
+$$
+\item Por tanto, de la igualdad anterior se deduce::
+$$
+f(\ovx+\lambda\vd)-f(\ovx)< 0,\qquad\forall\lambda\in(0,\delta).
+$$
+\end{itemize}
+\end{frame}
+\begin{frame}{Optimización sin restricciones}
+\begin{corolario}\label{c412}
+	Dada $f: \Re^n\rightarrow\Re$, diferenciable en $\ovx$, si $\ovx$ es m\'{\i}nimo (o máximo) local, se verifica que
+	$\gf(\ovx)=\vv$.
+\end{corolario}
+\alert{Demostración}
+	Sup\'{o}ngase que $\gf(\ovx)\neq \vv$ y sea $\vd=-\gf(\ovx)$. Entonces
+	$$
+	\gf(\ovx)^T\vd=-\norma{\gf(\ovx)}<0.
+	$$
+	Por el teorema anterior existe un $\delta>0$ tal que
+	$$
+	f(\ovx+\lambda\vd)< f(\ovx),\qquad\forall\lambda\in(0,\delta),
+	$$
+	lo que contradice la hip\'{o}tesis de que $\ovx$ es un m\'{\i}nimo local.
+\end{frame}
+\begin{frame}{Optimización sin restricciones}
+Las condiciones anteriores se denominan condiciones necesarias \alert{\em de primer orden}, ya que se
+basan en  el vector gradiente.
+\\[3mm]
+Tambi\'{e}n es posible obtener
+condiciones necesarias \alert{\em de segundo orden} a partir de la matriz Hessiana.
+\begin{teorema}
+	Sea $f: \Re^n\rightarrow\Re$ dos veces diferenciable en $\ovx$, si $\ovx$ es un m\'{\i}nimo (máximo) local, se
+	verifica que $\gf(\ovx)=\vv$ y $\vH(\ovx)$ es semidefinida positiva (negativa).
+\end{teorema}
+\end{frame}
+\begin{frame}{Optimización sin restricciones}\small 
+\alert{Demostración. }
+	Sea $\vd$ una direcci\'{o}n cualquiera. Por ser $f$ dos veces diferenciable en $\ovx$:
+	$$
+	f(\ovx+\lambda\vd)=f(\ovx)+\gf(\ovx)^T\vd+\frac{1}{2}\lambda^2\vd^T\vH(\ovx)
+	\vd+\lambda^2\norma{\vd}^2\alpha(\ovx,\vd),
+	$$
+	con $\alpha(\ovx,\vx-\ovx)\rightarrow 0$ cuando $\lambda\rightarrow 0$. Por ser $\ovx$ un m\'{\i}nimo
+	local, $\gf(\ovx)=\vv$. 
+	
+	Reordenando los t\'{e}rminos y dividiendo por $\lambda^2$:
+	$$
+	\frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda^2}=\frac{1}{2}\vd^T\vH(\ovx)
+	\vd+\norma{\vd}^2\alpha(\ovx,\vd).
+	$$
+	Por ser $\ovx$ m\'{\i}nimo local:
+	$$
+	\exists \delta>0:\quad f(\ovx+\lambda\vd)\geq f(\ovx),\qquad\forall\lambda\in (0,\delta).
+	$$
+	Por tanto:
+	$$
+	\frac{1}{2}\vd^T\vH(\ovx)\vd+\norma{\vd}^2\alpha(\ovx,\vd)\geq
+	0,\qquad\forall\lambda\in(0,\delta).
+	$$
+	Tomando l\'{\i}mites cuando $\lambda \rightarrow 0$:  $\vd^T\vH(\ovx)\vd\geq 0$ y $\vH(\ovx)$ es
+	semidefinida positiva.
+\end{frame}
+\begin{frame}{Optimización sin restricciones}
+Los teoremas anteriores proporcionan condiciones necesarias: deben verificarse para
+todo m\'{\i}nimo local.
+\\[3mm]
+El siguiente teorema proporciona una condici\'{o}n suficiente para que un punto sea m\'{\i}nimo local. 
+\\[3mm]
+Adem\'{a}s, en caso de que la funci\'{o}n sea pseudo-convexa, la condici\'{o}n necesaria dada por el último corolario  es tambi\'{e}n suficiente.
+\begin{teorema}
+	Sea $f: \Re^n\rightarrow\Re$ dos veces diferenciable en $\ovx$. Si $\gf(\ovx)=\vv$ y $\vH(\ovx)$ es
+	definida positiva, entonces $\ovx$ es un m\'{\i}nimo local.
+\end{teorema}
+\end{frame}
+\begin{frame}{Optimización sin restricciones}\footnotesize
+\alert{Demostración. }
+	Por ser $f$ dos veces diferenciable: 
+	$$
+	f(\vx)=f(\ovx)+\gf(\ovx)^T(\vx-\ovx)+\frac{1}{2}(\vx-\ovx)^T\vH(\ovx)
+	(\vx-\ovx)+\norma{\vx-\ovx}\alpha(\ovx,\ovx-\vx),\qquad \forall \vx\in\Re^n.
+	$$
+	con $\alpha(\ovx,\ovx-\vx)\rightarrow 0$ cuando $\vx\rightarrow \ovx$. Por reducci\'{o}n al absurdo, sup\'{o}ngase
+	que $\ovx$ no es un m\'{\i}nimo local; esto es, existe una sucesi\'{o}n $\{\vx_k\}$ de puntos que
+	converge a $\ovx$ tal que $f(\vx_k)<f(\ovx)$ para cada $k$.
+	
+	Considerando que $\gf(\ovx)=\vv$ y que $f(\vx_k)<f(\ovx)$ y denotando
+	$$
+	\vd_k=\frac{\vx_k-\ovx}{\norma{\vx_k-\ovx}},
+	$$
+	se tiene que:
+	$$
+	\frac{f(\vx_k)-f(\ovx)}{\norma{\vx_k-\ovx}^2}=\frac{1}{2}\vd_k^T\vH(\ovx)\vd_k
+	+\alpha(\ovx,\ovx-\vx_k) < 0,\qquad\forall k.
+	$$
+	Puesto que la norma de $\vd_k$ es 1, existe un subconjunto de \'{\i}ndices $\H$ tal que
+	$\{\vd_k\}_{k\in\H}$ converge a una direcci\'{o}n $\vd$, con $\norma{\vd}=1$. Tomando esta
+	subsucesi\'{o}n y el hecho de que $\alpha(\ovx,\ovx-\vx))\rightarrow 0$ cuando $k\in\H$ tiende a
+	$+\infty$, se tiene que $\vd^T\vH\vd\leq 0$. Esto contradice la hip\'{o}tesis de que $\vH(\ovx)$
+	es definida positiva y el hecho de que $\norma{\vd}=1$. Por tanto, $\ovx$ es un m\'{\i}nimo local.
+\end{frame}
+\begin{frame}{Optimización sin restricciones. Ejemplo}
+
+\begin{columns}
+	\column{0.5\textwidth}{
+\begin{align*}
+f(x) & = (x^2-1)^3 \\
+f'(x) & = 6x(x^2-1)^2 \\
+f''(x) & = 24x^2(x^2-1)+6(x^2-1)^2 
+\end{align*}
+La derivada se anula,$f'(x)=0$, en los puntos $x=0,1,-1$. 
+\begin{itemize}\itemsep 2mm
+	\item En $x=0$, $f''(0)=6>0$ y es un mínimo local.
+	\item En $x=-1,1$,  $f''(0)=0$ y son puntos de inflexión.
+\end{itemize}
+}
+\column{0.5\textwidth}{
+		\begin{center}
+		\begin{tikzpicture}[scale=1.5,x=1cm, y=0.1cm]
+		\draw[<->]  (-1.5,0) -- (1.5,0);
+		\draw[<->]  (0,-1.5) -- (0,1.5);
+		\draw  (-1,0.05) -- (-1,-0.1) node[below] {\tiny -1};
+		\draw  (1,0.05) -- (1,-0.1) node[below] {\tiny 1};
+		\draw[red,very  thick, domain=-1.4:1.4, samples=100] plot (\x,{(\x*\x-1)*(\x*\x-1)*(\x*\x-1)});
+		\end{tikzpicture}
+	\end{center}
+}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Optimización sin restricciones}
+\begin{teorema}\label{t415}
+	Sea $f:\SS\subset\Re^n\rightarrow\Re$ pseudo-convexa sobre $\SS$. Entonces, $\ovx$ es m\'{\i}nimo global si
+	y s\'{o}lo si $\gf(\ovx)=\vv$.
+\end{teorema}
+\alert{Demostración}
+
+	\alert{$\Rightarrow$)} consecuencia del corolario anterior.
+	
+	\smallskip
+	
+	\alert{$\Leftarrow$)} por hipótesis:  $\gf(\ovx)=\vv$. 
+	
+	Por tanto, $\gf(\ovx)^T(\vx-\ovx)=0$ para $\vx\in\SS$. 
+	
+	Por ser  $f$ pseudo-convexa: $f(\vx)\geq f(\ovx)$ para $\vx\in\SS$.
+\end{frame}
+\begin{frame}{Optimización sin restricciones}
+
+El teorema anterior proporciona una condici\'{o}n necesaria y suficiente de primer orden para funciones pseudo-convexas. 
+
+Existen condiciones necesarias y suficientes de mayor grado. El siguiente resultado lo es para funciones  unidimensionaesl.
+%%
+\begin{teorema}
+	Sea $f:\Re\rightarrow\Re$ una funci\'{o}n infinitamente diferenciable. Un punto $x\in\Re$ es un m\'{\i}nimo
+	local si y s\'{o}lo si se verifican alguna de las dos condiciones siguientes:
+	\begin{enumerate}
+		\item $f^{(j)}(x)=0$ para $j=1,2,\dots$.
+		\item Existe un $n\geq 2$ tal que $f^{(n)}(x)>0$ y $f^{(j)}(x)=0$ para todo
+		$j=1,\dots,n-1$.
+	\end{enumerate}
+	donde $f^{(j)}(x)$ denota la $j$-\'{e}sima derivada de $f$ en el punto $x$.
+\end{teorema}
+\alert{Demostración. } 	Ver Bazaraa, Sherali and Shetty (2006).
+
+%\alert{Demostración. }
+%Se sabe $x$ es un m\'{\i}nimo local si y s\'{o}lo si $f(x+h)-f(x)\geq 0$ para valores suficientemente
+%peque\~{n}os de $\abs{h}$. Utilizando el desarrollo de Taylor, esta propiedad es cierta si y s\'{o}lo
+%si:
+%  $$
+%  hf^{(1)}(x)+\frac{h^2}{2!)f^{(2)}(x)+\frac{h^3}{3!}f^{(3)}+\frac{h^4}{4!}+\dots\geq 0
+%  $$
+%  para un valor de $\abs{h}$ suficientemente peque\~{n}o.
+\end{frame}
+%%
+\section{Optimizaci\'{o}n con restricciones}
+%\end{document}
+%%
+\subsection{Marco general}
+%%
+\begin{frame}{Optimización con restricciones}
+%
+Inicialmente, se verán condiciones de optimalidad para el problema
+$$
+\min\{f(\vx)\,/\, \vx\in\SS\}
+$$
+con $\SS$ un conjunto genérico.
+
+\medskip
+
+A continuaci\'{o}n se estudiará el caso en el que el conjunto $\SS$ viene dado por una serie de desigualdades:
+\begin{equation}\label{PP}
+\min\{f(\vx)\,/\, \vx\in\X,\;\; g_i(\vx)\leq 0,\; i=1,\dots,m\},
+\end{equation}
+siendo $\X$ un abierto no vac\'{\i}o de $\Re^n$ y $f,g_i:\Re^n\rightarrow\Re$.
+\end{frame}
+\begin{frame}{Cono de direcciones factibles}
+
+%%
+\begin{definicion}[Cono de direcciones factibles]\label{d421}
+	%%
+	Sea $\SS\subset\Re^n$ no vac\'{\i}o y sea $\ovx\in\SS$, se llama cono de direcciones factibles de
+	$\SS$ en el punto $\ovx$ al conjunto:
+	$$
+	\F(\ovx)=\{\vd\in\Re^n\,/\,\vd\neq 0,\, \exists\delta_\vd>0\text{ tal que }
+	\ovx+\lambda\vd\in\SS,\;\,\forall \lambda\in (0,\delta_\vd)\}.
+	$$
+	El vector $\vd\in\F(\ovx)$ recibe el nombre de \alert{direcci\'{o}n factible}.
+\end{definicion}
+\end{frame}
+\begin{frame}{Cono de direcciones de mejora}
+\begin{definicion}[Cono de direcciones de mejora o de descenso]
+	%%
+	Sea $f:\Re^n\rightarrow\Re$ una funci\'{o}n, con $\SS\subset\Re^n$ no vac\'{\i}o. Dado un punto $\ovx\in\SS$,
+	se llama cono de direcciones de descenso de $\SS$ en el punto $\ovx$ al conjunto:
+	$$
+	\D(\ovx)=\{\vd\in\Re^n\,/\, \vd\neq 0,\, \exists\delta_\vd>0\text{ tal que } f(\ovx+\lambda\vd)< f(\ovx),\;\,\forall\lambda\in(0,\delta_\vd)\}.
+	$$
+	El vector $\vd\in\D(\ovx)$ recibe el nombre de \alert{direcci\'{o}n de descenso}.
+\end{definicion}
+Combinando las dos definiciones anteriores, se deduce:
+$$
+\text{$\ovx$ m\'{\i}nimo local } \quad\Longrightarrow\quad\F(\ovx)\cap \D(\ovx)=\emptyset
+$$
+\end{frame}
+\begin{frame}{Optimización con restricciones}\small
+
+\begin{itemize}
+	\item En  general esta propiedad no es de f\'{a}cil comprobaci\'{o}n.
+	\item Si $f$ es diferenciable: 
+	
+	{\qquad\centering\alert{Si $\gf(\ovx)^T\vd<0$, entonces, $\vd$ es una direcci\'{o}n de descenso.}}
+	
+	\item Se define el conjunto $\D_0=\{\vd\in\Re^n\,/\, \gf(\ovx)^T\vd<0\}$.
+	\item En este caso, $\D_0\subseteq\D(\ovx)$.
+	\item Además, si $\ovx$ es un m\'{\i}nimo local y $\gf(\ovx)^T\vd<0$, entonces necesariamente $\vd\notin\F$. 
+	
+	Esta idea queda reflejada en el siguiente resultado:
+\end{itemize}
+\begin{teorema}\label{t422}
+	Sea el problema de optimizaci\'{o}n $\min\{f(\vx)\, /\, \vx\in\SS\}$, con $f$ diferenciable en
+	$\ovx\in\SS$.  Si $\ovx$ es un m\'{\i}nimo  local, entonces $\D_0\cap \F=\emptyset$.
+\end{teorema}
+\end{frame}
+\begin{frame}{Optimización con restricciones}
+\alert{Demostración. }
+
+	Por reducci\'{o}n al absurdo, sup\'{o}ngase que existe un vector $\vd\in\D_0\cap\F$. 
+	\begin{itemize}\itemsep 2mm
+		\item Por  ser $\vd$ de descenso: $$\exists \delta_1>0:\,  f(\ovx+\lambda\vd)<f(\ovx),\quad \forall \lambda\in(0,\delta_1)$$
+		\item Por ser $\vd$ dirección factible,: $$\exists\delta_2>0: \ovx+\lambda\vd\in\SS,\quad \forall \lambda\in(0,\delta_2).$$
+		\item Entonces:
+		 $$
+		 \ovx+\lambda\vd\in\SS\quad\text{y}\quad f(\ovx+\lambda\vd)<f(\ovx),\qquad \forall \lambda\in(0,\min\{\delta_1,\delta_2\})
+		 $$ 
+		Esto es contradictorio con que $\ovx$ es un m\'{\i}nimo local.
+	\end{itemize}
+\end{frame}
+\begin{frame}{Optimización con restricciones}
+	\begin{itemize}\itemsep 5mm
+		\item La implicaci\'{o}n inversa no es cierta, ya que no necesariamente se tiene que $\D_0=\D$. 
+		\item Por ejemplo, si $\ovx$ es un m\'{\i}nimo local, entonces $\gf(\ovx)=\vv$ y por tanto, $\D_0=\emptyset$.
+		\item Esta última condici\'{o}n no es suficiente: por ejemplo, si   $\ovx$ es un m\'{a}ximo
+		o un punto de silla también se verifica $\gf(\ovx)=\vv$.
+		\item Si $\ovx$ es un punto de silla, existen direcciones de descenso y de ascenso en $\ovx$ pero como $\gf(\ovx)=\vv$ , entonces, $\gf(\ovx)^T\vd=0$ para cualquier direcci\'{o}n $\vd$ y, por tanto,
+		$\vd\notin\D_0$. 
+		\item En este caso $\D_0$ y $\D$ son distintos.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Optimización con restricciones}
+
+Si $f$ es una función pseudo-convexa, entonces $\gf(\ovx)=\vv$ es una condici\'{o}n necesaria y suficiente para que $\ovx$ sea m\'{\i}nimo local y, por tanto, 
+$\D_0=\D$.
+\begin{teorema}\label{t422-con}
+	Sea el problema de optimizaci\'{o}n $\min\{f(\vx)\, /\, \vx\in\SS\}$, con $f$ diferenciable y
+	pseudo-convexa en $\ovx\in\SS$. 
+	
+	\medskip
+	
+	
+	Si $\D_0\cap \F=\emptyset$  y existe un entorno $N_\epsilon(\ovx)$  de radio $\epsilon$, con $\epsilon>0$, tal que
+	$\vd=(\vx-\ovx)\in\F$ para cualquier $\vx\in\SS\cap N_\epsilon(\ovx)$, entonces $\ovx$ es un m\'{\i}nimo local de
+	$f$.
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Optimización con restricciones}
+\alert{Demostración. }
+
+	Sup\'{o}ngase que $\D_0\cap\F=\emptyset$ y que se dan las condiciones del teorema. 
+		
+	Supongamos que $\ovx$ NO es mínimo local:  $\exists\hat{\vx}\in\SS\cap N_\epsilon(\ovx)$ tal que 	$f(\hat{\vx})< f(\ovx)$.
+	
+	Por hip\'{o}tesis, $\vd=(\hat{\vx}-\ovx)\in\F$. 
+	
+	Por ser $f$ pseudo-convexa en $\ovx$:  $\gf(\ovx)^T\vd<0$ y, por tanto, $\vd\in\D_0$.
+	
+	Entonces, $\vd\in\D_0\cap\F\neq \emptyset$, en contradicci\'{o}n con la hip\'{o}tesis de
+	partida.
+\end{frame}
+\begin{frame}{Optimización con restricciones}
+
+Una condici\'{o}n necesaria para que el punto $\ovx$ sea un m\'{\i}nimo local: es 
+$$
+\D_0\cap\F=\emptyset,
+$$
+donde $\D_0$ es un semiespacio abierto definido en t\'{e}rminos del vector $\gf(\ovx)$ y $\F$ es el cono de direcciones factibles.
+
+Esta propiedad no es de f\'{a}cil comprobaci\'{o}n ya que no se conoce ninguna expresi\'{o}n
+anal\'{\i}tica del conjunto $\F$ de direcciones factibles. 
+
+Si $\ovx\in\text{int}\SS$, $\F$ es m\'{a}s f\'{a}cil de determinar, ya que, todas son direcciones factibles.
+
+Pero si $\ovx$ est\'{a} en la frontera, ya no es tan sencillo.
+\end{frame}
+
+\begin{frame}{Optimización con restricciones}
+
+A partir de este momento nos centramos en el caso en el que conjunto $\SS$ viene definido por desigualdades:
+$$
+\SS =\bigl\{\vx\in\X\tq g_i(\vx)\leq 0,\, i=1,\dots,m\bigr\}
+$$
+En este caso, el conjunto de direcciones factibles de un punto $\ovx$ en la frontera depende de las restricciones que se verifiquen con igualdad. 
+\end{frame}
+
+\begin{frame}{Optimización con restricciones}
+\begin{definicion}[Restricciones activas]
+	Dado un punto $\vx$ de $\SS$, se dice que una restricci\'{o}n $g_i$ es 	activa si $g_i(\vx)=0$. En otro caso ($g_i(\vx)<0$), se dice que $g_i$ es inactiva.
+\end{definicion}\small
+\begin{columns}
+	\column[]{0.5\textwidth}{
+			\begin{align*}
+			\min (x_1-3)^2+(x_2-2)^2 &
+			\\
+			x_1^2+x_2^2-5 & \leq 0 \qquad (g_1)
+			\\
+			-x_1 &\leq 0 \qquad (g_2)
+			\\
+			-x_2 &\leq 0\qquad (g_3)
+			\\
+			x_1+x_2-3 &\leq 0\qquad (g_4)
+			\end{align*}
+			Restricciones activas:
+			\begin{align*}
+			(1,1): & \text{ ninguna} & 
+			(0,0): & (g_2), (g_3)\\
+			(2,1): & (g_1), (g_4) & 
+			(0,1): & (g_2)
+			\end{align*}
+	}
+	\column{0.5\textwidth}{
+		\begin{center}
+			\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=0.75]
+			\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (4,3);
+			%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+			\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+			%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+			\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+			\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+			\clip(-3,-3) rectangle (4,3); 
+			\draw[line width=0pt,color=white,fill=violet,fill opacity=0.10] (-3,3)--(0,3) --(4,-1)-- (4,-3)--(-3,-3)--(-3,3);
+			\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.10] (0,0)--(0,3) --(4,3)-- (4,0)--(0,0);;
+			\draw [rotate around={0.:(0.,0.)},line width=0.5pt,color=blue,fill=blue,fill opacity=0.10] (0,0) circle (2.2361);
+			\draw[line width=0.5pt,color=red](0,3)-- (4,-1);
+			\draw[line width=0.5pt,color=yellow](0,4)-- (0,-3);
+			\draw[line width=0.5pt,color=yellow](-3,0)-- (3,0);
+			\draw[line width=2pt,color=yellow](0,2.2361) -- (0,0)-- (2.2361,0);
+			\draw[line width=2pt,color=red](1,2)-- (2,1);
+			\draw[line width=2pt,color=blue] (2.2361,0) arc (0:27:2.2361);
+			\draw[line width=2pt,color=blue] (0,2.2361) arc (90:63:2.2361);
+			\begin{scriptsize}
+			\draw [fill=black] (1,2) circle (2pt) node[above right] {\footnotesize $(1,2)$};
+			\draw [fill=black] (2,1) circle (2pt) node[above right] {\footnotesize $(2,1)$};
+			\draw [fill=black] (0,0) circle (2pt) node[above left] {\footnotesize $(0,0)$};
+			\draw [fill=black] (0,2.2361) circle (2pt) node[above left] {\footnotesize $(0,\sqrt{5})$};
+			\draw [fill=black] (2.2361,0) circle (2pt) node[above left] {\footnotesize $(\sqrt{5},0)$};
+			\end{scriptsize}
+			\end{tikzpicture}
+		\end{center}
+}
+\end{columns}
+\end{frame}
+\begin{frame}{Optimización con restricciones}\small
+En el problema $\min\{f(\vx)\,/\, \vx\in\X,\;\; g_i(\vx)\leq 0,\; i=1,\dots,m\}$,
+\begin{itemize}\itemsep 1mm
+	\item Si una restricci\'{o}n  activa en $\ovx$ es diferenciable, el gradiente en ese ese punto  da la direcci\'{o}n de m\'{a}ximo crecimiento.
+	\item Como las restricciones son de tipo {\em  menor o igual que}, la orientaci\'{o}n de los gradientes es hacia el exterior de la regi\'{o}n factible.
+\end{itemize}
+\begin{columns}
+	\column[]{0.5\textwidth}{
+		\begin{align*}
+		\min (x_1-3)^2+(x_2-2)^2 &
+		\\
+		x_1^2+x_2^2-5 & \leq 0 \qquad (g_1)
+		\\
+		-x_1 &\leq 0 \qquad (g_2)
+		\\
+		-x_2 &\leq 0\qquad (g_3)
+		\\
+		x_1+x_2-3 &\leq 0\qquad (g_4)
+		\end{align*}
+	}
+	\column{0.5\textwidth}{
+		\begin{center}%\vspace*{-10mm}
+			\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=0.99]
+			\clip (-1,-1) rectangle (4,3.3);
+			\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (4,3);
+			%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+			\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+			%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+			\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+			\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+			
+					
+			\draw[line width=0pt,fill=violet, opacity=0.25]  (0,2.2361) -- (0,0)-- (2.2361,0)  arc (0:26:2.2361)  -- (1,2)   arc (64:90:2.2361);
+			
+			\draw[line width=0pt,color=white,fill=violet,fill opacity=0.10] (-3,3.3) --(-0.3,3.3) --(4,-1)-- (4,-3)--(-3,-3)--(-3,3);
+			\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.10] (0,0)--(0,3.3) --(4,3.3)-- (4,0)--(0,0);;
+			\draw [rotate around={0.:(0.,0.)},line width=0.5pt,color=blue,fill=blue,fill opacity=0.10] (0,0) circle (2.2361);
+			\draw[line width=0.35pt,color=red](-0.3,3.3)-- (4,-1);
+			\draw[line width=0.35pt,color=yellow](0,4)-- (0,-3);
+			\draw[line width=0.35pt,color=yellow](-3,0)-- (3,0);
+			\draw[line width=2pt,color=yellow](0,2.2361) -- (0,0)-- (2.2361,0);
+			\draw[line width=2pt,color=blue] (2.2361,0) arc (0:27:2.2361);
+			\draw[line width=2pt,color=blue] (0,2.2361) arc (90:63:2.2361);
+			\draw[line width=2pt,color=red](1,2)-- (2,1);
+
+			\draw[line width=1pt,color=blue,->] (0,2.2361) -- (0,3.2361);
+			\draw[line width=1pt,color=blue,->] (2.2361,0) -- (3.2361,0);
+			\draw[line width=1pt,color=blue,->] (2,1) -- (2.9,1.45);
+			\draw[line width=1pt,color=blue,->] (1,2) -- (1.45,2.9);
+			\draw[line width=1pt,color=yellow,->] (0,2.2361) -- (-1,2.2361);
+			\draw[line width=1pt,color=yellow,->] (0,0) -- (-1,0);
+			\draw[line width=1pt,color=yellow,->] (0,1) -- (-1,1);
+			\draw[line width=1pt,color=yellow,->] (0,0) -- (0,-1);
+			\draw[line width=1pt,color=yellow,->] (1,0) -- (1,-1);
+			\draw[line width=1pt,color=yellow,->] (2.2361,0) -- (2.2361,-1);
+			\draw[line width=1pt,color=red,->] (1,2) -- (1.72,2.72);
+			\draw[line width=1pt,color=red,->] (2,1) -- (2.72,1.72);
+			\draw[line width=1pt,color=red,->] (1.5,1.5) -- (2.22,2.22);
+		
+			\draw [fill=black] (1,2) circle (2pt);% node[above right] {\footnotesize $(1,2)$};
+			\draw [fill=black] (2,1) circle (2pt);% node[above right] {\footnotesize $(2,1)$};
+			\draw [fill=black] (0,0) circle (2pt);% node[above left] {\footnotesize $(0,0)$};
+			\draw [fill=black] (0,2.2361) circle (2pt);% node[above left] {\footnotesize $(0,\sqrt{5})$};
+			\draw [fill=black] (2.2361,0) circle (2pt);% node[above left] {\footnotesize $(\sqrt{5},0)$};
+
+			\end{tikzpicture}
+		\end{center}
+	}
+\end{columns}
+\end{frame}
+
+\begin{frame}[t]{Optimización con restricciones}
+\begin{itemize}\itemsep 2mm
+	\item Si $\vd$ es tal que $\gg_i(\ovx)^T\vd<0$:  entonces $\vd$ es factible respecto de $g_i$.
+	\item Esta propiedad NO permite caracterizar las direcciones factibles: si $g_i$ es lineal y $\gg_i(\ovx)$ y $\vd$ son ortogonales,  $\gg_i(\ovx)^T\vd=0$, a pesar de que $\vd$ puede ser factible respecto de $g_i$. 
+	\only<2>{
+			\begin{center}%\vspace*{-10mm}
+		\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=1.5]
+		\clip (-1,-0.5) rectangle (2.5,2.8);
+		\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (4,3);
+		%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+		\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+		%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+		\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+		
+		\draw[line width=0pt,fill=violet, opacity=0.25]  (0,2.2361) -- (0,0)-- (2.2361,0)  arc (0:26:2.2361)  -- (1,2)   arc (64:90:2.2361);
+		
+		\draw[line width=0pt,color=white,fill=violet,fill opacity=0.10] (-3,3.3) --(-0.3,3.3) --(4,-1)-- (4,-3)--(-3,-3)--(-3,3);
+		\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.10] (0,0)--(0,3.3) --(4,3.3)-- (4,0)--(0,0);;
+		\draw [rotate around={0.:(0.,0.)},line width=0.5pt,color=blue,fill=blue,fill opacity=0.10] (0,0) circle (2.2361);
+		\draw[line width=0.35pt,color=red](-0.3,3.3)-- (4,-1);
+		\draw[line width=0.35pt,color=yellow](0,4)-- (0,-3);
+		\draw[line width=0.35pt,color=yellow](-3,0)-- (3,0);
+		\draw[line width=2pt,color=yellow](0,2.2361) -- (0,0)-- (2.2361,0);
+		\draw[line width=2pt,color=blue] (2.2361,0) arc (0:27:2.2361);
+		\draw[line width=2pt,color=blue] (0,2.2361) arc (90:63:2.2361);
+		\draw[line width=2pt,color=red](1,2)-- (2,1);
+		
+		\draw[line width=1pt,color=yellow,->] (0,1) -- (-1,1);
+		\draw[line width=1pt,color=red,->] (1,2) -- (1.72,2.72);
+		\draw[line width=2pt,color=black,->] (0,1) -- (0,2);
+		\draw[line width=2pt,color=black,->] (1,2) -- (1.75,1.25);
+		
+		\draw [fill=black] (1,2) circle (2pt);% node[above right] {\footnotesize $(1,2)$};
+		\draw [fill=black] (2,1) circle (2pt);% node[above right] {\footnotesize $(2,1)$};
+		\draw [fill=black] (0,0) circle (2pt);% node[above left] {\footnotesize $(0,0)$};
+		\draw [fill=black] (0,2.2361) circle (2pt);% node[above left] {\footnotesize $(0,\sqrt{5})$};
+		\draw [fill=black] (2.2361,0) circle (2pt);% node[above left] {\footnotesize $(\sqrt{5},0)$};
+		
+		\end{tikzpicture}
+	\end{center}
+	}
+\only<3->{
+	\item El cono abierto $\G_0$:
+		$$
+		\G_0=\{ \vd\in\Re^n\,/\,\gg_i(\ovx)^T\vd<0,\, \forall i\in\I\}.
+		$$
+	 es  un subconjunto de $\F$, aunque no necesariamente $\G_0=\F$. 
+	\item $\D_0\cap\G_0=\emptyset$ es una condición necesaria para que $\ovx$ sea mínimo local 
+	\item Esta condición es más débil que  $\D_0\cap\F=\emptyset$.
+}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Optimización con restricciones}\footnotesize
+\begin{teorema}\label{t423}
+	Sea el problema 
+    $$
+	\min\{f(\vx)\,/\, \vx\in\X,\;\; g_i(\vx)\leq 0,\; i=1,\dots,m\},
+	$$ $\ovx$  una soluci\'{o}n factible del problema e $\I$ el conjunto de \'{\i}ndices de las restricciones activas en $\ovx$:
+	$$
+	\I=\bigl\{i\in\{1,\dots,m\}\,/\, g_i(\ovx)=0\bigr\}.
+	$$
+	Si se verifican las tres siguientes propiedades:
+	\begin{enumerate}
+		\item $f$, $g_i$, $i\in\I$, son diferenciables en $\ovx$,
+		\item $g_i$, $i\notin\I$, son continuas en $\ovx$,
+		\item $\ovx$ es un m\'{\i}nimo local de $f$,
+	\end{enumerate}
+	entonces, $\D_0\cap\G_0=\emptyset$, 	donde $	\G_0=\{ \vd\in\Re^n\,/\,\gg_i(\ovx)^T\vd<0,\, \forall i\in\I\}.$
+\end{teorema}
+%%
+\alert{Observación. }
+	Por motivos de claridad, aunque es evidente que el conjunto $\I$ depende del punto $\ovx$, si no es necesario, no se
+	indicar\'{a} expl\'{\i}citamente.
+\end{frame}
+
+
+\begin{frame}{Optimización con restricciones}\small
+%%
+\alert{Demostración}
+\begin{itemize}\itemsep 2mm
+	\item Sea $\vd\in\G_0$:\qquad  $\gg_i(\ovx)^T\vd<0,\qquad \forall i\in\I.$
+	\item Como $\gg_i(\ovx)^T\vd<0$ y $\gg_i$ es diferenciable, $\forall i\in\I$, por el primer teorema del tema:
+		\begin{equation}\label{dem423-3}
+			\exists \delta_1>0:\quad g_i(\ovx+\lambda\vd)<g_i(\ovx),\qquad \forall \lambda\in(0,\delta_1).
+	\end{equation}
+	\item Como $g_i(\ovx)<0$ para $i\notin\I$ y son funciones continuas:
+				\begin{equation}\label{dem423-2}
+					\exists \delta_2>0:\quad g_i(\ovx+\lambda\vd)<0,\qquad \forall \lambda\in(0,\delta_2).
+				\end{equation}
+	\item  Puesto que $\ovx\in\X$  y $\X$ es abierto:
+			\begin{equation}\label{dem423-1}
+			\exists \delta_3>0:\quad \ovx+\lambda\vd\in\X,\qquad \forall \lambda\in(0,\delta_3).
+			\end{equation}
+	\item Por  \eqref{dem423-3}, \eqref{dem423-2} y \eqref{dem423-1}, los puntos $\ovx+\lambda\vd$ son factibles, $\forall \lambda\in(0,\delta)$ tal que $\delta=\min\{\delta_1,\delta_2,\delta_3\}$, por lo que $\vd\in\F$.
+	\item Es decir, $\vd\in\G_0\Rightarrow \vd\in\F$, esto es, $\G_0\subseteq\F$.
+	\item Por ser  $\ovx$ m\'{\i}nimo local, $\D_0\cap\F=\emptyset$ y, por tanto, $\D_0\cap\G_0=\emptyset$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Optimización con restricciones}
+\begin{teorema}\label{t4252}
+	Sea el problema 
+	$$
+	\min\{f(\vx)\,/\, \vx\in\X,\;\; g_i(\vx)\leq 0,\; i=1,\dots,m\},
+	$$ 
+	$\ovx$  una soluci\'{o}n factible del problema, e $\I$ el conjunto de \'{\i}ndices de las restricciones activas en $\ovx$:
+	$$
+	\I=\bigl\{i\in\{1,\dots,m\}\,/\, g_i(\ovx)=0\bigr\}.
+	$$
+	Entonces, si:
+	\begin{enumerate}
+		\item $f$ es pseudo convexa en $\ovx$,
+		\item $g_i$, $i\in\I$, son estrictamente pseudo-convexas en $\ovx$,
+		\item $\D_0\cap\G_0=\emptyset$,
+	\end{enumerate}
+	entonces, $\ovx$ es un m\'{\i}nimo local.
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Optimización con restricciones. Ejemplo}
+%%
+\begin{columns}
+	\column[]{0.5\textwidth}{
+	Consid\'{e}rese el siguiente problema
+		\begin{align*}
+		\min (x_1-3)^2+(x_2-2)^2 &
+		\\
+		x_1^2+x_2^2-5 & \leq 0 \qquad (g_1)
+		\\
+		-x_1 &\leq 0 \qquad (g_2)
+		\\
+		-x_2 &\leq 0\qquad (g_3)
+		\\
+		x_1+x_2-3 &\leq 0\qquad (g_4)
+		\end{align*}
+
+	Analizar los puntos $\ovx=(\frac{9}{5},\frac{6}{5})$ y  $\ovx=(2,1)$.
+	}
+	\column{0.5\textwidth}{
+		\begin{center}
+			\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=1.45]
+			\clip(-1.2,-1.2) rectangle (2.8,3.2);
+			\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (4,3);
+			%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+			\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+			%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+			\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+			\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+			\draw[line width=0pt,color=white,fill=violet,fill opacity=0.10] (-3,3)--(0,3) --(4,-1)-- (4,-3)--(-3,-3)--(-3,3);
+			\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.10] (0,0)--(0,3) --(4,3)-- (4,0)--(0,0);;
+			\draw [rotate around={0.:(0.,0.)},line width=0.5pt,color=blue,fill=blue,fill opacity=0.10] (0,0) circle (2.2361);
+
+			\draw[line width=0pt,fill=violet, opacity=0.3]  (0,2.2361) -- (0,0)-- (2.2361,0)  arc (0:26:2.2361)  -- (1,2)   arc (64:90:2.2361);
+
+			\draw[line width=0.5pt,color=red](0,3)-- (4,-1);
+			\draw[line width=0.5pt,color=yellow](0,4)-- (0,-3);
+			\draw[line width=0.5pt,color=yellow](-3,0)-- (3,0);
+			\draw[line width=2pt,color=yellow](0,2.2361) -- (0,0)-- (2.2361,0);
+			\draw[line width=2pt,color=red](1,2)-- (2,1);
+			\draw[line width=2pt,color=blue] (2.2361,0) arc (0:26:2.2361);
+			\draw[line width=2pt,color=blue] (0,2.2361) arc (90:64:2.2361);
+			\begin{scriptsize}
+			\draw [fill=black] (1,2) circle (2pt) node[above right] {\footnotesize $(1,2)$};
+			\draw [fill=black] (2,1) circle (2pt) node[above right] {\footnotesize $(2,1)$};
+			\draw [fill=black] (0,0) circle (2pt) node[above left] {\footnotesize $(0,0)$};
+			\draw [fill=black] (0,2.2361) circle (2pt) node[above left] {\footnotesize $(0,\sqrt{5})$};
+			\draw [fill=black] (2.2361,0) circle (2pt) node[above left] {\footnotesize $(\sqrt{5},0)$};
+			\end{scriptsize}
+			\end{tikzpicture}
+		\end{center}
+	}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Optimización con restricciones. Ejemplo}
+			\begin{center}
+				\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=2.8]
+				\clip(-0.3,-0.3) rectangle (3.6,2.3);
+				\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (4,3);
+				%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+				\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+				%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+				\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+				\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+				
+				\draw[line width=0pt,fill=violet, opacity=0.2]  (0,2.2361) -- (0,0)-- (2.2361,0)  arc (0:26:2.2361)  -- (1,2)   arc (64:90:2.2361);
+				
+				\draw[line width=0pt,color=white,fill=violet,fill opacity=0.01] (-3,3)--(0,3) --(4,-1)-- (4,-3)--(-3,-3)--(-3,3);
+				\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.01] (0,0)--(0,3) --(4,3)-- (4,0)--(0,0);;
+				\draw [line width=0.05pt,color=blue,fill=blue,fill opacity=0.01] (0,0) circle (2.2361);
+				\draw[line width=0.05pt,color=red](0,3)-- (4,-1);
+				\draw[line width=0.05pt,color=yellow](0,4)-- (0,-3);
+				\draw[line width=0.05pt,color=yellow](-3,0)-- (3,0);
+				\draw[line width=2pt,color=yellow](0,2.2361) -- (0,0)-- (2.2361,0);
+				\draw[line width=2pt,color=red](1,2)-- (2,1);
+				\draw[line width=2pt,color=blue] (2.2361,0) arc (0:26:2.2361);
+				\draw[line width=2pt,color=blue] (0,2.2361) arc (90:64:2.2361);
+
+				%\draw [fill=black] (1,2) circle (2pt) node[above right] {\footnotesize $(3,2)$};
+				%\draw [fill=black] (2,1) circle (2pt) node[above right] {\footnotesize $(2,1)$};
+				%\draw [fill=black] (0,0) circle (2pt) node[above left] {\footnotesize $(0,0)$};
+				%\draw [fill=black] (0,2.2361) circle (2pt) node[above left] {\footnotesize $(0,\sqrt{5})$};
+				%\draw [fill=black] (2.2361,0) circle (2pt) node[above left] {\footnotesize $(\sqrt{5},0)$};
+
+				\draw [fill=red,color=red] (3,2) circle (1.25pt) node[above right] {$(3,2)$};
+				\draw [dashed,line width=0.75pt,color=black] (3,2) circle (1.41);
+				\draw [dashed,line width=0.75pt,color=black] (3,2) circle (1.00);
+				\draw [dashed,line width=0.75pt,color=black] (3,2) circle (0.50);
+				\draw [fill=blue,color=blue] (2,1) circle (1.25pt) node[below left] {$(2,1)$};
+				\draw [fill=blue,color=blue] (1.8,1.2) circle (1.25pt) node[left] { $(\frac{9}{5},\frac{6}{5})$};
+				\end{tikzpicture}
+			\end{center}
+\end{frame}
+
+
+\begin{frame}{Optimización con restricciones. Ejemplo}
+	\begin{center}
+		\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=5]
+		\clip(1,0.4) rectangle (2.8,1.7);
+		\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (4,3);
+		%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+		\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+		%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+		\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+		
+		\draw[line width=0pt,fill=violet, opacity=0.2]  (0,2.2361) -- (0,0)-- (2.2361,0)  arc (0:26:2.2361)  -- (1,2)   arc (64:90:2.2361);
+		
+		\draw[line width=0pt,color=white,fill=violet,fill opacity=0.01] (-3,3)--(0,3) --(4,-1)-- (4,-3)--(-3,-3)--(-3,3);
+		\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.01] (0,0)--(0,3) --(4,3)-- (4,0)--(0,0);;
+		\draw [line width=0.05pt,color=blue,fill=blue,fill opacity=0.01] (0,0) circle (2.2361);
+		\draw[line width=0.05pt,color=red](0,3)-- (4,-1);
+		\draw[line width=0.05pt,color=yellow](0,4)-- (0,-3);
+		\draw[line width=0.05pt,color=yellow](-3,0)-- (3,0);
+		\draw[line width=2pt,color=yellow](0,2.2361) -- (0,0)-- (2.2361,0);
+		\draw[line width=2pt,color=red](1,2)-- (2,1);
+		\draw[line width=2pt,color=blue] (2.2361,0) arc (0:26.5:2.2361);
+		\draw[line width=2pt,color=blue] (0,2.2361) arc (90:64:2.2361);
+		
+		%\draw [fill=black] (1,2) circle (2pt) node[above right] {\footnotesize $(3,2)$};
+		%\draw [fill=black] (2,1) circle (2pt) node[above right] {\footnotesize $(2,1)$};
+		%\draw [fill=black] (0,0) circle (2pt) node[above left] {\footnotesize $(0,0)$};
+		%\draw [fill=black] (0,2.2361) circle (2pt) node[above left] {\footnotesize $(0,\sqrt{5})$};
+		%\draw [fill=black] (2.2361,0) circle (2pt) node[above left] {\footnotesize $(\sqrt{5},0)$};
+		
+		\draw [fill=red,color=red] (3,2) circle (1.25pt) node[below left] {$(1,2)$};
+		\draw [dashed,line width=0.25pt,color=black] (3,2) circle (1.00);
+		\draw [dashed,line width=0.25pt,color=black] (3,2) circle (0.50);
+		\visible<1>{
+			\draw [dashed,line width=0.75pt,color=black] (3,2) circle (1.414);
+			\draw [line width=2pt,color=black,->] (2,1) -- (1.65,0.65) node[below left] {$\gf(\ovx)$};
+			\draw [line width=2pt,color=red,->] (2,1) -- (2.35,1.35) node[right] {$\gg_4(\ovx)$};
+			\draw [line width=2pt,color=blue,->] (2,1) -- (2.45,1.225) node[right] {$\gg_1(\ovx)$};
+			\draw[line width=1pt,color=black,dashed,<->] ([shift=(-45:0.25)]2,1) arc (-45:135:0.25);
+			\draw[line width=1pt,color=red,dashed,<->] ([shift=(135:0.25)]2,1) arc (135:315:0.25);
+			\draw[line width=1pt,color=blue,dashed,<->] ([shift=(116.56:0.27)]2,1) arc (116.56:296.56:0.27);
+			\draw [fill=blue,color=blue] (2,1) circle (0.75pt) node[right] {$(2,1)$};
+		}
+		\visible<2->{
+			\draw [dashed,line width=0.75pt,color=black] (3,2) circle (1.44);
+			\draw [line width=2pt,color=black,->] (1.8,1.2) -- +(-.45,-0.30) node[below left] {$\gf(\ovx)$};
+			\draw [line width=2pt,color=red,->] (1.8,1.2) -- (2.15,1.55) node[right] {$\gg_4(\ovx)$};
+			\draw[line width=1pt,color=black,dashed,<->] ([shift=(-56.31:0.23)]1.8,1.2) arc (-56.31:123.31:0.23);
+			\draw[line width=1pt,color=red,dashed,<->] ([shift=(135:0.25)]1.8,1.2) arc (135:315:0.25);
+			\draw [fill=blue,color=blue] (1.8,1.2) circle (0.75pt) node[right] { $(\frac{9}{5},\frac{6}{5})$};
+		}
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+
+%\begin{frame}{Optimización con restricciones}
+%	\begin{center}
+%		\begin{pspicture}(-1,-1)(4,5)
+%		\psset{yunit=15mm,xunit=15mm,unit=15mm}
+%		\psline[linestyle=dashed]{<->}(-0.5,0)(3,0)
+%		\psline[linestyle=dashed]{<->}(0,-0.5)(0,3)
+%		\pscustom[fillstyle=solid,fillcolor=lightgray]{
+%			\psarc(0,0){2.23606797}{63.4344}{90}
+%			\psline(0,2.23606797)(0,0)
+%			\psline(0,0)(2.23606797,0)
+%			\psarc(0,0){2.23606797}{0}{26.5656}
+%			\psline(2,1)(1,2)
+%		}
+%		\psline(0,0)(0,3)
+%		\psline(0,0)(3,0)
+%		\psline(1,2)(2,1)
+%		\psarc(0,0){2.2361}{0}{26.5}
+%		\psarc(0,0){2.2361}{63.5}{90}
+%		\rput(2.05,1){\circle*{0.07}}
+%		\rput(1.85,1.2){\circle*{0.07}}
+%		%%
+%		\rput(3,2){\circle*{0.07}}
+%		\rput(3,2.2){\footnotesize \'{o}ptimo no restringido}
+%		\psarc[linestyle=dashed](3,2){1}{180}{270}
+%		\psarc[linestyle=dashed](3,2){.5}{180}{270}
+%		\end{pspicture}
+%	\end{center}
+%	Consid\'{e}rese el punto $\ovx=(\frac{9}{5},\frac{6}{5})$. La segunda restricci\'{o}n es la \'{u}nica
+%	activa y en ese punto
+%	$$
+%	\gf(\ovx)^T=\Bigl(\frac{-12}{5},\frac{-8}{5}\Bigr)\qquad\text{ y }\quad
+%	\gg_2(\ovx)^T=(1,1)
+%	$$
+%	En siguiente figura se muestran cuales son los conjuntos $\D_0$ y $\G_0$. Puesto que su
+%	intersecci\'{o}n es no vac\'{\i}a, este punto no es \'{o}ptimo.
+%	\begin{center}
+%		\begin{pspicture}(-3,-3)(6,7)
+%		\psset{yunit=12mm,xunit=12mm,unit=12mm}
+%		\pscustom[fillstyle=solid,fillcolor=lightgray]{
+%			\psarc(0,0){2.23606797}{63.4344}{90}
+%			\psline(0,2.23606797)(0,0)
+%			\psline(0,0)(2.23606797,0)
+%			\psarc(0,0){2.23606797}{0}{26.5656}
+%			\psline(2,1)(1,2)
+%		}
+%		\pscustom[fillstyle=hlines,fillcolor=lightgray]{
+%			\psline[linestyle=dashed,linewidth=0mm](2.3,-1.3)(3.3,-0.3)
+%			\psline[linestyle=dashed,linewidth=0mm](3.3,-0.3)(-0.3,3.3)
+%			\psline[linestyle=dashed,linewidth=0mm](-0.3,3.3)(-1.3,2.3)
+%			%\psline[linestyle=dashed,linewidth=0mm](-1.3,2.3)(2.3,-1.3)
+%		}
+%		\pscustom[fillstyle=vlines,fillcolor=lightgray]{
+%			\psline[linestyle=dashed,linewidth=0mm](3.8,0.575)(2.8,-0.175)
+%			\psline[linestyle=dashed,linewidth=0mm](2.8,-0.175)(0.3,3.2625)
+%			\psline[linestyle=dashed,linewidth=0mm](0.3,3.2625)(1.3,4.0625)
+%			%\psline[linestyle=dashed,linewidth=0mm](1.3,4.0625)(3.8,0.575)
+%		}
+%		\psline{<->}(-1.5,0)(5,0)
+%		\psline{<->}(0,-2)(0,5)
+%		\rput(1.85,1.2){\circle*{0.1}}
+%		\psline[linestyle=dashed,linewidth=0.25mm]{-}(3.3,-0.3)(-0.3,3.3)
+%		\psline[linestyle=dashed,linewidth=0.25mm]{-}(2.8,-0.175)(0.3,3.2625)
+%		\rput(-0.3,3.3){\psline{->}(0,0)(-0.2,-0.2)}
+%		\rput(0.3,3.2625){\psline{->}(0,0)(0.20,0.15)}
+%		\rput(3.3,-.3){\psline{->}(0,0)(-0.2,-0.2)}
+%		\rput(2.8,-0.175){\psline{->}(0,0)(0.20,0.15)}
+%		\rput(-0.5,3.4){$\G_0$}
+%		\rput(0.6,3.7){$\D_0$}
+%		%%
+%		\rput(3,2){\circle*{0.07}}
+%		\psarc[linestyle=dashed](3,2){1}{180}{270}
+%		\psarc[linestyle=dashed](3,2){.5}{180}{270}
+%		\end{pspicture}
+%	\end{center}
+%	Sea ahora el punto $\ovx=(2,1)$. Ahora hay dos restricciones activas, la primera y la segunda
+%	y los gradientes resultan:
+%	$$
+%	\gf(\ovx)=(-2,-2)^T\qquad\gg_1(\ovx)=(4,2)^T\qquad\gg_2(\ovx)=(1,1)^T
+%	$$
+%	La siguiente figura muestra cuales son los conjuntos $\D_0$ y $\G_0$.
+%	\begin{center}
+%		\begin{pspicture}(-3,-3)(4,7)
+%		\psset{yunit=12mm,xunit=12mm,unit=12mm}
+%		\pscustom[fillstyle=solid,fillcolor=lightgray]{
+%			\psarc(0,0){2.23606797}{63.4344}{90}
+%			\psline(0,2.23606797)(0,0)
+%			\psline(0,0)(2.23606797,0)
+%			\psarc(0,0){2.23606797}{0}{26.5656}
+%			\psline(2,1)(1,2)
+%		}
+%		\pscustom[fillstyle=vlines,fillcolor=lightgray]{
+%			\psline[linestyle=dashed,linewidth=0mm](4.3,0.7)(3.3,-0.3)
+%			\psline[linestyle=dashed,linewidth=0mm](3.3,-0.3)(-0.3,3.3)
+%			\psline[linestyle=dashed,linewidth=0mm](-0.3,3.3)(0.7,4.3)
+%			%       \psline[linestyle=dashed,linewidth=0mm](0.7,4.3)(4.3,0.7)
+%		}
+%		\pscustom[fillstyle=hlines,fillcolor=lightgray]{
+%			\psline[linestyle=dashed,linewidth=0mm](2,-1.5)(3,-1)
+%			\psline[linestyle=dashed,linewidth=0mm](3,-1)(2,1)
+%			\psline[linestyle=dashed,linewidth=0mm](2,1)(-0.3,3.3)
+%			\psline[linestyle=dashed,linewidth=0mm](-0.3,3.3)(-1.3,2.3)
+%		}
+%		\psline{<->}(-0.5,0)(3.5,0)
+%		\psline{<->}(0,-0.5)(0,3.5)
+%		\rput(2.05,1){\circle*{0.1}}
+%		\psline[linestyle=dashed,linewidth=0.25mm]{-}(3.3,-0.3)(-0.3,3.3)
+%		\psline[linestyle=dashed,linewidth=0.25mm]{-}(3,-1)(2,1)
+%		\rput(-0.3,3.3){\psline{->}(0,0)(-0.2,-0.2)}
+%		\rput(3,-1){\psline{->}(0,0)(-0.2,-0.1)}
+%		\rput(-0.3,3.3){\psline{->}(0,0)(0.2,0.2)}
+%		\rput(3.3,-.3){\psline{->}(0,0)(0.2,0.2)}
+%		\rput(-0.85,3){$\G_0$}
+%		\rput(2.5,-0.8){$\G_0$}
+%		\rput(0.6,3.4){$\D_0$}
+%		%%
+%		\rput(3,2){\circle*{0.07}}
+%		\psarc[linestyle=dashed](3,2){1}{180}{270}
+%		\psarc[linestyle=dashed](3,2){.5}{180}{270}
+%		\end{pspicture}
+%	\end{center}
+%	En este caso, su intersecci\'{o}n es vac\'{\i}a. Pero no se da la condici\'{o}n suficiente del teorema
+%	\ref{t4252}, puesto que $g_2$ no es estrictamente pseudo-convexa en un entorno de $\ovx$. Sin
+%	embargo, aplicando el teorema \ref{t422-con}, se pude concluir que $\ovx$ es un m\'{\i}nimo local.
+%	De hecho, puesto que la funci\'{o}n objetivo es estrictamente convexa y la regi\'{o}n sobre la que se
+%	busca el m\'{\i}nimo es convexa, el m\'{\i}nimo es global y \'{u}nico.
+%\end{frame}
+\begin{frame}{Optimización con restricciones}
+		Consid\'{e}rese el siguiente problema
+		\begin{align*}
+			\min (x_1-1)^2+(x_2-1)^2 &
+			\\
+			(x_1+x_2-1 )^3& \leq 0
+			\\
+			x_1 &\geq 0
+			\\
+			x_2 &\geq 0
+		\end{align*}
+		
+		Para todos los puntos de la recta $x_1+x_2=1$, se verifica $\D_0\cap\G_0=\emptyset$.
+\end{frame}
+\begin{frame}{Optimizaci\'on con restricciones}
+	\begin{columns}
+		\column[]{0.5\textwidth}{
+			La regi\'on factible se puede reescribir de la forma:\Large
+			\begin{align*}
+			x_1+x_2 & \leq 1
+			\\
+			x_1 &\geq 0
+			\\
+			x_2 &\geq 0
+			\end{align*}
+		}
+		\column{0.5\textwidth}{
+			\begin{center}
+				\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=3.3]
+				\clip(-0.5,-0.3) rectangle (1.3,1.3);
+				%% ejes
+				\draw [color=gray, xstep=1cm,ystep=1cm] (-0.5,-0.5) grid (1.5,1.5);
+				%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+				%\foreach \x in {-1,1} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+				%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+				%\foreach \y in {-1,1} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+				%\draw[color=black] (0,-.16) node[right] {\color{gray}\tiny $0$}; 
+				%% zona facrtible
+				\draw[line width=1pt,color=black,fill=violet,fill opacity=0.30] (0,0)--(0,1) --(1,0)-- (0,0);
+				\visible<1>{
+					\foreach \x in {0.35,0.7071,1,1.4142,0.1}	\draw [dashed,line width=0.25pt,color=black] (1,1) circle (\x);
+					\draw [fill=black] (1,0) circle (0.8pt) node[below left] {\footnotesize $(1,0)$};
+					\draw [fill=black] (0,1) circle (0.8pt) node[above left] {\footnotesize $(0,1)$};
+					\draw [fill=black] (0,0) circle (0.8pt) node[below left] {\footnotesize $(0,0)$};
+					\draw [fill=black] (1,1) circle (0.8pt) node[above left] {\footnotesize $(1,1)$};
+				}
+				\visible<2>{
+					\draw [dashed,line width=0.25pt,color=black] (1,1) circle (0.7071);
+					\draw [line width=1pt,color=black,->] (0.5,0.5) --+ (-0.25,-0.25) node[below] {$\gf(\ovx)$};
+					\draw [line width=1pt,color=red,->] (0.5,0.5) --+ (.25,.25) node[right] {$\gg_2(\ovx)$};
+					\draw[line width=0.5pt,color=black,dashed,<->] ([shift=(-45:0.25)]0.5,0.5) arc (-45:135:0.25);
+					\draw[line width=0.5pt,color=red,dashed,<->] ([shift=(135:0.25)]0.5,0.5) arc (135:315:0.25);
+					\draw [fill=red,color=red] (0.5,0.5) circle (1pt) ;%node[above left] {\footnotesize $\bigl(\frac{1}{2},\frac{1}{2}\bigr)$};
+				}
+				\end{tikzpicture}
+			\end{center}
+		}
+	\end{columns}
+	\visible<2->{
+		\begin{itemize}
+			\item  Se comprueba que $\D_0\cap\G_0=\emptyset$ s\'{o}lo se verifica en el punto $\bigl(\frac{1}{2},\frac{1}{2}\bigr)$. 
+			\item Por ser $f$ estrictamente convexa y la regi\'on factible convexa, este punto  es el \'{u}nico m\'{\i}nimo global.
+		\end{itemize}
+	}
+\end{frame}
+%%
+\subsection{Condiciones de Fritz-John}
+\begin{frame}{Condiciones de Fritz-John}
+%%
+\begin{itemize}\itemsep 2mm
+\item Los resultados generales establecen condiciones de optimalidad en función de los conos de direcciones factibles y de descenso.
+\item Una condición necesaria para que  punto $\ovx$ sea m\'{\i}nimo local es que $\D_0\cap\G_0=\emptyset$, es decir, que no exista ninguna dirección $\vd$ tal que:
+\begin{align*}
+\gf^T(\ovx)\vd & < 0
+\\
+\gg^T_i(\ovx)\vd & < 0\qquad\forall i\in\I
+\end{align*}
+\item Fritz John (1910-1994)  estableció en 1948 estas condiciones en términos de los gradientes de la función objetivo y de las restricciones activas.
+
+\end{itemize}
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John}\footnotesize
+
+\begin{teorema}[Condiciones necesarias de Fritz-John, 1948]
+	Sea el problema $\min\{f(\vx)\,/\, \vx\in\X,\;\; g_i(\vx)\leq 0,\; i=1,\dots,m\}$,  $\ovx$ una soluci\'{o}n factible, e $\I=\{i\,/\, g_i(\ovx)=0\}$ tal que 1) $f$ $g_i$, $i\in\I$ son diferenciables en $\ovx$ y 2) $g_i$, $i\notin\I$ son continuas en $\ovx$.
+	
+	\smallskip
+	
+	Entonces, si $\ovx$ es un m\'{\i}nimo local de $f$,  existen escalares $\{u_0,u_i, i\in\I\}$, no todos ellos nulos y con $u_0\geq 0$,
+	$u_i\geq 0$, $\forall i\in\I$ tales que:
+	\begin{equation*}
+	u_0\gf(\ovx)+\sum_{i\in\I} u_i\gg_i(\ovx)=\vv.
+	\end{equation*}
+	Si adem\'{a}s las funciones $\{g_i,\, i\notin \I\}$ son diferenciables en $\ovx$,
+	las condiciones anteriores se pueden escribir de la forma
+	\begin{align*}
+	u_0\gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx)  =\vv, &
+	\\
+	u_ig_i(\ovx) =0, & \qquad\forall i=1,\dots,m,
+	\\
+	u_0,u_i\geq 0, & \qquad\forall i=1,\dots,m,
+	\\
+	(u_0,\V{u})\neq(0,\B{0}). &
+	\end{align*}
+	donde $\V{u}$ es el vector cuyas componentes son $u_i$, $i=1\dots,m$.
+\end{teorema}
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John}\small
+
+La demostración se basa en los teoremas de alternativa de Farkas y Gordan. 
+
+Nota: un teorema de alternativa establece  resultado del tipo {\em uno y solo uno de dos sistemas de restricciones tiene soluci\'{o}n}.
+
+\begin{lema}[Farkas]\label{farkas}
+	Sea $\vA$ una matriz $m\times n$ y sea $\vc\in\Re^n$, entonces uno y s\'{o}lo uno de los dos
+	sistemas siguientes tiene soluci\'{o}n:
+	\begin{enumerate}
+		\item Existe $\vx\in\Re^n$ tal que $\vA\vx\leq \vv$ y $\vc^T\vx>\vv$.
+		\item Existe $\vy\in\Re^m$ tal que $\vA^T\vy=\vc$ e $\vy\geq \vv$.
+	\end{enumerate}
+\end{lema}
+\begin{lema}[Gordan]\label{gordan}
+	Sea $\vA$ una matriz $m\times n$, entonces uno y s\'{o}lo uno de los dos sistemas siguientes tiene
+	soluci\'{o}n:
+	\begin{enumerate}
+		\item Existe $\vx\in\Re^n$ tal que $\vA\vx< \vv$.
+		\item Existe $\vy\in\Re^m$ tal que $\vA^T\vy=\vv$,  $\vy\geq\vv$ e $\vy\neq\vv$.
+	\end{enumerate}
+\end{lema}
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John}
+
+\alert{Demostración. } {\bf (Condiciones de Fritz John)} 
+	\begin{itemize}\itemsep 3mm
+		\item 	Puesto que $\ovx$ es un m\'{\i}nimo local del problema, no existe un vector $\vd$ tal que $\gf(\ovx)^T\vd<0$ y $\gg(\ovx)^T\vd<0$, $\forall i\in\I$. 
+		\item Sea $\vA$ la matriz formada por los gradientes $\gf(\ovx)^T$ y $\gg(\ovx)^T$, $i\in\I$ (filas).
+		\item Las condición de mínimo local es equivalente a $\vA\vd<0$ no tiene soluci\'{o}n. 
+		\item Por el lema de Gordan,  $\exists \vp$, $\vp\geq\vv$ tal que $\vA^T\vp=0$.
+		\item Denotando las componentes de $\vp$ por $u_0$, $u_i$, $i\in\I$, se demuestra
+la primera parte del teorema. 
+		\item La segunda parte se obtiene considerando $u_i=0$, $\forall i\notin\I$.
+	\end{itemize}
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John}
+
+\begin{itemize}\itemsep 5mm
+\item Los escalares $u_0$, $u_1$, \dots, $u_m$ se denominan \alert{multiplicadores de Lagrange}.
+\item Las condiciones $u_ig_i(x)=0$ se denominan \alert{de holgura complementaria}.
+\item Las condición de que $\ovx$ es factible se suele denominar condicion de \alert{factibilidad primal}.
+\item La condición  $u_0\gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx)  =\vv$ se suele denominar condición de \alert{factibilidad dual}. 
+\end{itemize}
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John. Interpretaci\'{o}n geom\'{e}trica}
+%%
+\begin{itemize}\itemsep 3mm
+	\item \alert{Factibilidad primal:} los candidatos verifican las restricciones.
+	\item \alert{Condiciones de regularidad:} la diferenciabilidad y continuidad de las funciones $f$ y $g_i$, $i=1,\dots,m$,  son condiciones de regularidad: garantizan la existencia de los gradientes y un comportamiento regular de las restricciones no activas.
+	\item \alert{Factibilidad dual:}
+	\begin{equation*}
+	u_0\bigl(-\gf(\ovx)\bigr)=\sum_{i\in\I} u_i\gg_i(\ovx).
+	\end{equation*}
+	Esta expresión indica que el opuesto de gradiente de la funci\'{o}n objetivo (direcci\'{o}n de m\'{a}ximo decrecimiento) se puede poner como combinaci\'{o}n lineal de los gradientes de las restricciones activas. 
+	
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Condiciones de Fritz-John. Interpretaci\'{o}n geom\'{e}trica}\small
+Los gradientes de las restricciones activas son linealmente independientes:
+\begin{columns}
+\column{0.45\textwidth}
+\begin{align*}
+\min & (x-5)^2+(y-1)^2 
+\\
+\text{s. a } &  2x+y \leq 6
+\\ & x-y \leq 1
+\end{align*}
+$$
+u_0\binom{-2(\frac{7}{3}-5)}{-2(\frac{4}{3}-1)} = u_1\binom{2}{1}+u_2\binom{1}{-1}
+$$
+\begin{align*}
+\frac{16}{3} u_0 &= 2u_1+ u_2  & u_1=\frac{14}{9} u_0\\
+-\frac{2}{3} u_0 &= u_1- u_2      & u_2=\frac{10}{9} u_0
+\end{align*}
+\column{0.45\textwidth}
+\begin{tikzpicture}
+\clip (-0.5,-1.7) rectangle (5.3,3.6);
+\draw[line width=1pt]  (0,-2) -- (0,3.5) ;
+\draw[line width=1pt]  (0,0) -- (6,0) ;
+\draw[line width=0.pt,color=white,fill=gray,fill opacity=0.25]  (0,3.5) -- (1.236,3.5) -- (2.33,1.33) -- (0,-1.029) -- (0,3.5); 
+\draw[line width=2pt]  (1.236,3.5) -- (3.76,-1.5)   node[right] {\footnotesize $g_2$};
+\draw[line width=2.pt] (-0.029,-1.029)--(4.53,3.5) node[below] {\footnotesize  $g_1$};
+\draw [->,line width=1.pt] (2.33,1.33) --  (4.33,2.33) node[right] {\footnotesize  $\gg_2$};
+\draw [->,line width=1.pt] (2.33,1.33) -- (3.33,0.33) node[right] {\footnotesize  $\gg_1$};
+\draw [->,line width=1.pt,color=red] (2.33,1.33) -- (1.,1.5) node[left] {\footnotesize  $\gf $};
+\draw [->,line width=1.pt,color=blue] (2.33,1.33) -- (3.66,1.16)node[right] {\footnotesize  $ -\gf$};
+\draw [line width=0.5pt,dashed] (5.,1.) circle (1.cm);
+\draw [line width=0.5pt,dashed] (5.,1.) circle (2.cm);
+\draw [line width=0.5pt,fill=black] (5.,1.) circle (.05cm);
+\draw [dashed,line width=0.5pt,color=red] (2.33,0) node[below] {\footnotesize $\frac{7}{3}$} --(2.33,1.33) -- (0,1.33) node[below right] {\footnotesize  $\frac{4}{3}$};
+\end{tikzpicture}
+\end{columns}
+Solución única si $-\gf$ está en el cono definido por los gradientes.
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John}{Interpretaci\'{o}n geom\'{e}trica}
+
+En este caso $u_0\neq 0$ y $\gf(\ovx)\neq\vv$.
+
+Si  $-\gf(\ovx)$ pertenece al cono definido por los gradientes de las restricciones activas, el conjunto $\G_0$ est\'{a} contenido en el conjunto de direcciones $\{\vd\,/\, \gf(\ovx)^T\vd>0\}$, que es un subconjunto de las direcciones de crecimiento.
+
+Por tanto, $\G_0\cap\D_0=\emptyset$. 
+
+Adem\'{a}s, las coordenadas de $-\gf(\ovx)$ respecto de $\gg_1(\ovx)$ y $\gg_2(\ovx)$ son \'{u}nicas. 
+
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John. Interpretaci\'{o}n geom\'{e}trica}\small
+Los gradientes de las restricciones activas NO son linealmente independientes:
+\begin{columns}
+	\column{0.5\textwidth}
+	\alert{Caso 1:}
+	\begin{align*}
+	\min & (x-5)^2+(y-1)^2 
+	\\
+	\text{s. a } &  2x+y \leq 6
+	\\ & x-y \leq 1
+	\\ & x  \leq 	\frac{7}{3}
+	\end{align*}
+	$$
+	u_0\binom{-2(\frac{7}{3}-5)}{-2(\frac{4}{3}-1)} = u_1\binom{2}{1}+u_2\binom{1}{-1}+u_3\binom{1}{0}
+	$$
+	
+	\column{0.45\textwidth}
+	\begin{tikzpicture}
+	\clip (-0.5,-1.7) rectangle (5.3,3.6);
+	\draw[line width=1pt]  (0,-2) -- (0,3.5) ;
+	\draw[line width=1pt]  (0,0) -- (6,0) ;
+	\draw[line width=0.pt,color=white,fill=gray,fill opacity=0.25]  (0,3.5) -- (1.236,3.5) -- (2.33,1.33) -- (0,-1.029) -- (0,3.5); 
+	\draw[line width=2pt]  (1.236,3.5) -- (3.76,-1.5)   node[right] {\footnotesize $g_2$};
+	\draw[line width=2pt]  (2.33,3.5) -- (2.33,-1.5)   node[right] {\footnotesize $g_3$};
+	\draw[line width=2.pt] (-0.029,-1.029)--(4.53,3.5) node[below] {\footnotesize  $g_1$};
+	\draw [->,line width=1.pt] (2.33,1.33) --  (3.33,1.33) node[right] {\footnotesize  $\gg_3$};
+	\draw [->,line width=1.pt] (2.33,1.33) --  (4.33,2.33) node[right] {\footnotesize  $\gg_2$};
+	\draw [->,line width=1.pt] (2.33,1.33) -- (3.33,0.33) node[right] {\footnotesize  $\gg_1$};
+	\draw [->,line width=1.pt,color=red] (2.33,1.33) -- (1.,1.5) node[left] {\footnotesize  $\gf $};
+	\draw [->,line width=1.pt,color=blue] (2.33,1.33) -- (3.66,1.16)node[right] {\footnotesize  $ -\gf$};
+	\draw [line width=0.5pt,dashed] (5.,1.) circle (1.cm);
+	\draw [line width=0.5pt,dashed] (5.,1.) circle (2.cm);
+	\draw [line width=0.5pt,fill=black] (5.,1.) circle (.05cm);
+	\end{tikzpicture}
+\end{columns}
+Solución múltiple: $-\gf$ se puede expresar de varias formas.
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John}{Interpretaci\'{o}n geom\'{e}trica}
+Esta situaci\'{o}n se presenta cuando en el punto estudiado una de las restricciones
+es redundante.
+
+Uno de los gradientes se puede poner como combinaci\'{o}n lineal de resto y eliminarse del sistema. 
+
+Los conjuntos:
+$$
+\G_0^1=\{ \vd\,/\, \gg_1(\ovx)^T\vd<0,\,\, \gg_2(\ovx)^T\vd<0\}
+$$
+y
+$$
+\G_0=\{ \vd\,/\, \gg_1(\ovx)^T\vd<0,\,\, \gg_2(\ovx)^T\vd<0,\,\, \gg_3(\ovx)^T\vd<0\}
+$$
+son iguales. 
+
+Es posible encontrar multiplicadores $(u_1,u_2,u_3)$ tales que  $\{u_1,u_2> 0$ y
+$u_3=0\}$;  $\{u_1,u_3>0$ y $u_2=0\}$ o $\{u_1,u_2,u_3>0\}$. 
+
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John. Interpretaci\'{o}n geom\'{e}trica}\small
+Los gradientes de las restricciones activas NO son linealmente independientes:
+\begin{columns}
+	\column{0.55\textwidth}
+	\alert{Caso 2:}
+	\begin{align*}
+	\min & (x-5)^2+(y-1)^2 
+	\\
+	\text{s. a } &  2x+y \leq 6
+	\\ & x-y \leq 1
+	\\ & x  \geq 	\frac{7}{3}
+	\end{align*}
+	$$
+	u_0\binom{-2(\frac{7}{3}-5)}{-2(\frac{4}{3}-1)} = u_1\binom{2}{1}+u_2\binom{1}{-1}+u_3\binom{-1}{0}
+	$$
+	
+	\column{0.45\textwidth}
+	\begin{tikzpicture}
+\clip (-0.5,-1.7) rectangle (5.3,3.6);
+\draw[line width=1pt]  (0,-2) -- (0,3.5) ;
+\draw[line width=1pt]  (0,0) -- (6,0) ;
+%\draw[line width=0.pt,color=white,fill=gray,fill opacity=0.25]  (0,3.5) -- (1.236,3.5) -- (2.33,1.33) -- (0,-1.029) -- (0,3.5); 
+\draw[line width=2pt]  (1.236,3.5) -- (3.76,-1.5)   node[right] {\footnotesize $g_2$};
+\draw[line width=2pt]  (2.33,3.5) -- (2.33,-1.5)   node[right] {\footnotesize $g_3$};
+\draw[line width=2.pt] (-0.029,-1.029)--(4.53,3.5) node[below] {\footnotesize  $g_1$};
+\draw [->,line width=1.pt] (2.33,1.33) --  (1.33,1.33) node[below] {\footnotesize  $\gg_3$};
+\draw [->,line width=1.pt] (2.33,1.33) --  (4.33,2.33) node[right] {\footnotesize  $\gg_2$};
+\draw [->,line width=1.pt] (2.33,1.33) -- (3.33,0.33) node[right] {\footnotesize  $\gg_1$};
+\draw [->,line width=1.pt,color=red] (2.33,1.33) -- (1.,1.5) node[left] {\footnotesize  $\gf $};
+\draw [->,line width=1.pt,color=blue] (2.33,1.33) -- (3.66,1.16)node[right] {\footnotesize  $ -\gf$};
+\draw [line width=0.5pt,dashed] (5.,1.) circle (1.cm);
+\draw [line width=0.5pt,dashed] (5.,1.) circle (2.cm);
+\draw [line width=0.5pt,fill=black] (5.,1.) circle (.05cm);
+\draw [line width=0.5pt,fill=black] (2.33,1.33) circle (.08cm);
+\end{tikzpicture}
+\end{columns}
+Es posible encontrar una solución con $u_0=0$: $u_1=u_2=1$ y $u_3=3u_1$.
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John. Interpretaci\'{o}n geom\'{e}trica}
+En este caso, la intersecci\'{o}n de los conjuntos:
+$$
+\G_0=\{ \vd\,/\, \gg_1(\ovx)^T\vd<0,\,\, \gg_2(\ovx)^T\vd<0\}
+$$
+y
+$$
+\G_0^3=\{ \vd\,/\, \gg_3(\ovx)^T\vd<0\}
+$$
+es vac\'{\i}a. 
+
+Esto no quiere decir que no exista ninguna direcci\'{o}n factible pues las direcciones
+$\vd^*$ tal que $\gg_i(\ovx)^T\vd^*=0$, $i\in\I$, pueden ser factibles:
+
+Como $\G_0=\emptyset$, $\G_0\cap\D_0=\emptyset$ se verifica trivialmente.
+
+En este caso, es posible fijar $u_0=0$, ya que $-\gg_3(\ovx)$ est\'{a} en el cono definido por
+$\gg_1(\ovx)$ y $\gg_2(\ovx)$.
+
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John. Interpretaci\'{o}n geom\'{e}trica}\small
+Los gradientes de las restricciones activas son linealmente independientes:
+\begin{columns}
+	\column{0.50\textwidth}
+	\begin{align*}
+	\min & -(x-5)^2-(y-1)^2 
+	\\
+	\text{s. a } &  2x+y \leq 6
+	\\ & x-y \leq 1
+	\end{align*}
+	\column{0.50\textwidth}
+	\begin{tikzpicture}
+	\clip (-0.01,-1.7) rectangle (5.7,3.6);
+	\draw[line width=1pt]  (0,-2) -- (0,3.5) ;
+	\draw[line width=1pt]  (0,0) -- (6,0) ;
+	\draw[line width=0.pt,color=white,fill=gray,fill opacity=0.25]  (0,3.5) -- (1.236,3.5) -- (2.33,1.33) -- (0,-1.029) -- (0,3.5); 
+	\draw[line width=2pt]  (1.236,3.5) -- (3.76,-1.5)   node[right] {\footnotesize $g_2$};
+	\draw[line width=2.pt] (-0.029,-1.029)--(4.53,3.5) node[below] {\footnotesize  $g_1$};
+	\draw [->,line width=1.pt] (2.33,1.33) --  (4.33,2.33) node[right] {\footnotesize  $\gg_2$};
+	\draw [->,line width=1.pt] (2.33,1.33) -- (3.33,0.33) node[right] {\footnotesize  $\gg_1$};
+	\draw [->,line width=1.pt,color=blue] (2.33,1.33) -- (1.,1.5) node[left] {\footnotesize  $-\gf $};
+	\draw [->,line width=1.pt,color=red] (2.33,1.33) -- (3.66,1.16)node[right] {\footnotesize  $ \gf$};
+	\draw [line width=0.5pt,dashed] (5.,1.) circle (1.cm);
+	\draw [line width=0.5pt,dashed] (5.,1.) circle (2.cm);
+	\draw [line width=0.5pt,fill=black] (5.,1.) circle (.05cm);
+	\end{tikzpicture}
+\end{columns}
+En este caso, NO existe solución ya que $-\gf$ NO está en el cono definido por los gradientes.
+\end{frame}
+
+\begin{frame}{Condiciones de Fritz-John. Interpretaci\'{o}n geom\'{e}trica}
+\begin{itemize}\itemsep 4mm
+	\item No se ha analizado el caso en el que los vectores linealmente dependientes tuviesen la misma direcci\'{o}n (con el mismo sentido u opuestos). 
+	\item La interpretaci\'{o}n en este caso se simplifica y no es necesario m\'{a}s que considerar que alg\'{u}n multiplicador puede ser 0. 
+	\item Esta situaci\'{o}n se presenta cuando una restricci\'{o}n de igualdad $g(\vx)=0$ se sustituye por dos desigualdades: $g(\vx)\leq 0$ y $g(\vx)\geq 0$.
+	\item Este caso los gradientes de estas dos restricciones son opuestos.
+\end{itemize}
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John. Interpretaci\'{o}n geom\'{e}trica}
+
+Los posibles candidatos a ser m\'{\i}nimos, seg\'{u}n las condiciones necesarias de Fritz John son.
+	\begin{enumerate}\itemsep 3mm
+		\item Puntos de corte de varias restricciones.
+		\item Puntos en los que una restricci\'{o}n tenga el gradiente proporcional al gradiente de la
+		funci\'{o}n objetivo y con sentido opuesto (si tiene el mismo sentido, el multiplicador ser\'{a}
+		negativo).
+		\item Puntos en los que los gradientes de las restricciones
+		activas sean linealmente dependientes.
+		\item En este último  caso, el multiplicador $u_0$ puede ser cero: ¡¡¡¡no se utiliza información de la función objetivo!!!!
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Condiciones de Fritz-John. Ejemplo 1}
+	Consid\'{e}rese el siguiente problema
+\begin{columns}
+	\column{0.5\textwidth}
+	\begin{align*}
+	\min -x_1 &
+	\\
+	x_2-(1-x_1)^3 & \leq 0
+	\\
+	-x_2 &\leq 0
+	\end{align*}
+\column{0.5\textwidth}
+\scalebox{1.3}{
+\begin{tikzpicture}
+\draw[->,color=black] (-0.25,0.) -- (2.,0.);
+\draw[->,color=black] (0.,-0.5) -- (0.,1.92587);
+
+\draw[line width=0pt,color=white, fill=blue, opacity =0.25] (-0.24555495689655177,1.92587)  -- (-0.245554956,0) --(1.203125,-0.008380887417986082)--(1.1788793103448274,-0.005723797390089502)--(1.154633620689655,-0.003697476194336612)--(1.1303879310344827,-0.002216684799356643)--(1.1061422413793103,-0.0011958684736626383)--(1.081896551724138,-5.493146357095467E-4)--(1.0576508620689655,-1.9162640406850527E-4)--(1.033405172413793,-3.724904725255714E-5)--(1.0091594827586206,-7.856838328393278E-7)--(0.9849137931034482,3.4762677356991177E-6)--(0.9606681034482758,6.077583882382711E-5)--(0.9364224137931033,2.569834610346896E-4)--(0.9121767241379309,6.773381657390556E-4)--(0.8879310344827586,0.0014075525344819759)--(0.8636853448275861,0.0025330234486923135)--(0.8394396551724137,0.004139147789798931)--(0.8151939655172413,0.006311795989404975)--(0.7909482758620688,0.009136049228823117)--(0.7667025862068965,0.012697777939656506)--(0.7424568965517241,0.017082379003334)--(0.7182112068965516,0.022375407151342563)--(0.6939655172413792,0.028662259265111054)--(0.6697198275862069,0.03602864792618452)--(0.6454741379310344,0.044559812165933736)--(0.621228448275862,0.05434162241596185)--(0.5969827586206896,0.06545915985758152)--(0.5727370689655171,0.077998452772454)--(0.5484913793103448,0.09204458234189197)--(0.5242456896551724,0.10768326114744046)--(0.5,0.12500004392058645)--(0.4757543103448275,0.1440803275427588)--(0.4515086206896551,0.16500966674544443)--(0.4272629310344827,0.18787361626013035)--(0.4030172413793103,0.2127577308183035)--(0.37877155172413784,0.2397474073013927)--(0.35452586206896547,0.2689283582909431)--(0.33028017241379304,0.3003858228183253)--(0.3060344827586206,0.33420551346508454)--(0.28178879310344823,0.3704729849627077)--(0.2575431034482758,0.40927363419262364)--(0.2332974137931034,0.45069301588631927)--(0.20905172413793097,0.4948165269252235)--(0.18480603448275856,0.5417300377409395)--(0.16056034482758616,0.5915186295147798)--(0.14843749999999994,0.6175179547333872)--(0.13631465517241373,0.6442681726783479)--(0.12419181034482753,0.6717799382285831)--(0.11206896551724133,0.7000639062630142)--(0.09994612068965512,0.7291309684356497)--(0.08782327586206891,0.7589915428503238)--(0.0757004310344827,0.7896566000860741)--(0.0635775862068965,0.8211365582467348)--(0.0514547413793103,0.8534423089863143)--(0.03933189655172409,0.886584428258705)--(0.02720905172413788,0.9205737287928862)--(0.015086206896551674,0.9554207076177212)--(0.002963362068965468,0.9911362563872187)--(-0.009159482758620737,1.0277308721302416)--(-0.021282327586206944,1.0652154465007988)--(-0.03340517241379315,1.1036004765277532)--(-0.04552801724137936,1.1428968538651132)--(-0.05765086206896557,1.1831150755417426)--(-0.06977370689655177,1.2242659542866203)--(-0.08189655172413797,1.2663600660536387)--(-0.09401939655172419,1.3094082235717774)--(-0.10614224137931039,1.353421081719958)--(-0.11826508620689659,1.398409295377101)--(-0.1303879310344828,1.4443835588846432)--(-0.142510775862069,1.4913546060465344)--(-0.15463362068965522,1.5393330522791817)--(-0.1667564655172414,1.58832967084905)--(-0.17887931034482762,1.6383550969038032)--(-0.19100215517241384,1.6894200445161345)--(-0.19706357758620693,1.7153456734888692)--(-0.20312500000000003,1.7415351882962227)--(-0.20918642241379315,1.7679899207980598)--(-0.21524784482758624,1.7947112225855033)--(-0.22130926724137934,1.8217004156527896)--(-0.22737068965517246,1.8489588417254126)--(-0.23343211206896555,1.8764878326632373)--(-0.23949353448275865,1.9042887301917575)--(-0.24555495689655177,1.92587);
+
+
+\draw[line width=1pt,color=blue] (1.80926724137931,-0.5)--(1.7850215517241377,-0.48377648672921275)--(1.7607758620689653,-0.4403217863864528)--(1.736530172413793,-0.39955037918123315)--(1.7122844827586203,-0.3613770260821828)--(1.688038793103448,-0.32571569880764073)--(1.6637931034482756,-0.2924813161762941)--(1.6395474137931032,-0.26158832345665606)--(1.6153017241379308,-0.2329508502171234)--(1.5910560344827585,-0.20648381527638346)--(1.5668103448275859,-0.1821013482028331)--(1.5425646551724135,-0.15971820996510155)--(1.518318965517241,-0.13924868798164378)--(1.4940732758620687,-0.1206073853710309)--(1.4698275862068964,-0.10370874740177596)--(1.445581896551724,-0.08846721934239202)--(1.4213362068965514,-0.07479740431145018)--(1.397090517241379,-0.06261358972740542)--(1.3728448275862066,-0.051830378708828874)--(1.3485991379310343,-0.042362216524233574)--(1.3243534482758619,-0.03412370629219067)--(1.3001077586206895,-0.027029135431155097)--(1.2758620689655171,-0.020993107059698)--(1.2516163793103448,-0.015930066446332422)--(1.2273706896551724,-0.011754458859571403)--(1.203125,-0.008380887417986082)--(1.1788793103448274,-0.005723797390089502)--(1.154633620689655,-0.003697476194336612)--(1.1303879310344827,-0.002216684799356643)--(1.1061422413793103,-0.0011958684736626383)--(1.081896551724138,-5.493146357095467E-4)--(1.0576508620689655,-1.9162640406850527E-4)--(1.033405172413793,-3.724904725255714E-5)--(1.0091594827586206,-7.856838328393278E-7)--(0.9849137931034482,3.4762677356991177E-6)--(0.9606681034482758,6.077583882382711E-5)--(0.9364224137931033,2.569834610346896E-4)--(0.9121767241379309,6.773381657390556E-4)--(0.8879310344827586,0.0014075525344819759)--(0.8636853448275861,0.0025330234486923135)--(0.8394396551724137,0.004139147789798931)--(0.8151939655172413,0.006311795989404975)--(0.7909482758620688,0.009136049228823117)--(0.7667025862068965,0.012697777939656506)--(0.7424568965517241,0.017082379003334)--(0.7182112068965516,0.022375407151342563)--(0.6939655172413792,0.028662259265111054)--(0.6697198275862069,0.03602864792618452)--(0.6454741379310344,0.044559812165933736)--(0.621228448275862,0.05434162241596185)--(0.5969827586206896,0.06545915985758152)--(0.5727370689655171,0.077998452772454)--(0.5484913793103448,0.09204458234189197)--(0.5242456896551724,0.10768326114744046)--(0.5,0.12500004392058645)--(0.4757543103448275,0.1440803275427588)--(0.4515086206896551,0.16500966674544443)--(0.4272629310344827,0.18787361626013035)--(0.4030172413793103,0.2127577308183035)--(0.37877155172413784,0.2397474073013927)--(0.35452586206896547,0.2689283582909431)--(0.33028017241379304,0.3003858228183253)--(0.3060344827586206,0.33420551346508454)--(0.28178879310344823,0.3704729849627077)--(0.2575431034482758,0.40927363419262364)--(0.2332974137931034,0.45069301588631927)--(0.20905172413793097,0.4948165269252235)--(0.18480603448275856,0.5417300377409395)--(0.16056034482758616,0.5915186295147798)--(0.14843749999999994,0.6175179547333872)--(0.13631465517241373,0.6442681726783479)--(0.12419181034482753,0.6717799382285831)--(0.11206896551724133,0.7000639062630142)--(0.09994612068965512,0.7291309684356497)--(0.08782327586206891,0.7589915428503238)--(0.0757004310344827,0.7896566000860741)--(0.0635775862068965,0.8211365582467348)--(0.0514547413793103,0.8534423089863143)--(0.03933189655172409,0.886584428258705)--(0.02720905172413788,0.9205737287928862)--(0.015086206896551674,0.9554207076177212)--(0.002963362068965468,0.9911362563872187)--(-0.009159482758620737,1.0277308721302416)--(-0.021282327586206944,1.0652154465007988)--(-0.03340517241379315,1.1036004765277532)--(-0.04552801724137936,1.1428968538651132)--(-0.05765086206896557,1.1831150755417426)--(-0.06977370689655177,1.2242659542866203)--(-0.08189655172413797,1.2663600660536387)--(-0.09401939655172419,1.3094082235717774)--(-0.10614224137931039,1.353421081719958)--(-0.11826508620689659,1.398409295377101)--(-0.1303879310344828,1.4443835588846432)--(-0.142510775862069,1.4913546060465344)--(-0.15463362068965522,1.5393330522791817)--(-0.1667564655172414,1.58832967084905)--(-0.17887931034482762,1.6383550969038032)--(-0.19100215517241384,1.6894200445161345)--(-0.19706357758620693,1.7153456734888692)--(-0.20312500000000003,1.7415351882962227)--(-0.20918642241379315,1.7679899207980598)--(-0.21524784482758624,1.7947112225855033)--(-0.22130926724137934,1.8217004156527896)--(-0.22737068965517246,1.8489588417254126)--(-0.23343211206896555,1.8764878326632373)--(-0.23949353448275865,1.9042887301917575)--(-0.24555495689655177,1.92587);
+\draw[line width=1pt,color=blue]  (-0.5,0) -- (1.5,0);
+\draw (1,-0.2) node {\scriptsize  $(1,0)$};
+\draw[fill=red,color=red] (1,0) circle (1pt);
+\end{tikzpicture}}
+\end{columns}
+\visible<2>{
+		El punto \'{o}ptimo es el punto $(1,0)$. El conjunto de restricciones activas es $\I=\{1,2\}$
+		y las condiciones resultan:
+		$$
+		u_0\begin{pmatrix}-1 \\ 0\end{pmatrix}+
+		u_1\begin{pmatrix} 3(1-1)^2 \\ 1 \end{pmatrix}+
+		u_2\begin{pmatrix} 0 \\ -1 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+		\quad\Rightarrow\quad
+		\begin{array}{r@{\,}c@{\,}l}
+		u_0 & =& 0 \\
+		u_1-u_2 & =& 0 
+		\end{array}
+		$$
+		La soluci\'{o}n del sistema es $u_0=0$ y $u_1=u_2=\alpha$, con $\alpha>0$.
+}
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John. Ejemplo 2}
+Consid\'{e}rese el siguiente problema
+\begin{columns}
+	\column{0.5\textwidth}
+	\begin{align*}
+	\min -x_1 &
+	\\
+	x_1+x_2-1 & \leq 0
+	\\
+	-x_2 &\leq 0
+	\end{align*}
+\column{0.5\textwidth}
+\scalebox{1.3}{
+	\begin{tikzpicture}
+	\draw[->,color=black] (-0.25,0.) -- (2.,0.);
+	\draw[->,color=black] (0.,-0.5) -- (0.,1.92587);
+	
+	\draw[line width=0pt,color=white, fill=blue, opacity =0.25]  (-0.5,0) -- (-0.5,1.5) -- (1,0) ; 
+	\draw[line width=1pt,color=blue] (-0.5,1.5) -- (1.5,-0.5) ;
+	\draw[line width=1pt,color=blue]  (-0.5,0) -- (1.5,0);
+	\draw (1.2,0.2) node {\scriptsize  $(1,0)$};
+	\draw[fill=red,color=red] (1,0) circle (1pt);
+	\end{tikzpicture}}
+\end{columns}
+\visible<2>{
+El punto \'{o}ptimo es el punto $(1,0)$. El conjunto de restricciones activas es $\I=\{1,2\}$
+	y las condiciones resultan:
+	$$
+	u_0\begin{pmatrix}-1 \\ 0\end{pmatrix}+
+	u_1\begin{pmatrix} 1 \\ 1 \end{pmatrix}+
+	u_2\begin{pmatrix} 0 \\ -1 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+	\quad\Rightarrow\quad
+	\begin{array}{r@{\,}c@{\,}l}
+	u_0-u_1 & =& 0 \\
+	u_1-u_2 & =& 0 
+	\end{array}
+	$$
+La soluci\'{o}n del sistema es $u_0=u_1=u_2=\alpha$, con $\alpha>0$.
+}
+\end{frame}
+\begin{frame}{Condiciones de Fritz-John}\small
+\begin{itemize}\itemsep 2mm
+	\item Los ejemplos anteriores muestran que existen puntos que verifican las condiciones de F-J de forma trivial. 
+	\item Por ejemplo, si $\gf(\ovx)=\vv$ y $\gg_i(\ovx)=\vv$, con $i\in\I$, se puede tomar $u_0>0$ y $u_i>0$ y el resto de los multiplicadores nulos.
+	\item Si hay restricciones de igualdad y  se sustituyen por dos desigualdades: una solución es asignar un valor positivo a los multiplicadores de estas restricciones y cero al resto.
+	\item En general, siempre es posible introducir nuevas restricciones redundantes que hagan que en un punto se verifiquen las condiciones de F-J. 
+	\item Por ejemplo, se puede a\~{n}adir la restricci\'{o}n $\norma{\vx-\ovx}\geq 0$, que es cierta siempre.
+	\item En $\ovx$, esta restricci\'{o}n es activa y el gradiente es $\vv$.  Por tanto, $\D_0\cap\G_0=\emptyset$, puesto que $\G_0=\emptyset$. Entonces, $\ovx$ es un punto F-J.
+	
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Condiciones de Fritz-John. Ejemplo 3}
+	
+Estudiar las condiciones de Fritz-John del siguiente problema
+	\begin{columns}
+		\column{0.4\textwidth}
+		\begin{align*}
+		\min (x_1-3)^2+(x_2-2)^2 &
+		\\
+		x_1^2+x_2^2-5 & \leq 0
+		\\
+		x_1+x_2-3 &\leq 0
+		\\
+		-x_1 &\leq 0
+		\\
+		-x_2 &\leq 0
+		\end{align*}
+		\column{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=1.3]
+			\clip(-0.5,-0.5) rectangle (3.2,3.2); 
+			\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (5,4);
+			%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+			\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+			%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+			\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+			\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+			\draw[line width=0pt,color=white,fill=violet,fill opacity=0.10] (-3,3)--(0,3) --(4,-1)-- (4,-3)--(-3,-3)--(-3,3);
+				\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.10] (0,0)--(0,4) --(5,4)-- (5,0)--(0,0);
+			\draw [rotate around={0.:(0.,0.)},line width=0.5pt,color=blue,fill=blue,fill opacity=0.10] (0,0) circle (2.2361);
+			\draw[line width=0.5pt,color=red](0,3)-- (4,-1);
+			\draw[line width=0.5pt,color=yellow](0,4)-- (0,-3);
+			\draw[line width=0.5pt,color=yellow](-3,0)-- (3,0);
+			\draw[line width=2pt,color=yellow](0,2.2361) -- (0,0)-- (2.2361,0);
+			\draw[line width=2pt,color=red](1,2)-- (2,1);
+			\draw[line width=2pt,color=blue] (2.2361,0) arc (0:27:2.2361);
+			\draw[line width=2pt,color=blue] (0,2.2361) arc (90:63:2.2361);
+			\begin{scriptsize}
+			\draw [fill=black] (1,2) circle (2pt) node[above right] {\footnotesize $(1,2)$};
+			\draw [fill=black] (2,1) circle (2pt) node[above right] {\footnotesize $(2,1)$};
+			\draw [fill=black] (0,0) circle (2pt) node[below] {\footnotesize $(0,0)$};
+			\draw [fill=black] (0,2.2361) circle (2pt) node[above] {\footnotesize $(0,\sqrt{5})$};
+			\draw [fill=black] (2.2361,0) circle (2pt) node[below right] {\footnotesize $(\sqrt{5},0)$};
+			\draw [fill=orange,orange] (3,2) circle (2pt) node[below] {\tiny $(3,2)$};
+			
+			\end{scriptsize}
+			\end{tikzpicture}
+		\end{center}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}{Condiciones de Fritz-John. Ejemplo 3}
+	
+	Estudiar las condiciones de Fritz-John del siguiente problema
+	\begin{columns}
+		\column{0.4\textwidth}
+		\begin{align*}
+			\min (x_1-3)^2+(x_2-2)^2 &
+			\\
+			x_1^2+x_2^2-5 & \leq 0
+			\\
+			x_1+2x_2-4 &\leq 0
+			\\
+			-x_1 &\leq 0
+			\\
+			-x_2 &\leq 0
+		\end{align*}
+		\column{0.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=1.3]
+				\clip(-0.5,-0.5) rectangle (4.2,3.2); 
+				\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (5,4);
+				%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+				\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+				%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+				\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+				\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+				\draw[line width=0pt,color=white,fill=violet,fill opacity=0.10] (-1,2.5)--(5,-0.5) --(-1,-0.5)-- (-1,2.5);
+				\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.10] (0,0)--(0,4) --(5,4)-- (5,0)--(0,0);
+				\draw [rotate around={0.:(0.,0.)},line width=0.5pt,color=blue,fill=blue,fill opacity=0.10] (0,0) circle (2.2361);
+				\draw[line width=0.5pt,color=red](-1,2.5)-- (5,-0.5);
+				\draw[line width=0.5pt,color=yellow](0,4)-- (0,-3);
+				\draw[line width=0.5pt,color=yellow](-3,0)-- (3,0);
+				\draw[line width=2pt,color=yellow](0,2) -- (0,0)-- (2.2361,0);
+				\draw[line width=2pt,color=red](0,2)-- (2,1);
+				\draw[line width=2pt,color=blue] (2.2361,0) arc (0:27:2.2361);
+				%\draw[line width=2pt,color=blue] (0,2.2361) arc (90:63:2.2361);
+				\begin{scriptsize}
+					%\draw [fill=black] (1,2) circle (2pt) node[above right] {\footnotesize $(1,2)$};
+					\draw [fill=black] (2,1) circle (2pt) node[above right] {\footnotesize $(2,1)$};
+					\draw [fill=black] (0,0) circle (2pt) node[below] {\footnotesize $(0,0)$};
+					\draw [fill=black] (0,2) circle (2pt) node[above] {\footnotesize $(0,2)$};
+					\draw [fill=black] (2.2361,0) circle (2pt) node[below right] {\footnotesize $(\sqrt{5},0)$};
+					\draw [fill=orange,orange] (3,2) circle (2pt) node[below] {\tiny $(3,2)$};
+					
+				\end{scriptsize}
+			\end{tikzpicture}
+		\end{center}
+	\end{columns}
+\end{frame}
+
+
+\subsection{Condiciones de Karush-Kuhn-Tucker}
+%\end{document}
+%%
+%%
+\begin{frame}{Condiciones KKT}\small
+	\begin{itemize}\itemsep 1mm
+		\item Hay problemas en los que  hay puntos F-J para los que con $u_0=0$.
+		\item Por ejemplo, cuando $\G_0=\emptyset$, ya que las condiciones se verifican independientemente de la funci\'{o}n objetivo. 
+		\item Karush en 1939, e independientemente Kuhn y Tucker en 1951 desarrollaron condiciones  que imponen nuevas hip\'{o}tesis que garantizan que $u_0\neq 0$
+		\item Se logra que la funci\'{o}n objetivo intervenga en las condiciones de optimalidad. 
+		\item En concreto, se añade la condición de independencia de los gradientes. 
+		\item Estas condiciones no se aplican a todos los puntos, sino que se excluyen algunos; por tanto, NO son suficientes y puede que el \'{o}ptimo global del problema est\'{e} entre los puntos excluidos (por ejemplo, si  en este punto los gradientes de las funciones activas son linealmente dependientes).
+		\item Para problemas lineales, sí resultan ser condiciones necesarias y suficientes.
+	\end{itemize}
+%%
+\end{frame}
+\begin{frame}{Condiciones KKT}\small
+\begin{teorema}[Condiciones necesarias de Karush-Kuhn-Tucker]
+Sea el problema $\min\{f(\vx)\,/\, \vx\in\X,\;\; g_i(\vx)\leq 0,\; i=1,\dots,m\}$,  $\ovx$ una soluci\'{o}n factible, e $\I=\{i\,/\, g_i(\ovx)=0\}$ tal que 1) $f$ $g_i$, $i\in\I$ son diferenciables en $\ovx$,  2) $g_i$, $i\notin\I$ son continuas en $\ovx$ y 3) $\gg_i(\ovx)$, $i\in\I$, son linealmente independientes.
+
+\smallskip
+
+Entonces, si $\ovx$ es un m\'{\i}nimo local de $f$,  existen escalares $\{u_i, i\in\I\}$, con $u_i\geq 0$, $\forall i\in\I$ tales que:
+	$$
+	\gf(\ovx)+\sum_{i\in\I} u_i\gg_i(\ovx)=\vv.
+	$$
+	\\
+	Si adem\'{a}s se verifica que las funciones $\{g_i,\, i\notin \I\}$ son diferenciables en $\ovx$,
+	las condiciones anteriores se pueden escribir de la forma
+	\begin{align*}
+	\gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx)  =\vv, &
+	\\
+	u_ig_i(\ovx) =0, & \qquad\forall i=1,\dots,m,
+	\\
+	u_i\geq 0, & \qquad\forall i=1,\dots,m.
+	\end{align*}
+\end{teorema}
+\end{frame}
+\begin{frame}{Condiciones KKT}
+\alert{Demostración. }
+\begin{itemize}\itemsep 2mm
+	\item 	De las condiciones necesarias de Fritz John, existen escalares $u_0$ y 	$\hat{u}_i$, $i\in\I$, no negativos y no todos iguales a 0, tales que:
+	$$
+	u_0\gf(\ovx)+\sum_{i\in\I}\hat{u}_i\gg_i(\ovx)=0.
+	$$
+	\item Por ser $\gg_i(\ovx)$, $i\in\I$ linealmente independientes, se tiene que $u_0 > 0$. 
+	\item Si no, el vector $\vv$ se podría poner como combinación lineal de existir\'{\i}a una combinaci\'{o}n lineal de $\gg_i(\ovx)$, $i\in\I$, con alguna coordenada  no nula, lo que es contradictorio.
+	\item 
+	Tomando $u_i=\frac{\hat{u}_i}{u_o}$, $\forall i\in\I$, se obtiene la primera parte de la demostraci\'{o}n.
+	\item Tomando, adem\'{a}s, $u_i=0$, $\forall i\notin \I$, se obtiene la segunda.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Condiciones KKT}
+
+Como en el caso de las condiciones de Fritz John:
+\begin{itemize}
+	\item Los escalares $u_i$ se denominan
+	multiplicadores de Lagrange.
+	\item  Las condiciones que implican que $\ovx$ sean factibles se
+	denominan condiciones de {\em factibilidad primal}, 
+	\item La condici\'{o}n de que
+	$$
+	\gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx)  =0,
+	$$
+	se denomina condici\'{o}n de {\em factibilidad dual}.
+	\item Las condiciones de que
+	$u_ig_i(\vx)=0$, $\forall i=1,\dots,m$, se denominan condiciones de {\em holgura
+		complementaria}.
+\end{itemize}
+Las tres condiciones (factibilidad primal y dual y de holgura complementaria)  se denominan condiciones de {\em Karush-Kuhn-Tucker, KKT}, y los puntos que
+las verifican son puntos KKT.
+\end{frame}
+\begin{frame}{Condiciones KKT}
+\begin{observacion}
+		Si el punto $\ovx$ es un m\'{a}ximo local, entonces las condiciones siguen siendo v\'{a}lidas sin m\'{a}s
+		que pedir que los multiplicadores sean no positivos.
+\end{observacion}
+\end{frame}
+\begin{frame}[t]{Condiciones KKT. Ejemplo}
+Plantear las ecuaciones de Karush-Kuhn-Tucker y encontrar los candidatos a m\'{\i}nimo y máximos del siguiente problema:
+	\begin{columns}[t]
+	\column[]{0.4\textwidth}{\vspace*{-7mm}
+		\begin{align*}
+			\min\text{ y }\max \, & x_1+x_2
+			\\
+			& x_1^2+x_2^2-4\leq 0
+			\\
+			& -x_1^2+x_2\leq 0
+			\end{align*}
+			\only<2>{
+			Gradientes:
+			\begin{align*}
+				\gf(\vx) & =\binom{1}{1}	\\
+				\gg_1(\vx) & =\binom{2x_1}{2x_2}	\\
+				\gg_2(\vx) & =\binom{-2x_1}{1}	\\
+			\end{align*}
+			}
+			\only<3>{
+			Sistema KKT:\vspace*{-2mm}
+			\begin{align*}
+			1+2x_1u_1-2x_1u_2 & =0
+			\\
+			1+2x_2u_1+u_2    & =0
+			\\
+			u_1(x_1^2+x_2^2-4)& =0
+			\\
+			u_2(x_1^2-x_2) & =0
+			\\
+			u_1,u_2\geq 0 &\quad  (\min)
+			\\
+			u_1,u_2\leq 0 &\quad  (\max)
+			\end{align*}
+			}
+	}
+	\column[t]{0.6\textwidth}{
+		\begin{center}
+	\begin{tikzpicture}[x=1cm,y=1cm,scale=1.2]
+	\clip(-2.2,-2.2) rectangle (3.6,2.6);    
+	\draw [color=lightgray, xstep=1cm,ystep=1cm] (-2.2,-2.2) grid (4.2,2.6);
+	\draw[->,thick,color=black] (-2.2,0.) -- (4.2,0.);
+	\foreach \x in {-2,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+	\draw[->,thick,color=black] (0.,-2.2) -- (0.,2.6);
+	\foreach \y in {-2,-1,1,2} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+	\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+	\draw [line width=0pt,color=white,fill=yellow,fill opacity=0.25] (-10,-10) -- (-10,10) -- (10,10) -- (10,-10) -- (-10,-10);
+	\draw [line width=1.5pt,domain=-2.2:4.2,color=yellow,fill=white,fill opacity=1,samples=100] plot(\x,{(\x*\x)});
+	\draw [line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0.,0.) circle (2cm);
+	\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(--3.-1.*\x)/1.});
+	\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(--3.5-1.*\x)/1.});
+	\draw [->,line width=1.5pt, color=red] (2.5,1.) -- +(0.75,0.75) node[above] {$\gf$};
+	\end{tikzpicture}
+\end{center}
+	}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Condiciones KKT. Ejemplo}
+	\begin{itemize}
+		\item Si $u_1=0$ , necesariamente tiene que ser $u_2\neq 0$.
+		
+		El sistema resulta:
+		\begin{align*}
+		1-2x_1u_2 & =0
+		\\
+		1+u_2    & =0
+		\\
+		x_1^2-x_2 & =0
+		\end{align*}
+		De la segunda ecuación se obtiene $u_2=-1$. 
+		
+		\smallskip
+		
+		Entonces, de la primera $x_1=-\frac{1}{2}$ y, por la tercera, $x_2=\frac{1}{4}$ .
+		
+		\smallskip
+		
+		Se obtiene el punto  A$=(-\frac{1}{2},\frac{1}{4})$, que es un candidato a m\'{a}ximo.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Condiciones KKT. Ejemplo}
+	\begin{center}
+		\begin{tikzpicture}[x=1cm,y=1cm,scale=1.5]
+		\clip(-2.2,-2.2) rectangle (3.6,2.6);    
+		\only<2->{
+				\begin{scope}[scale=3,shift={(0.5,0)}]
+				\clip(-1.25,-0.5) rectangle (0.25,1); 
+		}
+		\draw [color=lightgray, xstep=1cm,ystep=1cm] (-2.2,-2.2) grid (4.2,2.6);
+		\draw[->,thick,color=black] (-2.2,0.) -- (4.2,0.);
+		\foreach \x in {-2,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+		\draw[->,thick,color=black] (0.,-2.2) -- (0.,2.6);
+		\foreach \y in {-2,-1,1,2} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+		\draw [line width=0pt,color=white,fill=yellow,fill opacity=0.25] (-10,-10) -- (-10,10) -- (10,10) -- (10,-10) -- (-10,-10);
+		\draw [line width=1.5pt,domain=-2.2:4.2,color=yellow,fill=white,fill opacity=1,samples=100] plot(\x,{(\x*\x)});
+		\draw [line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0.,0.) circle (2cm);
+		\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(--3.-\x)});
+		\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(--3.5-\x)});
+		\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-0.25-\x)});
+		\draw [->,line width=1.5pt, color=red] (2.5,1.) -- +(0.75,0.75) node[above] {$\gf$};
+		\only<1>{
+			\draw [->,line width=1pt, color=red] (-0.5,0.25) -- (0.5,1.25);
+			\draw [->,line width=1.25pt,color=yellow] (-0.5,0.25) -- (0.3,1.05);
+			\draw [fill=black] (-0.5,0.25) circle (1.2pt) node[below] {A};
+		}
+		\only<2->{
+			\draw [->,line width=1pt, color=red] (-0.5,0.25) -- + (0.25,0.25);
+			\draw [->,line width=1.25pt,color=yellow] (-0.5,0.25) -- +(0.2,0.2);
+			\draw [fill=black] (-0.5,0.25) circle (0.5pt) node[below] {A};
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-0.15-\x)});
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-0.05-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-0.35-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-0.45-\x)});
+			\end{scope}
+		}
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+\begin{frame}{Condiciones KKT. Ejemplo}
+		\begin{itemize}
+			\item Si $u_1\neq 0$ y $u_2=0$, el sistema resulta:
+					\begin{align*}
+							1+2x_1u_1 & =0
+							\\
+							1+2x_2u_1    & =0
+							\\
+							x_1^2+x_2^2-4 & =0
+					\end{align*}
+				Despejando $x_1$ y $x_2$ en las dos primeras ecuaciones:
+				$$
+				x_1=\frac{-1}{2u_1}\qquad x_2=\frac{-1}{2u_1}
+				$$
+				De la tercera ecuaci\'{o}n se obtiene: $u_1=\pm\frac{\sqrt{2}}{4}$.
+				\begin{itemize}
+							\item $u_1=+\frac{\sqrt{2}}{4}$: punto B=$(x_1=-\sqrt{2},x_2=-\sqrt{2})$. Candidato a mínimo.
+							\item $u_1=-\frac{\sqrt{2}}{4}$: punto C=$(x_1=+\sqrt{2}, x_2=+\sqrt{2})$. Candidato a máximo.
+				\end{itemize}
+		\end{itemize}
+\end{frame}
+
+\begin{frame}{Condiciones KKT. Ejemplo}
+\begin{center}
+	\begin{tikzpicture}[x=1cm,y=1cm,scale=1.5]
+	\clip(-2.2,-2.2) rectangle (3.6,2.6);    
+	\only<2>{
+		\begin{scope}[scale=3,shift={(-1,-1)}]
+		\clip(0.5,0.5) rectangle (2,2); 
+	}
+	\only<3>{
+			\begin{scope}[scale=3,shift={(1.5,1.5)}]
+			\clip(-2,-2) rectangle (-0.5,-0.5); 
+	}
+	
+	\draw [color=lightgray, xstep=1cm,ystep=1cm] (-2.2,-2.2) grid (4.2,2.6);
+	\draw[->,thick,color=black] (-2.2,0.) -- (4.2,0.);
+	\foreach \x in {-2,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+	\draw[->,thick,color=black] (0.,-2.2) -- (0.,2.6);
+	\foreach \y in {-2,-1,1,2} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+	\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+	\draw [line width=0pt,color=white,fill=yellow,fill opacity=0.25] (-10,-10) -- (-10,10) -- (10,10) -- (10,-10) -- (-10,-10);
+	\draw [line width=1.5pt,domain=-2.2:4.2,color=yellow,fill=white,fill opacity=1,samples=100] plot(\x,{(\x*\x)});
+	\draw [line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0.,0.) circle (2cm);
+%	\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.-1.*\x)/1.});
+	\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.5-1.*\x)/1.});
+	\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-2.828426-\x)});
+	\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(2.828426-\x)});
+	\draw [->,line width=1.5pt, color=red] (2.5,1.) -- +(0.75,0.75) node[above] {$\gf$};
+
+
+		\draw [->,line width=1pt, color=red] (-0.5,0.25) -- (0.5,1.25);
+		%\draw [->,line width=1pt, color=red] (-1.25,1.562) -- (-0.25,2.562);
+		%\draw [->,line width=1pt, color=red] (1.25,1.562) -- (2.25,2.562);
+		%\draw [->,line width=1.25pt,color=blue] (-1.25,1.562) -- (-1.875,2.343);
+		%\draw [->,line width=1.25pt,color=blue] (1.25,1.562) -- (1.875,2.343);
+		\draw [->,line width=1.25pt,color=yellow] (-0.5,0.25) -- (0.3,1.05);
+		%\draw [->,line width=1.25pt,color=yellow] (-1.25,1.562) -- (-0.25,1.962);
+		%\draw [->,line width=1.25pt,color=yellow] (1.25,1.562) -- (0.25,1.962);
+		\only<1>{
+			\draw [->,line width=1pt, color=red] (-1.4142135623730951,-1.4142135623730951) -- (-0.41421356237309515,-0.41421356237309515);
+			\draw [->,line width=1pt, color=red] (1.4142135623730951,1.4142135623730951) -- (2.414213562373095,2.414213562373095);
+			\draw [->,line width=1.25pt,color=blue] (1.4142135623730951,1.4142135623730951) -- (2.121320343559643,2.121320343559643);
+			\draw [->,line width=1.25pt,color=blue] (-1.4142135623730951,-1.4142135623730951) -- (-2.121320343559643,-2.121320343559643);
+			\draw [fill=black] (-1.4142135623730951,-1.4142135623730951) circle (1.2pt) node[above] {B};
+			\draw [fill=black] (1.4142135623730951,1.4142135623730951) circle (1.2pt) node[below] {C};
+			\draw [fill=black] (-0.5,0.25) circle (1.2pt) node[below] {A};
+		}
+		\only<2->{
+			\draw [->,line width=1pt, color=red] (-1.4142135623730951,-1.4142135623730951) --+ (0.25,0.25);
+			\draw [->,line width=1pt, color=red] (1.4142135623730951,1.4142135623730951) --+ (0.25,0.25);
+			\draw [->,line width=1.25pt,color=blue] (1.4142135623730951,1.4142135623730951) --+ (0.2,0.2);
+			\draw [->,line width=1.25pt,color=blue] (-1.4142135623730951,-1.4142135623730951) --+ (-0.2,-0.2);
+			
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-2.7-\x)});
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-2.6-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-3-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-3.1-\x)});
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.0-\x)});
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.1-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(2.7-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(2.6-\x)});
+			
+			\draw [fill=black] (-1.4142135623730951,-1.4142135623730951) circle (.5pt) node[above] {B};;
+			\draw [fill=black] (1.4142135623730951,1.4142135623730951) circle (.5pt) node[below] {C};
+			\draw [->,line width=1pt, color=red] (-0.5,0.25) -- + (0.25,0.25);
+			\draw [->,line width=1.25pt,color=yellow] (-0.5,0.25) -- +(0.2,0.2);
+			\draw [fill=black] (-0.5,0.25) circle (0.5pt) node[below] {A};
+			\end{scope}
+		}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+\begin{frame}{Condiciones KKT. Ejemplo}
+\begin{itemize}
+		\item Si $u_1\neq 0$ y $u_2\neq 0$, el sistema resulta:
+			\begin{align*}
+			1+2x_1u_1-2x_1u_2 & =0
+			\\
+			1+2x_2u_1+u_2    & =0
+			\\
+			x_1^2+x_2^2-4 & =0
+			\\
+			-x_1^2+x_2 & =0
+			\\
+			u_1,u_2\geq 0 &
+			\end{align*}
+			La soluciones son los puntos intersecci\'{o}n de las restricciones:
+			\begin{itemize}
+				\item El punto $E$, con  $x_2=\frac{-1+\sqrt{17}}{2}$ y $x_1=+\sqrt{\frac{-1+\sqrt{17}}{2}}$,  resulta
+				$$
+				u_1\approx -0.339\qquad u_2\approx 0.059.
+				$$
+				No es un candidato ni a m\'{a}ximo ni a m\'{\i}nimo.
+				\item El punto $D$, con $x_2=\frac{-1+\sqrt{17}}{2}$ y $x_1=-\sqrt{\frac{-1+\sqrt{17}}{2}}$, resulta 
+				$$
+				u_1\approx -0.145 \qquad u_2\approx -0.545.
+				$$
+				Es un candidato a m\'{a}ximo.
+			\end{itemize}
+		\end{itemize}
+\end{frame}
+\begin{frame}{Condiciones KKT. Ejemplo}
+\begin{columns}
+\column{0.28\textwidth}
+\visible<4>{
+		\begin{align*}
+		A\,:\, &\text{ni máx ni mín} \\
+		B\,:\, &\text{mín global } \\
+		C\,:\, &\text{máx global} \\
+		D\,:\, &\text{máx local} \\
+		E\,:\, &\text{ni máx ni mín} 
+		\end{align*}
+}
+\column{0.8\textwidth}
+\begin{center}
+	\scalebox{0.9}{
+	\begin{tikzpicture}[x=1cm,y=1cm,scale=1.5]
+	\clip(-2.2,-2.2) rectangle (3.6,2.6);    
+	\only<2>{
+		\begin{scope}[scale=3,shift={(-1,-1.25)}]
+		\clip(0.5,0.75) rectangle (2,2.25); 
+	}
+	\only<3>{
+		\begin{scope}[scale=3,shift={(1.5,-1.25)}]
+		\clip(-2,0.75) rectangle (-0.5,2.25); 
+	}
+	\draw [color=lightgray, xstep=1cm,ystep=1cm] (-2.2,-2.2) grid (4.2,2.6);
+	\draw[->,thick,color=black] (-2.2,0.) -- (4.2,0.);
+	\foreach \x in {-2,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+	\draw[->,thick,color=black] (0.,-2.2) -- (0.,2.6);
+	\foreach \y in {-2,-1,1,2} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+	\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+	\draw [line width=0pt,color=white,fill=yellow,fill opacity=0.25] (-10,-10) -- (-10,10) -- (10,10) -- (10,-10) -- (-10,-10);
+	\draw [line width=1.5pt,domain=-2.2:4.2,color=yellow,fill=white,fill opacity=1,samples=100] plot(\x,{(\x*\x)});
+	\draw [line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0.,0.) circle (2cm);
+	%\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.-\x)});
+	%\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.5-\x)});
+	\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-1.25+1.56-\x)});
+	\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(1.25+1.56-\x)});
+	%\draw [->,line width=1.5pt, color=red] (2.5,1.) -- +(0.75,0.75) node[above] {$\gf$};
+	\only<1,4>{
+			\draw [->,line width=1.25pt,color=blue] (-1.25,1.562) -- (-1.875,2.343);
+			\draw [->,line width=1.25pt,color=blue] (1.25,1.562) -- (1.875,2.343);
+			\draw [->,line width=1.25pt,color=yellow] (-0.5,0.25) -- (0.3,1.05);
+			\draw [->,line width=1.25pt,color=yellow] (-1.25,1.562) -- (-0.25,1.962);
+			\draw [->,line width=1.25pt,color=yellow] (1.25,1.562) -- (0.25,1.962);
+			\draw [->,line width=1pt, color=red] (-0.5,0.25) -- (0.5,1.25);
+			\draw [->,line width=1pt, color=red] (-1.25,1.562) -- (-0.25,2.562);
+			\draw [->,line width=1pt, color=red] (1.25,1.562) -- (2.25,2.562);
+			\draw [->,line width=1pt, color=red] (-1.4142135623730951,-1.4142135623730951) -- (-0.41421356237309515,-0.41421356237309515);
+			\draw [->,line width=1pt, color=red] (1.4142135623730951,1.4142135623730951) -- (2.414213562373095,2.414213562373095);
+			\draw [->,line width=1.25pt,color=blue] (1.4142135623730951,1.4142135623730951) -- (2.121320343559643,2.121320343559643);
+			\draw [->,line width=1.25pt,color=blue] (-1.4142135623730951,-1.4142135623730951) -- (-2.121320343559643,-2.121320343559643);
+			\draw [fill=black] (-1.4142135623730951,-1.4142135623730951) circle (1.2pt) node[above] {B};;
+			\draw [fill=black] (1.4142135623730951,1.4142135623730951) circle (1.2pt) node[below] {C};
+			\draw [fill=black] (1.25,1.562) circle (1.2pt) node[below] {E};;
+			\draw [fill=black] (-1.25,1.562) circle (1.2pt) node[below] {D};;
+			\draw [fill=black] (-0.5,0.25) circle (1.2pt) node[below] {A};
+	}
+	\only<4>{
+				\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-0.25-\x)});
+				\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-2.828426-\x)});
+				\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(2.828426-\x)});
+	}
+	\only<2-3>{
+			\draw [->,line width=1.25pt,color=blue] (-1.25,1.562) -- + (-0.3125,0.3905);
+			\draw [->,line width=1.25pt,color=blue] (1.25,1.562) -- + (0.3125,0.3905);
+		
+			\draw [->,line width=1.25pt,color=yellow] (-1.25,1.562) --+ (0.5,0.2);
+			\draw [->,line width=1.25pt,color=yellow] (1.25,1.562) --+ (-0.5,0.2);
+			\draw [->,line width=1pt, color=red] (1.25,1.562 ) --+ (0.25,0.25);
+			\draw [->,line width=1pt, color=red] (-1.25,1.562 ) --+ (0.25,0.25);
+			\draw [->,line width=1pt, color=red] (-1.4142135623730951,-1.4142135623730951) --+ (0.25,0.25);
+			\draw [->,line width=1pt, color=red] (1.4142135623730951,1.4142135623730951) --+ (0.25,0.25);
+			\draw [->,line width=1.25pt,color=blue] (1.4142135623730951,1.4142135623730951) --+ (0.2,0.2);
+			\draw [->,line width=1.25pt,color=blue] (-1.4142135623730951,-1.4142135623730951) --+ (0.2,0.2);
+			
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-1.15+1.56-\x)});
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-1.05+1.56-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-1.35+1.56-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-1.45+1.56-\x)});
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.0-\x)});
+			\draw [color=red,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.1-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(2.7-\x)});
+			\draw [color=blue,line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(2.6-\x)});
+			
+			\draw [->,line width=1pt, color=red] (-0.5,0.25) -- + (0.25,0.25);
+			\draw [->,line width=1.25pt,color=yellow] (-0.5,0.25) -- +(0.2,0.2);
+			\draw [fill=black] (1.25,1.562) circle (0.5pt) node[below] {E};;
+			\draw [fill=black] (-1.25,1.562) circle (0.5pt) node[below] {D};;
+			\draw [fill=black] (1.4142135623730951,1.4142135623730951) circle (.5pt) node[below] {C};
+			\end{scope}
+	}
+	\end{tikzpicture}}
+\end{center}
+\end{columns}
+	%%
+	%%
+\end{frame}
+\begin{frame}{Condiciones suficientes de  KKT}\small
+	\begin{teorema}[Condiciones suficientes de Karush-Kuhn-Tucker]\label{kkt-suf-d}
+		Sea el problema $\min\{f(\vx)\,/\, \vx\in\X,\;\; g_i(\vx)\leq 0,\; i=1,\dots,m\}$, $\ovx$ un solución factible, e $\I=\{i\,/\, g_i(\ovx)=0\}$ el conjunto de restricciones activas asociadas a $\ovx$. Si
+		\begin{enumerate}
+			\item $f$ es pseudo-convexa en $\ovx$,
+			\item $g_i$, $i\in\I$, son cuasi-convexas y diferenciables en $\ovx$,
+			\item $\ovx$ cumple las condiciones necesarias de Karush-Kuhn-Tucker,
+		\end{enumerate}
+		entonces $\ovx$ es un m\'{\i}nimo global del problema.
+	\end{teorema}\footnotesize
+	\begin{observacion}
+		Si las condiciones de pseudo-convexidad, cuasi-convexidad y diferenciabilidad se verifican
+		s\'{o}lo localmente, entonces $\ovx$ ser\'{a} un m\'{\i}nimo local.
+		
+		\medskip
+		
+		Si el punto $\ovx$ es un m\'{a}ximo local, entonces, para que sea m\'{a}ximo global en la primera
+		condici\'{o}n hay que exigir que $f$ sea pseudo-c\'{o}ncava ($-f$ pseudo-convexa).
+	\end{observacion}
+\end{frame}
+\begin{frame}[allowframebreaks]{Condiciones suficientes de  KKT (demostración)}
+		Por ser $g_i$ activa $\forall i\in \I$ en el punto $\ovx$: $g_i(\ovx)=0$. Por tanto:
+		$$
+		g_i(\vx)\leq g_i(\ovx),\qquad \text{para todo $\vx$ factible}.
+		$$
+		Por ser $g_i$, $i\in\I$ cuasi-convexas:
+		\begin{equation*}
+		g_i(\lambda\vx+(1-\lambda)\ovx)=g_i(\ovx+\lambda(\vx-\ovx))\leq\max\{g_i(\vx),g_i(\ovx)\}\leq g_i(\ovx)=0.
+		\end{equation*}
+		Por tanto, $g_i$ no crece cuando se mueve desde $\ovx$ en la dirección $\vx-\ovx$. Entonces, $(\vx-\ovx)$ es una direcci\'{o}n de descenso en $\ovx$ y:
+		$$
+		\gg_i(\ovx)^T(\vx-\ovx)\leq 0,\qquad\forall i\in\I.
+		$$
+		Como $u_i\geq 0$, multiplicando cada una de estas expresiones y sumándolas, resulta
+		$$
+		\sum_{i\in\I} u_i\gg(\ovx)^T(\vx-\ovx)\leq 0.
+		$$
+		A partir de las condiciones necesarias de K-K-T:
+		$$
+		\sum_{i\in\I} u_i\gg(\ovx)=-\gf(\ovx),
+		$$
+		Sustituyendo esta igualdad en la última desigualdad:
+		$$
+				\sum_{i\in\I} u_i\gg(\ovx)^T(\vx-\ovx)\leq 0\quad\Rightarrow\quad \gf(\ovx)^T(\vx-\ovx)\geq 0
+		$$
+		Por ser $f$ pseudo-convexa, $f(\vx)\geq f(\ovx)$,  para todo $\vx$ factible.
+		
+		Entonces, $\ovx$ es un mínimo global.
+	
+	\begin{observacion}
+		Si $f$ es estrictamente pseudo-convexa, $\ovx$ es un m\'{\i}nimo \'{u}nico global.
+	\end{observacion}
+\end{frame}
+\begin{frame}{Condiciones suficientes de  KKT. Ejemplo}
+	\begin{columns}
+	\column{0.4\textwidth}{
+		En el problema anterior:
+		\begin{align*}
+		\min\, f(x_1,x_2)= & x_1+x_2
+		\\
+		g_1(x_1,x_2)=& x_1^2+x_2^2-4\leq 0
+		\\
+		g_2(x_1,x_2)= & -x_1^2+x_2\leq 0
+		\end{align*}
+	}
+	\column{0.6\textwidth}{
+		\begin{center}
+			\begin{tikzpicture}[x=1cm,y=1cm,scale=0.7]
+			\clip(-2.2,-2.2) rectangle (3.6,2.6);    
+			\draw [color=lightgray, xstep=1cm,ystep=1cm] (-2.2,-2.2) grid (4.2,2.6);
+			\draw[->,thick,color=black] (-2.2,0.) -- (4.2,0.);
+			\foreach \x in {-2,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+			\draw[->,thick,color=black] (0.,-2.2) -- (0.,2.6);
+			\foreach \y in {-2,-1,1,2} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+			\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+			\draw [line width=0pt,color=white,fill=yellow,fill opacity=0.25] (-10,-10) -- (-10,10) -- (10,10) -- (10,-10) -- (-10,-10);
+			\draw [line width=1.5pt,domain=-2.2:4.2,color=yellow,fill=white,fill opacity=1,samples=100] plot(\x,{(\x*\x)});
+			\draw [line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0.,0.) circle (2cm);
+			\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(--3.-1.*\x)/1.});
+			\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(--3.5-1.*\x)/1.});
+			\draw [->,line width=1.5pt, color=red] (2.5,1.) -- +(0.75,0.75) node[above] {\tiny $\gf$};
+			\draw [color=lightgray, xstep=1cm,ystep=1cm] (-2.2,-2.2) grid (4.2,2.6);
+			\draw[->,thick,color=black] (-2.2,0.) -- (4.2,0.);
+			\foreach \x in {-2,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+			\draw[->,thick,color=black] (0.,-2.2) -- (0.,2.6);
+			\foreach \y in {-2,-1,1,2} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+			\end{tikzpicture}
+		\end{center}
+	}
+\end{columns}
+		\vspace*{-5mm}
+		\begin{itemize}
+			\item La funci\'{o}n $f$ es lineal y, por tanto, c\'{o}ncava y convexa. 
+			\item Las matrices Hessiana de las restricciones son:
+					$$
+					\vH_1=\begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}\qquad
+					\vH_2=\begin{pmatrix} -2 & 0 \\ 0 & 0  \end{pmatrix}
+					$$
+		\item $\vH_1$ es definida positiva: $g_1$ es  estrictamente convexa
+		\item $\vH_2$ es semidefinida negativa: $g_2$  es c\'{o}ncava.
+		\end{itemize}
+\end{frame}
+\begin{frame}{Condiciones suficientes de  KKT. Ejemplo}
+	\begin{columns}[t]
+		\column[t]{0.5\textwidth}\small
+				\begin{align*}
+				A\,:\, &\text{ni máx ni mín} \\
+				B\,:\, &\text{mín global } \\
+				C\,:\, &\text{máx global} \\
+				D\,:\, &\text{máx local} \\
+				E\,:\, &\text{no KKT} 
+				\end{align*}
+		\only<2>{
+			$A=(-\frac{1}{2},\frac{1}{4})$
+			\begin{itemize}
+				\item $u_1=0$ y $u_2<0$: candidato a m\'{a}ximo.
+				\item $g_2$ activa y c\'{o}ncava. 
+				\item No verifica las condiciones suficientes.
+			\end{itemize} 
+		}
+		\only<3>{
+			$B=(-\sqrt{2},-\sqrt{2})$ 
+			\begin{itemize}
+				\item $u_1>0$ y $u_2=0$: candidato a mínimo.
+				\item $g_1$ activa y convexa. 
+				\item Mínimo global.
+			\end{itemize} 
+		}
+		\only<4>{
+			$C=(\sqrt{2},\sqrt{2})$
+			\begin{itemize}
+				\item $u_1<0$ y $u_2=0$: candidato a m\'{a}ximo.
+				\item $g_1$ activa y convexa. 
+				\item Máximo global.
+			\end{itemize} 
+		}
+		\only<5>{
+			$D=\bigl(\frac{-1+\sqrt{17}}{2},-\sqrt{\frac{-1+\sqrt{17}}{2}}\bigr)$ 
+			\begin{itemize}
+				\item $u_1<0$ y $u_2<0$: candidato a m\'{a}ximo.
+				\item $g_1$ activa y convexa. 
+				\item $g_2$ activa y cóncava. 
+				\item No verifica las condiciones suficientes.
+			\end{itemize} 
+		}
+		\column[t]{0.5\textwidth}
+		\begin{center}
+			\scalebox{0.8}{
+				\begin{tikzpicture}[x=1cm,y=1cm,scale=1.5]
+				\clip(-2.2,-2.2) rectangle (2.7,2.6);    
+				\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-2.2,-2.2) grid (4.2,2.6);
+				\draw[->,thick,color=black] (-2.2,0.) -- (4.2,0.);
+				\foreach \x in {-2,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+				\draw[->,thick,color=black] (0.,-2.2) -- (0.,2.6);
+				\foreach \y in {-2,-1,1,2} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+				\draw [line width=0pt,color=white,fill=yellow,fill opacity=0.25] (-10,-10) -- (-10,10) -- (10,10) -- (10,-10) -- (-10,-10);
+				\draw [line width=1.5pt,domain=-2.2:4.2,color=yellow,fill=white,fill opacity=1,samples=100] plot(\x,{(\x*\x)});
+				\draw [line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0.,0.) circle (2cm);
+				%\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.-\x)});
+				%\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(3.5-\x)});
+				\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-1.25+1.56-\x)});
+				\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(1.25+1.56-\x)});
+				%\draw [->,line width=1.5pt, color=red] (2.5,1.) -- +(0.75,0.75) node[above] {$\gf$};
+					\draw [->,line width=1.25pt,color=blue] (-1.25,1.562) -- (-1.875,2.343);
+					\draw [->,line width=1.25pt,color=blue] (1.25,1.562) -- (1.875,2.343);
+					\draw [->,line width=1.25pt,color=yellow] (-0.5,0.25) -- (0.3,1.05);
+					\draw [->,line width=1.25pt,color=yellow] (-1.25,1.562) -- (-0.25,1.962);
+					\draw [->,line width=1.25pt,color=yellow] (1.25,1.562) -- (0.25,1.962);
+					\draw [->,line width=1pt, color=red] (-0.5,0.25) -- (0.5,1.25);
+					\draw [->,line width=1pt, color=red] (-1.25,1.562) -- (-0.25,2.562);
+					\draw [->,line width=1pt, color=red] (1.25,1.562) -- (2.25,2.562);
+					\draw [->,line width=1pt, color=red] (-1.4142135623730951,-1.4142135623730951) -- (-0.41421356237309515,-0.41421356237309515);
+					\draw [->,line width=1pt, color=red] (1.4142135623730951,1.4142135623730951) -- (2.414213562373095,2.414213562373095);
+					\draw [->,line width=1.25pt,color=blue] (1.4142135623730951,1.4142135623730951) -- (2.121320343559643,2.121320343559643);
+					\draw [->,line width=1.25pt,color=blue] (-1.4142135623730951,-1.4142135623730951) -- (-2.121320343559643,-2.121320343559643);
+					\draw [fill=black] (-1.4142135623730951,-1.4142135623730951) circle (1.2pt) node[above] {B};;
+					\draw [fill=black] (1.4142135623730951,1.4142135623730951) circle (1.2pt) node[below] {C};
+					\draw [fill=black] (1.25,1.562) circle (1.2pt) node[below] {E};;
+					\draw [fill=black] (-1.25,1.562) circle (1.2pt) node[below] {D};;
+					\draw [fill=black] (-0.5,0.25) circle (1.2pt) node[below] {A};
+
+					\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-0.25-\x)});
+					\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(-2.828426-\x)});
+					\draw [line width=0.4pt,dash pattern=on 2pt off 2pt,domain=-2.2:4.2] plot(\x,{(2.828426-\x)});
+				\end{tikzpicture}}
+		\end{center}
+	\end{columns}
+	\visible<5>{Gráficamente se comprueba el punto D es  un  máximo local.}
+\end{frame}
+
+%\begin{frame}{Condiciones suficientes de  KKT. Ejemplo}
+%		
+%		Los puntos que son soluci\'{o}n de las ecuaciones de Karush-Kuhn-Tucker son:
+%		\begin{enumerate}
+%			\item  $A=(-\frac{1}{2},\frac{1}{4})$ con multiplicadores $u_1=0$ y $u_2<0$, candidato a m\'{a}ximo, pero la \'{u}nica
+%			restricci\'{o}n activa es c\'{o}ncava. No verifica las condiciones suficientes.
+%			\item $B=(-\sqrt{2},-\sqrt{2})$ con $u_1>0$ y $u_2=0$. Es un candidato a m\'{\i}nimo y la \'{u}nica
+%			restricci\'{o}n activa es convexa. Por tanto, es un m\'{\i}nimo global.
+%			\item $C=(\sqrt{2},\sqrt{2})$ con $u_1<0$ y $u_2=0$. Es un candidato a m\'{a}ximo y la \'{u}nica
+%			restricci\'{o}n activa es convexa. Por tanto, es un m\'{a}ximo global.
+%			\item $D=\bigl(\frac{-1+\sqrt{17}}{2},-\sqrt{\frac{-1+\sqrt{17}}{2}}\bigr)$ con
+%			$u_1<0$ y $u_2<0$. Es un candidato a m\'{a}ximo, pero una de las restricciones activas es c\'{o}ncava.
+%			No verifica las condiciones suficientes, aunque gr\'{a}ficamente se puede comprobar que es
+%			un m\'{a}ximo local.
+%		\end{enumerate}
+%\end{frame}
+
+\begin{frame}{Esquema de resoluci\'{o}n (m\'{e}todo KKT)}\footnotesize
+	%%
+	El problema a resolver es $\min\{f(\vx)\,/\, \vx\in\X, g_i(x)\leq 0,\; i=1,\dots,m\},
+	$,	siendo $\X$ un abierto no vac\'{\i}o de $\Re^n$ y $f,g_i:\Re^n\rightarrow\Re$.
+	
+	Un posible esquema de resoluci\'{o}n es:
+	\begin{enumerate}[(t= 1). ]
+		\item Construir la funci\'{o}n 	$$
+		L(\vx,\vu)=f(\vx)+\sum_{i=1}^m u_ig_i(\vx)\qquad \text{(funci\'{o}n Lagrangiana)}.
+		$$
+		\item Hallar los puntos K-K-T, es decir todos los puntos que verifican:
+		\begin{align*}
+		\frac{\delta L}{\delta x_j}=0\quad \forall j=1,\dots,n &
+		\qquad\text{(condici\'{o}n de gradiente),}
+		\\
+		g_i(\vx)\leq 0\quad \forall i=1,\dots,m
+		&\qquad\text{(condici\'{o}n de factibilidad),}
+		\\
+		u_ig_i(\vx)=0\quad\forall i=1\dots,m &\qquad \text{(condici\'{o}n de ortogonalidad),}
+		\\
+		u_i\geq 0\quad \forall i=i,\dots,m &\qquad\text{(condici\'{o}n de no negatividad).}
+		\end{align*}
+		\item Condici\'{o}n de independencia lineal de  $\gg_i(\vx)$, $i\in\I=\{i\,/\, g_i(\vx)=0\}$.
+		\item $g_i$ cuasi-convexas diferenciables y $f$ pseudo-convexa en
+		alg\'{u}n punto $\ovx$ soluci\'{o}n de las condiciones anteriores, $\ovx$ es m\'{\i}nimo global. En caso
+		contrario, hay que analizar los puntos individualmente.
+	\end{enumerate}
+\end{frame}
+\begin{frame}{Esquema de resoluci\'{o}n (m\'{e}todo KKT)}
+	\begin{observacion}
+		\begin{itemize}\itemsep 5mm
+			\item Si el problema es de maximizaci\'{o}n, el \'{u}nico cambio en este procedimiento
+			consiste en exigir $u_i\leq 0$, $\forall i=1,\dots,n$.
+			\item Para identificar los puntos F-J, habr\'{\i}a que distinguir los casos en los que
+			$u_0=0$ y en los que $u_0>0$. 
+			\item Los puntos de F-J son aquellos en los que $u_0=0$.
+		\end{itemize}
+	\end{observacion}
+\end{frame}
+
+\begin{frame}{Esquema de resoluci\'{o}n (m\'{e}todo KKT). Ejemplo}
+	Aplicar las condiciones KKT para encontrar los óptimos de $f$.
+	\begin{columns}[t]
+		\column[t]{0.35\textwidth}\vspace*{-3mm}
+				\begin{align*}
+				f(x,y)= & \Bigl(x-\frac{9}{4}\Bigl)^2+\bigl(y-2\bigl)^2
+				\\
+				& -x+y^2 \leq 0
+				\\
+				& x+y\leq 6
+				\\
+				& x,y\geq 0
+				\end{align*}
+				\begin{profesor}
+					\visible<2>{
+					$$
+					\gf=\binom{2\Bigl(x-\frac{9}{4}\Bigl)}{2(y-2)}
+					$$
+					$$
+					\gg_1=\binom{-1}{2y}\quad
+					\gg_2=\binom{1}{1}
+					$$
+					$$
+					\gg_3=\binom{-1}{0}\quad
+					\gg_4=\binom{0}{-1}
+					$$
+					}
+				\end{profesor}
+		\column[t]{0.6\textwidth}{
+			\begin{center}
+				\begin{tikzpicture}[x=1cm,y=1cm,scale=1]
+				\clip(-.8,-.8) rectangle (6.2,4.2);    
+				\draw [color=lightgray, xstep=1cm,ystep=1cm] (-1,-1) grid (6,6);
+				\draw[->,thick,color=black] (-1.2,0.) -- (7,0);
+				\foreach \x in {1,2,3,4,5,6} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+				\draw[->,thick,color=black] (0,-1) -- (0,7);
+				\foreach \y in {1,2,3,4,5,6} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+				\foreach \x in {0.50,1,2} \draw [dashed, line width=0.20pt,color=black] (2.25,2) circle (\x);
+				\draw [line width=1pt,color=black,fill=black] (2.25,2) circle (1.5pt);
+				\draw [line width=0pt,color=white,fill=blue,fill opacity=0.12] (-1,-1)-- (-1,7)  -- (7,-1)  -- (-1,-1);
+				\draw [line width=0pt,color=white,fill=violet,fill opacity=0.12] (0,0)--(0,7)--(7,7)  -- (7,0) --  (0,0 );
+				\draw [line width=1.5pt,domain=-4:4,color=yellow,fill=yellow,fill opacity=0.12,samples=100] plot({(\x*\x)},\x);
+				\draw [line width=1.5pt,domain=-2:7,color=blue] plot({(6-\x)},\x);
+				\draw [line width=1.5pt,color=violet] (8,0) -- (0,0) -- (0,8);
+				\end{tikzpicture}
+			\end{center}
+		}
+	\end{columns}
+\end{frame}
+\begin{profesor}
+\begin{frame}[t]{Esquema de resoluci\'{o}n (m\'{e}todo KKT). Ejemplo}
+	\only<1>{$$
+			\binom{2\Bigl(x-\frac{9}{4}\Bigl)}{2(y-2)}+ u_1 \binom{-1}{2y} + u_2  \binom{1}{1} + u_3\binom{-1}{0}+ u_4 \binom{0}{-1} =0
+	$$}
+	\only<2->{\vspace*{-5mm}\small\begin{align*}
+	2(x-\frac{9}{4}) -  u_1  + u_2  -  u_3&  =0 &  u_1( -x+y^2)&= 0 & u_3x&=0
+	\\
+	2(y-2)+ 2u_1y  + u_2  - u_4 & =0 & u_2(x+y-6)&=0 & u_4y&=0
+	\\ 
+	-x+y^2& \leq 0 & x+y&\leq 6 &  	-x,-y&\leq 0
+	\end{align*}}
+	\only<3>{\alert{$u_1= 0$, $u_2=0$, $u_3=0$, $u_4=0$)} \quad  $\Rightarrow x=\frac{9}{4},  y=2$.
+		
+	Punto no factible: $-\frac{9}{4}+2^2\nleq 0$.
+	
+	\alert{$u_1= 0$, $u_2=0$, $u_3=0$, $u_4\neq 0$)} \quad  $\Rightarrow y=0$.
+	$$
+	\left.\begin{array}{l}
+		2(x-\frac{9}{4})=0
+		\\[2mm]
+		-4  - u_4  =0
+	\end{array}\right\}\rightarrow
+	\left\{\begin{array}{l}
+		(x,y) = ( \frac{9}{4},0)
+		\\[2mm]	
+		\vu=(0,0,0,-4)
+	\end{array}\right.
+	$$
+	Candidato a máximo.}
+	\only<5>{\alert{$u_1= 0$, $u_2=0$, $u_3\neq 0$, $u_4= 0$)} \quad  $\Rightarrow x=0$.
+		$$
+		\left.\begin{array}{l}
+		-\frac{9}{2}-u_3=0
+		\\[2mm]
+		2(y-2)=0 
+		\end{array}\right\}\rightarrow
+		\left\{\begin{array}{l}
+		(x,y) = (0,2)
+		\\[2mm]	
+		\vu=(0,0,-\frac{9}{2},0)
+		\end{array}\right.
+		$$
+		Punto no factible: $-0+2^2\nleq 0$.}
+	\only<7>{\alert{$u_1=0$, $u_2=0$, $u_3\neq 0$, $u_4\neq 0$)} \quad  $\Rightarrow x=y=0$.
+		$$
+		\left.\begin{array}{l}
+		-2\frac{9}{4}-u_3=0
+		\\[2mm]
+		-4  - u_4  =0
+		\end{array}\right\}\rightarrow
+		\left\{\begin{array}{l}
+		(x,y) = (0,0)
+		\\[2mm]	
+		\vu=(0,0,-\frac{9}{2},-4)
+		\end{array}\right.
+		$$
+		Candidato a máximo. 
+		
+		Ojo, no es un punto KKT, ya que en el punto $(0,0)$ la restricción. $g_1$ también es activa y, por tanto, los gradientes no son linealmente independientes. Pero sí es un punto FJ con $u_0=1$.}
+	\only<9>{\alert{$u_1=0$, $u_2\neq 0$, $u_3= 0$, $u_4=0$)} \quad  $\Rightarrow x+y=6$.
+		$$
+		\left.\begin{array}{l}
+		2(x-\frac{9}{4})+u_2=0
+		\\[2mm]
+		2(y-2)  +u_2  =0
+		\end{array}\right\}\rightarrow
+		\left.\begin{array}{l}
+			2x-\frac{9}{2}+u_2=0
+			\\[2mm]
+			2(6-x-2)  +u_2  =0
+		\end{array}\right\}\rightarrow
+		\left\{\begin{array}{l}
+		(x,y) = (\frac{25}{8},\frac{23}{8})
+		\\[2mm]	
+		\vu=(0,\frac{-14}{8},0,0)
+		\end{array}\right.
+		$$
+		Punto no factible: $-\frac{25}{8}+\bigl(\frac{23}{8}\bigr)^2\nleq 0$.}
+	\only<10>{\alert{$u_1=0$, $u_2\neq 0$, $u_3= 0$, $u_4\neq 0$)} \quad  $\Rightarrow y=0, x=6$.
+		$$\small
+		\left.\begin{array}{l}
+		2(6-\frac{9}{4})+u_2=0
+		\\[2mm]
+		-4  +u_2-u_4  =0
+		\end{array}\right\}\rightarrow
+		\left.\begin{array}{l}
+		\frac{15}{2}+u_2=0
+		\\[2mm]
+		-4+u_2  =u_4
+		\end{array}\right\}\rightarrow
+		\left\{\begin{array}{l}
+		(x,y) = (6,0)
+		\\[2mm]	
+		\vu=(0,\frac{-15}{2},0,\frac{-23}{2})
+		\end{array}\right.
+		$$
+		Candidato a máximo.}
+	\only<12>{\alert{$u_1= 0$, $u_2\neq 0$, $u_3\neq 0$, $u_4=0$)} \quad  $\Rightarrow x=0, y=6$.
+	
+			Punto no factible: $-0+6^2\nleq 0$
+
+	\alert{$u_1= 0$, $u_2\neq 0$, $u_3\neq 0$, $u_4\neq 0$)} \quad  $\Rightarrow x=y=0, x+y=6!!!!!!$
+	
+			No tiene solución
+   	}
+	\only<13>{
+		\alert{$u_1\neq 0$, $u_2=0$, $u_3=0$, $u_4=0$)} \quad  $\Rightarrow x=y^2$.
+		$$
+		\left.\begin{array}{l}
+		2x-\frac{9}{2}-u_1=0
+		\\[2mm]
+		2y  - 4 +2u_1y =0
+		\end{array}\right\}\rightarrow
+		\left\{\begin{array}{l}
+		(x,y) = (2.4;1.55)
+		\\[2mm]	
+		\vu=(0.3;0;0;0)
+		\end{array}\right.
+		$$
+		Candidato a mínimo}
+	\only<15>{\alert{$u_1\neq 0$, $u_2= 0$, $u_3=0$, $u_4\neq 0$)} \quad  $\Rightarrow x=y=0$.
+	$$
+	\left.\begin{array}{l}
+	-2\frac{9}{4}-u_1=0
+	\\[2mm]
+	-4  - u_4  =0
+	\end{array}\right\}\rightarrow
+	\left\{\begin{array}{l}
+	(x,y) = (0,0)
+	\\[2mm]	
+	\vu=(\frac{-9}{2},0,0,-4)
+	\end{array}\right.
+	$$
+	
+	No es un punto KKT, ya que en el punto $(0,0)$ la restricciones activas no son linealmente independientes 
+	
+	Es un punto FJ: existen soluciones con los multiplicadores negativos  y $u_0=0$ y, por tanto, es candidato a máximo.}
+	\only<16>{\alert{$u_1\neq 0$, $u_2= 0$, $u_3\neq 0$, $u_4=0$)} \quad  $\Rightarrow x=y=0$.
+		$$
+		\left.\begin{array}{l}
+		-2\frac{9}{4}-u_1-u_3=0
+		\\[2mm]
+		-4   =0 !!!!!
+		\end{array}\right\}
+		$$
+		No tiene solución, pero sabemos que no es un punto KKT, ya que en el punto $(0,0)$ la restricciones activas no son linealmente independientes 
+		
+		Es un punto FJ: existen soluciones con los multiplicadores negativos  y $u_0=0$ y, por tanto, es candidato a máximo.}
+	\only<17>{\alert{$u_1\neq 0$, $u_2= 0$, $u_3\neq 0$, $u_4\neq 0$)} \quad  $\Rightarrow x=y=0$.
+	$$
+	\left.\begin{array}{l}
+	-2\frac{9}{4}-u_1-u_3=0
+	\\[2mm]
+	-4  - u_4  =0
+	\end{array}\right\}\rightarrow
+	\left\{\begin{array}{l}
+	(x,y) = (0,0)
+	\\[2mm]	
+	\vu=(\lambda,0,-\frac{9}{2}-\lambda,-4)\qquad \forall \lambda\in\Re
+	\end{array}\right.
+	$$
+	
+	No es un punto KKT, ya que en el punto $(0,0)$ la restricciones activas no son linealmente independientes 
+	
+	Es un punto FJ: existen soluciones con los multiplicadores negativos  y $u_0=0$ y, por tanto, es candidato a máximo.}
+	\only<18>{\alert{$u_1\neq 0$, $u_2\neq  0$, $u_3= 0$, $u_4= 0$)} \quad  $\Rightarrow x=y^2, x+y=6, y>0$.
+		$$
+		y^2+y-6=0\quad \Rightarrow\quad y=\frac{ -1+\sqrt{1+24}}{2}=2\quad \Rightarrow\quad x=4
+		$$
+	
+		$$
+		\left.\begin{array}{l}
+		2(4-\frac{9}{4})-u_1+u_2=0
+		\\[2mm]
+		0  +  4u_1+ u_2  =0
+		\end{array}\right\}\rightarrow
+		\left\{\begin{array}{l}
+		(x,y) = (4,2)
+		\\[2mm]	
+		\vu=(\frac{7}{10},\frac{-14}{5},0,0)
+		\end{array}\right.
+		$$
+		No verifica las condiciones suficientes. }
+		\only<20>{\alert{$u_1\neq 0$, $u_2\neq  0$, $u_3= 0$, $u_4\neq 0$)} \quad  $\Rightarrow x=y=0, x+y=6!!!!!$
+
+		No tiene solución.
+
+		\alert{$u_1\neq 0$, $u_2\neq  0$, $u_3\neq 0$, $u_4= 0$)} \quad  $\Rightarrow x=y=0, x+y=6!!!!!$
+
+		No tiene solución.
+
+		\alert{$u_1\neq 0$, $u_2\neq  0$, $u_3\neq 0$, $u_4\neq 0$)} \quad  $\Rightarrow x=y=0, x+y=6!!!!!$
+
+		No tiene solución.}
+		\only<4,6,8,11,14,19,21>{
+		\begin{center}\vspace*{-10mm}
+		\begin{tikzpicture}[x=1cm,y=1cm,scale=1]
+		\only<21>{
+			\clip(-1.5,-.8) rectangle (14.2,3.2);    
+			\draw  (7,3.00) node[right] (a) {$(2.4;1.55)$: mín global};
+			\draw  (7,2.25) node[right] (a) {$(6,0)$: máx global};
+			\draw  (7,1.50) node[right] (a) {$(0,0)$: máx local};
+			\draw  (7,0.75) node[right] (a) {$(2.25;0)$: ni máx ni mín};
+			\draw  (7,0.00) node[right] (a) {$(4,2)$: ni máx ni mín};
+		}
+		\clip(-1.5,-.8) rectangle (7.1,3.2);    
+		\draw [color=lightgray, xstep=1cm,ystep=1cm] (-1,-1) grid (8,8);
+		\draw[->,thick,color=black] (-1.2,0.) -- (6,0);
+		\foreach \x in {-1,1,2,3,4,5,6,7} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+		\draw[->,thick,color=black] (0,-1) -- (0,6);
+		\foreach \y in {1,2,3,4,5,6} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+		\foreach \x in {0.50,1,2} \draw [dashed, line width=0.20pt,color=black] (2.25,2) circle (\x);
+		\draw [line width=1pt,color=black,fill=black] (2.25,2) circle (1.5pt);
+		\draw [line width=0pt,color=white,fill=blue,fill opacity=0.12] (-1,-1)-- (-1,7)  -- (7,-1)  -- (-1,-1);
+		\draw [line width=0pt,color=white,fill=violet,fill opacity=0.12] (0,0)--(0,8)--(8,8)  -- (8,0) --  (0,0 );
+		\draw [line width=1.5pt,domain=-4:4,color=yellow,fill=yellow,fill opacity=0.12,samples=100] plot({(\x*\x)},\x);
+		\draw [line width=1.5pt,domain=-2:8,color=blue] plot({(6-\x)},\x);
+		\draw [line width=1.5pt,color=violet] (8,0) -- (0,0) -- (0,8);
+		\visible<4,21>{
+				\draw[->,line width=1.5,color=violet] (2.25,0) --+ (0,-0.75);
+				\draw[->,line width=1.5,color=black] (2.25,0) --+ (0,-0.5);
+				\draw [line width=1pt,color=red,fill=red] (2.25,0) circle (1.5pt);
+		}
+		\visible<6>{
+			\draw[->,line width=1.5,color=violet] (0,2) --+ (-0.75,0);
+			\draw[->,line width=1.5,color=black] (0,2) -- + (-0.5,0);
+			\draw [line width=1pt,color=red,fill=red] (0,2) circle (1.5pt);
+		}
+		\visible<8,21>{
+			\draw[->,line width=1.5,color=black] (0,0) --+ (-1.125,-0.5);
+			\draw[->,line width=1.5,color=violet] (0,0) --+ (0,-0.75);
+			\draw[->,line width=1.5,color=violet] (0,0) --+ (-0.75,0);
+			\draw[->,line width=1.5,color=yellow] (0,0) --+ (-0.50,0);
+			\draw [line width=1pt,color=red,fill=red] (0,0) circle (1.5pt);
+		}
+		\visible<11,21>{
+			\draw[->,line width=1.5,color=black] (6,0) --+ (0.75,-0.4);
+			\draw[->,line width=1.5,color=violet] (6,0) --+ (0,-0.75);
+			\draw[->,line width=1.5,color=blue] (6,0) --+ (0.75,0.75);
+			%\draw[->,line width=1.5,color=yellow] (0,0) --+ (-0.50,0);
+			\draw [line width=1pt,color=red,fill=red] (6,0) circle (1.5pt);
+		}
+		\visible<14,21>{
+			\draw[->,line width=1.5,color=black] (2.4,1.55) --+ (0.15,-0.45);
+			\draw[->,line width=1.5,color=yellow] (2.4,1.55) --+ (-0.15,0.45);
+			\draw [line width=1pt,color=red,fill=red] (2.4,1.55) circle (1.5pt);
+		}
+		\visible<19,21>{
+			\draw[->,line width=1.5,color=black] (4,2) --+ (0.75,0);
+			\draw[->,line width=1.5,color=yellow] (4,2) --+ (-0.1,0.8);
+			\draw[->,line width=1.5,color=blue] (4,2) --+ (0.75,0.75);
+			\draw [line width=1pt,color=red,fill=red] (4,2) circle (1.5pt);
+		}
+		\end{tikzpicture}
+	\end{center}
+}
+
+
+\end{frame}
+\end{profesor}
+\begin{frame}{Esquema de resoluci\'{o}n (m\'{e}todo KKT). Ejemplo}
+	Aplicar las condiciones KKT para encontrar los óptimos de $f$.
+	\begin{columns}[t]
+		\column[]{0.35\textwidth}\vspace*{-2mm}
+				\begin{align*}
+				f(x,y)=  & 3x-y
+				\\
+				& x^2+y^2 \leq 1
+				\\
+				& 4x+y\geq 1
+				\end{align*}
+				\begin{profesor}
+						\visible<2->{\vspace*{-5mm}\small \begin{align*}
+						&\gf=\binom{3)}{-1}
+						\\
+						&\gg_1=\binom{2x}{2y}\quad
+						\gg_2=\binom{-4}{-1}
+						\end{align*}}
+					\visible<3>{\vspace*{-5mm}\begin{align*}
+						3+2xu_1-4u_2 &  =0 
+						\\
+						-1+2yu_1-u_2 & =0
+						\\
+						u_1(x^2+y^2-1) & =0
+						\\
+						u_2(-4x-y+1) & =0
+						\end{align*}}
+				\end{profesor}
+				
+		\column[t]{0.6\textwidth}{
+			\begin{center}
+				\begin{tikzpicture}[x=1cm,y=1cm,scale=2]
+				\clip(-1.5,-1.5) rectangle (1.5,1.5);    
+				\draw [color=lightgray, xstep=1cm,ystep=1cm] (-2,-2) grid (6,6);
+				\draw[->,thick,color=black] (-2.2,0.) -- (6,0);
+				\foreach \x in {-1,1,2,3,4,5,6} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+				\draw[->,thick,color=black] (0,-2) -- (0,6);
+				\foreach \y in {-1,1,2,3,4,5,6} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+				\foreach \x in {-4,-2,0,2,4} \draw [dashed, line width=0.20pt,color=black] (-2,-6-\x) -- (2,6-\x) ;
+				\draw [dashed, line width=1pt,color=black] (2.25,2) circle (1pt);
+				\draw [line width=1.5pt,color=red,fill=red,fill opacity=0.10] (0,0) circle (1cm);
+				\draw [line width=0pt,color=white,fill=blue,fill opacity=0.10] (-2,9)-- (2,9)  -- (2,-7) ;
+				\draw [line width=1.5pt,domain=-2:2,color=blue,fill=blue,fill opacity=0.25] plot(\x,{(1-4*\x)});
+				\draw [line width=1.5pt,color=black,->] (0.40,1.2) --+ (0.45,-.15) node[right] {$\gf(\vx)$} ;
+				\end{tikzpicture}
+			\end{center}
+		}
+	\end{columns}
+\end{frame}
+\begin{profesor}
+\begin{frame}[t]{Esquema de resoluci\'{o}n (m\'{e}todo KKT). Ejemplo}\small
+	\begin{columns}[t]
+		\column[t]{0.60\textwidth}
+		\begin{align*}
+		3+2xu_1-4u_2 &  =0  & 	-1+2yu_1-u_2 & =0
+		\\
+		u_1(x^2+y^2-1) & =0  & 		u_2(-4x-y+1) & =0
+		\\
+		 x^2+y^2 & \leq 1 &  4x+y&\geq 1
+		\end{align*}
+
+		\only<2-5>{\visible<2-5>{\alert{$u_1=0, u_2=0$:} 3=0!!!!  y -1=0!!!!! 
+			
+		No tiene solución}
+		
+		\visible<3-5>{\alert{$u_1=0, u_2\neq 0$:} $u_2=0.75$ $u_2=-1$!!!! 
+			
+		No tiene solución}
+
+		\visible<4-5>{\alert{$u_1\neq 0, u_2=0$:} $x^2+y^2=1$
+		$$
+		\left.
+		\begin{array}{l}
+		3-2xu_1  =0
+		\\
+		-1-2yu_1  =0
+		\end{array}\right\}\Rightarrow 
+		\left\{\begin{array}{l}
+		(x,y)=(\frac{-3}{\sqrt{10}},\frac{1}{\sqrt{10}})
+		\\
+		(u_1,u_2) =(\frac{\sqrt{10}}{2},0)
+		\end{array}\right\}\text{ y }
+		\left\{\begin{array}{l}
+		(x,y)=(\frac{3}{\sqrt{10}},\frac{-1}{\sqrt{10}})
+		\\
+		(u_1,u_2) =(\frac{-\sqrt{10}}{2},0)
+		\end{array}\right\}
+		$$
+		}
+		\visible<5-5>{\alert{$u_1\neq 0, u_2\neq 0$:} $x^2+y^2=1, y=1-4x$\vspace*{-2mm}
+			$$
+			0=x^2+(1-4x)^2-1=17x^2-8x\Rightarrow  
+			\left\{\begin{array}{@{}l@{}}
+			(x,y)=(0,1)
+			\\
+			(u_1,u_2) =(\frac{7}{8},\frac{3}{4})
+			\end{array}\right\}\text{ y }
+			\left\{\begin{array}{@{}l@{}}
+			(x,y)=(\frac{8}{17},\frac{-15}{17})
+			\\
+			(u_1,u_2) = (\frac{-119}{136},\frac{37}{68})
+			\end{array}\right\}
+			$$
+		}}
+		\only<6->{
+		\begin{align*}
+		(0,1):\, & \min \text{ global}
+		\\[2mm]
+		\bigl(\frac{3}{\sqrt{10}},\frac{-1}{\sqrt{10}}\bigr):\,& \max \text{ global}
+		\\[2mm]
+		\visible<6>{\bigl(\frac{8}{17},\frac{-15}{17}\bigr):\, & \text{ no punto KKT}}
+		\end{align*}
+		}
+		\column[t]{0.4\textwidth}{
+			\begin{center}
+				\begin{tikzpicture}[x=1cm,y=1cm,scale=1.3]
+				\clip(-1.9,-1.4) rectangle (1.9,1.55);    
+				\draw [color=lightgray, xstep=1cm,ystep=1cm] (-2,-2) grid (6,6);
+				\draw[->,thick,color=black] (-2.2,0.) -- (6,0);
+				\foreach \x in {-1,1,2,3,4,5,6} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+				\draw[->,thick,color=black] (0,-2) -- (0,6);
+				\foreach \y in {-1,1,2,3,4,5,6} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+				\visible<-3>{\foreach \x in {-4,-2,0,2,4} \draw [dashed, line width=0.20pt,color=black] (-2,-6-\x) -- (2,6-\x) ;}
+				\draw [dashed, line width=1pt,color=black] (2.25,2) circle (1pt);
+				\draw [line width=1.5pt,color=red,fill=red,fill opacity=0.10] (0,0) circle (1cm);
+				\draw [line width=0pt,color=white,fill=blue,fill opacity=0.10] (-2,9)-- (2,9)  -- (2,-7) ;
+				\draw [line width=1.5pt,domain=-2:2,color=blue,fill=blue,fill opacity=0.25] plot(\x,{(1-4*\x)});
+				%\draw [line width=1.5pt,color=black,->] (0.40,1.1) --+ (0.45,-.15) node[right] {$\gf(\vx)$} ;
+				\visible<4,6->{
+						\draw [dashed, line width=0.30pt,color=black,domain=-2:2] plot(\x,{(3*\x-3.17)});
+						\draw[->,line width=1.5,color=black] (0.95,-0.32) --+ (0.9,-0.3);
+						\draw[->,line width=1.5,color=red] (0.95,-0.32) --+ (0.7,-0.233);
+						\draw [line width=1pt,color=violet,fill=violet] (0.95,-0.32) circle (1.5pt);
+				}
+				\visible<4>{
+						\draw [dashed, line width=0.30pt,color=black,domain=-2:2] plot(\x,{(3*\x+3.17)});
+						\draw[->,line width=1.5,color=black] (-0.95,0.32) --+ (0.9,-0.3);
+						\draw[->,line width=1.5,color=red] (-0.95,0.32) --+ (-0.7,0.233);
+						\draw [line width=1pt,color=violet,fill=violet] (-0.95,0.32) circle (1.5pt);
+				}
+				\visible<5,6->{
+					\draw [dashed, line width=0.30pt,color=black,domain=-2:2] plot(\x,{(3*\x+1)});
+					\draw[->,line width=1.5,color=black] (0,1) --+ (0.9,-0.3);
+					\draw[->,line width=1.5,color=blue] (0,1) --+ (-0.8,-0.2);
+					\draw[->,line width=1.5,color=red] (0,1) --+ (0,0.5);
+					\draw [line width=1pt,color=violet,fill=violet] (0,1) circle (1.5pt);
+				}
+				\visible<5,6>{
+					\draw [dashed, line width=0.30pt,color=black,domain=-2:2] plot(\x,{(3*\x-2.29)});
+					\draw[->,line width=1.5,color=black] (8/17,-15/17) --+ (0.9,-0.3);
+					\draw[->,line width=1.5,color=blue] (8/17,-15/17) --+ (-0.8,-0.2);
+					\draw[->,line width=1.5,color=red] (8/17,-15/17) --+ (4/17,-7.5/17);
+					\draw [line width=1pt,color=violet,fill=violet] (8/17,-15/17) circle (1.5pt);
+				}
+				\end{tikzpicture}
+			\end{center}
+		}
+	\end{columns}
+	\only<7>{Además, $f$ es lineal (pseudo-cóncava y pseudo-convexa), $g_1$ es estricamente convexa (cuasi-convexa) y $g_2$ es lineal (cuasi-convexa). 
+	
+	\smallskip	
+		
+		Por tanto, los dos óptimos verifican las condiciones suficientes de KKT.
+	}
+\end{frame}
+\end{profesor}
+
+%%
+\subsection{Problemas con restricciones de igualdad y desigualdad}
+%%
+\begin{frame}{Problemas con restricciones de igualdad y desigualdad}
+
+En este caso, las restricciones que definen la región factible incluyen igualdades:
+\begin{equation}
+	\min\{f(\vx)\,/\, \vx\in\X,\; g_i(\vx)\leq 0,\; i=1,\dots,m,\; h_i(\vx)=0, i=1\dots,\ell\},
+\end{equation}
+siendo $\X$ un abierto no vac\'{\i}o de $\Re^n$ y $f,g_i,h_i:\Re^n\rightarrow\Re$.
+
+De forma natural, la condición necesaria para que un punto $\ovx$ sea mínimo local es:
+$$
+\F_0\cap\G_0\cap H_0=\emptyset
+$$
+donde $\H_0=\{\vd\,\vert\, \gh_i(\ovx)^T\vd=0,\, i=1,\dots,\ell\}$.
+\end{frame}
+
+\begin{frame}{Optimización con restricciones}\footnotesize
+	\begin{teorema}\label{t423}
+		Sea el problema 
+		\begin{equation}
+			\min\{f(\vx)\,/\, \vx\in\X,\; g_i(\vx)\leq 0,\; i=1,\dots,m,\; h_i(\vx)=0, i=1\dots,\ell\},
+		\end{equation}
+$\ovx$  una soluci\'{o}n factible del problema e $\I$ el conjunto de \'{\i}ndices de las restricciones activas en $\ovx$:
+
+Si se verifican las siguientes propiedades:
+		\begin{enumerate}
+			\item $f$, $g_i$, $i\in\I$, son diferenciables en $\ovx$,
+			\item $g_i$, $i\notin\I$, son continuas en $\ovx$,
+			\item $h_i$, $i=1,\dots,\ell$ son continuamente diferenciables en $\ovx$.
+			\item $\gh_i$, $i=1,\dots,\ell$ son linealmente independientes en $\ovx$..
+			\item $\ovx$ es un m\'{\i}nimo local de $f$,
+		\end{enumerate}
+		entonces, $\D_0\cap\G_0\cap\H_0 =\emptyset$, 	donde 
+		$$	
+		\G_0=\{ \vd\in\Re^n\,/\,\gg_i(\ovx)^T\vd<0,\, \forall i\in\I\}\text{ y }\H_0=\{\vd\,\vert\, \gh_i(\ovx)^T\vd=0,\text i=1,\dots,\ell\}
+		$$
+	\end{teorema}
+	%%
+\end{frame}
+
+\begin{frame}{Condiciones KKT (con igualdades y desigualdades)}\footnotesize
+	\begin{teorema}[Condiciones necesarias de Karush-Kuhn-Tucker]
+		Sea el problema $\min\{f(\vx)\,/\, \vx\in\X,\; g_i(\vx)\leq 0,\; i=1,\dots,m,\; h_i(\vx)=0, i=1\dots,\ell\}$,  $\ovx$ una soluci\'{o}n factible, e $\I=\{i\,/\, g_i(\ovx)=0\}$ tal que 1) $f$ $g_i$, $i\in\I$ son diferenciables en $\ovx$,  2) $g_i$, $i\notin\I$ son continuas en $\ovx$, 3) $h_i$, $i=1,\dots,\ell$ son continuamente diferenciables en $\ovx$, y 4) $\gg_i(\ovx)$, $i\in\I$ y $\gh_i$, $i=1,\dots,\ell$ son linealmente independientes  en $\ovx$.
+		
+		\smallskip
+		
+		Entonces, si $\ovx$ es un m\'{\i}nimo local de $f$,  existen escalares $\{u_i, i\in\I,v_j,j=1,\dots,\ell\}$, con $u_i\geq 0$, $\forall i\in\I$ tales que:
+		$$
+		\gf(\ovx)+\sum_{i\in\I} u_i\gg_i(\ovx)+\sum_{j=1}^\ell v_j\gh_j(\ovx)= \vv.
+		$$
+		\\
+		Si adem\'{a}s se verifica que las funciones $\{g_i,\, i\notin \I\}$ son diferenciables en $\ovx$,
+		las condiciones anteriores se pueden escribir de la forma
+		\begin{align*}
+			\gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx) +\sum_{j=1}^\ell v_j\gh_j (\ovx)=\vv, &
+			\\
+			u_ig_i(\ovx) =0, & \qquad\forall i=1,\dots,m,
+			\\
+			u_i\geq 0, & \qquad\forall i=1,\dots,m.
+		\end{align*}
+	\end{teorema}
+\end{frame}
+
+\begin{frame}{Condiciones KKT (con igualdades y desigualdades)}
+	
+Dado el conjunto de $\Re^2$ definido por las restricciones:
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{align*}
+			x_1^2+x_2^2-5 & \leq 0,
+			\\
+			-x_1 &\leq 0,
+			\\
+			-x_2 &\leq 0,
+			\\
+			x_1+x_2-3 &= 0,
+		\end{align*}
+	y las funciones:
+	\begin{align*}
+	 f_1(x_1,x_2)  & = x_1^2+x_2^2, \\
+	 f_2(x_1,x_2) & = (x_1-3)^2+(x_2-2)^2
+	\end{align*}
+		\column{0.45\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=1.3]
+				\clip(-0.5,-0.5) rectangle (3.2,3.2); 
+				\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (4,3);
+				%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+				\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+				%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+				\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+				\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+				%\draw[line width=0pt,color=white,fill=violet,fill opacity=0.10] (-3,3)--(0,3) --(4,-1)-- (4,-3)--(-3,-3)--(-3,3);
+				\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.10] (0,0)--(0,3) --(4,3)-- (4,0)--(0,0);;
+				\draw [rotate around={0.:(0.,0.)},line width=0.5pt,color=blue,fill=blue,fill opacity=0.10] (0,0) circle (2.2361);
+				\draw[line width=0.5pt,color=red](0,3)-- (4,-1);
+				\draw[line width=0.5pt,color=yellow](0,4)-- (0,-3);
+				\draw[line width=0.5pt,color=yellow](-3,0)-- (3,0);
+				%\draw[line width=2pt,color=yellow](0,2.2361) -- (0,0)-- (2.2361,0);
+				\draw[line width=1.5pt,color=red](1,2)-- (2,1);
+				%\draw[line width=2pt,color=blue] (2.2361,0) arc (0:27:2.2361);
+				%\draw[line width=2pt,color=blue] (0,2.2361) arc (90:63:2.2361);
+				\begin{scriptsize}
+					\draw [fill=black] (1,2) circle (1.5pt) node[above right] {\footnotesize $(1,2)$};
+					\draw [fill=black] (2,1) circle (1.5pt) node[above right] {\footnotesize $(2,1)$};
+					\draw [fill=orange,orange] (0,0) circle (1.5pt) node[below] {\tiny $(0,0)$};
+					\draw [fill=orange,orange] (3,2) circle (1.5pt) node[below] {\tiny $(3,2)$};
+					%\draw [fill=black] (0,0) circle (2pt) node[below] {\footnotesize $(0,0)$};
+					%\draw [fill=black] (0,2.2361) circle (2pt) node[above] {\footnotesize $(0,\sqrt{5})$};
+					%\draw [fill=black] (2.2361,0) circle (2pt) node[below right] {\footnotesize $(\sqrt{5},0)$};
+				\end{scriptsize}
+			\end{tikzpicture}
+		\end{center}
+	\end{columns}
+Obtener los puntos que verifican las condiciones necesarias de KKT para ser mínimos locales de $f_1$ y $f_2$.
+\end{frame}
+
+\begin{frame}{Condiciones KKT (con igualdades y desigualdades)}
+	Dado el conjunto de $\Re^2$ definido por las restricciones:
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{align*}
+			x_1^2+x_2^2-5 & \leq 0,
+			\\
+			-x_1 &\leq 0,
+			\\
+			-x_2 &\leq 0,
+			\\
+			x_1+2x_2-4 &= 0,
+		\end{align*}
+		y las funciones:
+		\begin{align*}
+			f_1(x_1,x_2)  & = x_1^2+x_2^2, \\
+			f_2(x_1,x_2) & = (x_1-3)^2+(x_2-2)^2
+		\end{align*}
+		\column{0.45\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm,scale=1.3]
+				\clip(-0.5,-0.5) rectangle (3.2,3.2); 
+				\draw [color=lightgray, xstep=1cm,ystep=1cm] (-3,-3) grid (5,4);
+				%\draw[->,color=black] (-2.5,0.) -- (4,0.);
+				\foreach \x in {-3,-2,,-1,1,2,3,4} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\color{gray}\tiny $\x$};
+				%\draw[->,color=black] (0.,-2.5) -- (0.,3.2);
+				\foreach \y in {-3,-2,-1,1,2,3} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\color{gray}\tiny $\y$};
+				\draw[color=black] (0pt,-10pt) node[right] {\color{gray}\tiny $0$};
+				%\draw[line width=0pt,color=white,fill=violet,fill opacity=0.10] (-1,2.5)--(5,-0.5) --(-1,-0.5)-- (-1,2.5);
+				\draw[line width=0pt,color=white,fill=yellow,fill opacity=0.10] (0,0)--(0,4) --(5,4)-- (5,0)--(0,0);
+				\draw [rotate around={0.:(0.,0.)},line width=0.5pt,color=blue,fill=blue,fill opacity=0.10] (0,0) circle (2.2361);
+				\draw[line width=0.5pt,color=red](-1,2.5)-- (5,-0.5);
+				\draw[line width=0.5pt,color=yellow](0,4)-- (0,-3);
+				\draw[line width=0.5pt,color=yellow](-3,0)-- (3,0);
+				%\draw[line width=2pt,color=yellow](0,2) -- (0,0)-- (2.2361,0);
+				\draw[line width=2pt,color=red](0,2)-- (2,1);
+				%\draw[line width=2pt,color=blue] (2.2361,0) arc (0:27:2.2361);
+				%\draw[line width=2pt,color=blue] (0,2.2361) arc (90:63:2.2361);
+				\begin{scriptsize}
+					%\draw [fill=black] (1,2) circle (2pt) node[above right] {\footnotesize $(1,2)$};
+					\draw [fill=black] (2,1) circle (2pt) node[above right] {\footnotesize $(2,1)$};
+					\draw [fill=orange,orange] (0,0) circle (2pt) node[below] {\tiny $(0,0)$};
+					\draw [fill=black] (0,2) circle (2pt) node[below] {\footnotesize $(0,2)$};
+					%\draw [fill=black] (2.2361,0) circle (2pt) node[below right] {\footnotesize $(\sqrt{5},0)$};
+					\draw [fill=orange,orange] (3,2) circle (2pt) node[below] {\tiny $(3,2)$};
+					
+				\end{scriptsize}
+			\end{tikzpicture}
+		\end{center}
+	\end{columns}
+	Obtener los puntos que verifican las condiciones necesarias de KKT para ser mínimos locales de $f_1$ y $f_2$.
+\end{frame}
+
+
+
+\end{document}

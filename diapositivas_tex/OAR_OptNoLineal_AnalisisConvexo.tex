@@ -1,0 +1,3396 @@
+\documentclass[aspectratio=169]{beamer}
+
+
+\mode<presentation> {
+	\usetheme{Boadilla}
+	%	\setbeamercovered{transparent}
+	\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all 
+	
+\left( }
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+\usepackage{animate} % para incluir gifts
+%\usepackage{pstcol,fancybox,pst-node,pst-tree}
+
+\usepackage{pgfpages}
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows, trees}
+\usepackage{pgfplots}
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+\usepackage{latexsym,bezier,enumerate,dcolumn}
+\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+\href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on no lineal] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+\textbf{Optimizaci\'on no lineal} \\ Análisis Convexo
+}
+
+\author[]
+{      Antonio Alonso Ayuso \\
+{\ttfamily antonio.alonso@urjc.es}
+}
+
+\institute[]
+{
+Universidad Rey Juan Carlos\\
+
+%there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{\today}
+
+
+\AtBeginSubsection[] 
+{
+\begin{frame}<beamer>
+\frametitle{Contenidos}
+\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded,subsubsectionstyle=hide]
+%\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+\AtBeginSection[] 
+{
+\begin{frame}<beamer>
+\frametitle{Contenidos}
+\tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide,subsubsectionstyle=hide]
+\end{frame}
+}
+
+
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+\newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+%%
+%%
+%%
+%% Letras griegas (son las dos primeras letras)
+%%
+\newcommand{\al}{\alpha}
+\newcommand{\be}{\beta}
+\newcommand{\te}{\theta}
+\newcommand{\Te}{\Theta}
+\newcommand{\et}{\hat{\theta}}
+\newcommand{\olambda}{\overline{\lambda}}
+%%
+%% Letras con raya superior
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+\newcommand{\ovy}{\overline{\V{y}}}
+\newcommand{\od}{\overline{d}}
+\newcommand{\oH}{\overline{H}}
+\newcommand{\oJ}{\overline{J}}
+\newcommand{\oN}{\overline{N}}
+\newcommand{\op}{\overline{p}}
+\newcommand{\oQ}{\overline{Q}}
+\newcommand{\oR}{\overline{R}}
+\newcommand{\oS}{\overline{S}}
+\newcommand{\oT}{\overline{T}}
+\newcommand{\ox}{\overline{x}}
+\newcommand{\oy}{\overline{y}}
+\newcommand{\oz}{\overline{z}}
+\newcommand{\oV}{\overline{V}}
+\newcommand{\oW}{\overline{W}}
+\newcommand{\oX}{\overline{X}}
+\newcommand{\oY}{\overline{Y}}
+\newcommand{\oZ}{\overline{Z}}
+%%
+%% gradientes
+%%
+\newcommand{\gf}{\B{\nabla} f}
+\renewcommand{\gg}{\B{\nabla} g}
+\newcommand{\gh}{\B{\nabla} h}
+%%
+%% Flechas
+%%
+\DeclareMathOperator{\implica}{\qquad\Longrightarrow\qquad}
+\DeclareMathOperator{\siysolosi}{\qquad\Longleftrightarrow\qquad}
+%%
+%% n{\'\i}nimo, maxino y limite con acento
+%%
+\mathchardef\isinpunto="0010
+\renewcommand{\min}{\mathop{\rm m\acute{\isinpunto}n}}
+\renewcommand{\lim}{\mathop{\rm l\acute{\isinpunto}m}}
+\renewcommand{\max}{\mathop{\rm m\acute{a}x}}
+\newcommand{\mini}{\mathop{\rm m\acute{\isinpunto}n}}
+\newcommand{\limi}{\mathop{\rm l\acute{\isinpunto}m}}
+\newcommand{\maxi}{\mathop{\rm m\acute{a}x}}
+\newcommand{\seno}{\mathop{\rm sen}}
+%%
+%% alguna notaci{\'o}n del simplex
+%%
+\newcommand{\inte}{\text{inte}}
+\newcommand{\so}{{\mathbf x}^*}
+\newcommand{\sor}{{\overline{\mathbf x}^*}}
+\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+\newcommand{\sori}{{\overline{x}^*_i}}
+\newcommand{\Bi}{{\mathbf B}^{-1}}
+%%
+%\newcolumntype{d}[1]{D{.}{.}{#1}}
+%%
+%% comandos de los colores
+%%
+%\newcommand{\azul}[1]{ {\color{blue} #1}}
+%\newcommand{\rojo}[1]{ {\color{red} #1}}
+%\newcommand{\verde}[1]{ {\color{green} #1}}
+%\newcommand{\cyan}[1]{ {\color{cyan} #1}}
+%\newcommand{\magenta}[1]{{\color{magenta} #1}}
+%\newcommand{\negro}[1]{ {\color{black} #1}}
+
+\newtheorem{ejemplin}{\bf Ejemplo}
+\newcommand{\ds}{\displaystyle}
+%\newcommand{\nat}{I\!\! N}
+%\newcommand{\real}{I\!\! R}
+%\newcommand{\ent}{\mathbb{Z}}
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+%%%%
+%\newcommand{\inte}{\text{inte}}
+%\newcommand{\so}{{\mathbf x}^*}
+%\newcommand{\sor}{{\overline{\mathbf x}^*}}
+%\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+%\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+%\newcommand{\sori}{{\overline{x}^*_i}}
+%\newcommand{\Bi}{{\mathbf B}^{-1}}
+\newcommand{\dif}[1]{\widetilde{#1}}
+%%
+%%
+%% tipos de teoremas
+%%
+\theoremstyle{remark}
+\newtheorem{observacion}{\bf Observaci\'on}
+\newtheorem*{nota}{\bf Nota}
+% %%
+\theoremstyle{plain}
+\newtheorem{relacion}{\bf Relaci\'on}
+\newtheorem{proposicion}{\bf Proposici\'on}
+\newtheorem{lema}{\bf Lema}
+\newtheorem{corolario}{\bf Corolario}
+\newtheorem{teorema}{\bf Teorema}
+%%
+\theoremstyle{definition}
+\newtheorem{definicion}{\bf Definici\'on}
+
+\parskip 5mm
+
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+	\titlepage % call the title page information from above
+	\end{frame}}
+	
+	
+	\begin{frame}
+\frametitle{Contenidos del tema}
+\tableofcontents
+\end{frame}
+
+\begin{frame}{Introducci\'on}
+
+\begin{itemize}\itemsep 4mm
+	\item El concepto de convexidad es uno de los m\'{a}s importantes en optimizaci\'{o}n. 
+	\item Conjuntos convexos, poliedros, teoremas de separaci\'{o}n son conceptos habituales en este contexto.
+	\item Las funciones convexas tienen propiedades que permiten obtener sus óptimos de forma eficiente.
+	\item Se puede generalizar el concepto de {\em convexidad} sin renunciar a muchas de las buenas propiedades.
+\end{itemize}
+
+\end{frame}
+
+\section{Conjuntos convexos}
+
+
+
+\begin{frame}{Conjuntos convexos}
+
+\begin{definicion}
+	Un conjunto $\SS$  se dice que es \alert{convexo} si para cada par de puntos $\vx_1$ y $\vx_2$ de  $\SS$, los
+	puntos de la forma $\lambda\vx_1+(1-\lambda)\vx_2$, $\lambda\in(0,1)$, tambi\'{e}n pertenecen al
+	conjunto:
+	$$
+	\forall \vx_1,\vx_2\in\SS\,\text{ y }\, \lambda\in(0,1), \quad \lambda\vx_1+(1-\lambda)\vx_2\in\SS
+	$$
+\end{definicion}
+
+\begin{definicion}
+	Un punto de la forma $$\lambda\vx_1+(1-\lambda)\vx_2,\quad \text{ con }\quad\lambda\in(0,1)$$ se denomina
+	\alert{combinaci\'{o}n lineal convexa de $\vx_1$ y $\vx_2$}.
+\end{definicion}
+\end{frame}
+
+\begin{frame}{Conjuntos convexos. Interpretación geométrica}
+Se puede comprobar que para cada punto $\vx$ del segmento que une los puntos $\vx_1$ y $\vx_2$, existe un $\lambda^*\in [0,1]$, tal que: 
+$$\vx=\lambda^*\vx_1+(1-\lambda^*)\vx_2$$
+
+\begin{center}
+	\begin{tikzpicture}
+		\node at (2,4.5) (a) {convexo};
+		\node at (5.5,4.5) (a) {convexo};
+		\node at (9.5,4.5) (a) {NO convexo};
+		\draw[very thick, fill = blue!40!white] (2,3) circle (1cm);
+		\draw[very thick, fill = blue!40!white] (4,2) -- (4,3) -- (5,4) -- (6,4) -- (7,3) -- (6,1.5) -- (4,2) ;
+		\draw[very thick, fill   = blue!40!white]   (8,2) -- (8,3.5) -- (9.25,3) -- (10,4) -- (11,3) -- (9,1.5) -- (8,2) ;
+		\draw[very thick, color=red, *-*] (4.5,2.75) -- (6,3.75); 
+		\draw[very thick, color=red, *-*] (8.5,2.75) -- (10,3.5); 
+	\end{tikzpicture}	
+\end{center}
+Un conjunto es \alert{convexo} si el segmento que une cualquier par de puntos del conjunto también pertenece al conjunto. 
+\end{frame}
+
+\begin{frame}{Conjuntos convexos}
+\begin{columns}
+	\column{0.6\textwidth}
+	\begin{itemize}\itemsep 2mm
+		\item<1-3> Dados un conjunto de $k$ puntos $\vx_1,\dots,\vx_k$, los puntos de la forma
+		$$
+		\sum_{i=1}^k\lambda_i\vx_i\qquad\text{con}\qquad\lambda_i\geq
+		0\quad\text{y}\quad\sum_{i=1}^k\lambda_i=1
+		$$
+		se denominan \alert{\em combinaciones lineales convexas} de los puntos $\vx_1,\dots,\vx_k$. 
+		\item<2-3> Si se relaja la condici\'{o}n de no negatividad de los par\'{a}metros, se denominan \alert{\em combinaciones afines.} 
+		\item<3> Si se eliminan las dos condiciones, se denominan \alert{\em combinaciones lineales}.
+	\end{itemize}
+	\column{0.4\textwidth}
+	\centering
+	\visible<1->{\animategraphics[loop,width=4cm]{10}{gift_combinacionafin/a-}{27}{77}}
+	
+	\visible<2->{\animategraphics[loop,width=4cm]{25}{gift_combinacionafin/a-}{0}{201}}
+	
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Conjuntos convexos. Ejemplos}
+\begin{itemize}\itemsep 6mm
+	\item El conjunto $\SS=\{(x_1,x_2,x_3)\,/\, x_1+2x_2-x_3=4\}$ es convexo. Es un plano en $\Re^3$.
+	
+	\item En general, los  conjuntos de la forma $\SS=\{\vx\,/\,\vp^T\vx=\alpha\}$, donde $\vp$ es un vector no nulo de $\Re^n$  y $\alpha$ es un escalar,  son convexos y se denominan \alert{hiperplanos de $\Re^n$}.
+	
+	\medskip 
+	
+	En $\Re^2$ un hiperplano es una recta y en $\Re^3$ es un plano.
+	
+	\bigskip
+	
+	
+	Nota: si tomamos un punto $\vx_0\in\SS$, se tiene que $\vp^T\vx_0=\alpha$. Entonces, el conjunto  $\SS$ se puede expresar de la forma:
+	$$
+	\SS=\{\vx\,/\,\vp^T(\vx-\vx_0)=0\}
+	$$
+	Por tanto,  el vector $\vp$ siempre es perpendicular a la cara del hiperplano.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conjuntos convexos}{Ejemplos}
+%%
+\begin{itemize}\itemsep 5mm
+	\item $\SS=\{(x_1,x_2,x_3)\,/\, x_1+2x_2-x_3\leq 4\}$ (semiespacio).
+	
+	\medskip
+	
+	
+	En general, los semiespacios $\SS=\{\vx\,/\,\vp^T\vx\leq \alpha\}$ son convexos.
+	
+	%%
+	\item $\SS=\{(x_1,x_2,x_3)\,/\, x_1+2x_2-x_3\leq 4,\, 2x_1-x_2+x_3\leq 6\}$ (intersecci\'{o}n de dos semiespacios). 
+	
+	\medskip
+	
+	
+	En general, los conjuntos de la forma $\SS=\{\vx\,/\,\vA\vx\leq \vb\}$ son convexos y se denominan politopos.
+	%%
+	\item $\SS=\{(x_1,x_2)\,/\, x_2\geq\abs{x_1}\}$ (cono).
+	%%
+	\item $\SS=\{(x_1,x_2)\,/\, x_1^2+x_2^2\leq 4\}$ (c\'{\i}rculo).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conjuntos convexos}
+\begin{lema}
+	Sean $\SS_1$ y $\SS_2$ dos conjuntos convexos. 
+	
+	\medskip
+	
+	Entonces, los siguientes conjuntos son convexos:
+	\begin{enumerate}\itemsep 5mm
+		\item $\SS_1\cap\SS_2$.
+		\item $\SS_1\oplus\SS_2=\{\vx_1+\vx_2\,/\, \vx_1\in\SS_1,\,\vx_2\in\SS_2\}$.
+		\item $\SS_1\ominus\SS_2=\{\vx_1-\vx_2\,/\, \vx_1\in\SS_1,\,\vx_2\in\SS_2\}$.
+	\end{enumerate}
+\end{lema}
+\alert{Demostracion:} inmediata
+\end{frame}
+
+\begin{frame}{Conjuntos convexos. Envoltura Convexa}
+\begin{definicion}[envoltura convexa]
+	La \alert{envoltura convexa} de un conjunto $\SS\subset\Re^n$,  denotada por $\H(\SS)$ es el conjunto de todos los puntos que se pueden expresar como combinaci\'{o}n lineal convexa de puntos de $\SS$, esto es:
+	$$
+	\vx\in \H(\SS)\qquad\iff\qquad\vx=\sum_{j=1}^k\lambda_j\vx_j
+	$$
+	con $\vx_j\in\SS$, $j=1,\dots,k$, $\lambda_j\geq 0$, $j=1,\dots,k$ y
+	$\displaystyle\sum_{j=1}^k\lambda_j=1$.
+\end{definicion}
+
+La envoltura convexa de un conjunto convexo coincide con el propio conjunto. 
+
+\end{frame}
+
+\begin{frame}{Conjuntos convexos. Envoltura Convexa}
+
+\begin{center}
+	\begin{tikzpicture}
+		\node at (9.5,4.5) (a) {Conjunto NO convexo};
+		\draw[very thick, fill   = blue!40!white]   (8,2) -- (8,3.5) -- (9.25,3) -- (10,4) -- (11,3) -- (9,1.5) -- (8,2) ;
+		\visible<2->{
+			\node at (9.5,1) (b) {Su envoltura convexa};
+			\draw[very thick,  fill   = red!40!white, opacity=0.4]   (8,2) -- (8,3.5)  -- (10,4) -- (11,3) -- (9,1.5) -- (8,2) ;
+		}
+	\end{tikzpicture}	
+\end{center}
+
+\end{frame}
+%%
+
+\begin{frame}{Conjuntos convexos}{Envoltura Convexa}
+\begin{lema}
+	Sea $\SS$ un conjunto cualquiera de $\Re^n$, la envoltura convexa de $\SS$, $\H(\SS)$, es el menor
+	conjunto convexo que contiene a $\SS$. Esto es, $\H(\SS)$ es la intersecci\'{o}n de todos los
+	conjuntos convexos que contienen a $\SS$.
+\end{lema}
+\alert{Demostraci\'on}
+Por reducci\'{o}n al absurdo, sea $\C$ un conjunto convexo tal que
+$\SS\subseteq\C$, con $\vx\in \H(\SS)$ y $\vx\notin\C$. 
+
+Por ser $\vx\in \H(\SS)$, se tiene que:
+$$
+\vx=\sum_{j=1}^k\lambda_j\vx_j,
+$$
+con $\vx_j\in\SS$, $j=1,\dots,k$, $\lambda_j\geq 0$, $j=1,\dots,k$ y
+$\sum_{j=1}^k\lambda_j=1$. 
+
+Por ser $\SS\subseteq\C$, los puntos $\vx_j$ pertenecen a $\C$, y  por ser  $\C$ convexo, el punto $ \vx\in\C$!!!!!!!
+%%
+
+\end{frame}
+
+\begin{frame}{Politopo}\small
+%%
+\begin{definicion}
+	Se denomina \alert{politopo  convexo} a la intersecci\'{o}n finita de semiespacios 	cerrados:
+	$$
+	\SS=\{\vx\in\Re^n\tq \va_i^T\vx\leq \al_i,\, i=1,\dots,n\}
+	$$
+	Los v\'{e}rtices del politopo reciben el nombre de \alert{puntos extremos}.
+\end{definicion}
+
+\begin{columns}
+	\column{0.6\textwidth}{
+		La regi\'{o}n factible de un problema de programaci\'{o}n lineal es un politopo:
+		\begin{align*}
+			&  3x_1 + 2x_2 \leqslant 10 \\
+			&   x_1 + 4x_2 \leqslant 11 \\
+			& x_1, x_2 \geqslant 0
+		\end{align*}
+	}
+	\column{0.4\textwidth}{	
+		\begin{center}
+			\resizebox*{0.45\paperheight}{!}{
+				\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm]
+					\draw[->,color=black] (-0.5,0) -- (4,0);
+					\foreach \x in {1,2,3,4}
+					\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};
+					\draw[->,color=black] (0,-0.5) -- (0,3.5);
+					\foreach \y in {1,2,3}
+					\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+					\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+					\clip(-0.5,-0.5) rectangle (4.2,3.5);
+					\fill[color=blue!90,fill=blue!90,opacity=0.3] (0,0) -- (0,2.75) -- (1.8,2.3) -- (3.33,0) -- cycle;
+					\draw [domain=-1:5] plot(\x,{(-10--3*\x)/-2});
+					\draw [domain=-1:5] plot(\x,{(-22--2*\x)/-8});
+					\draw [color=blue] (0,0)-- (0,2.75);
+					\draw [color=blue] (0,2.75)-- (1.8,2.3);
+					\draw [color=blue] (1.8,2.3)-- (3.33,0);
+					\draw [color=blue] (3.33,0)-- (0,0);
+					
+			\end{tikzpicture}}
+		\end{center}
+	}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Politopo convexo}\small
+%%
+\begin{definicion}[Politopo convexo y simplex]
+	La envoltura convexa de un n\'{u}mero finito de puntos es un \alert{politopo convexo}.
+	
+	\medskip
+	
+	Si los puntos son af\'{\i}nmente independientes, el politopo se denomina simplex.
+\end{definicion}
+\begin{center}
+	\scalebox{0.8}{
+		\begin{tikzpicture}
+			\visible<3->{
+				\node at (5.5,4.5) (a) {Politopo};
+				\draw[very thick, fill = blue!40!white] (4,2) -- (4,3) -- (5,4) -- (6,4) -- (7,3) -- (6,1.5) -- (4,2) ;
+			}
+			\visible<5>{
+				\node at (9.5,4.5) (a) {Simplex};
+				\draw[very thick, fill   = blue!40!white]   (8,3) --  (10,4) --  (9,2) -- (8,3) ;
+			}
+			\visible<2->{
+				\draw[fill = black] (4,2)   circle (0.07);
+				\draw[fill = black] (4,3)   circle (0.07);
+				\draw[fill = black] (5.1,3)   circle (0.07);
+				\draw[fill = black] (5,4)   circle (0.07);
+				\draw[fill = black] (5.5,2)   circle (0.07);
+				\draw[fill = black] (6,4)   circle (0.07);
+				\draw[fill = black] (7,3)   circle (0.07);
+				\draw[fill = black] (6,1.5)   circle (0.07);
+			}
+			\visible<4->{
+				\draw[fill = black] (8,3)   circle (0.07);
+				\draw[fill = black] (10,4)   circle (0.07);
+				\draw[fill = black] (9,2)   circle (0.07);
+			}
+			\visible<6->{
+				\draw[very thick,->] (8,3) -- (10,4);
+				\draw[very thick,->] (8,3) -- (9,2);
+			}
+		\end{tikzpicture}	
+	}
+\end{center}
+\visible<6->{
+	\footnotesize
+	\alert{Nota:} 	Los puntos $\vx_1,\dots,\vx_k$ son af\'{\i}nmente independientes si los vectores $\vx_2-\vx_1$,
+	$\vx_3-\vx_1$, \dots, $\vx_k-\vx_1$ son linealmente independientes. Por tanto, en $\Re^n$, un simplex no puede tener m\'{a}s de $n+1$ v\'{e}rtices.
+}
+\end{frame}
+
+
+
+%%
+\section{Funciones Convexas}
+%%
+\begin{frame}{Funciones convexas}
+\begin{itemize}\itemsep 5mm
+	\item Los funciones convexas y c\'{o}ncavas tienen buenas propiedades que las convierten en funciones
+	interesantes dentro del \'{a}mbito de la optimizaci\'{o}n. 
+	\item Por ejemplo, el m\'{\i}nimo local de una funci\'{o}n convexa en un conjunto convexo es tambi\'{e}n un m\'{\i}nimo global.
+	\item Las funciones lineales y muchas cuadráticas son convexas y muy frecuentes en problemas de optimización. 
+	\item Adem\'as, tienen propiedades \'utiles para definir condiciones de optimalidad.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Funciones convexas}
+\begin{definicion}[Funci\'{o}n convexa]
+	Sea $f:\SS\subseteq\Re^n\rightarrow \Re$, con $\SS\neq\emptyset$ y convexo. Se dice que $f$ es convexa
+	si:
+	$$
+	f(\lambda \vx_1+(1-\lambda)\vx_2)\leq\lambda f(\vx_1)+ (1-\lambda)
+	f(\vx_2),\qquad \forall \vx_1,\vx_2\in\SS,\,\forall \lambda\in (0,1).
+	$$
+\end{definicion}
+\begin{definicion}[Funci\'{o}n estrictamente convexa]
+	Si la desigualdad anterior es estricta para cualquier par de puntos $\vx_1,\vx_2\in\SS: \vx_1\neq \vx_2$, se dice que $f$ es estrictamente convexa 
+\end{definicion}
+\begin{definicion}[Funci\'{o}n c\'{o}ncava]
+	Se dice que una función $f$ es c\'{o}ncava si su opuesta, $-f$, es convexa.
+\end{definicion}
+\end{frame}
+\begin{frame}{Funciones convexas}
+Consideremos $\vx_1$, $\vx_2$, puntos del dominio de $f$ y todas sus posibles conbinaciones lineales convexas 
+$\lambda\vx_1+(1-\lambda)\vx_2$, con $\lambda\in (0,1)$.
+
+Una funci\'{o}n es convexa si la gr\'afica de $f$ en todos los puntos $\lambda\vx_1+(1-\lambda)\vx_2$ no queda por encima del segmento que une los puntos
+$[\vx_1,f(\vx_1)]$ y $[\vx_2,f(\vx_2)]$.
+
+\begin{center}
+	\begin{tikzpicture}[scale=.5]
+		\draw[->] (-3.5,0) -- (12,0) node[right](xline) {\tiny x};
+		\draw[->] (-3,-.5) -- (-3,4) node[right](yline) {\tiny y};
+		\draw[thick] (-2,3) parabola bend (0,0.25) (2,3);
+		\node at (0,4) (a) {\footnotesize  convexa};
+		\draw[thick] plot[smooth, tension=.7] coordinates {(4,3) (5,-1) (8,2.5) (10.5,-1.8)};
+		\node at (7,4) (a) {\footnotesize no convexa};
+		\draw[color=red, dashed] (4.1,-2) --(4.1,3.5) ;
+		\draw[color=red, dashed] (6.1,-2) --(6.1,3.5) ;
+		\draw[color=blue, dashed] (7,-2) -- (7,3.5) ;
+		\draw[color=blue, dashed] (10,-2) --(10,3.5) ;
+		\node at (5,-1.5) (a) {\tiny\color{red} convexa};
+		\node at (8.5,-1.5) (a) {\tiny\color{blue} concava};
+	\end{tikzpicture}	
+\end{center}
+\end{frame}
+\begin{frame}{Funciones convexas}
+Las siguientes funciones son convexas (y sus opuestas son c\'{o}ncavas):
+\begin{enumerate}\itemsep 3mm
+	\item $f(x)=3x-4$ (también es cóncava).
+	\item $f(x)=\abs{x}$.
+	\item $f(x)=x^2-2x$.
+	\item $f(x)=3-x^{1/2}$ si $x\geq 0$.
+	\item $f(x_1,x_2)=2x_1^2+x_2^2-2x_1x_2$.
+	\item $f(x_1,x_2,x_3)=x_1^4+2x_2^2+3x_3^2-4x_1-4x_2x_3$.
+\end{enumerate}
+\end{frame}
+%%
+\subsection{Propiedades  de las funciones convexas}
+\begin{frame}{Funciones convexas. Propiedades}
+\begin{itemize}\itemsep 4mm
+	\item Si $f_1$, $f_2$, \dots, $f_k:\Re^n\,\rightarrow\,\Re$ son convexas:
+	\begin{enumerate}
+		\item $\displaystyle f(\vx)=\sum_{j=1}^k\alpha_k f_j(\vx)$, con $\alpha_j>0$, $j=1,\dots,k$
+		es convexa.
+		\item $\max\{f_1(\vx),\dots,f_k(\vx)\}$ es convexa.
+	\end{enumerate}
+	\item Si $g:\Re^n\,\rightarrow\,\Re$ es  c\'{o}ncava, la funci\'{o}n $f:\Re^n\,\rightarrow\,\Re=\frac{1}{g(\vx)}$ es convexa en $\SS=\{\vx\,/\, g(\vx)>0\}$.
+	\item Si $g:\Re\,\rightarrow\,\Re$  es  convexa no decreciente y $h:\Re^n\,\rightarrow\,\Re$ es
+	convexa, la funci\'{o}n compuesta $f:\Re^n\,\rightarrow\,\Re$ definida como $f(\vx)=g(h(\vx))$ es
+	convexa.
+	\item Si $g:\Re^n\,\rightarrow\,\Re$ es  convexa y $\vh:\Re^n\,\rightarrow\,\Re^m$ una funci\'{o}n af\'{\i}n de la
+	forma $\vh(\vx)=\vA\vx+\vb$ ($\vA$ matriz $m\times n$ y $\vb$ vector $m\times 1$), entonces la composici\'{o}n $f:\Re^m\,\rightarrow\,\Re$ definida por $f(\vx)=g(\vh(\vx))$ es convexa.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Funciones convexas. Conjuntos de nivel}
+
+\begin{lema}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n convexa, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$.
+	Entonces, para cualquier $\alpha\in\Re$, el conjunto de nivel $\SS_\alpha=\{\vx\in\SS\,/\, f(\vx)\leq\alpha\}$ es convexo.
+\end{lema}
+\alert{Demostraci\'on:}
+
+Sean $\vx_1,\vx_2\in\SS_\alpha$. Entonces, $f(\vx_1)\leq\alpha$ y $f(\vx_2)\leq\alpha$. 
+
+Sea $\lambda\in(0,1)$, por ser $\SS$ convexo, $\lambda\vx_1+(1-\lambda)\vx_2\in\SS$ y
+por convexidad de $f$:
+$$
+f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)\leq\lambda
+f(\vx_1)+(1-\lambda)f(\vx_2)\leq\lambda\alpha+(1-\lambda)\alpha=\alpha,
+$$
+y, por tanto, $\lambda\vx_1+(1-\lambda)\vx_2\in\SS_\alpha$ y $\SS_\alpha$ es convexo.
+\end{frame}
+
+\begin{frame}{Funciones convexas. Conjuntos de nivel}
+\begin{center}
+	\begin{tikzpicture}[scale=.5]
+		\draw[->] (3.5,0) -- (12,0) node[right](xline) {\tiny x};
+		\draw[->] (-5.5,0) -- (0,0) node[right](xline) {\tiny x};
+		\draw[->] (-5,-.5) -- (-5,4) node[right](yline) {\tiny y};
+		\draw[->] (3.5,-.5) -- (3.5,4) node[right](yline) {\tiny y};
+		\draw[thick] (-4,3) parabola bend (-2,0.25) (0,3);
+		\node at (-2,4) (a) {\footnotesize  convexa};
+		\draw[thick] plot[smooth, tension=.7] coordinates {(4,3) (5,-1) (8,2.5) (10.5,-1.8)};
+		\node at (7,4) (a) {\footnotesize no convexa};
+		%%
+		\draw (-5.3,2)  node(a) {\tiny $\alpha$};
+		\draw (3.2,2)  node(a) {\tiny $\alpha$};
+		\draw[thick, color=magenta, dashed] (-5,2) --(0,2) ;
+		\draw[thick, color=magenta, dashed] (3.5,2) --(12,2) ;
+		\draw[thick,color=blue, dashed] (-3.55,-1) --(-3.55,2) ;
+		\draw[thick,color=blue, dashed] (-.45,-1) --(-.45,2) ;
+		\draw[thick,color=red, dashed] (4.2,-1) --(4.2,2) ;
+		\draw[thick,color=red, dashed] (7.1,-1) -- (7.1,2) ;
+		\draw[thick,color=red, dashed] (8.8,-1) --(8.8,2) ;
+		\draw[->,very thick] (8.8,0) --(12,0) ;
+		\draw[very thick] (4.2,0) --(7.1,0) ;
+		\draw[very thick] (-3.55,0) --(-0.45,0) ;
+		\draw[->,thick] (-2,-2) --(-2,-0.2) ;
+		\node at (-2,-2.5) (a) {\tiny\color{red} convexo};
+		\draw[->,thick] (7,-2) -- (6,-0.2) ;
+		\draw[->,thick] (7,-2) -- (10,-0.2) ;
+		\node at (7,-2.5) (a) {\tiny\color{blue} NO convexo};
+	\end{tikzpicture}	
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Conjuntos de nivel de una función convexa}
+
+\begin{center}
+	\begin{columns}
+		\column{0.55\textwidth}{
+			\begin{tikzpicture}[scale=0.9]
+				\begin{axis}[
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=7cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid=major,
+					minor tick num=1,
+					domain=-15:15,
+					xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+					shader=interp
+					]
+					\addplot3[surf]	{8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+					\addlegendentry{\small $f(x,y)=8x^2 +3xy+7y^2 -25x+31y-29$}
+					% add the contour lines
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={-400,-300,0,100,400,700,1000,1500,2000,2500,3000},
+						% we don't want to add labels
+						labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+				\end{axis}
+			\end{tikzpicture}
+		}
+		\column{0.40\textwidth}{
+			\begin{tikzpicture}[scale=0.8]
+				\begin{axis}[       view={0}{90},
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=7cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid,
+					minor tick num=1,
+					domain=-15:15
+					]
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={-50,0,100,400,700,1000,1500,2000,3000},
+						% we don't want to add labels
+						%labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+				\end{axis}
+			\end{tikzpicture}
+		}
+	\end{columns}	
+\end{center}
+
+\vspace*{-10mm}
+
+Las curvas de nivel son elipses y su interior es un conjunto convexo
+\end{frame}
+
+
+\begin{frame}{Conjuntos de nivel de una función NO convexa}
+
+\begin{center}
+	\begin{columns}
+		\column{0.55\textwidth}{
+			\begin{tikzpicture}[scale=0.9]
+				\begin{axis}[
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=7cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid,
+					minor tick num=1,
+					domain=-15:15,
+					xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+					shader=interp
+					]
+					\addplot3[surf]	{0.5*x^2+2*x*y+0.5*y^2-y+9};
+					\addlegendentry{\small $f(x,y)=\frac{1}{2} x^2 +2xy +\frac{1}{2}y^2-y+9$},
+					shader=interp
+					% add the contour lines
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={-100,-50,-30,-10,0,9.16666667,20,30,50,75,100,150,200,300,400,500},
+						% we don't want to add labels
+						labels=false,
+						% they should be drawn in black
+						draw color=gray,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {0.5*x^2+2*x*y+0.5*y^2-y+9};
+				\end{axis}
+			\end{tikzpicture}
+		}
+		\column{0.40\textwidth}{
+			\begin{tikzpicture}[scale=0.8]
+				\begin{axis}[       view={0}{90},
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=7cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid,
+					minor tick num=1,
+					domain=-15:15,
+					]
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={-75,-50,-25,0,9.16666667,25,50,100,150,200,300,400,500},
+						% we don't want to add labels
+						%labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {0.5*x^2+2*x*y+0.5*y^2-y+9};
+				\end{axis}
+			\end{tikzpicture}
+		}
+	\end{columns}	
+\end{center}
+
+\vspace*{-10mm}
+
+Los conjuntos de nivel NO son convexos
+\end{frame}
+
+
+\begin{frame}{Conjuntos de nivel de una función NO convexa}
+
+\begin{center}
+	\begin{columns}
+		\column{0.55\textwidth}{
+			\only<1>{
+				\begin{tikzpicture}[scale=0.9]
+					\begin{axis}[
+						%colormap/violet,
+						legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+						width=7cm,
+						grid style={line width=.1pt, draw=gray!30},
+						grid,
+						minor tick num=1,
+						domain=-5:5,
+						xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+						shader=interp
+						]
+						\addplot3[surf]	{2*x^3+x*y+y^3-x+y};
+						\addlegendentry{\small $f(x,y)=2x^3+y^3+xy-x+y$}
+						% add the contour lines
+						\addplot3 [
+						% increase a bit the number of samples so `smooth' does a good job
+						samples=51,
+						samples y=51,
+						contour gnuplot={
+							% state at which levels you want to draw the contour lines
+							levels={-200,-150,-90,-60,-30,-10,0,10,30,60,90,150,200},
+							% we don't want to add labels
+							labels=false,
+							% they should be drawn in black
+							draw color=gray,
+							% and they should be smoothed
+							handler/.style=smooth,
+						},
+						] {2*x^3+x*y+y^3-x+y};
+					\end{axis}
+				\end{tikzpicture}
+			}
+			\only<2>{
+				\begin{tikzpicture}[scale=0.9]
+					\begin{axis}[
+						%colormap/violet,
+						legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+						width=7cm,
+						grid style={line width=.1pt, draw=gray!30},
+						grid,
+						minor tick num=1,
+						domain=-5:5,
+						shader=interp
+						]
+						\addplot3[surf]	{min(0,2*x^3+x*y+y^3-x+y)};
+						\addplot3[surf,opacity=0.9]	{max(0,2*x^3+x*y+y^3-x+y)};
+						\addlegendentry{\small $f(x,y)=2x^3+y^3+xy-x+y$}
+						% add the contour lines
+						\addplot3 [
+						% increase a bit the number of samples so `smooth' does a good job
+						samples=51,
+						samples y=51,
+						contour gnuplot={
+							% state at which levels you want to draw the contour lines
+							levels={0},
+							% we don't want to add labels
+							labels=false,
+							% they should be drawn in black
+							draw color=black,
+							% and they should be smoothed
+							handler/.style=smooth,
+						},
+						] {2*x^3+x*y+y^3-x+y};
+					\end{axis}
+				\end{tikzpicture}
+			}
+		}
+		\column{0.40\textwidth}{
+			\begin{tikzpicture}[scale=0.8]
+				\begin{axis}[       view={0}{90},
+					colormap/hot,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=7cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid,
+					minor tick num=1,
+					domain=-5:5
+					]
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={-200,-150,-90,-60,-30,-10,0,10,30,60,90,150,200},
+						% we don't want to add labels
+						%labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {2*x^3+x*y+y^3-x+y};
+				\end{axis}
+			\end{tikzpicture}
+		}
+	\end{columns}	
+\end{center}
+
+\vspace*{-10mm}
+
+Los conjuntos de nivel NO son convexos
+\end{frame}
+
+
+\begin{frame}{Funciones convexas. Continuidad}
+\begin{teorema}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n convexa, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$.
+	Entonces, $f$ es continua en el interior de $\SS$.
+\end{teorema}
+\alert{Demostraci\'on:} Ver {\em Non Linear Programming} (segunda edici\'{o}n) de M.S. Bazaraa, H.D. Sherali y C.M. Shetty.
+%\alert{Demostraci\'on:}
+%	Sea $\vx_0\in\SS$ un punto del interior de $\SS$. Para probar que $f$ es continua en $\vx_0$ es
+%	necesario ver que dado un $\epsilon>0$, existe un $\delta>0$ tal que
+%	$\norma{\vx-\vx_0}\leq\delta$ implica que $\abs{f(\vx)-f(\vx_0)}\leq\epsilon$.
+%	
+%	Puesto que $\vx_0\in\text{int}\SS$, existe un $\delta'>0$ tal que si
+%	$\norma{\vx-\vx_0}\leq\delta'$ entonces $\vx\in\SS$. Consideremos el siguiente $\theta$:
+%	\begin{equation}\label{t313-dem1}
+	%	\theta=\max_{1\leq i\leq
+		%		n}\bigl\{\max\bigl\{f(\vx_0+\delta'\ve_i)-f(\vx_0),f(\vx_0-\delta'\ve_i)-f(\vx_0)\bigr\}\bigr\},
+	%	\end{equation}
+%	donde $\ve_i$ es el vector de ceros excepto en la posici\'{o}n $i$-\'{e}sima, que tiene un 1.
+%	
+%	N\'{o}tese que por ser $f$ convexa, se verifica que $0\leq\theta<\infty$. Efectivamente, si fuese
+%	$\theta< 0$, entonces para un $i$ se verificar\'{\i}a que $f(\vx)>f(\vx+\delta'\ve_i)$ y
+%	$f(\vx)>f(\vx-\delta'\ve_i)$ y, siendo $\vx$ igual a
+%	$\frac{1}{2}=\vx+\delta'\ve_i+\frac{1}{2}\vx-\delta'\ve_i$, se tiene que
+%	$f(\vx)\leq\frac{1}{2}f(\vx+\delta'\ve_i)+\frac{1}{2}f(\vx-\delta'\ve_i)$, lo que es
+%	contradictorio.
+%	
+%	Sea
+%	\begin{equation}\label{t313-dem2}
+	%	\delta=\min\Bigl(\frac{\delta'}{n},\frac{\epsilon\delta'}{n\theta}\Bigr),
+	%	\end{equation}
+%	y sea $\vx$ tal que $\norma{\vx-\vx_0}\leq\delta$. Construyamos los siguiente vectores $\vz_i$,
+%	$i=1,\dots,n$ :
+%	\begin{equation*}
+	%	\vz_i=\begin{cases}
+		%	\delta'\ve_i &\text{si $x_i-\ox_i\geq 0$,}
+		%	\\
+		%	-\delta'\ve_i &\text{si $x_i-\ox_i\leq 0$,}
+		%	\end{cases}
+	%	\end{equation*}
+%	Entonces
+%	$$
+%	\vx-\vx_0=\sum_{i=1}^n\alpha_i\vz_i,
+%	$$
+%	donde $\alpha_i\geq 0$ para $i=1,\dots,n$. Adem\'{a}s:
+%	\begin{equation}\label{t313-dem3}
+	%	\norma{\vx-\vx_0}=\delta'\Bigl(\sum_{i=1}^n\alpha_i^2\bigr)^{\frac{1}{2}}.
+	%	\end{equation}
+%	De \eqref{t313-dem2} y puesto que $\norma{\vx-\vx_0}\leq\delta$, se sigue que:
+%	\begin{equation*}
+	%	\frac{\delta'}{n}\delta\geq\delta'\Bigl(\sum_{i=1}^n\alpha_i^2\bigr)^{\frac{1}{2}}.
+	%	\end{equation*}
+%	De donde
+%	\begin{equation*}
+	%	\frac{1}{n}\geq\Bigl(\sum_{i=1}^n\alpha_i^2\Bigr)^{\frac{1}{2}}\geq\alpha_i,\qquad i=1,\dots,n.
+	%	\end{equation*}
+%	y, por tanto,  $\alpha_i\leq\frac{1}{n}$ para $i=1,\dots,n$. Por ser $f$ convexa y $0\leq
+%	n\alpha_i\leq 1$, se tiene que:
+%	\begin{align*}
+	%	f(\vx)=f\Bigl(\vx_0+\sum_{i=1}^n\alpha_i\vz_i \Bigr)& = f\Bigl(\frac{1}{n}\sum_{i=1}^n(\vx_0+n\alpha_i\vz_i)\Bigr)
+	%	\\
+	%	& \leq \frac{1}{n}\sum_{i=1}^n f(\vx_0+n\alpha_i\vz_i)
+	%	\\
+	%	&=\frac{1}{n}\sum_{i=1}^nf\bigl((1-n\alpha_i)\vx_0+n\alpha_i(\vx_0+\vz_i)\bigl)
+	%	\\
+	%	&\leq \frac{1}{n}\sum_{i=1}^n\bigl((1-n\alpha_i)f(\vx_0)+n\alpha_if(\vx_0+\vz_i)\bigl).
+	%	\end{align*}
+%	Por tanto,
+%	$$
+%	f(\vx)-f(\vx_0)\leq\sum_{i=1}^n \alpha_i(f(\vx_0+\vz_i)-f(\vx_0)).
+%	$$
+%	De la definici\'{o}n de $\theta$ en \eqref{t313-dem1} se tiene que
+%	$f(\vx_0-\vz_i)-f(\vx_0)\leq\theta$, $\forall i$. Puesto que $\alpha_i\geq 0$, se tiene que:
+%	\begin{equation}\label{t313-dem4}
+	%	f(\vx)-f(\vx_0)\leq\theta\sum_{i=1}^n\alpha_i.
+	%	\end{equation}
+%	Considerando \eqref{t313-dem2} y \eqref{t313-dem3} y con un razonamiento similar al hecho
+%	anteriormente se concluye que $\alpha_i\leq\frac{\epsilon}{n\theta}$ y, sustituyendo en
+%	\eqref{t313-dem4} se obtiene:
+%	\begin{equation*}
+	%	f(\vx)-f(\vx_0)\leq\theta\sum_{i=1}^n\alpha_i\leq\theta n\frac{\epsilon}{n\theta}=\epsilon,
+	%	\end{equation*}
+%	esto es, $f(\vx)-f(\vx_0)\leq\epsilon$.
+%	
+%	Concluyendo, hemos visto que $\norma{\vx-\vx_0}\leq\delta$ implica que $f(\vx)-f(\vx_0)\leq
+%	\epsilon$. Por definici\'{o}n, esto establece la semi-continuidad superior de $f$ en $\vx_0$. Ahora
+%	es necesario demostrar la semi-continuidad inferior, esto es, que $f(\vx_0)-f(\vx)\leq
+%	\epsilon$. Para ello, consideremos $\vy=2\vx_0-\vx$; entonces $\norma{\vy-\vx_0}\leq\delta$ y,
+%	como hemos visto anteriormente:
+%	\begin{equation}\label{t313-dem5}
+	%	f(\vy)-f(\vx_0)\leq\epsilon.
+	%	\end{equation}
+%	Pero $\vx_0=\frac{1}{2}\vy+\frac{1}{2}\vx$ y por ser $f$ convexa, tenemos que:
+%	\begin{equation}\label{t313-dem6}
+	%	f(\vx_0)\leq\frac{1}{2}f(\vy)+\frac{1}{2}f(\vx).
+	%	\end{equation}
+%	Combinando \eqref{t313-dem5} y \eqref{t313-dem6} se sigue que $f(\vx_0)-f(\vx)\leq\epsilon$ y,
+%	por tanto, $f$ es semicontinua inferior en $\vx_0$.
+%
+
+
+Este resultado establece que los puntos de discontinuidad de las funciones convexas o c\'oncavas solo se encuentran en
+la frontera.
+\end{frame}
+%
+%\begin{frame}{Funciones convexas}{Derivada direccional}
+%El concepto de \alert{derivada direccional} es particularmente \'{u}til en el desarrollo de algunos criterios de optimalidad y en el desarrollo de procedimientos computacionales que buscan direcciones de descenso o de aumento.
+%\begin{definicion}[Derivada direccional]
+%Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y sea $f:\SS\rightarrow\Re$ una funci\'{o}n. Sea
+%$\vx_0\in\SS$ y $\vd$ una direcci\'{o}n tal que $\vx_0+\lambda\vd\in\SS$, para $\lambda>0$
+%suficientemente peque\~{n}o. 
+%
+%\medskip
+%
+%La derivada direccional de $f$ en $\vx_0$ a lo largo de la direcci\'{o}n
+%$\vd$, denotada por $f'(\vx_0,\vd)$ se define por el siguiente l\'{\i}mite, si existe:
+%$$
+%f'(\vx_0,\vd)=\lim_{\lambda\,\rightarrow\, 0^+}\frac{f(\vx_0+\lambda\vd)-f(\vx_0)}{\lambda}.
+%$$
+%\end{definicion}
+%\end{frame}
+%
+%\begin{frame}{Funciones convexas. Derivada direccional}
+%\begin{lema}
+%Sea:
+%\begin{itemize}
+%	\item  $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$,
+%	\item $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n. 
+%	\item $\vx_0\in\SS$,
+%	\item $\vd$ una direcci\'{o}n tal que $\vx_0+\lambda\vd\in\SS$, para $\lambda>0$ y
+%	suficientemente peque\~{n}o.
+%\end{itemize}
+% Entonces, si $f$ es convexa, iempre existe la derivada direccional de $f$ en $\vx_0$ a lo largo de la direcci\'{o}n  $\vd$:
+%\begin{equation}\label{l315}
+%f'(\vx_0,\vd)=\lim_{\lambda\,\rightarrow\, 0^+}\frac{f(\vx_0+\lambda\vd)-f(\vx_0)}{\lambda}.
+%\end{equation}
+%\end{lema}
+%\end{frame}
+%
+%\begin{frame}[allowframebreaks]{Funciones convexas. Derivada direccional}\footnotesize
+%
+%\alert{Demostraci\'on}:
+%
+%Sean $\lambda_2>\lambda_1>0$ dos n\'{u}meros suficientemente peque\~{n}os. El punto $\vx_0+\lambda_1\vd$ se puede escribir como: 
+%$$
+%\vx_0+\lambda_1\vd=\frac{\lambda_1}{\lambda_2}(\vx_0+\lambda_2\vd)+\Bigl(1-\frac{\lambda_1}{\lambda_2}\Bigr)\vx_0
+%$$
+%Por ser $f$ una funci\'{o}n convexa tenemos que:
+%$$
+%f(\vx_0+\lambda_1\vd)=f\biggl(\frac{\lambda_1}{\lambda_2}(\vx_0+\lambda_2\vd)+\Bigl(1-\frac{\lambda_1}{\lambda_2}\Bigr)\vx_0\biggr)
+%\leq \frac{\lambda_1}{\lambda_2}
+%f(\vx_0+\lambda_2\vd)+\Bigl(1-\frac{\lambda_1}{\lambda_2}\Bigr)f(\vx_0).
+%$$
+%Esta desigualdad implica que:
+%$$
+%\frac{f(\vx_0+\lambda_1\vd)-f(\vx_0)}{\lambda_1}\leq
+%\frac{f(\vx_0+\lambda_2\vd)-f(\vx_0)}{\lambda_2}.
+%$$
+%Entonces, el cociente   $\displaystyle\frac{f(\vx_0+\lambda\vd)-f(\vx_0)}{\lambda}$ es no
+%decreciente como funci\'{o}n de $\lambda>0$. Por tanto, es monótona decreciente cuando $\lambda\rightarrow 0$.
+%
+%Consid\'{e}rese un $\lambda>0$; por ser $f$ convexa, se tiene que:
+%\begin{align*}
+%f(\vx_0) & =f\biggl(\frac{\lambda}{1+\lambda}(\vx_0-\vd)+\frac{1}{1+\lambda}(\vx_0+\lambda\vd)\biggr)
+%\\
+%&\leq \frac{\lambda}{1+\lambda}f(\vx_0+\vd)+\frac{1}{1+\lambda}f(\vx_0+\lambda\vd),
+%\end{align*}
+%y tambi\'{e}n:
+%$$
+%\frac{f(\vx_0+\lambda\vd)-f(\vx_0)}{\lambda}\geq f(\vx_0)-f(\vx_0-\vd).
+%$$
+%Entonces el cociente $\frac{f(\vx_0+\lambda\vd)-f(\vx_0)}{\lambda}$ est\'{a} acotado inferiormente
+%por la constante $f(\vx_0)-f(\vx_0-\vd)$.
+%
+%\smallskip
+%
+%Por tanto, el l\'{\i}mite \eqref{l315} existe y viene dado por:
+%$$
+%\lim_{\lambda\,\rightarrow\, 0^+}\frac{f(\vx_0+\lambda\vd)-f(\vx_0)}{\lambda}=
+%\inf_{\lambda>0}\frac{f(\vx_0+\lambda\vd)-f(\vx_0)}{\lambda}.
+%$$
+%\end{frame}
+
+\begin{frame}{Funciones convexas. Epigrafo}
+Una funci\'{o}n  $f$ en $\SS$ est\'{a} perfectamente definida por el conjunto $$\{\bigl(\vx,f(\vx)\bigr)\,/\,
+\vx\in\SS\}\subset\Re^{n+1},$$ que se denomina {\em grafo} o {\em gr\'afica} de $f$. 
+
+El grafo  divide el espacio $\Re^{n+1}$ en dos conjuntos:
+\begin{itemize}
+	\item el conjunto de puntos que quedan por 	``encima'' del grafo o \alert{\em epigrafo}, y 
+	\item el conjunto de puntos que quedan por ``debajo'' del grafo o \alert{\em hipografo}.
+\end{itemize}
+
+Estos conjuntos permiten caracterizar funciones  convexas e introducir el concepto de subgradiente, que juegan un papel  b\'{a}sico dentro de la optimizaci\'on.
+\end{frame}
+
+\begin{frame}{Funciones convexas}{Caracterizaci\'on}
+\begin{definicion}[Epigrafo e hipografo]
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n  convexa, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$. El
+	epigrafo de $f$ es un subconjunto de $\Re^{n+1}$ definido por:
+	$$
+	\text{epi}f=\{(\vx,y)\,/\, \vx\in\SS,\, y\in\Re,\, y\geq f(\vx)\}.
+	$$
+	El hipografo de $f$ es un subconjunto de $\Re^{n+1}$ definido por:
+	$$
+	\text{hipo}f=\{(\vx,y)\,/\, \vx\in\SS,\, y\in\Re,\, y\leq f(\vx)\}.
+	$$
+\end{definicion}
+\begin{center}\vspace*{-5mm}
+	\begin{tikzpicture}[scale=.5]
+		\draw[->] (-3.5,0) -- (3,0) node[right](xline) {\tiny x};
+		\draw[->] (-3,-.5) -- (-3,4) node[right](yline) {\tiny y};
+		\draw[color= red!20!white, fill = red!20!white,opacity=0.5] (-2,3) -- (-2,-2) -- (2,-2) -- (2,3) ;
+		\draw[thick, fill = blue!40!white,opacity=0.5] (-2,3) parabola bend (0,0.25) (2,3);
+		\node at (0,-1.5) (a) {\tiny\color{red} hipo$f$};
+		\node at (0,3.5) (a) {\tiny\color{blue} epi$f$};
+	\end{tikzpicture}	
+\end{center}
+\end{frame}
+
+\begin{frame}{Funciones convexas. Caracterización}
+
+El siguiente teorema permite caracterizar las funciones convexas a partir de su epigrafo.
+
+\begin{teorema}\label{t322}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$.
+	\\[4mm]
+	$f$ es funci\'{o}n convexa si y solo si su epigrafo es un conjunto convexo.
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Funciones convexas}
+\alert{Demostraci\'on:}
+
+\alert{$\Longrightarrow$)} 	Supongamos que $f$ es convexa y sean $(\vx_1,y_1)$ y $(\vx_2,y_2)$ dos puntos del epigrafo:
+$$
+\vx_1,\vx_2\in\SS,\qquad y_1\geq f(\vx_1),\qquad y_2\geq f(\vx_2).
+$$
+Sea $\lambda\in(0,1)$. Entonces:
+$$
+\lambda y_1+(1-\lambda)y_2\geq \lambda f(\vx_1)+(1-\lambda) f(\vx_2)\geq
+f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr),
+$$
+donde la \'{u}ltima desigualdad es cierta por ser $f$ convexa. 
+
+Puesto que $\SS$ es convexo, $\lambda\vx_1+(1-\lambda)\vx_2\in\SS$, y, por tanto, 
+$$
+\bigl(\lambda\vx_1+(1-\lambda)\vx_2,\lambda y_1+(1-\lambda)y_2\bigr)=	\lambda(\vx_1,y_1)+(1-\lambda)(\vx_2,y_2)
+$$
+pertenece al epigrafo de $f$. Por tanto, el epigrafo es convexo.
+\end{frame}
+
+\begin{frame}{Funciones convexas}\small
+\alert{$\Longleftarrow$)} Inversamente, supongamos que el epigrafo es convexo. Sean $\vx_1,\vx_2\in\SS$. Entonces: 
+$$\lambda \bigl(\vx_1,f(\vx_1)\bigr)+(1-\lambda)\bigl(\vx_2,f(\vx_2)\bigr)\in\text{epi}f,\qquad\forall\lambda\in(0,1)
+$$
+Reordenando términos:
+$$
+\bigl(\lambda\vx_1+(1-\lambda)\vx_2,\lambda
+f(\vx_1)+(1-\lambda)f(\vx_2)\bigr)\in\text{epi}f,\qquad\forall\lambda\in(0,1).
+$$
+Por la definición de $\text{epi}f$, la última componente, $\lambda f(\vx_1)+(1-\lambda)f(\vx_2)$, es mayor o igual que la función en el punto del lado izquierdo, es decir:
+$$
+\lambda f(\vx_1)+(1-\lambda) f(\vx_2)\geq f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr),\qquad\forall
+\lambda\in(0,1).
+$$
+Esta es, precisamente, la definición de función convexa y, por tanto, $f$ es convexa.
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}
+\begin{definicion}[Subgradiente]
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n  convexa, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$.  Un
+	vector $\B{\xi}$ es un subgradiente de $f$ en $\vx_0$ si
+	$$
+	f(\vx)\geq f(\vx_0)+\B{\xi}^T(\vx-\vx_0),\qquad \forall \vx\in\SS.
+	$$
+	De forma similar, si $f:\SS\,\rightarrow\,\Re$ es una funci\'{o}n concava, el vector $\B{\xi}$ es un
+	subgradiente de $f$ en $\vx_0$ si
+	$$
+	f(\vx)\leq f(\vx_0)+\B{\xi}^T(\vx-\vx_0),\qquad \forall \vx\in\SS.
+	$$
+\end{definicion}
+%%
+\begin{definicion}[Subdiferencial]
+	El conjunto de subgradientes de $f$ en un punto $\vx_0$ se denomina subdiferencial de $f$ en ese punto.
+\end{definicion}
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}
+\begin{itemize}\itemsep 2mm
+	\item La funci\'{o}n $h(\vx)=f(\vx_0)+\B{\xi}^T(\vx-\vx_0)$ es uno de los posibles hiperplanos soporte sobre el epigrafo  $f$ en $\vx_0$.  
+	\item El subgradiente $\B{\xi}$ corresponde a la pendiente del hiperplano.
+\end{itemize}
+\begin{columns}
+	\column{0.4\textwidth}{
+		\begin{center}
+			\begin{tikzpicture}[scale=0.85]
+				\draw[->]  (0,0) -- (0,5.9);
+				\draw[->]  (0,0) -- (4.5,0);
+				\draw[red, thick, domain=-0.5:4.1, samples=100] plot (\x,{1+0.5*(\x-1)*(\x-1)});
+				\visible<2->{
+					\draw[dashed]  (2,-0.1) node[below] {\small $x_0$} -- (2,1.5) -- (-0.1,1.5) node[left] {\small $f(x_0)$};
+				}
+				\visible<3->{
+					\draw[dashed]  (4,-0.1) node[below] {\small $x$} -- (4,5.5) -- (-0.1,5.5) node[left] {\small $f(x)$};
+				}
+				\visible<4->{
+					\draw[blue, thick, domain=1:4.2, samples=100] plot (\x,{1.5+(\x-2)});
+					\node at (2.5,1.7) (a) {\small $\xi$ };
+					\draw[<->,dashed,magenta] (2,1.5) -- node[below] {\small $x-x_0$} (4,1.5);
+					\draw[<->,dashed,magenta] (4,0) -- node[right] {\small $f(x_0)$} (4,1.5);
+					\draw[<->,dashed,magenta] (4,1.5) -- node[right] {\small $\xi (x-x_0)$} (4,3.5);
+				}
+			\end{tikzpicture}
+		\end{center}
+	}
+	\column{0.55\textwidth}{
+		$$
+		f(x)=1-\frac{1}{2}(x-1)^2
+		$$
+		\visible<2->{
+			Para $x_0=2$, $\xi=f^\prime(2)=(2-1)=1$.
+		}
+		\visible<3->{
+			\begin{align*}
+				h(x) & =f(2)+1(x-2)
+				\\      & =\frac{3}{2}+(x-2)=x-\frac{1}{2}
+			\end{align*}
+		}
+	}	
+\end{columns}
+%%
+\end{frame}
+
+
+\begin{frame}{Funciones convexas. Subgradientes}
+Sea la función convexa $f(x)=\max\{f_1(x),f_2(x)\}$, con 
+$$
+f_1(x)=\abs{x}-4\qquad f_2(x)=(x-2)^2-4
+$$
+\begin{center}
+	\begin{tikzpicture}[scale=0.55]
+		\draw  (-2,0) -- (5,0);
+		\draw  (0,-5) -- (0,5);
+		\draw[brown,very thick, domain=-2:0, samples=100] plot (\x,-\x-4);
+		\draw[brown,very thick, domain=0:5, samples=100] plot (\x,\x-4);
+		\draw[black, very thick, domain=-1:5, samples=100] plot (\x,{(\x-2)*(\x-2)-4});
+		\draw[dashed] (1,0) node[above] {\small 1} -- (1,-4);
+		\draw[dashed] (4,0) node[above] {\small 4} -- (4,0);
+	\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Funciones convexas. Subgradientes}
+
+Como $f_2(x)\leq f_1(x)$ para $1\leq x\leq 4$, la función $f$ se puede expresar como
+$$
+f(x)=\begin{cases}
+	x-4 & 1\leq x\leq 4 \\
+	(x-2)^2-4 & \text{ en otro caso}
+\end{cases}
+$$
+\begin{center}\vspace*{-5mm}
+	\begin{tikzpicture}[scale=0.5]
+		\draw  (-1,0) -- (5,0);
+		\draw  (0,-5) -- (0,5.5);
+		\visible<1>{
+			\draw[brown,thick, domain=-1:0, samples=60] plot (\x,-\x-4);
+			\draw[brown,thick, domain=0:5, samples=60] plot (\x,\x-4);
+			\draw[black, thick, domain=-1:5, samples=60] plot (\x,{(\x-2)*(\x-2)-4});
+		}
+		\draw[red, very thick, domain=1:4, samples=60] plot (\x,\x-4);
+		\draw[red, very thick, domain=4:5, samples=60] plot (\x,{(\x-2)*(\x-2)-4});
+		\draw[red, very thick, domain=-1:1, samples=60] plot (\x,{(\x-2)*(\x-2)-4});
+		\draw[dashed] (1,0) node[above] {\small 1} -- (1,-4);
+		\draw[dashed] (4,0) node[above] {\small 4} -- (4,0);
+		\visible<2>{
+			\draw[blue, very thick, domain=-1:5, samples=60] plot (\x,\x-4);
+			\draw[blue,dashed] (2,0) node[above] {\small 2} -- (2,-2);
+			\node at (10,4) {\small $x_0=2, f(x_0)=-2$};
+			\node at (10,1) {\small $h(x)=-2+(x-2)$};
+		}
+		\visible<3>{
+			\draw[blue, very thick, domain=-1:1, samples=60] plot (\x,{-4*\x});
+			\node at (0.3,0.3) {\color{blue} $0$};
+			\node at (10,4) {\small $x_0=0, f(x_0)=0$};
+			\node at (10,1) {\small $h(x)=0-4(x-0)$};
+		}
+		\visible<4>{
+			\draw[blue, very thick, domain=3.5:5.1, samples=60] plot (\x,{5+6*(\x-5)});
+			\draw[blue,dashed] (5,0) node[below] {\small 5} -- (5,5);
+			\node at (10,4) {\small $x_0=5, f(x_0)=5$};
+			\node at (10,1) {\small $h(x)=5+6(x-5)$};
+		}
+		\visible<5>{
+			\draw[blue, very thick, domain=-0.5:5, samples=60] plot (\x,{-3});
+			\draw[blue, very thick, domain=-0.5:1.5, samples=60] plot (\x,{-3-2*(\x-1)});
+			\draw[blue, very thick, domain=-0.5:5, samples=60] plot (\x,\x-4);
+			\draw[blue,dashed] (1,0) node[above] {\small 1} -- (1,-4);
+			\node at (10,4) {\small $x_0=1, f(x_0)=-3$};
+			\node at (10,3) {\small $h_1(x)=-3+(x-1)$};
+			\node at (10,2) {\small $h_2(x)=-3-2(x-1)$};
+			\node at (10,1) {\small $h_3(x)=-3-0(x-1)$};
+		}
+		\visible<6>{
+			\draw[blue, very thick, domain=-1:5, samples=60] plot (\x,{\x-4});
+			\draw[blue, very thick, domain=3:5, samples=60] plot (\x,{4*(\x-4)});
+			\draw[blue, very thick, domain=3:5, samples=60] plot (\x,{2*(\x-4)});
+			\draw[blue,dashed] (4,0) node[above] {\small 4} -- (4,0);
+			\node at (10,4) {\small $x_4=1, f(x_0)=0$};
+			\node at (10,3) {\small $h_1(x)=0+(x-4)$};
+			\node at (10,2) {\small $h_2(x)=0+4(x-4)$};
+			\node at (10,1) {\small $h_3(x)=0+2(x-4)$};
+		}
+	\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}
+Se puede comprobar que:
+\begin{itemize}\itemsep 5mm
+	\item En el intervalo $(1,4)$ el único subgradiente es $\xi=1$.
+	\item Para $x<1$ o $x>4$, el único subgradiente es $\xi=2(x-2)$.
+	\item Para $x=1,4$, son subgradientes $\xi=\lambda\nabla f_1(x)+(1-\lambda)\nabla f_2(x)$, con $\lambda\in[0,1]$.
+	\begin{itemize}\itemsep 2mm
+		\item $x=1$: $\xi= \lambda -2(1-\lambda)=-2+3\lambda$, con $\lambda\in[0,1]$. Intervalo $[-2,1]$.
+		\item $x=4$: $\xi= \lambda +4(1-\lambda)=4-3\lambda$, con $\lambda\in[0,1]$. Intervalo $[1,4]$.
+	\end{itemize}
+\end{itemize}
+%%
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}
+\begin{center}
+	\begin{tikzpicture}[scale=0.9]
+		\begin{axis}[
+			%colormap/cool,
+			legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+			width=7cm,
+			grid style={line width=.1pt, draw=gray!30},
+			grid=major,
+			minor tick num=1,
+			domain=-15:15,
+			xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+			shader=interp
+			]
+			\addplot3[surf,colormap/cool,domain=-10:18]	{1831+165*(x-10)+(201)*(y-10)};
+			\addplot3[mesh]	{8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+			\addlegendentry{\small $f(x,y)=8x^2 +3xy+7y^2 -25x+31y-29$}
+			% add the contour lines
+			\addplot3 [
+			% increase a bit the number of samples so `smooth' does a good job
+			samples=51,
+			samples y=51,
+			contour gnuplot={
+				% state at which levels you want to draw the contour lines
+				levels={-400,-300,0,100,400,700,1000,1500,2000,2500,3000},
+				% we don't want to add labels
+				labels=false,
+				% they should be drawn in black
+				draw color=black,
+				% and they should be smoothed
+				handler/.style=smooth,
+			},
+			] {8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+El plano en azul representa el subgradiente de $f$ en el punto $(10.10)$:
+$$
+h(x,y) = 1831+165(x-10)+201(y-10)
+$$
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}
+%%
+\begin{teorema}\label{t325}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n  convexa, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$. 
+	
+	\medskip
+	
+	Entonces, para cualquier punto $\vx_0\in\text{int}\SS$, existe un vector $\B{\xi}$ tal que el
+	hiperplano:
+	$$
+	H=\bigl\{(\vx,y)\,/\, y=f(\vx_0)+\B{\xi}^T(\vx-\vx_0)\bigr\}
+	$$
+	es soporte del epigrafo de $f$ en el punto $\bigl(\vx_0,f(\vx_0)\bigr)$. 
+	
+	\medskip
+	
+	En particular:
+	$$
+	f(\vx)\geq f(\vx_0)+\B{\xi}^T(\vx-\vx_0),\qquad \forall \vx\in\SS,
+	$$
+	esto es, $\B{\xi}$ es un subgradiente de $f$ en $\SS$.
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}\small
+\alert{Demostraci\'on:}
+\begin{itemize}
+	\item Por ser $f$ convexa, su epigrafo lo es. 
+	\item Todo conjunto convexo tiene asociado un hiperplano soporte  a cada punto de la frontera.
+	\item El punto $(\vx_0,f(\vx_0))$ es un punto de la frontera del epigrafo y, por tanto, existe un hiperplano soporte en ese punto.
+	\item  Esto es, existe un vector no nulo $\binom{\B{\xi}_0}{\mu}\in\Re^{n+1}$ tal que:
+	\begin{equation}\label{t325-dem}
+		\binom{\B{\xi}_0}{\mu}^T\binom{\vx-\vx_0}{y-f(\vx_0)} = \B{\xi}_0^T(\vx-\vx_0)+\mu(y-f(\vx_0))\leq 0,\qquad\forall (\vx,y)\in\text{epi}f,
+	\end{equation}
+	\item En esta ecuación, $\mu$ es un escalar no positivo ya que, en otro caso, la desigualdad anterior resulta falsa para un
+	$y$ suficientemente grande.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}\small
+Veamos que realmente $\mu$ es estrictamente negativo:
+\begin{itemize}
+	\item Por contradicci\'{o}n, supongamos que $\mu=0$.
+	\item Entonces 	$\B{\xi}_0^T(\vx-\vx_0)\leq 0,\qquad\forall\vx\in\SS.$
+	\item Puesto que $\vx_0\in\text{int}\SS$, existe un $\lambda>0$ tal que $\vx_0+\lambda\B{\xi}_0\in\SS$.
+	\item Aplicando la desigualdad anterior para $\vx=\vx_0+\lambda\B{\xi}_0$, resulta:
+	$$
+	\B{\xi}_0^T(\vx_0+\lambda\B{\xi}_0-\vx_0) = \lambda\B{\xi}_0^T\B{\xi}_0\leq 0,
+	$$
+	y, por tanto, $\B{\xi}_0=\vv$. 
+	\item Entonces, $(\B{\xi}_0,\mu)=(\vv,0)$ que entra en contradicci\'{o}n
+	con la hip\'{o}tesis de que era un vector no nulo. 
+\end{itemize}
+Por tanto $\mu$ es estrictamente negativo:
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}\small
+Consideremos $\displaystyle\B{\xi}=\frac{\B{\xi}_0}{\abs{\mu}}$.
+\begin{itemize}
+	\item Dividiendo la desigualdad
+	\eqref{t325-dem} por $\abs{\mu}$, resulta:
+	\begin{equation}\label{t325-dem2}
+		\B{\xi}^T(\vx-\vx_0)-y+f(\vx_0)\leq 0,\qquad\forall (\vx,y)\in\text{epi}f.
+	\end{equation}
+	\item En particular, el hiperplano
+	$$
+	H=\bigl\{(\vx_0,y)\,/\, y=f(\vx_0)+\B{\xi}^T(\vx-\vx_0)\bigr\}
+	$$
+	es soporte del epigrafo de $f$ en el punto $(\vx_0,f(\vx_0))$. 
+	\item Tomando $y=f(\vx)$ en \eqref{t325-dem2}, se tiene que $f(\vx)\geq f(\vx_0)+\B{\xi}^T(\vx-\vx_0)$ para todo $\vx\in\SS$
+\end{itemize}
+Y se concluye que $\B{\xi}$ es un subgradiente de $f$ en $\vx_0$.
+\end{frame}
+
+\begin{frame}{Funciones convexas}{Subgradientes}\footnotesize
+\begin{corolario}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n  estrictamente convexa, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$.  Entonces, para $\vx_0\in\text{int}\SS$, existe un vector $\B{\xi}$ tal que:
+	$$
+	f(\vx)> f(\vx_0)+\xi^T(\vx-\vx_0),\qquad \forall \vx\in\SS,\;\vx\neq\vx_0.
+	$$
+\end{corolario}
+\alert{Demostraci\'on:}
+Por el teorema anterior, existe un vector $\B{\xi}$ tal que:
+\begin{equation}\label{c325-dem1}
+	f(\vx)\geq f(\vx_0)+\B{\xi}^T(\vx-\vx_0),\qquad\forall \vx\in\SS.
+\end{equation}
+Por reducci\'{o}n al absurdo, supongamos que existe un punto $\vx_1\neq\vx_0$ tal que
+\begin{equation}
+	f(\vx_1)=f(\vx_0)+\B{\xi}^T(\vx_1-\vx_0).
+\end{equation}
+Entonces, por ser $f$ estrictamente convexa, resulta:
+\begin{equation}\label{c325-dem2}
+	f\bigl(\lambda\vx_0+(1-\lambda)\vx_1\bigr)< \lambda f(\vx_0)+(1-\lambda)
+	f(\vx_1)=f(\vx_0)+(1-\lambda)\B{\xi}^T(\vx_1-\vx_0),\qquad\forall\lambda\in (0,1).
+\end{equation}
+Tomando $\vx=\lambda\vx_0+(1-\lambda)\vx_1$ en la expresi\'{o}n \eqref{c325-dem1}, resulta
+$$
+f\bigl(\lambda\vx_0+(1-\lambda)\vx_1\bigr)\geq f(\vx_0)+(1-\lambda)\B{\xi}^T(\vx_1-\vx_0),\qquad\forall\lambda\in
+(0,1),
+$$
+que contradice \eqref{c325-dem2}.
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}
+\begin{teorema}\label{t326}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$. 
+	
+	\medskip
+	
+	Si para cada punto
+	$\vx_0\in\text{int}\SS$ existe un vector $\B{\xi}$ tal que:
+	$$
+	f(\vx)\geq f(\vx_0)+\xi^T(\vx-\vx_0),\qquad \forall \vx\in\SS,
+	$$
+	entonces, $f$ es una funci\'{o}n convexa en el interior de $\SS$.
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Funciones convexas. Subgradientes}\small
+\alert{Demostraci\'on:}
+Sea $\vx_1,\vx_2\in\text{int}\SS$ y $\lambda\in(0,1)$. Por ser $\SS$ convexo, el interior tambi\'{e}n lo es
+y, por tanto, $\lambda\vx_1+(1-\lambda)\vx_2\in\text{int}\SS$. 
+
+Por hip\'{o}tesis, existe un subgradiente $\B{\xi}$ de $f$ en el punto $\lambda\vx_1+(1-\lambda)\vx_2$:
+$$
+f(\vx) \geq f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)+ \B{\xi}^T\bigl(\vx-(\lambda\vx_1+(1-\lambda)\vx_2)\bigr),
+$$
+En particular, aplicando este resultado a $\vx_1$ y $\vx_2$, se obtienen las dos desigualdades siguientes:
+\begin{align*}
+	f(\vx_1) & \geq
+	f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)+(1-\lambda)\B{\xi}^T(\vx_1-\vx_2),
+	\\[2mm]
+	f(\vx_2) & \geq f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)-\lambda\B{\xi}^T(\vx_1-\vx_2).
+\end{align*}
+Multiplicando estas desigualdades por $\lambda$ y $(1-\lambda)$ respectivamente y sum\'{a}ndolas,
+se obtiene:
+$$
+\lambda f(\vx_1)+(1-\lambda)f(\vx_2)\geq f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)
+$$
+y $f$ es convexa.
+\end{frame}
+%%
+\subsection{Funciones convexas diferenciables}
+%%
+
+\begin{frame}{Funciones convexas diferenciables}
+%%
+\begin{definicion}[Funci\'{o}n diferenciable]
+	Sea $f:\SS\subset \Re^n\rightarrow \Re$, con $\SS\neq\emptyset$.  Se dice que $f$ es \alert{diferenciable en $\vx_0\in\text{int}\SS$} si existe un vector $\gf(\vx_0)\in\Re^n$ y una funci\'{o}n
+	$\alpha:\Re^n\,\rightarrow\,\Re$ tales que:
+	$$
+	f(\vx)=f(\vx_0)+\gf(\vx_0)^T
+	(\vx-\vx_0)+\norma{\vx-\vx_0}\alpha(\vx_0,\vx-\vx_0),\qquad\forall \vx\in\SS,
+	$$
+	verificando que
+	$$
+	\lim_{\vx\,\rightarrow\, \vx_0}\alpha(\vx_0,\vx-\vx_0)=0.
+	$$
+	
+	\medskip
+	
+	\noindent Se dice que $f$ es diferenciable en un abierto $\SS'\subseteq\SS$ si lo es $\forall
+	\vx\in\SS'$.
+\end{definicion}
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables}
+Una funci\'{o}n diferenciable tiene un único subgradiente en cada punto de su dominio (que coincide con el gradiente). 
+
+Por el contrario, si la funci\'{o}n no es diferenciable, el subgradiente no es \'{u}nico.
+\begin{definicion}[Gradiente]
+	Al vector $\gf(\vx_0)$ se le denomina gradiente de $f$ en $\vx_0$:
+	$$
+	\gf(\vx_0)^T=\bigl(\nabla f_1(\vx_0),\dots,\nabla f_n(\vx_0)\bigr).
+	$$
+	Si $f$ es diferenciable en $\vx_0$, entonces $\displaystyle\nabla f_i(\vx_0)=\frac{\partial
+		f(\vx_0)}{\partial x_i}$, $i=1,\dots,n$.
+\end{definicion}
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables}
+%%
+\begin{proposicion}\label{p332}
+	Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n convexa. 
+	
+	\medskip
+	
+	Si $f$ es diferenciable en $\vx_0\in\text{int}\SS$, el subdiferencial de $f$ en $\vx_0$ contiene un \'{u}nico subgradiente, que coincide con el gradiente.
+\end{proposicion}
+\end{frame}
+\begin{frame}{Funciones convexas diferenciables}\small
+\alert{Demostraci\'on.}
+\begin{itemize}
+	\item Por ser $f$ convexa, tiene al menos un subgradiente en $\vx_0$. 
+	\item Por ser $\vx_0$ un punto del interior de $\SS$, $\vx_0+\lambda\vd\in \SS$, para cualquier vector $\vd$ y un $\lambda$ suficientemente peque\~{n}o.
+	\item Sea $\B{\xi}$ un subgradiente de $f$ en $\vx_0$, 
+	$
+	f(\vx_0+\lambda\vd) \geq f(\vx_0)+\lambda\B{\xi}^T\vd.
+	$
+	\item Por ser $f$ diferenciable en $\vx_0$, se tiene que
+	$
+	f(\vx_0+\lambda\vd)=f(\vx_0)+\lambda\gf(\vx_0)^T\vd+\lambda\norma{\vd}\alpha(\vx_0,\lambda\vd).
+	$
+	\item Restando la igualdad a la desigualdad resulta:
+	$$
+	0\geq\lambda\bigl(\B{\xi}-\gf(\vx_0)\bigr)^T\vd-\lambda\norma{\vd}\alpha(\vx_0,\lambda\vd).
+	$$
+	Dividiendo por $\lambda$ y tomando l\'{\i}mites por la derecha cuando $\lambda$ tiende a 0, se
+	tiene que:
+	$$
+	\bigl(\B{\xi}-\gf(\vx_0)\bigr)^T\vd\leq 0.
+	$$
+	Tomando $\vd=\B{\xi}-\gf(\vx_0)$, resulta $\B{\xi}=\gf(\vx_0)$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables. Caracterización}
+Una consecuencia de esta proposici\'{o}n es la siguiente caracterizaci\'{o}n de funciones convexas
+diferenciables.
+\begin{teorema}\label{t333}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n diferenciable, con $\SS$ un conjunto convexo, abierto y no vac\'{\i}o de $\Re^n$. Entonces, $f$ es convexa si y solo si para cualquier punto
+	$\vx_0\in\SS$ se tiene que
+	$$
+	f(\vx)\geq f(\vx_0)+\gf(\vx_0)^T(\vx-\vx_0),\qquad\forall \vx\in\SS.
+	$$
+	De igual forma, $f$ es estrictamente convexa si y solo si para cualquier punto $\vx_0\in\SS$ se
+	tiene que
+	$$
+	f(\vx)> f(\vx_0)+\gf(\vx_0)^T(\vx-\vx_0),\qquad\forall \vx\in\SS,\,\vx\neq\vx_0.
+	$$
+\end{teorema}
+\alert{Demostraci\'on.} Inmediata a partir de los ultimos teoremas.
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables}\small
+
+Como consecuencia de este resultado, se tiene que si $f$ es una funci\'{o}n convexa, entonces dado un punto $\vx_0$, la funci\'{o}n lineal $f(\vx_0)+\gf(\vx_0)^T(\vx-\vx_0)$ acota inferiormente $f$. 
+
+Entonces, los m\'{\i}nimos de esta \'{u}ltima funci\'{o}n lineal en el conjunto $\SS$ proporcionan una cota inferior para el valor de la funci\'{o}n $f$ en $\SS$.
+\begin{teorema}
+	Sea $\SS$ un conjunto convexo, abierto y no vac\'{\i}o de $\Re^n$ y $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n
+	diferenciable en $\SS$. Entonces, $f$ es convexa si y solo si para cualquier par de puntos
+	$\vx_1,\vx_2\in\SS$ se tiene que
+	$$
+	\bigl(\gf(\vx_2)-\gf(\vx_1)\bigr)^T(\vx_2-\vx_1)\geq 0.
+	$$
+	De igual forma, $f$ es estrictamente convexa si y solo si para cada par de puntos distintos
+	$\vx_1,\vx_2\in\SS$ se tiene que:
+	$$
+	\bigl(\gf(\vx_2)-\gf(\vx_1)\bigr)^T(\vx_2-\vx_1)> 0.
+	$$
+\end{teorema}
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables}
+\alert{Demostraci\'on.} 
+
+\alert{$\Longrightarrow$)}  Sean $\vx_1,\vx_2\in\SS$; por ser $f$ convexa, se tiene que:
+\begin{align*}
+	f(\vx_1) & \geq f(\vx_2)+\gf(\vx_2)^T(\vx_1-\vx_2),
+	\\
+	f(\vx_2) & \geq f(\vx_1)+\gf(\vx_1)^T(\vx_2-\vx_1).
+\end{align*}
+Sumando ambas desigualdades, se obtiene que:
+$$
+f(\vx_1)+ f(\vx_2)  \geq f(\vx_1)+ f(\vx_2)  +\gf(\vx_2)^T(\vx_1-\vx_2)+ \gf(\vx_1)^T(\vx_2-\vx_1)
+$$
+De donde
+\begin{multline*}
+	0 \geq  -\gf(\vx_2)^T(\vx_2-\vx_1) + \gf(\vx_1)^T(\vx_2-\vx_1) \Rightarrow \\ \bigl(\gf(\vx_2)-\gf(\vx_1)\bigr)^T(\vx_2-\vx_1)\geq 0.
+\end{multline*}
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables}
+\alert{Demostraci\'on.} 
+
+\alert{$\Longleftarrow$)} Aplicando el teorema del valor medio, tenemos que
+\begin{equation}\label{t334-1}
+	f(\vx_2)-f(\vx_1)=\gf(\vx)^T(\vx_2-\vx_1),
+\end{equation}
+donde $\vx=\lambda\vx_1+(1-\lambda)\vx_2$, con $\lambda\in(0,1)$. 
+
+Por hip\'{o}tesis tenemos que para los puntos $\vx$ y $\vx_1$:
+$$
+\bigl(\gf(\vx)-\gf(\vx_1)\bigr)^T(\vx-\vx_1)\geq 0,
+$$
+Por otro lado,
+$$
+\vx-\vx_1= \lambda\vx_1+(1-\lambda)\vx_2-\vx_1 = (1-\lambda)(\vx_2-\vx_1)
+$$
+Por tanto, 
+$$
+(1-\lambda)\bigl(\gf(\vx)-\gf(\vx_1)\bigr)^T(\vx_2-\vx_1)\geq 0.
+$$
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables}
+
+Como $\lambda\in(0,1)$, la última desigualdad implica que
+$$
+\gf(\vx)^T(\vx_2-\vx_1)\geq \gf(\vx_1)^T(\vx_2-\vx_1)
+$$
+Por \eqref{t334-1}, se tiene que: $f(\vx_2)-f(\vx_1)=\gf(\vx)^T(\vx_2-\vx_1)$. Sustituyendo en la última desigualdad resulta: 
+$$
+f(\vx_2)\geq f(\vx_1)+\gf(\vx_1)^T(\vx_2-\vx_1)
+$$
+y, por el último  teorema de  caracterización, se deduce que $f$ es convexa.
+
+Para el caso en que $f$ sea estrictamente convexa, la demostraci\'{o}n es similar.
+
+\bigskip
+\alert{Ejemplo:} una función real de variable real es (estrictamente) convexa si y solo si su derivada es (estrictamente) creciente.
+\end{frame}
+
+\begin{frame}{Funciones convexas dos veces diferenciables}
+\begin{definicion}[Funci\'{o}n dos veces diferenciable]
+	Se dice que $f$ es dos veces diferenciable en $\vx_0\in\inte (\SS)$, si existe un vector
+	$\gf(\vx_0)\in\Re^n$, una matriz sim\'{e}trica $\vH(\vx_0)$ y una funci\'{o}n $\alpha:\Re^n\,\rightarrow\,\Re$ tales
+	que:
+	$$
+	f(\vx)=f(\vx_0)+\gf(\vx_0)^T(\vx-\vx_0)+\frac{1}{2}(\vx-\vx_0)^T\vH(\vx_0)
+	(\vx-\vx_0)+\norma{\vx-\vx_0}^2\alpha(\vx_0,\vx_0-\vx),\qquad \forall \vx\in\SS,
+	$$
+	verificando:
+	$$
+	\lim_{\vx\,\rightarrow\, \vx_0}\alpha(\vx_0,\vx-\vx_0)=0.
+	$$
+\end{definicion}
+Esta definici\'on va a permitir encontrar caracterizaciones m\'as sencillas de funciones convexas.
+\end{frame}
+
+\begin{frame}{Funciones convexas dos veces diferenciables}
+\begin{definicion}[Matriz Hessiana]
+	A la matriz $\vH(\vx_0)$ se le denomina Matriz Hessiana de $f$ en $\vx_0$. Si $f$ es dos veces
+	diferenciable en $\vx_0$:
+	$$
+	\vH(\vx_0)=\biggl(\frac{\partial^2f(\vx_0)}{\partial x_i\partial
+		x_j}\biggr)_{i,j=1,\dots,n}
+	$$
+\end{definicion}\small
+\alert{Ejemplo:}
+Sea $f(x_1,x_2)=2x_1+6x_2-2x_1^2-3x_2^2+4x_1x_2$ Entonces:
+$$
+\gf(\vx)=\begin{pmatrix}2-4x_1+4x_2 \\
+	6-6x_2+4x_1\end{pmatrix}\qquad\vH(\vx)=\begin{pmatrix}-4 & 4 \\ 4 & -6\end{pmatrix}
+$$
+Por ejemplo, tomando $\vx_0=(0,0)$, el desarrollo de taylor de segundo orden es:
+$$
+f(\vx)=(2,6)\begin{pmatrix} x_1 \\ x_2\end{pmatrix}+\frac{1}{2}(x_1,x_2)
+\begin{pmatrix}-4 & 4 \\ 4 & -6\end{pmatrix}\begin{pmatrix}x_1\\ x_2\end{pmatrix}
+$$
+y, puesto que $f$ es cuadr\'{a}tica, la representaci\'{o}n es exacta.
+\end{frame}
+
+\begin{frame}{Funciones convexas dos veces diferenciables}
+{Caracterización a partir de la matriz Hessiana}
+\begin{teorema}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n dos veces diferenciable en $\SS$, con $\SS$ un conjunto convexo, abierto y  no vac\'{\i}o de $\Re^n$. 
+	
+	\medskip
+	
+	Entonces, $f$ es convexa en $\SS$ si y solo si la matriz hessiana es semidefinida positiva en cualquier punto de $\SS$.
+	
+	\medskip
+	
+	Y $f$ es cóncava en $\SS$ si y solo si la matriz hessiana es semidefinida negativa en cualquier punto de $\SS$.
+	
+\end{teorema}
+\end{frame}
+\begin{frame}[allowframebreaks]{Funciones convexas dos veces diferenciables}
+{Caracterización a partir de la matriz Hessiana}
+\small
+\alert{Demostraci\'on.} Sup\'{o}ngase que $f$ es convexa y sea $\vx_0\in\SS$. Hay que demostrar que $\vx^T\vH(\vx_0)\vx\geq 0$ para $\vx\in\Re^n$.
+
+Puesto que $\SS$ es abierto, existe un $\lambda$, $\abs{\lambda}\neq 0$, tal que
+$\vx_0+\lambda\vx\in\SS$. %Por el teorema \ref{t333} y 
+Como $f$ es dos veces diferenciable, se obtiene:
+\begin{align*}
+	f(\vx_0+\lambda\vx)&\geq f(\vx_0)+\lambda\gf(\vx_0)^T\vx,
+	\\
+	f(\vx_0+\lambda\vx)&=f(\vx_0)+\lambda\gf(\vx_0)^T\vx+\frac{1}{2}\lambda^2\vx^T\vH(\vx_0)\vx+\lambda^2\norma{\vx}^2\alpha(\vx_0,\lambda\vx).
+\end{align*}
+Restando la segunda expresi\'{o}n a la primera, se obtiene:
+$$
+\frac{1}{2}\lambda^2\vx^T\vH(\vx_0)\vx+\lambda^2\norma{\vx}^2\alpha(\vx_0,\lambda\vx)\geq 0.
+$$
+Dividiendo por $\lambda^2>0$ y tomando l\'{\i}mites cuando $\lambda\rightarrow 0$ se tiene que
+$\vx^T\vH(\vx_0)\vx\geq 0$.
+
+Inversamente, sup\'{o}ngase que la matriz Hessiana es semidefinida positiva en $\SS$ y sean $\vx$
+y $\vx_0$ dos puntos de $\SS$; por el teorema del valor medio, se tiene que
+\begin{equation}\label{t337-1}
+	f(\vx)=f(\vx_0)+\gf(\vx_0)^T(\vx-\vx_0)+\frac{1}{2}(\vx-\vx_0)^T\vH(\vx_1)(\vx-\vx_0),
+\end{equation}
+donde $\vx_1=\lambda\vx_0+(1-\lambda)\vx$ para alg\'{u}n $\lambda\in(0,1)$. Puesto que $\SS$ es
+convexo, $\vx_1$ pertenece a $\SS$ y, como por hip\'{o}tesis $\vH(\vx_1)$ es semidefinida
+positiva, se tiene que
+$$
+(\vx-\vx_0)^T\vH(\vx_1)(\vx-\vx_0)\geq 0,
+$$
+y, por \eqref{t337-1}, se concluye que
+$$
+f(\vx)\geq f(\vx_0)+\gf(\vx_0)^T(\vx-\vx_0)
+$$
+Puesto que esta desigualdad es v\'{a}lida para cualquier par de puntos $\vx,\vx_0\in\SS$, por resultados anteriores, se concluye que $f$ es convexa.
+
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables}
+\begin{teorema}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n dos veces diferenciable en $\SS$, con $\SS$ un conjunto convexo, abierto y  no vac\'{\i}o de $\Re^n$.
+	\begin{itemize}
+		\item Si la matriz Hessiana es definida positiva, entonces $f$ es estrictamente convexa en $\SS$. 
+		\item Inversamente, si $f$ es estrictamente convexa \alert{y cuadrática}, entonces la matriz Hessiana es definida positiva.
+	\end{itemize}
+\end{teorema}
+Este teorema NO permite caracterizar funciones estrictamente convexas (solo lo hace en el caso de funciones cuadráticas).
+
+La demostración es trivial siguiendo los pasos de la demostración del teorema anterior.
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables. Ejemplo 1}
+Estudiar la convexidad de 
+$$
+f(x_1,x_2,x_3)=x_1x_2+2x_1^2+x_2^2+2x_3^2-6x_1x_3
+$$ 
+La matriz Hessiana es:
+$$
+\vH=\begin{pmatrix}
+	4 & 1 & -6 \\ 1 & 2 & 0 \\ -6 & 0 & 4
+\end{pmatrix}
+$$
+y los menores principales son: $4>0$, $8-1=7>0$, mientras que el determinante es negativo. Por
+tanto, no es ni c\'{o}ncava no convexa.
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables. Ejemplo 2}\footnotesize
+Estudiar la convexidad de $f(x_1,x_2)=10-2(x_2-x_1^2)^2$. 
+
+La matriz Hessiana es:
+$$
+\vH=\begin{pmatrix}
+	8x_2-24x_1^2 & 8x_1 \\ 8x_1 & -4
+\end{pmatrix}
+$$
+Para que sea convexa debe verificarse que:
+\begin{align*}
+	8x_2-24x_1^2= 8(x_2-3x_1^2) & \geq 0 \\
+	-32x_2+96x_1^2-64x_1^2=32(x_1^2-x_2) & \geq 0
+\end{align*}
+Esto es, $x_1^2\geq x_2$ y $x_2\geq 3x_1^2$. Esto solo se verifica si $x_1=x_2=0$. Por tanto,
+$f$ solo es convexa en el punto $(0,0)$.
+
+Para que sea c\'{o}ncava, deber\'{a} ser:
+\begin{align*}
+	8x_2-24x_1^2= 8(x_2-3x_1^2) & \leq 0 \\
+	-32x_2+96x_1^2-64x_1^2=32(x_1^2-x_2) & \geq 0
+\end{align*}
+Esto es, $x_2\leq 3x_1^2$ y $x_2\leq x_1^2$. Por tanto, la funci\'{o}n es c\'{o}ncava si $x_2\leq x_1^2$.
+\end{frame}
+\begin{frame}{Funciones convexas diferenciables. Ejemplo 2}
+Las siguientes figuras muestran la gráfica de la función.
+
+La figura de la derecha permite observar con más detalle  cómo en el origen sí es convexa, pero no así en el resto del dominio.
+\begin{center}
+	\begin{columns}
+		\column{0.5\textwidth}{
+			\begin{tikzpicture}[scale=1]
+				\begin{axis}[
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=5cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid=major,
+					minor tick num=1,
+					domain=-5:5,
+					xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+					shader=interp
+					]
+					\addplot3[surf]	{10-2*(y-x*x)*(y-x*x)};
+					\addlegendentry{\small $f(x_1,x_2)=10-2(x_2-x_1^2)^2$}
+					% add the contour lines
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={-1000,-500,-100,-50,0},
+						% we don't want to add labels
+						labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {10-2*(y-x*x)*(y-x*x)};
+				\end{axis}
+			\end{tikzpicture}
+		}
+		\column{0.5\textwidth}{
+			\begin{tikzpicture}[scale=1]
+				\begin{axis}[
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=5cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid=major,
+					minor tick num=1,
+					domain=-0.75:0.75,
+					xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+					shader=interp
+					]
+					\addplot3[surf]	{10-2*(y-x*x)*(y-x*x)};
+					%\addlegendentry{\small $f(x_1,x_2)=10-2(x_2-x_1^2)^2$}
+					% add the contour lines
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={7,7.5,8,8.5,9,9.5,9.9},
+						% we don't want to add labels
+						labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {10-2*(y-x*x)*(y-x*x)};
+				\end{axis}
+			\end{tikzpicture}
+		}
+	\end{columns}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Funciones convexas diferenciables. Ejemplo 3}
+Estudiar la convexidad de $f(x,y,z)=x^2 +3y^2 +z^2 +xy-4z-5x+14$.
+
+El gradiente y la matriz Hessiana son:
+$$
+\nabla f(x,y)=\begin{pmatrix} 2x+y-5 \\ 6y+x  \\ 2z-4\end{pmatrix}
+\qquad
+\vH=\begin{pmatrix}
+	2 & 1 & 0 \\ 1 & 6 & 0  \\ 0 & 0  & 2
+\end{pmatrix}
+$$
+y los menores son $2>0$, $12-1=11>0$ y el determinante es $22>0$. 
+
+Por tanto, es una matriz definida positiva y, en virtud del último teorema, $f$ es estrictamente convexa.
+\end{frame}
+%%
+\subsection{\'{O}ptimos de una funci\'{o}n convexa}
+%%
+\begin{frame}{Óptimos de una funci\'on convexa}\small
+%\begin{definicion}[M\'{\i}nimo global]
+%Dada la funci\'{o}n $f:\Re^n\rightarrow\Re$, se dice que $\vx_0$ es un m\'{\i}nimo global si:
+%$$
+%f(\vx_0)\leq f(\vx)\qquad  \forall \vx\in\Re^n.
+%$$
+%\end{definicion}
+%\begin{definicion}[M\'{\i}nimo local]
+%Dada la funci\'{o}n $f:\Re^n\rightarrow \Re$, se dice que $\vx_0$ es un m\'{\i}nimo local si existe un
+%entorno de radio $\epsilon$ centrado en $\vx_0$, sea $N_\epsilon (\vx_0)\subset  \Re^n$, tal que:
+%$$
+%f(\vx_0)\leq f(\vx)\qquad \forall \vx\in N_\epsilon (\vx_0)\subset  \Re^n.
+%$$
+%\end{definicion}
+\begin{teorema}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n convexa en $\SS$, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$.
+	
+	\medskip
+	
+	Si $\vx_0$ es un m\'{\i}nimo local de $f$, es tambi\'{e}n un m\'{\i}nimo global. Si, adem\'{a}s,
+	$f$ es estrictamente convexa  y $\vx_0$ es un m\'{\i}nimo local estricto, el m\'{\i}nimo es \'{u}nico.
+\end{teorema}
+
+\begin{teorema}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n convexa en $\SS$, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$.
+	
+	\medskip
+	
+	Un punto $\vx_0\in\SS$ es un m\'{\i}nimo global de $f$ en $\SS$ si y solo si $f$
+	tiene un subgradiente $\B{\xi}$ en $\vx_0$ tal que $\B{\xi}^T(\vx-\vx_0)\geq 0$ para todo
+	$\vx\in\SS$.
+\end{teorema}
+\alert{Demostraci\'on:}
+Ver {\em Non Linear Programming} de M.S. Bazaraa, H.D. Sherali y C.M. Shetty.
+
+\end{frame}
+
+
+
+\begin{frame}{Óptimos de una funci\'on convexa. Ejemplo 1}\small
+$$
+f(x)=\begin{cases}
+	x-4 & 1\leq x\leq 4 \\
+	(x-2)^2-4 & \text{ en otro caso}
+\end{cases}
+$$
+\begin{center}
+	\begin{tikzpicture}[scale=0.5]
+		\draw  (-1,0) -- (5,0);
+		\draw  (0,-5) -- (0,5.5);
+		\visible<1>{
+			\draw[brown,thick, domain=-1:0, samples=60] plot (\x,-\x-4);
+			\draw[brown,thick, domain=0:5, samples=60] plot (\x,\x-4);
+			\draw[black, thick, domain=-1:5, samples=60] plot (\x,{(\x-2)*(\x-2)-4});
+			\draw[dashed] (1,0) node[above] {\small 1} -- (1,-4);
+			\draw[dashed] (4,0) node[above] {\small 4} -- (4,0);
+		}
+		\draw[red, very thick, domain=1:4, samples=60] plot (\x,\x-4);
+		\draw[red, very thick, domain=4:5, samples=60] plot (\x,{(\x-2)*(\x-2)-4});
+		\draw[red, very thick, domain=-1:1, samples=60] plot (\x,{(\x-2)*(\x-2)-4});
+		\visible<2->{
+			\draw[dashed] (1,0) node[above] {\small 1} -- (1,-3) node[below] {\small\color{magenta} mínimo};
+			\node at (12,4) {\small Subdiferencial en $x=0:  [-2,1]$};
+		}
+		\visible<3>{
+			\draw[blue, very thick, domain=-1:5, samples=60] plot (\x,-3);
+			%\draw[blue,dashed] (2,0) node[above] {\small 2} -- (2,-2);
+			\node at (12,2) {\small $\xi=0$ es un subgradiente en $x=1$};
+			\node at (12,0) {\small $\xi(x-1)\geq 0\quad \forall x\in\Re$};
+		}
+	\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}{Óptimos de una funci\'on convexa. Ejemplo 2}\small
+$f(x)=(x-2)^2-4 $  definida en el intervalo $\SS =[3,5]$
+\begin{center}
+	\begin{tikzpicture}[scale=0.5]
+		\draw  (-1,0) -- (5,0);
+		\draw  (0,-5) -- (0,5.5);
+		\draw[dashed,red!45, domain=-1.2:5.2, samples=60] plot (\x,{(\x-2)*(\x-2)-4});
+		\draw[red, very thick, domain=3:5, samples=60] plot (\x,{(\x-2)*(\x-2)-4});
+		\draw[dashed] (3,0) node[above] {\small 3} -- (3,-3);
+		\draw[dashed] (5,0) node[below] {\small 5} -- (5,5);
+		\visible<2->{
+			\draw[dashed] (3,-3) node[below] {\small\color{magenta} mínimo};
+			\node at (14,4) {\small Subdiferencial en $x=3:  (-\infty,2]$};
+		}
+		\visible<3>{
+			\foreach \y in {0,0.5,1,2}  \draw[blue, thick, domain=1:5.5, samples=60] plot (\x,{-3+\y*(\x-3)}) node[right] {\tiny $\xi=\y$};
+			%\draw[blue,dashed] (2,0) node[above] {\small 2} -- (2,-2);
+			\node at (14,2) {\small $\xi(x-3)\geq 0\quad \forall x\in[3,5],\xi\in[0,2]$};
+		}
+	\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}{Óptimos de una funci\'on convexa. Ejemplo 3}\small
+
+\begin{columns}
+	\column{0.5\textwidth}
+	Consideremos la función $$f(x_1,x_2)=	(x_1-3)^2+(x_2-2)^2$$ definida sobre el conjunto $\SS$:
+	\begin{align*}
+		x_1^2+x_2^2-5 & \leq 0
+		\\
+		x_1+2x_2-4 &\leq 0
+		\\
+		-x_1 &\leq 0
+		\\
+		-x_2 &\leq 0
+	\end{align*}
+	$f$ mide la distancia al punto $(3,2)$.
+	
+	\smallskip
+	
+	\visible<2->{El punto $\SS$ más cercano es el ($2,1)$.}
+	
+	\visible<3->{
+		$\xi=\binom{-2}{-2}$ es un subgradiente de $f$ en $\vx_0=(2,1)$. 
+		
+		
+		Se comprueba gráficamente que $(-2,-2)\binom{x_1-2}{x_2-1}\geq 0$}
+	\column{0.5\textwidth}{
+		\visible<2->{
+			\begin{tikzpicture}
+				\draw[->,color=black] (-0.25,0) -- (4.25,0);
+				\draw[->,color=black] (0,-0.25) -- (0,4);
+				\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+				\draw [line width=0.8pt,dashed] (3.,2.) circle (1.cm);
+				\draw [line width=0.8pt,dashed] (3.,2.) circle (1.4142135623730951cm);
+				\draw (3.3,2.2) node {\tiny $(3,2)$};
+				\draw[fill=red,color=red] (3.,2.) circle (2pt);
+				%\draw (-.4,-.2) node {\tiny $(0,0)$};
+				%\draw[fill=red,color=red] (0,0) circle (2pt);
+				\draw (1.7,0.8) node {\tiny $(2,1)$};
+				\draw[fill=red,color=red] (2,1) circle (2pt);
+				
+				\draw[line width=2.pt] (2.2360670,0) -- (0,0) -- (0.,2) -- (2.,1) ;
+				\draw[line width=2.pt] (2.2360670,0) arc (0:28:2.236067);
+				
+				\draw[->,line width=1.5pt,red] (2,1) -- (1.5,0.5) ;
+				\visible<3->{\draw[blue, very thick] (3,0) -- (1,2);}
+			\end{tikzpicture}
+		}
+	}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Óptimos de una funci\'on convexa. Ejemplo 4}\small
+\begin{columns}
+	\column{0.5\textwidth}
+	Consideremos la función $$f(x_1,x_1)=	(x_1-1)^2+(x_2-1)^2$$ definida sobre el conjunto $\SS$:
+	\begin{align*}
+		x_1^2+x_2^2-5 & \leq 0
+		\\
+		x_1+2x_2-4 &\leq 0
+		\\
+		-x_1 &\leq 0
+		\\
+		-x_2 &\leq 0
+	\end{align*}
+	$f$ mide la distancia al punto $(1,1)$.
+	
+	\smallskip
+	
+	\visible<2->{El punto $\SS$ más cercano es el $(1,1)$.}
+	\column{0.5\textwidth}{
+		\visible<2->{
+			\begin{tikzpicture}
+				\draw[->,color=black] (-0.25,0) -- (4.25,0);
+				\draw[->,color=black] (0,-0.25) -- (0,4);
+				\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+				\draw [line width=0.8pt,dashed] (1,1) circle (0.5cm);
+				\draw [line width=0.8pt,dashed] (1,1) circle (0.75cm);
+				\draw [line width=0.8pt,dashed] (1,1) circle (1cm);
+				\draw (1,0.8) node {\tiny $(1,1)$};
+				\draw[fill=red,color=red] (1.,1.) circle (2pt);
+				
+				\draw[line width=2.pt] (2.2360670,0) -- (0,0) -- (0.,2) -- (2.,1) ;
+				\draw[line width=2.pt] (2.2360670,0) arc (0:28:2.236067);
+			\end{tikzpicture}
+		}
+		
+		\visible<3->{Trivialmente $(0,0)\binom{x_1-1}{x_2-1}\geq 0$}
+	}
+\end{columns}
+\visible<3->{
+	$\xi=\binom{0}{0}$ es un subgradiente de $f$ en $\vx_0=(1,1)$. }
+	\end{frame}
+	
+	
+	\begin{frame}{Óptimos de una funci\'on convexa}
+
+\begin{corolario}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n convexa en $\SS$, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$.
+	
+	\medskip
+	Si $\SS$ es abierto, entonces un punto $\vx_0$ es m\'{\i}nimo de $f$ en $\SS$ si y solo si el vector $\vv$ es subgradiente de $f$ en $\vx_0$. 
+	
+	\medskip
+	
+	En particular, si
+	$\SS=\Re^n$, $\vx_0$ es un m\'{\i}nimo global de la funci\'{o}n $f$ si y solo si $\vv$ es subgradiente de
+	$f$ en $\vx_0$.
+\end{corolario}
+\alert{Demostraci\'on:}
+Por el teorema anterior, $\vx_0$ es una soluci\'{o}n \'{o}ptima si y solo si $\B{\xi}^T(\vx-\vx_0)\geq
+0$ para cada $\vx\in\SS$, donde $\B{\xi}$ es un subgradiente de $f$ en $\vx_0$. 
+
+Como $\SS$ es abierto, existe un $\lambda>0$ tal que $\vx=\vx_0-\lambda\B{\xi}\in\SS$. 
+
+Por tanto, $-\lambda\norma{\B{\xi}}\geq 0$, y, necesariamente, $\B{\xi}=\vv$.
+
+\end{frame}
+\begin{frame}{Óptimos de una funci\'on convexa}
+
+\begin{corolario}\label{t343-c2}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n convexa en $\SS$, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$.
+	
+	\medskip
+	
+	Si $f$ es diferenciable, entonces el punto $\vx_0$ es un m\'{\i}nimo de $f$ en $\SS$ si y solo si $\gf(\vx_0)^T(\vx-\vx_0)\geq 0$ para todo $\vx\in\SS$.
+	
+	\medskip
+	
+	
+	M\'{a}s a\'{u}n, si $\SS$ es abierto, entonces $\vx_0$ es \'{o}ptimo si y solo si $\gf(\vx_0)=\vv$.
+\end{corolario}
+\end{frame}
+
+\begin{frame}{Óptimos de una funci\'on convexa. Ejemplos}\small
+
+Si en los ejemplos anteriores consideramos $\SS$ abierto:
+\begin{align*}
+	x_1^2+x_2^2-5 & < 0
+	\\
+	x_1+2x_2-4 & < 0
+	\\
+	-x_1 & <  0
+	\\
+	-x_2 &<  0
+\end{align*}
+
+\begin{columns}[t]
+	\column{0.5\textwidth}{
+		\begin{tikzpicture}
+			\draw[->,color=black] (-0.25,0) -- (4.25,0);
+			\draw[->,color=black] (0,-0.25) -- (0,3.45);
+			\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+			\draw [line width=0.8pt,dashed] (3.,2.) circle (1.cm);
+			\draw [line width=0.8pt,dashed] (3.,2.) circle (1.4142135623730951cm);
+			\draw (3.3,2.2) node {\tiny $(3,2)$};
+			\draw[fill=red,color=red] (3.,2.) circle (2pt);
+			\draw (1.7,0.8) node {\tiny $(2,1)$};
+			\draw[fill=red,color=red] (2,1) circle (2pt);
+			
+			\draw[line width=2.pt] (2.2360670,0) -- (0,0) -- (0.,2) -- (2.,1) ;
+			\draw[line width=2.pt] (2.2360670,0) arc (0:28:2.236067);
+			
+			\draw[->,line width=1.5pt,red] (2,1) -- (1.5,0.5) ;
+		\end{tikzpicture}
+		
+		La funci\'on no tiene m\'\i nimo en $\SS$ y solo se puede calcular el \'\i nfimo.
+	}
+	\column{0.5\textwidth}{
+		\begin{tikzpicture}
+			\draw[->,color=black] (-0.25,0) -- (3.25,0);
+			\draw[->,color=black] (0,-0.25) -- (0,3.45);
+			\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+			\draw [line width=0.8pt,dashed] (1,1) circle (0.5cm);
+			\draw [line width=0.8pt,dashed] (1,1) circle (0.75cm);
+			\draw [line width=0.8pt,dashed] (1,1) circle (1cm);
+			\draw (1,0.8) node {\tiny $(1,1)$};
+			\draw[fill=red,color=red] (1.,1.) circle (2pt);
+			
+			\draw[line width=2.pt] (2.2360670,0) -- (0,0) -- (0.,2) -- (2.,1) ;
+			\draw[line width=2.pt] (2.2360670,0) arc (0:28:2.236067);
+		\end{tikzpicture}
+		
+		La funci\'on   sigue teniendo el  mismo m\'\i nimo: $(1,1)$, con gradiente nulo.
+	}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Óptimos de una funci\'on convexa}
+El teorema anterior permite caracterizar los m\'{\i}nimos de $f$ en $\SS$. 
+\\[2mm]
+Estas condiciones son resultados cl\'{a}sicos de An\'{a}lisis para $f$ diferenciable y $\SS$ abierto. 
+\\[2mm]
+Como consecuencia de este teorema, dada un $\vx_0$ tal que $\gf(\vx_0)^T(\vx-\vx_0)<0$ para alg\'{u}n $\vx\in\SS$, se puede encontrar otro punto mejor avanzando  desde $\vx_0$  hacia $\vx$ (a lo largo de la direcci\'{o}n $\vd=\vx-\vx_0$. 
+\\[2mm]
+El cálculo de la mejor longitud de paso se puede obtener como solución del problema
+unidimensional:
+$$
+\min_\lambda f(\vx_0+\lambda(\vx-\vx_0))\qquad\text{sujeto a }\qquad \lambda\geq
+0\quad\text{ y }\quad \vx_0+\lambda(\vx-\vx_0)\in\SS.
+$$
+Este m\'{e}todo es denominado \alert{\em m\'{e}todo de las direcciones factibles}.
+
+\end{frame}
+\begin{frame}{Óptimos de una funci\'on convexa}
+
+\begin{teorema}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n convexa en $\SS$, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$, tal que existe un punto $\vx_0\in\SS$  en el que $f$ alcanza su mínimo en $\SS$. 
+	
+	Entonces, el conjunto $\SS^*$ de soluciones para el problema viene dado por:
+	$$
+	\SS^*=\bigl\{\vx\in\SS\,/\, \gf(\vx_0)^T(\vx-\vx_0)\geq
+	0\qquad\text{y}\qquad\gf(\vx)=\gf(\vx_0)\bigr\}
+	$$
+\end{teorema}
+\alert{Demostraci\'on:}
+Ver {\em Non Linear Programming} de M.S. Bazaraa, H.D. Sherali y C.M. Shetty.
+\end{frame}
+%\begin{frame}{Óptimos de una funci\'on convexa}
+%\alert{Demostraci\'on:}
+%	Sea $\hat{\SS}$ el conjunto de soluciones \'{o}ptimas, Vamos a probar que $\SS^*=\hat{\SS}$. Para
+%	ello veamos que se verifican las dos inclusiones.
+%	
+%	Sea $\vx_1\in\SS^*$. Por ser $f$ convexa y por la definici\'{o}n de $\SS^*$, se deduce que
+%	$\vx_1\in\SS$ y
+%	$$
+%	f(\vx_0)\geq
+%	f(\vx_1)+\gf(\vx_1)^T(\vx_0-\vx_1)=f(\vx_1)+\gf(\vx_0)^T(\vx_0-\vx_1)\geq
+%	f(\vx_1)
+%	$$
+%	y, por ser $\vx_0$ un \'{o}ptimo, $\vx_1\in\hat{\SS}$, esto es, $\SS^*\subseteq\hat{\SS}$.
+%	
+%	Inversamente, supongamos que $\vx_1\in\hat{\SS}$; por tanto, $\vx_1\in\SS$ y
+%	$f(\vx_0)=f(\vx_1)$. Esto significa que
+%	$$
+%	f(\vx_0)=f(\vx_1)\geq f(\vx_0)+\gf(\vx_0)^T(\vx_1-\vx_0)
+%	$$
+%	Esto es,
+%	$$
+%	\gf(\vx_0)^T(\vx_1-\vx_0)\leq 0.
+%	$$
+%	Pero por el corolario \ref{t343-c2}, tenemos que $\gf(\vx_0)^T(\vx_1-\vx_0)\geq 0$. Por
+%	tanto,
+%	$$
+%	\gf(\vx_0)^T(\vx_1-\vx_0)=0.
+%	$$
+%	Intercambiando los papeles de $\vx_1$ y $\vx_0$ se obtiene que
+%	$\gf(\vx_1)^T(\vx_0-\vx_1)=0.$ Entonces
+%	\begin{equation}\label{t344-1}
+%	\Bigl[\gf(\vx_0)-\gf(\vx_1)\bigr]^T(\vx_0-\vx_1)=0
+%	\end{equation}
+%	Por otra parte:
+%	\begin{equation}\label{t344-2}
+%	\Bigl[\gf(\vx_0)-\gf(\vx_1)\bigr]^T=\gf\bigl(\vx_1+\lambda(\vx_0-\vx_1)\bigr)_{\lambda=0}^{\lambda=1}=
+%	\int_{\lambda=0}^{\lambda=1}
+%	\vH\bigl(\vx_1+\lambda(\vx_0-\vx_1)\bigr)(\vx_0-\vx_1)d\lambda=\vG(\vx_0-\vx_1)
+%	\end{equation}
+%	donde $\vG=\int_0^1\vH\bigl(\vx_1+\lambda(\vx_0-\vx_1)\bigr)d\lambda$ y donde la
+%	integral de la matriz se calcula componente a componente.
+%	
+%	N\'{o}tese que $\vG$ es una matriz semidefinida positiva. Efectivamente,
+%	$$
+%	\vd^T\vG\vd=\int_0^1\vd^T\vH\bigl(\vx_1+\lambda(\vx_0-\vx_1)\bigr)\vd d\lambda\geq
+%	0
+%	$$
+%	para todo $\vd\in\Re^n$, puesto que por ser $f$ convexa, la expresi\'{o}n
+%	$\vd^T\vH\bigl(\vx_1+\lambda(\vx_0-\vx_1)\bigr)\vd$ es no negativa como funci\'{o}n de
+%	$\lambda$.
+%	
+%	Por tanto, por \eqref{t344-1} y \eqref{t344-2}, tenemos que
+%	$$
+%	0=(\vx_0-\vx_1)^T\bigl[\gf(\vx_0)-\gf(\vx_1)\bigr]=(\vx_0-\vx_1)^T\vG(\vx_0-\vx_1)
+%	$$.
+%	Pero, por ser $\vG$ semidefinida positiva, esta \'{u}ltima expresi\'{o}n implica que
+%	$\vG(\vx_0-\vx_1)=\vv$ (resultado cl\'{a}sico de an\'{a}lisis). Entonces, por \eqref{t344-2},
+%	tenemos que $\gf(\vx_0)=\gf(\vx_1)$.
+%	
+%	Por tanto, hemos comprobado que $\vx_1\in\SS$, $\gf(\vx_0)^T(\vx_1-\vx_0)\leq 0$  y
+%	$\gf(\vx_1)=\gf(\vx_0)$. Por tanto, $\vx_1\in\SS^*$ y $\hat{\SS}\subseteq\SS^*$. Como
+%	ya hab\'{\i}amos probado la otra inclusi\'{o}n, se tiene que $\hat{\SS}=\SS^*$.
+%
+%\end{frame}
+\begin{frame}{Óptimos de una funci\'on convexa}
+\begin{corolario}
+	$\SS^*$,   conjunto de soluciones \'{o}ptimas, puede expresarse como:
+	$$
+	\SS^*=\{\vx\in\SS\,/\, \gf(\vx_0)^T(\vx-\vx_0)=0\}
+	$$
+\end{corolario}
+\alert{Demostraci\'on:}
+La demostraci\'{o}n es inmediata a partir de la definici\'{o}n de $\SS^*$ del teorema anterior y por
+el hecho de que $\gf(\vx_0)^T(\vx-\vx_0)\geq 0$ para cada punto $\vx\in\SS$ por el corolario
+anterior.
+
+\end{frame}
+\begin{frame}{Óptimos de una funci\'on convexa}
+\begin{corolario}
+	Si $f$ es una funci\'{o}n cuadr\'{a}tica de la forma $f(\vx)=\vc^T\vx+\frac{1}{2}\vx^T\vH\vx$ y $\SS$
+	es un poliedro, entonces $\SS^*$ es un poliedro dado por:
+	\begin{multline*}
+		\SS^*=\{ \vx\in\SS\,/\, \vc^T(\vx-\vx_0)\leq 0,\, \vH(\vx-\vx_0)=\vv\}=
+		\{ \vx\in\SS\,/\, \vc^T(\vx-\vx_0)= 0,\, \vH(\vx-\vx_0)=\vv\}
+	\end{multline*}
+\end{corolario}
+\alert{Demostraci\'on:}
+La demostraci\'{o}n es inmediata sin m\'{a}s que considerar que $\gf(\vx_0)=\vc+\vH\vx$ en el teorema y
+el corolario anteriores.
+
+\end{frame}
+\begin{frame}{Óptimos de una funci\'on convexa. Máximos}
+
+Para maximizar una funci\'{o}n convexa en un conjunto convexo, ya no es posible
+encontrar condiciones necesarias y suficientes fuertes (muchos \'{o}ptimos
+locales las van a verificar).
+
+El siguiente resultado proporciona una condici\'{o}n necesaria muy d\'ebil (la verifican incluso puntos que no son \'{o}ptimos locales).
+\begin{teorema}
+	Sea $f:\SS\,\rightarrow\,\Re$ una funci\'{o}n convexa en $\SS$, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$. Consid\'{e}rese el problema de maximizar $f(\vx)$ sujeto a $\vx\in\SS$. 
+	
+	Si $\vx_0\in\SS$ es un \'{o}ptimo local, entonces $\B{\xi}^T(\vx-\vx_0)\leq 0$ para cada $\vx\in\SS$, donde $\B{\xi}$ es
+	cualquier subgradiente de $f$ en $\vx_0$.
+\end{teorema}
+\end{frame}
+%\begin{frame}{Óptimos de una funci\'on convexa}
+%\alert{Demostraci\'on:}
+%	Sea $\vx_0\in\SS$ un \'{o}ptimo local. Entonces existe un entorno $N_\epsilon(\vx_0)$ tal que
+%	$f(\vx)\leq f(\vx_0)$ para cada $\vx\in\SS\cap N_\epsilon(\vx_0)$. Sea $\vx\in\SS$, tomando un
+%	$\lambda>0$ suficientemente peque\~{n}o, el punto $\vx_0+\lambda(\vx-\vx_0)$ pertenece a $\SS\cap
+%	N_\epsilon(\vx_0)$. Por tanto:
+%	\begin{equation}\label{t346-1}
+%	f\bigl(\vx_0+\lambda(\vx-\vx_0)\bigr)\leq f(\vx_0).
+%	\end{equation}
+%	Sea $\B{\xi}$ un subgradiente de $f$ en $\vx_0$. Por ser $f$ convexa, tenemos que
+%	\begin{equation*}
+%	f\bigl(\vx_0+\lambda(\vx-\vx_0)\bigr)-f(\vx_0)\geq \lambda\B{\xi}^T(\vx-\vx_0).
+%	\end{equation*}
+%	La desigualdad anterior, junto con \eqref{t344-1} implica que $\lambda\B{\xi}^T(\vx-\vx_0)\leq
+%	0$ y, puesto que  $\lambda>0$, se obtiene el resultado.
+%\end{frame}
+\begin{frame}{Óptimos de una funci\'on convexa}
+\begin{corolario}
+	Si además $f$ es diferenciable, entonces si $\vx_0$ es un \'{o}ptimo local, $\gf(\vx_0)^T(\vx-\vx_0)\leq 0$, $\forall \vx\in\SS$.
+\end{corolario}
+El siguiente ejemplo muestra que esta no es una condici\'on suficiente.
+\end{frame}
+\begin{frame}{Óptimos de una funci\'on convexa. Contraejemplo}
+Sea $f(x)=x^2$ y $\SS=\{x\,/\, -1\leq x\leq 2\}$. 
+\begin{center}
+	\begin{tikzpicture}[scale=0.65]
+		\draw  (-1.5,0) -- (3,0);
+		\draw  (0,-0.5) -- (0,4.5);
+		\draw[brown,very thick, domain=-1:2, samples=50] plot (\x,\x*\x);
+		\draw[dashed] (-1,0) node[below] {\small -1} -- (-1,1);
+		\draw[dashed] (2,0) node[below] {\small 2} -- (2,4) -- (0,4) node[left] {\small 4};
+	\end{tikzpicture}
+\end{center}
+El m\'{a}ximo de $f$ e $\SS$ es 4 y se alcanza en $x=2$.
+
+Sin embargo, $\gf(x)=0$ en $\hat{x}=0$ y, por tanto, $\gf(0)^T(x-0)=0$, $\forall x\in\SS$ cuando es evidente que $x=0$ no es un \'{o}ptimo local.
+
+
+%Este concepto lo formaliza von Neuman en el teorema del Minimax en 1928.
+\end{frame}
+%\begin{frame}{Óptimos de una funci\'on convexa}
+%En el caso de que $\SS$ sea un poliedro compacto, el siguiente resultado nos permite
+%garantizar que el \'{o}ptimo se alcanza en un punto extremo, por lo menos. 
+%
+%Este resultado ha sido
+%muy aplicada en los m\'{e}todos computacionales, como, por ejemplo, el m\'{e}todo del simplex.
+%\begin{teorema}
+%	Sea $f:\Re^n\rightarrow\Re$ una funci\'{o}n convexa y sea $\SS$ un poliedro compacto no vac\'{\i}o.
+%	Consid\'{e}rese el problema de maximizar $f(\vx)$ con $\vx\in\SS$. Entonces existe un punto
+%	extremo de $\vx_0$ de $\SS$ que resuelve el problema.
+%\end{teorema}
+%\end{frame}
+%\begin{frame}{Óptimos de una funci\'on convexa}
+%\alert{Demostraci\'on:}
+%	Por ser $f$ convexa, $f$ es continua. Puesto que $\SS$ es compacto, el m\'{a}ximo de $f$ se
+%	alcanza en un punto de $\SS$, sea $\vx'$. Si $\vx!`$ no es un punto extremo, por ser $\SS$ un
+%	poliedro y aplicando el teorema de representaci\'{o}n, $\vx'$ se puede poner como combinaci\'{o}n
+%	lineal de los puntos extremos de $\SS$:
+%	$$
+%	\vx'=\sum_{j=1}^k\lambda_j\vx_j\qquad,\lambda_j=1,\qquad\lambda_j\geq 0,\quad
+%	j=1,\dots,k
+%	$$
+%	y donde $\vx_j$, $j=1,\dots,k$ son puntos extremos de $\SS$. Por ser $f$ convexa se tiene que:
+%	$$
+%	f(\vx')=f\Bigl(\sum_{j=1}^k\lambda_j\vx_j\Bigr)\leq\sum_{j=1}^kf(\vx_j)
+%	$$
+%	y puesto que $f(\vx')\geq f(\vx_j)$, para $j=1,\dots,k$, la desigualdad anterior implica que
+%	$f(\vx')=f(\vx_j)$, $j=1,\dots,k$. Por tanto, estos $k$ puntos extremos son soluciones \'{o}ptimas
+%	del problema.
+%
+%\end{frame}
+
+%\end{document}
+
+%%
+\subsection{Extensi\'{o}n del concepto de funci\'{o}n convexa}
+%
+\begin{frame}{Extensi\'on del concepto de funci\'on convexa}
+La condici\'on de convexidad tiene muy buenas propiedades. 
+
+Sin embargo, es posible encontrar otras funciones, que sin ser convexas, son similares y mantienen alguna de estas propiedades. 
+
+Esto resulta interesante ya que muchas de las condiciones que se imponen en los resultados posteriores sobre optimalidad no requieren que se verifiquen las condiciones tan restrictivas de convexidad y es posible relajar alguna de ellas.
+\end{frame}
+\begin{frame}{Funci\'{o}n cuasi-convexa. Ejemplos}
+Las dos primeras funciones son convexas, pero la tercera, no. Sin embargo, en los tres casos, el mínimo local el mínimo global.
+\begin{columns}[t]
+	\column{0.33\textwidth}{
+		$$
+		\vert x\vert^2
+		$$
+		\begin{center}
+			\begin{tikzpicture}[scale=0.6]
+				\draw  (-2.3,0) -- (2.5,0);
+				\draw  (0,-0.1) -- (0,4.5);
+				\draw[red,very thick, domain=-2:2, samples=50] plot (\x,\x*\x);
+				\draw[dashed] (-2,0) node[below] {\small -2} -- (-2,4);
+				\draw[dashed] (2,0) node[below] {\small 2} -- (2,4);
+			\end{tikzpicture}
+			
+			Es  convexa
+		\end{center}
+	}
+	\column{0.33\textwidth}{
+		$$
+		\vert x\vert^1
+		$$
+		\begin{center}
+			\begin{tikzpicture}[scale=0.6]
+				\draw  (-2.3,0) -- (2.5,0);
+				\draw  (0,-0.1) -- (0,4.5);
+				\draw[red,very thick, domain=-2:0, samples=50] plot (\x,-\x);
+				\draw[red,very thick, domain=-0:2, samples=50] plot (\x,\x);
+				\draw[dashed] (-2,0) node[below] {\small -2} -- (-2,2);
+				\draw[dashed] (2,0) node[below] {\small 2} -- (2,2);
+			\end{tikzpicture}
+			
+			Es  convexa
+		\end{center}
+	}
+	\column{0.33\textwidth}{
+		$$
+		\vert x\vert ^{0.5}
+		$$
+		\begin{center}
+			\begin{tikzpicture}[scale=0.6]
+				\draw  (-2.3,0) -- (2.5,0);
+				\draw  (0,-0.1) -- (0,4.5);
+				\draw[red,very thick, domain=0:2, samples=50] plot (\x,\x^0.5);
+				\draw[red,very thick, domain=0:2, samples=50] plot (-\x,\x^0.5);
+				\draw[dashed] (-2,0) node[below] {\small -2} -- (-2,1.4142);
+				\draw[dashed] (2,0) node[below] {\small 2} -- (2,1.4142);
+			\end{tikzpicture}
+			
+			No es convexa
+		\end{center}
+	}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Funci\'{o}n cuasi-convexa. Ejemplos}
+Las dos primeras funciones son convexas, pero la tercera, no. Sin embargo, en los tres casos, el mínimo local el mínimo global.\vspace*{-15mm}
+\begin{columns}[t]
+	\column{0.30\textwidth}{
+		\begin{center}
+			$$
+			(x-2)^2+(y-2)^2
+			$$
+			\begin{tikzpicture}[scale=0.9]
+				\begin{axis}[
+					%colormap/cool,
+					%legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=5cm,
+					%grid style={line width=.1pt, draw=gray!30},
+					%grid=major,
+					%labels=false
+					%minor tick num=1,
+					domain=-0:4,
+					%xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+					shader=interp
+					]
+					\addplot3[surf,colormap/cool]	{(x-2)^2+(y-2)^2};
+					%\addlegendentry{\small $f(x,y)=(x-2)^2 + (y-2)^2 $}
+					% add the contour lines
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={-0,1,2,3,4},
+						% we don't want to add labels
+						labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {(x-2)^2+(y-2)^2};
+				\end{axis}
+			\end{tikzpicture}
+			\begin{tikzpicture}[scale=0.8]
+				\begin{axis}[       view={0}{90},
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=5cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid,
+					minor tick num=1,
+					domain=0:4
+					]
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={-0,1,2,3,4},
+						% we don't want to add labels
+						%labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {(x-2)^2+(y-2)^2};
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+	}	\column{0.30\textwidth}{
+		\begin{center}
+			$$
+			\bigl((x-2)^2+(y-2)^2\bigr)^\frac{1}{2}
+			$$		 
+			\begin{tikzpicture}[scale=0.9]
+				\begin{axis}[
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=5cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid=major,
+					minor tick num=1,
+					domain=-0:4,
+					%xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+					shader=interp
+					]
+					\addplot3[surf,colormap/cool]	{((x-2)^2+(y-2)^2)^0.5};
+					%\addlegendentry{\small $f(x,y)=(x-2)^1 + (y-2)^1 $}
+					% add the contour lines
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={0,0.5,1,1.5,2},
+						% we don't want to add labels
+						labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {((x-2)^2+(y-2)^2)^0.5};
+				\end{axis}
+			\end{tikzpicture}
+			\begin{tikzpicture}[scale=0.8]
+				\begin{axis}[       view={0}{90},
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=5cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid,
+					minor tick num=1,
+					domain=0:4
+					]
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={0,0.5,1,1.5,2},
+						% we don't want to add labels
+						%labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {((x-2)^2+(y-2)^2)^0.5};
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+	}
+	\column{0.30\textwidth}{
+		\begin{center}
+			$$
+			\bigl((x-2)^2+(y-2)^2\bigr)^\frac{1}{4}
+			$$		 
+			
+			\begin{tikzpicture}[scale=0.9]
+				\begin{axis}[
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=5cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid=major,
+					minor tick num=1,
+					domain=-0:4,
+					%xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+					shader=interp
+					]
+					\addplot3[surf,colormap/cool]	{((x-2)^2+(y-2)^2)^0.25};
+					%\addlegendentry{\small $f(x,y)=((x-2)^2 + (y-2)^2 )^\frac{1}{4}$}
+					% add the contour lines
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={0,0.4,0.6,0.8,1.0,1.2,1.4},
+						% we don't want to add labels
+						labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {((x-2)^2+(y-2)^2)^0.25};
+				\end{axis}
+			\end{tikzpicture}
+			\begin{tikzpicture}[scale=0.8]
+				\begin{axis}[       view={0}{90},
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=5cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid,
+					minor tick num=1,
+					domain=0:4
+					]
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={0,0.4,0.6,0.8,1.0,1.2,1.4},
+						% we don't want to add labels
+						%labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {((x-2)^2+(y-2)^2)^0.25};
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+	}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Funci\'{o}n cuasi-convexa}
+%%
+\begin{definicion}[Funci\'{o}n cuasi-convexa]
+	Sea $f:\SS\subset \Re^n\,\rightarrow\,\Re$, con $\SS\neq\emptyset$  convexo. Se dice que $f$ es
+	cuasi-convexa si
+	$$
+	f(\lambda\vx_1+(1-\lambda)
+	\vx_2)\leq \max\{f(\vx_1),f(\vx_2)\},\qquad\forall\vx_1,\vx_2\in\SS,\quad\forall \lambda\in
+	[0,1],
+	$$
+\end{definicion}
+De la definici\'{o}n anterior, $f$ es cuasi-convexa si siempre que $f(\vx_2)\geq f(\vx_1)$,
+entonces $f(\vx_2)$ es mayor o igual que $f(\vx)$, donde $\vx$ es cualquier combinaci\'{o}n lineal
+convexa de $\vx_1$ y $\vx_2$.
+\end{frame}
+\begin{frame}{Funci\'{o}n cuasi-convexa. Ejemplos}
+Las siguientes funciones son cuasi-convexas, pero no son convexas.
+\begin{columns}[t]
+	\column{0.5\textwidth}{
+		$$
+		f(x)=\begin{cases}
+			\sqrt{\vert x\vert } & \quad -2\leq x < 0 
+			\\
+			x^2 & \quad 0\leq x \leq 2
+		\end{cases}
+		$$
+		\begin{center}
+			\begin{tikzpicture}[scale=0.8]
+				\draw  (-2.3,0) -- (2.5,0);
+				\draw  (0,-0.1) -- (0,4.5);
+				\draw[<-,red,very thick, domain=0:2, samples=50] plot (-\x,\x^0.5);
+				\draw[red,very thick, domain=0:2, samples=50] plot (\x,\x*\x);
+				\draw[dashed] (0,0) node[below] {\small 0} -- (0,0);
+				\draw[dashed] (-2,0) node[below] {\small -2} -- (-2,1.4142);
+				\draw[dashed] (2,0) node[below] {\small 2} -- (2,4);
+			\end{tikzpicture}
+			
+			No es ni convexa ni mon\'otona. 
+		\end{center}
+	}
+	\column{0.5\textwidth}{
+		$$
+		f(x)=\begin{cases}
+			x^2 & \quad 0\leq x < 1 
+			\\
+			2x & \quad 1\leq x \leq 2
+		\end{cases}
+		$$
+		\begin{center}
+			\begin{tikzpicture}[scale=0.8]
+				\draw  (-0.3,0) -- (2.5,0);
+				\draw  (0,-0.1) -- (0,4.5);
+				\draw[->,red,very thick, domain=0:1, samples=50] plot (\x,\x*\x);
+				\draw[red,very thick, domain=1:2, samples=50] plot (\x,2*\x);
+				\draw[dashed] (0,0) node[below] {\small 0} -- (0,0);
+				\draw[dashed] (1,0) node[below] {\small 1} -- (1,2);
+				\draw[dashed] (2,0) node[below] {\small 2} -- (2,4);
+			\end{tikzpicture}
+			
+			No es convexa, pero es mon\'otona y  discontinua en un punto del interior.
+		\end{center}
+	}
+\end{columns}
+\end{frame}
+\begin{frame}{Funci\'{o}n cuasi-convexa. Ejemplos}
+\begin{columns}
+	\column{0.40\textwidth}{
+		$$
+		f(x)=2\sqrt{\vert x\vert }
+		$$
+		\begin{center}
+			\begin{tikzpicture}[scale=0.6]
+				\draw  (-2.3,0) -- (2.5,0);
+				\draw  (0,-0.1) -- (0,4.5);
+				\draw[red,very thick, domain=0:2, samples=50] plot (\x,2*\x^0.5);
+				\draw[red,very thick, domain=0:2, samples=50] plot (-\x,2*\x^0.5);
+				\draw[dashed] (-2,0) node[below] {\small -2} -- (-2,2.8288);
+				\draw[dashed] (2,0) node[below] {\small 2} -- (2,2.8284);
+			\end{tikzpicture}
+			
+			No es ni convexa ni mon\'otona. 
+		\end{center}
+	}
+	\column{0.40\textwidth}{
+		\begin{center}
+			$$
+			f(x,y)=\bigl((x-2)^2+(y-2)^2\bigr)^\frac{1}{4}
+			$$		 
+			
+			\begin{tikzpicture}[scale=0.9]
+				\begin{axis}[
+					%colormap/cool,
+					legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+					width=5cm,
+					grid style={line width=.1pt, draw=gray!30},
+					grid=major,
+					minor tick num=1,
+					domain=-0:4,
+					%xlabel={\small $x$},ylabel={\small $y$}, zlabel={\small $f(x,y)$},
+					shader=interp
+					]
+					\addplot3[surf,colormap/cool]	{((x-2)^2+(y-2)^2)^0.25};
+					%\addlegendentry{\small $f(x,y)=((x-2)^2 + (y-2)^2 )^\frac{1}{4}$}
+					% add the contour lines
+					\addplot3 [
+					% increase a bit the number of samples so `smooth' does a good job
+					samples=51,
+					samples y=51,
+					contour gnuplot={
+						% state at which levels you want to draw the contour lines
+						levels={0,0.4,0.6,0.8,1.0,1.2,1.4},
+						% we don't want to add labels
+						labels=false,
+						% they should be drawn in black
+						draw color=black,
+						% and they should be smoothed
+						handler/.style=smooth,
+					},
+					] {((x-2)^2+(y-2)^2)^0.25};
+				\end{axis}
+			\end{tikzpicture}
+		\end{center}
+	}
+\end{columns}
+\end{frame}
+\begin{frame}{Funci\'{o}n cuasi-convexa}
+\begin{teorema}
+	Sea $f:\SS\,\rightarrow\,\Re$, con $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$. La funci\'{o}n $f$ es
+	cuasi-convexa si y solo si $\SS_\alpha=\{\vx\in\SS\,/\, f(\vx)\leq\alpha\}$ es convexo para
+	cualquier numero real $\alpha$.
+\end{teorema}
+\alert{Demostraci\'on:}
+Sean $f$ cuasi-convexa y $\vx_1,\vx_2\in\SS_\alpha$. Entonces: 
+$$
+\vx_1,\vx_2\in\SS\qquad\text{ y }\qquad \max\{f(\vx_1),f(\vx_2)\}\leq\alpha.
+$$
+Sea $\lambda\in(0,1)$ y $\vx=\lambda\vx_1+(1-\lambda)\vx_2$. Por ser $\SS$ convexo,
+$\vx\in\SS$ y por ser $f$ cuasi-convexa:
+$$
+f(\vx)=f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)\leq\max\bigl\{f(\vx_1),f(\vx_2)\bigr\}\leq\alpha
+$$
+y, por tanto, $\vx\in\SS_\alpha$  y $\SS_\alpha$ es convexo.
+\end{frame}
+\begin{frame}{Funci\'{o}n cuasi-convexa}
+\alert{Demostraci\'on (cont.):}
+Supongamos ahora que $\SS_\alpha$ es convexo para cualquier n\'{u}mero real $\alpha$. 
+
+Sean $\vx_1,\vx_2\in\SS$:
+$$
+\vx=\lambda\vx_1+(1-\lambda)\vx_2\in\SS,\qquad \forall \lambda\in(0,1)
+$$
+Adem\'{a}s, $\vx_1,\vx_2\in\SS_\alpha$ para $\alpha=\max\{f(\vx_1),f(\vx_2)\}$. 
+
+Por hip\'{o}tesis, $\SS_\alpha$ es convexo y, por tanto, $\vx\in\SS_\alpha$. Entonces,
+$$
+f(\vx)\leq\alpha=\max\bigl\{f(\vx_1),f(\vx_2)\bigr\}
+$$
+y $f$ es cuasi-convexa.
+\end{frame}
+\begin{frame}{Funci\'{o}n estrictamente cuasi-convexa}
+
+Un funci\'{o}n cuasi-convexa no verifica que un m\'{\i}nimo local  es global. 
+\begin{center}\vspace*{-5mm}
+	\begin{tikzpicture}[scale=0.8]
+		\draw  (-2.3,0) -- (2.5,0);
+		\draw  (0,-0.1) -- (0,4.5);
+		\draw[red,very thick, domain=-2:1, samples=50] plot (\x,\x*\x);
+		\draw[red,very thick, domain=1.5:2, samples=50] plot (\x,\x*\x-1.25);
+		\draw[red,very thick, domain=1:1.5, samples=50] plot (\x,1);
+		\draw[dashed] (0,0) node[below] {\small 0} -- (0,0);
+		\draw[dashed] (1.5,0) node[below] {\small $\frac{3}{2}$} -- (1.5,1);
+		\draw[dashed] (1,0) node[below] {\small 1} -- (1,1);
+		\draw[dashed] (-2,0) node[below] {\small -2} -- (-2,4);
+		\draw[dashed] (2,0) node[below] {\small 2} -- (2,2.75);
+	\end{tikzpicture}
+	
+	$0$ es un mínimo global y los puntos en $(1,\frac{3}{2})$ son mínimos locales.
+\end{center}
+Para poder garantizar esta propiedad hay que endurecer el concepto de cuasi-convexidad, introduciendo las funciones estrictamente cuasi-convexas.
+\end{frame}
+\begin{frame}{Funci\'{o}n estrictamente cuasi-convexa}
+
+Las funciones estrictamente cuasi-convexa, que s\'{\i} permiten mantener este resultado.
+\begin{definicion}[Funci\'{o}n estrictamente cuasi-convexa]\label{estricta-cuasi}
+	Sea $f:\SS\subset \Re^n\,\rightarrow\,\Re$, con $\SS\neq\emptyset$  convexo. Se dice que $f$ es
+	estrictamente cuasi-convexa si
+	$$
+	f(\lambda\vx_1+(1-\lambda)
+	\vx_2)<\max\{f(\vx_1),f(\vx_2)\},\qquad\forall\vx_1,\vx_2\in\SS,\quad
+	f(\vx_1)\neq f(\vx_2),
+	$$
+	para todo $\lambda\in(0,1)$.
+\end{definicion}
+\begin{proposicion}
+	Toda funci\'{o}n convexa es estrictamente cuasi-convexa.
+\end{proposicion}
+\alert{Demostraci\'on:}
+Trivial a partir de la definici\'{o}n.
+\end{frame}
+\begin{frame}{Funci\'{o}n estrictamente cuasi-convexa}
+
+Esta función es cuasi-convexa, pero no estrictamente cuasi-convexa. 
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+		\draw  (-2.3,0) -- (2.5,0);
+		\draw  (0,-0.1) -- (0,4.5);
+		\draw[red,very thick, domain=-2:1, samples=50] plot (\x,\x*\x);
+		\draw[red,very thick, domain=1.5:2, samples=50] plot (\x,\x*\x-1.25);
+		\draw[red,very thick, domain=1:1.5, samples=50] plot (\x,1);
+		\draw[dashed] (0,0) node[below] {\small 0} -- (0,0);
+		\draw[dashed] (1.5,0) node[below] {\small $\frac{3}{2}$} -- (1.5,1);
+		\draw[dashed] (1,0) node[below] {\small 1} -- (1,1);
+		\draw[dashed] (-2,0) node[below] {\small -2} -- (-2,4);
+		\draw[dashed] (2,0) node[below] {\small 2} -- (2,2.75);
+	\end{tikzpicture}
+\end{center}
+Si de los dos puntos seleccionados, el que tiene mayor función pertenece al intervalo  $(1,\frac{3}{2})$, no se verifica la condición.
+\end{frame}
+
+%\begin{frame}{Extensi\'on del concepto de funci\'on convexa}
+%\begin{center}
+%	\begin{pspicture}(0,-0.7)(13,4)
+%	\psset{yunit=10mm,xunit=10mm}
+%	\rput(0,1.5){\pscurve(0,1)(0.9,0.3)(1,0)\psline(1,0)(2,0)\pscurve(2,0)(2.8,0.5)(3,1.5)}
+%	\rput(4,2){\pscurve(0,-1)(1.7,0)(2,1)\pscurve(2,1)(2.5,1.5)(3,1)\pscurve(3,1)(3.2,0.5)(3.5,-1)}
+%	%\psline[linestyle=dashed]{->}(0.5,-0.5)(0.5,2.25)
+%	\rput(6,-0.1){\footnotesize Estrictamente}
+%	\rput(6,-0.4){\footnotesize cuasi-c\'{o}ncava}
+%	\rput(2,-0.1){\footnotesize Estrictamente}
+%	\rput(2,-0.4){\footnotesize cuasi-convexa}
+%	\rput(11,-0.1){\footnotesize Ni estrictamente cuasi-convexa}
+%	\rput(11,-0.4){\footnotesize ni estrictamente cuasi-c\'{o}ncava}
+%	\rput(9,0.25){\pscurve(0,0)(1,2)(2,1)(3,2)}
+%	\end{pspicture}
+%\end{center}
+%\end{frame}
+\begin{frame}{Funci\'{o}n estrictamente cuasi-convexa}
+
+\begin{teorema}\label{t356}
+	Sea el problema de minimizar $f(\vx)$ con $f:\Re^n\,\rightarrow\,\Re$  una funci\'{o}n estrictamente cuasi-convexa  y $\SS\subset\Re^n$ un conjunto convexo no vac\'{\i}o.
+	
+	\smallskip
+	
+	Si $\vx_0$ es un \'{o}ptimo local, entonces $\vx_0$ es tambi\'{e}n un \'{o}ptimo global.
+\end{teorema}
+\end{frame}
+\begin{frame}{Funci\'{o}n estrictamente cuasi-convexa}
+\alert{Demostraci\'on:}
+Por contradicci\'{o}n, supongamos que:
+$$
+\exists \vx_1\in\SS:\quad f(\vx_1)<f(\vx_0)
+$$ 
+Por ser $\SS$  convexo:
+$$
+\lambda\vx_1+(1-\lambda)\vx_0\in\SS\qquad\forall \lambda \in(0,1)
+$$
+Por ser  $\vx_0$ es un m\'{\i}nimo local: 
+$$
+\exists \delta\in(0,1):\quad f(\vx_0)\leq f\bigl(\lambda\vx_1+(1-\lambda)\vx_0\bigr),\qquad\forall\lambda\in(0,\delta).
+$$
+Por ser $f$ estrictamente cuasi-convexa:
+$$
+f\bigl(\lambda\vx_1+(1-\lambda)\vx_0\bigr) < \max\{f(\vx_0),f(\vx_1)\}= f(\vx_0),\qquad\forall\lambda\in(0,1).
+$$
+Las dos últimas expresiones son contradictorias!!!
+\end{frame}
+\begin{frame}{Funci\'{o}n estrictamente cuasi-convexa}
+
+\begin{lema}\label{l357}
+	Sea $f:\SS\subset \Re^n\,\rightarrow\,\Re$ estrictamente cuasi-convexa y semi-continua inferiormente, con
+	$\SS\neq\emptyset$ convexo. Entonces $f$ es cuasi-convexa.
+\end{lema}
+\end{frame}
+\begin{frame}{Funci\'{o}n estrictamente cuasi-convexa}
+\footnotesize
+\alert{Demostraci\'on:}
+Sean $\vx_1$ y $\vx_2$ dos puntos de $\SS$. Si $f(\vx_1)\neq f(\vx_2)$, al ser $f$
+estrictamente cuasi-convexa:
+$$
+f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)<\max\bigl\{ f(\vx_1),
+f(\vx_2)\bigr\},\qquad\forall\lambda\in(0,1).
+$$
+Si $f(\vx_1)=f(\vx_2)$: $f$ es quasi-convexa es necesario si:
+$$
+f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)\leq f(\vx_1),\qquad\forall \lambda\in (0,1).
+$$
+Por contradicci\'{o}n, supongamos que existe un $\mu\in (0,1)$ para el que:
+$$
+f\bigl(\mu\vx_1+(1-\mu)\vx_2\bigr)> f(\vx_1).
+$$
+Sea $\vx=\mu\vx_1+(1-\mu)\vx_2$. Puesto que $f$ es semicontinua inferiormente, existe un
+$\lambda\in (0,1)$ tal que
+\begin{equation}\label{l357-dem1}
+	f(\vx)>f\bigl(\lambda\vx_1+(1-\lambda)\vx\bigr)> f(\vx_1)=f(\vx_2).
+\end{equation}
+N\'{o}tese que $\exists \lambda^\prime$ tal que $\vx=\lambda^\prime(\lambda\vx_1+(1-\lambda)\vx )+(1-\lambda^\prime)\vx_2$. Por ser $f$ estrictamente cuasi-convexa:
+$$
+f(\vx) < \max\{f(\lambda\vx_1+(1-\lambda)\vx),f(\vx_2)\}=f(\lambda\vx_1+(1-\lambda)\vx)
+$$
+que entra en contradicci\'{o}n con \eqref{l357-dem1} y, por tanto, $f$ es cuasi-convexa.
+\end{frame}
+
+\begin{frame}{Funci\'{o}n estrictamente cuasi-convexa}
+
+La cuasi-convexidad estricta garantiza que los óptimos locales son globales, pero no aseguran su unicidad.
+\begin{center}\vspace*{-5mm}
+	\begin{tikzpicture}[scale=0.7]
+		\draw  (-2.3,0) -- (2.5,0);
+		\draw  (0,-0.1) -- (0,4.5);
+		\draw[red,very thick, domain=-2:0, samples=50] plot (\x,\x*\x);
+		\draw[red,very thick, domain=1:2, samples=50] plot (\x,\x*\x-1);
+		\draw[red,very thick, domain=0:1, samples=50] plot (\x,0);
+		\draw[dashed] (0,0) node[below] {\small 0} -- (0,0);
+		\draw[dashed] (1,0) node[below] {\small 1} -- (1,0);
+		\draw[dashed] (-2,0) node[below] {\small -2} -- (-2,4);
+		\draw[dashed] (2,0) node[below] {\small 2} -- (2,3);
+	\end{tikzpicture}
+	
+	Los puntos del intervalo  $(0,1)$ son mínimos globales.
+\end{center}
+Para poder garantizar esta propiedad hay que endurecer el concepto de cuasi-convexidad, introduciendo las funciones fuertemente convexas.
+\end{frame}
+
+\begin{frame}{Funci\'{o}n fuertemente cuasi-convexa}
+
+La unicidad de los óptimos globales solo se puede garantizar con la familia de funciones fuertemente  cuasi-convexas.
+
+\begin{definicion}[Funci\'{o}n fuertemente cuasi-convexa]
+	Sea $f:\SS\subset \Re^n\,\rightarrow\,\Re$, con $\SS\neq\emptyset$  convexo. Se dice que $f$ es
+	fuertemente cuasi-convexa si
+	$$
+	f\bigl(\lambda\vx_1+(1-\lambda)
+	\vx_2\bigr)<\max\bigl\{f(\vx_1),f(\vx_2)\bigr\},\qquad\forall\vx_1,\vx_2\in\SS,\quad
+	\vx_1\neq \vx_2,
+	$$
+	para todo $\lambda\in(0,1)$.
+\end{definicion}
+\end{frame}
+
+\begin{frame}{Funci\'{o}n fuertemente cuasi-convexa}
+\begin{teorema}\label{t359}
+	Sea el problema de minimizar $f(\vx)$ con $f:\Re^n\,\rightarrow\,\Re$  una funci\'{o}n fuertemente cuasi-convexa  y $\SS\subset\Re^n$ un conjunto convexo no vac\'{\i}o.
+	
+	\smallskip
+	
+	Si $\vx_0$ es un \'{o}ptimo local, entonces $\vx_0$ es el único  \'{o}ptimo global.
+\end{teorema}\small
+\alert{Demostraci\'on:}
+Por ser $\vx_0$ \'{o}ptimo local:
+$$
+\exists \epsilon>0:\quad f(\vx)\geq f(\vx_0), \qquad \forall \vx\in\SS\cap N_\epsilon(\vx_0)
+$$ 
+Por contradicci\'{o}n, sea $\vx_1\in\SS$, $\vx_1\neq\vx_0$, tal que $f(\vx_0)\geq
+f(\vx_1)$. Por ser $f$ fuertemente cuasi-convexa se tiene que:
+$$
+f\bigl(\lambda\vx_1+(1-\lambda)\vx_0\bigr)<\max\bigl\{f(\vx_1),f(\vx_0)\bigr\}\qquad \forall \lambda\in(0,1)
+$$ 
+Pero:
+$$
+\exists \delta\in(0,1):\quad \lambda\vx_1+(1-\lambda)\vx_0\in \SS\cap N_\epsilon(\vx_0),\quad \forall \lambda\in(0,\delta)
+$$
+que entra en contradicción con que $\vx_0$ sea un \'{o}ptimo local.
+\end{frame}
+
+\begin{frame}{Convexidad y cuasi-convexidad}
+De las definiciones anteriores de funciones cuasi-convexas, estrictamente cuasi-convexas
+y fuertemente cuasi-convexas, se deducen trivialmente las siguientes relaciones:
+\begin{center}
+	\begin{tikzpicture}
+		\node at (0,1) (a) {Cuasi-convexa};
+		\node at (0,.6) (a1) {\color{red} \footnotesize $\Leftrightarrow\SS_\alpha$ convexo};
+		\node at (0,2.5) (b) {Estrictamente cuasi-convexa};
+		\node at (0,2.1) (b1) {\color{red} \footnotesize min local $\Rightarrow$ min global};
+		\node at (-3,4) (c) {Fuertemente cuasi-convexa};
+		\node at (-3,3.6) (c1) {\color{red} \footnotesize min local $\Rightarrow$ min global y \'unico};
+		%\node at (-3,4) (d) {Estric. pseudo-convexa};
+		%\node at (3,4) (e) {Pseudo-convexa};
+		%\node at (3,3.6) (f1) {\color{red} \footnotesize $\gf = \vv \Rightarrow$  min local};
+		\node at (-3,5.5) (f) {Estrictamente convexa};
+		\node at (-3,5.1) (f1) {\color{red} \footnotesize min local $\Rightarrow$ min global y \'unico};
+		\node at (3,5.5) (g) {Convexa};
+		\node at (3,5.1) (g1) {\color{red} \footnotesize $\Rightarrow\SS_\alpha$ convexo};
+		\node at (3,4.7) (g2) {\color{red} \footnotesize min local $\Rightarrow$ min global};
+		\draw[very thick] (f) edge[->]  (g);
+		\draw[very thick] (f1) edge[->]   (c);
+		\draw[very thick,->] (-2,3.35) -- (-2,2.75);
+		\draw[very thick,->] (-3,3.35) -- (-3,1) -- (-1.5,1);
+		\draw[very thick,->] (3.1,4.4)  -- (3.1,1) -- (1.5,1);
+		\draw[very thick,->] (2.9,4.4)  -- (2.9,2.5) -- (2.6,2.5);
+		\draw[very thick] (b1) edge[->] node[right] {\tiny +semicontinuidad inferior}   (a);
+	\end{tikzpicture}	
+\end{center}
+\end{frame}
+
+\begin{frame}{Funci\'{o}n pseudo-convexa}
+
+En  funciones diferenciables es posible relajar a\'{u}n m\'{a}s estas definiciones.
+
+En las  funciones pseudo-convexas, el hecho de que el gradiente sea nulo en un punto es una condici\'{o}n suficiente para que ese punto sea \'{o}ptimo global.
+\begin{definicion}[Funci\'{o}n pseudo-convexa y estrictamente pseudo-convexa]
+	Sea $f:\SS\subset \Re^n\,\rightarrow\,\Re$, diferenciable en $\SS$, con $\SS\neq\emptyset$  abierto. Se
+	dice que $f$ es pseudo-convexa si $\forall\vx_1,\vx_2\in\SS$ con
+	$\gf(\vx_1)^T(\vx_2-\vx_1)\geq 0$ se verifica que $f(\vx_2)\geq f(\vx_1)$.
+	\\[4mm]
+	\noindent Se dice que $f$ es estrictamente pseudo-convexa si $\forall\vx_1,\vx_2\in\SS$ con
+	$\vx_1\neq\vx_2$ y $\nabla f(\vx_1)^T(\vx_2-\vx_1)\geq 0$ se verifica que $f(\vx_2)>f(\vx_1)$.
+\end{definicion}
+\end{frame}
+%\begin{frame}{Extensi\'on del concepto de funci\'on convexa}{Ejemplos}
+%\begin{center}
+%	\begin{pspicture}(0,-0.7)(13,4)
+%	\psset{yunit=10mm,xunit=10mm}
+%	\rput(2,.5){\pscurve(-2,2)(-1,0.1)(0,0)\pscurve(0,0)(1,0.1)(1.8,3)}
+%	\rput(6,2){\pscurve(-1,-1)(-.5,-0.33)(0,0)(.5,0.33)(1,1)}
+%	\rput(11,2){\pscurve(-1,-1)(-.5,-0.125)(0,0)(.5,0.125)(1,1)}
+%	%\psline[linestyle=dashed]{->}(0.5,-0.5)(0.5,2.25)
+%	\rput(2,-0.1){\footnotesize Pseudo-convexa}
+%	\rput(6,-0.1){\footnotesize Pseudo-convexa y}
+%	\rput(6,-0.4){\footnotesize pseudo-c\'{o}ncava}
+%	\rput(11,-0.1){\footnotesize Ni Pseudo-convexa}
+%	\rput(11,-0.4){\footnotesize ni pseudo-c\'{o}ncava}
+%	\end{pspicture}
+%\end{center}
+%\end{frame}
+
+\begin{frame}{Funci\'{o}n pseudo-convexa }\small
+\begin{teorema}\label{t3511}
+	Sea $f:\SS\subset \Re^n\,\rightarrow\,\Re$, diferenciable en $\SS$, con $\SS\neq\emptyset$  abierto y convexo. Si $f$  pseudo-convexa en $\SS$,  entonces es  estrictamente cuasi-convexa.
+\end{teorema}\footnotesize
+\alert{Demostraci\'on:}
+Por contradicci\'{o}n, supongamos que existen dos puntos $\vx_1$ y $\vx_2$ de $\SS$, con $f(\vx_1)\neq f(\vx_2)$ tales que:
+$$
+f(\vx')\geq\max\bigl\{f(\vx_1),f(\vx_2)\bigr\},
+$$
+donde $\vx'=\lambda\vx_1+(1-\lambda)\vx_2$, para alg\'{u}n $\lambda\in (0,1)$. Sin p\'{e}rdida de
+generalidad, se puede suponer que $f(\vx_1)< f(\vx_2)$, esto es:
+\begin{equation}\label{t3511-dem1}
+	f(\vx')\geq f(\vx_2)> f(\vx_1).
+\end{equation}
+Por ser $f$ pseudo-convexa, tenemos que $\gf(\vx')^T(\vx_1-\vx')<0$. Por otra parte
+$$
+\vx_1-\vx'=-\frac{(1-\lambda)}{\lambda}(\vx_2-\vx').
+$$
+Entonces, resulta $\gf(\vx')^T(\vx_2-\vx')>0$. Por ser $f$ pseudo-convexa, se tiene que
+$f(\vx_2)\geq f(\vx')$ y junto con  \eqref{t3511-dem1}, resulta $f(\vx_2)=f(\vx')$.
+\end{frame}
+\begin{frame}{Funci\'{o}n pseudo-convexa }
+\footnotesize
+\alert{Demostraci\'on (cont.):}
+Por ser $\gf(\vx')^T(\vx_2-\vx')>0$, existe un punto $\vx_3=\mu\vx'+(1-\mu)\vx_2$, con
+$\mu\in(0,1)$ tal que:
+$$
+f(\vx_3)> f(\vx')= f(\vx_2)
+$$
+De nuevo, por ser $f$ pseudo-convexa, se tiene que $\gf(\vx_3)^T(\vx_2-\vx_3)<0$. De
+igual forma, $\gf(\vx_3)^T(\vx'-\vx_3)<0$. Esto es:
+\begin{align*}
+	\gf(\vx_3)^T(\vx_2-\vx_3) & <0,
+	\\
+	\gf(\vx_3)^T(\vx'-\vx_3) & <0.
+\end{align*}
+Como
+$$
+\vx_2-\vx_3=\frac{\mu}{1-\mu}(\vx_3-\vx'),
+$$
+las dos desigualdades anteriores resultan incompatibles. Por tanto, $f$ es estrictamente
+cuasi-convexa.
+
+\alert{Corolario:} Por  ser $f$ estrictamente cuasi-convexa y diferenciable (por tanto,
+continua), $f$ es tambi\'{e}n cuasi-convexa.
+\end{frame}
+\begin{frame}{Funci\'{o}n pseudo-convexa }
+
+\begin{teorema}\label{t3512}
+	Sea $f:\SS\subset \Re^n\,\rightarrow\,\Re$, diferenciable en $\SS$, con $\SS\neq\emptyset$  abierto y convexo. Si $f$  estrictamente pseudo-convexa en $\SS$,  entonces es  fuertemente cuasi-convexa.
+\end{teorema}\footnotesize
+\alert{Demostraci\'on:}
+Por contradicci\'{o}n, sup\'{o}ngase que existen dos puntos $\vx_1$ y $\vx_2$ de $\SS$ y un
+$\lambda\in(0,1)$ tales que:
+$$
+f(\vx)\geq\max\bigl\{f(\vx_1),f(\vx_2)\bigr\},
+$$
+donde $\vx=\lambda\vx_1+(1-\lambda)\vx_2$. Puesto que $f(\vx_1)\leq f(\vx)$ y ser $f$
+estrictamente pseudo-convexa, resulta:
+$$
+\gf(\vx)^T(\vx_1-\vx)<0.
+$$
+De igual forma, al ser $f(\vx_2)\leq f(\vx)$, tenemos que:
+$$
+\gf(\vx)^T(\vx_2-\vx)<0\quad\Rightarrow \quad - \frac{(1-\lambda)}{\lambda}\gf(\vx)^T(\vx_1-\vx)<0 \quad\Rightarrow \quad  \gf(\vx)^T(\vx_1-\vx)>0,
+$$
+y estas dos desigualdades son incompatibles y, por tanto, $f$ es fuertemente
+cuasi-convexa.
+\end{frame}
+\begin{frame}{Extensi\'on del concepto de funci\'on convexa}
+
+Los teoremas anteriores establecen que si $f$ sea cuadr\'{a}tica:
+\begin{enumerate}
+	\item $f$ es pseudo-convexa si y solo si es estrictamente cuasi-convexa. 
+	\item $f$ es cuasi-convexa si y solo si es estrictamente cuasi-convexa. 
+	\item $f$ es estrictamente pseudo-convexa si y solo si $f$ es estrictamente cuasi-convexa. 
+\end{enumerate}
+Esto es, todas estas propiedades son equivalentes en el caso de funciones cuadr\'{a}ticas.
+
+\end{frame}
+\begin{frame}{Extensi\'on del concepto de funci\'on convexa}
+\begin{center}
+	\begin{tikzpicture}
+		\node at (0,0) (a) {Cuasi-convexa};
+		\node at (0,-0.4) (a1) {\color{red} \footnotesize $\Leftrightarrow\SS_\alpha$ convexo};
+		\node at (0,1.5) (b) {Estrictamente cuasi-convexa};
+		\node at (0,1.1) (b1) {\color{red} \footnotesize min local $\Rightarrow$ min global};
+		\node at (-3,3) (c) {Fuertemente cuasi-convexa};
+		\node at (-3,2.6) (c1) {\color{red} \footnotesize min local $\Rightarrow$ min global y \'unico};
+		\node at (-3,4) (d) {Estric. pseudo-convexa};
+		\node at (3,4) (e) {Pseudo-convexa};
+		\node at (3,3.6) (f1) {\color{red} \footnotesize $\gf = \vv \Rightarrow$  min local};
+		\node at (-3,6) (f) {Estric. convexa};
+		\node at (-3,5.6) (f1) {\color{red} \footnotesize min local $\Rightarrow$ min global y \'unico};
+		\node at (3,6) (g) {Convexa};
+		\node at (3,5.6) (g1) {\color{red} \footnotesize $\Rightarrow\SS_\alpha$ convexo};
+		\node at (3,5.2) (g2) {\color{red} \footnotesize min local $\Rightarrow$ min global};
+		\draw[very thick] (f) edge[->]  (g);
+		\draw[very thick] (f1) edge[->] node[left] {\tiny +diferenciabilidad}   (d);
+		\draw[very thick] (g2) edge[->] node[left] {\tiny +diferenciabilidad}  (e);
+		\draw[very thick] (d) edge[->]  (e);
+		\draw[very thick] (d) edge[->]  (c);
+		\draw[very thick,->] (-2,2.35) -- (-2,1.75);
+		\draw[very thick,->] (-3,2.35) -- (-3,0) -- (-1.5,0);
+		\draw[very thick,->] (4,6.1) -- (5,6.1) -- (5,0) -- (1.5,0);
+		\draw[very thick,->] (4,5.9) -- (4.75,5.9) -- (4.75,1.5) -- (2.5,1.5);
+		\draw[very thick,->] (2,3.2) -- (2,1.75);
+		\draw[very thick,->] (-4.5,6) -- (-6,6) -- (-6,3) -- (-5.5,3);
+		\draw[very thick] (b1) edge[->] node[right] {\tiny +semicontinuidad inferior}   (a);
+	\end{tikzpicture}	
+\end{center}
+\end{frame}
+%%
+\subsection{Convexidad puntual}
+
+\begin{frame}{Convexidad puntual}
+Las secciones anteriores estudiaban la convexidad de una funci\'{o}n en un conjunto convexo, pero
+en ocasiones esta condici\'{o}n es excesiva y se puede relajar de forma que solo se exija la
+convexidad de la funci\'{o}n en un punto.
+
+\end{frame}
+
+\begin{frame}{Convexidad puntual}\small
+\begin{definicion}
+	Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\,\rightarrow\,\Re^n$.
+	\begin{itemize}
+		\item Se dice que $f$ es {\em convexa} en $\vx_0\in\SS$ si
+		$$
+		f\bigl(\lambda\vx_0+(1-\lambda)\vx\bigr)\leq\lambda f(\vx_0)+(1-\lambda)f(\vx),\qquad\forall
+		\lambda\in (0,1),\;\forall\vx\in\SS.
+		$$
+		\item Se dice que $f$ es {\em estrictamente convexa} en $\vx_0\in\SS$ si
+		$$
+		f\bigl(\lambda\vx_0+(1-\lambda)\vx\bigr)<\lambda f(\vx_0)+(1-\lambda)f(\vx),\qquad\forall
+		\lambda\in (0,1),\;\forall\vx\in\SS,\; \vx\neq\vx_0.
+		$$
+		\item Se dice que $f$ es {\em cuasi-convexa} en $\vx_0\in\SS$ si
+		$$
+		f\bigl(\lambda\vx_0+(1-\lambda)\vx\bigr)\leq \max\bigl\{f(\vx_0),f(\vx)\bigr\},\qquad\forall
+		\lambda\in (0,1),\;\forall\vx\in\SS.
+		$$
+	\end{itemize}
+\end{definicion}
+\end{frame}
+
+\begin{frame}{Convexidad puntual}\small
+\begin{definicion}
+	Sea $\SS$ un conjunto convexo no vacío de $\Re^n$ y $f:\SS\,\rightarrow\,\Re^n$.
+	\begin{itemize}
+		\item Se dice que $f$ es {\em estrictamente cuasi-convexa} en $\vx_0\in\SS$ si
+		\begin{multline*}
+			f\bigl(\lambda\vx_0+(1-\lambda)\vx\bigr)<\max\bigl\{f(\vx_0),f(\vx)\bigr\},\qquad\forall
+			\lambda\in (0,1),\\ \forall\vx\in\SS \text{ tal que } f(\vx)\neq f(\vx_0).
+		\end{multline*}
+		\item Se dice que $f$ es {\em fuertemente cuasi-convexa} en $\vx_0\in\SS$ si
+		$$
+		f\bigl(\lambda\vx_0+(1-\lambda)\vx\bigr)<\max\bigl\{f(\vx_0),f(\vx)\bigr\},\qquad\forall
+		\lambda\in (0,1),\;\forall\vx\in\SS,\; \vx\neq\vx_0.
+		$$
+		\item Se dice que $f$ es {\em pseudo-convexa} en $\vx_0\in\SS$ si $\gf(\vx_0)^T(\vx-\vx_0)\geq
+		0$ para $\vx\in\SS$ implica que $f(\vx)\geq f(\vx_0)$.
+		\item Se dice que $f$ es {\em estrictamente pseudo-convexa} en $\vx_0\in\SS$ si
+		$\gf(\vx_0)^T(\vx-\vx_0)\geq 0$ para $\vx\in\SS$, $\vx\neq \vx_0$, implica que $f(\vx)>f(\vx_0)$.
+	\end{itemize}
+\end{definicion}
+\end{frame}
+
+\end{document}
+
+

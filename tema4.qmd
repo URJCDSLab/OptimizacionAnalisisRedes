@@ -1,0 +1,291 @@
+# Condiciones de Optimalidad y KKT
+
+En las aplicaciones prácticas de la optimización, la inmensa mayoría de los problemas incorporan restricciones sobre los recursos, el presupuesto o las condiciones físicas del sistema. En este capítulo, estudiaremos la caracterización analítica y geométrica de los puntos óptimos. Comenzaremos analizando los problemas sin restricciones para asentar las bases diferenciales, introduciremos el formalismo geométrico de los conos de direcciones factibles y de descenso, y derivaremos las célebres condiciones necesarias de Fritz-John (FJ) y las condiciones necesarias y suficientes de Karush-Kuhn-Tucker (KKT).
+
+
+## Optimización Sin Restricciones
+
+El estudio de problemas de optimización sin restricciones ($\min f(x)$ para $x \in \mathbb{R}^n$) nos permite comprender cómo se comporta localmente una función basándonos en la información de sus derivadas.
+
+### 1. Direcciones de Descenso
+
+Una dirección de descenso es un vector que apunta hacia regiones del espacio donde el valor de la función disminuye localmente.
+
+
+::: {.callout-important title="Teorema: Condición de Dirección de Descenso"}
+Dada una función $f: \mathbb{R}^n \to \mathbb{R}$ diferenciable en $\bar{x}$, si existe un vector $d \in \mathbb{R}^n$ tal que:
+$$ \nabla f(\bar{x})^T d < 0 $$
+Entonces existe un escalar $\delta > 0$ tal que:
+$$ f(\bar{x} + \lambda d) < f(\bar{x}), \quad \forall \lambda \in (0, \delta) $$
+
+*Demostración*:
+Por la diferenciabilidad de $f$ en el punto $\bar{x}$, podemos escribir el desarrollo de Taylor de primer orden como:
+$$ f(\bar{x} + \lambda d) = f(\bar{x}) + \lambda \nabla f(\bar{x})^T d + \lambda \|d\| \alpha(\bar{x}, \lambda d) $$
+Donde $\alpha(\bar{x}, \lambda d) \to 0$ cuando $\lambda \to 0$. Dividiendo ambos miembros por el parámetro $\lambda > 0$, obtenemos:
+$$ \frac{f(\bar{x} + \lambda d) - f(\bar{x})}{\lambda} = \nabla f(\bar{x})^T d + \|d\| \alpha(\bar{x}, \lambda d) $$
+Puesto que $\nabla f(\bar{x})^T d < 0$ por hipótesis, y dado que el término residual $\alpha(\bar{x}, \lambda d)$ tiende a cero conforme $\lambda$ se desvanece, existe un radio de entorno $\delta > 0$ tal que para todo $\lambda \in (0, \delta)$ el lado derecho de la igualdad permanece estrictamente negativo. Esto implica que $f(\bar{x} + \lambda d) - f(\bar{x}) < 0$, lo que demuestra la tesis. $\blacksquare$
+:::
+
+### 2. Condiciones Necesarias y Suficientes de Segundo Orden
+
+
+::: {.callout-important title="Teorema: Condiciones de Optimalidad de Segundo Orden (Sin Restricciones)"}
+Sea $f: \mathbb{R}^n \to \mathbb{R}$ una función dos veces diferenciable.
+
+1.  **Condición Necesaria de Primer Orden (FONC)**:
+    Si $\bar{x}$ es un extremo local, entonces el gradiente en dicho punto se anula:
+    $$ \nabla f(\bar{x}) = 0 $$
+2.  **Condición Necesaria de Segundo Orden (SONC)**:
+    Si $\bar{x}$ es un mínimo local, entonces la matriz hessiana es semidefinida positiva:
+    $$ \nabla^2 f(\bar{x}) \succeq 0 $$
+3.  **Condición Suficiente de Segundo Orden (SOSC)**:
+    Si en un punto $\bar{x}$ se cumple que el gradiente es nulo y la matriz hessiana es definida positiva:
+    $$ \nabla f(\bar{x}) = 0 \qquad \text{y} \qquad \nabla^2 f(\bar{x}) \succ 0 $$
+    Entonces $\bar{x}$ es un mínimo local estricto de la función.
+:::
+
+
+::: {.callout-tip title="Ejemplo Ilustrativo: Análisis de Puntos Estacionarios" collapse="true"}
+Consideremos la función univariante $f(x) = (x^2 - 1)^3$. Sus dos primeras derivadas son:
+$$ f'(x) = 6x(x^2 - 1)^2, \qquad f''(x) = 24x^2(x^2 - 1) + 6(x^2 - 1)^2 $$
+Igualando la primera derivada a cero para localizar los puntos estacionarios, obtenemos los candidatos:
+$$ x^* = 0, \qquad x^* = 1, \qquad x^* = -1 $$
+Analicemos la curvatura de segundo orden en cada candidato:
+
+-   **En $x^* = 0$**:
+    $f''(0) = 6(0 - 1) + 6(-1)^2 = 6 > 0$. Al ser la segunda derivada estrictamente positiva, se cumple la condición suficiente de segundo orden, confirmando que $x^* = 0$ es un mínimo local.
+-   **En $x^* = \pm 1$**:
+    $f''(\pm 1) = 0$. Al anularse la segunda derivada, no podemos concluir mediante las condiciones sufientes habituales. Un análisis de derivadas de orden superior revela que se trata de puntos de inflexión y no de extremos locales.
+:::
+
+
+::: {.callout-important title="Teorema: Suficiencia de Optimalidad bajo Pseudo-convexidad"}
+Sea $f: \mathcal{S} \to \mathbb{R}$ una función pseudo-convexa definida sobre un conjunto convexo $\mathcal{S}$. Un punto $\bar{x} \in \mathcal{S}$ es un mínimo global de $f$ si y solo si es un punto estacionario:
+$$ \nabla f(\bar{x}) = 0 $$
+:::
+
+
+## Optimización Con Restricciones: Conceptos de Conos
+
+Cuando el movimiento está limitado a una región factible $\mathcal{S} \subseteq \mathbb{R}^n$, la caracterización de los extremos exige analizar la interacción entre las direcciones que reducen la función y las que permanecen dentro del conjunto.
+
+### 1. Definiciones Geométricas de Conos
+
+-   **Cono de Direcciones Factibles ($\mathcal{F}(\bar{x})$)**:
+    El conjunto de direcciones a lo largo de las cuales un paso infinitesimal no abandona la región factible $\mathcal{S}$:
+    $$ \mathcal{F}(\bar{x}) = \{ d \in \mathbb{R}^n \mid d \neq 0, \ \exists \delta_d > 0 \text{ tal que } \bar{x} + \lambda d \in \mathcal{S}, \ \forall \lambda \in (0, \delta_d) \} $$
+-   **Cono de Direcciones de Mejora/Descenso ($\mathcal{D}(\bar{x})$)**:
+    El conjunto de direcciones a lo largo de las cuales el valor de la función objetivo disminuye localmente:
+    $$ \mathcal{D}(\bar{x}) = \{ d \in \mathbb{R}^n \mid d \neq 0, \ \exists \delta_d > 0 \text{ tal que } f(\bar{x} + \lambda d) < f(\bar{x}), \ \forall \lambda \in (0, \delta_d) \} $$
+
+Una condición fundamental de optimalidad geométrica establece que si un punto $\bar{x}$ es un mínimo local, no puede existir ninguna dirección que sea simultáneamente factible y de descenso:
+
+$$ \bar{x} \text{ es mínimo local} \implies \mathcal{F}(\bar{x}) \cap \mathcal{D}(\bar{x}) = \emptyset $$
+
+### 2. Caracterización Diferenciable mediante Semiespacios
+
+Si la función $f$ es diferenciable en $\bar{x}$, definimos el semiespacio abierto de direcciones que forman un ángulo obtuso con el gradiente (direcciones de descenso analítico) como:
+$$ \mathcal{D}_0(\bar{x}) = \{ d \in \mathbb{R}^n \mid \nabla f(\bar{x})^T d < 0 \} $$
+
+
+::: {.callout-important title="Teorema: Exclusión de Direcciones de Descenso y Factibilidad"}
+Si $\bar{x} \in \mathcal{S}$ es un mínimo local de una función diferenciable $f$, entonces el cono de direcciones factibles y el semiespacio de descenso analítico son disjuntos:
+$$ \mathcal{D}_0(\bar{x}) \cap \mathcal{F}(\bar{x}) = \emptyset $$
+:::
+
+
+## Restricciones de Desigualdad y Cono de Restricciones Activas
+
+Consideremos un conjunto factible delimitado por un conjunto de restricciones de desigualdad:
+$$ \mathcal{S} = \{ x \in \mathcal{X} \mid g_i(x) \le 0, \ i = 1, \dots, m \} $$
+
+Donde $\mathcal{X}$ es un conjunto abierto.
+
+-   **Restricciones Activas ($\mathcal{I}$)**:
+    Dado un punto factible $\bar{x} \in \mathcal{S}$, es el conjunto de índices de las restricciones que se cumplen con igualdad estricta:
+    $$ \mathcal{I} = \{ i \in \{1, \dots, m\} \mid g_i(\bar{x}) = 0 \} $$
+    Las restricciones inactivas ($g_i(\bar{x}) < 0$) no limitan el movimiento local en un entorno pequeño del punto.
+
+Definimos el cono abierto de direcciones de descenso para las restricciones activas como:
+$$ \mathcal{G}_0(\bar{x}) = \{ d \in \mathbb{R}^n \mid \nabla g_i(\bar{x})^T d < 0, \ \forall i \in \mathcal{I} \} $$
+
+
+::: {.callout-important title="Teorema: Intersección Vacía con el Cono de Restricciones Activas"}
+Sea $\bar{x} \in \mathcal{S}$ un mínimo local de $f$. Si $f$ y las restricciones activas $g_i$ ($i \in \mathcal{I}$) son diferenciables en $\bar{x}$, y las restricciones inactivas son continuas, entonces no existe ninguna dirección en la intersección:
+$$ \mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) = \emptyset $$
+
+*Demostración*:
+Supongamos por contradicción que existe un vector $d \in \mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x})$. Como $d \in \mathcal{G}_0(\bar{x})$, se cumple que $\nabla g_i(\bar{x})^T d < 0$ para toda $i \in \mathcal{I}$. Por el teorema de dirección de descenso, existe un paso $\delta_1 > 0$ tal que $g_i(\bar{x} + \lambda d) < g_i(\bar{x}) = 0$ para todo $\lambda \in (0, \delta_1)$.
+
+Para las restricciones inactivas ($j \notin \mathcal{I}$), dado que $g_j(\bar{x}) < 0$ y por la continuidad de $g_j$, existe un paso $\delta_2 > 0$ tal que $g_j(\bar{x} + \lambda d) < 0$ para todo $\lambda \in (0, \delta_2)$. Como el dominio $\mathcal{X}$ es abierto, existe un paso $\delta_3 > 0$ tal que $\bar{x} + \lambda d \in \mathcal{X}$ para todo $\lambda \in (0, \delta_3)$.
+
+Tomando el paso mínimo $\delta = \min \{\delta_1, \delta_2, \delta_3\} > 0$, se concluye que $\bar{x} + \lambda d$ es factible para todo $\lambda \in (0, \delta)$, lo que implica que $d \in \mathcal{F}(\bar{x})$. Sin embargo, dado que $d \in \mathcal{D}_0(\bar{x})$ por suposición, se cumple que $\nabla f(\bar{x})^T d < 0$, lo que implicaría que existe un paso de mejora factible, contradiciendo que $\bar{x}$ sea un mínimo local (puesto que $\mathcal{D}_0(\bar{x}) \cap \mathcal{F}(\bar{x}) = \emptyset$). Por tanto, la intersección es vacía. $\blacksquare$
+:::
+
+
+## Condiciones de Fritz-John (FJ)
+
+El hecho geométrico de que $\mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) = \emptyset$ se puede traducir algebraicamente, aplicando teoremas de alternativa (como el Teorema de Gordan o el Lema de Farkas), en una condición de dependencia lineal de los vectores gradiente. El matemático Fritz John formuló estas condiciones en 1948.
+
+
+::: {.callout-important title="Teorema: Condiciones Necesarias de Fritz-John (1948)"}
+Sea $\bar{x}$ un mínimo local del problema restringido por desigualdades. Si $f$ y las restricciones activas $g_i$ ($i \in \mathcal{I}$) son diferenciables en $\bar{x}$, y las inactivas son continuas, existen escalares $u_0, u_1, \dots, u_m$ tales que:
+
+1.  **Factibilidad dual (Ecuación de Fritz-John)**:
+    $$ u_0 \nabla f(\bar{x}) + \sum_{i=1}^m u_i \nabla g_i(\bar{x}) = 0 $$
+2.  **Holgura complementaria**:
+    $$ u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m $$
+3.  **No negatividad**:
+    $$ u_0, u_i \ge 0, \quad \forall i = 1, \dots, m $$
+4.  **No trivialidad**:
+    $$ (u_0, u_1, \dots, u_m) \neq (0, 0, \dots, 0) $$
+:::
+
+### Limitación de Fritz-John: El Caso de Multiplicador Nulo ($u_0 = 0$)
+
+Las condiciones de Fritz-John presentan un inconveniente analítico: es posible que en el óptimo el multiplicador asociado a la función objetivo sea cero ($u_0 = 0$). En este escenario, la relación se reduce a:
+$$ \sum_{i \in \mathcal{I}} u_i \nabla g_i(\bar{x}) = 0 $$
+
+Esto sucede si los gradientes de las restricciones activas son linealmente dependientes en el punto de interés. En tal caso, las condiciones de Fritz-John se satisfacen independientemente de cuál sea la función objetivo a optimizar, perdiendo todo su poder selectivo sobre el óptimo real del problema.
+
+
+::: {.callout-tip title="Caso de Estudio: Fallo de Fritz-John por Multiplicador Nulo" collapse="true"}
+Consideremos el problema:
+$$
+\begin{aligned}
+\min_{x} \quad & -x_1 \\
+\text{sujeto a} \quad & g_1(x_1, x_2) = x_2 - (1 - x_1)^3 \le 0 \\
+& g_2(x_1, x_2) = -x_2 \le 0
+\end{aligned}
+$$
+La solución óptima de este problema es $\bar{x} = (1, 0)$, donde ambas restricciones son activas ($\mathcal{I} = \{1, 2\}$). Planteando las ecuaciones de Fritz-John:
+$$ u_0 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + u_1 \begin{pmatrix} 3(1 - x_1)^2 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} $$
+Evaluando en el punto óptimo $\bar{x} = (1, 0)$:
+$$ u_0 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + u_1 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies \begin{aligned} -u_0 &= 0 \\ u_1 - u_2 &= 0 \end{aligned} $$
+De donde se deduce obligatoriamente que $u_0 = 0$, e $u_1 = u_2 = \alpha > 0$. La función objetivo no influye en las ecuaciones debido a la geometría singular de la región factible en dicho punto (la tangencia de las curvas de restricción).
+:::
+
+
+## Condiciones de Karush-Kuhn-Tucker (KKT)
+
+Para garantizar que la función objetivo participe activamente en la caracterización de optimalidad ($u_0 > 0$), debemos imponer una condición de regularidad sobre la geometría de las restricciones en el óptimo, denominada **cualificación de restricciones** (Constraint Qualification).
+
+### Historia de KKT
+
+Las condiciones KKT tienen una historia singular de redescubrimiento. Fueron formuladas por primera vez en 1939 por **William Karush** en su tesis de maestría inédita en la Universidad de Chicago. Doce años después, en 1951, los matemáticos **Harold W. Kuhn** y **Albert W. Tucker** las redescubrieron de manera independiente, publicándolas en un célebre artículo de congreso. La comunidad científica finalmente reconoció la contribución primordial de Karush renombrando las condiciones como Karush-Kuhn-Tucker.
+
+### Cualificación de Restricciones (LICQ y otras)
+
+La cualificación de restricciones más habitual es la **Independencia Lineal de las Restricciones Activas (LICQ)**: los gradientes de las restricciones activas $\{\nabla g_i(\bar{x}), \forall i \in \mathcal{I}\}$ deben ser linealmente independientes.
+
+Existen otras cualificaciones de restricciones importantes en la literatura:
+
+-   **LICQ (Linear Independence Constraint Qualification)**:
+    Gradientes de restricciones activas linealmente independientes. Satisface e implica todas las demás cualificaciones.
+-   **MFCQ (Mangasarian-Fromovitz Constraint Qualification)**:
+    Los gradientes de restricciones de igualdad son linealmente independientes y existe una dirección factible estrictamente interior para las desigualdades.
+-   **Condición de Slater**:
+    Para problemas convexos, existe al menos un punto $x$ estrictamente factible ($g_i(x) < 0$ para toda $i$).
+
+### 1. Condiciones Necesarias de KKT
+
+
+::: {.callout-important title="Teorema: Condiciones Necesarias de KKT"}
+Sea $\bar{x}$ un mínimo local del problema. Si se verifica la cualificación de restricciones (LICQ) en $\bar{x}$, entonces existen multiplicadores únicos $u_1, \dots, u_m \ge 0$ tales que:
+
+1.  **Estacionariedad (Gradiente nulo de la Lagrangiana)**:
+    $$ \nabla f(\bar{x}) + \sum_{i=1}^m u_i \nabla g_i(\bar{x}) = 0 $$
+2.  **Factibilidad primal**:
+    $$ g_i(\bar{x}) \le 0, \quad \forall i = 1, \dots, m $$
+3.  **Holgura complementaria**:
+    $$ u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m $$
+4.  **No negatividad (Factibilidad dual)**:
+    $$ u_i \ge 0, \quad \forall i = 1, \dots, m $$
+:::
+
+### 2. Condiciones Suficientes de KKT bajo Convexidad
+
+
+::: {.callout-important title="Teorema: Condiciones Suficientes de KKT bajo Convexidad"}
+Sea $\bar{x}$ un punto factible que satisface las condiciones necesarias de KKT con multiplicadores $u_i$. Si:
+
+1.  La función objetivo $f(x)$ es **pseudo-convexa** en $\bar{x}$.
+2.  Las restricciones activas $g_i(x)$ ($i \in \mathcal{I}$) son **cuasi-convexas** y diferenciables en $\bar{x}$.
+
+Entonces $\bar{x}$ es un mínimo global del problema.
+:::
+
+
+## Esquema General de Resolución KKT
+
+El procedimiento analítico para resolver problemas mediante KKT se fundamenta en los siguientes pasos:
+
+1.  **Construir la función Lagrangiana**:
+    $$ L(x, u) = f(x) + \sum_{i=1}^m u_i g_i(x) $$
+2.  **Plantear las ecuaciones del sistema KKT**:
+    -   $\nabla_x L(x, u) = 0$.
+    -   $g_i(x) \le 0$, para todo $i$.
+    -   $u_i g_i(x) = 0$, para todo $i$.
+    -   $u_i \ge 0$, para todo $i$.
+3.  **Análisis por casos combinatorios**:
+    Para cada restricción $i$, se evalúan los casos:
+    -   *Caso A*: La restricción está inactiva ($g_i(x) < 0 \implies u_i = 0$).
+    -   *Caso B*: La restricción está activa ($g_i(x) = 0 \implies u_i \ge 0$).
+4.  **Descartar candidatos no factibles o con multiplicadores negativos**.
+5.  **Comprobar la cualificación LICQ y aplicar la suficiencia por convexidad**.
+
+
+::: {.callout-tip title="Caso Práctico: Resolución Analítica Detallada" collapse="true"}
+Consideremos el problema:
+$$
+\begin{aligned}
+\min_{x, y} \quad & f(x, y) = (x - 3)^2 + (y - 2)^2 \\
+\text{sujeto a} \quad & g_1(x, y) = x^2 + y^2 - 5 \le 0 \\
+& g_2(x, y) = x + 2y - 4 \le 0
+\end{aligned}
+$$
+La función objetivo mide el cuadrado de la distancia al punto $(3, 2)$. Construimos la Lagrangiana:
+$$ L(x, y, u_1, u_2) = (x - 3)^2 + (y - 2)^2 + u_1(x^2 + y^2 - 5) + u_2(x + 2y - 4) $$
+El sistema de derivadas parciales con respecto a $x$ e $y$ es:
+
+1.  $\frac{\partial L}{\partial x} = 2(x - 3) + 2u_1 x + u_2 = 0$
+2.  $\frac{\partial L}{\partial y} = 2(y - 2) + 2u_1 y + 2u_2 = 0$
+
+Analizamos el caso donde ambas restricciones son activas ($g_1 = 0$ y $g_2 = 0$):
+
+-   $x^2 + y^2 = 5$
+-   $x + 2y = 4 \implies x = 4 - 2y$
+
+Sustituyendo en la primera:
+$$ (4 - 2y)^2 + y^2 = 5 \implies 5y^2 - 16y + 11 = 0 $$
+Las soluciones son:
+
+-   $y = 1 \implies x = 2$.
+-   $y = 2.2 \implies x = -0.4$ (este punto viola la restricción $g_1 \le 0$, por lo que se descarta).
+
+Evaluamos el candidato $\bar{x} = (2, 1)$ en el sistema de derivadas para hallar los multiplicadores:
+$$ 2(2 - 3) + 4u_1 + u_2 = 0 \implies 4u_1 + u_2 = 2 $$
+$$ 2(1 - 2) + 2u_1 + 4u_2 = 0 \implies 2u_1 + 4u_2 = 2 \implies u_1 + 2u_2 = 1 $$
+Resolviendo el sistema lineal de multiplicadores:
+$$ u_1 = \frac{1}{3} \ge 0, \qquad u_2 = \frac{2}{3} \ge 0 $$
+Al ser ambos multiplicadores no negativos, el punto $(2, 1)$ satisface KKT. Como la función objetivo es cuadrática estrictamente convexa y las restricciones son convexas, se cumplen las condiciones suficientes, lo que garantiza que $(2, 1)$ es el **mínimo global único** del problema.
+:::
+
+
+## Restricciones de Igualdad y Desigualdad
+
+El marco analítico se extiende al incorporar restricciones de igualdad ($h_j(x) = 0$).
+
+
+::: {.callout-important title="Teorema: Condiciones Necesarias Generales de KKT"}
+Sea $\bar{x}$ un mínimo local del problema restringido por desigualdades y ecuaciones. Si se cumple LICQ (los gradientes de las restricciones de igualdad y de las restricciones activas de desigualdad son linealmente independientes en $\bar{x}$), existen multiplicadores únicos $u_1, \dots, u_m \ge 0$ y $v_1, \dots, v_\ell \in \mathbb{R}$ tales que:
+
+1.  **Estacionariedad**:
+    $$ \nabla f(\bar{x}) + \sum_{i=1}^m u_i \nabla g_i(\bar{x}) + \sum_{j=1}^\ell v_j \nabla h_j(\bar{x}) = 0 $$
+2.  **Factibilidad primal**:
+    $$ g_i(\bar{x}) \le 0 \quad (\forall i), \qquad h_j(\bar{x}) = 0 \quad (\forall j) $$
+3.  **Holgura complementaria**:
+    $$ u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m $$
+4.  **No negatividad (desigualdades)**:
+    $$ u_i \ge 0, \quad \forall i = 1, \dots, m $$
+:::

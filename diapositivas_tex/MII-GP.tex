@@ -1,0 +1,2648 @@
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+\documentclass[aspectratio=169]{beamer}
+
+
+\mode<presentation> {
+	\usetheme{Boadilla}
+	%	\setbeamercovered{transparent}
+}
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{colortbl}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{arrows.meta, positioning}
+
+
+
+\title[Gestión de proyectos]{\textsc{Gestión de proyectos}}
+\date[MOII]{Master Oficial en Ingeniería Informática}
+
+
+\begin{document}
+	
+\begin{frame}
+		\titlepage
+\end{frame}
+	
+\begin{frame}{Contenidos}
+		\tableofcontents{}
+\end{frame}
+
+\section{Introducci\'on}
+
+\begin{frame}{¿Qué es un proyecto?}
+\begin{block}{Ajenjo (2000)}
+Conjunto de actividades, planificadas, ejecutadas y supervisadas que, con recursos finitos, tiene por objeto crear un servicio o producto único.
+\end{block}
+\begin{block}{Courter, 2000)}
+Trabajo en el que se define un principio y un fin (tiempo), se especifica un resultado deseado (alcance), cumpliendo con unos requisitos de calidad (acabado) y coste (presupuesto).
+\end{block}
+\begin{block}{Project Management Institute (PMI)}
+Proyecto es un esfuerzo temporal encaminado a crear un producto o servicio único.
+\end{block}
+\end{frame}
+\begin{frame}{¿Qué es un proyecto?}
+\begin{block}{Características de un proyecto}
+\begin{itemize}
+\item Buscar alcanzar uno o varios objetivos.
+\item Realizados por personas.
+\item Actividades planificadas, ejecutadas y controladas.
+\item Disponibilidad limitada de recursos.
+\item Limitado en el tiempo.	(Temporalidad)
+\item Resultado único.		(Unicidad)
+\end{itemize}
+\end{block}
+Los proyectos son temporales y únicos, lo que les diferencia de otras operaciones o procesos que son continuos y repetitivos.
+\end{frame}
+\begin{frame}{Algunos ejemplos de proyectos}
+Los proyectos se llevan a cabo en todos los niveles de la organización y pueden involucrar desde una sola persona a muchas.
+\begin{itemize}
+	\item Diseñar un nuevo producto o servicio.
+	\item Desarrollar o rediseñar un sistema de información.
+	\item I+D+i en líneas de investigación específicas.
+	\item  Llevar a cabo un cambio en la estructura / forma de trabajo de una organización.
+	\item Implantar una norma: ej. sistema de gestión de I+D+i, calidad, seguridad de la información,\dots
+\end{itemize}
+\end{frame}
+\begin{frame}{Tipos de proyectos}
+\begin{block}{En función del objeto del Proyecto}
+\begin{itemize}
+\item Proyecto de investigación.
+\item Análisis.
+\item Estudio de viabilidad.
+\item Proyecto industrial.
+\item etc.
+\end{itemize}
+\end{block}
+\begin{block}{De acuerdo con su alcance}
+\begin{itemize}
+\item Programa (conjunto de proyectos relacionados cuya dirección se realiza de manera coordinada).
+\item Proyecto
+\item Subproyecto (componentes de un proyecto principal, que son considerados como proyectos y dirigidos como tales). Es habitual que se subcontraten. 		
+\end{itemize}
+\end{block}
+\end{frame}
+\begin{frame}{Ciclo de vida de un proyecto}
+Las distintas fases por las que de forma secuencial y en el tiempo pasa el Proyecto, desde la idea inicial hasta la finalización de todas las actividades.
+
+En general podemos considerar cuatro fases:
+\begin{enumerate}[\mbox{Fase} 1]
+\item Concepción.
+\item Planificación.
+\item Implementación.
+\item Finalización.		
+\end{enumerate}
+La transición de una fase a otra, normalmente implica alguna forma de transferencia técnica.
+
+Los productos entregables de una fase se revisan para verificar si están completos, si son exactos y se aprueban antes de iniciar el trabajo de la siguiente fase.
+\end{frame}
+\begin{frame}{Ciclo de vida de un proyecto}
+\includegraphics{figuras/ciclodevida}		
+\end{frame}
+\begin{frame}{Objetivos de un proyecto}
+Para garantizar el éxito del proyecto los objetivos deben ser:
+	 \begin{center}
+	 \begin{tabular}{ll}
+	 {\color{red}\bf S}pecific	  & (claro en su definición) \\
+	 {\color{red}\bf M}easurable	  & (medible)\\
+	 {\color{red}\bf A}ssignable	  & (asignación de responsabilidades)\\
+	 {\color{red}\bf R}ealist	  & (realista en objetivos y recursos)\\
+	 {\color{red}\bf T}ime related & (con un cronograma)
+	\end{tabular}
+	\end{center}
+Los objetivos pueden incluir
+\begin{itemize}
+\item Lista de materiales entregables (resultados). 
+\item Fechas de entrega específicas (hitos).
+\item Criterios de calidad de los entregables.
+\item Límites de coste.
+\end{itemize}
+Todos los participantes en el proyecto deben estar de acuerdo con ellos.
+\end{frame}
+\begin{frame}{Objetivos de un proyecto}
+Es importante identificar las limitaciones del proyecto:
+\begin{itemize}
+\item Alcance (resultados)
+\begin{itemize}
+\item Producto con todas las características y funciones
+\item Elemento más importante, pero no a cualquier precio o plazo
+\end{itemize}
+\item Coste: muy importante, normalmente especificado en forma de contrato.
+\item Plazo: muchas veces el objetivo más flexible, pero no siempre
+\end{itemize}
+Los tres son inseparables y forman un sistema en el que cada modificación de cada una de las partes afecta a las restantes.
+\end{frame}
+\begin{frame}{Alcance de un proyecto}
+Es la combinación de todos los objetivos y tareas del proyecto y el trabajo necesario para llevarlos a cabo.
+
+\begin{itemize}
+\item No debe faltar ni sobrar ninguna actividad.
+\item No debe confundirse con el alcance de un producto o servicio objeto del proyecto.
+\item Es fundamental una buena definición del mismo para evitar el fracaso del proyecto. 
+\item Para definir el alcance es preciso definir bien los entregables: deben ser tangibles y verificables.
+\item Deben incluirse normas de acabado en los entregables: grado (relacionado con la funcionalidad) y calidad (relacionado con la excelencia o extándares deseados).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estructura del proyecto}
+%%
+La complejidad de un proyecto nos lleva a dividirlo en subproyectos y paquetes.
+\begin{itemize}
+	\item Un punto de partida son los entregables: cada entregable marca un punto de división.
+	\item Los entregables se dividen a su vez en entregables más pequeños hasta un nivel de detalle suficiente para realizar una asignación adecuada de tareas (con su duración, coste, recursos, etc.).
+	\item Así se conforma los \alert{paquetes de trabajo}.
+	\item Se puede representar en un diagrama jerárquico. 
+	\item Los trabajos que no quedan representados en este conjunto de paquetes de trabajo deben ser descartados.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estructura del proyecto}
+	Una buena descomposición del proyecto debe lograr paquetes de trabajo tales que:
+	\begin{itemize}
+		\item Agrupen actividades/tareas relacionadas dentro del mismo paquete de trabajo.
+		\item Escindan la responsabilidad entre los distintos componentes del equipo.
+		\item Minimicen las relaciones entre los paquetes de trabajo.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Estructura del proyecto}
+\begin{block}{Paquetes de trabajo}
+El conjunto de paquetes de trabajo debe ser:
+\begin{itemize}
+\item Sencillo para simplificar al máximo la gestión y minimizar conflictos del equipo de trabajo.
+\item Subdivisión natural, no forzada,
+\item Contenido único no duplicado.
+\item Desarrollado por una persona u organización de forma autónoma.
+\item Tiempos de inicio y fin de ejecución determinados.
+\item Suficientemente elaborado y completo para describir todas y cada una de las tareas del Proyecto.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Estructura del proyecto}
+\begin{center}
+\includegraphics[width=10.3cm]{figuras/ejemplo_descomposicion_parque}
+\end{center}
+\end{frame}
+
+\begin{frame}{Estructura del proyecto}
+\begin{center}
+	\includegraphics[width=12.2cm]{figuras/ejemplo_descomposicion_avion}
+\end{center}
+\end{frame}
+
+\begin{frame}{Estructura del proyecto}
+\begin{center}
+	\includegraphics[width=12cm]{figuras/ejemplo_descomposicion_software}
+\end{center}
+\end{frame}
+
+\begin{frame}{Estructura del proyecto}
+\begin{center}
+	\includegraphics[width=11.5cm]{figuras/descripcion_paquetetrabajo}
+\end{center}
+\end{frame}
+
+\subsection*{Planificación del proyecto}
+
+\begin{frame}{Planificación del proyecto}
+Una vez creada la estructura, el siguiente paso es la planificación para asegurar la conclusión del proyecto en los plazos previstos:
+\begin{itemize}
+\item  Definición de actividades
+\item  Secuenciación de las actividades: identificar y definir las interrelaciones.
+\item  Estimación de la duración y los recursos necesarios.
+\item  Estimación de costes
+\item  Desarrollo del cronograma (calendario).
+\item  Control del cronograma.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Planificación del proyecto}
+	Una buena descomposición del proyecto reduce éste en su núcleo fundamental a un conjunto de tareas:
+	\begin{itemize}
+		\item Cada tarea es una pieza que se debe resolver de forma satisfactoria.
+		\item Una buena planificación debe dar una importancia especial a la definición de tareas:
+		\begin{itemize}
+			\item Definición clara del principio y fin de cada tarea
+			\item A mayor duración, menor control sobre el proyecto y menos coste de seguimiento. 
+		\end{itemize}
+		\item Es necesaria una organización esquematizada en fases y subfases (tareas resumen), tareas e hitos.
+		\item Un \alert{hito} es un punto de referencia que marca un evento importante en el proyecto y se usa para controlar el progreso del proyecto.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Estructura del proyecto}
+	\begin{center}
+		\includegraphics[width=11.5cm]{figuras/ejemplo_listatareas}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Estructura del proyecto}
+	\begin{center}
+		\includegraphics[width=11.5cm]{figuras/descripcion_tarea}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}{Planificación: aprovisionamiento}
+Esta fase de planificación no sólo se refiere al plan de trabajo. También incluye el \alert{aprovisionamiento}: procesos necesarios para adquirir bienes y servicios, de otras organizaciones, con el fin de alcanzar los objetivos del proyecto;
+ \begin{itemize}
+ 	\item  Planificar las adquisiciones: qué, cuándo.
+ 	\item  Búsqueda y selección de proveedores.
+ 	\item  Comparativa de proveedores y servicios.
+ 	\item  Contratos y gestión de la relación con el proveedor.
+ 	\item  Evaluación del servicio prestado.
+ \end{itemize}
+\end{frame}
+\begin{frame}{Planificación: gestión de costes y financiación}
+Es fundamental considerar una gestión de costes, esto es, establecer los procedimientos para asegurar que el proyecto se desarrolla dentro del presupuesto aprobado.
+
+El primer paso es elaborar un presupuesto: a partir de la estimación de recursos y de la planificación del aprovionamiento, hay que hacer una estimación de costes.
+
+Con esta estimación, se puede:
+\begin{itemize}
+	\item Realizar un presupuesto (interno y para subcontrataciones)
+	\item Planificar la tesorería (depende fuertemente de la financiación externa y subvenciones)
+	\item Buscar la financiación y las posibles subvenciones.
+	\item Establecer un mecanismo de control de presupuesto y tesorería.
+\end{itemize}
+\end{frame}
+\begin{frame}{Control de cambios}
+La gestión del proyecto también debe contemplar un control de los cambiso que se van produciendo.
+
+\begin{tabular}{p{5cm}p{6.5cm}}
+Estos cambios afectan a:
+\begin{itemize}
+	\item el alcance,
+	\item los plazas,
+	\item los costes,
+	\item los riesgos.
+\end{itemize} &
+El control debe:
+\begin{itemize}
+\item Asegurar que los cambios sean beneficiosos
+\item Detectar los factores que ocasionan los cambios
+\item Determinar cuándo se produce un cambio
+\item Gestionar los cambios reales cuándo ocurren
+\end{itemize}
+\end{tabular}
+\begin{center}
+\alert{Buscar los ``por qué'' de las variaciones tanto positivas como negativas}
+\end{center}
+\end{frame}
+\begin{frame}{Control de cambios}
+El control de cambios se identifica en:
+\begin{itemize}
+\item 	Los estados de revisión de los formatos del proyecto
+\item 	Un archivo ordenado de todos los registros
+\item	Un histórico del proyecto (de cambios)
+\item	Reuniones de seguimiento (actas de reunión)
+\end{itemize}
+\end{frame}
+\begin{frame}{Cierre del proyecto}
+Una fase no menos importante es el cierre del proyecto.
+
+Esta fase tiene como objetivo principal:
+\begin{itemize}
+	\item \alert{Analizar} economicamente el resultado de proyecto (diferencias entre los recursus utilizados y los previstos).
+	\item \alert{Diagnosticar} la actividad desarrollada (identificar desviaciones y las causas).
+	\item \alert{Corregir} las actuaciones inadecuadas.
+\end{itemize}
+\begin{center}
+	\alert{OBJETIVO: Revisar la experiencia adquirida y procurar una mejora continua}
+\end{center}
+\end{frame}
+\begin{frame}{Cierre del proyecto}
+Será necesario elaborar un informe de cierre de proyecto.
+
+Este informe contiene la información necesaria para saber si el proyecto alcanzó los objetivos y, en caso contrario, las razones. 
+
+Un proyecto bien gestionado es aquel en el que no se porducen grandes desviaciones respecto de las previsiones.
+
+Si las desviaciones son favorables (por ejemplo, más beneficio del esperado) \alert{¡Alarma!}, la superación de los objetivos no se suele lograr salvo que?
+\begin{itemize}
+\item Estimación en el presupuesto inicial excesivamente conservadora
+\item Se exijan sobre-esfuerzos al personal
+\item Ahorro en materiales, equipos, etc.
+\end{itemize}
+\end{frame}
+%\end{document}
+\section{Secuenciación del proyecto}
+\begin{frame}{Planificación temporal de un proyecto}
+
+El objetivo es obtener una programación de las distintas actividades y conocer:
+\begin{itemize}\itemsep 0mm
+\item Tiempo esperado para la consecución del proyecto.
+\item Flexibilidad de las actividades.
+\end{itemize}
+%%
+En general, la complejidad de las relaciones entre las actividades que componen el
+proyecto no permiten una gestión eficaz.
+%%
+\end{frame}
+\begin{frame}{Representación del proyecto en diagrama de red}
+
+Representación esquemática de las actividades del proyecto y de sus relaciones lógicas o dependencias.
+
+Estos diagramas no representan la escala temporal (como hacen los diagramas de Gantt). Hay tres tipos:
+\begin{itemize}
+	\item Diagrama PDM - Precedence Diagramming Method
+	\item Diagrama ADM / CPM - Arrow Diagramming Method 
+	\item Diagrama PERT - Program Evaluation and Review Technique 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Antecedentes históricos}
+%%
+Estos métodos surgen en 1957.
+
+El método PERT (Program Evaluation and Review Technique) se desarrolló en la Marina de los Estados
+Unidos para la coordinación y control de la realización del proyecto Polaris de submarinos atómicos
+armados con proyectiles.
+
+Simultáneamente, la empresa E.I. Du Pont desarrolló el CPM (Critical Path Method) para programar y
+controlar los proyectos de mantenimiento en sus plantas de fabricación.
+
+Posteriormente, J.E. Kelley introdujo la relación entre coste y duración de una actividad.
+%%
+\end{frame}
+\begin{frame}{Hipótesis básicas}
+%%
+Un proyecto es un conjunto de actividades o actividades interrelacionadas, cada una de ellas con
+una duración y unos recursos:
+\begin{itemize}\itemsep 0mm
+\item La realización de todas las actividades indica la finalización de proyecto.
+\item Puede haber relaciones de orden o precedencia entre las actividades, de forma que habrá actividades que no se
+puedan empezar hasta haber finalizado otras.
+\item Se conoce la duración de cada actividad.
+\item No hay limitaciones de recursos disponibles.
+\item Cuando empieza una actividad, no se puede interrumpir hasta su finalización.
+\item Sin relaciones de precedencia, todas las actividades se podrían realizar de forma
+simultánea, esto es, no hay limitaciones en cuanto a los recursos disponibles.
+\end{itemize}
+%%
+\end{frame}
+
+\begin{frame}{Red del proyecto. Representación matemática}
+%%
+Es necesario conocer:
+\begin{itemize}\itemsep 0mm
+\item la \alert{lista de actividades} del proyecto,
+\item una estimación de la \alert{duración} de cada actividad, y
+\item las \alert{relaciones de precedencia} entre actividades.
+\end{itemize}
+%%
+\end{frame}
+
+\begin{frame}{Red del proyecto. Representación matemática}
+La mayor dificultad que se plantea en la programación de los proyectos viene dada por la existencia
+de relaciones de precedencia entre las distintas actividades.
+
+Para poder realizar la planificación del proyecto se pueden representar estas relaciones en un grafo.
+
+Este grafo recoge toda la información relevante: actividades, duración y relaciones de precedencia.
+
+En este grafo:\footnotesize
+\begin{itemize}\itemsep 0mm
+\item Los \alert{arcos} representan \alert{actividades}.
+\item Los \alert{vértices} representan \alert{etapas} (finalización o inicio de una actividad).
+\item Dos actividades no pueden tener los mismos vértices inicial y final.
+\item Se incluyen dos vértices: Inicio y fin del proyecto.
+\end{itemize}
+%%
+\end{frame}
+
+\begin{frame}{Red del proyecto}{Ejemplo}
+
+Un proyecto consiste en 10 actividades detalladas en la siguiente tabla
+\begin{center}
+\begin{tabular}{ccc}\hline
+ Actividades & Duración & Precedentes \\
+\hline
+      A      &    6     &      C      \\ \hline
+      B      &    8     &     D,E     \\ \hline
+      C      &    4     &     F,G     \\ \hline
+      D      &    6     &      H      \\ \hline
+      E      &    7     &      I      \\ \hline
+      F      &    8     &             \\ \hline
+      G      &    2     &      H      \\ \hline
+      H      &    12    &      J      \\ \hline
+      I      &    5     &      J      \\ \hline
+      J      &    3     &             \\ \hline
+\end{tabular}\end{center}
+%%
+\end{frame}
+
+\begin{frame}[t]{Red del proyecto}{Ejemplo}
+\begin{columns}
+\column{0.5\textwidth}
+Debemos incluir un arco por actividad y dos nodos inicial y final de proyecto
+\column{0.5\textwidth}
+\begin{flushright}\tiny
+	\vspace*{-10mm}
+	\begin{tabular}{ccc}\hline
+		Actividades & Duración & Precedentes \\
+		\hline
+		A      &    6     &      C      \\ \hline
+		B      &    8     &     D,E     \\ \hline
+		C      &    4     &     F,G     \\ \hline
+		D      &    6     &      H      \\ \hline
+		E      &    7     &      I      \\ \hline
+		F      &    8     &             \\ \hline
+		G      &    2     &      H      \\ \hline
+		H      &    12    &      J      \\ \hline
+		I      &    5     &      J      \\ \hline
+		J      &    3     &             \\ \hline
+\end{tabular}\end{flushright}
+\end{columns}
+ \begin{center}
+\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (I) at (0,0) {$I$} ;
+	\node[node_style] (F) at (10,0) {$F$} ;
+	\only<2>{
+	\node[node_style] (2) at (3,2) {$2$} ;
+	\node[node_style] (3) at (3,-2) {$3$} ;
+	\node[node_style] (4) at (7,2) {$4$} ;
+	\node[node_style] (7) at (7,-2) {$7$} ;
+	\draw [line width=1.5pt,->] (I) edge node[above] {\alert{A} 6}  (2) ;
+	\draw [line width=1.5pt,->] (I) edge node[above] {\alert{B} 8}  (3) ;
+	\draw [line width=1.5pt,->] (4) edge node[above] {\alert{F} 8}  (F) ;
+	\draw [line width=1.5pt,->] (7) edge node[above] {\alert{J} 3}  (F) ;
+	}
+	\only<3->{
+		\node[node_style] (2) at (3,2) {$2$} ;
+		\node[node_style] (3) at (3,-2) {$3$} ;
+		\node[node_style] (4) at (5,2) {$4$} ;
+		\node[node_style] (5) at (5,0) {$5$} ;
+		\node[node_style] (6) at (5,-2) {$6$} ;
+		\node[node_style] (7) at (7,-2) {$7$} ;
+		\draw [line width=1.5pt,->] (I) edge node[above] {\alert{A} 6}  (2) ;
+		\draw [line width=1.5pt,->] (I) edge node[above] {\alert{B} 8}  (3) ;
+		\draw [line width=1.5pt,->] (4) edge node[above] {\alert{F} 8}  (F) ;
+		\draw [line width=1.5pt,->] (7) edge node[above] {\alert{J} 3}  (F) ;
+		\draw [line width=1.5pt,->] (2) edge node[above] {\alert{C} 4}  (4) ;
+		\draw [line width=1.5pt,->] (4) edge node[right] {\alert{G} 2}  (5) ;
+		\draw [line width=1.5pt,->] (3) edge node[above] {\alert{D} 6}  (5) ;
+		\draw [line width=1.5pt,->] (3) edge node[above] {\alert{E} 7}  (6) ;
+		\draw [line width=1.5pt,->] (5) edge node[right] {\alert{H} 12}  (7) ;
+		\draw [line width=1.5pt,->] (6) edge node[above] {\alert{I} 5}  (7) ;
+	}
+\end{tikzpicture}
+
+\end{center}
+%%
+\end{frame}
+\begin{frame}{Red del proyecto}{Reglas}
+%%
+\begin{itemize}
+\item Cada actividad está representada por uno y sólo un arco del grafo.
+\item Se dividirá cada actividad en tantas subactividades como sea necesario.
+\item Dos actividades no pueden tener los mismos nudos iniciales y finales, simultáneamente.
+
+Para evitar esta situación se incluyen \alert{actividades ficticias} (que no consumen ni
+tiempo ni recursos).
+
+  \begin{center}	\begin{tikzpicture}
+  		\tikzset{x=6mm,scale=0.7,
+  			edge/.style={blue, line width=1.5pt, -{Stealth[length=8pt,width=6pt]}},
+  			nodec/.style={draw=blue, circle, line width=1.5pt, inner sep=2pt}
+  		}
+  		
+  		\node at (-2,1) (a) {};
+  		\node[nodec] at ( 1,1) (b) {i};
+  		\node[nodec] at ( 5,1) (c) {j};
+  		\node at ( 8,1) (d) {};
+  		
+  		\draw[edge] (a) -- node[pos=0.5, above, font=\footnotesize] {A}  (b);
+  		\draw[edge] (b) to[bend left=20] node[pos=0.5, above, font=\footnotesize] {B} (c);
+  		\draw[edge] (b) to[bend left=-20] node[pos=0.5, below, font=\footnotesize] {C} (c);
+  		\draw[edge] (c) --  node[pos=0.5, above, font=\footnotesize] {D} (d);
+  		\draw[red, line width=8pt, -{Stealth[length=19pt,width=13pt]}] (9,1) -- (11,1);
+  		\begin{scope}[xshift=8cm]
+  			\node at (-2,1) (aa) {};
+  			\node[nodec] at ( 1,1) (bb) {i};
+  			\node[nodec] at ( 5,1) (cc) {j};
+  			\node[nodec] at ( 3,-1) (ee) {j'};
+  			\node at ( 8,1) (dd) {};
+  			
+  			\draw[edge] (aa) -- node[pos=0.5, above, font=\footnotesize] {A} (bb);
+  			\draw[edge] (bb) -- node[pos=0.5, above, font=\footnotesize] {B} (cc);
+  			\draw[edge] (bb) -- node[pos=0.5, left, font=\footnotesize] {C} (ee);
+  			\draw[edge,red,dashed] (ee) --  (cc);
+  			\draw[edge] (cc) --  node[pos=0.5, above, font=\footnotesize, text=black] {D} (dd);
+  		\end{scope}
+  \end{tikzpicture}\end{center}
+\end{itemize}
+%%
+\end{frame}
+
+\begin{frame}{Red del proyecto}{Actividades ficticias}
+
+Las actividades ficticias también permiten representar relaciones lógicas más complejas:
+\begin{itemize}\itemsep 4mm
+	\item La actividad C sucede a las actividades A y B.
+	\item La actividad D sucede a la actividad B.
+\end{itemize}
+  \begin{center}	\begin{tikzpicture}
+		\tikzset{x=10mm,
+			edge/.style={blue, line width=1.5pt, -{Stealth[length=8pt,width=6pt]}},
+			nodec/.style={draw=blue, circle, line width=1.5pt, inner sep=2pt}
+		}
+		
+		\node at (0,1) (a1) {};
+		\node[nodec] at ( 3,1) (i) {i};
+		\node at ( 6,1) (b1) {};
+		
+		\node at (0,3) (a2) {};
+		\node[nodec] at ( 3,3) (j) {j};
+		\node at ( 6,3) (b2) {};
+		
+		\draw[edge] (a1) -- node[pos=0.5, above, font=\footnotesize] {A}  (i);
+		\draw[edge] (a2) -- node[pos=0.5, above, font=\footnotesize] {B}  (j);
+		\draw[edge] (i) --  node[pos=0.5, above, font=\footnotesize] {C} (b1);
+		\draw[edge] (j) --  node[pos=0.5, above, font=\footnotesize] {D} (b2);
+		\draw[edge,red,dashed] (i) --  (j);
+\end{tikzpicture}\end{center}
+%%
+\end{frame}
+
+\begin{frame}{Red del proyecto}{Actividades ficticias}
+
+Las actividades ficticias también permiten representar relaciones lógicas más complejas:
+
+\begin{quote}
+Entre el final de la actividad A y el comienzo de la actividades B deben transcurrir al menos 5
+unidades de tiempo.
+\end{quote}
+
+\begin{center}	\begin{tikzpicture}
+		\tikzset{x=10mm,
+			edge/.style={blue, line width=1.5pt, -{Stealth[length=8pt,width=6pt]}},
+			nodec/.style={draw=blue, circle, line width=1.5pt, inner sep=2pt}
+		}
+		
+		\node at (-2,1) (a) {};
+		\node[nodec] at ( 1,1) (b) {i};
+		\node[nodec] at ( 5,1) (c) {j};
+		\node at ( 8,1) (d) {};
+		
+		\draw[edge] (a) -- node[pos=0.5, above, font=\footnotesize] {A}  (b);
+		\draw[edge,red,dashed] (b) -- node[pos=0.5, above, font=\footnotesize] {Actividad ficticia} node[pos=0.5, below, font=\footnotesize] {duración=5} (c);
+		\draw[edge] (c) --  node[pos=0.5, above, font=\footnotesize] {B} (d);
+\end{tikzpicture}\end{center}
+%%
+\end{frame}
+
+
+
+\begin{frame}{Red del proyecto}{Ejemplo 2}
+%%
+%%
+\begin{itemize}\itemsep 2mm
+\item Una empresa decide cambiar la sede en la que realiza todas sus operaciones referidas a las tarjetas de crédito.
+\item El gerente ha establecido un límite de 22 semanas para realizar el cambio.
+\item En primer lugar, hay que seleccionar una de las tres posibles ubicaciones de las nuevas oficinas.
+\item Después hay que decidir cuántos empleados se trasladan a la nueva sede, cuántos es necesario contratar y quién los va a formar.
+\item Es necesario determinar los procedimientos y las partidas presupuestarias para llevar a cabo el traslado.
+\item Por último, un conjunto de arquitectos tendrán que decidir la estructura de las oficinas y comprar todo el mobiliario necesario para poder trabajar en él.
+\end{itemize}
+%%
+\end{frame}
+\begin{frame}{Red del proyecto}{Ejemplo 2}
+%%
+
+Existe interdependencia entre las distintas actividades:
+\begin{enumerate}\itemsep 5mm
+\item no se pueden amueblar las oficinas hasta que no estén dise\~{n}adas,
+\item no se pueden hacer los planes de formación hasta que no se sepa con cuanta gente se va a
+contar, 
+\item etc.
+\end{enumerate}
+
+%%
+\end{frame}
+\begin{frame}{Red del proyecto}{Ejemplo 2}
+%%
+Una lista de actividades con las relaciones de precedencia que existen podría ser:
+  \begin{center}\small
+    \begin{tabular}{ll|l}
+      \multicolumn{2}{l}{Las actividades} & preceden a
+      \\ \hline
+      A: & Seleccionar sitio de oficinas  & D
+      \\
+      B: &Crear plan de organización y financiero & C,I
+      \\
+      C: &Determinar requerimientos de personal & D,F
+      \\
+      D: &Dise\~{n}ar la instalación & E
+      \\
+      E: &Construir el interior & J
+      \\
+      F: &Seleccionar al personal que se va a transferir & G, H, J
+      \\
+      G: &Contratar empleados nuevos & J
+      \\
+      H: &Trasladar material y personal clave & J
+      \\
+      I: &Negociar con las autoridades del nuevo emplazamiento &
+      \\
+      J: &Capacitar al nuevo personal &
+      \\ \hline
+    \end{tabular}
+  \end{center}
+Realizar la red del proyecto.
+%%
+\end{frame}
+\begin{frame}{Red del proyecto. Ejemplo 3}
+%%
+Un proyecto se compone de las siguientes actividades:
+
+  \begin{center}
+    \begin{tabular}{l|l}
+      Las actividades & preceden a
+      \\ \hline
+      A, B  & D
+      \\
+      B & E, F, H
+      \\
+      F, C & G
+      \\
+      E, H & I, J
+      \\
+      C, D, F, J & K
+      \\
+      K & L
+      \\ \hline
+    \end{tabular}
+  \end{center}
+%%
+\end{frame}
+
+
+
+\begin{frame}{Red del proyecto. Ejemplo 3}
+%%
+
+La red que describe este proyecto es:
+ \begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+		\node[node_style] (I) at (0,0) {$I$} ;
+		\node[node_style] (F) at (12,0) {$F$} ;
+		\node[node_style] (2) at (3,0) {$2$} ;
+		\node[node_style] (3) at (3,3) {$3$} ;
+		\node[node_style] (4) at (5.5,1.5) {$4$} ;
+		\node[node_style] (5) at (8,-3) {$5$} ;
+		\node[node_style] (6) at (5.5,0) {$6$} ;
+		\node[node_style] (7) at (8,3) {$7$} ;
+		\node[node_style] (8) at (10,3) {$8$} ;
+
+		\draw [line width=1.5pt,->] (I) edge node[above] {\alert{A} }  (3) ;
+		\draw [line width=1.5pt,->] (I) edge node[above] {\alert{B}}  (2) ;
+		\draw [line width=1.5pt,->] (I) edge node[below] {\alert{C}}  (5) ;
+		\draw [line width=1.5pt,->,dashed] (2) edge   (3) ;
+		\draw [line width=1.5pt,->] (2) edge node[left] {\alert{H}}  (4) ;
+		\draw [line width=1.5pt,->] (2) edge node[pos=0.7,above] {\alert{F}}  (5) ;
+		\draw [line width=1.5pt,->] (2) edge node[above] {\alert{E}}  (6) ;
+		\draw [line width=1.5pt,->] (3) edge node[above] {\alert{D}}  (7) ;
+		\draw [line width=1.5pt,->,dashed] (4) edge   (6) ;
+		\draw [line width=1.5pt,->,dashed] (5) edge   (7) ;
+		\draw [line width=1.5pt,->] (5) edge node[above] {\alert{G}}  (F) ;
+		\draw [line width=1.5pt,->] (6) edge node[left] {\alert{J}}  (7) ;
+		\draw [line width=1.5pt,->] (6) edge node[above] {\alert{I}}  (F) ;
+		\draw [line width=1.5pt,->] (7) edge node[above] {\alert{K}}  (8) ;
+		\draw [line width=1.5pt,->] (8) edge node[above] {\alert{L}}  (F) ;
+	\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Camino crítico}
+%%
+
+El objetivo final es la \alert{programación del proyecto}.
+
+La primera fase consiste en determinar el \alert{camino crítico}.
+
+Está formado por el conjunto de \alert{actividades cuyo retraso en su ejecución provocan un
+retraso en la duración total del proyecto}.
+
+Determinar el camino crítico conlleva:
+\begin{itemize}\itemsep 2mm
+\item
+el cálculo de la duración del proyecto, y
+\item la clasificación de las actividades en críticas y no críticas.
+\end{itemize}
+%%
+\end{frame}\begin{frame}{Camino crítico}
+%%
+Para cada vértice $j$ de la red se definen las siguientes cantidades:
+\begin{itemize}\itemsep 2mm
+\item \alert{$t_j$, fecha prevista de consecución:} es el mínimo tiempo necesario para llegar a ese vértice.
+\item \alert{$t_j^*$, fecha límite de realización:} mide lo más tarde que se puede llegar al vértice j de forma que la
+duración total del proyecto no se vea incrementada.
+\end{itemize}
+
+\begin{alertblock}{Nota} 
+Para hacer los cálculos conviene ordenar adecuadamente losvértices de forma que para cada arco $(i,j)$ se verifique que $i<j$.
+\end{alertblock}
+%%
+\end{frame}\begin{frame}{Fechas previstas de consecución}
+%%
+El proyecto empieza en el instante 0: {\LARGE\color{blue}
+$$
+t_1=0
+$$}
+Para el resto de los nodos: {\LARGE\color{blue}
+$$
+t_j=\max_{i\,\vert\, A_{ij}\in A }\bigl\{t_i+d_{ij}\bigr\}
+$$}
+
+Se puede comprobar que se recorren los nodos en orden ascendente, \alert{desde el principio
+del proyecto hasta el final}.
+%%
+\end{frame}
+
+\newcommand{\nodo}[5]{% \spiral[draw options](placement)(end angle:revolutions:final radius)
+	\begin{scope}[scale=0.75]
+		\draw (#1-1,#2-1) --+ (0,2);
+		\draw (#1-1,#2-1) --+ (2,0);
+		\draw (#1-1,#2+1) --+ (2,0);
+		\draw (#1+1,#2+1) --+ (0,-2);
+		\draw (#1-1,#2) --+ (2,0);
+		\draw (#1,#2) --+ (0,1);
+		\node at (-0.5,0.5) (fi) {\large #3};
+		\node at (0.5,0.5) (fl) {\large #4};
+		\node at (0,-0.5) (v) {\large #5};
+	\end{scope}
+}
+
+\begin{frame}{Notación}
+%%
+ \begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node (a) at (-2.5,1) {\color{blue}\Large Fecha prevista} ;
+	\node (a) at (-2.5,0.5) {\color{blue}\Large de consecución} ;
+	\node (b) at (2.5,1) {\color{red}\Large Fecha límite} ;
+	\node (b) at (2.5,0.5) {\color{red}\Large de realización} ;
+	\node (c) at (0,-1) {\color{magenta}\Large vértice} ;
+	%\node (d) at (0,-2) {\nodo{0}{0}{$t_j$}{$t_j^*$}{$j$}} ;
+	\nodo{0}{0}{\color{blue} $\mathbf{t_j}$}{\color{red} $\mathbf{t_j^*}$}{\color{magenta} $\mathbf{j}$}
+\end{tikzpicture}
+\end{center}
+%%
+\end{frame}
+
+	\newcommand{\hito}[5]{% \spiral[draw options](placement)(end angle:revolutions:final radius)
+	\begin{scope}[scale=1]
+		\draw (#1-0.35,#2) --+ (0.7,0);
+		\draw (#1,#2) --+ (0,0.35);
+		\node at (#1-0.2,#2+0.2) (fi) {\footnotesize\color{blue} #3};
+		\node at (#1+0.2,#2+0.2) (fl) {\footnotesize\color{red} #4};
+		\node at (#1,#2-0.2) (v) {\footnotesize\color{magenta} #5};
+	\end{scope}
+}
+
+
+\begin{frame}{Red del proyecto. Ejemplo 3}
+%%
+
+Supongamos que en el proyecto anterior asignamos duraciones a cada actividad
+ \begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+		\node[node_style] (I) at (0,0) {$I$} ;
+		\node[node_style] (F) at (12,0) {$F$} ;
+		\node[node_style] (2) at (3,0) {$2$} ;
+		\node[node_style] (3) at (3,3) {$3$} ;
+		\node[node_style] (4) at (5.5,1.5) {$4$} ;
+		\node[node_style] (5) at (8,-3) {$5$} ;
+		\node[node_style] (6) at (5.5,0) {$6$} ;
+		\node[node_style] (7) at (8,3) {$7$} ;
+		\node[node_style] (8) at (10,3) {$8$} ;
+		
+		\draw [line width=1.5pt,->] (I) edge node[above] {\alert{A} 4}  (3) ;
+		\draw [line width=1.5pt,->] (I) edge node[above] {\alert{B} 5}  (2) ;
+		\draw [line width=1.5pt,->] (I) edge node[below] {\alert{C} 7}  (5) ;
+		\draw [line width=1.5pt,->,dashed] (2) edge   (3) ;
+		\draw [line width=1.5pt,->] (2) edge node[left] {\alert{H} 8}  (4) ;
+		\draw [line width=1.5pt,->] (2) edge node[pos=0.7,above] {\alert{F} 1}  (5) ;
+		\draw [line width=1.5pt,->] (2) edge node[above] {\alert{E} 2}  (6) ;
+		\draw [line width=1.5pt,->] (3) edge node[above] {\alert{D} 8}  (7) ;
+		\draw [line width=1.5pt,->,dashed] (4) edge   (6) ;
+		\draw [line width=1.5pt,->,dashed] (5) edge   (7) ;
+		\draw [line width=1.5pt,->] (5) edge node[above] {\alert{G} 7}  (F) ;
+		\draw [line width=1.5pt,->] (6) edge node[left] {\alert{J} 5}  (7) ;
+		\draw [line width=1.5pt,->] (6) edge node[above] {\alert{I} 3}  (F) ;
+		\draw [line width=1.5pt,->] (7) edge node[above] {\alert{K} 6}  (8) ;
+		\draw [line width=1.5pt,->] (8) edge node[right] {\alert{L} 1}  (F) ;
+	\end{tikzpicture}
+\end{center}
+%%
+\end{frame}
+
+\begin{frame}{Red del proyecto. Ejemplo 3}
+%%
+ \begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+	\node[node_style] (I) at (0,0) {} ;
+	\node[node_style] (F) at (12,0) {} ;
+	\node[node_style] (2) at (3,0) {} ;
+	\node[node_style] (3) at (3,3) {} ;
+	\node[node_style] (4) at (5.5,1.5) {} ;
+	\node[node_style] (5) at (8,-3) {} ;
+	\node[node_style] (6) at (5.5,0) {} ;
+	\node[node_style] (7) at (8,3) {} ;
+	\node[node_style] (8) at (10,3) {} ;
+	\hito{0}{0}{}{}{$I$}
+	\hito{3}{0}{}{}{2}
+	\hito{3}{3}{}{}{3}
+	\hito{5.5}{1.5}{}{}{4}
+	\hito{8}{-3}{}{}{5}
+	\hito{5.5}{0}{}{}{6}
+	\hito{8}{3}{}{}{7}
+	\hito{10}{3}{}{}{8}
+	\hito{12}{0}{}{}{$F$}
+	\only<2->{
+		\hito{0}{0}{0}{}{$I$}
+	}
+	\only<3->{
+		\hito{3}{0}{5}{}{2}
+		\hito{3}{3}{5}{}{3}
+	}
+	\only<4->{
+		\hito{5.5}{1.5}{13}{}{4}
+	}
+	\only<5->{
+		\hito{8}{-3}{7}{}{5}
+		\hito{5.5}{0}{13}{}{6}
+	}
+	\only<6->{
+		\hito{8}{3}{18}{}{7}
+	}
+	\only<7->{
+		\hito{10}{3}{24}{}{8}
+	}
+	\only<8->{
+		\hito{12}{0}{25}{}{$F$}
+	}
+	
+	\draw [line width=1.5pt,->] (I) edge node[above] {\textbf{A} 4}  (3) ;
+	\draw [line width=1.5pt,->] (I) edge node[above] {\textbf{B} 5}  (2) ;
+	\draw [line width=1.5pt,->] (I) edge node[below] {\textbf{C} 7}  (5) ;
+	\draw [line width=1.5pt,->,dashed] (2) edge   (3) ;
+	\draw [line width=1.5pt,->] (2) edge node[left] {\textbf{H} 8}  (4) ;
+	\draw [line width=1.5pt,->] (2) edge node[pos=0.7,above] {\textbf{F} 1}  (5) ;
+	\draw [line width=1.5pt,->] (2) edge node[above] {\textbf{E} 2}  (6) ;
+	\draw [line width=1.5pt,->] (3) edge node[above] {\textbf{D} 8}  (7) ;
+	\draw [line width=1.5pt,->,dashed] (4) edge   (6) ;
+	\draw [line width=1.5pt,->,dashed] (5) edge   (7) ;
+	\draw [line width=1.5pt,->] (5) edge node[above] {\textbf{G} 7}  (F) ;
+	\draw [line width=1.5pt,->] (6) edge node[left] {\textbf{J} 5}  (7) ;
+	\draw [line width=1.5pt,->] (6) edge node[above] {\textbf{I} 3}  (F) ;
+	\draw [line width=1.5pt,->] (7) edge node[above] {\textbf{K} 6}  (8) ;
+	\draw [line width=1.5pt,->] (8) edge node[right] {\textbf{L} 1}  (F) ;
+\end{tikzpicture}
+ \end{center}
+%%
+\end{frame}
+
+
+\begin{frame}{Fechas límite de realización}
+%%
+Para cada vértice, si se rebasa esta fecha, se produce un retraso en todo el proyecto.
+
+El proyecto termina en la fecha de consecución del último vértice: {\LARGE\color{blue}
+$$
+t_n^*=25
+$$}
+Para el resto de los nodos: {\LARGE\color{red}
+$$
+t_i=\min_{j\,\vert\, A_{ij}\in A }\bigl\{t_j^*-d_{ij}\bigr\}
+$$}
+
+Se puede comprobar que se recorren los nodos en orden descendente, \alert{desde el fin del
+proyecto hasta el principio}.
+%%
+\end{frame}
+
+
+\begin{frame}{Red del proyecto. Ejemplo 3}
+	%%
+	\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+	\node[node_style] (I) at (0,0) {} ;
+	\node[node_style] (F) at (12,0) {} ;
+	\node[node_style] (2) at (3,0) {} ;
+	\node[node_style] (3) at (3,3) {} ;
+	\node[node_style] (4) at (5.5,1.5) {} ;
+	\node[node_style] (5) at (8,-3) {} ;
+	\node[node_style] (6) at (5.5,0) {} ;
+	\node[node_style] (7) at (8,3) {} ;
+	\node[node_style] (8) at (10,3) {} ;
+	\hito{0}{0}{0}{}{$I$}
+	\hito{3}{0}{5}{}{2}
+	\hito{3}{3}{5}{}{3}
+	\hito{5.5}{1.5}{13}{}{4}
+	\hito{8}{-3}{7}{}{5}
+	\hito{5.5}{0}{13}{}{6}
+	\hito{8}{3}{18}{}{7}
+	\hito{10}{3}{24}{}{8}
+	\hito{12}{0}{25}{}{$F$}
+	\only<2->{
+		\hito{12}{0}{25}{25}{$F$}
+	}
+	\only<3->{
+		\hito{10}{3}{24}{24}{8}
+		\hito{12}{0}{25}{25}{$F$}
+	}
+	\only<4->{
+		\hito{8}{3}{18}{18}{7}
+		\hito{10}{3}{24}{24}{8}
+		\hito{12}{0}{25}{25}{$F$}
+	}
+	\only<5->{
+		\hito{0}{0}{0}{}{$I$}
+		\hito{3}{0}{5}{}{2}
+		\hito{3}{3}{5}{}{3}
+		\hito{5.5}{1.5}{13}{}{4}
+		\hito{8}{-3}{7}{18}{5}
+		\hito{5.5}{0}{13}{13}{6}
+		\hito{8}{3}{18}{18}{7}
+		\hito{10}{3}{24}{24}{8}
+		\hito{12}{0}{25}{25}{$F$}
+	}
+	\only<6->{
+		\hito{0}{0}{0}{}{$I$}
+		\hito{3}{0}{5}{}{2}
+		\hito{3}{3}{5}{10}{3}
+		\hito{5.5}{1.5}{13}{13}{4}
+		\hito{8}{-3}{7}{18}{5}
+		\hito{5.5}{0}{13}{13}{6}
+		\hito{8}{3}{18}{18}{7}
+		\hito{10}{3}{24}{24}{8}
+		\hito{12}{0}{25}{25}{$F$}
+	}
+	\only<7->{
+		\hito{0}{0}{0}{}{$I$}
+		\hito{3}{0}{5}{5}{2}
+		\hito{3}{3}{5}{10}{3}
+		\hito{5.5}{1.5}{13}{13}{4}
+		\hito{8}{-3}{7}{18}{5}
+		\hito{5.5}{0}{13}{13}{6}
+		\hito{8}{3}{18}{18}{7}
+		\hito{10}{3}{24}{24}{8}
+		\hito{12}{0}{25}{25}{$F$}
+	}
+	\only<8->{
+		\hito{0}{0}{0}{0}{$I$}
+		\hito{3}{0}{5}{5}{2}
+		\hito{3}{3}{5}{10}{3}
+		\hito{5.5}{1.5}{13}{13}{4}
+		\hito{8}{-3}{7}{18}{5}
+		\hito{5.5}{0}{13}{13}{6}
+		\hito{8}{3}{18}{18}{7}
+		\hito{10}{3}{24}{24}{8}
+		\hito{12}{0}{25}{25}{$F$}
+	}
+	\only<9->{
+		\hito{0}{0}{0}{}{$I$}
+		\hito{3}{0}{5}{}{2}
+		\hito{3}{3}{5}{}{3}
+		\hito{5.5}{1.5}{13}{}{4}
+		\hito{8}{-3}{7}{}{5}
+		\hito{5.5}{0}{13}{}{6}
+		\hito{8}{3}{18}{}{7}
+		\hito{10}{3}{24}{}{8}
+		\hito{12}{0}{25}{}{$F$}
+	}
+	
+	\draw [line width=1.5pt,->] (I) edge node[above] {\textbf{A} 4}  (3) ;
+	\draw [line width=1.5pt,->] (I) edge node[above] {\textbf{B} 5}  (2) ;
+	\draw [line width=1.5pt,->] (I) edge node[below] {\textbf{C} 7}  (5) ;
+	\draw [line width=1.5pt,->,dashed] (2) edge   (3) ;
+	\draw [line width=1.5pt,->] (2) edge node[left] {\textbf{H} 8}  (4) ;
+	\draw [line width=1.5pt,->] (2) edge node[pos=0.7,above] {\textbf{F} 1}  (5) ;
+	\draw [line width=1.5pt,->] (2) edge node[above] {\textbf{E} 2}  (6) ;
+	\draw [line width=1.5pt,->] (3) edge node[above] {\textbf{D} 8}  (7) ;
+	\draw [line width=1.5pt,->,dashed] (4) edge   (6) ;
+	\draw [line width=1.5pt,->,dashed] (5) edge   (7) ;
+	\draw [line width=1.5pt,->] (5) edge node[above] {\textbf{G} 7}  (F) ;
+	\draw [line width=1.5pt,->] (6) edge node[left] {\textbf{J} 5}  (7) ;
+	\draw [line width=1.5pt,->] (6) edge node[above] {\textbf{I} 3}  (F) ;
+	\draw [line width=1.5pt,->] (7) edge node[above] {\textbf{K} 6}  (8) ;
+	\draw [line width=1.5pt,->] (8) edge node[right] {\textbf{L} 1}  (F) ;
+\end{tikzpicture}
+\end{center}
+\end{frame}
+\begin{frame}{Camino crítico}
+%%
+Una actividad $A_{ij}$ es crítica si:
+\begin{itemize}\itemsep 0mm
+\item Las fecha prevista de consecución y fecha límite de realización de $i$ coinciden.
+\item Las fecha prevista de consecución y fecha límite de realización de $j$ coinciden.
+\item Se verifica la igualdad:
+ {\Large
+  $$
+  d_{ij}=t_j-t_i
+  $$}
+\end{itemize}
+Las actividades críticas forman el \alert{camino crítico}.
+%%
+\end{frame}
+
+
+\begin{frame}{Camino crítico. Ejemplo}
+%%
+ \begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+	\node[node_style] (I) at (0,0) {} ;
+	\node[node_style] (F) at (12,0) {} ;
+	\node[node_style] (2) at (3,0) {} ;
+	\node[node_style] (3) at (3,3) {} ;
+	\node[node_style] (4) at (5.5,1.5) {} ;
+	\node[node_style] (5) at (8,-3) {} ;
+	\node[node_style] (6) at (5.5,0) {} ;
+	\node[node_style] (7) at (8,3) {} ;
+	\node[node_style] (8) at (10,3) {} ;
+	\hito{0}{0}{0}{0}{$I$}
+	\hito{3}{0}{5}{5}{2}
+	\hito{3}{3}{5}{10}{3}
+	\hito{5.5}{1.5}{13}{13}{4}
+	\hito{8}{-3}{7}{18}{5}
+	\hito{5.5}{0}{13}{13}{6}
+	\hito{8}{3}{18}{18}{7}
+	\hito{10}{3}{24}{24}{8}
+	\hito{12}{0}{25}{25}{$F$}
+	
+	\draw [line width=1.5pt,->] (I) edge node[above] {\textbf{A} 4}  (3) ;
+	\draw [line width=2.5pt,->,blue] (I) edge node[above] {\textbf{B} 5}  (2) ;
+	\draw [line width=1.5pt,->] (I) edge node[below] {\textbf{C} 7}  (5) ;
+	\draw [line width=1.5pt,->,dashed] (2) edge   (3) ;
+	\draw [line width=2.5pt,->,blue] (2) edge node[left] {\textbf{H} 8}  (4) ;
+	\draw [line width=1.5pt,->] (2) edge node[pos=0.7,above] {\textbf{F} 1}  (5) ;
+	\draw [line width=1.5pt,->] (2) edge node[above] {\textbf{E} 2}  (6) ;
+	\draw [line width=1.5pt,->] (3) edge node[above] {\textbf{D} 8}  (7) ;
+	\draw [line width=2.5pt,->,dashed,blue] (4) edge   (6) ;
+	\draw [line width=1.5pt,->,dashed] (5) edge   (7) ;
+	\draw [line width=1.5pt,->] (5) edge node[above] {\textbf{G} 7}  (F) ;
+	\draw [line width=2.5pt,->,blue] (6) edge node[left] {\textbf{J} 5}  (7) ;
+	\draw [line width=1.5pt,->] (6) edge node[above] {\textbf{I} 3}  (F) ;
+	\draw [line width=2.5pt,->,blue] (7) edge node[above] {\textbf{K} 6}  (8) ;
+	\draw [line width=2.5pt,->,blue] (8) edge node[right] {\textbf{L} 1}  (F) ;
+\end{tikzpicture}
+\end{center}
+%%
+\end{frame}
+
+
+\begin{frame}{Análisis de elasticidad}{Intervalo de flotamiento del vértice $j$}
+
+Es el intervalo en el que puede ocurrir el acontecimiento $j$, sin que aumente el tiempo total del
+proyecto.
+
+Viene dado por:
+ {\Large\color{blue}
+   $$
+   [t_j,t_j^*]
+   $$}
+%%
+\end{frame}
+\begin{frame}{Análisis de elasticidad. Ejemplo}
+%%
+\begin{columns}
+	\column{0.8\textwidth}
+		\scalebox{0.9}{
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+	\node[node_style] (I) at (0,0) {} ;
+	\node[node_style] (F) at (12,0) {} ;
+	\node[node_style] (2) at (3,0) {} ;
+	\node[node_style] (3) at (3,3) {} ;
+	\node[node_style] (4) at (5.5,1.5) {} ;
+	\node[node_style] (5) at (8,-3) {} ;
+	\node[node_style] (6) at (5.5,0) {} ;
+	\node[node_style] (7) at (8,3) {} ;
+	\node[node_style] (8) at (10,3) {} ;
+		\hito{0}{0}{0}{0}{$I$}
+		\hito{3}{0}{5}{5}{2}
+		\hito{3}{3}{5}{10}{3}
+		\hito{5.5}{1.5}{13}{13}{4}
+		\hito{8}{-3}{7}{18}{5}
+		\hito{5.5}{0}{13}{13}{6}
+		\hito{8}{3}{18}{18}{7}
+		\hito{10}{3}{24}{24}{8}
+		\hito{12}{0}{25}{25}{$F$}
+	
+	\draw [line width=1.5pt,->] (I) edge node[above] {\textbf{A} 4}  (3) ;
+	\draw [line width=2.5pt,->,blue] (I) edge node[above] {\textbf{B} 5}  (2) ;
+	\draw [line width=1.5pt,->] (I) edge node[below] {\textbf{C} 7}  (5) ;
+	\draw [line width=1.5pt,->,dashed] (2) edge   (3) ;
+	\draw [line width=2.5pt,->,blue] (2) edge node[left] {\textbf{H} 8}  (4) ;
+	\draw [line width=1.5pt,->] (2) edge node[pos=0.7,above] {\textbf{F} 1}  (5) ;
+	\draw [line width=1.5pt,->] (2) edge node[above] {\textbf{E} 2}  (6) ;
+	\draw [line width=1.5pt,->] (3) edge node[above] {\textbf{D} 8}  (7) ;
+	\draw [line width=2.5pt,->,dashed,blue] (4) edge   (6) ;
+	\draw [line width=1.5pt,->,dashed] (5) edge   (7) ;
+	\draw [line width=1.5pt,->] (5) edge node[above] {\textbf{G} 7}  (F) ;
+	\draw [line width=2.5pt,->,blue] (6) edge node[left] {\textbf{J} 5}  (7) ;
+	\draw [line width=1.5pt,->] (6) edge node[above] {\textbf{I} 3}  (F) ;
+	\draw [line width=2.5pt,->,blue] (7) edge node[above] {\textbf{K} 6}  (8) ;
+	\draw [line width=2.5pt,->,blue] (8) edge node[right] {\textbf{L} 1}  (F) ;
+\end{tikzpicture}
+}
+\column{0.2\textwidth}
+ \begin{tabular}{@{}c@{\hspace*{1mm}}c@{}}
+\hline
+ Vért.   & $[t_j,t_j^*]$ \\ \hline
+    1    &    $[0,0]$    \\[2mm]
+    2    &    $[5,5]$    \\[2mm]
+    3    &    $[5,10]$           \\[2mm]
+    4    &    $[13 ,13 ]$           \\[2mm]
+    5    &   $[7 ,18 ]$            \\[2mm]
+    6    &   $[13 ,13 ]$            \\[2mm]
+    7    &   $[18 ,18 ]$            \\[2mm]
+    8    &    $[24 ,24 ]$           \\[2mm]
+    9    &    $[25 ,25 ]$           \\[2mm]
+\hline
+\end{tabular}
+ \end{columns}
+%%
+\end{frame}
+
+\begin{frame}{Análisis de elasticidad}{Holgura total de la actividad  $A_{ij}$}
+
+Es la cantidad en que se puede retrasar la finalización de la actividad sin retrasar la
+finalización del proyecto, suponiendo que no se retrasan otras actividades:
+ {\Large\color{blue}
+   $$
+   S_{ij}=t_j^*-t_i-d_{ij}
+   $$}
+
+{\small \begin{itemize}\itemsep 2mm
+\item Este retraso puede deberse a un retraso en el inicio o por un incremento en la duración.
+\item Si una actividad consume la totalidad o parte de su holgura total, se puede producir una
+disminución en la holgura total de la actividad siguiente.
+\item Las actividades críticas tienen holgura total nula.
+\end{itemize}}
+%%
+\end{frame}
+
+
+
+\begin{frame}{Análisis de elasticidad. Holgura total. Ejemplo}
+%%
+\begin{columns}
+	\column{0.8\textwidth}
+	\scalebox{0.9}{
+		\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+			\node[node_style] (I) at (0,0) {} ;
+			\node[node_style] (F) at (12,0) {} ;
+			\node[node_style] (2) at (3,0) {} ;
+			\node[node_style] (3) at (3,3) {} ;
+			\node[node_style] (4) at (5.5,1.5) {} ;
+			\node[node_style] (5) at (8,-3) {} ;
+			\node[node_style] (6) at (5.5,0) {} ;
+			\node[node_style] (7) at (8,3) {} ;
+			\node[node_style] (8) at (10,3) {} ;
+			\hito{0}{0}{0}{0}{$I$}
+			\hito{3}{0}{5}{5}{2}
+			\hito{3}{3}{5}{10}{3}
+			\hito{5.5}{1.5}{13}{13}{4}
+			\hito{8}{-3}{7}{18}{5}
+			\hito{5.5}{0}{13}{13}{6}
+			\hito{8}{3}{18}{18}{7}
+			\hito{10}{3}{24}{24}{8}
+			\hito{12}{0}{25}{25}{$F$}
+
+			
+			\draw [line width=1.5pt,->] (I) edge node[above] {\textbf{A} 4}  (3) ;
+			\draw [line width=2.5pt,->,blue] (I) edge node[above] {\textbf{B} 5}  (2) ;
+			\draw [line width=1.5pt,->] (I) edge node[below] {\textbf{C} 7}  (5) ;
+			\draw [line width=1.5pt,->,dashed] (2) edge   (3) ;
+			\draw [line width=2.5pt,->,blue] (2) edge node[left] {\textbf{H} 8}  (4) ;
+			\draw [line width=1.5pt,->] (2) edge node[pos=0.7,above] {\textbf{F} 1}  (5) ;
+			\draw [line width=1.5pt,->] (2) edge node[above] {\textbf{E} 2}  (6) ;
+			\draw [line width=1.5pt,->] (3) edge node[above] {\textbf{D} 8}  (7) ;
+			\draw [line width=2.5pt,->,dashed,blue] (4) edge   (6) ;
+			\draw [line width=1.5pt,->,dashed] (5) edge   (7) ;
+			\draw [line width=1.5pt,->] (5) edge node[above] {\textbf{G} 7}  (F) ;
+			\draw [line width=2.5pt,->,blue] (6) edge node[left] {\textbf{J} 5}  (7) ;
+			\draw [line width=1.5pt,->] (6) edge node[above] {\textbf{I} 3}  (F) ;
+			\draw [line width=2.5pt,->,blue] (7) edge node[above] {\textbf{K} 6}  (8) ;
+			\draw [line width=2.5pt,->,blue] (8) edge node[right] {\textbf{L} 1}  (F) ;
+		\end{tikzpicture}
+	}
+	\column{0.2\textwidth}
+		 \begin{tabular}{@{}cl@{}}
+			\hline
+			Act. & $S_{ij}$ \\ \hline
+			A & 10-0-4=6   \\[1mm]
+			B & 5-0-5=0   \\[1mm]
+			C & 18-0-7=11 \\[1mm]
+			D & 18-5-8=5  \\[1mm]
+			E & 13-5-2=6  \\[1mm]
+			F & 18-5-1=12 \\[1mm]
+			G & 25-7-7=11 \\[1mm]
+			H & 13-5-8=0  \\[1mm]
+			I & 25-13-3=9 \\[1mm]
+			J & 18-13-5=0 \\[1mm]
+			K & 24-18-6=0 \\[1mm]
+			L & 25-24-1=0 \\[1mm]
+			\hline
+		\end{tabular}
+\end{columns}
+
+%%
+\end{frame}
+
+\begin{frame}{Análisis de elasticidad}{Holgura libre de la actividad  $A_{ij}$}
+
+Es la cantidad en que se puede retrasar la finalización de la actividad sin afectar al inicio de
+cualquier actividad posterior:
+ {\Large\color{blue}
+   $$
+   H_{ij}=t_j-t_i-d_{ij}
+   $$}
+
+{\small \begin{itemize}\itemsep 2mm
+\item Es la cantidad de tiempo disponible después de haber
+realizado la actividad, si las actividades inmediatamente anteriores han empezado en su fecha
+prevista de consecución.
+\item Las actividades críticas tienen holgura libre nula. \end{itemize}}
+%%
+\end{frame}
+
+
+
+\begin{frame}{Análisis de elasticidad. Holgura libre. Ejemplo}
+%%
+\begin{columns}
+	\column{0.8\textwidth}
+	\scalebox{0.9}{
+		\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+			\node[node_style] (I) at (0,0) {} ;
+			\node[node_style] (F) at (12,0) {} ;
+			\node[node_style] (2) at (3,0) {} ;
+			\node[node_style] (3) at (3,3) {} ;
+			\node[node_style] (4) at (5.5,1.5) {} ;
+			\node[node_style] (5) at (8,-3) {} ;
+			\node[node_style] (6) at (5.5,0) {} ;
+			\node[node_style] (7) at (8,3) {} ;
+			\node[node_style] (8) at (10,3) {} ;
+				\hito{0}{0}{0}{0}{$I$}
+				\hito{3}{0}{5}{5}{2}
+				\hito{3}{3}{5}{10}{3}
+				\hito{5.5}{1.5}{13}{13}{4}
+				\hito{8}{-3}{7}{18}{5}
+				\hito{5.5}{0}{13}{13}{6}
+				\hito{8}{3}{18}{18}{7}
+				\hito{10}{3}{24}{24}{8}
+				\hito{12}{0}{25}{25}{$F$}
+
+			
+			\draw [line width=1.5pt,->] (I) edge node[above] {\textbf{A} 4}  (3) ;
+			\draw [line width=2.5pt,->,blue] (I) edge node[above] {\textbf{B} 5}  (2) ;
+			\draw [line width=1.5pt,->] (I) edge node[below] {\textbf{C} 7}  (5) ;
+			\draw [line width=1.5pt,->,dashed] (2) edge   (3) ;
+			\draw [line width=2.5pt,->,blue] (2) edge node[left] {\textbf{H} 8}  (4) ;
+			\draw [line width=1.5pt,->] (2) edge node[pos=0.7,above] {\textbf{F} 1}  (5) ;
+			\draw [line width=1.5pt,->] (2) edge node[above] {\textbf{E} 2}  (6) ;
+			\draw [line width=1.5pt,->] (3) edge node[above] {\textbf{D} 8}  (7) ;
+			\draw [line width=2.5pt,->,dashed,blue] (4) edge   (6) ;
+			\draw [line width=1.5pt,->,dashed] (5) edge   (7) ;
+			\draw [line width=1.5pt,->] (5) edge node[above] {\textbf{G} 7}  (F) ;
+			\draw [line width=2.5pt,->,blue] (6) edge node[left] {\textbf{J} 5}  (7) ;
+			\draw [line width=1.5pt,->] (6) edge node[above] {\textbf{I} 3}  (F) ;
+			\draw [line width=2.5pt,->,blue] (7) edge node[above] {\textbf{K} 6}  (8) ;
+			\draw [line width=2.5pt,->,blue] (8) edge node[right] {\textbf{L} 1}  (F) ;
+		\end{tikzpicture}
+	}
+	\column{0.2\textwidth}
+ \begin{tabular}{@{}cl@{}}
+	\hline
+	Act. & $H_{ij}$ \\ \hline
+	A & 5-0-4=1   \\[1mm]
+	B & 5-0-5=0   \\[1mm]
+	C & 7-0-7=0   \\[1mm]
+	D & 18-5-8=5  \\[1mm]
+	E & 13-5-2=6  \\[1mm]
+	F & 7-5-1=1   \\[1mm]
+	G & 25-7-7=11 \\[1mm]
+	H & 13-5-8=0  \\[1mm]
+	I & 25-13-3=9 \\[1mm]
+	J & 18-13-5=0 \\[1mm]
+	K & 24-18-6=0 \\[1mm]
+	L & 25-24-1=0 \\[1mm]
+	\hline
+\end{tabular}
+\end{columns}
+%%%
+\end{frame}
+\begin{frame}{Diagrama de Gantt}
+%%%
+\begin{itemize}\itemsep 5mm
+\item El diagrama de Gantt permite representar gráficamente el calendario del proyecto:
+\item Para cada actividad se indica:
+%%
+\begin{itemize}\itemsep 3mm
+\item Fecha prevista de inicio y fin.
+\item Holgura libre (fecha posible de finalización sin afectar a las actividades posteriores.
+\item Holgura total (fecha posible de finalización sin retrasar el proyecto, aunque afectando al
+resto de las actividades).
+\end{itemize}
+\end{itemize}
+
+%%%
+\end{frame}
+\definecolor{lightblue}{RGB}{173,216,230} % Azul claro
+
+
+\begin{frame}{Diagrama de Gantt}
+%%%
+	\begin{center}
+	\begin{tikzpicture}[x=5mm,y=4mm,line width=1.5pt,scale=0.95]
+	
+	% Ejes
+	\draw[blue] (0,0) -- (27,0);
+	\draw[blue] (0,0) -- (0,18);
+	
+	% Etiquetas A-L en el eje Y
+	\foreach \y/\lbl in {
+		1/L, 2.5/K, 4/J, 5.5/I, 7/H, 8.5/G, 10/F, 11.5/E,
+		13/D, 14.5/C, 16/B, 17.5/A
+	}{
+		\node[blue, font=\bfseries\footnotesize] at (-0.5,\y) {\lbl};
+	}
+	
+	% Líneas verticales de referencia cada 2 unidades (2..26) y sus etiquetas
+	\foreach \x in {2,4,6,8,10,12,14,16,18,20,22,24,26}{
+		\draw[lightblue, dashed, line width=0.03pt] (\x,18) -- (\x,-0.2);
+		\node[blue, font=\footnotesize] at (\x,-0.6) {\x};
+	}
+	
+	% Línea vertical discontinua destacada en x=25
+	\draw[blue, dashed, line width=0.8pt] (25,0) -- (25,18);
+	
+	% Líneas verticales discontinuas (segmentos)
+	% Azul
+	\draw[blue, dashed, line width=0.5pt] (5,16.2) -- (5,6.8);
+	\draw[blue, dashed, line width=0.5pt] (13,7.2) -- (13,3.8);
+	\draw[blue, dashed, line width=0.5pt] (18,4.2) -- (18,2.3);
+	\draw[blue, dashed, line width=0.5pt] (24,2.7) -- (24,0.8);
+	
+	% Negro
+	\draw[black, dashed, line width=0.5pt] (7,14.7) -- (7,8.3);
+	\draw[black, dashed, line width=0.5pt] (13,11.7) -- (13,7.2);
+	\draw[black, dashed, line width=0.5pt] (18,13.2) -- (18,4.2);
+	\draw[black, dashed, line width=0.5pt] (5,17.7) -- (5,16.2);
+	
+	% Barras gruesas (tareas)
+	\draw[line width=10pt] (0,17.5) -- (4,17.5);
+	\draw[line width=10pt, blue] (0,16) -- (5,16);
+	\draw[line width=10pt] (0,14.5) -- (7,14.5);
+	\draw[line width=10pt] (5,13) -- (13,13);
+	\draw[line width=10pt] (5,11.5) -- (7,11.5);
+	\draw[line width=10pt] (5,10) -- (6,10);
+	\draw[line width=10pt] (7,8.5) -- (14,8.5);
+	\draw[line width=10pt, blue] (5,7) -- (13,7);
+	\draw[line width=10pt] (13,5.5) -- (16,5.5);
+	\draw[line width=10pt, blue] (13,4) -- (18,4);
+	\draw[line width=10pt, blue] (18,2.5) -- (24,2.5);
+	\draw[line width=10pt, blue] (24,1) -- (25,1);
+	
+	% Holguras totales (azul claro)
+	\draw[line width=10pt, lightblue] (4,17.5) -- (10,17.5);
+	\draw[line width=10pt, lightblue] (7,14.5) -- (18,14.5);
+	\draw[line width=10pt, lightblue] (13,13) -- (18,13);
+	\draw[line width=10pt, lightblue] (7,11.5) -- (13,11.5);
+	\draw[line width=10pt, lightblue] (6,10) -- (18,10);
+	\draw[line width=10pt, lightblue] (14,8.5) -- (25,8.5);
+	\draw[line width=10pt, lightblue] (16,5.5) -- (25,5.5);
+	
+	% Holguras libres (amarillo) ? se dibujan encima para que destaquen
+	\draw[line width=10pt, yellow] (4,17.5) -- (5,17.5);
+	\draw[line width=10pt, yellow] (13,13) -- (18,13);
+	\draw[line width=10pt, yellow] (7,11.5) -- (13,11.5);
+	\draw[line width=10pt, yellow] (14,8.5) -- (25,8.5);
+	\draw[line width=10pt, yellow] (16,5.5) -- (25,5.5);
+	
+\end{tikzpicture}
+\end{center}
+%%%%%
+\end{frame}
+
+
+\section{PERT: Contexto aleatorio}
+\begin{frame}{Duración incierta de cada actividad}
+%%%
+Es frecuente que las actividades tengan una duración aleatoria, cuyo comportamiento se puede
+representar mediante una variable aleatoria.
+
+Tradicionalmente se ha utilizado la distribución beta, $\beta(p,q)$:
+%%
+\begin{itemize}\itemsep 0mm
+\item Toma valores entre 0 y 1: un cambio de escala permite que tome valores en cualquier intervalo:
+\item Toma muy diversas formas, según los valores de los parámetros $p$ y $q$.
+\end{itemize}
+	\begin{tikzpicture}[x=5mm,y=6mm,line width=1.5pt]
+	
+	% Segmentos de base y líneas verticales (bloques)
+	\draw (-0.1,0) -- (5.1,0);
+	\draw (0,0) -- (0,3);
+	\draw (5,0) -- (5,3);
+	
+	\draw (6.9,0) -- (12.1,0);
+	\draw (7,0) -- (7,3);
+	\draw (12,0) -- (12,3);
+	
+	\draw (13.9,0) -- (19.1,0);
+	\draw (14,0) -- (14,3);
+	\draw (19,0) -- (19,3);
+	
+	\draw (20.9,0) -- (26.1,0);
+	\draw (21,0) -- (21,3);
+	\draw (26,0) -- (26,3);
+	
+	% Línea azul horizontal
+	\draw[blue] (0,2) -- (5,2);
+	
+	% Curvas azules (equivalente a \pscurve)
+	\draw[blue] plot[smooth] coordinates {(7,2.2) (8.8,2) (9.2,1.8) (12,1.5)};
+	\draw[blue] plot[smooth] coordinates {(14,1.2) (16.2,1.3) (17,2.0) (19,2.2)};
+	\draw[blue] plot[smooth] coordinates {(21,1.7) (21.3,1.7) (23.5,2.5) (25.7,1.71) (26,1.7)};
+	
+\end{tikzpicture}%%%
+\end{frame}
+\begin{frame}{Duración incierta de cada actividad}
+%%%
+
+Para cada actividad se determina:
+  \begin{align*}
+    a_i=&\text{ tiempo optimista (si todo fuera bien),}
+    \\[2mm]
+    b_i=&\text{ tiempo pesimista (si todo fuera mal),}
+    \\[2mm]
+    m_i=&\text{ tiempo más probable (moda de la distribución de densidad).}
+  \end{align*}
+Se hace la siguiente hipótesis sobre la variabilidad de la duración:
+  $$
+  \sigma=\frac{1}{6}(b_i-a_i)
+  $$
+
+Con estos datos, los parámetros de la distribución Beta que mejor se ajustan son:
+ $$
+ \text{Si }m_i>\frac{a_i+b_i}{2}:\,\begin{cases} p=2+\sqrt{2} \\[2mm] q=2-\sqrt{2} \end{cases}
+ \qquad \text{Si }m_i\leq \frac{a_i+b_i}{2}:\,\begin{cases} p=2-\sqrt{2} \\[2mm] q=2+\sqrt{2} \end{cases}
+ $$
+%%%
+\end{frame}
+\begin{frame}{Duración incierta de cada actividad}
+%%%
+La duración media de cada actividad resulta:
+
+ $$
+ \mu=\frac{a_i+4m_i+b_i}{6}
+ $$
+
+ \centerline{(se pondera 4 veces más la duración más probable)}
+
+A partir de esta estimación para cada actividad, se puede obtener el camino crítico según la
+metodología del CPM.
+%%%
+\end{frame}
+\begin{frame}{Duración incierta de cada actividad}
+%%%
+Si el camino crítico tiene un \alert{número elevado} de actividades y las duraciones son
+independientes, la duración del proyecto se puede aproximar por una \alert{distribución
+normal}: {\large\color{blue}
+  $$
+  D_{\text{proyecto}}\equiv N(\mu,\sigma)\quad\text{con}\quad\begin{cases} \mu=\sum_{A_{ij}\text{ crítica}}\mu_i
+  \\[5mm] \sigma=\sqrt{\sum_{A_{ij}\text{ crítica}}\sigma_i^2}\end{cases}
+  $$}
+
+Esto permite responder a cuestiones como determinar $k$ o $\alpha$ tal que: {\large\color{blue}
+  $$
+  P(D_{\text{proyecto}}\leq k)=1-\alpha
+  $$}
+%%%
+\end{frame}
+
+\section{Balance de recursos. PERT costes}
+
+\begin{frame}{Balance de recursos. PERT costes}
+%%%
+Una de las principales críticas a los métodos de programación de proyectos que acabamos de
+presentar es que sólo consideran la duración de las actividades, mientras que se obvia el coste de
+la realización y la limitación de recursos que puede existir.
+
+Esto lleva a desarrollar el método de \alert{aceleración de proyectos a coste
+mínimo}.
+
+El tiempo de cada actividad puede variar entre dos cotas $T_{\min}$ y $T_{\max}$: 
+\begin{itemize}\itemsep 0mm
+\item La cota $T_{\min}$ es la duración mínima y corresponde con el coste máximo.
+\item La cota $T_{\max}$ es la duración máxima y corresponde con el coste mínimo.
+\end{itemize}
+%%%
+\end{frame}
+\begin{frame}{Balance de recursos. PERT costes}
+%%%
+La relación entre el coste y el tiempo suele ser de la forma:
+  \begin{center}
+  		\begin{tikzpicture}[x=15mm,y=13mm,line width=1.5pt]
+  		
+  		% Ejes (azules)
+  		\draw[blue] (0,0) -- (0,4);
+  		\draw[blue] (0,0) -- (4,0);
+ 		
+  		% Curva roja gruesa (equivalente a \pscurve)
+  		\draw[red, line width=2.5pt] plot[smooth] coordinates {(1,3) (1.7,1.4) (3,1.1)};
+  		
+  		% Marcas en el eje X y etiquetas
+  		\draw (3,-0.1) -- (3,0);
+  		\node[font=\footnotesize] at (3,-0.3) {$T_{\max}$};
+  		
+  		\draw (1,-0.1) -- (1,0);
+  		\node[font=\footnotesize] at (1,-0.3) {$T_{\min}$};
+  		
+  		% Marcas en el eje Y y etiquetas
+  		\draw (-0.1,1) -- (0,1);
+  		\node[font=\footnotesize] at (-0.5,1) {$C(T_{\min})$};
+  		
+  		\draw (-0.1,3) -- (0,3);
+  		\node[font=\footnotesize] at (-0.5,3) {$C(T_{\max})$};
+  		
+  		% Líneas discontinuas (guías)
+  		\draw[dashed] (3,0) -- (3,1.1);
+  		\draw[dashed] (1,0) -- (1,3);
+  		\draw[dashed] (0,1) -- (4,1);
+  		
+  	\end{tikzpicture}
+  
+  (a mayor coste, menor duración)
+  \end{center}
+%%%
+\end{frame}
+
+\begin{frame}{Balance de recursos. PERT costes}
+%%%
+Se puede aproximar linealmente
+  \begin{center}
+	\begin{tikzpicture}[x=15mm,y=13mm,line width=1.5pt]
+	
+	% Ejes (azules)
+	\draw[blue] (0,0) -- (0,4);
+	\draw[blue] (0,0) -- (4,0);
+	
+	% Flecha negra fina desde (2.1,2.1) hacia (3,3) con punta en el inicio (equiv. {<-})
+	\draw[black, line width=1pt, <-] (2.1,2.1) -- (3,3);
+	
+	% Segmento negro grueso
+	\draw[black, line width=2.5pt] (1,3) -- (3,1.1);
+	
+	% Flecha negra fina desde (2,1.4) hacia (3,2) con punta en el inicio
+	\draw[black, line width=1pt, <-] (2,1.4) -- (3,2);
+	
+	% Polilínea negra gruesa
+	\draw[black, line width=2.5pt] (1,3) -- (1.7,1.4) -- (3,1.1);
+	
+	% Curva roja gruesa (equivalente a \pscurve)
+	\draw[red, line width=2.5pt] plot[smooth] coordinates {(1,3) (1.7,1.4) (3,1.1)};
+	
+	% Textos explicativos
+	\node[magenta, font=\small] at (3,3) {aproximación lineal};
+	\node[black, font=\small] at (4.25,1.99) {aproximación polinomial};
+	
+	% Marcas en el eje X y etiquetas
+	\draw (3,-0.1) -- (3,0);
+	\node[font=\footnotesize] at (3,-0.3) {$T_{\max}$};
+	
+	\draw (1,-0.1) -- (1,0);
+	\node[font=\footnotesize] at (1,-0.3) {$T_{\min}$};
+	
+	% Marcas en el eje Y y etiquetas
+	\draw (-0.1,1) -- (0,1);
+	\node[font=\footnotesize] at (-0.5,1) {$C(T_{\min})$};
+	
+	\draw (-0.1,3) -- (0,3);
+	\node[font=\footnotesize] at (-0.5,3) {$C(T_{\max})$};
+	
+	% Líneas discontinuas (guías)
+	\draw[dashed] (3,0) -- (3,1.1);
+	\draw[dashed] (1,0) -- (1,3);
+	\draw[dashed] (0,1) -- (4,1);
+	
+	\end{tikzpicture}
+\end{center}
+%%%
+\end{frame}\begin{frame}{Reducción de costes}
+%%%
+Para reducir el coste del proyecto:
+\begin{itemize}\itemsep 3mm
+\item Se \alert{alarga la duración} de alguna actividad.
+    \begin{itemize}\itemsep 2mm
+    \item Si la \alert{actividad no es crítica}, la duración del proyecto \alert{no se modifica}.
+    \item  Si la \alert{actividad es crítica}, la duración del proyecto \alert{se alarga} en la misma proporción que la actividad.
+    \end{itemize}
+\item Se \alert{modifican las holguras}.
+\item Pueden aparecer \alert{nuevos caminos críticos}.
+\end{itemize}
+%%%
+\end{frame}
+\begin{frame}{Reducción de la duración del proyecto}
+%%%
+Para reducir la duración total del proyecto:
+\begin{itemize}\itemsep 2mm
+\item Se \alert{reduce la duración} de alguna actividad crítica.
+\item Se \alert{modifican las holguras}.
+\item Pueden aparecer \alert{nuevos caminos críticos}.
+\end{itemize}
+
+Se selecciona la actividad con mínimo incremento de coste de reducción unitaria de tiempo.
+ \alert{\large
+ $$
+ \min_{A_{ij} \text{ crítica}}\Biggl\{\frac{C(T_{ij}^{\min})-C(T_{ij}^{\max})}{T_{ij}^{\max}-T_{ij}^{\min}}\Biggr\}
+ $$}
+%%%%%%%%%%%%
+%%%%%%%%%%%%%
+%%%
+\end{frame}\begin{frame}{Balance de recursos. PERT costes}
+%%%
+Consideremos el siguiente proyecto:
+\begin{center}
+\begin{tabular}{|c|cc|cc|c|c|}\arrayrulecolor{magenta}
+\hline\rowcolor{magenta}  Act. & Dur. & Coste & Dur. & Coste & Pendiente & Precede a
+\\ \hline
+A & 4 & 210 & 3 & 280 & 70 & C,D\\
+B & 8 & 400 & 6 & 560 & 80 & E,F\\
+C & 6 & 500 & 4 & 600 & 50 & E,F\\
+D & 9 & 540 & 7 & 600 & 30 & L\\
+E & 4 & 500 & 1 &1100 &200 & G\\
+F & 5 & 150 & 4 & 240 & 90 & L\\
+G & 3 & 150 & 3 & 150 & -- & --\\
+L & 7 & 600 & 6 & 750 &150 & --\\ \hline
+\end{tabular}
+\end{center}
+Se halla el camino crítico con las duraciones máximas.
+
+Este es el camino crítico que corresponde a ejecutar el proyecto de la forma más barata posible.
+%%%
+\end{frame}
+
+
+
+\begin{frame}{Balance de recursos. PERT costes}
+%%%
+\begin{center}\footnotesize
+\begin{tabular}{|c|cc|cc|c|}\arrayrulecolor{magenta}
+\hline\rowcolor{magenta}  Actividad & Duración & Coste & Duración & Coste & Pendiente
+\\ \hline
+A & 4 & 210 & 3 & 280 & 70 \\
+B & 8 & 400 & 6 & 560 & 80 \\
+C & 6 & 500 & 4 & 600 & 50 \\
+D & 9 & 540 & 7 & 600 & 30 \\
+E & 4 & 500 & 1 &1100 &200 \\
+F & 5 & 150 & 4 & 240 & 90 \\
+G & 3 & 150 & 3 & 150 & -- \\
+L & 7 & 600 & 6 & 750 &150 \\ \hline
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+	\node[node_style] (1) at (0,0) {} ;
+	\node[node_style] (2) at (3,1) {} ;
+	\node[node_style] (3) at (3,-1) {} ;
+	\node[node_style] (4) at (6,-1) {} ;
+	\node[node_style] (5) at (6,1) {} ;
+	\node[node_style] (6) at (9,0) {} ;
+	\hito{0}{0}{0}{0}{1}
+	\hito{3}{1}{4}{4}{2}
+	\hito{3}{-1}{10}{10}{3}
+	\hito{6}{-1}{14}{19}{4}
+	\hito{6}{1}{15}{15}{5}
+	\hito{9}{0}{22}{22}{6}
+	
+	\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{A} 4}  (2) ;
+	\draw [line width=1pt,->] (1) edge node[above] {\textbf{B} 8}  (3) ;
+	\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{C} 6}  (3) ;
+	\draw [line width=1pt,->] (2) edge node[above] {\textbf{D} 9}  (5) ;
+	\draw [line width=1pt,->] (3) edge node[above] {\textbf{E} 4}  (4) ;
+	\draw [line width=1pt,->,blue] (3) edge node[above] {\textbf{F} 5}  (5) ;
+	\draw [line width=1pt,->] (4) edge node[above] {\textbf{G} 3}  (6) ;
+	\draw [line width=1pt,->,blue] (5) edge node[above] {\textbf{L} 7}  (6) ;
+	
+	\node[node_style] (7) at (10,-1) {\color{blue}\bf Coste: 3050} ;
+	
+\end{tikzpicture}
+\end{center}
+%%%
+\end{frame}
+
+\begin{frame}{Balance de recursos. PERT costes}
+%%%
+Para disminuir la duración del proyecto hay que disminuir la duración de alguna actividad crítica:
+A, C, F y L.
+\begin{center}\footnotesize
+\begin{tabular}{|c|cc|cc|c|}\arrayrulecolor{magenta}
+\hline\rowcolor{magenta} Actividad & Duración & Coste & Duración & Coste & Pendiente
+\\ \hline
+\color{blue} A &\color{blue}  4 &\color{blue}  210 &\color{blue}  3 &\color{blue}  280 &\color{blue}  70 \\
+B & 8 & 400 & 6 & 560 & 80 \\
+\color{blue} C &\color{blue}  6 &\color{blue}  500 &\color{blue}  4 &\color{blue}  600 &\color{blue}  50 \\
+D & 9 & 540 & 7 & 600 & 30 \\
+E & 4 & 500 & 1 &1100 &200 \\
+\color{blue} F &\color{blue}  5 &\color{blue}  150 &\color{blue}  4 &\color{blue}  240 &\color{blue}  90 \\
+G & 3 & 150 & 3 & 150 & -- \\
+\color{blue} L & \color{blue} 7 & \color{blue} 600 & \color{blue} 6 & \color{blue} 750 &\color{blue} 150 \\
+\hline
+\end{tabular}
+\end{center}\footnotesize
+Se selecciona la actividad crítica con \alert{menor pendiente}: \alert{la actividad
+C}.
+
+Se disminuye en una unidad.
+
+En ocasiones es posible reducir más de una unidad (aunque depende de la holgura libre del resto de
+actividades).
+%%%
+\end{frame}
+
+
+
+\begin{frame}{Balance de recursos. PERT costes}
+%%%
+\begin{center}\footnotesize
+\begin{tabular}{cp{4cm}}
+\begin{tabular}{|c|cc|cc|c|}
+\hline \small Act. & \small Dur. & \small Coste &\small  Dur. & \small
+Coste &\small  Pend.
+\\ \hline
+\color{blue} A &\color{blue}  4 &\color{blue}  210 &\color{blue}  3 &\color{blue}  280 &\color{blue}  70 \\
+B & 8 & 400 & 6 & 560 & 80 \\
+\color{blue} C &\color{blue}  6 &\color{blue}  500 &\color{blue}  4 &\color{blue}  600 &\color{blue}  50 \\
+D & 9 & 540 & 7 & 600 & 30 \\
+E & 4 & 500 & 1 &1100 &200 \\
+\color{blue} F &\color{blue}  5 &\color{blue}  150 &\color{blue}  4 &\color{blue}  240 &\color{blue}  90 \\
+G & 3 & 150 & 3 & 150 & -- \\
+\color{blue} L & \color{blue} 7 & \color{blue} 600 & \color{blue} 6 & \color{blue} 750 &\color{blue} 150 \\
+\hline
+\end{tabular}
+& \vspace*{-10mm} Al disminuir en dos unidades aparecen \alert{nuevos caminos críticos}.
+
+\bigskip
+
+\alert{B y D pasan a ser actividades críticas} \end{tabular}
+\end{center}
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+		\node[node_style] (1) at (0,0) {} ;
+		\node[node_style] (2) at (3,1) {} ;
+		\node[node_style] (3) at (3,-1) {} ;
+		\node[node_style] (4) at (6,-1) {} ;
+		\node[node_style] (5) at (6,1) {} ;
+		\node[node_style] (6) at (9,0) {} ;
+		\hito{0}{0}{0}{0}{1}
+		\hito{3}{1}{4}{4}{2}
+		\hito{3}{-1}{8}{8}{3}
+		\hito{6}{-1}{12}{17}{4}
+		\hito{6}{1}{13}{13}{5}
+		\hito{9}{0}{20}{20}{6}
+		
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{A} 4}  (2) ;
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{B} 8}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{C} 6}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{D} 9}  (5) ;
+		\draw [line width=1pt,->] (3) edge node[above] {\textbf{E} 4}  (4) ;
+		\draw [line width=1pt,->,blue] (3) edge node[above] {\textbf{F} 5}  (5) ;
+		\draw [line width=1pt,->] (4) edge node[above] {\textbf{G} 3}  (6) ;
+		\draw [line width=1pt,->,blue] (5) edge node[above] {\textbf{L} 7}  (6) ;
+		
+		\node[node_style] (7) at (10,-1) {\color{blue}\bf Coste: 3150} ;
+		
+	\end{tikzpicture}
+\end{center}
+
+Los nuevos cambios deben considerar \alert{todos los caminos críticos}
+%%%
+\end{frame}
+
+\begin{frame}{Balance de recursos. PERT costes}
+%%%
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+		\node[node_style] (1) at (0,0) {} ;
+		\node[node_style] (2) at (3,1) {} ;
+		\node[node_style] (3) at (3,-1) {} ;
+		\node[node_style] (4) at (6,-1) {} ;
+		\node[node_style] (5) at (6,1) {} ;
+		\node[node_style] (6) at (9,0) {} ;
+		\hito{0}{0}{0}{0}{1}
+		\hito{3}{1}{4}{4}{2}
+		\hito{3}{-1}{8}{8}{3}
+		\hito{6}{-1}{12}{17}{4}
+		\hito{6}{1}{13}{13}{5}
+		\hito{9}{0}{20}{20}{6}
+		
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{A} 4}  (2) ;
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{B} 8}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{C} 6}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{D} 9}  (5) ;
+		\draw [line width=1pt,->] (3) edge node[above] {\textbf{E} 4}  (4) ;
+		\draw [line width=1pt,->,blue] (3) edge node[above] {\textbf{F} 5}  (5) ;
+		\draw [line width=1pt,->] (4) edge node[above] {\textbf{G} 3}  (6) ;
+		\draw [line width=1pt,->,blue] (5) edge node[above] {\textbf{L} 7}  (6) ;
+		
+		\node[node_style] (7) at (10,-1) {\color{blue}\bf Coste: 3150} ;
+		
+	\end{tikzpicture}
+\end{center}
+
+Los nuevos cambios deben considerar \alert{todos los caminos críticos}.
+
+Posibles disminuciones:
+\begin{center}
+\begin{tabular}{lll}
+        A y B: & 70+80 &  =150 \\[2mm]
+      \only<2>{\bf\color{blue}} D y F: &       \only<2>{\bf\color{blue}} 90+30 &        \only<2>{\bf\color{blue}} =120       \visible<2>{\bf\color{blue}$\leftarrow$ Elegimos esta} \\[2mm]
+        L: & 150 &=150
+\end{tabular}\end{center}
+%%%
+\end{frame}
+
+
+
+\begin{frame}{Balance de recursos. PERT costes}
+%%%
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+		\node[node_style] (1) at (0,0) {} ;
+		\node[node_style] (2) at (3,1) {} ;
+		\node[node_style] (3) at (3,-1) {} ;
+		\node[node_style] (4) at (6,-1) {} ;
+		\node[node_style] (5) at (6,1) {} ;
+		\node[node_style] (6) at (9,0) {} ;
+		\hito{0}{0}{0}{0}{1}
+		\hito{3}{1}{4}{4}{2}
+		\hito{3}{-1}{8}{8}{3}
+		\hito{6}{-1}{12}{16}{4}
+		\hito{6}{1}{12}{12	}{5}
+		\hito{9}{0}{19}{19}{6}
+		
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{A} 4}  (2) ;
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{B} 8}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{C} 6}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{D} 9}  (5) ;
+		\draw [line width=1pt,->] (3) edge node[above] {\textbf{E} 4}  (4) ;
+		\draw [line width=1pt,->,blue] (3) edge node[above] {\textbf{F} 5}  (5) ;
+		\draw [line width=1pt,->] (4) edge node[above] {\textbf{G} 3}  (6) ;
+		\draw [line width=1pt,->,blue] (5) edge node[above] {\textbf{L} 7}  (6) ;
+		
+		\node[node_style] (7) at (10,-1) {\color{blue}\bf Coste: 3270} ;
+		
+	\end{tikzpicture}
+\end{center}
+
+Todavía es posible reducir:
+\begin{center}
+\begin{tabular}{lll}
+        A y B: & 70+80 &  =150 \\[3mm]
+        L: & 150 &=150
+\end{tabular}\end{center}
+%%%
+\end{frame}\begin{frame}{Balance de recursos. PERT costes}
+%%%
+Aplicando estas dos reducciones resulta:
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+		\node[node_style] (1) at (0,0) {} ;
+		\node[node_style] (2) at (3,1) {} ;
+		\node[node_style] (3) at (3,-1) {} ;
+		\node[node_style] (4) at (6,-1) {} ;
+		\node[node_style] (5) at (6,1) {} ;
+		\node[node_style] (6) at (9,0) {} ;
+		\hito{0}{0}{0}{0}{1}
+		\hito{3}{1}{3}{3}{2}
+		\hito{3}{-1}{7}{7}{3}
+		\hito{6}{-1}{11}{14}{4}
+		\hito{6}{1}{11}{11}{5}
+		\hito{9}{0}{17}{17}{6}
+		
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{A} 4}  (2) ;
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{B} 8}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{C} 6}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{D} 9}  (5) ;
+		\draw [line width=1pt,->] (3) edge node[above] {\textbf{E} 4}  (4) ;
+		\draw [line width=1pt,->,blue] (3) edge node[above] {\textbf{F} 5}  (5) ;
+		\draw [line width=1pt,->] (4) edge node[above] {\textbf{G} 3}  (6) ;
+		\draw [line width=1pt,->,blue] (5) edge node[above] {\textbf{L} 7}  (6) ;
+		
+		\node[node_style] (7) at (10,-1) {\color{blue}\bf Coste: 3570} ;
+		
+	\end{tikzpicture}
+\end{center}
+
+\centerline{Ya no es posible reducir más la duración del proyecto}
+%%%
+\end{frame}\begin{frame}{Balance de recursos. PERT costes}
+%%%
+Es posible saber mínima duración de proyecto resolviendo el problema con las duraciones mínimas.
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+		\node[node_style] (1) at (0,0) {} ;
+		\node[node_style] (2) at (3,1) {} ;
+		\node[node_style] (3) at (3,-1) {} ;
+		\node[node_style] (4) at (6,-1) {} ;
+		\node[node_style] (5) at (6,1) {} ;
+		\node[node_style] (6) at (9,0) {} ;
+		\hito{0}{0}{0}{0}{1}
+		\hito{3}{1}{3}{3}{2}
+		\hito{3}{-1}{7}{7}{3}
+		\hito{6}{-1}{8}{14}{4}
+		\hito{6}{1}{11}{11}{5}
+		\hito{9}{0}{17}{17}{6}
+		
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{A} 4}  (2) ;
+		\draw [line width=1pt,->,blue] (1) edge node[above] {\textbf{B} 8}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{C} 6}  (3) ;
+		\draw [line width=1pt,->,blue] (2) edge node[above] {\textbf{D} 9}  (5) ;
+		\draw [line width=1pt,->] (3) edge node[above] {\textbf{E} 4}  (4) ;
+		\draw [line width=1pt,->,blue] (3) edge node[above] {\textbf{F} 5}  (5) ;
+		\draw [line width=1pt,->] (4) edge node[above] {\textbf{G} 3}  (6) ;
+		\draw [line width=1pt,->,blue] (5) edge node[above] {\textbf{L} 7}  (6) ;
+		
+		\node[node_style] (7) at (10,-1) {\color{blue}\bf Coste: 4280} ;
+		
+	\end{tikzpicture}
+\end{center}
+ Es posible \alert{disminuir el coste sin aumentar la duración} del proyecto.
+
+ Para ello se aumenta la duración de las actividades que tengan holgura y no estén a su tiempo máximo.
+
+ En este caso se puede \alert{disminuir el coste hasta 3570}.
+%%%
+\end{frame}\begin{frame}{Programación Matemática}
+%%%
+Para un número alto de actividades, este método no es eficiente.
+
+Existen modelos de programación matemática para
+\begin{center}\color{blue}
+determinar la duración de cada actividad que minimicen el coste mínimo del proyecto sin superar una
+duración dada\end{center}
+%%%
+\end{frame}\begin{frame}{Programación Matemática}
+%%%
+\alert{Datos conocidos (parámetros)}
+  \begin{align*}
+    c_{ij}= & \text{ coste de la actividad $(i,j)$ (que depende de la duración $c(d_{ij})$ } \\
+            & \text{ (suponemos un modelo lineal: $c_{ij}(d_{ij})=b_{ij}-a_{ij}d_{ij}$)} \\[1mm]
+    T_{\min,ij}= & \text{ tiempo mínimo   } \\[1mm]
+    T_{\max,ij}= & \text{ tiempo máximo   } \\[1mm]
+    T= & \text{ duración del proyecto  }
+  \end{align*}
+
+\alert{Datos desconocidos (variables)}
+  \begin{align*}
+    d_{ij}= & \text{ duración de la actividad $(i,j)$, } \\[1mm]
+    T_i= & \text{ tiempo de realización del suceso $i$   }
+  \end{align*}
+%%%
+\end{frame}\begin{frame}{Programación Matemática}
+%%%
+El modelo de programación lineal resulta: {\large\color{blue}  \begin{align*}
+    \min & \, \sum_{(i,j)\in A} (b_{ij}-a_{ij}d_{ij})
+    \\[1mm]
+    \text{s.a} &
+    \\[1mm]
+       & T_i-T_j+d_{ij}\leq 0 && \forall (i,j)\in A
+    \\[1mm]
+       & T_1=0
+    \\[1mm]
+       & T_n\leq T
+    \\[1mm]
+       & T_{\min,ij}\leq d_{ij}\leq T_{\max,ij} && \forall (i,j)\in A
+  \end{align*}}
+%%%
+\end{frame}\begin{frame}{Programación Matemática}
+%%%
+Otra posibilidad es encontrar la duración mínima del proyecto sin superar coste máximo. El modelo
+de programación lineal es muy parecido.
+  \large\color{blue}\begin{align*}
+    \min & \, T_n
+    \\[1mm]
+    \text{s.a} &
+    \\[1mm]
+       & T_i-T_j+d_{ij}\leq 0 && \forall (i,j)\in A
+    \\[1mm]
+       & T_1=0
+    \\[1mm]
+       & \sum_{(i,j)\in A} (b_{ij}-a_{ij}d_{ij})\leq C^{max}
+    \\[1mm]
+       & T_{\min,ij}\leq d_{ij}\leq T_{\max,ij} && \forall (i,j)\in A
+  \end{align*}
+%%
+\end{frame}
+\section{Límites en la disponibilidad de recursos}
+%%
+%%
+\begin{frame}{Limites en la disponibilidad de recursos}
+%%
+\begin{itemize}\itemsep 5mm
+	\item Los modelos anteriores suponían que no existía límite en los recursos disponibles para realizar las tareas.
+	\item En los casos reales esto no es así y los recursos están en cantidad limitada.
+	\item Esto impone restricciones adicionales, ya que no va a ser posible ejecutar demasiadas tareas 	simultáneamente.
+	\item Para tratar esta situación, se recurre a soluciones heurísticas que permitan reajustar la programación de un proyecto.
+	
+\end{itemize}
+%%
+\end{frame}
+
+
+\begin{frame}{Limites en la disponibilidad de recursos}
+%%
+Consideremos el ejemplo anterior, cuya red es la siguiente:
+ \begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,minimum size=0.7cm,inner sep=5}]
+		\node[node_style] (I) at (0,0) {} ;
+		\node[node_style] (F) at (12,0) {} ;
+		\node[node_style] (2) at (3,0) {} ;
+		\node[node_style] (3) at (3,3) {} ;
+		\node[node_style] (4) at (5.5,1.5) {} ;
+		\node[node_style] (5) at (8,-3) {} ;
+		\node[node_style] (6) at (5.5,0) {} ;
+		\node[node_style] (7) at (8,3) {} ;
+		\node[node_style] (8) at (10,3) {} ;
+		\hito{0}{0}{0}{0}{$I$}
+		\hito{3}{0}{5}{5}{2}
+		\hito{3}{3}{5}{10}{3}
+		\hito{5.5}{1.5}{13}{13}{4}
+		\hito{8}{-3}{7}{18}{5}
+		\hito{5.5}{0}{13}{13}{6}
+		\hito{8}{3}{18}{18}{7}
+		\hito{10}{3}{24}{24}{8}
+		\hito{12}{0}{25}{25}{$F$}
+		
+		\draw [line width=1.5pt,->] (I) edge node[above] {\textbf{A} 4}  (3) ;
+		\draw [line width=2.5pt,->,blue] (I) edge node[above] {\textbf{B} 5}  (2) ;
+		\draw [line width=1.5pt,->] (I) edge node[below] {\textbf{C} 7}  (5) ;
+		\draw [line width=1.5pt,->,dashed] (2) edge   (3) ;
+		\draw [line width=2.5pt,->,blue] (2) edge node[left] {\textbf{H} 8}  (4) ;
+		\draw [line width=1.5pt,->] (2) edge node[pos=0.7,above] {\textbf{F} 1}  (5) ;
+		\draw [line width=1.5pt,->] (2) edge node[above] {\textbf{E} 2}  (6) ;
+		\draw [line width=1.5pt,->] (3) edge node[above] {\textbf{D} 8}  (7) ;
+		\draw [line width=2.5pt,->,dashed,blue] (4) edge   (6) ;
+		\draw [line width=1.5pt,->,dashed] (5) edge   (7) ;
+		\draw [line width=1.5pt,->] (5) edge node[above] {\textbf{G} 7}  (F) ;
+		\draw [line width=2.5pt,->,blue] (6) edge node[left] {\textbf{J} 5}  (7) ;
+		\draw [line width=1.5pt,->] (6) edge node[above] {\textbf{I} 3}  (F) ;
+		\draw [line width=2.5pt,->,blue] (7) edge node[above] {\textbf{K} 6}  (8) ;
+		\draw [line width=2.5pt,->,blue] (8) edge node[right] {\textbf{L} 1}  (F) ;
+	\end{tikzpicture}
+\end{center}
+%%
+\end{frame}
+
+
+\begin{frame}{Limites en la disponibilidad de recursos}
+%%
+Supongamos el caso más sencillo en el que cada tarea requiere un trabajador y la empresa sólo
+dispone de 3 trabajadores:
+ \begin{center}
+			\begin{tikzpicture}[x=6.5mm,y=3mm,line width=1.25pt,scale=0.8]
+	
+	% Ejes
+	\draw[blue] (0,0) -- (27,0);
+	\draw[blue] (0,0) -- (0,18);
+	
+	% Etiquetas A-L en el eje Y
+	\foreach \y/\lbl in {
+		1/L, 2.5/K, 4/J, 5.5/I, 7/H, 8.5/G, 10/F, 11.5/E,
+		13/D, 14.5/C, 16/B, 17.5/A
+	}{
+		\node[blue, font=\bfseries\footnotesize] at (-0.5,\y) {\lbl};
+	}
+	
+	% Líneas verticales de referencia y etiquetas (cada 2 unidades)
+	\foreach \x in {2,4,6,8,10,12,14,16,18,20,22,24,26}{
+		\draw[lightblue, dashed, line width=0.03pt] (\x,18) -- (\x,-0.2);
+		\node[blue, font=\footnotesize] at (\x,-0.6) {\x};
+	}
+	
+	% Línea vertical discontinua destacada en x=25
+	\draw[blue, dashed, line width=0.8pt] (25,0) -- (25,18);
+	
+	% Líneas verticales discontinuas (segmentos)
+	% Azul
+	\draw[blue, dashed, line width=0.5pt] (5,16.2) -- (5,6.8);
+	\draw[blue, dashed, line width=0.5pt] (13,7.2) -- (13,3.8);
+	\draw[blue, dashed, line width=0.5pt] (18,4.2) -- (18,2.3);
+	\draw[blue, dashed, line width=0.5pt] (24,2.7) -- (24,0.8);
+	
+	% Negro
+	\draw[black, dashed, line width=0.5pt] (7,14.7) -- (7,8.3);
+	\draw[black, dashed, line width=0.5pt] (13,11.7) -- (13,7.2);
+	\draw[black, dashed, line width=0.5pt] (18,13.2) -- (18,4.2);
+	\draw[black, dashed, line width=0.5pt] (5,17.7) -- (5,16.2);
+	
+	% Barras gruesas (tareas) - negro (por defecto)
+	\draw[line width=8.1pt] (0,17.5) -- (4,17.5);
+	\draw[line width=8.1pt] (0,16) -- (5,16);
+	\draw[line width=8.1pt] (0,14.5) -- (7,14.5);
+	\draw[line width=8.1pt] (5,13) -- (13,13);
+	\draw[line width=8.1pt] (5,11.5) -- (7,11.5);
+	\draw[line width=8.1pt] (5,10) -- (6,10);
+	\draw[line width=8.1pt] (7,8.5) -- (14,8.5);
+	\draw[line width=8.1pt] (5,7) -- (13,7);
+	\draw[line width=8.1pt] (13,5.5) -- (16,5.5);
+	\draw[line width=8.1pt] (13,4) -- (18,4);
+	\draw[line width=8.1pt] (18,2.5) -- (24,2.5);
+	\draw[line width=8.1pt] (24,1) -- (25,1);
+	
+	% (Holguras totales comentadas en el PSTricks original)
+	
+	% Holguras libres (amarillo)
+	\draw[line width=8.1pt, yellow] (4,17.5) -- (5,17.5);
+	\draw[line width=8.1pt, yellow] (13,13) -- (18,13);
+	\draw[line width=8.1pt, yellow] (7,11.5) -- (13,11.5);
+	\draw[line width=8.1pt, yellow] (14,8.5) -- (25,8.5);
+	\draw[line width=8.1pt, yellow] (16,5.5) -- (25,5.5);
+	
+	% Texto "Trabajadores"
+	\node[magenta, font=\small] at (20,-2.5) {Trabajadores};
+	
+	% Polígono relleno desplazado (equivalente a rput(0,-6.4){...})
+	\begin{scope}[shift={(0,-6.4)}]
+		\draw[fill=lightblue, draw=lightblue]
+		(0,0) -- (0,3) -- (4,3) -- (4,2) -- (5,2) -- (5,5) -- (6,5) -- (6,4)
+		-- (7,4) -- (7,3) -- (14,3) -- (14,2) -- (16,2) -- (16,1) -- (25,1)
+		-- (25,0) -- cycle;
+	\end{scope}
+	
+	% Líneas en la parte inferior
+	\draw (0,-1) -- (0,-6.4) -- (26,-6.4);
+	\draw[red, dashed, line width=1pt] (0,-3.4) -- (26,-3.4);
+	
+\end{tikzpicture}
+\end{center}
+%%
+\end{frame}
+
+\begin{frame}{Limites en la disponibilidad de recursos}
+%%
+Problema en el intervalo 5 a 7: se pueden desplazar algunas tareas.
+
+\alert{Tarea G: retrasar al periodo 13 (tiene suficiente holgura libre)}
+
+  \begin{center}
+			\begin{tikzpicture}[x=6.5mm,y=3mm,line width=1.25pt,scale=0.8]
+		
+		% Ejes
+		\draw[blue] (0,0) -- (27,0);
+		\draw[blue] (0,0) -- (0,18);
+		
+		% Etiquetas A-L en el eje Y (tiny)
+		\foreach \y/\lbl in {
+			1/L, 2.5/K, 4/J, 5.5/I, 7/H, 8.5/G, 10/F, 11.5/E,
+			13/D, 14.5/C, 16/B, 17.5/A
+		}{
+			\node[blue, font=\tiny] at (-0.5,\y) {\lbl};
+		}
+		
+		% Líneas verticales de referencia y sus etiquetas (cada 2 unidades)
+		\foreach \x in {2,4,6,8,10,12,14,16,18,20,22,24,26}{
+			\draw[lightblue, dashed, line width=0.03pt] (\x,18) -- (\x,-0.2);
+			\node[blue, font=\tiny] at (\x,-0.6) {\x};
+		}
+		
+		% Línea vertical discontinua destacada en x=25
+		\draw[blue, dashed, line width=0.8pt] (25,0) -- (25,18);
+		
+		% Líneas verticales discontinuas (segmentos)
+		% Azul
+		\draw[blue, dashed, line width=0.5pt] (5,16.2) -- (5,6.8);
+		\draw[blue, dashed, line width=0.5pt] (13,7.2) -- (13,3.8);
+		\draw[blue, dashed, line width=0.5pt] (18,4.2) -- (18,2.3);
+		\draw[blue, dashed, line width=0.5pt] (24,2.7) -- (24,0.8);
+		% Negro
+		\draw[black, dashed, line width=0.5pt] (7,14.7) -- (7,8.3);
+		\draw[black, dashed, line width=0.5pt] (13,11.7) -- (13,7.2);
+		\draw[black, dashed, line width=0.5pt] (18,13.2) -- (18,4.2);
+		\draw[black, dashed, line width=0.5pt] (5,17.7) -- (5,16.2);
+		
+		% Barras gruesas (tareas) - negro por defecto
+		\draw[line width=8.1pt] (0,17.5) -- (4,17.5);
+		\draw[line width=8.1pt] (0,16) -- (5,16);
+		\draw[line width=8.1pt] (0,14.5) -- (7,14.5);
+		\draw[line width=8.1pt] (5,13) -- (13,13);
+		\draw[line width=8.1pt] (5,11.5) -- (7,11.5);
+		\draw[line width=8.1pt] (5,10) -- (6,10);
+		\draw[line width=8.1pt] (13,8.5) -- (20,8.5); % G
+		\draw[line width=8.1pt] (5,7) -- (13,7);
+		\draw[line width=8.1pt] (13,5.5) -- (16,5.5);
+		\draw[line width=8.1pt] (13,4) -- (18,4);
+		\draw[line width=8.1pt] (18,2.5) -- (24,2.5);
+		\draw[line width=8.1pt] (24,1) -- (25,1);
+		
+		% (Holguras totales estaban comentadas en el PSTricks original)
+		
+		% Holguras libres (amarillo)
+		\draw[line width=8.1pt, yellow] (4,17.5) -- (5,17.5);
+		\draw[line width=8.1pt, yellow] (13,13) -- (18,13);
+		\draw[line width=8.1pt, yellow] (7,11.5) -- (13,11.5);
+		\draw[line width=8.1pt, yellow] (20,8.5) -- (25,8.5); % G
+		\draw[line width=8.1pt, yellow] (16,5.5) -- (25,5.5);
+		
+		% Texto "Trabajadores"
+		\node[magenta, font=\small] at (20,-2.5) {Trabajadores};
+		
+		% Polígono inferior (equiv. rput(0,-6.4){...})
+		\begin{scope}[shift={(0,-6.4)}]
+			\draw[fill=lightblue, draw=lightblue]
+			(0,0) -- (0,3) -- (4,3) -- (4,2) -- (5,2) -- (5,5) -- (6,5) -- (6,4)
+			-- (7,4) -- (7,2) -- (13,2) -- (13,3) -- (16,3) -- (16,2) -- (20,2)
+			-- (20,1) -- (25,1) -- (25,0) -- cycle;
+		\end{scope}
+		
+		% Líneas base inferiores
+		\draw (0,-1) -- (0,-6.4) -- (26,-6.4);
+		\draw[red, dashed, line width=1pt] (0,-3.4) -- (26,-3.4);
+		
+	\end{tikzpicture}
+\end{center}
+%%%%%%%%%%%%%
+%%
+\end{frame}
+
+
+\begin{frame}{Limites en la disponibilidad de recursos}
+Problema en el intervalo 5 a 7: se pueden desplazar algunas tareas.
+
+\alert{Tarea E: puede empezar en el periodo 6 (tiene suficiente holgura libre)}
+
+\begin{center}
+			\begin{tikzpicture}[x=6.5mm,y=3mm,line width=1.25pt,scale=0.8]
+		
+		% Ejes
+		\draw[blue] (0,0) -- (27,0);
+		\draw[blue] (0,0) -- (0,18);
+		
+		% Etiquetas A-L en el eje Y (tiny)
+		\foreach \y/\lbl in {
+			1/L, 2.5/K, 4/J, 5.5/I, 7/H, 8.5/G, 10/F, 11.5/E,
+			13/D, 14.5/C, 16/B, 17.5/A
+		}{
+			\node[blue, font=\tiny] at (-0.5,\y) {\lbl};
+		}
+		
+		% Líneas verticales de referencia y etiquetas (cada 2 unidades)
+		\foreach \x in {2,4,6,8,10,12,14,16,18,20,22,24,26}{
+			\draw[lightblue, dashed, line width=0.03pt] (\x,18) -- (\x,-0.2);
+			\node[blue, font=\tiny] at (\x,-0.6) {\x};
+		}
+		
+		% Línea vertical discontinua destacada en x=25
+		\draw[blue, dashed, line width=0.8pt] (25,0) -- (25,18);
+		
+		% Líneas verticales discontinuas (segmentos)
+		% Azul
+		\draw[blue, dashed, line width=0.5pt] (5,16.2) -- (5,6.8);
+		\draw[blue, dashed, line width=0.5pt] (13,7.2) -- (13,3.8);
+		\draw[blue, dashed, line width=0.5pt] (18,4.2) -- (18,2.3);
+		\draw[blue, dashed, line width=0.5pt] (24,2.7) -- (24,0.8);
+		% Negro
+		\draw[black, dashed, line width=0.5pt] (7,14.7) -- (7,8.3);
+		\draw[black, dashed, line width=0.5pt] (13,11.7) -- (13,7.2);
+		\draw[black, dashed, line width=0.5pt] (18,13.2) -- (18,4.2);
+		\draw[black, dashed, line width=0.5pt] (5,17.7) -- (5,16.2);
+		
+		% Barras gruesas (tareas)
+		\draw[line width=8.1pt] (0,17.5) -- (4,17.5);
+		\draw[line width=8.1pt] (0,16) -- (5,16);
+		\draw[line width=8.1pt] (0,14.5) -- (7,14.5);
+		\draw[line width=8.1pt] (5,13) -- (13,13);
+		\draw[line width=8.1pt] (6,11.5) -- (8,11.5); % E
+		\draw[line width=8.1pt] (5,10) -- (6,10);
+		\draw[line width=8.1pt] (13,8.5) -- (20,8.5); % G
+		\draw[line width=8.1pt] (5,7) -- (13,7);
+		\draw[line width=8.1pt] (13,5.5) -- (16,5.5);
+		\draw[line width=8.1pt] (13,4) -- (18,4);
+		\draw[line width=8.1pt] (18,2.5) -- (24,2.5);
+		\draw[line width=8.1pt] (24,1) -- (25,1);
+		
+		% Holguras libres (amarillo)
+		\draw[line width=8.1pt, yellow] (4,17.5) -- (5,17.5);
+		\draw[line width=8.1pt, yellow] (13,13) -- (18,13);
+		\draw[line width=8.1pt, yellow] (8,11.5) -- (13,11.5); % E
+		\draw[line width=8.1pt, yellow] (20,8.5) -- (25,8.5); % G
+		\draw[line width=8.1pt, yellow] (16,5.5) -- (25,5.5);
+		
+		% Texto "Trabajadores"
+		\node[magenta, font=\small] at (20,-2.5) {Trabajadores};
+		
+		% Polígono inferior desplazado (equiv. rput(0,-6.4){...})
+		\begin{scope}[shift={(0,-6.4)}]
+			\draw[fill=lightblue, draw=lightblue]
+			(0,0) -- (0,3) -- (4,3) -- (4,2) -- (5,2) -- (5,4) -- (7,4) -- (7,3)
+			-- (8,3) -- (8,2) -- (13,2) -- (13,3) -- (16,3) -- (16,2) -- (20,2)
+			-- (20,1) -- (25,1) -- (25,0) -- cycle;
+		\end{scope}
+		
+		% Líneas base inferiores
+		\draw (0,-1) -- (0,-6.4) -- (26,-6.4);
+		\draw[red, dashed, line width=1pt] (0,-3.4) -- (26,-3.4);
+		
+	\end{tikzpicture}
+\end{center}
+%%
+\end{frame}
+
+
+\begin{frame}{Limites en la disponibilidad de recursos}
+%%
+Problema en el intervalo 5 a 7: se pueden desplazar algunas tareas.
+
+\alert{Tarea D: puede empezar en el periodo 7 (tiene suficiente holgura libre)}
+
+\begin{center}
+			\begin{tikzpicture}[x=6.5mm,y=3mm,line width=1.25pt,scale=0.8]
+	
+	% Ejes
+	\draw[blue] (0,0) -- (27,0);
+	\draw[blue] (0,0) -- (0,18);
+	
+	% Etiquetas A-L en el eje Y (tiny)
+	\foreach \y/\lbl in {
+		1/L, 2.5/K, 4/J, 5.5/I, 7/H, 8.5/G, 10/F, 11.5/E,
+		13/D, 14.5/C, 16/B, 17.5/A
+	}{
+		\node[blue, font=\tiny] at (-0.5,\y) {\lbl};
+	}
+	
+	% Líneas verticales de referencia y numeración (cada 2 unidades)
+	\foreach \x in {2,4,6,8,10,12,14,16,18,20,22,24,26}{
+		\draw[lightblue, dashed, line width=0.03pt] (\x,18) -- (\x,-0.2);
+		\node[blue, font=\tiny] at (\x,-0.6) {\x};
+	}
+	
+	% Línea vertical discontinua destacada en x=25
+	\draw[blue, dashed, line width=0.8pt] (25,0) -- (25,18);
+	
+	% Líneas verticales discontinuas (segmentos)
+	% Azul
+	\draw[blue, dashed, line width=0.5pt] (5,16.2) -- (5,6.8);
+	\draw[blue, dashed, line width=0.5pt] (13,7.2) -- (13,3.8);
+	\draw[blue, dashed, line width=0.5pt] (18,4.2) -- (18,2.3);
+	\draw[blue, dashed, line width=0.5pt] (24,2.7) -- (24,0.8);
+	% Negro
+	\draw[black, dashed, line width=0.5pt] (7,14.7) -- (7,8.3);
+	\draw[black, dashed, line width=0.5pt] (13,11.7) -- (13,7.2);
+	\draw[black, dashed, line width=0.5pt] (18,13.2) -- (18,4.2);
+	\draw[black, dashed, line width=0.5pt] (5,17.7) -- (5,16.2);
+	
+	% Barras gruesas (tareas)
+	\draw[line width=8.1pt] (0,17.5) -- (4,17.5);
+	\draw[line width=8.1pt] (0,16) -- (5,16);
+	\draw[line width=8.1pt] (0,14.5) -- (7,14.5);
+	\draw[line width=8.1pt] (7,13) -- (15,13);   % D
+	\draw[line width=8.1pt] (6,11.5) -- (8,11.5); % E
+	\draw[line width=8.1pt] (5,10) -- (6,10);
+	\draw[line width=8.1pt] (13,8.5) -- (20,8.5); % G
+	\draw[line width=8.1pt] (5,7) -- (13,7);
+	\draw[line width=8.1pt] (13,5.5) -- (16,5.5);
+	\draw[line width=8.1pt] (13,4) -- (18,4);
+	\draw[line width=8.1pt] (18,2.5) -- (24,2.5);
+	\draw[line width=8.1pt] (24,1) -- (25,1);
+	
+	% Holguras libres (amarillo)
+	\draw[line width=8.1pt, yellow] (4,17.5) -- (5,17.5);
+	\draw[line width=8.1pt, yellow] (15,13) -- (18,13); % D
+	\draw[line width=8.1pt, yellow] (8,11.5) -- (13,11.5); % E
+	\draw[line width=8.1pt, yellow] (20,8.5) -- (25,8.5); % G
+	\draw[line width=8.1pt, yellow] (16,5.5) -- (25,5.5);
+	
+	% Texto "Trabajadores"
+	\node[magenta, font=\small] at (20,-2.5) {Trabajadores};
+	
+	% Polígono inferior desplazado (equiv. rput(0,-6.4){...})
+	\begin{scope}[shift={(0,-6.4)}]
+		\draw[fill=lightblue, draw=lightblue]
+		(0,0) -- (0,3) -- (4,3) -- (4,2) -- (5,2) -- (5,3) -- (8,3) -- (8,2)
+		-- (13,2) -- (13,4) -- (15,4) -- (15,3) -- (16,3) -- (16,2) -- (20,2)
+		-- (20,1) -- (25,1) -- (25,0) -- cycle;
+	\end{scope}
+	
+	% Líneas base inferiores
+	\draw (0,-1) -- (0,-6.4) -- (26,-6.4);
+	\draw[red, dashed, line width=1pt] (0,-3.4) -- (26,-3.4);
+	
+	\end{tikzpicture}
+\end{center}
+%%
+\end{frame}
+
+\begin{frame}{Limites en la disponibilidad de recursos}
+%%
+Problema en el intervalo 5 a 7: se pueden desplazar algunas tareas.
+
+\alert{Tarea I: puede empezar en el periodo 15 (tiene suficiente holgura libre)}
+
+\begin{center}
+			\begin{tikzpicture}[x=6.5mm,y=3mm,line width=1.25pt,scale=0.8]
+	
+	% Ejes
+	\draw[blue] (0,0) -- (27,0);
+	\draw[blue] (0,0) -- (0,18);
+	
+	% Etiquetas A-L (tiny)
+	\foreach \y/\lbl in {1/L, 2.5/K, 4/J, 5.5/I, 7/H, 8.5/G, 10/F, 11.5/E, 13/D, 14.5/C, 16/B, 17.5/A}{
+		\node[blue, font=\tiny] at (-0.5,\y) {\lbl};
+	}
+	
+	% Guías y numeración (cada 2 unidades)
+	\foreach \x in {2,4,6,8,10,12,14,16,18,20,22,24,26}{
+		\draw[lightblue, dashed, line width=0.03pt] (\x,18) -- (\x,-0.2);
+		\node[blue, font=\tiny] at (\x,-0.6) {\x};
+	}
+	
+	% Línea vertical discontinua en x=25
+	\draw[blue, dashed, line width=0.8pt] (25,0) -- (25,18);
+	
+	% Discontinuas verticales (segmentos)
+	% Azul
+	\draw[blue, dashed, line width=0.5pt] (5,16.2) -- (5,6.8);
+	\draw[blue, dashed, line width=0.5pt] (13,7.2) -- (13,3.8);
+	\draw[blue, dashed, line width=0.5pt] (18,4.2) -- (18,2.3);
+	\draw[blue, dashed, line width=0.5pt] (24,2.7) -- (24,0.8);
+	% Negro
+	\draw[black, dashed, line width=0.5pt] (7,14.7) -- (7,8.3);
+	\draw[black, dashed, line width=0.5pt] (13,11.7) -- (13,7.2);
+	\draw[black, dashed, line width=0.5pt] (18,13.2) -- (18,4.2);
+	\draw[black, dashed, line width=0.5pt] (5,17.7) -- (5,16.2);
+	
+	% Barras gruesas (tareas)
+	\draw[line width=8.10pt] (0,17.5) -- (4,17.5);
+	\draw[line width=8.10pt] (0,16) -- (5,16);
+	\draw[line width=8.10pt] (0,14.5) -- (7,14.5);
+	\draw[line width=8.10pt] (7,13) -- (15,13);   % D
+	\draw[line width=8.10pt] (6,11.5) -- (8,11.5); % E
+	\draw[line width=8.10pt] (5,10) -- (6,10);
+	\draw[line width=8.10pt] (13,8.5) -- (20,8.5); % G
+	\draw[line width=8.10pt] (5,7) -- (13,7);
+	\draw[line width=8.10pt] (15,5.5) -- (18,5.5); % I
+	\draw[line width=8.10pt] (13,4) -- (18,4);
+	\draw[line width=8.10pt] (18,2.5) -- (24,2.5);
+	\draw[line width=8.10pt] (24,1) -- (25,1);
+	
+	% Holguras libres (amarillo)
+	\draw[line width=8.10pt, yellow] (4,17.5) -- (5,17.5);
+	\draw[line width=8.10pt, yellow] (15,13) -- (18,13); % D
+	\draw[line width=8.10pt, yellow] (8,11.5) -- (13,11.5); % E
+	\draw[line width=8.10pt, yellow] (20,8.5) -- (25,8.5); % G
+	\draw[line width=8.10pt, yellow] (18,5.5) -- (25,5.5); % I
+	
+	% Texto "Trabajadores"
+	\node[magenta, font=\small] at (20,-2.5) {Trabajadores};
+	
+	% Polígono inferior desplazado (equiv. rput(0,-6.4){...})
+	\begin{scope}[shift={(0,-6.4)}]
+		\draw[fill=lightblue, draw=lightblue]
+		(0,0) -- (0,3) -- (4,3) -- (4,2) -- (5,2) -- (5,3) -- (8,3) -- (8,2)
+		-- (13,2) -- (13,3) -- (18,3) -- (18,2) -- (20,2) -- (20,1)
+		-- (25,1) -- (25,0) -- cycle;
+	\end{scope}
+	
+	% Líneas base inferiores
+	\draw (0,-1) -- (0,-6.4) -- (26,-6.4);
+	\draw[red, dashed, line width=1pt] (0,-3.4) -- (26,-3.4);
+	
+	\end{tikzpicture}
+\end{center}
+%%
+\end{frame}
+
+
+\begin{frame}{Limites en la disponibilidad de recursos}
+	%%
+	Problema en el intervalo 5 a 7: se pueden desplazar algunas tareas.
+	
+	\alert{Tarea G: ahora se puede adelantar hasta el 8 (y recuperar algo de la holgura libre)}
+	
+	\begin{center}
+			\begin{tikzpicture}[x=6.5mm,y=3mm,line width=1.25pt,scale=0.8]
+	
+	% Ejes
+	\draw[blue] (0,0) -- (27,0);
+	\draw[blue] (0,0) -- (0,18);
+	
+	% Etiquetas A-L en el eje Y (tiny)
+	\foreach \y/\lbl in {
+		1/L, 2.5/K, 4/J, 5.5/I, 7/H, 8.5/G, 10/F, 11.5/E,
+		13/D, 14.5/C, 16/B, 17.5/A
+	}{
+		\node[blue, font=\tiny] at (-0.5,\y) {\lbl};
+	}
+	
+	% Líneas verticales de referencia y etiquetas (cada 2 unidades)
+	\foreach \x in {2,4,6,8,10,12,14,16,18,20,22,24,26}{
+		\draw[lightblue, dashed, line width=0.03pt] (\x,18) -- (\x,-0.2);
+		\node[blue, font=\tiny] at (\x,-0.6) {\x};
+	}
+	
+	% Línea vertical discontinua destacada en x=25
+	\draw[blue, dashed, line width=0.8pt] (25,0) -- (25,18);
+	
+	% Líneas verticales discontinuas (segmentos)
+	% Azul
+	\draw[blue, dashed, line width=0.5pt] (5,16.2) -- (5,6.8);
+	\draw[blue, dashed, line width=0.5pt] (13,7.2) -- (13,3.8);
+	\draw[blue, dashed, line width=0.5pt] (18,4.2) -- (18,2.3);
+	\draw[blue, dashed, line width=0.5pt] (24,2.7) -- (24,0.8);
+	% Negro
+	\draw[black, dashed, line width=0.5pt] (7,14.7) -- (7,8.3);
+	\draw[black, dashed, line width=0.5pt] (13,11.7) -- (13,7.2);
+	\draw[black, dashed, line width=0.5pt] (18,13.2) -- (18,4.2);
+	\draw[black, dashed, line width=0.5pt] (5,17.7) -- (5,16.2);
+	\visible<2>{
+		\draw[line width=8.10pt,lightgray] (5,13) -- (10,13);
+		\draw[line width=8.10pt,lightgray] (5,11.5) -- (10,11.5);
+		\draw[line width=8.10pt,lightgray] (7,8.5) -- (15,8.5);
+	}	
+
+	% Barras gruesas (tareas)
+	\draw[line width=8.10pt] (0,17.5) -- (4,17.5);
+	\draw[line width=8.10pt] (0,16) -- (5,16);
+	\draw[line width=8.10pt] (0,14.5) -- (7,14.5);
+	\draw[line width=8.10pt] (7,13) -- (15,13);  % D
+	\draw[line width=8.10pt] (6,11.5) -- (8,11.5); % E
+	\draw[line width=8.10pt] (5,10) -- (6,10);
+	\draw[line width=8.10pt] (8,8.5) -- (15,8.5); % G (cambia inicio a 8 y fin a 15)
+	\draw[line width=8.10pt] (5,7) -- (13,7);
+	\draw[line width=8.10pt] (15,5.5) -- (18,5.5); % I
+	\draw[line width=8.10pt] (13,4) -- (18,4);
+	\draw[line width=8.10pt] (18,2.5) -- (24,2.5);
+	\draw[line width=8.10pt] (24,1) -- (25,1);
+	
+	% Holguras libres (amarillo)
+	\draw[line width=8.10pt, yellow] (4,17.5) -- (5,17.5);
+	\draw[line width=8.10pt, yellow] (15,13) -- (18,13); % D
+	\draw[line width=8.10pt, yellow] (8,11.5) -- (13,11.5); % E
+	\draw[line width=8.10pt, yellow] (15,8.5) -- (25,8.5); % G (desde 15)
+	\draw[line width=8.10pt, yellow] (18,5.5) -- (25,5.5); % I
+	
+	% Texto "Trabajadores"
+	\node[magenta, font=\small] at (20,-2.5) {Trabajadores};
+	
+	% Polígono inferior desplazado (equiv. rput(0,-6.4){...})
+	\begin{scope}[shift={(0,-6.4)}]
+		\draw[fill=lightblue, draw=lightblue]
+		(0,0) -- (0,3) -- (4,3) -- (4,2) -- (5,2) -- (5,3)
+		-- (8,3) -- (15,3) -- (15,2) -- (18,2) -- (18,1)
+		-- (20,1) -- (25,1) -- (25,0) -- cycle;
+	\end{scope}
+	
+	% Líneas base inferiores
+	\draw (0,-1) -- (0,-6.4) -- (26,-6.4);
+	\draw[red, dashed, line width=1pt] (0,-3.4) -- (26,-3.4);
+	
+	\end{tikzpicture}
+	\end{center}
+	%%
+\end{frame}
+
+\begin{frame}{Limites en la disponibilidad de recursos}
+%%
+
+En este ejemplo ha sido posible encontrar una solución utilizando sólo las holguras libres de las
+actividades no críticas.
+
+Por tanto, no se ha incrementado la duración del proyecto.
+
+En general esto no es posible y hay que modificar la programación de las actividades críticas, por
+lo que la duración del proyecto se ve afectada.
+\end{frame}
+%%
+\section{Conclusiones}
+%%
+%%
+\begin{frame}{Conclusiones}
+%%
+En este tema hemos estudiado:
+\begin{itemize}\itemsep 1mm
+\item Las ideas básicas para gestión de proyectos y su planificación dividido en actividades:
+{\small
+\begin{itemize}\itemsep 0mm
+\item Construcción de la red del proyecto.
+\item Determinación de las actividades críticas (camino crítico).
+\item Análisis de elasticidad: posibles cambios en la programación de las actividades, sin afectar
+a la duración global del proyecto.
+\item Representación gráfica de la programación final: diagrama de Gantt.
+\end{itemize}}
+\item Tratamiento los proyectos en los que hay incertidumbre en la duración de las actividades.
+\item Reducción la duración global del proyecto, aumentando la velocidad de ejecución de una
+actividad, con el consiguiente incremento de coste.
+\item Equilibrado del uso de los recursos.
+\end{itemize}
+
+%%%%%%%%%%%%%
+\end{frame}
+\end{document}

@@ -1,0 +1,1227 @@
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+\documentclass[aspectratio=169]{beamer}
+
+
+\mode<presentation> {
+	\usetheme{Boadilla}
+	%	\setbeamercovered{transparent}
+}
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows}
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+%\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\usepackage{pgfplots}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+\parskip=0.1cm
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+	\href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+\setbeamercolor{alerted text}{fg=blue}
+\setbeamertemplate{navigation symbols}{}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on en Redes] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+      \textbf{Optimizaci\'on y An\'alisis de Redes} \\ Problemas de recorridos
+}
+
+\author[]
+{      Antonio Alonso Ayuso \\
+      {\ttfamily antonio.alonso@urjc.es}
+}
+
+\institute[]
+{
+      Universidad Rey Juan Carlos\\
+
+  %there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{\today}
+
+\AtBeginSection
+{%
+\begin{frame}<beamer>
+\frametitle{Contenidos del tema}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+\newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+%%
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+  \titlepage % call the title page information from above
+\end{frame}}
+
+
+\begin{frame}
+\frametitle{Contenidos del tema}
+  \tableofcontents
+\end{frame}
+
+\section{Grafos eulerianos}
+
+\begin{frame}
+
+ \frametitle{Introducci\'on I}
+
+El origen de la teor\'ia de grafos se sit\'ua en 1736 cuando Euler
+public\'o {\em Solutio Problematis ad Geometriam Situs Pertinentis} en
+el que enunciaba la soluci\'on al conocido problema de los puentes de
+K\"onigsberg.
+\begin{center}
+ \begin{figure}
+ \centering
+ \subfloat[L.P. Euler, 1707-1783]{\makebox[.18\textwidth]{\includegraphics[width=0.15\textwidth]{fig/euler}}}
+ \end{figure}
+\end{center}
+\end{frame}
+
+\begin{frame}
+
+ \frametitle{Introducci\'on II}
+\begin{center}
+	{\em Encontrar un recorrido que pase por todos los puentes una sola	vez y vuelva al punto de partida}
+\end{center}
+
+ \begin{columns}
+  \column{.48\textwidth}
+  \onslide<1->{
+  \begin{center}
+  \resizebox{0.4\textheight}{!}{\includegraphics{fig/konigs}}
+  \end{center}}
+  \column{.48\textwidth}
+  \onslide<2->{
+  \begin{figure}
+  \centering
+  \resizebox{0.3\textheight}{!}{
+    \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+		  \node[node_style] (A) at (1,2) {A} ;
+		  \node[node_style] (B) at (0,1) {B} ;
+		  \node[node_style] (C) at (1,0) {C} ;
+		  \node[node_style] (D) at (2,1) {D} ;
+		  \draw [line width=1.5pt] (A) edge[double distance=3pt] (B) ;
+		  \draw [line width=1.5pt] (B) edge[double distance=3pt] (C) ;
+		  \draw [line width=1.5pt] (B) edge (D) ;
+		  \draw [line width=1.5pt] (C) edge (D) ;
+		  \draw [line width=1.5pt] (A) edge (D) ;
+  		\end{tikzpicture}
+	}
+  \end{figure}}
+  \end{columns}
+\visible<3>{
+\begin{block}{Definición}
+	Dado un multigrafo $G=(V,E)$, una cadena euleriana es una cadena que pasa por todas las aristas sin repetir ninguna.
+	\\[3mm]
+	Un ciclo euleriano es una cadena euleriana cerrada.
+\end{block}
+}
+\end{frame}
+\begin{frame}{Cadenas eulerianas}
+\begin{block}{Teorema}
+Un grafo $G=(V,E)$ conexo contiene una cadena euleriana si y solo si el número de vértices con grado impar es 0 o 2.
+\end{block}
+Nota: si todos los vértices tienen grado par, la cadena es un ciclo. En otro caso, los dos vértices de grado impar son los extremos de la cadena. 
+\end{frame}
+\begin{frame}{Cadenas eulerianas. Algoritmo}
+ \begin{columns}
+\column{.48\textwidth}
+\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (A) at (0,0.5) {$a$} ;
+\node[node_style] (B) at (2.5,0.5) {$b$} ;
+\node[node_style] (C) at (1,2) {$c$} ;
+\node[node_style] (D) at (4,2) {$d$} ;
+
+\begin{scope}[every node/.style={fill=white,circle},every edge/.style={draw=red,very thick}]
+\draw [line width=1.5pt] (A) edge node{\footnotesize 1} (B) ;
+\draw [line width=1.5pt] (B)  edge node{\footnotesize 2} (C) ;
+\draw [line width=1.5pt] (B) edge node{\footnotesize 4} (D) ;
+\draw [line width=1.5pt] (C) edge node{\footnotesize 3} (D) ;
+\end{scope}
+\end{tikzpicture}
+\column{.48\textwidth}
+ \begin{align*}
+ V=\{a,b,c,d\}
+\\
+E=\{1,2,3,4\}
+ \end{align*}
+\end{columns}
+
+\vfill
+
+\visible<2>{
+Una solución va a estar caracterizada por un vector de $m+1$ componentes:
+$$
+(\sigma(1),\dots,\sigma(m+1))
+$$
+donde $\sigma(i)$ contiene el índice de la arista que sigue a $i$ en la cadena ($\sigma(m+1)$ contiene el índice de la primera arista).
+
+\medskip
+
+Por ejemplo $(4,-1,2,3,1)$ está asociado a la cadena $a-b-d-c-b$.
+}
+\end{frame}
+\begin{frame}{Cadenas eulerianas. Algoritmo}
+ \begin{columns}
+	\column{.30\textwidth}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (A) at (0,0.5) {$a$} ;
+	\node[node_style] (B) at (2.5,0.5) {$b$} ;
+	\node[node_style] (C) at (1,2) {$c$} ;
+	\node[node_style] (D) at (4,2) {$d$} ;
+	
+	\begin{scope}[every node/.style={fill=white,circle},every edge/.style={draw=red,very thick}]
+	\draw [line width=1.5pt] (A) edge node{\footnotesize 1} (B) ;
+	\draw [line width=1.5pt] (B)  edge node{\footnotesize 2} (C) ;
+	\draw [line width=1.5pt] (B) edge node{\footnotesize 4} (D) ;
+	\draw [line width=1.5pt] (C) edge node{\footnotesize 3} (D) ;
+	\end{scope}
+	\end{tikzpicture}
+	\column{.48\textwidth}
+	\only<2-3>{
+	\begin{align*}
+	&\visible<2-3> {d(a)  =1} & &\visible<3>{w(a)=\{1\}}
+	\\
+	&\visible<2-3> {d(b)  =3} & &\visible<3>{w(b)=\{1,2,4\}}
+	\\
+	&\visible<2-3> {d(c)  =2} & &\visible<3>{w(c)=\{2,3\}}
+	\\
+	&\visible<2-3> {d(d)  =2} & &\visible<3>{w(d)=\{3,4\}}
+	\end{align*}
+	}
+	\only<4>{
+	\begin{align*}
+	    & \delta_a(1)=b & \delta_b(1)=a \\
+	    & \delta_b(2)=c & \delta_c(2)=b \\
+	    & \delta_c(3)=d & \delta_d(3)=c \\
+	    & \delta_b(4)=d & \delta_d(4)=b 
+	\end{align*}
+	}
+\end{columns}
+\vfill
+
+\visible<2->{$\forall i\in V$: $d(i)$ el grado del nodo $i$.}
+
+\visible<3->{$\forall i\in V$: $w(i)$ es el conjunto de aristas que inciden en $i$.}
+
+\visible<4->{$\forall i\in V$ y $e=(i,j)\in w(i)$: $\delta_i(e)=j$.}
+\end{frame}
+\begin{frame}{Cadenas eulerianas. Algoritmo}
+\alert{Paso 1.} Inicialización. Sea $a$ uno de los vértices de grado impar
+
+\medskip
+
+$\sigma(e)=0$, $\forall e\in E$,
+
+\medskip
+
+ $\alpha(i)=d(i)$ \quad (número de aristas de incidentes en $i$ no exploradas.
+
+\medskip
+ 
+ $v=0$ \quad (longitud de la cadena)
+
+\medskip
+ 
+ $\phi(i)=0$, $\forall i\in V: i\neq a$\quad  (arista utilizada para llegar al vértice $i$).
+
+\medskip
+ 
+ $\phi(a)=m+1$\quad  ($m+1$ es una arista ficticia que juega el papel de primera de la cadena)
+ 
+ 
+ \medskip
+ 
+ $i=a$ primer vértice con grado impar y $t=b$, segundo vértice con grado impar.
+ 
+ \medskip
+ 
+ $e_1$ es la última arista incorporada (inicialmente $e_1=m+1$) y $e_2$ es la arista que se va a incorporar en la cadena (inicialmente $e_2=-1$).
+ 
+\end{frame}
+\begin{frame}{Cadenas eulerianas. Algoritmo}
+\alert{Paso 2.} 
+\begin{itemize}\itemsep 3mm
+	\item Si $\alpha(i)=0$, ir al paso 4. En otro caso, sea $e$ la arista que ocupa la posición $\alpha(i)$ en $w(i)$. 
+	\item Hacer $\alpha(i)=\alpha(i)-1$.
+	\item Si $e=e_1$ o $\sigma(e)\neq 0$, ir al paso 2. En otro caso:
+	
+	$j=\delta_i(e)$,\quad $\phi(j)=e$,\quad $\sigma(e_1)=e$,\quad $v=v+1$, \quad $\alpha(j)=\alpha(j)-1$,\quad $i=j$.
+	\item Si $i=t$ ir al paso 3. En otro caso, $e_1=e$ e ir al paso 2. 
+\end{itemize}
+\end{frame}
+\begin{frame}{Cadenas eulerianas. Algoritmo}
+\alert{Ejemplo.} 
+\begin{itemize}\itemsep 3mm
+	\item Como $\alpha(a)=1$, $e=1$
+	\item Hacer $\alpha(a)=\alpha(a)-1=0$.
+	\item Como $1=e\neq e_1=m+1$:
+	
+	$j=\delta_a(1)=b$,\quad $\phi(b)=1$,\quad $\sigma(m+1)=1$,\quad $v=v+1=1$,\quad $\alpha(b)=2$,\quad $i=b$.
+	\item Como $b=t$, ir al paso 3.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Cadenas eulerianas. Algoritmo}
+\alert{Paso 3.} 
+
+\medskip
+
+$\sigma(e) = e_2$.
+
+\medskip
+
+Si $v=m$, FIN. En otro caso, ir al paso 4.
+
+\bigskip
+
+\alert{Ejemplo:} $\sigma(1)=-1$. Como $v=1<4$, ir al paso 4.
+
+\end{frame}
+\begin{frame}{Cadenas eulerianas. Algoritmo}
+
+\alert{Paso 4.} (búsqueda de ciclos adyacentes a la cadena)
+
+\medskip
+
+Sea $k$ un vértice tal que:
+\begin{itemize}
+\item $\alpha(k)\neq 0$ (le quedan aristas sin explorar),
+\item $\phi(k)\neq 0$ (es un vértice de la cadena actual).
+\end{itemize}
+Entonces: $i=k$, $t=k$, $e_1=\phi(k)$, $e_2=\sigma(e_1)$.
+
+\medskip
+
+Ir al paso 2.
+
+\bigskip
+
+\alert{Ejemplo:} $k=b$. Entonces, $i=b$, $t=b$, $e_1=\phi(b)=1$, $e_2=\sigma(1)=-1$. Ir al paso 2
+
+\end{frame}
+
+\section{Problema del cartero chino}
+
+\begin{frame}{Problema de cartero chino}
+
+El problema del cartero chino (o del circuito del cartero, o de la inspección y selección de rutas), consiste en encontrar el camino más corto o circuito cerrado, que visite todas las aristas de una red, volviendo al punto (o nodo) de partida. 
+
+\medskip
+
+Si el grafo posee un circuito euleriano, ese circuito es una solución óptima.
+
+\medskip
+
+Alan J. Goldman (Instituto Nacional de Estándares y Tecnología de EEUU) usó por primera vez la esta denominación para este problema, ya que originalmente fue estudiado por el matemático chino Mei-Ko Kuan en 1962, quien precisamente era cartero.
+
+\end{frame}
+\begin{frame}{Problema de cartero chino}
+Consideremos el siguiente ejemplo:
+ \begin{columns}
+	\column{.45\textwidth}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+\node[node_style] (a) at (0,1.5) {a} ;
+\node[node_style] (b) at (2,3) {b} ;
+\node[node_style] (c) at (2,0) {c} ;
+\node[node_style] (d) at (4,1.5) {d} ;
+\node[node_style] (e) at (2,1.5) {e} ;
+\node[node_style] (f) at (4,3) {f} ;
+\node[node_style] (g) at (4,0) {g} ;
+\node[node_style] (h) at (0,0) {h} ;
+\node[node_style] (i) at (0,3) {i} ;
+
+%\begin{scope}[every node/.style={fill=white,circle},every edge/.style={draw=red,very thick}]
+\draw [line width=1.5pt] (a) edge node[above] {3}  (e) ;
+\draw [line width=1.5pt] (a) edge node[right] {3} (i) ;
+\draw [line width=1.5pt] (a) edge node[right] {2} (h) ;
+\draw [line width=1.5pt] (c) edge node[above] {6} (h) ;
+\draw [line width=1.5pt] (c) edge node[right] {3} (e) ;
+\draw [line width=1.5pt] (c) edge node[above] {4} (g) ;
+\draw [line width=1.5pt] (b) edge node[above] {4} (i) ;
+\draw [line width=1.5pt] (b) edge  node[above] {4}(f) ;
+\draw [line width=1.5pt] (b) edge node[right] {3} (e) ;
+\draw [line width=1.5pt] (d) edge node[right] {5} (f) ;
+\draw [line width=1.5pt] (d) edge node[right] {2} (g) ;
+\draw [line width=1.5pt] (d) edge node[above] {6}  (e) ;
+%\end{scope}
+\end{tikzpicture}
+	\column{.45\textwidth}
+	
+No es un grafo euleriano (hay más de dos vértices de grado impar).
+\\[3mm]
+Hay que repetir aristas.
+\end{columns}
+\end{frame}
+
+\begin{frame}{Problema de cartero chino}
+
+\begin{block}{Proposición}
+En un multigrafo, el número de vértices de grado impar es par
+\end{block}
+\alert{Demostración} La suma de los grados de todos los vértices es un número par (ya que cada arcos añade dos unidades a esta suma). 
+\\[3mm]
+Por tanto, los vértices de grado impar tienen que estar en número impar, para que al sumar sus grados de un número par.
+
+\bigskip
+
+Como consecuencia de este resultado, la estrategia a seguir es añadir nuevos arcos al grafo hasta lograr que sea euleriano. 
+
+\end{frame}
+\begin{frame}{Problema de cartero chino}\small
+Sea $G=(V,E)$ el grafo original no euleriano (tiene vértices de grado impar).
+
+\begin{columns}
+	\column{.40\textwidth}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},scale=1]
+	\node[node_style] (a) at (0,1.5) {a} ;
+	\node[node_style] (b) at (2,3) {b} ;
+	\node[node_style] (c) at (2,0) {c} ;
+	\node[node_style] (d) at (4,1.5) {d} ;
+	\node[node_style] (e) at (2,1.5) {e} ;
+	\node[node_style] (f) at (4,3) {f} ;
+	\node[node_style] (g) at (4,0) {g} ;
+	\node[node_style] (h) at (0,0) {h} ;
+	\node[node_style] (i) at (0,3) {i} ;
+	
+	%\begin{scope}[every node/.style={fill=white,circle},every edge/.style={draw=red,very thick}]
+	\draw [line width=1.5pt] (a) edge node[right] {3} (i) ;
+	\draw [line width=1.5pt] (a) edge node[right] {2} (h) ;
+	\draw [line width=1.5pt] (c) edge node[above] {6} (h) ;
+	\draw [line width=1.5pt] (c) edge node[above] {4} (g) ;
+	\draw [line width=1.5pt] (b) edge node[above] {4} (i) ;
+	\draw [line width=1.5pt] (b) edge  node[above] {4}(f) ;
+	\draw [line width=1.5pt] (d) edge node[right] {5} (f) ;
+	\draw [line width=1.5pt] (d) edge node[right] {2} (g) ;
+	\only<1>{
+			\draw [line width=1.5pt] (a) edge node[above] {3}  (e) ;
+			\draw [line width=1.5pt] (c) edge node[right] {3} (e) ;
+			\draw [line width=1.5pt] (b) edge node[right] {3} (e) ;
+			\draw [line width=1.5pt] (d) edge node[above] {6}  (e) ;
+	}
+	%\end{scope}
+	\only<2->{
+		\draw [line width=1.25pt,red] (e) edge[double] node[above] {3}  node[below] {3}  (a) ;
+		\draw [line width=1.25pt,red] (c) edge[double] node[right] {3} node[left] {3} (e) ;
+		\draw [line width=1.25pt,red] (b) edge[double] node[right] {3}  node[left] {3} (e) ;
+		\draw [line width=1.25pt,red] (d) edge[double] node[above] {6}  node[below] {6}  (e) ;
+	}
+	
+\end{tikzpicture}
+	\column{.60\textwidth}
+		\footnotesize
+		\begin{itemize}\itemsep 2mm
+			\item<2-> Una solución al problema del cartero chino se obtiene añadiendo nuevas aristas al grafo hasta que sea euleriano (todos los vértices tienen grado par). 
+			\item<2-> Estas aristas son copias de las originales,
+			\item<2-> Por tanto, se construye un nuevo grafo $G'=(V,E\cup E')$ donde $E'$ es un conjunto de aristas que son copia de $E$, de forma que en $G'$ todos los vértices tienen grado par.
+		\end{itemize}
+\end{columns}
+
+\bigskip
+
+\visible<3->{Ahora ya es posible obtener un ciclo euleriano (y en la ruta que debe seguir el cartero en el grafo original, se repiten los arcos que han sido repetidos).
+
+El objetivo es decidir qué aristas hay que duplicar para que la longitud del recorrido sea mínima}
+\end{frame}
+
+\begin{frame}{Problema de cartero chino}
+	\begin{block}{Proposición}
+		Sea $i_1$ un vértice de $V'$, conjunto de vértices de grado impar, entonces $E'$ contiene una cadena que une $i_1$ con otro vértice $i_2$ de $V'$.
+	\end{block}\small
+	\alert{Demostración} Por construcción, tenemos que $d_{G'}(i)\geq d_G(i)$ para todo $i\in V$.
+	
+	Por ser $i_1$ de grado impar, $E'$ tiene una arista con uno de los extremos en $i_1$, sea $(i_1,j)$.
+	\begin{itemize}\itemsep 3mm
+		\item Si $j\in V'$, el teorema queda demostrado.
+		\item Si $j\notin V'$, como $j$ tiene grado par en $G$, al añadir esta arista pasará a tener grado impar y, por tanto, se habrá añadido otra nueva arista. 
+		\item Sea $e'$ esta arista; repitiendo el razonamiento, se llega a otro nuevo vértice. Como el número de aristas es finito, el procedimiento termina. 
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Problema de cartero chino}
+A partir de este resultado, hay que decidir qué aristas de $E$ se duplican. 
+
+Se van a añadir cadenas que unan vértices de grado impar y que sean de longitud mínima. 
+
+Se construye un nuevo grafo $G''=(V',E'')$, donde cada arista en $(i,j)\in E''$ tiene un peso igual a la longitud del camino mínimo entre los nodos $i$ y $j$ en el grafo original $G$.
+ \begin{columns}
+	\column{.45\textwidth}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (a) at (0,1.5) {a} ;
+	\node[node_style] (b) at (2,3) {b} ;
+	\node[node_style] (c) at (2,0) {c} ;
+	\node[node_style] (d) at (4,1.5) {d} ;
+	\node[node_style] (e) at (2,1.5) {e} ;
+	\node[node_style] (f) at (4,3) {f} ;
+	\node[node_style] (g) at (4,0) {g} ;
+	\node[node_style] (h) at (0,0) {h} ;
+	\node[node_style] (i) at (0,3) {i} ;
+	
+	%\begin{scope}[every node/.style={fill=white,circle},every edge/.style={draw=red,very thick}]
+	\draw [line width=1.5pt] (a) edge node[above] {3}  (e) ;
+	\draw [line width=1.5pt] (a) edge node[right] {3} (i) ;
+	\draw [line width=1.5pt] (a) edge node[right] {2} (h) ;
+	\draw [line width=1.5pt] (c) edge node[above] {6} (h) ;
+	\draw [line width=1.5pt] (c) edge node[right] {3} (e) ;
+	\draw [line width=1.5pt] (c) edge node[above] {4} (g) ;
+	\draw [line width=1.5pt] (b) edge node[above] {4} (i) ;
+	\draw [line width=1.5pt] (b) edge  node[above] {4}(f) ;
+	\draw [line width=1.5pt] (b) edge node[right] {3} (e) ;
+	\draw [line width=1.5pt] (d) edge node[right] {5} (f) ;
+	\draw [line width=1.5pt] (d) edge node[right] {2} (g) ;
+	\draw [line width=1.5pt] (d) edge node[above] {6}  (e) ;
+	%\end{scope}
+	\end{tikzpicture}
+	\column{.45\textwidth}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (a) at (0,1.5) {a} ;
+	\node[node_style] (b) at (2,3) {b} ;
+	\node[node_style] (d) at (2,0) {d} ;
+	\node[node_style] (c) at (4,1.5) {c} ;
+	\node (aux) at (5,1.5) {\tiny 9};
+
+\begin{scope}[every node/.style={fill=white,circle},every edge/.style={draw=red,very thick}]
+\draw [line width=1.5pt] (a) edge node {\tiny 6}  (b) ;
+\draw [line width=1.5pt] (a) edge node {\tiny 6} (c) ;
+\draw [line width=1.5pt] (a) edge node {\tiny 9} (d) ;
+\draw [line width=1.5pt] (b) edge node{\tiny 6} (c) ;
+\draw [line width=1.5pt] (b) edge [bend right=-60] (aux) ;
+\draw [line width=1.5pt] (d) edge [bend right=60]  (aux) ;
+\draw [line width=1.5pt] (c) edge node {\tiny  6} (d) ;
+\end{scope}
+\end{tikzpicture}
+\end{columns}
+\end{frame}
+\begin{frame}{Problema de cartero chino}
+A partir de este grafo, hay que encontrar el emparejamiento de mínimo peso.
+\begin{block}{Definición}
+Dado un  grafo $G(V,E)$, un emparejamiento es un subconjunto de aristas que no tienen vértices en común (no hay aristas adyacentes). 
+\end{block}
+\begin{block}{Definición}
+	Un emparejamiento se dice que es perfecto si todos los nodos de $V$ son vértices de una arista del emparejamiento. 
+\end{block}
+\begin{block}{Definición}
+	Dado un red $G(V,E,p)$, donde $p$ es un vector de pesos de las aristas, el problema del emparejamiento de máximo peso consiste en encontrar un emparejamiento tal que la suma de los pesos de las aristas que lo componen sea máxima . 
+\end{block}
+\end{frame}
+\begin{frame}{Problema de cartero chino}
+En el grafo $G''$, es positble construir un emparejamiento perfecto (todos los vértices están saturados) ya que el grafo es completo y el número de vértices es par. De entre todos los emparejamientos perfectos, hay que elegir el de mínimo peso. 
+
+Por tanto, los pasos a seguir para resolver el problema del cartero chino son:
+\begin{enumerate}
+	\item Determinar los caminos mínimos entre los vértices de grado impar en el grafo $G$.
+	\item Construir el grafo $G''$ y determinar el emparejamiento \alert{perfecto} de mínimo peso.
+	\item Añadir a $G$ las aristas {\em duplicadas} que definen los caminos mínimos seleccionados en el emparejamiento.
+	\item Construir el ciclo euleriano (todos los nodos tienen grado par).
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Problema de cartero chino}
+	\begin{columns}
+		\column{.45\textwidth}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (a) at (0,1.5) {a} ;
+			\node[node_style] (b) at (2,3) {b} ;
+			\node[node_style] (c) at (2,0) {c} ;
+			\node[node_style] (d) at (4,1.5) {d} ;
+			\node[node_style] (e) at (2,1.5) {e} ;
+			\node[node_style] (f) at (4,3) {f} ;
+			\node[node_style] (g) at (4,0) {g} ;
+			\node[node_style] (h) at (0,0) {h} ;
+			\node[node_style] (i) at (0,3) {i} ;
+
+			\draw [line width=1.5pt] (a) edge node[right] {3} (i) ;
+			\draw [line width=1.5pt] (a) edge node[right] {2} (h) ;
+			\draw [line width=1.5pt] (c) edge node[above] {6} (h) ;
+			\draw [line width=1.5pt] (c) edge node[right] {3} (e) ;
+			\draw [line width=1.5pt] (b) edge node[above] {4} (i) ;
+			\draw [line width=1.5pt] (b) edge  node[above] {4}(f) ;
+			\draw [line width=1.5pt] (d) edge node[right] {5} (f) ;
+			\draw [line width=1.5pt] (d) edge node[above] {6} (e) ;
+			\only<1>{
+				\draw [line width=1.5pt] (a) edge node[above] {3}  (e) ;
+				\draw [line width=1.5pt] (c) edge node[above] {4} (g) ;
+				\draw [line width=1.5pt] (b) edge node[right] {3} (e) ;
+				\draw [line width=1.5pt] (d) edge node[right] {2}  (g) ;
+			}
+			\only<2>{
+				\draw [line width=1.5pt,blue] (a) edge node[above] {3}  (e) ;
+				\draw [line width=1.5pt,brown] (c) edge node[above] {4} (g) ;
+				\draw [line width=1.5pt,blue] (b) edge node[right] {3} (e) ;
+				\draw [line width=1.5pt,brown] (d) edge node[right] {2}  (g) ;
+			}
+			\only<3>{
+				\draw [line width=1.25pt] (e) edge[double] node[above] {3}  node[below] {3}  (a) ;
+				\draw [line width=1.25pt] (c) edge[double] node[above] {4} node[below] {4} (g) ;
+				\draw [line width=1.25pt] (b) edge[double] node[right] {3}  node[left] {3} (e) ;
+				\draw [line width=1.25pt] (d) edge[double] node[right] {2}  node[left] {2}  (g) ;
+			}
+		\end{tikzpicture}
+		\column{.45\textwidth}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (a) at (0,1.5) {a} ;
+			\node[node_style] (b) at (2,3) {b} ;
+			\node[node_style] (d) at (2,0) {d} ;
+			\node[node_style] (c) at (4,1.5) {c} ;
+			\node (aux) at (5,1.5) {\tiny 9};
+			
+			\begin{scope}[every node/.style={fill=white,circle},every edge/.style={draw=red,very thick}]
+				\draw [line width=1.5pt] (a) edge node {\tiny 6}  (b) ;
+				\draw [line width=1.5pt] (a) edge node {\tiny 6} (c) ;
+				\draw [line width=1.5pt] (a) edge node {\tiny 9} (d) ;
+				\draw [line width=1.5pt] (b) edge node{\tiny 6} (c) ;
+				\draw [line width=1.5pt] (b) edge [bend right=-60] (aux) ;
+				\draw [line width=1.5pt] (d) edge [bend right=60]  (aux) ;
+				\draw [line width=1.5pt] (c) edge node {\tiny  6} (d) ;
+
+ 				\only<2>{
+	 				\draw [line width=1.5pt,blue] (a) edge[blue] node {\tiny 6}  (b) ;
+	 				\draw [line width=1.5pt,violet] (c) edge[brown] node {\tiny  6} (d) ;
+ 				}
+ 
+
+			\end{scope}
+
+
+		\end{tikzpicture}
+	\end{columns}
+	
+	\bigskip
+	
+\visible<3->{ La solución óptima al problema de cartero chino implica pasar dos veces por los arcos a-e, b-e, c-g y d-g.}
+\end{frame}
+
+\begin{frame}{Ejemplo (pregunta de examen)}
+Se quiere cercar un terreno dividiéndolo en cuatro parcelas A, B, C y D, según se indica en la figura adjunta (cada tramo de los bordes indica la longitud del mismo). Por motivos de seguridad, el cerramiento se hace mediante una cerca prefabricada que se extiende a lo largo del todos los bordes, que no se puede partir y debe terminar donde empieza. 
+\begin{columns}
+\column{0.4\textwidth}
+\begin{itemize}
+	\item (0.5 puntos) ¿Qué problema de grafos se está planteando? 
+	\item (1 punto) Describir el procedimiento de solución. 
+	\item (1 punto) ¿Cuál es la solución para el caso planteado?
+\end{itemize}
+\column{0.6\textwidth}
+\begin{center}
+	\begin{tikzpicture}[thick,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},scale=0.8]
+		\node at (0.2,3) {\color{blue} A};
+		\node at (5,4.4) {\color{blue} B};
+		\node at (4,2.5) {\color{blue} C};
+		\node at (1,1) {\color{blue} D};
+		\draw (0,2) to node [right] {\footnotesize 8} (0,0);
+		\draw (0,0) to node [below] {\footnotesize 8} (2.5,0);
+		\draw (2.5,0) to node [right] {\footnotesize 2} (2.5,0.5);
+		\draw (2.5,0.5) to node [left] {\footnotesize 6} (2.5,2);
+		\draw (2.5,2) to node [below] {\footnotesize 2} (1.5,2);
+		%
+		\draw (1.5,2) to node [right] {\footnotesize 4} (1.5,3.5);
+		\draw (0,2) to node [above] {\footnotesize 6} (1.5,2);
+		\draw (0,2) to node [above] {\footnotesize 5} (-1,2);
+		\draw (-1,3) to node [left] {\footnotesize 4} (-1,2);
+		\draw (-0.5,3) to node [below] {\footnotesize 2} (-1,3);
+		\draw (-0.5,3) to node [right] {\footnotesize 4} (-0.5,4.5);
+		\draw (-0.5,4.5) to node [below] {\footnotesize 2} (-1,4.5);
+		\draw (-1,4.5) to node [left] {\footnotesize 1} (-1,5);
+		\draw (-1,5) to node [sloped,above] {\footnotesize 9} (1,5);
+		\draw (1,5) to node [left] {\footnotesize 2} (1,4.5);
+		\draw (1,4.5) to node [left] {\footnotesize 3} (1,3.5);
+		\draw (1,3.5) to node [below] {\footnotesize 3} (1.5,3.5);
+		\draw (1.5,3.5) to node [above] {\footnotesize 12} (6,3.5);
+		\draw (6,3.5) to node [sloped,above] {\footnotesize 5} (8,3.5);
+		\draw (8,3.5) to node [right] {\footnotesize 4} (8,4.2);
+		\draw (8,4.2) to node [above] {\footnotesize 4} (7.5,4.2);
+		\draw (7.5,4.2) to node [left] {\footnotesize 3} (7.5,5.2);
+		\draw (7.5,5.2) to node [above] {\footnotesize 8} (4,5.2);
+		\draw (4,5.2) to node [right] {\footnotesize 4} (4,4.4);
+		\draw (4,4.4) to node [above] {\footnotesize 8} (1,4.4);
+		
+		\draw (6,3.5) to node [right] {\footnotesize 6} (6,2);
+		\draw (6,2) to node [below] {\footnotesize 2} (6.5,2);
+		\draw (6.5,2) to node [right] {\footnotesize 4} (6.5,0.5);
+		\draw (6.5,0.5) to node [above] {\footnotesize 12} (2.5,0.5);
+		
+	\end{tikzpicture}
+\end{center}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Variantes del problema de cartero chino}
+\begin{itemize}
+	\item Motorizado: algunas calles tienen sentido de circulación única
+	\item Con viento: el tiempo necesario en recorrer una calle depende del sentido en que se haga.
+	\item Con beneficios y pérdidas:
+	\begin{itemize}
+		\item 	Circular por una calle tiene un coste (tiempo, gasolina, etc.)
+		\item Algunas calles reportan un beneficio cuando se pasan por primera vez (ventas, etc.)
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Ciclos hamiltonianos}
+\begin{frame}{Ciclos hamiltonianos}
+\begin{block}{Definicion}
+Dado un multigrafo conexo $G=(V,E)$, un ciclo hamiltoniano es un ciclo que recorre todos los vértices del grafo sin repetir ninguno. 
+\end{block}
+El nombre proviene del matemático irlandés sir William Rowan Hamilton (1805-1865), que propuso viajar a veinte ciudades del mundo, representadas como los vértices de un dodecaedro regular, siguiendo las aristas del dodecaedro.
+
+\bigskip
+
+
+No existen condiciones necesarias y suficientes simultáneamente. 
+\end{frame}
+\begin{frame}{Ciclos hamiltonianos. Condiciones necesarias}
+\begin{block}{Definición}
+Dado un grafo conexo $G=(V,E)$, un subconjunto de vértices $A\subset V$ es un conjunto de corte si el subgrafo generado por $V\setminus A$ no es conexo.
+\end{block}
+\begin{block}{Definición}
+Un grafo $G=(V,E)$ es $k$-conexo si es conexo, $\abs{V}\geq k+1$ y no contiene conjuntos de corte de cardinal $k-1$.
+\end{block}
+Nota: $G$ es $k$-conexo si y solo si $d_G(i)\geq k$ para todo $i\in V$.
+\end{frame}
+\begin{frame}{Ciclos hamiltonianos. Condiciones necesarias}
+\begin{block}{Proposición}
+Si grafo $G=(V,E)$ es hamiltoniano, entonces es 2-conexo.
+\end{block}
+\alert{Demostración:} por reducción al absurdo, si no es 2-conexo, existe un vértice que define un conjunto de corte. Cualquier circuito hamiltoniano deberá pasar al menos dos veces por este vértice para unir las dos componentes conexas que define este corte. 
+
+\alert{Contraejemplo:}
+
+\begin{center}
+\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+\node[node_style] (a) at (0,1) {a} ;
+\node[node_style] (b) at (2,2) {b} ;
+\node[node_style] (c) at (2,1) {c} ;
+\node[node_style] (d) at (2,0) {d} ;
+\node[node_style] (e) at (4,1) {e} ;
+
+\draw [line width=1.5pt] (a) edge  (b) ;
+\draw [line width=1.5pt] (a) edge  (c) ;
+\draw [line width=1.5pt] (a) edge  (d) ;
+\draw [line width=1.5pt] (e) edge  (b) ;
+\draw [line width=1.5pt] (e) edge  (c) ;
+\draw [line width=1.5pt] (e) edge  (d) ;
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Ciclos hamiltonianos. Condiciones suficientes}
+\begin{block}{Proposición}
+Un grafo $G=(V,E)$  completo es hamiltoniano. 
+\end{block}
+Nota. habrá $\abs{V}!$ ciclos hamiltonianos.
+
+\bigskip
+
+
+\begin{block}{Proposición}
+Dado un grafo $G=(V,E)$, con $\abs{V}=N$ tal que existen dos vértices $s$ y $t$ no adyacentes para los que $d_G(s)+d_G(t)\geq N$. Se define el grafo $G+\{s,t\}=(V,E\cup\{s,t\})$. Entonces, si el grafo  $G+\{s,t\}$ es hamiltoniano, el grafo $G$ también lo es. 
+\end{block}
+\end{frame}
+\begin{frame}{Ciclos hamiltonianos. Condiciones suficientes}
+\alert{Demostración:} 
+
+Como $G+\{s,t\}$ es hamiltoniano, existe un ciclo hamiltoniano.
+\begin{itemize}
+	\item Si $\{s,t\},$ no pertenece al ciclo, ya está demostrado. 
+	\item En caso de que esta arista SÍ pertenezca al ciclo, se numeran los vértices del ciclo, de forma que el primer vértice sea $s$ y el último $t$.  
+	
+	Demostraremos que existe un índice $i\in\{2,\dots,N-2\}$ tal que el grafo original contiene una arista que une $s$ y el siguiente nodo a $i$-ésimo, $x_{i+1}$ en el ciclo y otra arista que une $t$ con $i$-éximo, $x_i$. 
+
+	Con esto es posible construir un nuevo ciclo hamiltoniano sin la arista $\{s,t\}$.
+	\begin{itemize}
+		\item Eliminando las aristas $\{s,t\}$ y $\{x_i,x_{i+1}\}$.
+		\item Añadiendo las aristas  $\{s,x_{i+1}\}$ y $\{t,x_i\}$.
+	\end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}{Ciclos hamiltonianos. Condiciones suficientes}\small 
+Sea:
+\begin{align*}
+A & =\bigl\{x_i\tq \{s,x_{i+1}\}\in E,\, i\in\{2,\dots,N-2\} \bigr\}\subset V 
+\\
+B & =\bigl\{x_i\tq \{t,x_{i}\}\in E,\, i\in\{2,\dots,N-2\} \bigr\}\subset V 
+\end{align*}
+Se tiene que $\abs{B}=d_G(t)-1$ (se descuenta la arista $\{t,x_{N-1}\}$ del grado de $t$).  De igual forma, $\abs{A}=d_G(s)-1$. 
+
+Por tanto,
+$$
+\abs{A}+\abs{B}=d_G(s)-1+d_G(t)-1\geq N-2
+$$
+Por otra parte $\abs{A}\leq N-3$ y $\abs{B}\leq N-3$ y $\abs{A\cup B}\leq N-3$.
+
+Como $\abs{A\cup B} =\abs{A}+\abs{B}-\abs{A\cap B}$:
+$$
+\abs{A\cap B}\geq N-2-\abs{A\cup B}\geq N-2-(N-3)=1
+$$
+Es decir, $A\cap B\neq\emptyset$ y es posible construir un ciclo sin la arista $\{s,t\}$ y $G$ es hamiltoniano.
+\end{frame}
+
+\begin{frame}{Ciclos hamiltonianos. Condiciones suficientes}
+\begin{block}{Definición}
+Dado un grafo $G$, se define la clausura de $G$, $[G]$, como el grafo ampliado que tiene los mismos vértices que $G$ y el conjunto de aristas se forma añadiendo a las aristas de $G$ nuevas aristas $\{s, t\}$ para cualquier par de vértices $s$ y $t$ no adyacentes tales que $d_G(s)+d_G(t)\geq N$.
+
+\end{block}
+\begin{block}{Teorema de Bondy y Chavatal}
+Dado un grafo $G=(V,E)$, si su clausura es un grafo completo, entonces $G$ es hamiltoniano.
+\end{block}
+\alert{Demostración:} Trivial a partir de la proposición anterior, sin más que repetir el razonamiento tantas veces como sea necesario.
+\end{frame}
+
+\begin{frame}{Ciclos hamiltonianos. Condiciones suficientes}
+
+\alert{Contraejemplo:}
+
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (a) at (0,1.5) {a} ;
+	\node[node_style] (b) at (2,3) {b} ;
+	\node[node_style] (c) at (2,0) {c} ;
+	\node[node_style] (d) at (4,3) {d} ;
+	\node[node_style] (e) at (4,0) {e} ;
+	
+	\draw [line width=1.5pt] (a) edge  (b) ;
+	\draw [line width=1.5pt] (b) edge  (d) ;
+	\draw [line width=1.5pt] (d) edge  (e) ;
+	\draw [line width=1.5pt] (e) edge  (c) ;
+	\draw [line width=1.5pt] (c) edge  (a) ;
+	\end{tikzpicture}
+\end{center}
+Este grafo es hamiltoniano, pero su clausura no es un grafo completo. 
+\end{frame}
+\begin{frame}{Ciclos hamiltonianos. Condiciones suficientes}{Ejemplo}
+En este grafo es posible añadir la arista $\{c,d\}$.
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (a) at (0,0) {a} ;
+	\node[node_style] (b) at (2,2) {b} ;
+	\node[node_style] (c) at (0,2) {c} ;
+	\node[node_style] (d) at (2,0) {d} ;
+	
+	\draw [line width=1.5pt] (a) edge  (b) ;
+	\draw [line width=1.5pt] (a) edge  (c) ;
+	\draw [line width=1.5pt] (a) edge  (d) ;
+	\draw [line width=1.5pt] (b) edge  (d) ;
+	\draw [line width=1.5pt] (b) edge  (c) ;
+	\end{tikzpicture}
+\end{center}
+Como el resultado, el grafo resulta completo y, por tanto, es un grafo hamiltoniano.
+\end{frame}
+\begin{frame}{Ciclos hamiltonianos. Condiciones suficientes}{Ejemplo}
+En este grafo solo es posible añadir una arista del nodo $a$ al nodo $e$. 
+\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+	\node[node_style] (a) at (0,1) {a} ;
+	\node[node_style] (b) at (2,2) {b} ;
+	\node[node_style] (c) at (2,1) {c} ;
+	\node[node_style] (d) at (2,0) {d} ;
+	\node[node_style] (e) at (4,1) {e} ;
+	
+	\draw [line width=1.5pt] (a) edge  (b) ;
+	\draw [line width=1.5pt] (a) edge  (c) ;
+	\draw [line width=1.5pt] (a) edge  (d) ;
+	\draw [line width=1.5pt] (e) edge  (b) ;
+	\draw [line width=1.5pt] (e) edge  (c) ;
+	\draw [line width=1.5pt] (e) edge  (d) ;
+	\end{tikzpicture}
+\end{center}
+Como el resultado no es un grafo completo, no podemos garantizar que sea un grafo hamiltoniano.
+\end{frame}
+\section{El problema del viajante}
+\begin{frame}{Problema del viajante}\small
+Asociado al los ciclos hamiltonianos está el problema del viajante., uno de los m\'as famosos problemas de optimizaci\'on.
+	\begin{block}{Definici\'on}
+		Un agente tiene que recorrer $n$ ciudades, saliendo de una ciudad y regresando a ella.  Se
+		conoce la distancia entre cada par de ciudades, $d_{ij}$.  El problema es determinar la ruta  de distancia m\'{\i}­nima.
+	\end{block}
+	Las aplicaciones no se limitan al aspecto f\'{\i}­sico de determinar
+	recorridos (construcci\'on de circuitos electr\'onicos, ordenaci\'on de
+	tareas, etc.)
+	\begin{block}{Definici\'on}
+		Una m\'aquina tiene que realizar un conjunto de $n$ tareas. Cada tarea tiene un tiempo de preparaci\'on
+		que depende de la tarea que se ha realizado inmediatamente antes.  El problema consiste en determinar el
+		orden en el que se tienen que realizar las tareas de forma que la duraci\'on de la ejecuci\'on de todas las
+		tareas sea m\'{\i}­nima.
+	\end{block}
+	%%%%%%%%%%%%%%%%
+	%%%TRASPA
+	%%%%%%%%%%%%%%%%
+	%%
+	%%
+\end{frame}
+\begin{frame}[allowframebreaks]{Problema del viajante. Modelo 1}
+	\small
+	\begin{block}{Variables}
+		$
+		x_{ijk}=\begin{cases}
+			1 & \text{ si el agente va de la ciudad $i$ a la ciudad}
+			\\
+			& \text{ $j$ en el tramo $k$.}
+			\\
+			0  & \text{en otro caso}
+		\end{cases}
+		\forall i,j,k=1,\dots,n
+		$
+	\end{block}
+	%%%
+	\begin{block}{Restricciones (1/2)}
+		\begin{itemize}
+			\item El agente debe salir de todas las ciudades:
+			$$
+			\sum_{j,k=1}^n x_{ijk}=1\qquad \forall i=1,\dots,n
+			$$
+			\item El agente debe llegar a todas las ciudades:
+			$$
+			\sum_{i,k=1}^n x_{ijk}=1\qquad \forall j=1,\dots,n
+			$$
+		\end{itemize}
+	\end{block}
+	%%
+	\begin{block}{Restricciones (2/2)}
+		\begin{itemize}
+			\item Cada tramo debe unir dos ciudades;
+			$$
+			\sum_{i,j=1}^n x_{ijk}=1\qquad \forall k=1,\dots,n
+			$$
+			\item Cada tramo debe empezar donde acab\'o el anterior:
+			$$
+			\sum_{i\neq j} x_{ijk}=\sum_{i\neq j} x_{jik+1}\qquad \forall j,k=1,\dots,n
+			$$
+			{\small Nota: si $k=n$, entonces, $k+1=1$.
+				El primer sumando vale $0$ si el tramo $k$ no acaba en la ciudad $j$
+				y 1 en otro caso. El segundo sumando vale $0$ si el tramo $k+1$ no empieza en
+				la ciudad $j$ y $0$ en otro caso.}
+			\item Integralidad de las variables:  $x_{ijk}\in\{0,1\}$, $\forall i,j,k=1,\dots,n$
+		\end{itemize}
+	\end{block}
+	\begin{block}{Objetivo} 
+		$\displaystyle \min\sum_{i,j,k=1}^n   d_{ij}x_{ijk}$.
+	\end{block}
+	
+	Con $n$ puntos hay $n^3$ variables y $3n+n^2$ restricciones
+	%%%%%%%%%%%%%%%%
+	%%%TRASPA
+	%%%%%%%%%%%%%%%%
+	%%
+	%%
+\end{frame}
+\begin{frame}{Problema del viajante. Modelo 2}
+	%%
+	S\'olo se indica qu\'e tramos se hacen, pero no qu\'e posici\'on ocupa cada
+	tramo en la ruta final.
+	
+	Por ello, se elimina el sub\'{\i}­ndice $k$ de las variables y se reduce
+	sensiblemente el n\'umero de variables.
+	\begin{block}{Variables}
+		$
+		x_{ij}=\begin{cases}
+			1 & \text{ si el agente va de la ciudad $i$ a la ciudad $j$,}
+			\\
+			0  & \text{en otro caso}
+		\end{cases}
+		\qquad\forall i,j=1,\dots,n
+		$
+	\end{block}
+	\begin{block}{Objetivo}
+		$$\displaystyle
+		\min\sum_{i,j=1}^n d_{ij}x_{ij}.
+		$$
+	\end{block}
+	%%
+\end{frame}
+\begin{frame}{Problema del viajante. Modelo 2}
+	%%
+	\begin{block}{Restricciones}
+		\begin{itemize}
+			\item El agente debe salir de todas las ciudades:
+			$$
+			\sum_{j=1}^n x_{ij}=1\qquad \forall i=1,\dots,n
+			$$
+			\item El agente debe llegar a todas las ciudades:
+			$$
+			\sum_{i=1}^n x_{ij}=1\qquad \forall j=1,\dots,n
+			$$
+			\item Integralidad de las variables:
+			$$
+			x_{ij}\in\{0,1\}\qquad\forall i,j=1,\dots,n
+			$$
+		\end{itemize}
+	\end{block}
+	%
+	%
+\end{frame}
+\begin{frame}{Problema del viajante. Modelo 2}
+	%%
+	\footnotesize
+	Las  restricciones anteriores corresponden a un problema de asignaci\'on: a cada
+	ciudad se le asigna una y s\'olo una ciudad para ser visitada justo antes y justo a
+	continuaci\'on.
+	
+	Esto no es suficiente y se pueden formar circuitos.
+	\begin{center}
+		\begin{tikzpicture}[scale=0.7,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (1) at (0,1) {1} ;
+			\node[node_style] (2) at (1.25,2.5) {2} ;
+			\node[node_style] (3) at (2.5,1) {3} ;
+			\node[node_style] (4) at (4.5,2.5) {4} ;
+			\node[node_style] (5) at (4.75,1.5) {5} ;
+			\node[node_style] (6) at (6.5,2.5) {6} ;
+			\node[node_style] (7) at (8,1) {7} ;
+			\draw  [line width=1.5pt] (1) edge[->] (2) ;
+			\draw  [line width=1.5pt] (2) edge[->] (4) ;
+			\draw  [line width=1.5pt] (4) edge[->] (3) ;
+			\draw  [line width=1.5pt] (3) edge[->] (1) ;
+			\draw  [line width=1.5pt] (5) edge[->] (6) ;
+			\draw  [line width=1.5pt] (6) edge[->] (7) ;
+			\draw  [line width=1.5pt] (7) edge[->] (5) ;
+		\end{tikzpicture}
+	\end{center}	
+	Se necesitan nuevas restricciones que eviten la formaci\'on de subciclos:  para cualquier subconjunto de $m$ nodos, no puede haber más de $m-1$ arcos con origen y destino en ese subconjunto incluidos en la solución, $m=1,\dots,n$.
+	\begin{block}{Restricci\'on de eliminaci\'on de subciclos}
+		$$
+		\sum_{i,j\in A} x_{ij}\leq \abs{A}-1\qquad\forall A\subseteq\{1,\dots,n\}
+		$$
+	\end{block}
+	Para $n$ puntos, hay $n^2$ variables y $2^n+n-2$ restricciones
+\end{frame}
+%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+\begin{frame}{Problema del viajante. Modelo 3}
+	Las restricciones de eliminación de subciclos se pueden sustituir por otras si se establece un orden en la visita a las ciudades. Para ello, se añaden $n$ nuevas variables:
+	$$
+	u_i=j,\quad \mbox{si la ciudad $i$ se visita en la posición $j$,\quad $i=2,\dots,n$.}
+	$$
+	Para garantizar el orden, se añaden las siguientes restricciones:
+	$$
+	u_i-u_j+nx_{ij}\leq n-1,\quad i,j=2,3,\dots,n.
+	$$
+	Entonces:
+	\begin{itemize}\itemsep 2mm
+		\item Si $(i,j)$ forma parte de la solución ($x_{ij}=1$): $u_i+1\leq u_j$.
+		\item Si $(i,j)$ NO forma parte de la solución ($x_{ij}=0$): $u_i \leq u_j+n-1$ (es redundante).
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+\begin{frame}{Problema del viajante. Modelo 3}\small
+	\begin{block}{Modelo}
+		\begin{align*}
+			\min\sum_{i,j=1}^n d_{ij}x_{ij}
+			\\
+			\sum_{j=1}^n x_{ij}=1&\qquad \forall i=1,\dots,n
+			\\
+			\sum_{i=1}^n x_{ij}=1&\qquad \forall j=1,\dots,n
+			\\
+			u_i-u_j+nx_{ij}\leq n-1,&\qquad i,j=2,3,\dots,n
+			\\
+			x_{ij}\in\{0,1\}&\qquad\forall \forall i,j=1,\dots,n
+			\\
+			u_i\geq 0,&\qquad \forall i=2,\dots,n
+		\end{align*}
+		Nota: las nuevas variables pueden ser continuas.
+	\end{block}
+	
+	Para $n$ puntos, hay $n^2+n-1$ variables y $n^2-n+2$ restricciones.
+	
+\end{frame}
+
+\section{Problemas de rutas}
+\begin{frame}{Problemas de rutas}
+Tanto el problema del viajante como el problema del cartero chino se engloban  dentro de una familia más amplia de problemas, los conocidos como \alert{problemas de rutas}.
+\begin{itemize}
+	\item \alert{Diseño de rutas:} vehículos de capacidad limitada que deben visitar a una serie de clientes para la recogida o entrega de mercancías (Vehicle Routing Problem o VRP).
+	\item \alert{Planificación:} la característica más importante es la existencia de restricciones de tiempo o de precedencia en la visita de los clientes (Vehicle Scheduling Problem o VSP).
+\end{itemize}
+Otra clasificación básica es por la situación de los puntos:
+\begin{itemize}
+\item Rutas por nodos: los puntos a visitar se sitúan en los nodos de un grafo.
+\item Rutas por arcos: los puntos a visitar se sitúan en las aristas o en los arcos de un grafo.
+\item Mixtos
+\end{itemize}
+\end{frame}
+\begin{frame}{Características relevantes de los problemas de rutas}
+	\alert{Tipo de flota de vehículos:}
+	\begin{itemize}
+			\item Homogénea: todos los vehículos son iguales, por tanto, con la misma capacidad.
+			\item Heterogénea: hay varios tipos de vehículos. Esto, además de distintas capacidades, puede conllevar que no todos los vehículos puedan servir a todos los clientes.
+	\end{itemize}
+\alert{Número de depósitos:}
+\begin{itemize}
+	\item Un solo depósito.
+	\item Varios depósitos: según las situaciones, los vehículos deberán volver o no al depósito del que partieron.
+\end{itemize}
+\alert{Naturaleza de la demanda:}
+\begin{itemize}
+	\item Determinada: es conocida antes de iniciar una ruta.
+	\item Estocástica: no se conoce, pero se sabe que se ajusta a una función de distribución conocida.
+\end{itemize}
+\end{frame}
+\begin{frame}{Características relevantes de los problemas de rutas}
+\alert{Tipo de operación:}
+\begin{itemize}
+	\item Sólo entrega o recogida de mercancía: el vehículo parte lleno (vacío),  debe entregar (recoger) mercancía a los distintos clientes, y regresar vacío (lleno).
+	\item Entrega y recogida de mercancía: la mercancía que se recoge a un cliente debe entregarse a otro  cliente determinado.
+Mixta.
+\end{itemize}
+\alert{Costes:}
+\begin{itemize}
+	\item Dependen de cada ruta: normalmente son función del tiempo y la distancia.
+	\item Hay unos costes fijos por cada vehículo que se utiliza.
+\end{itemize}
+\alert{Tiempo de servicio:}
+\begin{itemize}
+	\item Sin restricciones sobre el instante de llegada e inicio del servicio a los clientes.
+	\item Con restricciones: el servicio debe iniciarse dentro de un intervalo o ventana de tiempo predeterminado. En algunas ocasiones, esta restricción se podrá violar, estableciendo, en ese caso, unas penalizaciones.
+\end{itemize}
+\end{frame}
+\begin{frame}{Características relevantes de los problemas de rutas}
+\alert{Función Objetivo}
+\begin{itemize}
+	\item Minimizar el coste de las rutas.
+    \item Minimizar el número de vehículos utilizados: equivale a minimizar la suma del coste fijo asociado a la utilización de cada vehículo.
+	\item Minimizar la suma del coste de las rutas más el coste fijo asociado a la utilización de cada vehículo.
+\end{itemize}
+\end{frame}
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\end{document}

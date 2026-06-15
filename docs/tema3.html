@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Análisis Convexo – Apuntes de Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema4.html" rel="next">
+<link href="./tema2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="estilos_html.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Convexo</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Apuntes de Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la Investigación Operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización No Lineal y Métodos Numéricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Convexo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de Optimalidad y KKT</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aplicaciones de KKT: Programación Lineal y Cuadrática</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimización en Ciencia de Datos: Regresión y SVM</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a Grafos y Árboles Soporte</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">El Problema del Camino Mínimo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Problemas de Flujo en Redes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problemas de Emparejamiento (Matching)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Rutas Eulerianas, Hamiltonianas y TSP</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#conjuntos-convexos" id="toc-conjuntos-convexos" class="nav-link active" data-scroll-target="#conjuntos-convexos"><span class="header-section-number">3.1</span> Conjuntos Convexos</a>
+  <ul class="collapse">
+  <li><a href="#definición-y-conceptos-básicos" id="toc-definición-y-conceptos-básicos" class="nav-link" data-scroll-target="#definición-y-conceptos-básicos"><span class="header-section-number">3.1.1</span> 1. Definición y Conceptos Básicos</a></li>
+  <li><a href="#ejemplos-de-conjuntos-convexos-básicos" id="toc-ejemplos-de-conjuntos-convexos-básicos" class="nav-link" data-scroll-target="#ejemplos-de-conjuntos-convexos-básicos"><span class="header-section-number">3.1.2</span> 2. Ejemplos de Conjuntos Convexos Básicos</a></li>
+  <li><a href="#operaciones-que-conservan-la-convexidad" id="toc-operaciones-que-conservan-la-convexidad" class="nav-link" data-scroll-target="#operaciones-que-conservan-la-convexidad"><span class="header-section-number">3.1.3</span> 3. Operaciones que Conservan la Convexidad</a></li>
+  <li><a href="#envoltura-convexa-y-símplices" id="toc-envoltura-convexa-y-símplices" class="nav-link" data-scroll-target="#envoltura-convexa-y-símplices"><span class="header-section-number">3.1.4</span> 4. Envoltura Convexa y Símplices</a></li>
+  </ul></li>
+  <li><a href="#teoremas-de-separación-e-hiperplano-de-soporte" id="toc-teoremas-de-separación-e-hiperplano-de-soporte" class="nav-link" data-scroll-target="#teoremas-de-separación-e-hiperplano-de-soporte"><span class="header-section-number">3.2</span> Teoremas de Separación e Hiperplano de Soporte</a>
+  <ul class="collapse">
+  <li><a href="#teoremas-de-separación-de-hiperplanos" id="toc-teoremas-de-separación-de-hiperplanos" class="nav-link" data-scroll-target="#teoremas-de-separación-de-hiperplanos"><span class="header-section-number">3.2.1</span> 1. Teoremas de Separación de Hiperplanos</a></li>
+  <li><a href="#teorema-del-hiperplano-de-soporte" id="toc-teorema-del-hiperplano-de-soporte" class="nav-link" data-scroll-target="#teorema-del-hiperplano-de-soporte"><span class="header-section-number">3.2.2</span> 2. Teorema del Hiperplano de Soporte</a></li>
+  </ul></li>
+  <li><a href="#funciones-convexas" id="toc-funciones-convexas" class="nav-link" data-scroll-target="#funciones-convexas"><span class="header-section-number">3.3</span> Funciones Convexas</a>
+  <ul class="collapse">
+  <li><a href="#definición-y-significado-geométrico" id="toc-definición-y-significado-geométrico" class="nav-link" data-scroll-target="#definición-y-significado-geométrico"><span class="header-section-number">3.3.1</span> 1. Definición y Significado Geométrico</a></li>
+  <li><a href="#operaciones-que-preservan-la-convexidad-de-funciones" id="toc-operaciones-que-preservan-la-convexidad-de-funciones" class="nav-link" data-scroll-target="#operaciones-que-preservan-la-convexidad-de-funciones"><span class="header-section-number">3.3.2</span> 2. Operaciones que Preservan la Convexidad de Funciones</a></li>
+  <li><a href="#epígrafe-y-subgradientes" id="toc-epígrafe-y-subgradientes" class="nav-link" data-scroll-target="#epígrafe-y-subgradientes"><span class="header-section-number">3.3.3</span> 3. Epígrafe y Subgradientes</a></li>
+  </ul></li>
+  <li><a href="#caracterización-de-funciones-convexas-diferenciables" id="toc-caracterización-de-funciones-convexas-diferenciables" class="nav-link" data-scroll-target="#caracterización-de-funciones-convexas-diferenciables"><span class="header-section-number">3.4</span> Caracterización de Funciones Convexas Diferenciables</a>
+  <ul class="collapse">
+  <li><a href="#caracterización-de-primer-orden" id="toc-caracterización-de-primer-orden" class="nav-link" data-scroll-target="#caracterización-de-primer-orden"><span class="header-section-number">3.4.1</span> 1. Caracterización de Primer Orden</a></li>
+  <li><a href="#caracterización-de-segundo-orden-hessiana" id="toc-caracterización-de-segundo-orden-hessiana" class="nav-link" data-scroll-target="#caracterización-de-segundo-orden-hessiana"><span class="header-section-number">3.4.2</span> 2. Caracterización de Segundo Orden (Hessiana)</a></li>
+  </ul></li>
+  <li><a href="#óptimos-de-una-función-convexa" id="toc-óptimos-de-una-función-convexa" class="nav-link" data-scroll-target="#óptimos-de-una-función-convexa"><span class="header-section-number">3.5</span> Óptimos de una Función Convexa</a>
+  <ul class="collapse">
+  <li><a href="#el-teorema-fundamental-de-la-optimización-convexa" id="toc-el-teorema-fundamental-de-la-optimización-convexa" class="nav-link" data-scroll-target="#el-teorema-fundamental-de-la-optimización-convexa"><span class="header-section-number">3.5.1</span> 1. El Teorema Fundamental de la Optimización Convexa</a></li>
+  <li><a href="#condición-variacional-de-optimalidad" id="toc-condición-variacional-de-optimalidad" class="nav-link" data-scroll-target="#condición-variacional-de-optimalidad"><span class="header-section-number">3.5.2</span> 2. Condición Variacional de Optimalidad</a></li>
+  </ul></li>
+  <li><a href="#maximización-de-funciones-convexas" id="toc-maximización-de-funciones-convexas" class="nav-link" data-scroll-target="#maximización-de-funciones-convexas"><span class="header-section-number">3.6</span> Maximización de Funciones Convexas</a></li>
+  <li><a href="#generalizaciones-de-la-convexidad" id="toc-generalizaciones-de-la-convexidad" class="nav-link" data-scroll-target="#generalizaciones-de-la-convexidad"><span class="header-section-number">3.7</span> Generalizaciones de la Convexidad</a>
+  <ul class="collapse">
+  <li><a href="#funciones-cuasi-convexas" id="toc-funciones-cuasi-convexas" class="nav-link" data-scroll-target="#funciones-cuasi-convexas"><span class="header-section-number">3.7.1</span> 1. Funciones Cuasi-convexas</a></li>
+  <li><a href="#funciones-pseudo-convexas" id="toc-funciones-pseudo-convexas" class="nav-link" data-scroll-target="#funciones-pseudo-convexas"><span class="header-section-number">3.7.2</span> 2. Funciones Pseudo-convexas</a></li>
+  <li><a href="#relaciones-entre-categorías-de-convexidad" id="toc-relaciones-entre-categorías-de-convexidad" class="nav-link" data-scroll-target="#relaciones-entre-categorías-de-convexidad"><span class="header-section-number">3.7.3</span> Relaciones entre Categorías de Convexidad</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Convexo</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>El <strong>análisis convexo</strong> constituye la columna vertebral de la optimización matemática moderna. Históricamente, la optimización estuvo dominada por el paradigma de la linealidad frente a la no linealidad. Sin embargo, a finales del siglo XX se produjo un cambio de paradigma fundamental, resumido por el matemático R. Tyrrell Rockafellar: <em>“la divisoria fundamental en optimización no es entre linealidad y no linealidad, sino entre convexidad y no convexidad”</em>. Bajo la hipótesis de convexidad, cualquier óptimo local se convierte de manera natural en un óptimo global. Esta propiedad crucial no solo simplifica la búsqueda teórica de soluciones, sino que garantiza la convergencia fiable y veloz de los algoritmos numéricos, evitando que queden atrapados en mínimos locales subóptimos.</p>
+<p>En este capítulo, estudiaremos los conjuntos convexos y las operaciones que preservan esta propiedad, las caracterizaciones de primer y segundo orden para funciones convexas diferenciables y no diferenciables (subgradientes), las propiedades fundamentales de sus extremos y las generalizaciones teóricas de la convexidad (cuasi-convexidad y pseudo-convexidad).</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Objetivos de aprendizaje">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo, serás capaz de:</p>
+<ol type="1">
+<li><strong>Identificar y demostrar</strong> si un conjunto dado en <span class="math inline">\(\mathbb{R}^n\)</span> es convexo aplicando la definición o las propiedades algebraicas de conservación.</li>
+<li><strong>Diferenciar</strong> entre combinaciones lineales, afines, cónicas y convexas, analizando la estructura geométrica de sus envolturas.</li>
+<li><strong>Comprender e interpretar</strong> los Teoremas de Separación de Hiperplanos y del Hiperplano de Soporte.</li>
+<li><strong>Caracterizar la convexidad de funciones</strong> mediante las propiedades del epígrafe, los conjuntos de nivel y las caracterizaciones de primer y segundo orden (gradiente y hessiana).</li>
+<li><strong>Calcular el subdiferencial</strong> de funciones convexas no diferenciables en puntos singulares de esquina o codo, y aplicar el cálculo de subgradientes.</li>
+<li><strong>Aplicar el Teorema Fundamental de la Optimización Convexa</strong> para deconstruir y verificar la globalidad y unicidad de los mínimos.</li>
+<li><strong>Clasificar y relacionar</strong> las funciones cuasi-convexas, pseudo-convexas y sus variantes, comprendiendo sus implicaciones en la optimización restringida.</li>
+</ol>
+</div>
+</div>
+<section id="conjuntos-convexos" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="conjuntos-convexos"><span class="header-section-number">3.1</span> Conjuntos Convexos</h2>
+<section id="definición-y-conceptos-básicos" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="definición-y-conceptos-básicos"><span class="header-section-number">3.1.1</span> 1. Definición y Conceptos Básicos</h3>
+<p>Un conjunto es convexo si no presenta “entrantes” o cavidades, de modo que la conexión recta entre cualquier pareja de sus puntos está totalmente contenida en él.</p>
+<ul>
+<li><strong>Conjunto Convexo</strong>: Un conjunto <span class="math inline">\(\mathcal{S} \subseteq \mathbb{R}^n\)</span> es <strong>convexo</strong> si: <span class="math display">\[ \forall x_1, x_2 \in \mathcal{S}, \quad \forall \lambda \in (0, 1) \implies \lambda x_1 + (1 - \lambda) x_2 \in \mathcal{S} \]</span></li>
+<li><strong>Combinación Lineal Convexa</strong>: Un punto <span class="math inline">\(x\)</span> es una combinación lineal convexa de un conjunto finito de puntos <span class="math inline">\(\{x_1, \dots, x_k\} \subset \mathbb{R}^n\)</span> si puede expresarse de la forma: <span class="math display">\[ x = \sum_{i=1}^k \lambda_i x_i \quad \text{con} \quad \lambda_i \ge 0 \quad \text{y} \quad \sum_{i=1}^k \lambda_i = 1 \]</span></li>
+<li><strong>Combinación Afín</strong>: Se obtiene eliminando la condición de no negatividad de los coeficientes (<span class="math inline">\(\lambda_i \in \mathbb{R}\)</span> con <span class="math inline">\(\sum_{i=1}^k \lambda_i = 1\)</span>). Genera subespacios afines (rectas, planos, etc.).</li>
+<li><strong>Combinación Conica</strong>: Se define exigiendo únicamente la no negatividad de los coeficientes (<span class="math inline">\(\lambda_i \ge 0\)</span> sin exigir que sumen 1). Genera conos convexos.</li>
+<li><strong>Combinación Lineal</strong>: Se define eliminando ambas condiciones (<span class="math inline">\(\lambda_i \in \mathbb{R}\)</span> sin restricciones). Genera subespacios vectoriales.</li>
+</ul>
+</section>
+<section id="ejemplos-de-conjuntos-convexos-básicos" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="ejemplos-de-conjuntos-convexos-básicos"><span class="header-section-number">3.1.2</span> 2. Ejemplos de Conjuntos Convexos Básicos</h3>
+<ul>
+<li><strong>Hiperplano</strong>: Dado un vector normal no nulo <span class="math inline">\(p \in \mathbb{R}^n\)</span> y un escalar <span class="math inline">\(\alpha \in \mathbb{R}\)</span>, el hiperplano es: <span class="math display">\[ \mathcal{H} = \{ x \in \mathbb{R}^n \mid p^T x = \alpha \} \]</span> Representa una superficie plana de dimensión <span class="math inline">\(n-1\)</span>.</li>
+<li><strong>Semiespacio Cerrado</strong>: La región del espacio situada en uno de los lados de un hiperplano: <span class="math display">\[ \mathcal{H}^- = \{ x \in \mathbb{R}^n \mid p^T x \le \alpha \} \]</span></li>
+<li><strong>Poliedro o Politopo Convexo</strong>: La intersección de un número finito de semiespacios cerrados: <span class="math display">\[ \mathcal{P} = \{ x \in \mathbb{R}^n \mid A x \le b \} \]</span> Constituye la región factible típica de la programación lineal. Sus esquinas o vértices se denominan <strong>puntos extremos</strong>.</li>
+<li><strong>Bola Métrica</strong>: Una bola cerrada en <span class="math inline">\(\mathbb{R}^n\)</span> con centro en <span class="math inline">\(x_0\)</span> y radio <span class="math inline">\(r \ge 0\)</span> definida bajo cualquier norma <span class="math inline">\(\|\cdot\|\)</span>: <span class="math display">\[ \mathcal{B}_r(x_0) = \{ x \in \mathbb{R}^n \mid \|x - x_0\| \le r \} \]</span></li>
+</ul>
+</section>
+<section id="operaciones-que-conservan-la-convexidad" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="operaciones-que-conservan-la-convexidad"><span class="header-section-number">3.1.3</span> 3. Operaciones que Conservan la Convexidad</h3>
+<div class="callout callout-style-default callout-note callout-titled" title="Lema: Conservación de la Convexidad">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Lema: Conservación de la Convexidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sean <span class="math inline">\(\mathcal{S}_1\)</span> y <span class="math inline">\(\mathcal{S}_2\)</span> dos conjuntos convexos en <span class="math inline">\(\mathbb{R}^n\)</span>. Las siguientes estructuras también son conjuntos convexos:</p>
+<ol type="1">
+<li><strong>Intersección</strong>: <span class="math display">\[ \mathcal{S}_1 \cap \mathcal{S}_2 \]</span> (Esta propiedad se extiende a la intersección de una familia infinita o arbitraria de conjuntos convexos).</li>
+<li><strong>Suma Directa</strong>: <span class="math display">\[ \mathcal{S}_1 \oplus \mathcal{S}_2 = \{ x_1 + x_2 \mid x_1 \in \mathcal{S}_1, \ x_2 \in \mathcal{S}_2 \} \]</span></li>
+<li><strong>Diferencia Directa</strong>: <span class="math display">\[ \mathcal{S}_1 \ominus \mathcal{S}_2 = \{ x_1 - x_2 \mid x_1 \in \mathcal{S}_1, \ x_2 \in \mathcal{S}_2 \} \]</span></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="envoltura-convexa-y-símplices" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="envoltura-convexa-y-símplices"><span class="header-section-number">3.1.4</span> 4. Envoltura Convexa y Símplices</h3>
+<ul>
+<li><strong>Envoltura Convexa (<span class="math inline">\(\mathcal{H}(\mathcal{S})\)</span>)</strong>: El conjunto de todas las combinaciones lineales convexas posibles de puntos pertenecientes al conjunto <span class="math inline">\(\mathcal{S}\)</span>: <span class="math display">\[ \mathcal{H}(\mathcal{S}) = \left\{ x = \sum_{j=1}^k \lambda_j x_j \;\middle|\; x_j \in \mathcal{S}, \ \lambda_j \ge 0, \ \sum_{j=1}^k \lambda_j = 1 \right\} \]</span></li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Minimalidad de la Envoltura Convexa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Minimalidad de la Envoltura Convexa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La envoltura convexa <span class="math inline">\(\mathcal{H}(\mathcal{S})\)</span> es el menor conjunto convexo que contiene al conjunto <span class="math inline">\(\mathcal{S}\)</span>.</p>
+<p><em>Demostración</em>: Sea <span class="math inline">\(\mathcal{C}\)</span> cualquier conjunto convexo que contiene a <span class="math inline">\(\mathcal{S}\)</span> (es decir, <span class="math inline">\(\mathcal{S} \subseteq \mathcal{C}\)</span>). Supongamos por reducción al absurdo que existe un punto <span class="math inline">\(x \in \mathcal{H}(\mathcal{S})\)</span> tal que <span class="math inline">\(x \notin \mathcal{C}\)</span>. Como <span class="math inline">\(x \in \mathcal{H}(\mathcal{S})\)</span>, se puede escribir como una combinación lineal convexa <span class="math inline">\(x = \sum_{j=1}^k \lambda_j x_j\)</span> donde cada <span class="math inline">\(x_j \in \mathcal{S}\)</span>. Dado que <span class="math inline">\(\mathcal{S} \subseteq \mathcal{C}\)</span>, se deduce que todos los puntos generadores <span class="math inline">\(x_j\)</span> pertenecen a <span class="math inline">\(\mathcal{C}\)</span>. Como <span class="math inline">\(\mathcal{C}\)</span> es convexo por hipótesis, cualquier combinación lineal convexa de sus elementos debe pertenecer a él, lo que obliga a que <span class="math inline">\(x \in \mathcal{C}\)</span>, contradiciendo la suposición inicial. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<ul>
+<li><strong>Símplex</strong>: Un politopo convexo generado por la envoltura convexa de <span class="math inline">\(n+1\)</span> puntos afínmente independientes en <span class="math inline">\(\mathbb{R}^n\)</span>. Un simplex en <span class="math inline">\(\mathbb{R}^1\)</span> es un segmento, en <span class="math inline">\(\mathbb{R}^2\)</span> es un triángulo y en <span class="math inline">\(\mathbb{R}^3\)</span> es un tetraedro.</li>
+</ul>
+</section>
+</section>
+<section id="teoremas-de-separación-e-hiperplano-de-soporte" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="teoremas-de-separación-e-hiperplano-de-soporte"><span class="header-section-number">3.2</span> Teoremas de Separación e Hiperplano de Soporte</h2>
+<p>La geometría convexa descansa sobre dos teoremas fundamentales que fundamentan la teoría de la dualidad y los multiplicadores de Lagrange.</p>
+<section id="teoremas-de-separación-de-hiperplanos" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="teoremas-de-separación-de-hiperplanos"><span class="header-section-number">3.2.1</span> 1. Teoremas de Separación de Hiperplanos</h3>
+<p>Estos teoremas establecen las condiciones bajo las cuales es posible “trazar una frontera plana” (un hiperplano) que separe dos conjuntos convexos disjuntos.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema de Separación Débil">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema de Separación Débil
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sean <span class="math inline">\(\mathcal{C}\)</span> y <span class="math inline">\(\mathcal{D}\)</span> dos conjuntos convexos disjuntos no vacíos en <span class="math inline">\(\mathbb{R}^n\)</span>. Entonces existe un hiperplano que los separa débilmente. Es decir, existen un vector no nulo <span class="math inline">\(p \in \mathbb{R}^n\)</span> y un escalar <span class="math inline">\(\alpha \in \mathbb{R}\)</span> tales que: <span class="math display">\[ p^T x \le \alpha, \quad \forall x \in \mathcal{C} \qquad \text{y} \qquad p^T y \ge \alpha, \quad \forall y \in \mathcal{D} \]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema de Separación Estricta">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema de Separación Estricta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sean <span class="math inline">\(\mathcal{C}\)</span> y <span class="math inline">\(\mathcal{D}\)</span> dos conjuntos convexos disjuntos no vacíos en <span class="math inline">\(\mathbb{R}^n\)</span>. Si además <span class="math inline">\(\mathcal{C}\)</span> es cerrado y <span class="math inline">\(\mathcal{D}\)</span> es cerrado y acotado (compacto), entonces existe un hiperplano que los separa estrictamente. Es decir, existen un vector no nulo <span class="math inline">\(p \in \mathbb{R}^n\)</span> y un escalar <span class="math inline">\(\alpha \in \mathbb{R}\)</span> tales que: <span class="math display">\[ p^T x &lt; \alpha, \quad \forall x \in \mathcal{C} \qquad \text{y} \qquad p^T y &gt; \alpha, \quad \forall y \in \mathcal{D} \]</span></p>
+</div>
+</div>
+</section>
+<section id="teorema-del-hiperplano-de-soporte" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="teorema-del-hiperplano-de-soporte"><span class="header-section-number">3.2.2</span> 2. Teorema del Hiperplano de Soporte</h3>
+<p>Un hiperplano de soporte para un conjunto <span class="math inline">\(\mathcal{S}\)</span> en un punto de su frontera <span class="math inline">\(x_0 \in \partial \mathcal{S}\)</span> es un hiperplano que pasa por <span class="math inline">\(x_0\)</span> y deja a todo el conjunto <span class="math inline">\(\mathcal{S}\)</span> contenido en uno de sus semiespacios cerrados.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema del Hiperplano de Soporte">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema del Hiperplano de Soporte
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(\mathcal{S}\)</span> un conjunto convexo no vacío en <span class="math inline">\(\mathbb{R}^n\)</span>, y sea <span class="math inline">\(x_0\)</span> un punto perteneciente a la frontera de <span class="math inline">\(\mathcal{S}\)</span> (<span class="math inline">\(x_0 \in \partial \mathcal{S}\)</span>). Entonces existe un hiperplano de soporte para <span class="math inline">\(\mathcal{S}\)</span> en <span class="math inline">\(x_0\)</span>. Es decir, existe un vector no nulo <span class="math inline">\(p \in \mathbb{R}^n\)</span> tal que: <span class="math display">\[ p^T x \le p^T x_0, \quad \forall x \in \mathcal{S} \]</span></p>
+</div>
+</div>
+<p>Este teorema garantiza que para cualquier conjunto convexo siempre podemos “apoyar” un plano sobre cualquier punto de su superficie exterior sin llegar a cruzar el interior del conjunto.</p>
+</section>
+</section>
+<section id="funciones-convexas" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="funciones-convexas"><span class="header-section-number">3.3</span> Funciones Convexas</h2>
+<section id="definición-y-significado-geométrico" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="definición-y-significado-geométrico"><span class="header-section-number">3.3.1</span> 1. Definición y Significado Geométrico</h3>
+<ul>
+<li><strong>Función Convexa</strong>: Sea <span class="math inline">\(\mathcal{S} \subseteq \mathbb{R}^n\)</span> un conjunto convexo no vacío. Una función <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> es <strong>convexa</strong> si para todo par de puntos <span class="math inline">\(x_1, x_2 \in \mathcal{S}\)</span> y cualquier parámetro <span class="math inline">\(\lambda \in (0, 1)\)</span> se cumple que: <span class="math display">\[ f(\lambda x_1 + (1 - \lambda) x_2) \le \lambda f(x_1) + (1 - \lambda) f(x_2) \]</span></li>
+<li><strong>Función Estrictamente Convexa</strong>: Si la desigualdad anterior es estricta (<span class="math inline">\(&lt;\)</span>) para todo <span class="math inline">\(x_1 \neq x_2\)</span>.</li>
+<li><strong>Función Cóncava</strong>: Una función <span class="math inline">\(f\)</span> es cóncava si su opuesta <span class="math inline">\(-f\)</span> es convexa.</li>
+</ul>
+<p>Geométricamente, una función es convexa si el segmento de cuerda que une los puntos de la gráfica <span class="math inline">\((x_1, f(x_1))\)</span> y <span class="math inline">\((x_2, f(x_2))\)</span> queda por encima o sobre la gráfica de la función en dicho intervalo.</p>
+</section>
+<section id="operaciones-que-preservan-la-convexidad-de-funciones" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="operaciones-que-preservan-la-convexidad-de-funciones"><span class="header-section-number">3.3.2</span> 2. Operaciones que Preservan la Convexidad de Funciones</h3>
+<ul>
+<li><strong>Suma ponderada positiva</strong>: Si <span class="math inline">\(f_1, \dots, f_k\)</span> son convexas y <span class="math inline">\(\alpha_1, \dots, \alpha_k \ge 0\)</span>, entonces la combinación <span class="math inline">\(\sum_j \alpha_j f_j\)</span> es convexa.</li>
+<li><strong>Supremo puntual (Máximo)</strong>: Si <span class="math inline">\(f_1, \dots, f_k\)</span> son convexas, la función envoltura superior <span class="math inline">\(f(x) = \max_{j} \{f_j(x)\}\)</span> es convexa.</li>
+<li><strong>Composición afín</strong>: Si <span class="math inline">\(g: \mathbb{R}^m \to \mathbb{R}\)</span> es convexa y <span class="math inline">\(h(x) = A x + b\)</span> es una función afín, entonces la composición <span class="math inline">\(f(x) = g(A x + b)\)</span> es convexa.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Convexidad de los Conjuntos de Nivel">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Convexidad de los Conjuntos de Nivel
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> una función convexa sobre un dominio convexo <span class="math inline">\(\mathcal{S}\)</span>. Para cualquier constante <span class="math inline">\(\alpha \in \mathbb{R}\)</span>, el conjunto de nivel inferior: <span class="math display">\[ \mathcal{S}_\alpha = \{ x \in \mathcal{S} \mid f(x) \le \alpha \} \]</span> es un conjunto convexo.</p>
+<p><em>Demostración</em>: Sean <span class="math inline">\(x_1, x_2 \in \mathcal{S}_\alpha\)</span>. Por definición del conjunto de nivel, se cumple que <span class="math inline">\(f(x_1) \le \alpha\)</span> y <span class="math inline">\(f(x_2) \le \alpha\)</span>. Sea <span class="math inline">\(\lambda \in (0, 1)\)</span>. Como el dominio <span class="math inline">\(\mathcal{S}\)</span> es convexo, el punto intermedio <span class="math inline">\(\lambda x_1 + (1 - \lambda) x_0\)</span> pertenece a <span class="math inline">\(\mathcal{S}\)</span>. Aplicando la definición de convexidad de <span class="math inline">\(f\)</span>: <span class="math display">\[ f(\lambda x_1 + (1 - \lambda) x_2) \le \lambda f(x_1) + (1 - \lambda) f(x_2) \le \lambda \alpha + (1 - \lambda) \alpha = \alpha \]</span> Por tanto, <span class="math inline">\(\lambda x_1 + (1 - \lambda) x_2 \in \mathcal{S}_\alpha\)</span>, lo que demuestra la convexidad del conjunto de nivel. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<p><em>Nota</em>: El recíproco no es cierto en general (una función con conjuntos de nivel convexos no tiene por qué ser convexa; esta propiedad define a las funciones cuasi-convexas).</p>
+</section>
+<section id="epígrafe-y-subgradientes" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="epígrafe-y-subgradientes"><span class="header-section-number">3.3.3</span> 3. Epígrafe y Subgradientes</h3>
+<ul>
+<li><strong>Epígrafe (<span class="math inline">\(\text{epi } f\)</span>)</strong>: El conjunto de puntos en <span class="math inline">\(\mathbb{R}^{n+1}\)</span> situados sobre o por encima de la gráfica de la función: <span class="math display">\[ \text{epi } f = \{ (x, y) \in \mathcal{S} \times \mathbb{R} \mid y \ge f(x) \} \]</span></li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Relación entre Epígrafe y Convexidad">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Relación entre Epígrafe y Convexidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una función <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> es convexa si y solo si su epígrafe <span class="math inline">\(\text{epi } f\)</span> es un conjunto convexo en <span class="math inline">\(\mathbb{R}^{n+1}\)</span>.</p>
+<p><em>Demostración</em>: <span class="math inline">\((\Longrightarrow)\)</span> Supongamos que <span class="math inline">\(f\)</span> es convexa. Sean <span class="math inline">\((x_1, y_1), (x_2, y_2) \in \text{epi } f\)</span> y <span class="math inline">\(\lambda \in (0, 1)\)</span>. Por definición de epígrafe, <span class="math inline">\(y_1 \ge f(x_1)\)</span> y <span class="math inline">\(y_2 \ge f(x_2)\)</span>. Evaluando la combinación lineal: <span class="math display">\[ \lambda y_1 + (1 - \lambda) y_2 \ge \lambda f(x_1) + (1 - \lambda) f(x_2) \ge f(\lambda x_1 + (1 - \lambda) x_2) \]</span> Como <span class="math inline">\(\mathcal{S}\)</span> es convexo, el punto combinado pertenece a <span class="math inline">\(\mathcal{S}\)</span>, y el par combinado pertenece a <span class="math inline">\(\text{epi } f\)</span>, demostrando su convexidad.</p>
+<p><span class="math inline">\((\Longleftarrow)\)</span> Supongamos que <span class="math inline">\(\text{epi } f\)</span> es un conjunto convexo. Sean <span class="math inline">\(x_1, x_2 \in \mathcal{S}\)</span>. Los puntos <span class="math inline">\((x_1, f(x_1))\)</span> y <span class="math inline">\((x_2, f(x_2))\)</span> pertenecen a <span class="math inline">\(\text{epi } f\)</span>. Por convexidad del epígrafe, para todo <span class="math inline">\(\lambda \in (0, 1)\)</span>: <span class="math display">\[ \lambda (x_1, f(x_1)) + (1 - \lambda)(x_2, f(x_2)) = (\lambda x_1 + (1 - \lambda) x_2, \lambda f(x_1) + (1 - \lambda) f(x_2)) \in \text{epi } f \]</span> Lo que implica directamente que <span class="math inline">\(\lambda f(x_1) + (1 - \lambda) f(x_2) \ge f(\lambda x_1 + (1 - \lambda) x_2)\)</span>, es decir, <span class="math inline">\(f\)</span> es convexa. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<ul>
+<li><p><strong>Subgradiente y Subdiferencial</strong>: Para funciones no diferenciables (que presentan picos o codos), el gradiente no existe en ciertos puntos. Generalizamos este concepto mediante el <strong>subgradiente</strong>. Un vector <span class="math inline">\(\xi \in \mathbb{R}^n\)</span> es un subgradiente de la función convexa <span class="math inline">\(f\)</span> en el punto <span class="math inline">\(x_0 \in \mathcal{S}\)</span> si: <span class="math display">\[ f(x) \ge f(x_0) + \xi^T(x - x_0), \quad \forall x \in \mathcal{S} \]</span> Geométricamente, define un hiperplano que apoya a la función desde abajo en <span class="math inline">\(x_0\)</span>. El conjunto de todos los subgradientes en <span class="math inline">\(x_0\)</span> se denomina <strong>subdiferencial</strong> y se denota por <span class="math inline">\(\partial f(x_0)\)</span>.</p>
+<p>El subdiferencial <span class="math inline">\(\partial f(x_0)\)</span> es siempre un conjunto convexo y cerrado. Si la función es diferenciable en <span class="math inline">\(x_0\)</span>, el subdiferencial contiene un único elemento que es el gradiente: <span class="math inline">\(\partial f(x_0) = \{\nabla f(x_0)\}\)</span>.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Propiedades y Cálculo del Subdiferencial">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Propiedades y Cálculo del Subdiferencial
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El cálculo con subgradientes sigue reglas análogas al cálculo diferencial estándar:</p>
+<ol type="1">
+<li><strong>Regla de la Suma</strong>: Si <span class="math inline">\(f_1, f_2\)</span> son funciones convexas, el subdiferencial de su suma cumple: <span class="math display">\[ \partial (f_1(x) + f_2(x)) = \partial f_1(x) \oplus \partial f_2(x) \]</span></li>
+<li><strong>Multiplicación Escalar</strong>: Para cualquier constante <span class="math inline">\(\alpha \ge 0\)</span>: <span class="math display">\[ \partial (\alpha f(x)) = \alpha \partial f(x) \]</span></li>
+<li><strong>Máximo de Funciones</strong>: Si <span class="math inline">\(f(x) = \max \{f_1(x), f_2(x)\}\)</span> con <span class="math inline">\(f_1, f_2\)</span> convexas: <span class="math display">\[ \partial f(x) = \mathcal{H}(\cup_{i \in \mathcal{I}(x)} \partial f_i(x)) \]</span> donde <span class="math inline">\(\mathcal{I}(x)\)</span> es el conjunto de índices de las funciones que alcanzan el máximo en el punto <span class="math inline">\(x\)</span>.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Caso de Estudio: Subdiferencial en Puntos Singulares (No Diferenciabilidad)">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Caso de Estudio: Subdiferencial en Puntos Singulares (No Diferenciabilidad)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideremos la función convexa definida por tramos: <span class="math display">\[ f(x) = \max \{ |x| - 4, \ (x - 2)^2 - 4 \} \]</span> Analicemos su subdiferencial <span class="math inline">\(\partial f(x_0)\)</span> en diferentes regiones de la recta real:</p>
+<ul>
+<li><strong>Región diferenciable lineal</strong>: Para <span class="math inline">\(x_0 \in (1, 4)\)</span>, la función coincide con la recta <span class="math inline">\(x - 4\)</span>. Su derivada es constante e igual a 1. Por tanto, el subdiferencial es el conjunto unitario: <span class="math inline">\(\partial f(x_0) = \{1\}\)</span>.</li>
+<li><strong>Región diferenciable cuadrática</strong>: Para <span class="math inline">\(x_0 &lt; 1\)</span> o <span class="math inline">\(x_0 &gt; 4\)</span>, la función coincide con la parábola <span class="math inline">\((x-2)^2 - 4\)</span>. La derivada es <span class="math inline">\(2(x_0 - 2)\)</span>. Así, <span class="math inline">\(\partial f(x_0) = \{2(x_0 - 2)\}\)</span>.</li>
+<li><strong>Punto singular <span class="math inline">\(x_0 = 1\)</span></strong>: La función presenta un codo donde intersecan la parábola y la recta. La derivada lateral izquierda (cuadrática) es <span class="math inline">\(2(1-2) = -2\)</span>, y la derivada lateral derecha (lineal) es <span class="math inline">\(1\)</span>. El subdiferencial está formado por todas las pendientes intermedias posibles (combinación convexa de las derivadas laterales): <span class="math display">\[ \partial f(1) = [-2, 1] \]</span></li>
+<li><strong>Punto singular <span class="math inline">\(x_0 = 4\)</span></strong>: La derivada lateral izquierda es <span class="math inline">\(1\)</span> y la derecha es <span class="math inline">\(2(4-2) = 4\)</span>. El subdiferencial es el intervalo: <span class="math display">\[ \partial f(4) = [1, 4] \]</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="caracterización-de-funciones-convexas-diferenciables" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="caracterización-de-funciones-convexas-diferenciables"><span class="header-section-number">3.4</span> Caracterización de Funciones Convexas Diferenciables</h2>
+<section id="caracterización-de-primer-orden" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="caracterización-de-primer-orden"><span class="header-section-number">3.4.1</span> 1. Caracterización de Primer Orden</h3>
+<p>Cuando una función es diferenciable, podemos caracterizar su convexidad analizando su plano tangente.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Caracterización de Primer Orden para Funciones Diferenciables">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Caracterización de Primer Orden para Funciones Diferenciables
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> una función diferenciable en un conjunto convexo y abierto <span class="math inline">\(\mathcal{S}\)</span>.</p>
+<ol type="1">
+<li><span class="math inline">\(f\)</span> es convexa si y solo si: <span class="math display">\[ f(x) \ge f(x_0) + \nabla f(x_0)^T (x - x_0), \quad \forall x, x_0 \in \mathcal{S} \]</span></li>
+<li><span class="math inline">\(f\)</span> es estrictamente convexa si y solo si: <span class="math display">\[ f(x) &gt; f(x_0) + \nabla f(x_0)^T (x - x_0), \quad \forall x, x_0 \in \mathcal{S} \text{ con } x \neq x_0 \]</span></li>
+</ol>
+</div>
+</div>
+<p><em>Significado geométrico</em>: La aproximación lineal de primer orden (plano tangente en cualquier punto <span class="math inline">\(x_0\)</span>) es un estimador inferior global de la función. Es decir, la gráfica de la función se apoya en su totalidad sobre el plano tangente.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Monotonía del Gradiente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Monotonía del Gradiente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una función diferenciable <span class="math inline">\(f\)</span> es convexa en un conjunto convexo abierto <span class="math inline">\(\mathcal{S}\)</span> si y solo si su gradiente es un operador monótono: <span class="math display">\[ (\nabla f(x_2) - \nabla f(x_1))^T(x_2 - x_1) \ge 0, \quad \forall x_1, x_2 \in \mathcal{S} \]</span></p>
+<p><em>Demostración</em>: <span class="math inline">\((\Longrightarrow)\)</span> Si <span class="math inline">\(f\)</span> es convexa, por la caracterización de primer orden se cumplen simultáneamente: <span class="math display">\[ f(x_1) \ge f(x_2) + \nabla f(x_2)^T (x_1 - x_2) \]</span> <span class="math display">\[ f(x_2) \ge f(x_1) + \nabla f(x_1)^T (x_2 - x_1) \]</span> Sumando ambas inecuaciones miembro a miembro: <span class="math display">\[ f(x_1) + f(x_2) \ge f(x_2) + f(x_1) + \nabla f(x_2)^T(x_1 - x_2) + \nabla f(x_1)^T(x_2 - x_1) \]</span> Cancelando términos comunes y reordenando: <span class="math display">\[ 0 \ge (\nabla f(x_1) - \nabla f(x_2))^T (x_2 - x_1) \implies (\nabla f(x_2) - \nabla f(x_1))^T(x_2 - x_1) \ge 0 \]</span> <span class="math inline">\((\Longleftarrow)\)</span> Se demuestra de manera análoga aplicando el teorema del valor medio. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</section>
+<section id="caracterización-de-segundo-orden-hessiana" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="caracterización-de-segundo-orden-hessiana"><span class="header-section-number">3.4.2</span> 2. Caracterización de Segundo Orden (Hessiana)</h3>
+<p>La convexidad puede verificarse localmente analizando la concavidad o curvatura de segundo orden dada por la matriz hessiana en todo el dominio.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Caracterización de Segundo Orden">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Caracterización de Segundo Orden
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> una función dos veces diferenciable en un conjunto convexo abierto <span class="math inline">\(\mathcal{S}\)</span>.</p>
+<ol type="1">
+<li><span class="math inline">\(f\)</span> es convexa si y solo si su matriz hessiana es semidefinida positiva en todo punto de <span class="math inline">\(\mathcal{S}\)</span>: <span class="math display">\[ \nabla^2 f(x) \succeq 0, \quad \forall x \in \mathcal{S} \]</span></li>
+<li>Si la matriz hessiana es definida positiva en todo el dominio (<span class="math inline">\(\nabla^2 f(x) \succ 0, \forall x \in \mathcal{S}\)</span>), entonces <span class="math inline">\(f\)</span> es estrictamente convexa.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplos de Verificación de Convexidad con Matrices Hessianas">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplos de Verificación de Convexidad con Matrices Hessianas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Analicemos la convexidad de tres funciones de prueba:</p>
+<ul>
+<li><strong>Ejemplo 1</strong>: <span class="math display">\[ f(x_1, x_2, x_3) = x_1 x_2 + 2x_1^2 + x_2^2 + 2x_3^2 - 6x_1 x_3 \]</span> La matriz hessiana de esta función cuadrática es constante: <span class="math display">\[ \nabla^2 f = \begin{pmatrix} 4 &amp; 1 &amp; -6 \\ 1 &amp; 2 &amp; 0 \\ -6 &amp; 0 &amp; 4 \end{pmatrix} \]</span> Calculamos los menores principales líderes para aplicar el criterio de Sylvester:
+<ul>
+<li><span class="math inline">\(M_1 = 4 &gt; 0\)</span>.</li>
+<li><span class="math inline">\(M_2 = 4 \cdot 2 - 1^2 = 7 &gt; 0\)</span>.</li>
+<li><span class="math inline">\(M_3 = \det(\nabla^2 f) = 4(8) - 1(4) - 6(12) = -20 &lt; 0\)</span>. Al ser el determinante negativo, la matriz es indefinida, por lo que la función no es ni cóncava ni convexa en <span class="math inline">\(\mathbb{R}^3\)</span>.</li>
+</ul></li>
+<li><strong>Ejemplo 2</strong>: <span class="math display">\[ f(x_1, x_2) = 10 - 2(x_2 - x_1^2)^2 \]</span> La matriz hessiana es variable y depende del punto: <span class="math display">\[ \nabla^2 f(x) = \begin{pmatrix} 8x_2 - 24x_1^2 &amp; 8x_1 \\ 8x_1 &amp; -4 \end{pmatrix} \]</span> Para que sea cóncava se requiere <span class="math inline">\(\nabla^2 f(x) \preceq 0\)</span>, lo que exige que los menores verifiquen: <span class="math display">\[ 8x_2 - 24x_1^2 \le 0 \qquad \text{y} \qquad -4(8x_2 - 24x_1^2) - 64x_1^2 \ge 0 \implies 32(x_1^2 - x_2) \ge 0 \]</span> Esto define una región del plano donde <span class="math inline">\(x_2 \le x_1^2\)</span>.</li>
+<li><strong>Ejemplo 3</strong>: <span class="math display">\[ f(x, y, z) = x^2 + 3y^2 + z^2 + xy - 4z - 5x + 14 \]</span> Su hessiana es constante: <span class="math display">\[ \nabla^2 f = \begin{pmatrix} 2 &amp; 1 &amp; 0 \\ 1 &amp; 6 &amp; 0 \\ 0 &amp; 0 &amp; 2 \end{pmatrix} \]</span> Menores principales: <span class="math inline">\(M_1 = 2 &gt; 0\)</span>, <span class="math inline">\(M_2 = 11 &gt; 0\)</span>, <span class="math inline">\(M_3 = 22 &gt; 0\)</span>. Al ser definida positiva, la función es estrictamente convexa en todo el espacio.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="óptimos-de-una-función-convexa" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="óptimos-de-una-función-convexa"><span class="header-section-number">3.5</span> Óptimos de una Función Convexa</h2>
+<section id="el-teorema-fundamental-de-la-optimización-convexa" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="el-teorema-fundamental-de-la-optimización-convexa"><span class="header-section-number">3.5.1</span> 1. El Teorema Fundamental de la Optimización Convexa</h3>
+<p>La convexidad simplifica drásticamente la búsqueda de óptimos al eliminar la distinción entre mínimos locales y globales.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema Fundamental de la Optimización Convexa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema Fundamental de la Optimización Convexa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> una función convexa sobre un conjunto convexo <span class="math inline">\(\mathcal{S}\)</span>.</p>
+<ol type="1">
+<li><strong>Cualquier mínimo local de <span class="math inline">\(f\)</span> en <span class="math inline">\(\mathcal{S}\)</span> es también un mínimo global</strong>.</li>
+<li><strong>Si la función <span class="math inline">\(f\)</span> es estrictamente convexa, el mínimo global (si existe) es único</strong>.</li>
+</ol>
+<p><em>Demostración</em>: 1. Sea <span class="math inline">\(x^*\)</span> un mínimo local de <span class="math inline">\(f\)</span> en <span class="math inline">\(\mathcal{S}\)</span>. Por definición, existe un radio <span class="math inline">\(\epsilon &gt; 0\)</span> tal que <span class="math inline">\(f(x) \ge f(x^*)\)</span> para todo <span class="math inline">\(x \in \mathcal{S}\)</span> con <span class="math inline">\(\|x - x^*\| &lt; \epsilon\)</span>. Supongamos por contradicción que <span class="math inline">\(x^*\)</span> no es un mínimo global, lo que implica que existe un punto <span class="math inline">\(y \in \mathcal{S}\)</span> tal que <span class="math inline">\(f(y) &lt; f(x^*)\)</span>. Construimos una combinación lineal convexa de ambos puntos: <span class="math inline">\(x(\lambda) = \lambda y + (1-\lambda) x^*\)</span> para <span class="math inline">\(\lambda \in (0, 1)\)</span>. Como el dominio <span class="math inline">\(\mathcal{S}\)</span> es convexo, <span class="math inline">\(x(\lambda) \in \mathcal{S}\)</span>. Elegimos un <span class="math inline">\(\lambda\)</span> suficientemente pequeño de forma que el punto <span class="math inline">\(x(\lambda)\)</span> entre dentro de la bola de radio <span class="math inline">\(\epsilon\)</span> alrededor de <span class="math inline">\(x^*\)</span>. Aplicando la propiedad de convexidad de <span class="math inline">\(f\)</span>: <span class="math display">\[ f(x(\lambda)) \le \lambda f(y) + (1 - \lambda) f(x^*) &lt; \lambda f(x^*) + (1 - \lambda) f(x^*) = f(x^*) \]</span> Obtenemos que <span class="math inline">\(f(x(\lambda)) &lt; f(x^*)\)</span>, lo cual contradice directamente la suposición de que <span class="math inline">\(x^*\)</span> es un mínimo local. Por tanto, no puede existir tal punto <span class="math inline">\(y\)</span>, y <span class="math inline">\(x^*\)</span> es un mínimo global. 2. Supongamos que <span class="math inline">\(f\)</span> es estrictamente convexa y que existen dos mínimos globales distintos, <span class="math inline">\(x^*\)</span> e <span class="math inline">\(y^*\)</span>, con <span class="math inline">\(f(x^*) = f(y^*) = \alpha\)</span>. Sea el punto medio <span class="math inline">\(z = \frac{1}{2} x^* + \frac{1}{2} y^* \in \mathcal{S}\)</span>. Por la convexidad estricta de <span class="math inline">\(f\)</span>: <span class="math display">\[ f(z) &lt; \frac{1}{2} f(x^*) + \frac{1}{2} f(y^*) = \alpha \]</span> Resulta que <span class="math inline">\(f(z) &lt; \alpha\)</span>, lo que contradice que <span class="math inline">\(\alpha\)</span> sea el valor mínimo de la función. Por tanto, el mínimo global debe ser único. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</section>
+<section id="condición-variacional-de-optimalidad" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="condición-variacional-de-optimalidad"><span class="header-section-number">3.5.2</span> 2. Condición Variacional de Optimalidad</h3>
+<ul>
+<li><strong>Caracterización con subgradientes</strong>: Un punto <span class="math inline">\(x^*\)</span> es mínimo global de la función convexa <span class="math inline">\(f\)</span> en <span class="math inline">\(\mathcal{S}\)</span> si y solo si el vector nulo <span class="math inline">\(0\)</span> es un subgradiente de <span class="math inline">\(f\)</span> en <span class="math inline">\(x^*\)</span>: <span class="math display">\[ 0 \in \partial f(x^*) \]</span></li>
+<li><strong>Caracterización variacional diferenciable</strong>: Si <span class="math inline">\(f\)</span> es diferenciable, un punto <span class="math inline">\(x^*\)</span> es mínimo global si y solo si: <span class="math display">\[ \nabla f(x^*)^T (x - x^*) \ge 0, \quad \forall x \in \mathcal{S} \]</span> <em>Interpretación geométrica</em>: El gradiente <span class="math inline">\(\nabla f(x^*)\)</span> forma un ángulo agudo u obtuso con cualquier dirección que apunte hacia el interior del conjunto factible desde <span class="math inline">\(x^*\)</span>, lo que impide la existencia de direcciones de descenso admisibles.</li>
+</ul>
+</section>
+</section>
+<section id="maximización-de-funciones-convexas" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="maximización-de-funciones-convexas"><span class="header-section-number">3.6</span> Maximización de Funciones Convexas</h2>
+<p>La maximización de una función convexa es un problema no convexo y, por tanto, sumamente complejo.</p>
+<ul>
+<li>Las condiciones necesarias de primer orden (gradiente nulo en el interior) suelen identificar mínimos locales, no máximos.</li>
+<li><strong>Propiedad de los Puntos Extremos</strong>: Si maximizamos una función convexa <span class="math inline">\(f\)</span> sobre un politopo convexo y acotado (compacto) <span class="math inline">\(\mathcal{S}\)</span>, la teoría matemática garantiza que el máximo global se sitúa en alguno de los <strong>puntos extremos</strong> (vértices) del politopo. Esto justifica que los algoritmos de maximización convexa se centren exclusivamente en explorar los vértices del espacio de soluciones.</li>
+</ul>
+</section>
+<section id="generalizaciones-de-la-convexidad" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="generalizaciones-de-la-convexidad"><span class="header-section-number">3.7</span> Generalizaciones de la Convexidad</h2>
+<p>Para mantener las ventajas de la optimalidad global sobre una familia de problemas más amplia, relajamos las exigencias de la convexidad pura:</p>
+<section id="funciones-cuasi-convexas" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="funciones-cuasi-convexas"><span class="header-section-number">3.7.1</span> 1. Funciones Cuasi-convexas</h3>
+<p>Una función es cuasi-convexa si todos sus conjuntos de nivel inferior <span class="math inline">\(\mathcal{S}_\alpha\)</span> son convexos. De manera formal: <span class="math display">\[ f(\lambda x_1 + (1 - \lambda) x_2) \le \max \{ f(x_1), f(x_2) \}, \quad \forall x_1, x_2 \in \mathcal{S}, \ \forall \lambda \in [0, 1] \]</span></p>
+<ul>
+<li><strong>Cuasi-convexidad Estricta</strong>: <span class="math display">\[ f(\lambda x_1 + (1 - \lambda) x_2) &lt; \max \{ f(x_1), f(x_2) \}, \quad \forall x_1, x_2 \in \mathcal{S} \text{ con } f(x_1) \neq f(x_2) \]</span></li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Mínimos en Funciones Estrictamente Cuasi-convexas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Mínimos en Funciones Estrictamente Cuasi-convexas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> es una función estrictamente cuasi-convexa definida en un conjunto convexo <span class="math inline">\(\mathcal{S}\)</span>, entonces cualquier mínimo local es también un mínimo global.</p>
+<p><em>Demostración</em>: Supongamos por contradicción que <span class="math inline">\(x^*\)</span> es un mínimo local que no es global. Entonces existe un punto <span class="math inline">\(y \in \mathcal{S}\)</span> tal que <span class="math inline">\(f(y) &lt; f(x^*)\)</span>. Para todo <span class="math inline">\(\lambda \in (0, 1)\)</span>, consideramos el punto intermedio <span class="math inline">\(x(\lambda) = \lambda y + (1-\lambda) x^*\)</span> para <span class="math inline">\(\lambda \in (0, 1)\)</span>. Como <span class="math inline">\(x^*\)</span> es mínimo local, para valores suficientemente pequeños de <span class="math inline">\(\lambda\)</span> se cumple que <span class="math inline">\(f(x^*) \le f(x(\lambda))\)</span>. Sin embargo, al ser <span class="math inline">\(f\)</span> estrictamente cuasi-convexa y cumplirse que <span class="math inline">\(f(y) &lt; f(x^*)\)</span>: <span class="math display">\[ f(x(\lambda)) &lt; \max \{ f(y), f(x^*) \} = f(x^*) \]</span> Obtenemos que <span class="math inline">\(f(x(\lambda)) &lt; f(x^*)\)</span>, contradiciendo de forma directa que <span class="math inline">\(x^*\)</span> sea un mínimo local. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</section>
+<section id="funciones-pseudo-convexas" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="funciones-pseudo-convexas"><span class="header-section-number">3.7.2</span> 2. Funciones Pseudo-convexas</h3>
+<p>Para funciones diferenciables, la pseudo-convexidad exige que si la función presenta una dirección de subida local, la función crece globalmente en esa dirección: <span class="math display">\[ \nabla f(x_1)^T (x_2 - x_1) \ge 0 \implies f(x_2) \ge f(x_1) \]</span></p>
+<p>Esta propiedad es de gran valor práctico: <strong>cualquier punto estacionario (<span class="math inline">\(\nabla f(x^*) = 0\)</span>) en una función pseudo-convexa es de forma garantizada un mínimo global</strong>.</p>
+<ul>
+<li><strong>Pseudo-convexidad Estricta</strong>: <span class="math display">\[ \nabla f(x_1)^T (x_2 - x_1) \ge 0 \implies f(x_2) &gt; f(x_1) \quad \text{para } x_1 \neq x_2 \]</span></li>
+</ul>
+</section>
+<section id="relaciones-entre-categorías-de-convexidad" class="level3" data-number="3.7.3">
+<h3 data-number="3.7.3" class="anchored" data-anchor-id="relaciones-entre-categorías-de-convexidad"><span class="header-section-number">3.7.3</span> Relaciones entre Categorías de Convexidad</h3>
+<p>Las relaciones de implicación lógica entre estas definiciones se estructuran de la siguiente manera:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/relaciones_convexidad_v2.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Relaciones entre categorías de convexidad</figcaption>
+</figure>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tema2.html" class="pagination-link" aria-label="Optimización No Lineal y Métodos Numéricos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización No Lineal y Métodos Numéricos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema4.html" class="pagination-link" aria-label="Condiciones de Optimalidad y KKT">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de Optimalidad y KKT</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

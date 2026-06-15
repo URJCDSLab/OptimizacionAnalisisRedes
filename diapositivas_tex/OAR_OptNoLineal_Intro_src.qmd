@@ -1,0 +1,2296 @@
+\documentclass[aspectratio=169]{beamer}
+
+
+\mode<presentation> {
+	\usetheme{Boadilla}
+	%	\setbeamercovered{transparent}
+	\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all 
+}
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+%\usepackage{pstcol,fancybox,pst-node,pst-tree}
+
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows}
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\usepackage{pgfplots}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+	\href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on no lineal] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+	\textbf{Optimizaci\'on no lineal} \\ Introducción
+}
+
+\author[] {Antonio Alonso Ayuso \\ \url{antonio.alonso@urjc.es}}
+
+\institute[]
+{
+	Universidad Rey Juan Carlos\\
+	
+	%there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{\today}
+
+
+\AtBeginSubsection[] 
+{
+	\begin{frame}<beamer>
+	\frametitle{Contenidos}
+	\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded,subsubsectionstyle=hide]
+	%\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+\AtBeginSection[] 
+{
+\begin{frame}<beamer>
+\frametitle{Contenidos}
+\tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide,subsubsectionstyle=hide]
+\end{frame}
+}
+
+
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+\newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vQ}{\V{Q}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+%%
+%%
+%%
+%% Letras griegas (son las dos primeras letras)
+%%
+\newcommand{\al}{\alpha}
+\newcommand{\be}{\beta}
+\newcommand{\te}{\theta}
+\newcommand{\Te}{\Theta}
+\newcommand{\et}{\hat{\theta}}
+\newcommand{\olambda}{\overline{\lambda}}
+%%
+%% Letras con raya superior
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+\newcommand{\ovy}{\overline{\V{y}}}
+\newcommand{\od}{\overline{d}}
+\newcommand{\oH}{\overline{H}}
+\newcommand{\oJ}{\overline{J}}
+\newcommand{\oN}{\overline{N}}
+\newcommand{\op}{\overline{p}}
+\newcommand{\oQ}{\overline{Q}}
+\newcommand{\oR}{\overline{R}}
+\newcommand{\oS}{\overline{S}}
+\newcommand{\oT}{\overline{T}}
+\newcommand{\ox}{\overline{x}}
+\newcommand{\oy}{\overline{y}}
+\newcommand{\oz}{\overline{z}}
+\newcommand{\oV}{\overline{V}}
+\newcommand{\oW}{\overline{W}}
+\newcommand{\oX}{\overline{X}}
+\newcommand{\oY}{\overline{Y}}
+\newcommand{\oZ}{\overline{Z}}
+%%
+%% gradientes
+%%
+\newcommand{\gf}{\B{\nabla} f}
+\renewcommand{\gg}{\B{\nabla} g}
+\newcommand{\gh}{\B{\nabla} h}
+%%
+%% Flechas
+%%
+\DeclareMathOperator{\implica}{\qquad\Longrightarrow\qquad}
+\DeclareMathOperator{\siysolosi}{\qquad\Longleftrightarrow\qquad}
+%%
+%% n{\'\i}nimo, maxino y limite con acento
+%%
+\mathchardef\isinpunto="0010
+\renewcommand{\min}{\mathop{\rm m\acute{\isinpunto}n}}
+\renewcommand{\lim}{\mathop{\rm l\acute{\isinpunto}m}}
+\renewcommand{\max}{\mathop{\rm m\acute{a}x}}
+\newcommand{\mini}{\mathop{\rm m\acute{\isinpunto}n}}
+\newcommand{\limi}{\mathop{\rm l\acute{\isinpunto}m}}
+\newcommand{\maxi}{\mathop{\rm m\acute{a}x}}
+\newcommand{\seno}{\mathop{\rm sen}}
+%%
+%% alguna notaci{\'o}n del simplex
+%%
+\newcommand{\inte}{\text{inte}}
+\newcommand{\so}{{\mathbf x}^*}
+\newcommand{\sor}{{\overline{\mathbf x}^*}}
+\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+\newcommand{\sori}{{\overline{x}^*_i}}
+\newcommand{\Bi}{{\mathbf B}^{-1}}
+%%
+%\newcolumntype{d}[1]{D{.}{.}{#1}}
+%%
+%% comandos de los colores
+%%
+%\newcommand{\azul}[1]{ {\color{blue} #1}}
+%\newcommand{\rojo}[1]{ {\color{red} #1}}
+%\newcommand{\verde}[1]{ {\color{green} #1}}
+%\newcommand{\cyan}[1]{ {\color{cyan} #1}}
+%\newcommand{\magenta}[1]{{\color{magenta} #1}}
+%\newcommand{\negro}[1]{ {\color{black} #1}}
+
+\newtheorem{ejemplin}{\bf Ejemplo}
+\newcommand{\ds}{\displaystyle}
+%\newcommand{\nat}{I\!\! N}
+%\newcommand{\real}{I\!\! R}
+%\newcommand{\ent}{\mathbb{Z}}
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+%%%%
+%\newcommand{\inte}{\text{inte}}
+%\newcommand{\so}{{\mathbf x}^*}
+%\newcommand{\sor}{{\overline{\mathbf x}^*}}
+%\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+%\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+%\newcommand{\sori}{{\overline{x}^*_i}}
+%\newcommand{\Bi}{{\mathbf B}^{-1}}
+\newcommand{\dif}[1]{\widetilde{#1}}
+%%
+%%
+%% tipos de teoremas
+%%
+\theoremstyle{remark}
+\newtheorem{observacion}{\bf Observaci\'on}
+\newtheorem*{nota}{\bf Nota}
+% %%
+\theoremstyle{plain}
+\newtheorem{relacion}{\bf Relaci\'on}
+\newtheorem{proposicion}{\bf Proposici\'on}
+\newtheorem{lema}{\bf Lema}
+\newtheorem{corolario}{\bf Corolario}
+\newtheorem{teorema}{\bf Teorema}
+%%
+\theoremstyle{definition}
+\newtheorem{definicion}{\bf Definici\'on}
+
+\parskip 5mm
+
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+\titlepage % call the title page information from above
+\end{frame}}
+
+
+\begin{frame}
+\frametitle{Contenidos del tema}
+\tableofcontents
+\end{frame}
+
+\section{Introducción}
+
+
+\begin{frame}{Introducci\'on}
+
+En muchos problemas reales aparecen funciones no lineales y se plantea el objetivo de encontrar sus óptimos.
+
+\medskip
+
+\begin{itemize}
+\item Optimización \alert{sin} restricciones:
+$$
+\min_{\vx\in\Re^n} f(\vx)
+$$
+donde $f:\Re^n\longrightarrow \Re$.
+\item Optimización \alert{con} restricciones:
+\begin{align*}
+\min_{\vx\in\Re^n} & f(\vx)
+\\ \text{sujeto a:} &
+\\
+  & g_i(\vx) = 0 & \forall i\in \I
+\\
+  & g_i(\vx) \leq 0 & \forall i\in \J
+\end{align*}
+donde $f:\Re^n\longrightarrow \Re$ y $g_i:\Re^n\longrightarrow \Re$.
+	
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo}
+En muchas situaciones reales, las ecuaciones que representan el funcionamiento de los sistemas son NO lineales:
+\begin{itemize}\itemsep 1mm
+	\item Economías de escala: la compra o producción tiene un coste decreciente (descuentos por comprar grandes cantidades, costes fijos, etc.)
+	\item Elasticidad: la demanda de un producto depende del precio de venta, a menor precio mayor demanda. 
+	\item Gestión del riesgo: en finanzas el riesgo se mide muchas veces a través de la volatilidad, que no es otra cosa que la varianza (función cuadrática) del valor de un activo financiero en un periodo de tiempo. 
+	\item Estadística y ciencia de datos: aparecen medidas de ajuste (regresión lineal) en las que el error se mide en terminos cuadráticos.
+	\item etc.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Introducci\'on. Ejemplo de monopolio (Cournot, 1838)}\small
+	
+	Una empresa produce y vende un producto en régimen de monopolio (sin competencia):
+	\begin{itemize}\itemsep 4mm
+		\item En este entorno, la teoría clásica dice que la demanda y el precio están inversamente relacionadas: a menor precio mayor demanda y a la inversa. 
+		$$
+		Q= 10-P
+		$$
+		donde $Q$ es la cantidad demandada y $P$ es el precio. 
+		\item El coste también es función de la cantidad producida (demanda):
+		$$
+		C = 1+3Q
+		$$
+		donde $C$ el coste total de fabricaci\'on.
+	\end{itemize}
+	
+	La administraci\'on autoriza a vender el producto en r\'egimen de monopolio a un precio m\'aximo de 8
+	u.m.
+	
+	La cantidad m\'axima de producción de la empresa es de  9 unidades.
+\end{frame}
+%%%%%%%%%%%%%%%%
+%%%TRASPA
+%%%%%%%%%%%%%%%%
+\begin{frame}{Introducci\'on. Ejemplo (Cournot, 1838)}
+	
+	La política óptima (punto de equilibrio del monopolista)  está definida por la cantidad óptima de producci\'on y su precio de venta. 
+	
+	Se puede obtener resolviendo un problema de Optimización No Lineal, con dos variables: 
+	\begin{itemize}
+		\item $Q$, cantidad producida, y 
+		\item $P$, precio de venta.
+	\end{itemize}
+	$$
+	\max f_1=P\cdot Q-3Q-1
+	$$
+	sujeto a
+	\begin{align*}
+	Q & \leq 10-P
+	\\
+	0 & \leq P \leq 8
+	\\
+	0 & \leq Q \leq 9
+	\end{align*}
+\end{frame}
+%%
+%%%%%%%%%%%%%%%%
+%%%TRASPA
+%%%%%%%%%%%%%%%%
+%%
+%%
+\begin{frame}{Introducci\'on. Ejemplo (Cournot, 1838)}
+	
+	\begin{columns}
+		\column{0.7\textwidth}{
+			\begin{center}
+				\scalebox{0.65}{
+					\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm]
+					\fill[color=blue!30,fill=blue!90,opacity=0.25] (0,8) -- (2,8) -- (9,1) -- (9,0) -- (0,0);
+					\draw [color=lightgray!20, xstep=1cm,ystep=1cm] (-0.3,-0.3) grid (10.2,9.2);	
+					\draw (0,9.5) node {$P$ (precio)};
+					\draw (10,-0.9) node {$Q$ (cantidad)};
+					\draw[->,color=black] (-1,0) -- (10.2,0);
+					\foreach \x in {-1,0,1,2,3,4,5,6,7,8,9,101}
+					\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};
+					\draw[->,color=black] (0,-1) -- (0,9.2);
+					\foreach \y in {-1,0,1,2,3,4,5,6,7,8,9}
+					\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+					%\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};
+					\visible<2>{
+						\draw [domain=2:9,line width=2pt,color=red] plot(\x,{(12.25+3*\x)/\x}) node[right] {$P\cdot Q-3Q-1=11.25$};
+						\draw [domain=2.35:9,line width=0.25pt,color=red!50] plot(\x,{(14.25+3*\x)/\x}) ;
+						\draw [domain=2.65:9,line width=0.25pt,color=red!30] plot(\x,{(16.25+3*\x)/\x}) ;
+						\draw [dash pattern=on 3pt off 4pt,color=red,line width=1.5pt] (3.5,0) -- (3.5,6.5) -- (0,6.5);
+						\fill[color=red]  (3.5,6.5)  circle (3pt)  node[right] {\color{red} $\Bigl(\frac{5}{2},\frac{13}{2}\Bigr)$. Beneficio: $11.25$};
+					}
+					%\draw [dash pattern=on 3pt off 4pt,color=red,domain=3:21,line width=1.5pt] plot(\x,{(\x+48.19)/11});
+					\end{tikzpicture}
+				}
+			\end{center}
+		}
+		\column{0.3\textwidth}{
+			$$
+			\max f_1=P\cdot Q-3Q-1
+			$$
+			sujeto a
+			\begin{align*}
+			Q & \leq 10-P
+			\\
+			0 & \leq P \leq 8
+			\\
+			0 & \leq Q \leq 9
+			\end{align*}
+		}
+	\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Introducci\'on. Ejemplo de selección de cartera de valores}\small
+
+Se dispone de un capital $C$ para invertir en $n$ compañías distintas mediante la compra de acciones:
+\begin{itemize}\itemsep 3mm
+	\item Variables: $x_{i}$, cantidad invertida en las acciones de la compañía $1$, $i=1,\dots,n$.\
+	\item Parámetros:  $\mu_i$ y $\sigma_{jj}$, media y varianza históricas del rendimiento de las acciones de la compañía $i$. $\sigma_{ii}$ es una medida del riesgo (volatilidad) de las acciones de la compañía $i$. Sea $\sigma_{ij}$ la covarianza del rendimiento sobre una acción de cada tipo $i$ y $j$.
+	\item Función objetivo:
+	$$
+	\max R(\vx) - \beta V(\vx)
+	$$
+	donde $R$ es el rendimiento esperado, $V$ su varianza (medida de riesgo) y $\beta$ un factor de aversión al riesgo. 
+	\item Restricciones
+	$$
+		R(x) =\sum_{i=1,\dots, n} \mu_ix_i,\qquad 
+		V(x) =\sum_{i=1,\dots, n}\sum_{j=1,\dots, n} \sigma_{ij}x_ix_j,\qquad \
+		\sum_{i=1,\dots,n} x_i\leq  C,\qquad
+		x_i\geq 0,\quad \forall i=1,\dots,n
+	$$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[allowframebreaks]{Introducci\'on. Clasificación}
+
+Según cómo sean las funciones del problema, se obtienen los siguientes casos particulares:
+\begin{itemize}\itemsep 3mm
+	\item Optimización cuadrática:
+	$$
+		\min_{\vx\in\Re^n} f(\vx)=\frac{1}{2} \vx^T\vQ \vx -\vb^T\vx \text{ sujeto a } \vA \vx \leq \vb
+	$$
+	
+	(Ejemplo de Cournot)
+	\item Optimización convexa: $f$ y $g_i$ son funciones convexas. 
+	
+	\smallskip
+	
+	Bajo estas condiciones se puede asegurar que un mínimo local es global.
+	
+	
+	\item Optimización separable: tanto $f$ como $g_i$ se pueden expresar como suma de funciones de las variables individuales:
+	$$ 
+		f(\vx) =\sum_{j=1,\dots, n} f(x_j) \qquad g_i(\vx) =\sum_{j=1,\dots, n} g_i(x_j)\quad \forall i\in\I
+ 	$$ 
+ 	donde $\vx=(x_1,x_2,\dots,x_n)\in\Re^n$.
+ 
+ 	\item Optimización geométrica: la función objetivo y las restriciones son de la forma 
+ 	$$
+ 		h(\vx)=\sum_{k=1}^K c_kP_k(\vx),
+ 	$$ 
+ 	con  $ P_k (\vx) = x_1^{a_{k1}} x_2^{a_{k2}} \dots x_n^{a_{kn}},\qquad k=1,\dots, K$.
+ 	
+ 	Si  $c_k>0$, $\forall k$ en todas las funciones y el objetivo es minimizar $f(\vx)$, el problema se puede transformar en un problema convexo equivalente, haciendo el cambio $x_j=e^{y_j}$. 
+ 	\item Optimización fraccional: la función objetivo es una fracción:
+ 	$$
+		f(\vx) = \frac{f_1(\vx)}{f_2(\vx)}
+ 	$$
+ 	
+ 	Estos modelos aparecen, por ejemplo, cuando se optimizan ratios (productividad, tasa de rendimiento, rendimiento/riesgo).
+ 	
+ 	\smallskip 
+ 	
+ 	Bajo ciertas condiciones, se pueden transformar en problemas lineales (con un cambio de variable adecuado).
+ \end{itemize}
+\end{frame}
+
+\section{Tipos de solución}
+
+\begin{frame}{Tipos de solución}
+Sea $f:\Re^n\fld\Re$ una función real definida en $\X\subseteq\Re^n$:
+\begin{itemize}
+	\item $\ovx$ es un mínimo \alert{global} de $f$ en $\X$ si $f(\vx)\geq f(\ovx)$, $\forall \vx\in\X$.
+	\item $\ovx$ es un mínimo \alert{global estricto} de $f$ en $\X$ si $f(\vx)>f(\ovx)$, $\forall \vx\in\X: \vx\neq\ovx$.
+	\item $\ovx$ es un mínimo \alert{local} de $f$ en $\X$ si $\exists \epsilon>0$ tal que $f(\vx)\geq f(\ovx)$, $\forall \vx\in\X: \Vert\vx-\ovx\Vert \leq \epsilon$.
+	\item $\ovx$ es un mínimo \alert{local estricto} de $f$ en $\X$ si $\exists \epsilon>0$ tal que $f(\vx)> f(\ovx)$, $\forall \vx\in\X: \{\vx\neq\ovx \text{ y }\Vert\vx-\ovx\Vert \leq \epsilon\}$.
+\end{itemize}
+La mayoría de los métodos de optimización no lineal buscan óptimos locales. 
+
+Solo bajo ciertas condiciones se puede asegurar que un óptimo local es global (por ejemplo, convexidad de $f$ y $\X$).
+\end{frame}
+
+
+\begin{frame}{Tipos de solución}
+\begin{center}
+	\begin{tikzpicture}
+	\draw[very thick] (0.25,4)  -- (0.25,0) -- (5,0) ;
+	\draw[red,very thick] (0.5, 3.5) .. controls (2.5,0.2) .. (4.5, 2.5);
+	
+	\draw[very thick] (6,4)  -- (6,0) -- (12,0) ;
+	\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(6.5, 3.5)  (7.5,0.2)  (8.5,1.7) (9.5,1)  (10.7, 1.75) (11, 1.5)};
+	\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(11, 1.5) (11.5,1.5)};
+	\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(11.5, 1.5) (11.75,1.55)(12,1.75)};
+	
+	\draw[thick, color=blue,->] (2.6,-0.75) -- (2.6,0.9) ;
+	\draw[thick, color=blue,->] (7.6,-0.75) -- (7.6,0.2) ;
+	\draw[thick, color=blue,->] (9.5,-1.5) -- (9.5,1) ;
+	\draw[thick, color=blue,->] (11.25,-0.75) -- (11.25,1.5) ;
+	
+	\node[draw,color=white] at (2.6,-1) {\color{blue}mínimo global};
+	\node[draw,color=white] at (7.4,-1) {\color{blue}mínimo global (estricto)};
+	\node[draw,color=white] at (9.5,-1.75) {\color{blue}mínimo local (estricto)};
+	\node[draw,color=white] at (11.35,-1) {\color{blue}mínimo local};
+	\end{tikzpicture}	
+\end{center}
+\end{frame}
+
+\section{Resultados clásicos}
+
+\begin{frame}{Algunos resultados clásicos}
+Sea el problema $min_{\vx\in\Re^n} f(\vx)$ con $f:\Re^n\fld \Re$, diferenciable:
+\begin{itemize}
+	\item $\nabla f(\vx)$ es el gradiente de $f$ (vector de derivadas parciales).
+	\item $\nabla^2 f(\vx)$ es la matriz Hessiana de $f$ (matriz de segundas derivadas parciales) .
+\end{itemize}
+\begin{itemize}\itemsep 3mm
+\item Condiciones necesarias para que un punto $\ovx$ sea óptimo local de $f$:
+\begin{itemize}\itemsep 1mm
+	\item \alert{Primer orden}: $\nabla f(\ovx)=0$ (tambien es condición necesaria para máximos y puntos de silla).
+	\item \alert{Segundo orden}: $\nabla^2 f(\ovx)$ es semidefinida positiva.
+\end{itemize}
+\item Condición suficiente para que un punto $\ovx$ sea óptimo local:
+\begin{itemize}\itemsep 1mm
+ 	\item \alert{Segundo orden}: $\nabla f(\ovx)=0$ y $\nabla^2 f(\ovx)$ es semidefinida positiva. 
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Matrices definidas positivas}
+Una matriz cuadrada $\vA$ es definida positiva si se verifica alguna de las siguientes condiciones:
+\begin{itemize}
+	\item $\vx^T\vA\vx> 0$ para cualquier vector no nulo  $\vx$.
+	\item Todos sus autovalores son positivos.
+	\item Todos sus menores principales son positivos.
+\end{itemize}
+\begin{exampleblock}{Ejemplo}
+	$\begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$ es \alert{definida positiva} y $\begin{pmatrix} 1 & 2 \\ 2 & 1\end{pmatrix}$  no lo es .
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Matrices semidefinidas positivas}
+Una matriz cuadrada $\vA$ es \alert{semidefinida positiva} si se verifica alguna de las siguientes condiciones:
+\begin{itemize}
+	\item  $\vx^T\vA\vx\geq 0$ para cualquier vector no nulo  $\vx$.
+	\item Todos sus autovalores son no negativos.
+	\item Todos sus menores principales son no negativos.
+\end{itemize}
+\begin{exampleblock}{Ejemplo}
+	$\begin{pmatrix} 2 & -3 & -1 \\ -3 & 12 & 6 \\ -1 & 6 & 4 \end{pmatrix}$ es semidefinida positiva.
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Ejemplo 1}\small
+	\begin{center}
+		\begin{tikzpicture}
+		\begin{axis}[
+				colormap/cool,
+				legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+				width=7cm,
+				grid style={line width=.9pt, draw=gray!20},
+				minor tick num=1,
+				domain=-6:6
+			]
+			\addplot3[surf]	{0.5*x^2+2*x*y+0.5*y^2-y+9};
+			\addlegendentry{\small $f(x,y)=\frac{1}{2} x^2 +2xy +\frac{1}{2}y^2-y+9$}
+		\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	$\nabla f(2/3,-1/3)=0$ y, sin embargo, la matriz hessiana es indefinida: el punto no es ni mínimo ni máximo.
+\end{frame}
+
+\begin{frame}{Ejemplo 2}\small 
+	\begin{center}
+		\begin{tikzpicture}
+		\begin{axis}[
+			colormap/cool,
+			legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+			width=7cm,
+			grid style={line width=.9pt, draw=gray!20},
+			minor tick num=1,
+			domain=-6:6
+		]
+		\addplot3[surf]	{(x-2)^2+(y-1)^2};
+			\addlegendentry{\small $f(x,y)=(x-2)^2+(y-1)^2$}
+		\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	$\nabla f(2,1)$ y la matriz hessiana es definida positiva: este punto es un mínimo.
+\end{frame}
+
+%\end{document}
+
+\begin{frame}{Ejemplo 3}
+	
+\begin{center}
+\begin{columns}
+\column{0.55\textwidth}
+	\begin{tikzpicture}[scale=0.9]
+	\begin{axis}[
+		%colormap/cool,
+		legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+		width=7cm,
+		grid style={line width=.1pt, draw=gray!10},
+		grid,
+		minor tick num=1,
+		domain=-15:15
+	]
+	\addplot3[surf]	{8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+	\addlegendentry{\small $f(x,y)=8x^2 +3xy+7y^2 -25x+31y-29$}
+	% add the contour lines
+	\addplot3 [
+	% increase a bit the number of samples so `smooth' does a good job
+	samples=51,
+	samples y=51,
+	contour gnuplot={
+	% state at which levels you want to draw the contour lines
+	levels={-400,-300,0,100,400,700,1000,1500,2000,3000},
+	% we don't want to add labels
+	labels=false,
+	% they should be drawn in black
+	draw color=black,
+	% and they should be smoothed
+	handler/.style=smooth,
+},
+] {8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+	\end{axis}
+	\end{tikzpicture}
+\column{0.40\textwidth}
+		\begin{tikzpicture}[scale=0.8]
+	\begin{axis}[       view={0}{90},
+	%colormap/cool,
+	legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+	width=7cm,
+	grid style={line width=.1pt, draw=gray!10},
+	grid,
+	minor tick num=1,
+	domain=-15:15
+	]
+	\addplot3 [
+	% increase a bit the number of samples so `smooth' does a good job
+	samples=51,
+	samples y=51,
+	contour gnuplot={
+		% state at which levels you want to draw the contour lines
+		levels={-50,0,100,400,700,1000,1500,2000,3000},
+		% we don't want to add labels
+		%labels=false,
+		% they should be drawn in black
+		draw color=black,
+		% and they should be smoothed
+		handler/.style=smooth,
+	},
+	] {8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+	\end{axis}
+	\end{tikzpicture}
+\end{columns}	
+\end{center}
+
+$\nabla f((2.060;-2.656)=0$ y la matriz hessiana es definida positiva: este punto es un mínimo.
+\end{frame}
+
+\begin{frame}{Aproximación de Taylor}
+	
+	Si la función es derivable, una primera forma de abordar el problema es utilizar la aproximación de Taylor.
+	
+	\medskip
+	
+	Dado un punto $\ovx$ y una función $f:\real^n\rightarrow \real$:
+	$$
+	f(\vx) = f(\ovx)+\nabla f(\ovx)^T (\vx-\ovx) + \frac{1}{2}(\vx-\ovx)^T\nabla^2f(\ovx)(\vx-\ovx)+\dots
+	$$ 
+	donde $\nabla f(\ovx)$ y $\nabla^2f(\ovx)$ son el gradiente y la matriz hessiana de $f$ en el punto $\ovx$, respectivamente.
+	
+	
+\end{frame}
+
+
+\begin{frame}{Aproximación de Taylor. Funciones cuadráticas}
+	
+	Sea $f$ una función es cuadrática:
+	$$
+	f(\vx)=\frac{1}{2} \vx^T\vQ \vx -\vb^T\vx
+	$$
+	Entonces $\nabla f(\vx) = \vQ\vx-\vb$ y $\nabla^2 f(\vx) = \vQ$.
+	
+\end{frame}
+
+
+\begin{frame}{Aproximación de Taylor. Funciones cuadráticas}
+	\begin{center}
+		\begin{tikzpicture}
+		\begin{axis}[
+		colormap/cool,
+		legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+		width=7cm,
+		grid style={line width=.9pt, draw=gray!20},
+		minor tick num=1,
+		domain=-6:6
+		]
+		\addplot3[surf]	{0.5*x^2+2*x*y+0.5*y^2-y+9};
+		\addlegendentry{\small $f(x,y)=\frac{1}{2} x^2 +2xy +\frac{1}{2}y^2-y+9$}
+		\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	
+\end{frame}
+
+
+\begin{frame}{Aproximación de Taylor. Funciones cuadráticas}\small
+	
+	\begin{exampleblock}{Ejemplo}
+		$$
+		f(x,y) = \frac{1}{2} x^2 +2xy +\frac{1}{2}y^2-y+9
+		$$
+		Entonces, $\nabla f(\vx)=\begin{pmatrix} 	x+2y \\ 2x+y-1 	\end{pmatrix}$ y $\nabla^2 f(\vx)=\begin{pmatrix} 	1 & 2 \\ 2  & 1	\end{pmatrix}$
+		
+		Aproximación de Taylor de segundo grado en el punto $(1,-1)$:
+		\begin{align*}
+		f(x,y) = & 9 + \begin{pmatrix}
+		-1 \\ 0 \end{pmatrix}^T  \begin{pmatrix} x-1 \\ y+1 \end{pmatrix}  +
+		\frac{1}{2} \begin{pmatrix} x-1 \\ y+1 \end{pmatrix}^T \begin{pmatrix}
+		1 & 2 \\ 2  & 1
+		\end{pmatrix}\begin{pmatrix} x-1 \\ y+1 \end{pmatrix}  =
+		\\
+		=	&9 - (x-1) +\frac{1}{2} (x+2y+1,2x+y-1)\begin{pmatrix} x-1 \\ y+1 \end{pmatrix}=
+		\\
+		=	&10 - x +\frac{1}{2} (x^2+2yx+x-x-2y-1 + 2xy + y^2-y+2x+y-1)=
+		\\
+		=	& \frac{1}{2} x^2 +2xy +\frac{1}{2}y^2-y+9 = f(x,y)
+		\end{align*}
+		El desarrollo de Taylor es exacto.
+	\end{exampleblock}
+\end{frame}
+
+
+
+\section{Introducción a los métodos numéricos de resolución}
+
+\begin{frame}{Introducci\'on. Resolución}
+	
+	Encontrar los mínimos (y máximos) de una función no lineal no es fácil. Existen muchos métodos numéricos para abordar este problema, aunque se centran sobre todo en la búsqueda de mínimos locales. 
+	
+	Atendiendo al método de resolución, se distinguen dos grandes grupos:
+	\begin{itemize}\itemsep 4mm
+		\item Métodos \alert{sin} derivadas: única alternativa con funciones no  derivables.
+		\item Métodos \alert{con} derivadas:
+		\begin{enumerate}\itemsep 2mm
+			\item Hacen uso de las primeras derivadas (\alert{gradiente}).
+			\item Hacen uso de las segundas derivadas (\alert{matriz hessiana})
+		\end{enumerate}
+	\end{itemize}
+	Cuanta más información utilice un método, es más eficiente y más costoso computacionalmente. 
+\end{frame}
+
+
+\subsection{Optimización de funciones de una variable}
+
+\begin{frame}{Optimización sin derivadas. Busqueda uniforme}
+
+Objetivo: encontrar el mínimo de $f$ en el intervalo $[a,b]$. 
+
+\visible<2->{Se evalua la función en $n$ puntos del intervalo: $\displaystyle a_k=a_{k-1}+\frac{b-a}{n}$}
+\begin{columns}
+\column{0.6\textwidth}{
+\begin{center}
+	\begin{tikzpicture}
+	\draw[very thick] (0.25,3.5)  -- (0.25,0) -- (6,0) ;
+	\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(0.5, 3.5)  (1,3.0)  (1.5,2.2) (2,1)  (2.7, 0.8) (3,1.1) (3.5,2) (4,2.4) (4.5,2.6) (5,3.2) (5.5,3.4)};
+	\draw[thick, color=blue,->] (0.5,0) -- (0.5,3.5) ; \node[draw,color=white] at (0.5,-0.35) {\color{blue} $a$};
+	\draw[thick, color=blue,->] (5.5,0) -- (5.5,3.4) ; \node[draw,color=white] at (5.5,-0.35) {\color{blue} $b$};
+\visible<2->{
+	\draw[color=blue,->] (1,0) -- (1,3) ; \node[draw,color=white] at (1,-0.35) {\color{blue} $a_1$};
+	\draw[color=blue,->] (1.5,0) -- (1.5,2.2) ; \node[draw,color=white] at (1.5,-0.35) {\color{blue} $a_2$};
+	\only<-3>{
+		\draw[color=blue,->] (2,0) -- (2,1) ; \node[draw,color=white] at (2,-0.35) {\color{blue} $a_3$};
+	}
+	\only<4->{
+		\draw[color=blue,->,line width=2pt] (2,0) -- (2,1) ; \node[draw,color=white] at (2,-0.35) {\color{blue} $\mathbf{a_3}$};
+	}
+	\only<-2>{
+		\draw[color=blue,->] (2.5,0) -- (2.5,0.8) ; \node[draw,color=white] at (2.5,-0.35) {\color{blue} $a_4$};
+	}
+	\only<3->{
+		\draw[color=red,->, line width=2pt] (2.5,0) -- (2.5,0.8) ; \node[draw,color=white] at (2.5,-0.35) {\color{red} $a_4$};
+	}
+	\only<-3>{
+		\draw[color=blue,->] (3,0) -- (3,1.1) ; \node[draw,color=white] at (3,-0.35) {\color{blue} $a_5$};
+	}
+	\only<4->{
+	\draw[color=blue,->,line width=2pt] (3,0) -- (3,1.1) ; \node[draw,color=white] at (3,-0.35) {\color{blue} $\mathbf{a_5}$};
+	}
+	\draw[color=blue,->] (3.5,0) -- (3.5,2) ; \node[draw,color=white] at (3.5,-0.35) {\color{blue} $a_6$};
+	\draw[color=blue,->] (4,0) -- (4,2.4) ; \node[draw,color=white] at (4,-0.35) {\color{blue} $a_7$};
+	\draw[color=blue,->] (4.5,0) -- (4.5,2.6) ; \node[draw,color=white] at (4.5,-0.35) {\color{blue} $a_8$};
+	\draw[color=blue,->] (5,0) -- (5,3.2) ; \node[draw,color=white] at (5,-0.35) {\color{blue} $a_9$};	
+}
+	\end{tikzpicture}	
+\end{center}
+}
+\column{0.4\textwidth}{
+\begin{itemize}\itemsep 2mm
+\item<3->Iteración $i$: $$k^*=\arg\min_k f(a_k)$$
+\item<4->Iteración $i+1$: $$[a,b]\fli [a_{k^*-1},a_{k^*+1}]$$
+\end{itemize}
+}
+\end{columns}
+
+\end{frame}
+
+
+\begin{frame}{Optimización sin derivadas. Busqueda dicotómica}
+
+El método anterior es muy poco eficiente: utiliza demasiadas evaluaciones de la función en cada iteración. 
+
+Una posibilidad es evaluar sólo el punto medio, $c$.
+\begin{center}
+	\begin{tikzpicture}[scale=0.8]
+	\begin{scope}
+	\draw[very thick] (0.25,3.5)  -- (0.25,0) -- (6,0) ;
+	\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(0.5, 3.5)  (1,3.0)  (1.5,2.2) (2,1)  (2.7, 0.8) (3,1.1) (3.5,2) (4,2.4) (4.5,2.6) (5,3.2) (5.5,3.4)};
+	\draw[thick, color=blue,->] (0.5,0) -- (0.5,3.5) ; \node[draw,color=white] at (0.5,-0.35) {\color{blue} $a$};
+	\draw[thick, color=blue,->] (5.5,0) -- (5.5,3.4) ; \node[draw,color=white] at (5.5,-0.35) {\color{blue} $b$};
+	%\draw[color=blue,->] (1,0) -- (1,3) ; \node[draw,color=white] at (1,-0.35) {\color{blue} $a_1$};
+	%\draw[color=blue,->] (1.5,0) -- (1.5,2.2) ; \node[draw,color=white] at (1.5,-0.35) {\color{blue} $a_2$};
+	%\draw[color=blue,->] (2,0) -- (2,1) ; \node[draw,color=white] at (2,-0.35) {\color{blue} $a_3$};
+	%\draw[color=blue,->] (2.5,0) -- (2.5,0.8) ; \node[draw,color=white] at (2.5,-0.35) {\color{blue} $a_4$};
+	\draw[color=blue,->] (3,0) -- (3,1.1) ; \node[draw,color=white] at (3,-0.35) {\color{blue} $c$};
+	%\draw[color=blue,->] (3.5,0) -- (3.5,2) ; \node[draw,color=white] at (3.5,-0.35) {\color{blue} $a_6$};
+	%\draw[color=blue,->] (4,0) -- (4,2.4) ; \node[draw,color=white] at (4,-0.35) {\color{blue} $a_7$};
+	%\draw[color=blue,->] (4.5,0) -- (4.5,2.6) ; \node[draw,color=white] at (4.5,-0.35) {\color{blue} $a_8$};
+	%\draw[color=blue,->] (5,0) -- (5,3.2) ; \node[draw,color=white] at (5,-0.35) {\color{blue} $a_9$};
+	\end{scope}
+	\begin{scope}[xshift=6cm]
+\draw[very thick] (0.25,3.5)  -- (0.25,0) -- (6,0) ;
+\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(0.5, 3.5)  (1,3.0)  (1.5,2.2) (2,2)  (2.7, 1.3) (3,1.1) (3.5,0.8) (4,1.4) (4.5,2.6) (5,3.2) (5.5,3.4)};
+\draw[thick, color=blue,->] (0.5,0) -- (0.5,3.5) ; \node[draw,color=white] at (0.5,-0.35) {\color{blue} $a$};
+\draw[thick, color=blue,->] (5.5,0) -- (5.5,3.4) ; \node[draw,color=white] at (5.5,-0.35) {\color{blue} $b$};
+%\draw[color=blue,->] (1,0) -- (1,3) ; \node[draw,color=white] at (1,-0.35) {\color{blue} $a_1$};
+%\draw[color=blue,->] (1.5,0) -- (1.5,2.2) ; \node[draw,color=white] at (1.5,-0.35) {\color{blue} $a_2$};
+%\draw[color=blue,->] (2,0) -- (2,1) ; \node[draw,color=white] at (2,-0.35) {\color{blue} $a_3$};
+%\draw[color=blue,->] (2.5,0) -- (2.5,0.8) ; \node[draw,color=white] at (2.5,-0.35) {\color{blue} $a_4$};
+\draw[color=blue,->] (3,0) -- (3,1.1) ; \node[draw,color=white] at (3,-0.35) {\color{blue} $c$};
+%\draw[color=blue,->] (3.5,0) -- (3.5,2) ; \node[draw,color=white] at (3.5,-0.35) {\color{blue} $a_6$};
+%\draw[color=blue,->] (4,0) -- (4,2.4) ; \node[draw,color=white] at (4,-0.35) {\color{blue} $a_7$};
+%\draw[color=blue,->] (4.5,0) -- (4.5,2.6) ; \node[draw,color=white] at (4.5,-0.35) {\color{blue} $a_8$};
+%\draw[color=blue,->] (5,0) -- (5,3.2) ; \node[draw,color=white] at (5,-0.35) {\color{blue} $a_9$};
+\end{scope}
+	\end{tikzpicture}	
+\end{center}
+Pero un solo punto intermedio NO permite descartar ninguna región. Se deben tomar al menos \alert{dos} puntos.
+\end{frame}
+
+
+\begin{frame}{Optimización sin derivadas. Busqueda dicotómica}\small
+Se deben tomar dos puntos
+\begin{center}
+	\scalebox{0.8}{
+	\begin{tikzpicture}
+	\begin{scope}
+	\draw[very thick] (0.25,3.5)  -- (0.25,0) -- (6,0) ;
+	\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(0.5, 3.5)  (1,3.0)  (1.5,2.2) (2,1)  (2.7, 0.8) (3,1.1) (3.5,2) (4,2.4) (4.5,2.6) (5,3.2) (5.5,3.4)};
+	\draw[thick, color=blue,->] (0.5,0) -- (0.5,3.5) ; \node[draw,color=white] at (0.5,-0.35) {\color{blue} $a_k$};
+	\draw[thick, color=blue,->] (5.5,0) -- (5.5,3.4) ; \node[draw,color=white] at (5.5,-0.35) {\color{blue} $b_k$};
+	%\draw[color=blue,->] (1,0) -- (1,3) ; \node[draw,color=white] at (1,-0.35) {\color{blue} $a_1$};
+	%\draw[color=blue,->] (1.5,0) -- (1.5,2.2) ; \node[draw,color=white] at (1.5,-0.35) {\color{blue} $a_2$};
+	%\draw[color=blue,->] (2,0) -- (2,1) ; \node[draw,color=white] at (2,-0.35) {\color{blue} $a_3$};
+	%\draw[color=blue,->] (2.5,0) -- (2.5,0.8) ; \node[draw,color=white] at (2.5,-0.35) {\color{blue} $a_4$};
+	\draw[color=blue,->] (2.9,0) -- (2.9,0.9) ; \node[draw,color=white] at (2.8,-0.35) {\color{blue} $\lambda_k$};
+	\draw[color=blue,->] (3.1,0) -- (3.1,1.25) ; \node[draw,color=white] at (3.2,-0.35) {\color{blue} $\mu_k$};
+	%\draw[color=blue,->] (3.5,0) -- (3.5,2) ; \node[draw,color=white] at (3.5,-0.35) {\color{blue} $a_6$};
+	%\draw[color=blue,->] (4,0) -- (4,2.4) ; \node[draw,color=white] at (4,-0.35) {\color{blue} $a_7$};
+	%\draw[color=blue,->] (4.5,0) -- (4.5,2.6) ; \node[draw,color=white] at (4.5,-0.35) {\color{blue} $a_8$};
+	%\draw[color=blue,->] (5,0) -- (5,3.2) ; \node[draw,color=white] at (5,-0.35) {\color{blue} $a_9$};
+    \draw[very thick, color=magenta,<->] (3.1,-0.5) -- (5.5,-0.5) ; 
+	\node[draw,color=white] at (4.3,-0.85) {\color{magenta} se descarta};
+	\draw[color=magenta] (0.5,-1.2) -- (0.5,0) ;\node[draw,color=white] at (0.5,-1.5) {\color{magenta} $a_{k+1}$};
+	\draw[color=magenta] (3.1,-1.2) -- (3.1,0) ;\node[draw,color=white] at (3.1,-1.5) {\color{magenta} $b_{k+1}$};
+	\end{scope}
+	\begin{scope}[xshift=7cm]
+	\draw[very thick] (0.25,3.5)  -- (0.25,0) -- (6,0) ;
+	\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(0.5, 3.5)  (1,3.0)  (1.5,2.2) (2,2)  (2.7, 1.3) (3,1.1) (3.5,0.8) (4,1.4) (4.5,2.6) (5,3.2) (5.5,3.4)};
+	\draw[thick, color=blue,->] (0.5,0) -- (0.5,3.5) ; \node[draw,color=white] at (0.5,-0.35) {\color{blue} $a_k$};
+	\draw[thick, color=blue,->] (5.5,0) -- (5.5,3.4) ; \node[draw,color=white] at (5.5,-0.35) {\color{blue} $b_k$};
+	%\draw[color=blue,->] (1,0) -- (1,3) ; \node[draw,color=white] at (1,-0.35) {\color{blue} $a_1$};
+	%\draw[color=blue,->] (1.5,0) -- (1.5,2.2) ; \node[draw,color=white] at (1.5,-0.35) {\color{blue} $a_2$};
+	%\draw[color=blue,->] (2,0) -- (2,1) ; \node[draw,color=white] at (2,-0.35) {\color{blue} $a_3$};
+	%\draw[color=blue,->] (2.5,0) -- (2.5,0.8) ; \node[draw,color=white] at (2.5,-0.35) {\color{blue} $a_4$};
+	\draw[color=blue,->] (2.9,0) -- (2.9,1.15) ; \node[draw,color=white] at (2.8,-0.35) {\color{blue} $\lambda_k$};
+   \draw[color=blue,->] (3.1,0) -- (3.1,1) ; \node[draw,color=white] at (3.2,-0.35) {\color{blue} $\mu_k$};
+	%\draw[color=blue,->] (3.5,0) -- (3.5,2) ; \node[draw,color=white] at (3.5,-0.35) {\color{blue} $a_6$};
+	%\draw[color=blue,->] (4,0) -- (4,2.4) ; \node[draw,color=white] at (4,-0.35) {\color{blue} $a_7$};
+	%\draw[color=blue,->] (4.5,0) -- (4.5,2.6) ; \node[draw,color=white] at (4.5,-0.35) {\color{blue} $a_8$};
+	%\draw[color=blue,->] (5,0) -- (5,3.2) ; \node[draw,color=white] at (5,-0.35) {\color{blue} $a_9$};
+    \draw[very thick, color=magenta,<->] (0.5,-0.5) -- (2.9,-0.5) ; 
+	\node[draw,color=white] at (1.8,-0.85) {\color{magenta} se descarta};
+	\draw[color=magenta] (2.9,-1.2) -- (2.9,0) ;\node[draw,color=white] at (2.9,-1.5) {\color{magenta} $a_{k+1}$};
+		\draw[color=magenta] (5.5,-1.2) -- (5.5,0) ;\node[draw,color=white] at (5.5,-1.5) {\color{magenta} $b_{k+1}$};
+	\end{scope}
+	\end{tikzpicture}	
+	}
+\end{center}
+\begin{itemize}
+	\only<1>{
+		\item En cada iteración se reduce el intervalo a prácticamente la mitad.
+		\item Cada iteración requiere  dos evaluaciones de la función.
+	}
+	\only<2>{
+		\item Se puede mejorar aprovechando mejor los puntos de una iteración a otra. 
+		\begin{itemize}
+			\item Si $f(\lambda_k) < f(\mu_k)$ $\Rightarrow$ el mínimo está en $[a_k,\mu_k]$.
+			\item Si $f(\lambda_k) > f(\mu_k)$ $\Rightarrow$ el mínimo está en $[\lambda_k,b_k]$.
+		\end{itemize}
+	}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Optimización sin derivadas. Busqueda dicotómica}\footnotesize
+\begin{center}
+		\begin{tikzpicture}
+		\draw[very thick] (0.25,3.5)  -- (0.25,0) -- (6,0) ;
+		\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(0.5, 3.5)  (1,3.0)  (1.5,2.2) (2,1)  (2.7, 0.8) (3,1.1) (3.5,2) (4,2.4) (4.5,2.6) (5,3.2) (5.5,3.4)};
+		\draw[thick, color=blue,->] (0.5,0) -- (0.5,3.5) ; \node[draw,color=white] at (0.5,-0.35) {\color{blue} $a_k$};
+		\draw[thick, color=blue,->] (5.5,0) -- (5.5,3.4) ; \node[draw,color=white] at (5.5,-0.35) {\color{blue} $b_k$};
+		%\draw[color=blue,->] (1,0) -- (1,3) ; \node[draw,color=white] at (1,-0.35) {\color{blue} $a_1$};
+		%\draw[color=blue,->] (1.5,0) -- (1.5,2.2) ; \node[draw,color=white] at (1.5,-0.35) {\color{blue} $a_2$};
+		%\draw[color=blue,->] (2,0) -- (2,1) ; \node[draw,color=white] at (2,-0.35) {\color{blue} $a_3$};
+		%\draw[color=blue,->] (2.5,0) -- (2.5,0.8) ; \node[draw,color=white] at (2.5,-0.35) {\color{blue} $a_4$};
+		\draw[color=blue,->] (2,0) -- (2,1) ; \node[draw,color=white] at (2.0,-0.35) {\color{blue} $\lambda_k$};
+		\draw[color=blue,->] (3.5,0) -- (3.5,2) ; \node[draw,color=white] at (3.5,-0.35) {\color{blue} $\mu_k$};
+		%\draw[color=blue,->] (3.5,0) -- (3.5,2) ; \node[draw,color=white] at (3.5,-0.35) {\color{blue} $a_6$};
+		%\draw[color=blue,->] (4,0) -- (4,2.4) ; \node[draw,color=white] at (4,-0.35) {\color{blue} $a_7$};
+		%\draw[color=blue,->] (4.5,0) -- (4.5,2.6) ; \node[draw,color=white] at (4.5,-0.35) {\color{blue} $a_8$};
+		%\draw[color=blue,->] (5,0) -- (5,3.2) ; \node[draw,color=white] at (5,-0.35) {\color{blue} $a_9$};
+		\draw[color=magenta] (0.5,-0.5) -- (0.5,0) ;\node[draw,color=white] at (0.5,-0.8) {\color{magenta} $a_{k+1}$};
+		\draw[color=magenta] (3.5,-0.5) -- (3.5,0) ;\node[draw,color=white] at (3.5,-0.8) {\color{magenta} $b_{k+1}$};
+		\draw[color=magenta] (2.0,-0.5) -- (2.0,0) ;\node[draw,color=white] at (2.1,-0.8) {\color{magenta} $\mu_{k+1}$};
+		\draw[color=magenta] (1.5,-0.5) -- (1.5,0) ;\node[draw,color=white] at (1.4,-0.8) {\color{magenta} $\lambda_{k+1}$};
+		\draw[color=blue,->] (1.5,0) -- (1.5,2.2) ;		
+		
+		\draw[<->,dashed,color=blue,very thick] (0.5,2) -- node[above] {\bf $I_k$} (5.5,2) node[right] {\qquad Iteración $k$};
+		\draw[<->,dashed,color=magenta,very thick] (0.5,1.5) -- node[above] {\bf \quad $I_k+1$} (3.5,1.5);
+		\draw[<->,dashed,very thick, color=magenta] (3.5,1.5) -- node[above] {se descarta}  (5.5,1.5) node[right] {\qquad Iteración $k+1$}; 
+		\draw[very thick] (0.25,3.5)  -- (0.25,0) -- (6,0) ;
+		\end{tikzpicture}	
+\end{center}
+	\begin{itemize}
+		\item A priori no se sabe qué subintervalo se va a descartar
+		\item Por ello, se toman los valores intermedios, $\lambda_k$ y $\mu_k$, de forma que los dos posibles intervalos sean de la misma amplitud.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Optimización sin derivadas. Busqueda dicotómica}\footnotesize
+	\begin{columns}
+		\column{0.45\textwidth}
+		\begin{center}
+			\begin{tikzpicture}
+				\draw[thick] (0.5,0) -- (0.5,2.5) ; \node[draw,color=white] at (0.5,-0.35) {\color{blue} $a_k$};
+				\draw[thick] (5.5,0) -- (5.5,2.5) ; \node[draw,color=white] at (5.5,-0.35) {\color{blue} $b_k$};
+				\draw[<->,dashed,color=blue,very thick] (0.5,2.3) -- node[above] {\bf \small $I_k$} (5.5,2.3);
+				\draw[color=blue] (2.5,0) -- (2.5,1.85) ; \node[draw,color=white] at (2.5,-0.35) {\color{blue} $\lambda_k$};
+				\draw[color=blue] (3.5,0) -- (3.5,1.6) ; \node[draw,color=white] at (3.5,-0.35) {\color{blue} $\mu_k$};
+				\draw[color=blue] (4.55,0) -- (4.55,1) ; 
+				\draw[<->,dashed,color=magenta,very thick] (0.5,1.75) -- node[above] {\bf \small $I_{k+1}$} (3.5,1.75);
+				\draw[<->,dashed,color=magenta,very thick] (2.5,1.25) -- node[above] {\bf \small $I_{k+1}$} (5.5,1.25);
+				\draw[<->,dashed,color=brown,very thick] (3.5,0.75) -- node[above] {\bf \small $I_{k+2}$} (5.5,0.75);
+				\draw[<->,dashed,color=brown,very thick] (2.5,0.25) -- node[above] {\bf \small $I_{k+2}$} (4.5,0.25);
+				
+				\node[draw,color=white] at (2.5,-0.95) {\color{magenta} $a_{k+1}$};
+				\node[draw,color=white] at (3.5,-0.95) {\color{magenta} $\lambda_{k+1}$};
+				\node[draw,color=white] at (4.55,-0.95) {\color{magenta} $\mu_{k+1}$};
+				\node[draw,color=white] at (5.5,-0.95) {\color{magenta} $b_{k+1}$};
+			\end{tikzpicture}	
+		\end{center}
+		\column{0.55\textwidth}
+		\begin{itemize}
+			\item Los dos posibles intervalos sean de la misma amplitud:
+			
+			$\color{magenta}
+			I_{k+1}= \mu_k-a_k= b_k-\lambda_k
+			$
+			\item En la siguiente iteración, si el intervalo seleccionado es el de la derecha:
+
+			$\color{magenta} \lambda_{k+1} =\mu_{k+1}
+			$
+			\item Por tanto: 
+
+			$\color{brown}
+			I_{k+2} = \mu_{k+1} -\lambda_k = b_k-\lambda_{k+1} =  b_k-\mu_{k}
+			$
+		\end{itemize}
+	\end{columns}
+		\begin{itemize}
+			\item Entonces:
+			$$
+			I_k=b_k-a_k = (b_k-\mu_k) + (\mu_k-a_k) = I_{k+2}+I_{k+1}
+			$$
+			\item Los puntos $\lambda_k$ y $\mu_k$ se calculan como:
+			$$
+			\lambda_k = b_k-I_{k+1} \qquad \mu_k=a_k+I_{k+1}
+			$$			
+		\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Optimización sin derivadas. Busqueda dicotómica}
+Según el criterio seguido para elegir $\lambda_k$ y $\mu_k$, se obtienen dos métodos diferentes:\vspace*{-5mm}
+\begin{itemize}\itemsep 5mm
+	\item Sección áurea: la razón entre los intervalos de iteraciones consecutivas es constante.
+	\item Fibonacci: se fija un número de iteraciones desde el principio y se toman valores intermedios centrados muy próximos entre sí.
+\end{itemize}
+\end{frame}
+\begin{frame}{Optimización sin derivadas. Sección áurea}
+		La razón entre los intervalos de iteraciones consecutivas es constante:
+		$$
+		I_{k}=\alpha I_{k+1}, \qquad I_{k+1}=\alpha I_{k+2},\qquad  I_{k}=\alpha I_{k+1}=\alpha^2 I_{k+2} \qquad \dots
+		$$
+		Como 
+		$$
+		I_k=I_{k+1}+I_{k+2},$$
+		resulta
+		$$
+		\alpha^2 I_{k+2}=\alpha I_{k+2}+I_{k+2}\quad \Leftrightarrow\quad \alpha^2=\alpha+1 \quad \Leftrightarrow\quad \alpha\approx 1.618033988\dots
+		$$
+		Entonces:
+		$$
+		\lambda_k=b_k-\frac{(b_k-a_k)}{\alpha} 
+		\qquad \mu_k=a_k+\frac{(b_k-a_k)}{\alpha}
+		$$
+		Dada una precisión $\epsilon$, el número de iteraciones viene dado por $n=\min\bigl\{ k : I_k=\frac{I_0}{\alpha^k}\leq \epsilon \bigr\}$, es decir $n=\lceil\frac{\ln I_0-\ln \epsilon}{\ln\alpha}\rceil$
+\end{frame}
+
+\begin{frame}{Ejemplo}
+	\begin{columns}
+		\column{0.4\textwidth}
+		\only<1>{
+		\begin{tikzpicture}[scale=0.45,x=0.9cm,y=0.18cm]
+				\draw [color=lightgray!20, xstep=0.9cm,ystep=1.8cm] (0,-80) grid (8,1);	
+				\draw[->,color=black] (-1,0) -- (8.1,0);
+				\foreach \x in {0,1,2,3,4,5,6,7,8}
+				\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				\draw[->,color=black] (0,-80) -- (0,1);
+				\foreach \y in {-10,-20,-30,-40,-50,-60,-70,-80}
+				\draw[shift={(0,\y)},color=black] (0pt,2pt) -- (0pt,-2pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=0:8, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+		\end{tikzpicture}
+			}
+		\only<2-4>{
+			\begin{tikzpicture}[scale=0.5,x=1.9cm,y=0.5cm]
+					\only<2->{
+						\fill [fill=blue!4] (1,-45) --(4,-45) -- (4,-70) -- (1,-70) ;
+						\only<2>{
+							\draw[dashed,color=black] (2.145898,-45) node[above] {\tiny $\lambda_0$} -- (2.145898,-66.692);
+							\draw[dashed,color=black] (2.854102,-45)  node[above] {\tiny $\mu_0$} -- (2.854102,-68.7138);
+						}
+					}
+					\only<3->{
+						\fill [fill=blue!10] (2.1459,-45) --(4,-45) -- (4,-70) -- (2.1459,-70) ;
+						\only<3>{
+							\draw[dashed,color=black] (2.145898,-45) node[above] {\tiny $a_1$} -- (2.145898,-66.692);
+							\draw[dashed,color=black] (2.854102,-45)  node[above] {\tiny $\lambda_1$} -- (2.854102,-68.7138);
+							\draw[dashed,color=black] (3.291796,-45)  node[above] {\tiny $\mu_1$} -- (3.291796,-68.6536);
+						}
+					}
+					\only<4->{
+						\fill [fill=blue!16] (2.1459,-45) --(3.2918,-45) -- (3.2918,-70) -- (2.1459,-70) ;
+						%\fill [fill=blue!12] (2.1459,-40) -- ( 3.291796,-40) - ( 3.291796,-80) -- (2.1459,-80) ;
+							\only<4>{
+								\draw[dashed,color=black] (2.145898,-45) node[above] {\tiny $a_2$} -- (2.145898,-66.692);
+								\draw[dashed,color=black] (2.583592,-45)  node[above] {\tiny $\lambda_2$} -- (2.583592,-68.3861);
+								\draw[dashed,color=black] (2.854102,-45)  node[above] {\tiny $\mu_2$} -- (2.854102,-68.75);
+								\draw[dashed,color=black] (3.291796,-45)  node[above] {\tiny $b_2$} -- (3.291796,-68.6536);
+							}
+				}
+					\draw [color=lightgray!20, xstep=0.9cm,ystep=2.5cm] (0.9,-70) grid (4.1,-45);	
+					\draw[->,color=black] (0.9,-45) -- (4.1,-45);
+								\foreach \x in {1,4}
+				\draw[shift={(\x,-45)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				%\draw[->,color=black] (0.9,-80) -- (0,1);
+				\foreach \y in {-50,-55,-60,-65,-70}
+				\draw[shift={(0.9,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=0.9:4.1, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+			\end{tikzpicture}
+		}
+		\only<5-6>{
+			\begin{tikzpicture}[scale=1.2,x=1.5cm,y=1cm]
+				\only<2->{
+					\fill [fill=blue!4] (2,-65) --(3.5,-65) -- (3.5,-70) -- (2,-70) ;
+			}
+				\only<3->{
+					\fill [fill=blue!10] (2.1459,-65) --(3.5,-65) -- (3.5,-70) -- (2.1459,-70) ;
+				}
+				\only<4->{
+					\fill [fill=blue!16] (2.1459,-65) --(3.2918,-65) -- (3.2918,-70) -- (2.1459,-70) ;
+				}
+				\only<5->{
+					\fill [fill=blue!22] (2.584,-65) --(3.2918,-65) -- (3.2918,-70) -- (2.584,-70) ;
+					\only<5>{
+						\draw[dashed,color=black] (2.583592,-65)  node[above] {\tiny $a_3$} -- (2.583592,-68.3861);
+						\draw[dashed,color=black] (2.854102,-65)  node[above] {\tiny $\lambda_3$} -- (2.854102,-68.75);
+						\draw[dashed,color=black] (3.021286,-65)  node[above] {\tiny $\mu_3$} -- (3.021286,-68.73);
+						\draw[dashed,color=black] (3.291796,-65)  node[above] {\tiny $b_3$} -- (3.291796,-68.6536);
+					}
+				}
+				\only<6->{
+					\fill [fill=blue!28] (2.854,-65) --(3.2918,-65) -- (3.2918,-70) -- (2.854,-70) ;
+					\only<6>{
+						\draw[dashed,color=black] (2.854102,-65)  node[above] {\tiny $a_4$} -- (2.854102,-68.7138);
+						\draw[dashed,color=black] (3.021286,-65)  node[above] {\tiny $\lambda_4$} -- (3.021286,-68.7138);
+						\draw[dashed,color=black] (3.124612,-65)  node[above] {\tiny $\mu_4$} -- (3.124612,-68.7138);
+						\draw[dashed,color=black] (3.291796,-65)  node[above] {\tiny $b_4$} -- (3.291796,-68.6536);
+					}
+				}
+				\draw [color=lightgray!20, xstep=0.75cm,ystep=1cm] (2,-70) grid (3.5,-65);	
+				\draw[->,color=black] (2,-65) -- (3.5,-65);
+				\foreach \x in {2,3.5}
+				\draw[shift={(\x,-65)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				%\draw[->,color=black] (0.9,-80) -- (0,1);
+				\foreach \y in {-66,-67,-68,-69,-70}
+				\draw[shift={(2,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=2:3.5, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+			\end{tikzpicture}
+		}
+		\only<7->{
+	\begin{tikzpicture}[scale=1.8,x=2cm,y=2cm]
+		\only<2->{
+			\fill [fill=blue!4] (2.5,-68) --(3.5,-68) -- (3.5,-69) -- (2.5,-69) ;
+		}
+		\only<3->{
+			\fill [fill=blue!4] (2.5,-68) --(3.5,-68) -- (3.5,-69) -- (2.5,-69) ;
+		}
+		\only<4->{
+			\fill [fill=blue!12] (2.5,-68) --(3.2918,-68) -- (3.2918,-69) -- (2.5,-69) ;
+		}
+		\only<5->{
+			\fill [fill=blue!20] (2.584,-68) --(3.2918,-68) -- (3.2918,-69) -- (2.584,-69) ;
+		}
+		\only<6->{
+			\fill [fill=blue!28] (2.854,-68) --(3.2918,-68) -- (3.2918,-69) -- (2.854,-69) ;
+		}
+		\only<7->{
+			\fill [fill=blue!36] (2.854,-68) --(3.1246,-68) -- (3.1246,-69) -- (2.854,-69) ;
+						\only<7>{
+							\draw[dashed,color=black] (2.854102,-68)  node[above] {\tiny $a_5$} -- (2.854102,-68.7138);
+							\draw[dashed,color=black] (2.957428,-68)  node[above] {\tiny $\lambda_5$} -- (2.957428,-68.747);
+							\draw[dashed,color=black] (3.021286,-68)  node[above] {\tiny $\mu_5$} -- (3.021286,-68.7493);
+							\draw[dashed,color=black] (3.124612,-68)  node[above] {\tiny $b_5$} -- (3.124612,-68.7138);
+						}
+		}
+		\only<8->{
+			\fill [fill=blue!44] (2.957428,-68) --(3.1246,-68) -- (3.1246,-69) -- (2.957428,-69) ;
+						\only<8>{
+							\draw[dashed,color=black] (2.957428,-68)  node[above] {\tiny $a_6$} -- (2.957428,-68.747);
+							\draw[dashed,color=black] (3.021286,-68)  node[above] {\tiny $\lambda_6$} -- (3.021286,-68.7493);
+							\draw[dashed,color=black] (3.0607,-68)  node[above] {\tiny $\mu_6$} -- (3.0607,-68.7447);
+							\draw[dashed,color=black] (3.124612,-68)  node[above] {\tiny $b_5$} -- (3.124612,-68.7138);
+						}
+		}
+		\only<9->{
+			\fill [fill=violet!55] (2.957428,-68) --(3.06,-68) -- (3.06,-69) -- (2.957428,-69) ;
+						\only<9>{
+							\draw[dashed,color=black] (2.957428,-68)  node[above] {\tiny $a_7$} -- (2.957428,-68.747);
+							\draw[dashed,color=black] (3.0607,-68)  node[above] {\tiny $b_7$} -- (3.0607,-68.7447);
+						}
+		}
+		\draw [color=lightgray!20, xstep=0.5cm,ystep=1cm] (2.5,-69) grid (3.5,-68);	
+		\draw[->,color=black] (2.5,-68) -- (3.5,-68);
+		\foreach \x in {2.5,2.75,3.25,3.5}
+		\draw[shift={(\x,-68)},color=black] (0pt,1pt) -- (0pt,-1pt) node[above] {\tiny $\x$};
+		%\draw[->,color=black] (0.9,-80) -- (0,1);
+		\foreach \y in {-68,-68.5,-69}
+		\draw[shift={(2.5,\y)},color=black] (1pt,0pt) -- (-1pt,0pt) node[left] {\tiny $\y$};
+		\draw[red,very  thick, domain=2.5:3.5, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+		\end{tikzpicture}
+	}
+			
+		\column{0.6\textwidth}
+		\only<1>{Encontrar el mínimo de $f$ en el intervalo $[1,4]$:}
+		$$
+		f(x)=\frac{1}{4}x^4-\frac{13}{3}x^3+27x^2-72x+1
+		$$
+		
+		\only<1>{
+			Si se utiliza una precisión  igual a $\epsilon=0.15$, el número de iteraciones es:
+			$$
+			n=\Bigl\lceil\frac{\ln I_0-\ln \epsilon}{\ln\alpha}\Bigl\rceil = \Bigl\lceil\frac{\ln (4-1)-\ln 0.15}{\ln 1.618034}\Bigr\rceil=7
+			$$
+		}
+		\only<2>{\small 
+			\alert{Iteración 1}
+			$$
+			[a_0,b_0] = [1,4]
+			$$
+			\begin{align*}
+				I_1            = & \frac{I_0}{\alpha} = 1.854102 \\
+				\lambda_0 = & 4-1.854102 = 2.145898 & f(\lambda_0)&=-66.692 \\
+				\mu_0 = & 1+1.854102 = 2.854102 & f(\mu_0)&=-68.714 \\
+			\end{align*}
+			Como $f(\lambda_0)>f(\mu_0$), se descarta la izquierda:
+			$$
+			[a_1,b_1] = [\lambda_0,b_0] =[2.145898,4]
+			$$
+		}
+		\only<3>{\small 
+			\alert{Iteración 2}
+			$$
+					[a_1,b_1] = [2.145898,4]
+			$$
+			\begin{align*}
+				I_2            = & \frac{I_1}{\alpha} = 1.145898 \\
+				\lambda_1 =  & \mu_0= 2.854102\\ &  f(\lambda_1)=-68.7138 \\
+				\mu_1 = & 2.145898+1,145898= 3.291796 \\ &  f(\mu_1)=-68.6536\
+			\end{align*}
+			Como $f(\lambda_1)<f(\mu_1$), se descarta la derecha:
+			$$
+			[a_2,b_2] =  [a_1,\mu_1]  = [2.145898; 3.291796]
+			$$
+		}
+		\only<4>{\small 
+			\alert{Iteración 3}
+			$$
+			[a_2,b_2] = [2.145898; 3.291796]
+			$$
+			\begin{align*}
+				I_3            = & \frac{I_2}{\alpha} = 0.708204 \\
+				\lambda_2 = & 2.583592 \\& f(\lambda_2)=-68.3861 \\
+				\mu_2 = & \lambda_1= 2.854102  \\& f(\mu_2)=-68.7138 
+			\end{align*}
+			Como $f(\lambda_2)>f(\mu_2$), se descarta la izquierda:
+			$$
+			[a_3,b_3]  = [\lambda_2,b_2] =[2.583592, 3.291796]
+			$$
+		}
+		\only<5>{\small 
+		\alert{Iteración 4}
+			$$
+			[a_3,b_3] =[2.583592, 3.291796]
+			$$
+			\begin{align*}
+				I_4            = & \frac{I_3}{\alpha} = 0.437694 \\
+				\lambda_3 = & \mu_2= 2.854102 \\& f(\lambda_3)=-68.713814 \\
+				\mu_3 = & 3.021286 \\ & f(\mu_3)=-68.749331
+			\end{align*}
+			Como $f(\lambda_3)>f(\mu_3$), se descarta la izquierda:
+			$$
+			[a_4,b_4] =[\lambda_3,b_3] = [2.854102, 3.291796]
+			$$
+			}
+		\only<6>{\small 
+			\alert{Iteración 5}
+			$$
+			[a_4,b_4] =[2.854102, 3.291796]
+			$$
+			\begin{align*}
+				I_5            = & \frac{I_4}{\alpha} = 0.270510 \\
+				\lambda_4 = & \mu_3=3.021286 \\& f(\lambda_4)=-68.749331 \\
+				\mu_4 = & 3.124612 \\ & f(\mu_4)=-68.729226
+			\end{align*}
+			Como $f(\lambda_4)<f(\mu_4$), se descarta la derecha:
+			$$
+			[a_5,b_5] = [a_4,\mu_4]  = [2.854102, 3.124612]
+			$$
+		}
+		\only<7>{\small 
+		\alert{Iteración 6}
+		$$
+			[a_5,b_5] = [2.854102, 3.124612]
+		$$
+		\begin{align*}
+			I_6            = & \frac{I_5}{\alpha} = 0.167184 \\
+			\lambda_5 = & 2.957428 \\& f(\lambda_5)=-68.747176 \\
+			\mu_5 = &  \lambda_4=3.021286 \\ & f(\mu_5)=-68.749331
+		\end{align*}
+		Como $f(\lambda_5)>f(\mu_5$), se descarta la izquierda:
+		$$
+		[a_6,b_6] =  [\lambda_5,b_5]  =[2.957428, 3.124612]
+		$$
+		}
+		\only<8->{\small 
+			\alert{Iteración 7}
+			$$
+				[a_6,b_6]  = [2.957428, 3.124612]
+			$$
+			\begin{align*}
+				I_7            = & \frac{I_6}{\alpha} = 0.103325 \leq 0,15 =\epsilon \\
+				\lambda_6 = & =\mu_5 = 3.021286 \\& f(\lambda_6)=-68.749331 \\
+				\mu_6 = &  3.060753 \\ & f(\mu_6)=-68.744761
+			\end{align*}
+			Como $f(\lambda_6)<f(\mu_6$), se descarta la derecha:
+			\visible<9->{
+				$$
+				[a_7,b_7] = [a_6,\mu_6] =[2.957428, 3.060753]
+				$$
+				Se verifica el criterio de parada. El mínimo está en $[a_7,b_7]$.
+			}
+		}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Optimización sin derivadas. Fibonacci}\small
+	\begin{itemize}
+		\item  Se fija el número de evaluaciones de la función al inicio del algoritmo.
+		\item En la primera iteración se hacen dos evaluaciones y  en cada una de las demás se hace una evaluación adicional. 
+		\item En la iteración $n-2$ se han hecho $2+(n-3)=n-1$ evaluaciones de la función.
+		\item En la siguiente iteración, $n-1$, se realiza la última evaluación de la función, intentando descartar la mitad del espacio que queda (se toma $\lambda_{n-1}\approx \mu_{n-1}$).
+\begin{align*}
+I_{n-1} & \approx 2 I_n & I_{n-2} &= I_{n-1}+I_n = 3I_n & I_{n-3} &= I_{n-2}+I_{n-1} = 5I_n
+\\
+\dots
+\end{align*}
+En general, $I_k=F_{n-k+1}I_n$, donde $F_{n-k}$ es el término general de la sucesión de Fibonacci ($F_{i+2}=F_{i-1}+F_i$, con $F_0=F_{-1}=1$).
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Optimización sin derivadas. Fibonacci}
+Para determinar los valores de $\lambda_k$ y $\mu_k$:
+$$
+I_1= F_nI_n \qquad I_{k+1}=F_{n-k} I_n \quad\Rightarrow\quad \frac{I_k}{I_{k+1}} = \frac{F_{n-k+1}}{F_{n-k}}
+$$
+Y, por tanto:
+$$
+I_{k+1}= \frac{F_{n-k}}{F_{n-k+1}} (b_k-a_k)
+$$
+Resulta:
+\begin{align*}
+\mu_k&=a_k+\frac{F_{n-k}}{F_{n-k+1}} (b_k-a_k)
+\\
+\lambda_k&=a_k+ \Bigl(1-\frac{F_{n-k}}{F_{n-k+1}}\Bigr) (b_k-a_k)
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Optimización sin derivadas}{Sección áurea versus Fibonacci}
+Se puede comprobar que en general el método de la sección áurea funciona mejor:
+\begin{itemize}\itemsep 5mm
+	\item No requiere fijar de antemano el número de evaluaciones de $f$ ni calcular la serie de Fibonacci.
+	\item Con una iteración más que Fibonacci, proporciona, en el límite, una amplitud aproximadamente un 28\% inferior.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo}
+Encontrar el mínimo de $f$ en el intervalo $[1,4]$:
+$$
+f(x)=\frac{1}{4}x^4-\frac{13}{3}x^3+27x^2-72x+1
+$$
+\visible<2->{\small
+La siguiente tabla muestra la amplitud del intervalo en cada iteración:
+\begin{center}\small
+\begin{tabular}{cccc}
+	$k$ & $F_k$ & $\frac{I_0}{F_k}$ & $I_k$ \\ \hline
+0 &1& $3.0$& $3.0$\\
+1 &2& $1.5$&$1.857143$\\
+2 &3& $1.0$&$1.142857$\\
+3 &5& $0.6$& $0.714286$\\
+4 &8& $0.75$&$0.428571$\\
+5 &13& $0.231$&$0.285714$\\
+6 &21& $0.43$&$0.142857$\\ \hline
+\end{tabular}
+\end{center}
+Si $\epsilon=0.15$, el algoritmo converge en $n=6$ iteraciones, una menos que con el método anterior.
+}
+\end{frame}
+
+\begin{frame}{Ejemplo}
+	\begin{columns}
+		\column{0.4\textwidth}
+		\only<1>{
+			\begin{tikzpicture}[scale=0.45,x=0.9cm,y=0.18cm]
+				\draw [color=lightgray!20, xstep=0.9cm,ystep=1.8cm] (0,-80) grid (8,1);	
+				\draw[->,color=black] (-1,0) -- (8.1,0);
+				\foreach \x in {0,1,2,3,4,5,6,7,8}
+				\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				\draw[->,color=black] (0,-80) -- (0,1);
+				\foreach \y in {-10,-20,-30,-40,-50,-60,-70,-80}
+				\draw[shift={(0,\y)},color=black] (0pt,2pt) -- (0pt,-2pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=0:8, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+				\only<1>{
+					\draw[dashed,color=black] (2.1428,0)  node[above] {\tiny $\lambda_0$} -- (2.1428,-66.6733);
+					\draw[dashed,color=black] (2.8571,0)  node[above] {\tiny $\mu_0$} -- (2.8571,-68.7154);
+				}
+			\end{tikzpicture}
+		}
+		\only<2-3>{
+			\begin{tikzpicture}[scale=0.5,x=1.9cm,y=0.5cm]
+				\only<2->{
+					\fill [fill=blue!10] (2.1429,-45) --(4,-45) -- (4,-70) -- (2.29,-70) ;
+					\only<2>{
+						\draw[dashed,color=black] (2.1429,-45)  node[above] {\tiny $a_1$} -- (2.1429,-66.6733);
+						\draw[dashed,color=black] (2.8571,-45)  node[above] {\tiny $\lambda_1$} -- (2.8571,-68.7154);
+						\draw[dashed,color=black] (3.2857,-45)  node[above] {\tiny $\mu_1$} -- (3.2857,-68.657);
+						\draw[dashed,color=black] (4,-45)  node[above] {\tiny $b_1$} -- (4,-68.5);
+					}
+				}
+				\only<3->{
+					\fill [fill=blue!16] (2.1429,-45) --(3.2857,-45) -- (3.2847,-70) -- (2.1429,-70) ;
+					%\fill [fill=blue!12] (2.1459,-40) -- ( 3.291796,-40) - ( 3.291796,-80) -- (2.1459,-80) ;
+					\only<3>{
+						\draw[dashed,color=black] (2.1429,-45)  node[above] {\tiny $a_2$} -- (2.1426,-66.6733);
+						\draw[dashed,color=black] (2.5715,-45)  node[above] {\tiny $\lambda_2$} -- (2.5715,-68.3610);
+						\draw[dashed,color=black] (2.8571,-45)  node[above] {\tiny $\mu_2$} -- (2.8571,-68.7154);
+						\draw[dashed,color=black] (3.2857,-45)  node[above] {\tiny $b_2$} -- (3.2857,-68.657);
+					}
+				}
+				\draw [color=lightgray!20, xstep=0.9cm,ystep=1.25cm] (0.9,-70) grid (4.1,-45);	
+				\draw[->,color=black] (0.9,-45) -- (4.1,-45);
+				\foreach \x in {1,2,3}
+				\draw[shift={(\x,-45)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				%\draw[->,color=black] (0.9,-80) -- (0,1);
+				\foreach \y in {-50,-55,-60,-65,-70}
+				\draw[shift={(0.9,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=0.9:4.1, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+			\end{tikzpicture}
+		}
+		\only<4-5>{
+			\begin{tikzpicture}[scale=1.2,x=1.5cm,y=1cm]
+				\only<4->{
+					\fill [fill=blue!22] (2.5714,-65) --(3.2847,-65) -- (3.2847,-70) -- (2.5714,-70) ;
+					\only<3>{
+						\draw[dashed,color=black] (2.5715,-45)  node[above] {\tiny $a_3$} -- (2.5715,-68.3610);
+						\draw[dashed,color=black] (2.8571,-45)  node[above] {\tiny $\lambda_3$} -- (2.8571,-68.7154);
+						\draw[dashed,color=black] (3,-45)  node[above] {\tiny $\mu_3$} -- (3,-68.75);
+						\draw[dashed,color=black] (3.2857,-45)  node[above] {\tiny $b_3$} -- (3.2857,-68.657);
+					}
+				}
+				\only<5->{
+					\fill [fill=blue!28] (2.857,-65) --(3.2847,-65) -- (3.2847,-70) -- (2.857,-70) ;
+					\only<3>{
+						\draw[dashed,color=black] (2.8571,-45)  node[above] {\tiny $a_4$} -- (2.8571,-68.7154);
+						\draw[dashed,color=black] (3,-45)  node[above] {\tiny $\lambda_4$} -- (3,-68.75);
+						\draw[dashed,color=black] (3.1428,-45)  node[above] {\tiny $\mu_4$} -- (3.1428,-68.7231);
+						\draw[dashed,color=black] (3.2857,-45)  node[above] {\tiny $b_4$} -- (3.2857,-68.657);
+					}
+				}
+				\draw [color=lightgray!20, xstep=0.75cm,ystep=1cm] (2,-70) grid (3.5,-65);	
+				\draw[->,color=black] (2,-65) -- (3.5,-65);
+				\foreach \x in {2,2.5,3,3.5}
+				\draw[shift={(\x,-65)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				%\draw[->,color=black] (0.9,-80) -- (0,1);
+				\foreach \y in {-66,-67,-68,-69,-70}
+				\draw[shift={(2,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=2:3.5, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+			\end{tikzpicture}
+		}
+		\only<6->{
+			\begin{tikzpicture}[scale=1.8,x=2cm,y=2cm]
+				\only<1->{
+					\fill [fill=blue!4] (2.5,-68) --(3.5,-68) -- (3.5,-69) -- (2.5,-69) ;
+					\fill [fill=blue!12] (2.5714,-68) --(3.2857,-68) -- (3.2857,-69) -- (2.5714,-69) ;
+					\fill [fill=blue!20] (2.8571,-68) --(3.2857,-68) -- (3.2857,-69) -- (2.8571,-69) ;
+				}
+				\only<6->{
+					\fill [fill=blue!28] (2.8571,-68) --(3.1428,-68) -- (3.1428,-69) -- (2.8571,-69) ;
+				}
+				\only<7->{
+					\fill [fill=violet!55] (2.8571,-68) --(3.001,-68) -- (3.001,-69) -- (2.8571,-69) ;
+				}
+				\draw [color=lightgray!20, xstep=0.5cm,ystep=1cm] (2.5,-69) grid (3.5,-68);	
+				\draw[->,color=black] (2.5,-68) -- (3.5,-68);
+				\foreach \x in {2.5,2.75,3,3.25,3.5}
+				\draw[shift={(\x,-68)},color=black] (0pt,1pt) -- (0pt,-1pt) node[above] {\tiny $\x$};
+				%\draw[->,color=black] (0.9,-80) -- (0,1);
+				\foreach \y in {-68,-68.5,-69}
+				\draw[shift={(2.5,\y)},color=black] (1pt,0pt) -- (-1pt,0pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=2.5:3.5, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+			\end{tikzpicture}
+		}
+		
+		\column{0.6\textwidth}
+		\only<1>{\small 
+			\alert{Iteración 1}
+			$$
+			[a_0,b_0] = [1,4]
+			$$
+			\begin{align*}
+				I_1            = & \frac{I_0}{F_0} = 1.857143 \\
+				\lambda_0 = & 4-1.857143 = 2.142857 & f(\lambda_0)&=-66.673364 \\
+				\mu_0 = & 1+1.857143 = 2.857143 & f(\mu_0)&=-68.715398 \\
+			\end{align*}
+			Como $f(\lambda_0)>f(\mu_0$), se descarta la izquierda:
+			$$
+			[a_1,b_1] = [2.142857,4]
+			$$
+		}
+		\only<2>{\small 
+			\alert{Iteración 2}
+			$$
+			[a_1,b_1] = [2.142857,4]
+			$$
+			\begin{align*}
+				I_2            = & \frac{I_0}{F_2} = 1.142857 \\
+				\lambda_1 = & 2.857143\\ &  f(\lambda_1)=-68.715398\\
+				\mu_1 = & 3.285714\\ &  f(\mu_1)=-68.656983 \\
+			\end{align*}
+			Como $f(\lambda_1)<f(\mu_1$), se descarta la derecha:
+			$$
+			[a_2,b_2] =[2.142857, 3.285714]
+			$$
+		}
+		\only<3>{\small 
+			\alert{Iteración 3}
+			$$
+			[a_2,b_2] =[2.142857, 3.285714]
+			$$
+			\begin{align*}
+				I_3            = & \frac{I_0}{F_3} = 0.714286 \\
+				\lambda_2 = & 2.571428 \\& f(\lambda_2)=-68.361097 \\
+				\mu_2 = & 2.857143\\ &  f(\mu_2)=-68.715398
+			\end{align*}
+			Como $f(\lambda_2)>f(\mu_2$), se descarta la izquierda:
+			$$
+			[a_3,b_3] =[2.571428, 3.285714]
+			$$
+		}
+		\only<4>{\small 
+			\alert{Iteración 4}
+			$$
+			[a_3,b_3] =[2.571428, 3.285714]
+			$$
+			\begin{align*}
+				I_4            = & \frac{I_0}{F_4} = 0.428571 \\
+				\lambda_3 = & 2.571428 \\& f(\lambda_3)=-68.361097 \\
+				\mu_3 = & 3.0 \\ & f(\mu_2)=-68.75
+			\end{align*}
+			Como $f(\lambda_3)>f(\mu_3$), se descarta la izquierda:
+			$$
+			[a_4,b_4] =[2.854102,3.285714]
+			$$
+		}
+		\only<5>{\small 
+			\alert{Iteración 5}
+			$$
+			[a_4,b_4] =[2.854102,3.285714]
+			$$
+			\begin{align*}
+				I_5            = & \frac{I_0}{F_4} = 0.285714 \\
+				\lambda_4 = & 3.0 \\& f(\lambda_3)=-68.75 \\
+				\mu_4 = & 3.142857 \\ & f(\mu_3)=-68.723168
+			\end{align*}
+			Como $f(\lambda_4)<f(\mu_4$), se descarta la derecha:
+			$$
+			[a_5,b_5] =[2.854102, 3.142857]
+			$$
+		}
+		\only<6->{\small 
+			\alert{Iteración 6}
+			$$
+			[a_5,b_5] =[2.854102, 3.142857]
+			$$
+			Al ser la última iteración, se verifica que $\lambda_5=\mu_5=3.0$. Se distorsionan un poco para seleccionar la mitad
+			\begin{align*}
+				\lambda_5 = & 2.999 \\& f(\lambda_4)=-68.7499985 \\
+				\mu_5 = &  3.001 \\ & f(\mu_4)=-68.7499984
+			\end{align*}
+		   \visible<7>{
+			Como $f(\lambda_5)<f(\mu_5$), se descarta la derecha:
+			$$
+			[a_5,b_5] =[2.854102, 3.001]
+			$$
+			Este intervalo contiene el óptimo. Se verifica el criterio de parada.
+			}
+		}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}{Optimización CON derivadas. Bisección}
+	\begin{itemize}\itemsep 2mm
+		\item Hace uso de la derivada. 
+		\item En cada iteración se selecciona un punto del interior ({\em Búsqueda de Bolzano:}  se toma el punto medio).
+		\item Adecuado para funciones pseudo-convexas (ver tema siguiente). 
+	\end{itemize}
+\begin{center}
+	\scalebox{0.8}{
+		\begin{tikzpicture}
+		\begin{scope}
+		\draw[very thick] (0.25,3.5)  -- (0.25,0) -- (6,0) ;
+		\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(0.5, 3.5)  (1,3.0)  (1.5,2.2) (2,1)  (2.7, 0.8) (3,1.1) (3.5,2) (4,2.4) (4.5,2.6) (5,3.2) (5.5,3.4)};
+		\draw[thick, color=blue,->] (0.5,0) -- (0.5,3.5) ; \node[draw,color=white] at (0.5,-0.35) {\color{blue} $a_k$};
+		\draw[thick, color=blue,->] (5.5,0) -- (5.5,3.4) ; \node[draw,color=white] at (5.5,-0.35) {\color{blue} $b_k$};
+		\draw[color=blue,->] (2.0,0) -- (2.0,1) ; \node[draw,color=white] at (2,-0.35) {\color{blue} $c_k$};
+		\draw[color=violet] (0.7,2.6) -- (2.7,0.1) ;
+		\draw[very thick, color=magenta,<->] (0.5,-0.5) -- (2,-0.5) ; 
+		\node[draw,color=white] at (1.25,-0.85) {\color{magenta} se descarta};
+		\draw[color=magenta] (2,-1.2) -- (2,0) ;\node[draw,color=white] at (2,-1.5) {\color{magenta} $a_{k+1}$};
+		\draw[color=magenta] (5.5,-1.2) -- (5.5,0) ;\node[draw,color=white] at (5.5,-1.5) {\color{magenta} $b_{k+1}$};
+		\end{scope}
+		\begin{scope}[xshift=7cm]
+		\draw[very thick] (0.25,3.5)  -- (0.25,0) -- (6,0) ;
+		\draw [red,very thick] plot [smooth,tension=0.5]  coordinates {(0.5, 3.5)  (1,3.0)  (1.5,2.2) (2,2)  (2.7, 1.3) (3,1.1) (3.5,0.8) (4,1.4) (4.5,2.6) (5,3.2) (5.5,3.4)};
+		\draw[thick, color=blue,->] (0.5,0) -- (0.5,3.5) ; \node[draw,color=white] at (0.5,-0.35) {\color{blue} $a_k$};
+		\draw[thick, color=blue,->] (5.5,0) -- (5.5,3.4) ; \node[draw,color=white] at (5.5,-0.35) {\color{blue} $b_k$};
+		\draw[color=blue,->] (4,0) -- (4,1.4) ; \node[draw,color=white] at (4,-0.35) {\color{blue} $c_k$};
+		\draw[color=violet] (3.5,0.4) -- (4.85,3) ;
+		\draw[very thick, color=magenta,<->] (4,-0.5) -- (5.5,-0.5) ; 
+		\node[draw,color=white] at (4.75,-0.85) {\color{magenta} se descarta};
+		\draw[color=magenta] (0.5,-1.2) -- (0.5,0) ;\node[draw,color=white] at (0.5,-1.5) {\color{magenta} $a_{k+1}$};
+		\draw[color=magenta] (4,-1.2) -- (4,0) ;\node[draw,color=white] at (4,-1.5) {\color{magenta} $b_{k+1}$};
+		\end{scope}
+		\end{tikzpicture}	
+	}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Ejemplo}
+	Encontrar el mínimo de $f$ en el intervalo $[1,4]$:
+	$$
+	f(x)=\frac{1}{4}x^4-\frac{13}{3}x^3+27x^2-72x+1
+	$$
+	La derivada es: 
+	$$
+		f(x)=x^3-13x^2+54x-72
+	$$
+\end{frame}
+
+\begin{frame}{Ejemplo}
+	\begin{columns}
+		\column{0.4\textwidth}
+		\only<1>{
+			\begin{tikzpicture}[scale=0.45,x=0.9cm,y=0.18cm]
+				\fill [fill=blue!5] (1,0) --(4,0) -- (4,-80) -- (1,-80) ;
+				\draw [color=lightgray!20, xstep=0.9cm,ystep=1.8cm] (0,-80) grid (8,1);	
+				\draw[->,color=black] (-1,0) -- (8.1,0);
+				\foreach \x in {0,1,2,3,4,5,6,7,8}
+				\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				\draw[->,color=black] (0,-80) -- (0,1);
+				\foreach \y in {-10,-20,-30,-40,-50,-60,-70,-80}
+				\draw[shift={(0,\y)},color=black] (0pt,2pt) -- (0pt,-2pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=0:8, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+				\draw[violet,very  thick, domain=0:6, samples=100] plot (\x,{-68.6-2.6225*(\x-2.5)});
+				\draw[color=violet,dashed] (2.5,0) -- (2.5,-68.4) ;
+			\end{tikzpicture}
+		}
+		\only<2-3>{
+			\begin{tikzpicture}[scale=0.5,x=2cm,y=0.5cm]
+				\fill [fill=blue!5] (1,-45) --(4,-45) -- (4,-70) -- (1,-70) ;
+				\only<2>{
+					\fill [fill=blue!10] (2.5,-45) --(4,-45) -- (4,-70) -- (2.5,-70) ;
+				}
+				\only<3>{
+					\fill [fill=blue!15] (2.5,-45) --(3.25,-45) -- (3.25,-70) -- (2.5,-70) ;
+					\draw[dashed,color=black] (2.1426,-45)  node[above] {\tiny $a_2$} -- (2.1426,-66.6733);
+					\draw[dashed,color=black] (2.8571,-45)  node[above] {\tiny $\lambda_2$} -- (2.8571,-68.7154);
+					\draw[dashed,color=black] (2.8571,-45)  node[above] {\tiny $\mu_2$} -- (2.8571,-68.7154);
+					\draw[dashed,color=black] (3.2857,-45)  node[above] {\tiny $b_2$} -- (3.2857,-68.657);
+				}
+				\draw [color=lightgray!20, xstep=2cm,ystep=2.5cm] (1,-70) grid (4.1,-45);	
+				\draw[->,color=black] (0.9,-45) -- (4.1,-45);
+				\foreach \x in {1,2,3,4}
+				\draw[shift={(\x,-45)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				%\draw[->,color=black] (0.9,-80) -- (0,1);
+				\foreach \y in {-50,-55,-60,-65,-70}
+				\draw[shift={(0.9,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=0.9:4.1, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+				\only<2>{
+					\draw[violet,very  thick, domain=1:4, samples=100] plot (\x,{-68.74+0.51*(\x-3.25)});
+					\draw[color=violet,dashed] (3.25,-45) -- (3.25,-68.84) ;
+				}
+				\only<3>{
+					\draw[violet,very  thick, domain=1:4, samples=100] plot (\x,{-68.75-0.44*(\x-2.875)});
+					\draw[color=violet,dashed] (2.875,-45) -- (2.875,-68.85) ;
+				}
+			\end{tikzpicture}
+		}
+		\only<4->{
+			\begin{tikzpicture}[scale=1.2,x=1.5cm,y=1cm]
+				\fill [fill=blue!5] (2,-65) --(3.5,-65) -- (3.5,-70) -- (2,-70) ;
+				\fill [fill=blue!10] (2.5,-65) --(3.5,-65) -- (3.5,-70) -- (2.5,-70) ;
+				\fill [fill=blue!15] (2.5,-65) --(3.25,-65) -- (3.25,-70) -- (2.5,-70) ;
+				\only<4>{
+					\fill [fill=blue!20] (2.875,-65) --(3.25,-65) -- (3.25,-70) -- (2.875,-70) ;
+				}
+				\only<5>{
+					\fill [fill=blue!25] (2.875,-65) --(3.0625,-65) -- (3.0625,-70) -- (2.875,-70) ;
+				}
+				\only<6>{
+					\fill [fill=violet!30] (2.96875,-65) --(3.0625,-65) -- (3.0625,-70) -- (2.96571,-70) ;
+				}
+				\draw [color=lightgray!20, xstep=0.75cm,ystep=1cm] (2,-70) grid (3.5,-65);	
+				\draw[->,color=black] (2,-65) -- (3.5,-65);
+				\foreach \x in {2,2.5,3,3.5}
+				\draw[shift={(\x,-65)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				%\draw[->,color=black] (0.9,-80) -- (0,1);
+				\foreach \y in {-66,-67,-68,-69,-70}
+				\draw[shift={(2,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=2:3.5, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+				\only<4>{
+					\draw[violet,very  thick, domain=2:3.5, samples=100] plot (\x,{-68.76+0.17*(\x-3.0625)});
+					%\draw[color=violet,dashed] (3.0625,-65) -- (3.0625,-68.76) ;
+				}
+				\only<5>{
+					\draw[violet,very  thick, domain=2:3.5, samples=100] plot (\x,{-68.75-0.09*(\x-2.96875)});
+					%\draw[color=violet,dashed] (2.96875,-65) -- (2.96875,-68.76) ;
+			}
+		\end{tikzpicture}
+		}
+		
+		\column{0.6\textwidth}
+		\only<1>{\small 
+			\alert{Iteración 1}
+			$$
+			[a_0,b_0] = [1,4]
+			$$
+			\begin{align*}
+				x_0            =  \frac{1+4}{2} = 2.5 \\
+				f'(2.5)= -2.6225 <0
+			\end{align*}
+			Como $f(x_0)<0$, se descarta la izquierda:
+			$$
+			[a_1,b_1] = [2.5,4]
+			$$
+		}
+		\only<2>{\small 
+			\alert{Iteración 2}
+			$$
+			[a_1,b_1] = [2.5,4]
+			$$
+			\begin{align*}
+				x_1            =  \frac{2.5+4}{2} = 3.25 \\
+				f'(3.25)= 0.51 >0
+			\end{align*}
+			Como $f(x_1)>0$, se descarta la derecha:
+			$$
+			[a_2,b_2] = [2.5,3.25]
+			$$
+		}
+		\only<3>{\small 
+			\alert{Iteración 3}
+			$$
+				[a_2,b_2] = [2.5,3.25]
+			$$
+			\begin{align*}
+				x_2            =  \frac{2.5+3.25}{2} = 2.875 \\
+				f'(2.875)= -0.44 <0
+			\end{align*}
+			Como $f(x_2)<0$, se descarta la izquierda:
+			$$
+			[a_3,b_3] = [2.875,3.25]
+			$$
+		}
+		\only<4>{\small 
+			\alert{Iteración 4}
+			$$
+				[a_3,b_3] = [2.875,3.25]
+			$$
+			\begin{align*}
+				x_3            =  \frac{2.875+3.25}{2} = 3.0625 \\
+				f'(3.0625)= 0.17>0
+				\end{align*}
+				Como $f(x_3)>0$, se descarta la derecha:
+				$$
+				[a_4,b_4] = [2.875,3.0625]
+				$$
+		}
+		\only<5->{\small 
+			\alert{Iteración 5}
+			$$
+				[a_4,b_4] = [2.875,3.0625]
+			$$
+			\begin{align*}
+				x_4            =  \frac{2.875+3.0625}{2} = 2.96875 \\
+				f'(2.96875)= -0.09<0
+				\end{align*}
+				Como $f(x_4)<0$, se descarta la izquierda:
+				$$
+				[a_5,b_5] = [2.96875,3.0625]
+			$$
+			\visible<6>{
+				Este intervalo ya verifica el criterio de parada, ya que $I_5<\epsilon=0.15$.
+			}
+		}
+	\end{columns}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Optimización CON derivadas. Método de Newton}\small
+Hace uso de la primera y segunda derivada. 
+
+Dado un punto de la iteración $k$-ésima, $x_k$, se construye el desarrollo de Taylor de segundo grado:
+$$
+q(x)=f(x_k)+f'(x_k)(x-x_k)+\frac{1}{2}f''(x_k)(x-x_k)^2
+$$
+Este desarrollo es una párabola y se toma como siguiente punto en la sucesión el vértice de la parábola.
+$$
+x_{k+1} = x_k - \frac{f'(x_k)}{f''(x_k)}
+$$
+Para cuando la derivada del punto $x_{k+1}$ es próxima a cero o cuando dos puntos sucesivos son muy similares.
+
+No se puede asegurar que siempre converja, aunque si converge, lo hace con orden 2.
+
+\end{frame}
+
+
+\begin{frame}{Ejemplo}
+	Encontrar el mínimo de $f$ en el intervalo $[1,4]$:
+	$$
+	f(x)=\frac{1}{4}x^4-\frac{13}{3}x^3+27x^2-72x+1
+	$$
+	La primera y segunda derivadas son: 
+	$$
+	f(x)=x^3-13x^2+54x-72
+	$$
+	$$
+	f(x)=3x^2-26x+54
+	$$
+\end{frame}
+
+\begin{frame}{Ejemplo}
+	\begin{columns}
+		\column{0.4\textwidth}
+		\only<1>{
+			\begin{tikzpicture}[scale=0.45,x=0.9cm,y=0.18cm]
+				\draw [color=lightgray!20, xstep=0.9cm,ystep=1.8cm] (0,-80) grid (8,1);	
+				\draw[->,color=black] (-1,0) -- (8.1,0);
+				\foreach \x in {0,1,2,3,4,5,6,7,8}
+				\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				\draw[->,color=black] (0,-80) -- (0,1);
+				\foreach \y in {-10,-20,-30,-40,-50,-60,-70,-80}
+				\draw[shift={(0,\y)},color=black] (0pt,2pt) -- (0pt,-2pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=0:8, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+				\draw[color=violet,dashed] (1,0) -- (1,-48) ;
+			\end{tikzpicture}
+		}
+		\only<2-3>{
+			\begin{tikzpicture}[scale=0.5,x=2cm,y=0.5cm]
+				\draw [color=lightgray!20, xstep=1cm,ystep=2.5cm] (1,-70) grid (4.1,-45);	
+				\draw[->,color=black] (0.9,-45) -- (4.1,-45);
+				\foreach \x in {1,2,3,4}
+				\draw[shift={(\x,-45)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				%\draw[->,color=black] (0.9,-80) -- (0,1);
+				\foreach \y in {-50,-55,-60,-65,-70}
+				\draw[shift={(0.9,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=0.9:4.1, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+				\draw[color=violet,dashed] (1,-45) -- (1,-48) ;
+				\only<2->{
+					\draw[color=violet,dashed] (1.9667,-45) -- (1.9667,-65.7) ;
+				}
+				\only<3>{
+					\draw[color=violet,dashed] (2.55,-45) -- (2.55,-68) ;
+				}
+			\end{tikzpicture}
+		}
+		\only<4->{
+			\begin{tikzpicture}[scale=1.2,x=1.5cm,y=1cm]
+				\draw [color=lightgray!20, xstep=0.75cm,ystep=1cm] (2,-70) grid (3.5,-65);	
+				\draw[->,color=black] (2,-65) -- (3.5,-65);
+				\foreach \x in {2,2.5,3,3.5}
+				\draw[shift={(\x,-65)},color=black] (0pt,2pt) -- (0pt,-2pt) node[above] {\tiny $\x$};
+				%\draw[->,color=black] (0.9,-80) -- (0,1);
+				\foreach \y in {-66,-67,-68,-69,-70}
+				\draw[shift={(2,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+				\draw[red,very  thick, domain=2:3.5, samples=100] plot (\x,{0.25*\x*\x*\x*\x-13/3*\x*\x*\x+27*\x*\x-72*\x+1});
+				\draw[color=violet,dashed] (1.9667,-65) -- (1.9667,-65.7) ;
+				\draw[color=violet,dashed] (2.55,-65) -- (2.55,-68.3) ;
+				\only<4->{
+					\draw[color=violet,dashed] (2.8637,-65) -- (2.8637,-68.74) ;
+				}
+				\only<5->{
+					\draw[color=violet,dashed] (2.9808,-65) -- (2.9808,-68.75) ;
+				}
+				\only<6>{
+					\draw[color=blue,dashed, thick] (2.999,-65) -- (2.999,-68.75);
+				}
+			\end{tikzpicture}
+		}
+		
+		\column{0.6\textwidth}
+		\only<1>{\small 
+			\alert{Iteración 1}
+			\begin{align*}
+				x_0            =  1 \\
+				f'(1)= -30  \\
+				f'(1)= -31  \\
+			\end{align*}
+			El siguiente punto en la sucesión es:
+			$$
+			x_1= 1+\frac{30}{31} = 1.9677
+			$$
+		}
+		\only<2>{\small 
+			\alert{Iteración 2}
+			\begin{align*}
+				x_1            =  1.9677 \\
+				f'(x_1)= -8.46  \\
+				f'(x_1)= 14.45  \\
+			\end{align*}
+			El siguiente punto en la sucesión es:
+			$$
+			x_2= 1.9677+\frac{-8.46}{14.45} = 2.5529
+			$$
+		}
+		\only<3>{\small 
+			\alert{Iteración 3}
+			\begin{align*}
+				x_2            =  2.5529 \\
+				f'(x_2)= -2.23  \\
+				f'(x_2)= 7.176  \\
+			\end{align*}
+			El siguiente punto en la sucesión es:
+			$$
+			x_3= 2.5529+\frac{-2.23}{7.176} = 2.8637
+			$$
+		}
+		\only<4>{\small 
+			\alert{Iteración 4}
+			\begin{align*}
+				x_3            = 2.8637 \\
+				f'(x_3)= -0.485  \\
+				f'(x_3)= 4.146  \\
+			\end{align*}
+			El siguiente punto en la sucesión es:
+			$$
+			x_4= 2.8637+\frac{-0.485}{4.146} = 2.9808
+			$$
+		}
+		\only<5>{\small 
+			\alert{Iteración 5}
+			\begin{align*}
+				x_4            = 2.9808 \\
+				f'(x_4)= -0.059  \\
+				f'(x_4)= 3.154  \\
+			\end{align*}
+			El siguiente punto en la sucesión es:
+			$$
+			x_5= 2.9808+\frac{-0.059}{3.154} = 2.999
+			$$
+			\visible<6>{
+				Este intervalo ya verifica el criterio de parada, ya que $I_5<\epsilon=0.15$.
+			}
+		}
+		\only<6>{\small 
+			\alert{Iteración 6}
+			\begin{align*}
+				x_5            = 2.999 \\
+				f'(x_5)= -0.003  \\
+			\end{align*}
+			Al ser la derivada suficientemente pequeña, se para.
+
+			$x_5= 2.999$ es la solución.
+		}
+	\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Optimización CON derivadas. Método de la secante}
+El método de Newton utiliza la segunda derivada. 
+
+\medskip
+
+Como alternativa, se puede recurrir al método de la secante, en la que se aproxima la segunda derivada por:
+$$
+f''(x_k)=\frac{f'(x_k)-f'(x_{k-1})}{x_k-x_{k-1}}
+$$
+Esta aproximación no es buena si los puntos están muy separados, pero cerca del mínimo funciona bien.
+
+Tiene convergencia $1.618$.
+\end{frame}
+
+\begin{frame}{Métodos de interpolación}
+	\begin{itemize}\itemsep 4mm
+		\item Un cada iteración aproximan la función por un polinomio de grado $n$. 
+		\item El método de Newton es un caso particular en el que al ser la función derivable es fácil obtener la ecuación de la parábola. 
+		\item Se necesitan $n+1$ puntos si el polinomio es de grado $n$.
+		\item Interpolación cuadrática:
+		\begin{itemize}\itemsep 1mm
+			\item En cada iteración se utilizan 3 puntos: los dos extremos de un intervalo $[a_k,b_k]$ y un punto interior $c_k$. 
+			\item El mínimo del polinomio en el intervalo $[a_k,b_k]$ (el vértice la de parábola) se usa para descartar uno de los dos extremos (y así reducir la amplitud del intervalo) y como uno de los tres puntos de la iteración siguiente.
+		\end{itemize} 
+	\end{itemize}
+\end{frame}
+
+\subsection{Optimización de funciones de varias variables}
+
+\begin{frame}{Esquema general}
+
+El objetivo es encontrar el óptimo de la función $f:\Re^n\Rightarrow \Re$.
+
+El esquema general es construir una secuencia de puntos $\{\vx_i\}_{i=1,2\dots,}$ hasta lograr la convergencia.
+\begin{enumerate}[\mbox{Paso} 1.-]
+\item Fijar $k=0$.
+\item Partir de un punto inicial $\vx_k$.
+\item Buscar una dirección de movimiento $\vd_k$.
+\item Calcular una longitud de paso $\alpha_k$.
+\item Avanzar al siguiente punto: $\vx_{k+1} = \vx_k+\alpha_k\vd_k$.
+\item Si se logra convergencia, PARAR.
+
+Si no, hacer $k\fli k+1$ y repetir el paso 2.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Método de las coordenadas cíclicas}\small
+\begin{itemize}
+\item Se toma un primer punto inicial $\vx_1$ y la dirección $\vd=(1,0,0,\dots,0)$. Se optimiza $f$ en esa dirección (problema univariante) y se obtiene el punto $\vx_2$
+\item Se toma este punto $\vx_2$ y la dirección $\vd=(0,1,0,\dots,0)$. Se optimiza $f$ en esa dirección (problema univariante) y se obtiene el punto $\vx_3$.
+\item \dots
+\item Se toma este punto $\vx_{n-1}$ y la dirección $\vd=(0,0,\dots,0,1)$. Se optimiza $f$ en esa dirección y se obtiene el punto $\vx_{n+1}$.
+\item Se toma un primer punto inicial $\vx_{n+1}$ y la dirección $\vd=(1,0,0,\dots,0)$. Se optimiza $f$ en esa dirección y se obtiene el punto $\vx_{n+2}$.
+\item \dots
+\end{itemize}
+Criterio de parada: dos puntos sucesivos suficientemente cerca. 
+
+No es un método muy eficiente.
+
+Cada búsqueda unidimensional puede ser con o sin derivadas.
+\end{frame}
+
+\begin{frame}{Ejemplo}\small 
+Consideremos la siguiente función que mide la distancia  al punto $(2,1)$.
+\begin{center}
+	\begin{tikzpicture}
+	\begin{axis}[
+	colormap/cool,
+	legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+	width=7cm,
+	grid style={line width=.9pt, draw=gray!20},
+	minor tick num=1,
+	domain=-6:6
+	]
+	\addplot3[surf]	{(x-2)^2+(y-1)^2};
+	\addlegendentry{\small $f(x,y)=(x-2)^2+(y-1)^2$}
+	\end{axis}
+	\begin{scope}[xshift=7cm,yshift=1cm]
+			\draw[<->,thick] (0,3)  -- (0,0) -- (3,0) ;
+			\draw[dashed,thin] (2,1) circle (0.25);
+			\draw[dashed,thin] (2,1) circle (0.50);
+			\draw[dashed,thin] (2,1) circle (0.75);
+			\draw[dashed,thin] (2,1) circle (1.00);
+			\draw[dashed,thin] (2,1) circle (1.25);
+			\filldraw[black] (2,1) circle (2pt) node[anchor=west] {\footnotesize $(2,1)$};
+			\end{scope}
+	\end{tikzpicture}
+\end{center}
+\end{frame}
+\begin{frame}{Ejemplo}\small 
+\begin{columns}
+	\column{0.6\textwidth}{
+	$f(x,y)=(x-2)^2+(y-1)^2$
+	\begin{itemize}
+		\item<2-> Punto inicial: $x_0=(0,0)$
+		\item<3-> Minimizamos $f_0(x,0)=(x-2)^2+(0-1)^2$. 
+		\item<3-> Esta parábola alcanza su mínimo en $x_1=(2,0)$.
+		\item<4-> Minimizamos $f_1(2,y)=(2-2)^2+(y-1)^2$. 
+		\item<4-> Esta parábola alcanza su mínimo en $x_2=(2,1)$.
+		\item<5-> Minimizamos $f_2(x,1)=(x-2)^2+(1-1)^2$. 
+		\item<5-> Esta parábola alcanza su mínimo en $x_3=(2,1)$.
+		\item<6-> Paramos, los puntos $x_2$ y $x_3$ son iguales. 
+	\end{itemize}
+	}
+	\column{0.4\textwidth}{
+		\begin{tikzpicture}
+
+		\draw[<->,thick] (0,3)  -- (0,0) -- (3,0) ;
+		\draw[dashed,thin] (2,1) circle (0.25);
+		\draw[dashed,thin] (2,1) circle (0.50);
+		\draw[dashed,thin] (2,1) circle (0.75);
+		\draw[dashed,thin] (2,1) circle (1.00);
+		\draw[dashed,thin] (2,1) circle (1.25);
+		\visible<1>{\filldraw[black] (2,1) circle (2pt) node[anchor=west] {\footnotesize $(2,1)$};}
+		\visible<2->{\filldraw[red] (0,0) circle (2pt) node[below] {\footnotesize $(0,0)$};}
+		\visible<3->{\draw[->,red,very thick] (0,0) -- (2,0); }
+		\visible<3->{\filldraw[red] (2,0) circle (2pt) node[below] {\footnotesize $(2,0)$};}
+		\visible<4->{\draw[->,red,very thick] (2,0) -- (2,1); }
+		\visible<4->{\filldraw[red] (2,1) circle (2pt) node[right] {\footnotesize $(2,1)$};}
+		\end{tikzpicture}
+	}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Ejemplo}
+	
+	\begin{center}
+		\begin{columns}
+			\column{0.55\textwidth}
+				\begin{tikzpicture}[scale=0.9]
+				\begin{axis}[
+				%colormap/cool,
+				legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+				width=7cm,
+				grid style={line width=.1pt, draw=gray!10},
+				grid,
+				minor tick num=1,
+				domain=-15:15
+				]
+				\addplot3[surf]	{8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+				\addlegendentry{\small $f(x,y)=8x^2 +3xy+7y^2 -25x+31y-29$}
+				% add the contour lines
+				\addplot3 [
+				% increase a bit the number of samples so `smooth' does a good job
+				samples=51,
+				samples y=51,
+				contour gnuplot={
+					% state at which levels you want to draw the contour lines
+					levels={-400,-300,0,100,400,700,1000,1500,2000,3000},
+					% we don't want to add labels
+					labels=false,
+					% they should be drawn in black
+					draw color=black,
+					% and they should be smoothed
+					handler/.style=smooth,
+				},
+				] {8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+				\end{axis}
+				\end{tikzpicture}
+			\column{0.40\textwidth}
+				\begin{tikzpicture}[scale=0.8]
+				\begin{axis}[       view={0}{90},
+				%colormap/cool,
+				legend style={draw=none,fill=none,at={(1,1.2)},anchor=north east},
+				width=7cm,
+				grid style={line width=.1pt, draw=gray!10},
+				grid,
+				minor tick num=1,
+				domain=-15:15
+				]
+				\addplot3 [
+				% increase a bit the number of samples so `smooth' does a good job
+				samples=51,
+				samples y=51,
+				contour gnuplot={
+					% state at which levels you want to draw the contour lines
+					levels={-50,0,100,400,700,1000,1500,2000,3000},
+					% we don't want to add labels
+					%labels=false,
+					% they should be drawn in black
+					draw color=black,
+					% and they should be smoothed
+					handler/.style=smooth,
+				},
+				] {8*x^2+3*x*y+7*y^2-25*x+31*y-29};
+				\end{axis}
+				\end{tikzpicture}
+		\end{columns}	
+	\end{center}
+	
+	\vspace*{-10mm}
+	
+	El óptimo se alcanza en el punto $(2.060;-2.656)$.
+\end{frame}
+
+\begin{frame}{Ejemplo}\small 
+$f(x,y)=8x^2 +3xy+7y^2 -25x+31y-29$
+	\begin{columns}
+	\column{0.65\textwidth}{
+			\begin{itemize}
+				\item<1-> Punto inicial: $x_0=(0,0)$
+				\item<2-> Minimizamos $f_0(x,0)=8x^2 -25x-29$: $x_1=(\frac{25}{16},0)$.
+				\item<3-> Minimizamos $f_1(\frac{25}{16},y)=8\bigl(\frac{25}{16}\bigr)^2 +\frac{75}{16}y+7y^2 -25\frac{25}{16}+31y-29$: $x_2=(\frac{25}{16},\frac{-571}{224})$.
+				\item<4-> Minimizamos $f_2(x,\frac{-571}{224})=8x^2 -3\frac{571}{224}x+7\bigl(\frac{-571}{224}\bigr)^2 -25x-31\frac{571}{224}-29$:
+				$x_3=(\frac{7313}{3584},\frac{-571}{224})$.
+				\item<5-> Minimizamos $f_3(\frac{7313}{3584};y)=8\cdot \bigl(\frac{7313}{3584}\bigr)^2 +3\cdot \bigl(\frac{7313}{3584}\bigr)y+7y^2 -25\cdot \bigl(\frac{7313}{3584}\bigr)+31y-29$:
+				$x_4\approx(2.0405,-2.6515)$.
+				\item<5-> $\dots$
+			\end{itemize}
+	}
+	\column{0.35\textwidth}{
+	\begin{tikzpicture}
+		\draw[<->,thick] (0,-3)  -- (0,0) -- (3.5,0) ;
+		\visible<1->{\filldraw[black] (2.060,-2.656) circle (2pt) node[above] {\footnotesize $(2.060,-2.656)$};}
+		\visible<1->{\filldraw[red] (0,0) circle (2pt) node[above] {\footnotesize $x_0=(0,0)$};}
+		\visible<2->{\draw[->,red,very thick] (0,0) -- (1.5625,0); }
+		\visible<2->{\filldraw[red](1.5625,0) circle (2pt) node[above] {\footnotesize $x_1$};}
+		\visible<3->{\draw[->,red,very thick] (1.5625,0) -- (1.5625,-2.549); }
+		\visible<3->{\filldraw[red] (1.5625,-2.549) circle (2pt) node[below] {\footnotesize $x_2$};}
+		\visible<4->{\draw[->,red,very thick] (1.5625,-2.549) -- (2.0405,-2.549); }
+		\visible<4->{\filldraw[red] (2.0405,-2.549) circle (2pt) node[above] {\footnotesize $x_3$};}
+		\visible<5->{\draw[->,red,very thick] (2.0405,-2.549) -- (2.0405,-2.6516); }
+		\visible<5->{\filldraw[red] (2.0405,-2.6516) circle (2pt) node[right] {\footnotesize $x_4$};}
+	\end{tikzpicture}
+	}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Método del máximo descenso ({\em Steepest Descent})}\small
+\begin{itemize}\itemsep 3mm
+	\item Dado el punto $\vx_k$, se toma como dirección de movimiento el opuesto del gradiente $-\nabla f(\vx_k)$, ya que es la dirección de máximo descenso
+	\item El punto $x_{k+1}$ se obtiene resolviendo el siguiente problema unidimensional:
+	  $$
+	  \alpha^*=\arg\min_\alpha f\bigl (\vx_k - \alpha \nabla f(\vx_k)\bigr)
+	  $$
+	\item Entonces, $x_{k+1}= \vx_k - \alpha^* \nabla f(\vx_k)$.
+\end{itemize}
+
+\alert{Criterio de parada:} dos puntos sucesivos suficientemente cerca. 
+\end{frame}
+
+\begin{frame}{Ejemplo}\small 
+	$f(x,y)=8x^2 +3xy+7y^2 -25x+31y-29$,\quad $\nabla f(x,y)=\binom{16x+3y-25}{3x+14y+31}$.
+	\begin{columns}
+		\column{0.65\textwidth}{
+			\begin{itemize}
+				\item<1-> Punto inicial: $x_0=(0,0)$ y $\nabla f(x_0)=\binom{-25}{31}$.
+				\item<2-> Minimizamos $f(x,y)$ desde el punto $(0,0)$ en la dirección $\binom{25}{-31}$:
+			
+			
+				Es decir, 
+				$f(0+25\alpha, 0-31\alpha ) = 8(25\alpha)^2 +3\cdot (25 \alpha) (-31\alpha)+ 7(-31\alpha)^2 -25 (25\alpha) + 31(-31\alpha)-29$: $\alpha=0.0843$ y  $x_1=x_0-\alpha\nabla f(x_0)=(2.109,-2.615)$.
+				\item<3-> $x_1=(2.109,-2.615)$ y $\nabla f(x_1)=\binom{0.89}{0.72}$.
+				\item<3->Minimizamos $f(x,y)$ desde $x_1$ en la dirección $\binom{-0.89}{-0.72}$.
+
+				$f(2.109-0.89\alpha,-2.615-0.72\alpha) = 8(2.109-0.89\alpha)^2 +3\cdot (2.109-0.89\alpha) (-2.165-0.72\alpha)+ 7(-2.165-0.72\alpha)^2 -25 (2.109-0.89\alpha) + 31(-2.165-0.72\alpha)-29$.
+			\end{itemize}
+		}
+		\column{0.35\textwidth}{
+			\begin{tikzpicture}
+			\draw[<->,thick] (0,-3)  -- (0,0) -- (3.2,0) ;
+			\visible<1->{\filldraw[black] (2.060,-2.656) circle (2pt) node[above] {\footnotesize $(2.060,-2.656)$};\draw[blue,thick,->] (0,0) -- (-0.5,0.62)   node[above]{$\nabla f(x_o)$};}
+			\visible<1->{\filldraw[red] (0,0) circle (2pt) node[above] {\footnotesize $x_0=(0,0)$};}
+			\visible<2->{\draw[->,red,very thick] (0,0) -- (2.109,-2.615);\draw[blue,thick,->] (0,0) -- (-0.5,0.62)   node[above]{$\nabla f(x_o)$}; }
+			\visible<2->{\filldraw[red](2.109,-2.615) circle (2pt) node[right] {\footnotesize $x_1$};}
+			\end{tikzpicture}
+		}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Método de Newton}\small
+\begin{itemize}\itemsep 2mm
+	\item El método de Newton se puede utilizar para encontrar mínimos de funciones multivariables.
+	\item En cada iteración, la función $f(\vx)$ se aproxima por la función cuadrática mediante la aproximación de Taylor de segundo orden en el punto $\vx_k$.
+		$$
+		f(\vx) = f(\vx_k)+\nabla f(\vx_k)^T (\vx-\vx_k) + \frac{1}{2}(\vx-\vx_k)^T\nabla^2f(\vx_k)(\vx-\vx_k)
+		$$ 
+	\item El punto $\vx_{k+1}$ se obtiene como el punto en el que esta aproximación es mínima:
+		$$
+			\vx_{k+1} = \vx_k- \Bigl[\nabla^2f(\vx_k)\Bigr]^{-1}\nabla f(\vx_k)
+		$$ 
+	\item \alert{Métodos cuasi-Newton:} utilizan una aproximación de la matriz Hessiana.
+\end{itemize}
+\end{frame}
+\begin{frame}{Conclusiones}
+	\begin{itemize}\itemsep 2mm
+		\item En la práctica, los problemas de optimización suelen incluir funciones no lineales. En Ciencia de Datos juegan un papel fundamental
+		\item En ocasiones, es posible reformular o aproximar el problema para convertirlo en un problema lineal.
+		\item En general, NO existe un método de resolución para este tipo de problemas.
+		\item Existen métodos  numéricos muy eficientes para obtener soluciones del problema (muchos utilizan aproximaciones lineales o cuadráticas de las función a optimizar).
+		\item Hoy por hoy, los desarrollos de software permiten abordar este tipo de problemas con muchas garantías de obtener buenas soluciones. 
+	\end{itemize}
+\end{frame}
+{%\1% % this is the name of the PDF file for the background
+	\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+		\titlepage % call the title page information from above
+\end{frame}}
+\end{document}

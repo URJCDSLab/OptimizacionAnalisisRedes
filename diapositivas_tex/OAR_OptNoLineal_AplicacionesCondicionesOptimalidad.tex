@@ -1,0 +1,1514 @@
+\documentclass[aspectratio=169]{beamer}
+\beamertemplatenavigationsymbolsempty
+\mode<presentation> {
+	\usetheme{Boadilla}
+	%	\setbeamercovered{transparent}
+}
+
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+%\usepackage{pstcol,fancybox,pst-node,pst-tree}
+
+\usepackage{pgf,tikz}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows}
+
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+%\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\usepackage{pgfplots}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+	\href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on no lineal] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+	\textbf{Optimizaci\'on no lineal} \\ Aplicaciones de las condiciones Karush-Kuhn-Tucker
+}
+
+\author[]
+{      Antonio Alonso Ayuso \\
+	{\ttfamily antonio.alonso@urjc.es}
+}
+
+\institute[]
+{
+	Universidad Rey Juan Carlos\\
+	
+	%there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{}
+
+
+\AtBeginSubsection[] 
+{
+	\begin{frame}<beamer>
+	\frametitle{Contenidos}
+	\tableofcontents[subsectionstyle=show/shaded/hide,sectionstyle=show/shaded,subsubsectionstyle=hide]
+	%\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+\AtBeginSection[] 
+{
+\begin{frame}<beamer>
+\frametitle{Contenidos}
+\tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide,subsubsectionstyle=hide]
+\end{frame}
+}
+
+
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+\newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vQ}{\V{Q}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+\newcommand{\vV}{\V{v}}
+%%
+%%
+%%
+%% Letras griegas (son las dos primeras letras)
+%%
+\newcommand{\al}{\alpha}
+\newcommand{\be}{\beta}
+\newcommand{\te}{\theta}
+\newcommand{\Te}{\Theta}
+\newcommand{\et}{\hat{\theta}}
+\newcommand{\olambda}{\overline{\lambda}}
+%%
+%% Letras con raya superior
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+\newcommand{\ovy}{\overline{\V{y}}}
+\newcommand{\od}{\overline{d}}
+\newcommand{\oH}{\overline{H}}
+\newcommand{\oJ}{\overline{J}}
+\newcommand{\oN}{\overline{N}}
+\newcommand{\op}{\overline{p}}
+\newcommand{\oQ}{\overline{Q}}
+\newcommand{\oR}{\overline{R}}
+\newcommand{\oS}{\overline{S}}
+\newcommand{\oT}{\overline{T}}
+\newcommand{\ox}{\overline{x}}
+\newcommand{\oy}{\overline{y}}
+\newcommand{\oz}{\overline{z}}
+\newcommand{\oV}{\overline{V}}
+\newcommand{\oW}{\overline{W}}
+\newcommand{\oX}{\overline{X}}
+\newcommand{\oY}{\overline{Y}}
+\newcommand{\oZ}{\overline{Z}}
+%%
+%% gradientes
+%%
+\newcommand{\gf}{\B{\nabla} f}
+\renewcommand{\gg}{\B{\nabla} g}
+\newcommand{\gh}{\B{\nabla} h}
+%%
+%% Flechas
+%%
+\DeclareMathOperator{\implica}{\qquad\Longrightarrow\qquad}
+\DeclareMathOperator{\siysolosi}{\qquad\Longleftrightarrow\qquad}
+%%
+%% n{\'\i}nimo, maxino y limite con acento
+%%
+\mathchardef\isinpunto="0010
+\renewcommand{\min}{\mathop{\rm m\acute{\isinpunto}n}}
+\renewcommand{\lim}{\mathop{\rm l\acute{\isinpunto}m}}
+\renewcommand{\max}{\mathop{\rm m\acute{a}x}}
+\newcommand{\mini}{\mathop{\rm m\acute{\isinpunto}n}}
+\newcommand{\limi}{\mathop{\rm l\acute{\isinpunto}m}}
+\newcommand{\maxi}{\mathop{\rm m\acute{a}x}}
+\newcommand{\seno}{\mathop{\rm sen}}
+%%
+%% alguna notaci{\'o}n del simplex
+%%
+\newcommand{\inte}{\text{inte}}
+\newcommand{\so}{{\mathbf x}^*}
+\newcommand{\sor}{{\overline{\mathbf x}^*}}
+\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+\newcommand{\sori}{{\overline{x}^*_i}}
+\newcommand{\Bi}{{\mathbf B}^{-1}}
+%%
+%\newcolumntype{d}[1]{D{.}{.}{#1}}
+%%
+%% comandos de los colores
+%%
+%\newcommand{\azul}[1]{ {\color{blue} #1}}
+%\newcommand{\rojo}[1]{ {\color{red} #1}}
+%\newcommand{\verde}[1]{ {\color{green} #1}}
+%\newcommand{\cyan}[1]{ {\color{cyan} #1}}
+%\newcommand{\magenta}[1]{{\color{magenta} #1}}
+%\newcommand{\negro}[1]{ {\color{black} #1}}
+
+\newtheorem{ejemplin}{\bf Ejemplo}
+\newcommand{\ds}{\displaystyle}
+%\newcommand{\nat}{I\!\! N}
+%\newcommand{\real}{I\!\! R}
+%\newcommand{\ent}{\mathbb{Z}}
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+%%%%
+%\newcommand{\inte}{\text{inte}}
+%\newcommand{\so}{{\mathbf x}^*}
+%\newcommand{\sor}{{\overline{\mathbf x}^*}}
+%\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+%\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+%\newcommand{\sori}{{\overline{x}^*_i}}
+%\newcommand{\Bi}{{\mathbf B}^{-1}}
+\newcommand{\dif}[1]{\widetilde{#1}}
+%%
+%%
+%% tipos de teoremas
+%%
+\theoremstyle{remark}
+\newtheorem{observacion}{\bf Observaci\'on}
+\newtheorem*{nota}{\bf Nota}
+% %%
+\theoremstyle{plain}
+\newtheorem{relacion}{\bf Relaci\'on}
+\newtheorem{proposicion}{\bf Proposici\'on}
+\newtheorem{lema}{\bf Lema}
+\newtheorem{corolario}{\bf Corolario}
+\newtheorem{teorema}{\bf Teorema}
+%%
+\theoremstyle{definition}
+\newtheorem{definicion}{\bf Definici\'on}
+
+\parskip 5mm
+
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+\titlepage % call the title page information from above
+\end{frame}}
+
+
+\begin{frame}
+\frametitle{Contenidos del tema}
+\tableofcontents
+\end{frame}
+
+\section{Introducción}
+
+\begin{frame}{Introducción}
+	\begin{itemize}\itemsep 5mm
+		\item 	En Optimización Lineal, la potencia de las condiciones KKT se multiplica. 
+		\begin{itemize}\itemsep 2mm
+			\item La función objetivo es lineal: cóncava, convexa y diferenciable.
+			\item Las restricciones son lineales: convexas y, por tanto, cuasi-convexas y diferenciables.
+		\end{itemize}
+		\item En Optimización Cuadrática, la función objetivo es cuadrática y las restricciones lineales.
+		\begin{itemize}\itemsep 2mm
+				\item Se estudian los casos en los que función objetivo es convexa y diferenciable.
+				\item Las restricciones son lineales: convexas y, por tanto, cuasi-convexas y diferenciables.
+			\end{itemize}
+		\item Las condiciones KKT son necesarias y suficientes para caracterizar los mínimos del problema.
+		\item En Optimización Lineal también se pueden aplicar a problemas de maximizar.
+	\end{itemize}
+\end{frame}
+%%
+\section{Optimización Lineal}
+%%
+\begin{frame}{Condiciones KKT en Optimización Lineal}
+	\vspace*{5mm}
+	\begin{columns}
+	\column[t]{0.5\textwidth}
+			\centerline{PRIMAL}\vspace*{-3mm}
+			\begin{align}
+			\nonumber
+			\min\, & \vc^T\vx
+			\\
+			\text{s.a } &  \vA\vx\geq\vb\tag{P}
+			\\ \nonumber
+			& \vx\geq\vv
+			\end{align}
+			\visible<2->{\vspace*{-2mm}\centerline{$\vx$ solución factible}
+			$$
+				\vb\leq \vA\vx 
+			$$
+			\visible<3->{\vspace*{-5mm}$$
+			\vw^T\vb\leq \vw^T\vA\vx
+			$$}}
+		\column[t]{0.5\textwidth}
+			\centerline{DUAL}\vspace*{-3mm}
+			\begin{align}
+			\nonumber
+			\max\, & \vb^T\vw
+			\\
+			\text{s.a } &  \vA^T\vw\leq\vc\tag{D}
+			\\
+			\nonumber
+			& \vw\geq\vv
+			\end{align}
+			\visible<2->{\vspace*{-2mm}\centerline{$\vw$ solución factible}
+			$$
+				\vw^T\vA\leq \vc^T
+			$$
+			\visible<3->{\vspace*{-5mm}
+			$$
+				\vw^T\vA\vx\leq \vc^T\vx
+			$$}}
+	\end{columns}\vspace*{-5mm}
+	\visible<4->{\alert{
+			$$
+			\vw^T\vb\leq \vc^T\vx
+			$$
+			\begin{center}
+				El valor \'{o}ptimo del problema primal est\'{a} acotado inferiormente  por el valor
+				\'{o}ptimo del problema dual y viceversa.
+			\end{center}
+		}
+	}
+\end{frame}
+%%
+\begin{frame}{Condiciones KKT en Optimización Lineal}
+\alert{
+$$
+		\vw^T\vb\leq \vc^T\vx
+$$
+\begin{center}
+El valor \'{o}ptimo del problema primal est\'{a} acotado inferiormente  por el valor
+\'{o}ptimo del problema dual y viceversa.
+\end{center}
+}
+
+Como consecuencia
+\begin{itemize}\itemsep 5mm
+		\item Si para alg\'{u}n par de soluciones factibles el valor de las funciones objetivo coincide, estas ser\'{a}n soluciones \'{o}ptimas.
+		\item Si un problema tiene solución NO acotada, el otro no tiene solución.
+	\end{itemize}
+\end{frame}
+%%
+\begin{frame}{Condiciones KKT en Optimización Lineal}\small
+	
+El problema primal  puede expresarse como:
+\begin{align*}
+	\min\, & \vc^T\vx%\label{PL1}
+	\\
+	\text{s.a } &  \vb-\vA\vx\leq\vv%\label{PL2}
+	\\
+	& -\vx\leq\vv%\label{PL3}
+\end{align*}
+con $\vA$ matriz de restricciones $m\times n$, $\vb$ vector de recursos $m\times 1$, $\vc$
+vector de costes $n\times 1$ y $\vx$ vector de $n$ variables.
+	\begin{itemize}
+		\item La región factible es intersección de semiespacios: es convexa.
+		\item La función objetivo es diferenciable, cóncava y convexa:
+		\begin{itemize}
+			\item Es pseudo-cóncava y pseudo-convexa.
+			\item Los mínimos y máximos locales son globales (aunque no necesariamente únicos).
+		\end{itemize}
+		\item Las restricciones son lineales, por tanto, cuasi-convexas (y cuasi-cóncavas).
+	\end{itemize}
+Por tanto, \alert{las condiciones necesarias KKT son necesarias y suficientes.}
+\end{frame}
+%%
+\begin{frame}{Condiciones KKT en Optimización Lineal}
+	\begin{columns}
+		\column[t]{0.29\textwidth}\small
+			\begin{align}
+			\min\, & \vc^T\vx\label{PL1}
+			\\
+			\text{s.a } &  \vb-\vA\vx\leq\vv\label{PL2}
+			\\
+			& -\vx\leq\vv\label{PL3}
+			\end{align}
+			\begin{align*}
+			\gf(\vx)& =\vc & \\
+			\gg_i(\vx)& =-(\va^i)^T,\\
+			&  i=1,\dots,m\\
+			\gg_i(\vx)& =-\ve^{i-m} ,\\
+			& i=m+1,\dots,n+m\\
+			\end{align*}
+		\column[t]{0.7\textwidth}
+		\begin{itemize}\itemsep 8mm
+			\item Factibilidad primal: $\vA\vx\geq\vb,\qquad\vx\geq\vv.$
+			\item Factibilidad dual: $\vc-\vA^T\vu-\vV=\vv$ con 	 
+			$\vu\geq\vv$ y $\vV\geq\vv$ multiplicadores de \eqref{PL2} y \eqref{PL3}, respectivamente.
+			\item Holgura complementaria:
+			\begin{align*}
+			u_{i}(b_i-\va^i\vx)     & =0 &&\forall i=1,\dots,m
+			\\
+			v_{i}x_i          & =0 &&\forall i=1,\dots,n
+			\end{align*}
+		\end{itemize}
+	\end{columns}
+	Nota: $\va^i$  es la $i$-\'{e}sima fila de $\vA$ y $\ve^j$ es el $j$-ésimo vector unitario de $\Re^n$.
+\end{frame}
+%%
+\begin{frame}[t]{Condiciones KKT en Optimización Lineal}
+Sea un problema de optimización lineal (y su dual):
+$$
+\begin{array}{rll}
+\min\, & \vc^T\vx
+\\
+\text{s.a } &  \vA\vx\geq\vb &\text{(P)}
+\\ \nonumber
+& \vx\geq\vv
+\end{array}\qquad 
+\begin{array}{rlc}
+\nonumber
+\max\, & \vb^T\vw
+\\
+\text{s.a } &  \vA^T\vw\leq\vc &\text{(D)}
+\\
+\nonumber
+& \vw\geq\vv
+\end{array}
+$$
+Y una solución a las condiciones necesarias de KKT, $\vx$, $\vu$, $\vV$:
+\only<2>{
+	\begin{itemize}\itemsep 5mm
+		\item Factibilidad primal: $\vA\vx\geq\vb,\vx\geq\vv$ $\Rightarrow$  $\vx$ es  factible para (P).
+		\item  Factibilidad dual:
+		\begin{equation*}
+		\left.\begin{array}{l}
+				\vc-\vA^T\vu-\vV=\vv \\
+				\vu,\vV\geq 0
+		\end{array}\right\}
+		\Rightarrow
+		\left.\begin{array}{l}
+				\vV= \vc-\vA^T\vu \\
+				\vu,\vV\geq 0
+		\end{array}\right\}
+		\Rightarrow
+		\left.\begin{array}{l}
+				\vc-\vA^T\vu\geq\vv \\
+				\vu\geq\vv
+		\end{array}\right.
+		\end{equation*}
+		y, por tanto, $\vu$ es  factible para (D).
+	\end{itemize}
+	}
+	\only<3>{\small\vspace*{-4mm}
+	\begin{itemize}\itemsep 1mm
+		\item Factibilidad dual: multiplicando por la izquierda por $\vx\geq \vv$:
+		\begin{equation}\tag{4}
+		\vc-\vA^T\vu-\vV=\vv\quad\Rightarrow\quad \vc^T\vx-\vu^T\vA\vx-\vV^T\vx=0
+		\end{equation}
+		\item Holgura complementaria:
+		\begin{equation*}
+			\left.\begin{array}{rl}
+				u_{i}(b_i-\va^i\vx)=0 &\forall i
+				\\[5mm]
+				v_{i}x_i           =0 &\forall i
+			\end{array}\right\}
+			\!\!\Rightarrow\!\!
+			\left.\begin{array}{l} \displaystyle
+				\sum_{i=1}^m u_{i}(b_i-\va^i\vx)=0
+				\\ \displaystyle
+				\sum_{i=1}^n v_{i}x_i           =0
+			\end{array}\right\}
+			\!\!\Rightarrow\!\!
+			\left.\begin{array}{l}
+			\vb^T\vu=\vu^T \vA\vx \\[5mm]
+			\vV^T\vx=0
+			\end{array}\right.
+		\end{equation*}
+		\item Sustituyendo estas expresiones en (4):
+		$\vc^T\vx-\vb^T\vu= 0	$.
+		
+	\end{itemize}
+	}
+\only<4>{
+	\begin{itemize}\itemsep 5 mm
+		\item Factibilidad primal: $\vx$ es factible para (P).
+		\item Factibilidad dual: $\vu$ es factible para (D).
+		\item Holgura complementaria: $\vc^T\vx=\vb^T\vu$.
+	\end{itemize}
+	\begin{center}
+		\alert{$\vx$ y $\vu$ son óptimos para (P) y (D), respectivamente}
+	\end{center}
+}
+\end{frame}
+%%
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+		\alert{El problema tiene soluci\'{o}n \'{o}ptima finita \'{u}nica y no degenerada.}
+\begin{columns}
+	\column{0.5\textwidth}
+		\begin{equation*}
+		\begin{array}{lcrcrccl}
+		\min\, & - & x & - &2 y
+		\\
+		\text{s.a } &  & x & + & y & - &4&\leq 0
+		\\
+		& -& x & + & y & - & 2& \leq 0
+		\\
+		& &2x& +  & y & - & 7& \leq 0
+		\\
+		&  & x,&  & y &   & & \geq 0
+		\end{array}
+		\end{equation*}
+\column{0.5\textwidth}
+\begin{center}
+	\scalebox{0.6}{
+		\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+		\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (4.1,4.1);
+		\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+		\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+		\draw[->,thick,color=black] (0.,-0.5) -- (0.,5);
+		\foreach \y in {1.,2,3,4} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+		\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+		%\draw [->,line width=1pt, color=red] (1,3) -- (0,1) node[right] {$\gf$};
+		%\draw [->,line width=1pt, color=magenta] (1,3) -- (2,5) node[right] {$-\gf$};
+		%\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};;
+		%\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};;
+		\visible<2>{
+			\draw [line width=0.5pt, dashed] (-1,4) -- (3,2) node[right] {$f=-7$};
+			\draw [fill=red,color=red] (1,3) circle (3pt) node[above] {$\ovx$};;
+		}
+		\end{tikzpicture}}
+\end{center}
+\end{columns}
+\visible<2>{La soluci\'{o}n \'{o}ptima es el punto $(1,3)$. }
+\end{frame}
+%%
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{center}
+	\scalebox{0.8}{
+		\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+		\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (4.1,5.1);
+		\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+		\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+		\draw[->,thick,color=black] (0.,-0.5) -- (0.,5);
+		\foreach \y in {1.,2,3,4,5} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+		\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+		\draw [line width=0.5pt, dashed] (-1,4) -- (3,2) node[right] {$f=-7$};
+		\draw [->,line width=1pt, color=red] (1,3) -- (0,1) node[right] {$\gf$};
+		\draw [->,line width=1pt, color=magenta] (1,3) -- (2,5) node[right] {$-\gf$};
+		\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};;
+		\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};;
+		\begin{scriptsize}
+			\draw [fill=black] (1,3) circle (2pt) node[above] {$\ovx$};
+		\end{scriptsize}
+		\end{tikzpicture}}
+\end{center}
+\column{0.5\textwidth}
+\small
+
+Los multiplicadores son $u_1=\frac{3}{2}$ y $u_2=\frac{1}{2}$, y son solución óptima del dual,
+
+\medskip
+
+Los dos gradientes de las restricciones activas forman base, luego, los multiplicadores
+son \'{u}nicos.
+
+\medskip
+
+{\bf El problema dual tiene soluci\'{o}n \'{u}nica no degenerada}.
+
+\end{columns}
+\end{frame}
+
+%%
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+\alert{El problema tiene soluci\'{o}n \'{o}ptima finita \'{u}nica degenerada.} 
+\\
+Esta situaci\'{o}n se presenta en el punto extremo \'{o}ptimo  si hay más restricciones activas que variables.
+\begin{columns}
+	\column{0.5\textwidth}
+\begin{equation*}
+		\begin{array}{lcrcrccl}
+		\min\, & - & x & - & 2y
+		\\
+		\text{s.a } &  & x & + & y & -& 4& \leq 0
+		\\
+		& -& x & + & y & -& 2& \leq 0
+		\\
+		& & 2x& +  & y & -& 7& \leq 0
+		\\
+		&  &  &    & y & -& 3& \leq 0
+		\\
+		&  &x,&    & y &  &  & \geq 0
+		\end{array}
+\end{equation*}
+	\column{0.5\textwidth}
+\begin{center}
+	\scalebox{0.6}{
+		\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+		\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (4.1,4.1);
+		\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+		\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+		\draw[->,thick,color=black] (0.,-0.5) -- (0.,4);
+		\foreach \y in {1.,2,3,4} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+		\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+		%\draw [->,line width=1pt, color=red] (3,1) -- (2,0) node[above] {$\gf$};
+		%\draw [->,line width=2pt, color=magenta] (1,3) -- (2,4) node[above] {$-\gf$};
+		%\draw [->,line width=2pt, color=magenta] (3,1) -- (4,2) node[below] {$-\gf$};
+		%\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};;
+		%\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};;
+		%\draw [->,line width=1.25pt,color=blue] (3,1) -- (4,2) node[above] {$\gg_1$};;
+		%\draw [->,line width=1.25pt,color=blue] (3,1) -- (5,2) node[above] {$\gg_3$};;
+		
+		\draw[<->,line width=1.5pt,color=blue] (-0.25,2.75) -- (-0.25,3) -- (3.5,3) -- (3.5,2.75);;
+		%\draw [->,line width=1.25pt,color=blue] (1,3) -- (1,4) node[above] {$\gg_4$};
+		\draw [fill=black] (1,3) circle (2pt) node[above] {$(1,3)$};
+		\draw [fill=black] (3,1) circle (2pt) node[right] {$(3,1)$};
+		\visible<2>{
+					\draw [fill=red,color=red] (1,3) circle (3pt) ;
+					\draw [line width=0.5pt, dashed] (-1,4) -- (3,2) node[right] {$f=-7$};
+			}
+		\end{tikzpicture}}
+\end{center}
+\end{columns}
+\visible<2>{
+La soluci\'{o}n \'{o}ptima es el punto $(1,3)$ y las restricciones primera, segunda y cuarta son
+		activas.}
+\end{frame}
+
+%%
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+\begin{columns}
+	\column{0.5\textwidth}
+	\begin{center}
+		\scalebox{0.7}{
+			\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+			\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (4.1,5.1);
+			\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+			\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+			\draw[->,thick,color=black] (0.,-0.5) -- (0.,5);
+			\foreach \y in {1.,2,3,4,5} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+			\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+			\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+			\draw[<->,line width=1.5pt,color=blue] (-0.25,2.75) -- (-0.25,3) -- (3.5,3) -- (3.5,2.75);;
+			\draw [line width=0.5pt, dashed] (-1,4) -- (3,2) node[right] {$f=-7$};
+			\draw [->,line width=1pt, color=red] (1,3) -- (0,1) node[right] {$\gf$};
+			\draw [->,line width=1pt, color=magenta] (1,3) -- (2,5) node[right] {$-\gf$};
+			\draw [->,line width=1.25pt,color=blue] (1,3) -- (1,4) node[above] {$\gg_4$};
+			\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};
+			\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};
+			\begin{scriptsize}
+			\draw [fill=black] (1,3) circle (2pt) node[above] {$\ovx$};
+			\end{scriptsize}
+			\end{tikzpicture}}
+	\end{center}
+	\column{0.5\textwidth}
+	\small
+Los gradientes de las restricciones activas no son linealmente
+independientes. 
+
+\medskip 
+
+El punto no es KKT pero si FJ.
+
+\medskip 
+
+Hay multiples combinaciones de multiplicadores para poner $-\gf$ como combinaci\'{o}n lineal positiva de estos tres
+gradientes.
+
+\medskip 
+
+Por ejemplo, 
+$\vu=(u_1,u_2,u_4)=(\frac{3}{2},\frac{1}{2},0)$ y $\vu'=(u_1,u_2,u_4)=(1,0,1)$ 	
+\end{columns}
+\small  Cualquier combinaci\'{o}n convexa de $\vu$ y $\vu'$ tambi\'{e}n es soluci\'{o}n del dual.
+
+Es decir, {\bf el problema dual tiene m\'{u}ltiples soluciones}.
+\end{frame}
+%%
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+\alert{ El problema tiene m\'{u}ltiples soluciones no degeneradas}. 
+
+El conjunto de soluciones viene dado todas las combinaciones convexas de los puntos extremos \'{o}ptimos m\'{a}s, en algunas ocasiones, una combinaci\'{o}n lineal positiva de direcciones extremas. 
+	\begin{center}
+	\scalebox{0.6}{
+		\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+		\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (4.1,4.1);
+		\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+		\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+		\draw[->,thick,color=black] (0.,-0.5) -- (0.,4);
+		\foreach \y in {1.,2,3,4} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+		\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+%		\draw[<->,line width=1.5pt,color=blue] (-0.25,2.75) -- (-0.25,3) -- (3.5,3) -- (3.5,2.75);;
+%		\draw [line width=0.5pt, dashed] (-1,4) -- (3,2) node[right] {$f=-7$};
+		\draw [->,line width=1pt, color=red] (2,2) -- (1,1) node[below] {$\gf$};
+%		\draw [->,line width=1pt, color=magenta] (1,3) -- (2,5) node[right] {$-\gf$};
+%		\draw [->,line width=1.25pt,color=blue] (1,3) -- (1,4) node[above] {$\gg_4$};
+%		\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};
+%		\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};
+		\draw [fill=black] (1,3) circle (2pt) node[above] {$(1,3)$};
+		\draw [fill=black] (3,1) circle (2pt) node[right] {$(3,1)$};
+		\draw [line width=3pt,color=red] (1,3) -- (3,1);
+		\end{tikzpicture}\qquad 
+		\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+			\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (4.1,4.1);
+			\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+			\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+			\draw[->,thick,color=black] (0.,-0.5) -- (0.,4);
+			\foreach \y in {1.,2,3,4} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+			\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+			\draw[line width=0pt,fill=blue,fill opacity=0.25] (4,0) -- (0,0) -- (0,2) --(2,4) -- (4,4 )  ;
+			\draw[<->,line width=1.5pt,color=blue] (4,0) -- (0,0) -- (0,2) --(2,4)   ;
+			\draw [->,line width=1pt, color=red] (1,3) -- (2,2) node[right] {$\gf$};
+			\draw [->, line width=3pt,color=red] (0,2) -- (2,4);
+		\end{tikzpicture}}
+\end{center}		
+\end{frame}
+%%
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+\alert{El problema tiene m\'{u}ltiples soluciones no degeneradas}. 
+\begin{columns}
+	\column{0.5\textwidth}
+		\begin{equation*}
+		\begin{array}{lcrccccl}
+		\min\, & - & x & - & y
+		\\
+		\text{s.a } &  & x & + & y & - &4&\leq 0
+		\\
+		& -& x & + & y & - & 2& \leq 0
+		\\
+		& & 2x& +  & y & - & 7& \leq 0
+		\\
+		&  & x,&  & y &   & & \geq 0
+		\end{array}
+		\end{equation*}
+	\column{0.5\textwidth}
+\begin{center}
+	\scalebox{0.6}{
+		\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+		\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (4.1,4.1);
+		\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+		\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+		\draw[->,thick,color=black] (0.,-0.5) -- (0.,4);
+		\foreach \y in {1.,2,3,4} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+		\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+		\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+		%\draw [->,line width=1pt, color=red] (3,1) -- (2,0) node[above] {$\gf$};
+		%\draw [->,line width=2pt, color=magenta] (1,3) -- (2,4) node[above] {$-\gf$};
+		%\draw [->,line width=2pt, color=magenta] (3,1) -- (4,2) node[below] {$-\gf$};
+		%\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};;
+		%\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};;
+		%\draw [->,line width=1.25pt,color=blue] (3,1) -- (4,2) node[above] {$\gg_1$};;
+		%\draw [->,line width=1.25pt,color=blue] (3,1) -- (5,2) node[above] {$\gg_3$};;
+		
+		%\draw[<->,line width=1.5pt,color=blue] (-0.25,2.75) -- (-0.25,3) -- (3.5,3) -- (3.5,2.75);;
+		%\draw [->,line width=1.25pt,color=blue] (1,3) -- (1,4) node[above] {$\gg_4$};
+		\draw [fill=black] (1,3) circle (2pt) node[above] {$(1,3)$};
+		\draw [fill=black] (3,1) circle (2pt) node[right] {$(3,1)$};
+		\visible<2>{\draw [line width=3pt,color=red] (1,3) -- (3,1);}
+		\end{tikzpicture}}
+\end{center}
+\end{columns}
+\visible<2>{El conjunto de soluciones \'{o}ptimas viene dado por todas las posibles combinaciones convexas de
+		los puntos $(1,3)$ y $(3,1)$.}
+\end{frame}
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+\begin{columns}
+	\column{0.6\textwidth}
+	\begin{center}
+		\scalebox{0.8}{
+			\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+			\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (5.1,5.1);
+			\draw[->,thick,color=black] (-0.5,0) -- (5,0);
+			\foreach \x in {1.,2.,3.,4.,5} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+			\draw[->,thick,color=black] (0.,-0.5) -- (0.,5);
+			\foreach \y in {1.,2,3,4,5} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+			\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+			\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+			\draw [->,line width=1pt, color=red] (3,1) -- (2,0) node[above] {$\gf$};
+			\draw [->,line width=2pt, color=magenta] (1,3) -- (2,4) node[above] {$-\gf$};
+			\draw [->,line width=2pt, color=magenta] (3,1) -- (4,2) node[below] {$-\gf$};
+			\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};;
+			\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};;
+			\draw [->,line width=1.25pt,color=blue] (3,1) -- (4,2) node[above] {$\gg_1$};;
+			\draw [->,line width=1.25pt,color=blue] (3,1) -- (5,2) node[above] {$\gg_3$};;
+			\draw [line width=3pt,color=red] (1,3) -- (3,1);
+			\end{tikzpicture}}
+	\end{center}
+	\column{0.4\textwidth}
+	\small
+	
+		En los puntos \'{o}ptimos,  $u_1=1$ y el resto de los multiplicadores son nulos (incluso en los dos puntos extremos \'{o}ptimos).
+
+\medskip
+
+	Por tanto, la soluci\'{o}n del dual tendr\'{a} a lo sumo una variable no nula y, por tanto, {\bf el
+	problema dual tiene al menos una soluci\'{o}n degenerada.}
+	
+\end{columns}
+\end{frame}
+%%
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+\alert{El problema tiene m\'{u}ltiples soluciones y al menos una es degenerada}. 
+\begin{columns}
+\column{0.5\textwidth}
+		\begin{equation*}
+		\begin{array}{lccccccl}
+		\min\, & - & x & - & y
+		\\
+		\text{s.a } &  & x & + & y & - &4&\leq 0
+		\\
+		& -& x & + & y & - & 2& \leq 0
+		\\
+		& 2& x& +  & y & - & 7& \leq 0
+		\\
+		& & &    & y & - & 3& \leq 0
+		\\
+		&  & x,&  & y &   & & \geq 0
+		\end{array}
+		\end{equation*}
+	\column{0.5\textwidth}
+			\begin{center}
+				\scalebox{0.6}{
+					\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+					\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (4.1,4.1);
+					\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+					\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+					\draw[->,thick,color=black] (0.,-0.5) -- (0.,4);
+					\foreach \y in {1.,2,3,4} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+					\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+					\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+					%\draw [->,line width=1pt, color=red] (3,1) -- (2,0) node[above] {$\gf$};
+					%\draw [->,line width=2pt, color=magenta] (1,3) -- (2,4) node[above] {$-\gf$};
+					%\draw [->,line width=2pt, color=magenta] (3,1) -- (4,2) node[below] {$-\gf$};
+					%\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};;
+					%\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};;
+					%\draw [->,line width=1.25pt,color=blue] (3,1) -- (4,2) node[above] {$\gg_1$};;
+					%\draw [->,line width=1.25pt,color=blue] (3,1) -- (5,2) node[above] {$\gg_3$};;
+					
+					\draw[<->,line width=1.5pt,color=blue] (-0.25,2.75) -- (-0.25,3) -- (3.5,3) -- (3.5,2.75);;
+					%\draw [->,line width=1.25pt,color=blue] (1,3) -- (1,4) node[above] {$\gg_4$};
+					\draw [fill=black] (1,3) circle (2pt) node[above] {$(1,3)$};
+					\draw [fill=black] (3,1) circle (2pt) node[right] {$(3,1)$};
+					\visible<2>{\draw [line width=3pt,color=red] (1,3) -- (3,1);}
+					\end{tikzpicture}}
+			\end{center}
+\end{columns}
+\visible<2->{El conjunto de soluciones \'{o}ptimas viene dado por todas las posibles combinaciones convexas de
+los puntos $(1,3)$ y $(3,1)$.}
+\end{frame}
+
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+\begin{columns}
+	\column{0.5\textwidth}
+	\begin{center}
+		\scalebox{0.75}{
+			\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+			\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (5.1,5.1);
+			\draw[->,thick,color=black] (-0.5,0) -- (5,0);
+			\foreach \x in {1.,2.,3.,4.,5} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+			\draw[->,thick,color=black] (0.,-0.5) -- (0.,5);
+			\foreach \y in {1.,2,3,4,5} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+			\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+			\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+			\draw [->,line width=1pt, color=red] (3,1) -- (2,0) node[above] {$\gf$};
+			\draw [->,line width=2pt, color=magenta] (1,3) -- (2,4) node[above] {$-\gf$};
+			\draw [->,line width=2pt, color=magenta] (3,1) -- (4,2) node[below] {$-\gf$};
+			\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};;
+			\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};;
+			\draw [->,line width=1.25pt,color=blue] (3,1) -- (4,2) node[above] {$\gg_1$};;
+			\draw [->,line width=1.25pt,color=blue] (3,1) -- (5,2) node[above] {$\gg_3$};;
+
+			\draw[<->,line width=1.5pt,color=blue] (-0.25,2.75) -- (-0.25,3) -- (3.5,3) -- (3.5,2.75);;
+			\draw [->,line width=1.25pt,color=blue] (1,3) -- (1,4) node[above] {$\gg_4$};
+
+			\draw [fill=black] (1,3) circle (2pt) node[above] {$(1,3)$};
+			\draw [fill=black] (3,1) circle (2pt) node[right] {$(3,1)$};
+
+			\draw [line width=3pt,color=red] (1,3) -- (3,1);
+			\end{tikzpicture}}
+	\end{center}
+	\column{0.5\textwidth}
+	\small
+	
+	La solución del dual asociada al punto $(3,1)$ es degenerada  (no el resto). 
+	
+	\medskip
+	
+	Las soluciones asociadas a los óptimos de interior del segmento no son degeneradas: por hipótesis, la matriz de restricciones es de rango m\'{a}ximo.
+
+\end{columns}
+\small 	Como en el caso anterior, {\bf el dual tiene soluci\'{o}n degenerada}, aunque  ahora hay dos multiplicadores nulos ($u_2$ y $u_4$).
+\end{frame}
+
+%%
+\begin{frame}[t]{Condiciones KKT. Casos Particulares}
+\alert{El problema tiene soluci\'{o}n no acotada}.
+
+Ning\'{u}n punto verifica las condiciones KKT y, por tanto, {\bf el problema dual no tiene soluci\'{o}n}.
+
+\alert{El problema es no factible}.
+
+Aplicando las condiciones KKT al problema dual, \'{e}ste no puede tener soluci\'{o}n \'{o}ptima finita, ya que en caso contrario, su dual, que es el problema original, tendr\'{\i}a soluci\'{o}n. 
+
+Por tanto, {\bf el problema dual es no factible o tiene soluci\'{o}n no acotada}.
+\end{frame}
+%%
+\begin{frame}{Condiciones KKT en Optimización Lineal}
+
+	Por tanto: 
+	\begin{itemize}
+		\item Si el problema primal tiene soluci\'{o}n
+		\'{u}nica degenerada, entonces el problema dual tiene m\'{u}ltiples soluciones \'{o}ptimos
+		\item Si el problema primal tiene m\'{u}ltiples \'{o}ptimos el problema dual tiene soluci\'{o}n degenerada.
+	\end{itemize}
+
+Como  la dualidad es una propiedad involutiva, se tiene el siguiente resultado:
+	\begin{proposicion}
+		Dado un problema y su dual, uno tiene soluci\'{o}n \'{o}ptima finita degenerada si y s\'{o}lo si el otro
+		tiene m\'{u}ltiples puntos \'{o}ptimos.
+	\end{proposicion}
+\end{frame}
+
+\section{Optimización Cuadrática}
+
+\begin{frame}[t]{Optimización cuadrática}
+Modelo general:
+\begin{align}
+\nonumber
+\min\, & f(\vx)= \vc^T\vx+\frac{1}{2}\vx^T\vQ\vx
+\\
+\text{s.a } &  \vA\vx\geq\vb\tag{C}
+\\ \nonumber
+& \vx\geq\vv
+\end{align}
+\only<2>{
+	\begin{itemize}\itemsep 4mm
+	\item La región factible es un conjunto convexo (intersección de semiespacios)
+	\item Si $f(\vx)$ es convexa ($\vQ$ semidefinida positiva), las condiciones necesarias de KKT son también suficientes.
+	\end{itemize}
+Cualquier solución del sistema KKT es solución óptima para (C).
+}
+\only<3>{
+Sistema KKT:
+\begin{align}
+\vb-\vA\vx\leq\vv \tag{Fact. primal 1}
+\\
+\vx\geq \vv \tag{Fact. primal 2}
+\\
+\vc+\vQ\vx - \vA^T\vu - \vV = \vv\tag{Fact. dual 1}
+\\
+\vu,\vV\geq 0 \tag{Fact. dual 2}
+\\
+u_{i}(b_i-\va^i\vx)     =0 &\quad \forall i=1,\dots,m  \tag{Holg. comp. 1}
+\\
+v_{i}x_i          =0 &\quad\forall i=1,\dots,n  \tag{Holg. comp. 2}
+\end{align}
+}
+\end{frame}
+\begin{frame}[t]{Optimización cuadrática}
+$$
+\vb-\vA\vx\leq\vv \equiv \begin{cases}
+\vb-\vA\vx+\vy =\vv
+\\
+\vy\geq \vv
+\end{cases}
+$$
+Entonces:
+$$
+b_i-\va^i\vx < 0 \quad\Leftrightarrow\quad y_i > 0  \quad \forall i=1,\dots,m  
+$$
+Por tanto:
+$$
+u_{i}(b_i-\va^i\vx)     =0 \quad \equiv\quad u_{i}y_i =0 \quad \forall i=1,\dots,m  
+$$
+Como $\vu,\vV,\vx,\vy\geq 0$
+$$
+\begin{cases}
+u_{i}y_i     =0 &\quad \forall i=1,\dots,m
+\\
+v_{i}x_i          =0 &\quad\forall i=1,\dots,n
+\end{cases}
+\,\Leftrightarrow \, \sum_{i=1}^m u_{i}y_i+\sum_{i=1}^n v_{i}x_i =0\,\equiv\,  \vu^T\vy +\vV^T\vx = 0
+$$
+\end{frame}
+\begin{frame}[t]{Optimización cuadrática}%\small
+El sistema KKT resulta:
+	\begin{align*}
+	\vb-\vA\vx+\vy =\vv 
+	\\
+	\vc+\vQ\vx - \vA^T\vu - \vV \only<3->{\color{red} +\vz}= \vv
+	\\
+	\vx,\vy,\vu,\vV \geq \vv 
+	\\
+	\only<-1>{
+		\vu^T\vy +\vV^T\vx = \vv
+	}
+\only<2>{\quad}
+	\only<3->{
+		\color{red} \vz\geq 0
+	}
+	\end{align*}\vspace*{-10mm}
+\begin{itemize}
+	\item Excepto el último conjunto de restricciones, el sistema es lineal. 
+	\item Se puede aplicar el algoritmo del Simplex para encontrar una solución a este problema:
+	\begin{itemize}
+		\item<2-> Se relaja la restricción de holgura complementaria.
+		\item<3-> Se añaden variables artificiales al conjunto (Fac. dual 1).
+		\item<4-> Se intenta que estas variables tomen el valor cero:
+		$$
+		\min \sum_{i=1}^m z_i
+		$$
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Optimización cuadrática}\small
+	\begin{align*}
+	\min \sum_{i=1}^m z_i\qquad\qquad &
+	\\
+	\vb-\vA\vx+\vy &=\vv 
+	\\
+	\vc+\vQ\vx - \vA^T\vu - \vV  +\vz&= \vv
+	\\
+	\vx,\vy,\vu,\vV,\vz &\geq \vv 
+	\end{align*}\vspace*{-10mm}
+	\visible<2>{
+	\begin{itemize}\itemsep 2mm
+		\item La restricción $\vu^T\vy +\vV^T\vx=0$ se han relajado.
+		\item Para lograr que la solución de este problema sea válida. hay que modificar el criterio de entrada del simplex de forma que:
+		\begin{itemize}
+			\item $u_{i}$ no es candidata a entrar en la base si $y_i$ es básica, y viceversa. 
+			\item $v_{i}$ no es candidata a entrar en la base si $x_i$ es básica, y viceversa. 
+		\end{itemize}
+		\item Si el valor  óptimo de este problema es 0, la solución es óptima para (C).
+		\item Por el contrario, si es estrictamente positivo, (C) NO tiene solución.
+	\end{itemize}
+	}
+\end{frame}
+\begin{frame}[t]{Ejemplo}
+	\begin{columns}
+		\column[t]{0.5\textwidth}
+			\only<1-2>{
+		\begin{equation*}
+			\begin{array}{lrl}
+				\min\, &  (x_1-4)^2 + (x_2-4)^2
+				\\
+				\text{s.a } &   x_1  +  x_2  \leq 4
+				\\
+				& - x_1  +  x_2  \leq 2
+				\\
+				& 2x_1 +   x_2   \leq 7
+				\\
+				&  x_1,   x_2    \geq 0
+			\end{array}
+		\end{equation*}
+			}\only<2-3>{
+		\begin{equation*}
+			\begin{array}{lrl}
+				\min\, &  (x_1-4)^2 + (x_2-4)^2
+				\\
+				\text{s.a } &  -4 + x_1  +  x_2  \leq 0
+				\\
+				&  -2 -x_1  +  x_2  \leq 0
+				\\
+				& -7+2x_1 +   x_2   \leq 0
+				\\
+				&  x_1,   x_2    \geq 0
+			\end{array}
+		\end{equation*}
+			}
+		\visible<3->{
+		\begin{align*}
+			\min z_1+z_2\qquad\qquad\qquad\qquad &
+			\\ -4+ x_1+x_2+ y_1 &=0
+			\\ -2-	x_1+x_2+y_2 &=0
+			\\ 	-7+2x_1+x_2+y_3&=0
+			\\[1mm]
+			2(x_1-4) +u_1-u_2+2u_3-v_1+z_1 & =0
+			\\
+			2(x_2-4) +u_1+u_2+u_3-v_2+z_2 & =0
+			\\
+			x_1,x_2,y_1,y_2,y_3,u_1,u_2,u_3,v_1,v_2,z_1,z_2 &\geq 0 
+		\end{align*}
+		}
+		\column[t]{0.5\textwidth}
+		\begin{center}
+			\scalebox{0.6}{
+				\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+					\clip(-0.3,-0.3) rectangle (4.2,4.2);
+					\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-0.3,-0.3) grid (5.1,5.1);
+					\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+					\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+					\draw[->,thick,color=black] (0.,-0.5) -- (0.,5);
+					\foreach \y in {1.,2,3,4} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+					\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+					\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+					\draw [fill=orange,color=orange] (4,4) circle (3pt) node[left] {$(4,4)$};;
+					%\draw [->,line width=1pt, color=red] (1,3) -- (0,1) node[right] {$\gf$};
+					%\draw [->,line width=1pt, color=magenta] (1,3) -- (2,5) node[right] {$-\gf$};
+					%\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};;
+					%\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};;
+					\visible<2->{
+						\draw [dashed,line width=0.75pt,color=black] (4,4) circle (1.41);
+						\draw [dashed,line width=0.75pt,color=black] (4,4) circle (2.82);
+						\draw [fill=red,color=red] (2,2) circle (3pt) node[left] {$\ovx=(2,2)$};;
+					}
+			\end{tikzpicture}}
+		\end{center}
+	\only<3>{
+		\begin{align*}
+			\min \sum_{i=1}^m z_i\qquad\qquad &
+			\\
+			\vb-\vA\vx+\vy &=\vv 
+			\\
+			\vc+\vQ\vx - \vA^T\vu - \vV  +\vz&= \vv
+			\\
+			\vx,\vy,\vu,\vV,\vz &\geq \vv 
+		\end{align*}
+	}	
+	\end{columns}
+	\vspace*{-5mm}
+\only<4>{
+	\alert{Solución:}
+	\begin{align*}
+	&	x_1=2, \, x_2=2  &  y_1=0,\, y_2=2,\, y_3=1 
+		\\
+	&	u_1=4,\, u_2=0,\, u_3=0 & v_1=0,\, v_2=0
+		\\
+	&	z_1=0,\, z_2=0
+	\end{align*}
+}	
+\end{frame}
+
+\begin{frame}[t]{Ejemplo. Solución}\small
+	\only<1>{
+		\vspace*{-10mm}
+		\begin{align*}
+			\min z_1+z_2\qquad\qquad\qquad\qquad &
+			\\ -4+ x_1+x_2+ y_1 &=0
+			\\ -2-	x_1+x_2+y_2 &=0
+			\\ 	-7+2x_1+x_2+y_3&=0
+			\\[1mm]
+			2(x_1-4) +u_1-u_2+2u_3-v_1+z_1 & =0
+			\\
+			2(x_2-4) +u_1+u_2+u_3-v_2+z_2 & =0
+			\\
+			x_1,x_2,y_1,y_2,y_3,u_1,u_2,u_3,v_1,v_2,z_1,z_2 &\geq 0 
+		\end{align*}
+	}
+\begin{center}
+	\begin{tabular}{ccc|cccccccccccc}
+		$c_j$ & $\rightarrow$ & & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 1} & {\color{gray} 1}  
+		\\ 
+	$\downarrow$	& coste		 & Sol.\ & $x_1$& $x_2$& $y_1$& $y_2$& $y_3$& $u_1$& $u_2$& $u_3$& $v_1$& $v_2$& $z_1$ & $z_2$
+	\\ \cline{3-15}
+		& red.\   &  16 & \only<2-3>{\color{red}}-2 & \only<2-4>{\color{red}}-2 & 0 & 0 & 0 & \only<2>{\color{red}}\only<3>{\color{blue}} -2 & 0 & \only<2>{\color{red}}\only<3>{\color{blue}}-3 & 1 & 1 & 0 & 0   
+		\\ \cline{2-15}
+	{\color{gray} 0}	& $y_1$ & 4 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+		\\
+	{\color{gray} 0}	& $y_2$ & 2 & -1 & \only<4>{\color{red}} 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+		\\
+	{\color{gray} 0}	& $y_3$ & 7 &  2 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+		\\
+	{\color{gray} 1}	& $z_1$ & 8 & 2 & 0 & 0 & 0 & 0 & 1 & -1 & 2 & -1 & 0 & 1 & 0  
+		\\
+	{\color{gray} 1}	& $z_2$ & 8 & 0 & 2 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & -1 & 0 & 1  
+		\\ \cline{2-15}
+	\end{tabular}
+
+\only<2-4>{\alert{Criterio de entrada:} costes reducidos negativos}
+
+\only<3->{\alert{Condición de holgura complementaria:} $u_1$ y $u_3$ no pueden entrar en la base}
+
+\only<4>{ Seleccionamos $x_2$. Según el criterio de salida, sale $y_2$. Pivote: 1}
+
+\end{center}
+\end{frame}
+
+
+\begin{frame}[t]{Ejemplo. Solución}\small
+	\begin{center}
+	\begin{tabular}{ccc|cccccccccccc}
+	$c_j$ & $\rightarrow$ & & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 1} & {\color{gray} 1}  
+	\\ 
+	$\downarrow$	& coste		 & Sol.\ & $x_1$& $x_2$& $y_1$& $y_2$& $y_3$& $u_1$& $u_2$& $u_3$& $v_1$& $v_2$& $z_1$ & $z_2$
+	\\ \cline{3-15}
+	& red.\   &  12 & \only<2-4>{\color{red}}-4 & 0 & 0 & 2 & 0 & \only<2>{\color{red}}\only<3>{\color{blue}} -2 & 0 & \only<2>{\color{red}}\only<3>{\color{blue}}-3 & 1 & 1 & 0 & 0   
+	\\ \cline{2-15}
+	{\color{gray} 0}	& $y_1$ & 2 &  \only<4>{\color{red}} 2 & 0 & 1 & -1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+	\\
+	{\color{gray} 0}	& $x_2$ & 2 & -1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+	\\
+	{\color{gray} 0}	& $y_3$ & 5 &  3 & 0 & -1 & -1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+	\\
+	{\color{gray} 1}	& $z_1$ & 8 & 2 & 0 & 0 & 0 & 0 & 1 & -1 & 2 & -1 & 0 & 1 & 0  
+	\\
+	{\color{gray} 1}	& $z_2$ & 4 & 2 & 0 & 0 & -2 & 0 & 1 & 1 & 1 & 0 & -1 & 0 & 1  
+	\\ \cline{2-15}
+	\end{tabular}
+		
+		\only<2-4>{\alert{Criterio de entrada:} costes reducidos negativos}
+		
+		\only<3->{\alert{Condición de holgura complementaria:} $u_1$ y $u_3$ no pueden entrar en la base}
+		
+		\only<4>{ Seleccionamos $x_1$. Según el criterio de salida, sale $y_1$. Pivote: 2}
+		
+	\end{center}
+\end{frame}
+
+
+
+\begin{frame}[t]{Ejemplo. Solución}\small
+	\begin{center}
+		\begin{tabular}{ccc|cccccccccccc}
+			$c_j$ & $\rightarrow$ & & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 1} & {\color{gray} 1}  
+			\\ 
+			$\downarrow$	& coste		 & Sol.\ & $x_1$& $x_2$& $y_1$& $y_2$& $y_3$& $u_1$& $u_2$& $u_3$& $v_1$& $v_2$& $z_1$ & $z_2$
+			\\ \cline{3-15}
+			& red.\   &  8 &0 & 0 & 2 & 0 & 0 & \only<2-4>{\color{red}} -2 & 0 & \only<2>{\color{red}}\only<3>{\color{blue}}-3 & 1 & 1 & 0 & 0   
+			\\ \cline{2-15}
+			{\color{gray} 0}	& $x_1$ & 1 & 1 & 0 & $\frac{1}{2}$ & $\frac{-1}{2}$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+			\\
+			{\color{gray} 0}	& $x_2$ & 3 & 0 & 1 & $\frac{1}{2}$ & $\frac{1}{2}$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+			\\
+			{\color{gray} 0}	& $y_3$ & 2 &  0 & 0 & $\frac{-5}{2}$ & $\frac{1}{2}$ & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+			\\
+			{\color{gray} 1}	& $z_1$ & 6 & 0 & 0 & -1 & 1 & 0 & 1 & -1 & 2 & -1 & 0 & 1 & 0  
+			\\
+			{\color{gray} 1}	& $z_2$ & 2 & 0 & 0 & -1 & -1 & 0 &  \only<4>{\color{red}}  1 & 1 & 1 & 0 & -1 & 0 & 1  
+			\\ \cline{2-15}
+		\end{tabular}
+		
+		\only<2-4>{\alert{Criterio de entrada:} costes reducidos negativos}
+		
+		\only<3->{\alert{Condición de holgura complementaria:} $u_3$ no puede entrar en la base}
+		
+		\only<4>{ Seleccionamos $u_1$. Según el criterio de salida, sale $z_2$. Pivote: 1}
+		
+	\end{center}
+\end{frame}
+
+
+\begin{frame}[t]{Ejemplo. Solución}\small
+	\begin{center}
+		\begin{tabular}{ccc|cccccccccccc}
+			$c_j$ & $\rightarrow$ & & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 1} & {\color{gray} 1}  
+			\\ 
+			$\downarrow$	& coste		 & Sol.\ & $x_1$& $x_2$& $y_1$& $y_2$& $y_3$& $u_1$& $u_2$& $u_3$& $v_1$& $v_2$& $z_1$ & $z_2$
+			\\ \cline{3-15}
+			& red.\   &  4 &0 & 0 & 0 & \only<2-4>{\color{red}} -2 & 0 & 0 & 2 & \only<2>{\color{red}}\only<3>{\color{blue}}-1 & 1 &\only<2>{\color{red}}\only<3>{\color{blue}} -1 & 0 & 2   
+			\\ \cline{2-15}
+			{\color{gray} 0}	& $x_1$ & 1 & 1 & 0 & $\frac{1}{2}$ & $\frac{-1}{2}$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+			\\
+			{\color{gray} 0}	& $x_2$ & 3 & 0 & 1 & $\frac{1}{2}$ & $\frac{1}{2}$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+			\\
+			{\color{gray} 0}	& $y_3$ & 2 &  0 & 0 & $\frac{-5}{2}$ & $\frac{1}{2}$ & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+			\\
+			{\color{gray} 1}	& $z_1$ & 4 & 0 & 0 & 0 & \only<4>{\color{red}} 2 & 0 & 0 & -2 & 1 & -1 &1 & 1 & -1  
+			\\
+			{\color{gray} 0}	& $u_1$ & 2 & 0 & 0 & -1 & -1 & 0 &   1 & 1 & 1 & 0 & -1 & 0 & 1  
+			\\ \cline{2-15}
+		\end{tabular}
+		
+		\only<2-4>{\alert{Criterio de entrada:} costes reducidos negativos}
+		
+		\only<3->{\alert{Condición de holgura complementaria:} $u_3$ y $v_2$ no pueden entrar en la base}
+		
+		\only<4>{ Seleccionamos $y_2$. Según el criterio de salida, sale $z_1$. Pivote: $2$}
+		
+	\end{center}
+\end{frame}
+
+
+\begin{frame}[t]{Ejemplo. Solución}\small
+	\begin{center}
+		\begin{tabular}{ccc|cccccccccccc}
+			$c_j$ & $\rightarrow$ & & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 0} & {\color{gray} 1} & {\color{gray} 1}  
+			\\ 
+			$\downarrow$	& coste		 & Sol.\ & $x_1$& $x_2$& $y_1$& $y_2$& $y_3$& $u_1$& $u_2$& $u_3$& $v_1$& $v_2$& $z_1$ & $z_2$
+			\\ \cline{3-15}
+			& red.\   &  0 &0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &0 & 1   &1  
+			\\ \cline{2-15}
+			{\color{gray} 0}	& $x_1$ & 2 & 1 & 0 & $\frac{1}{2}$ & $\frac{-1}{2}$ & 0 & 0 & $\frac{-1}{2}$  & $\frac{1}{4}$  & $\frac{-1}{4}$  & $\frac{1}{4}$  & $\frac{1}{4}$  & $\frac{-1}{4}$  
+			\\
+			{\color{gray} 0}	& $x_2$ & 2 & 0 & 1 & $\frac{1}{2}$ & $\frac{1}{2}$ & 0 & 0 & $\frac{1}{2}$  & $\frac{-1}{4}$  & $\frac{1}{4}$  & $\frac{-1}{4}$  & $\frac{-1}{4}$  & $\frac{1}{4}$  
+			\\
+			{\color{gray} 0}	& $y_3$ & 1 &  0 & 0 & $\frac{-5}{2}$ & 0 & 1 & 0 & $\frac{1}{2}$  & $\frac{-1}{4}$  & $\frac{1}{4}$  & $\frac{-1}{4}$  & $\frac{-1}{4}$  & $\frac{1}{4}$  
+			\\
+			{\color{gray} 0}	& $y_2$ & 2 & 0 & 0 & 0 & 1 & 0 & 0 & -1 &  $\frac{1}{2}$  &  $\frac{-1}{2}$  & $\frac{1}{2}$  &  $\frac{1}{2}$  &  $\frac{-1}{2}$   
+			\\
+			{\color{gray} 0}	& $u_1$ & 4 & 0 & 0 & -1 & 0 & 0 &   1 & 0 & $\frac{3}{2}$  & $\frac{-1}{2}$  & $\frac{-1}{2}$  & $\frac{1}{2}$  & $\frac{1}{2}$   
+			\\ \cline{2-15}
+		\end{tabular}
+		
+		\only<2->{\alert{Criterio de entrada:} costes reducidos negativos}
+		
+		\only<3->{\alert{Solución óptima:} $z_1=z_2=0$} 
+		
+	\end{center}
+\end{frame}
+
+
+\begin{frame}[t]{Ejemplo. Interpretación geométrica}
+	\begin{columns}
+		\column[t]{0.5\textwidth}
+			\begin{align*}\small
+				\min z_1+z_2\qquad\qquad\qquad\qquad &
+				\\ -4+ x_1+x_2+ y_1 &=0
+				\\ -2-	x_1+x_2+y_2 &=0
+				\\ 	-7+2x_1+x_2+y_3&=0
+				\\[1mm]
+				2(x_1-4) +u_1-u_2+2u_3-v_1+z_1 & =0
+				\\
+				2(x_2-4) +u_1+u_2+u_3-v_2+z_2 & =0
+				\\
+				x_1,x_2,y_1,y_2,y_3,u_1,u_2,u_3,v_1,v_2,z_1,z_2 &\geq 0 
+			\end{align*}
+		\column[t]{0.5\textwidth}
+		\begin{center}
+			\scalebox{0.6}{
+				\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+					\clip(-2,-1.2) rectangle (4.2,4.2);
+					\draw [color=lightgray, xstep=1.5cm,ystep=1.5cm] (-1,-1) grid (5.1,5.1);
+					\draw[->,thick,color=black] (-0.5,0) -- (4,0);
+					\foreach \x in {1.,2.,3.,4.} \draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\tiny $\x$};
+					\draw[->,thick,color=black] (0.,-0.5) -- (0.,5);
+					\foreach \y in {1.,2,3,4} \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\tiny $\y$};
+					\draw[color=black] (0pt,-10pt) node[right] {\tiny $0$};
+					\draw[line width=1.5pt,color=blue,fill=blue,fill opacity=0.25] (0,0) -- (3.5,0) --(3,1) -- (1,3) -- (0,2) -- (0,0)  ;
+					\draw [fill=orange,color=orange] (4,4) circle (3pt) node[left] {$(4,4)$};
+					%\draw [->,line width=1pt, color=red] (1,3) -- (0,1) node[right] {$\gf$};
+					%\draw [->,line width=1pt, color=magenta] (1,3) -- (2,5) node[right] {$-\gf$};
+					%\draw [->,line width=1.25pt,color=blue] (1,3) -- (0,4) node[right] {$\gg_2$};;
+					%\draw [->,line width=1.25pt,color=blue] (1,3) -- (2,4) node[right] {$\gg_1$};;
+					\draw [dashed,line width=0.75pt,color=black] (4,4) circle (1.41);
+					\visible<1>{
+							\draw [dashed,line width=0.75pt,color=black] (4,4) circle (5.65);
+							\draw [->,line width=1.5pt,color=red] (0,0) -- ++ (-1,-1) node[left] {$\gf$};
+							\draw [->,line width=1.5pt,color=orange] (0,0) -- ++ (1,1) node[right] {$-\gf$};
+							\draw [->,line width=1pt,color=blue] (0,0) -- ++ (-1,0) node[left] {$-\gg_4$};
+							\draw [->,line width=1pt,color=blue] (0,0) -- ++ (0,-1) node[right] {$-\gg_5$};
+							\draw [fill=red,color=red] (0,0) circle (3pt) node[below right] {\footnotesize $\ovx=(0,0)$};
+							\draw [->,dashed,line width=2pt] (0,0) -- ++ (1,0) node[above] {$\nabla\ve_1$};
+							\draw [->,dashed,line width=2pt] (0,0) -- ++ (0,1) node[right] {$\nabla\ve_2$};
+						}
+					\visible<2>{
+							\draw [dashed,line width=0.75pt,color=black] (4,4) circle (4.47);
+							\draw [->,line width=1.5pt,color=red] (0,2) -- ++ (-1,-0.5) node[left] {$\gf$};
+							\draw [->,line width=1.5pt,color=orange] (0,2) -- ++ (1,0.5) node[right] {$-\gf$};
+							\draw [->,line width=1pt,color=blue] (0,2) -- ++ (-1,0) node[left] {$\gg_4$};
+							\draw [->,line width=1pt,color=blue] (0,2) -- ++ (-1,1) node[left] {$\gg_2$};
+							\draw [fill=red,color=red] (0,2) circle (3pt) node[below right] {\footnotesize $\ovx=(0,2)$};
+							\draw [->,dashed,line width=2pt] (0,2) -- ++ (1,0) node[above] {$\nabla\ve_1$};
+							\draw [->,dashed,line width=2pt] (0,2) -- ++ (0,1) node[right] {$\nabla\ve_2$};
+					}
+					\visible<3>{
+						\draw [dashed,line width=0.75pt,color=black] (4,4) circle (3.162);
+						\draw [->,line width=1.5pt,color=red] (1,3) -- ++ (-1,-0.33) node[left] {$\gf$};
+						\draw [->,line width=1.5pt,color=orange] (1,3) -- ++ (1,0.33) node[right] {$-\gf$};
+						\draw [->,line width=1pt,color=blue] (1,3) -- ++ (1,1) node[right] {$\gg_1$};
+						\draw [->,line width=1pt,color=blue] (1,3) -- ++ (-1,1) node[right] {$\gg_2$};
+						\draw [fill=red,color=red] (1,3) circle (3pt) node[left] {\footnotesize $\ovx=(1,3)$};
+						\draw [->,dashed,line width=2pt] (1,3) -- ++ (1,0) node[above] {$\nabla\ve_1$};
+						\draw [->,dashed,line width=2pt] (1,3) -- ++ (0,1) node[right] {$\nabla\ve_2$};
+					}
+					\visible<4>{
+						\draw [dashed,line width=0.75pt,color=black] (4,4) circle (3.162);
+						\draw [->,line width=1.5pt,color=red] (1,3) -- ++ (-1,-0.33) node[left] {$\gf$};
+						\draw [->,line width=1.5pt,color=orange] (1,3) -- ++ (1,0.33) node[right] {$-\gf$};
+						\draw [->,line width=1pt,color=blue] (1,3) -- ++ (1,1) node[right] {$\gg_1$};
+						\draw [->,line width=1pt,color=blue] (1,3) -- ++ (-1,1) node[right] {$\gg_2$};
+						\draw [fill=red,color=red] (1,3) circle (3pt) node[left] {\footnotesize $\ovx=(1,3)$};
+						\draw [->,dashed,line width=2pt] (1,3) -- ++ (1,0) node[above] {$\nabla\ve_1$};
+						\draw [->,dashed,line width=2pt] (1,3) -- ++ (0,1) node[right] {$\nabla\ve_2$};
+					}
+					\visible<5>{
+						\draw [dashed,line width=0.75pt,color=black] (4,4) circle (2.82);
+						\draw [->,line width=2pt,color=red] (2,2) -- ++ (-1,-1) node[left] {$\gf$};
+						\draw [->,line width=2pt,color=orange] (2,2) -- ++ (1,1) node[above] {$-\gf$};
+						\draw [->,line width=1pt,color=blue] (2,2) -- ++ (1,1) node[below] {$\gg_1$};
+						\draw [fill=red,color=red] (2,2) circle (3pt) node[left] {\footnotesize $\ovx=(2,2)$};
+						\draw [->,dashed,line width=2pt] (2,2) -- ++ (1,0) node[above] {$\nabla\ve_1$};
+						\draw [->,dashed,line width=2pt] (2,2) -- ++ (0,1) node[right] {$\nabla\ve_2$};
+					}
+			\end{tikzpicture}}
+		\end{center}
+	\end{columns}
+	\vspace*{-5mm}
+	\only<1>{
+		\alert{Primera iteración: $f(\ovx)=16$}
+		\begin{align*}
+			&	x_1=0, \, x_2=0  &  y_1=4,\, y_2=2,\, y_3=7 
+			\\
+			&	u_1=0,\, u_2=0,\, u_3=0 & v_1=0,\, v_2=0
+			\\
+			&	z_1=8,\, z_2=8
+		\end{align*}
+	}	
+	\only<2>{
+	\alert{Segunda iteración: $f(\ovx)=12$}
+	\begin{align*}
+		&	x_1=0, \, x_2=2  &  y_1=4,\, y_2=0,\, y_3=5 
+		\\
+		&	u_1=0,\, u_2=0,\, u_3=0 & v_1=0,\, v_2=0
+		\\
+		&	z_1=8,\, z_2=4
+	\end{align*}
+	}	
+	\only<3>{
+	\alert{Tercera iteración: $f(\ovx)=8$}
+	\begin{align*}
+		&	x_1=1, \, x_2=3  &  y_1=0,\, y_2=0,\, y_3=2 
+		\\
+		&	u_1=0,\, u_2=0,\, u_3=0 & v_1=0,\, v_2=0
+		\\
+		&	z_1=6,\, z_2=2
+	\end{align*}
+	}	
+	\only<4>{
+	\alert{Cuarta iteración: $f(\ovx)=4$}
+	\begin{align*}
+		&	x_1=1, \, x_2=3  &  y_1=0,\, y_2=0,\, y_3=2 
+		\\
+		&	u_1=2,\, u_2=0,\, u_3=0 & v_1=0,\, v_2=0
+		\\
+		&	z_1=4,\, z_2=0
+	\end{align*}
+	}	
+	\only<5>{
+	\alert{Última iteración: $f(\ovx)=0$}
+	\begin{align*}
+		&	x_1=2, \, x_2=2  &  y_1=0,\, y_2=2,\, y_3=1 
+		\\
+		&	u_1=4,\, u_2=0,\, u_3=0 & v_1=0,\, v_2=0
+		\\
+		&	z_1=0,\, z_2=0
+	\end{align*}
+}	
+\end{frame}
+
+
+
+
+\section{Conclusiones}
+
+\begin{frame}{Conclusiones}
+\begin{itemize}\itemsep 5mm
+	\item  Las condiciones KKT proporcionan condiciones necesarias y suficientes para la resolución del problemas lineales.
+	\item En el caso de problemas cuadráticos, si la función objetivo es convexa, el uso de las condiciones KKT permiten obtener un modelo lineal que resuelve el problema cuadrático (no lineal).
+\end{itemize}
+\end{frame}
+
+\end{document}

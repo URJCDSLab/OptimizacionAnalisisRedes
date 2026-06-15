@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Introducción a la Investigación Operativa – Apuntes de Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema2.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="estilos_html.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema1.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la Investigación Operativa</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Apuntes de Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la Investigación Operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización No Lineal y Métodos Numéricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Convexo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de Optimalidad y KKT</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aplicaciones de KKT: Programación Lineal y Cuadrática</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimización en Ciencia de Datos: Regresión y SVM</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a Grafos y Árboles Soporte</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">El Problema del Camino Mínimo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Problemas de Flujo en Redes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problemas de Emparejamiento (Matching)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Rutas Eulerianas, Hamiltonianas y TSP</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#definición-e-historia-de-la-investigación-operativa" id="toc-definición-e-historia-de-la-investigación-operativa" class="nav-link active" data-scroll-target="#definición-e-historia-de-la-investigación-operativa"><span class="header-section-number">1.1</span> Definición e Historia de la Investigación Operativa</a>
+  <ul class="collapse">
+  <li><a href="#raíces-históricas-y-el-nacimiento-de-la-disciplina" id="toc-raíces-históricas-y-el-nacimiento-de-la-disciplina" class="nav-link" data-scroll-target="#raíces-históricas-y-el-nacimiento-de-la-disciplina"><span class="header-section-number">1.1.1</span> Raíces Históricas y el Nacimiento de la Disciplina</a></li>
+  <li><a href="#definiciones-formales" id="toc-definiciones-formales" class="nav-link" data-scroll-target="#definiciones-formales"><span class="header-section-number">1.1.2</span> Definiciones Formales</a></li>
+  <li><a href="#herramientas-de-la-investigación-operativa" id="toc-herramientas-de-la-investigación-operativa" class="nav-link" data-scroll-target="#herramientas-de-la-investigación-operativa"><span class="header-section-number">1.1.3</span> Herramientas de la Investigación Operativa</a></li>
+  </ul></li>
+  <li><a href="#el-concepto-de-modelo-en-ciencias-de-la-decisión" id="toc-el-concepto-de-modelo-en-ciencias-de-la-decisión" class="nav-link" data-scroll-target="#el-concepto-de-modelo-en-ciencias-de-la-decisión"><span class="header-section-number">1.2</span> El Concepto de Modelo en Ciencias de la Decisión</a>
+  <ul class="collapse">
+  <li><a href="#clasificación-general-de-los-modelos" id="toc-clasificación-general-de-los-modelos" class="nav-link" data-scroll-target="#clasificación-general-de-los-modelos"><span class="header-section-number">1.2.1</span> Clasificación General de los Modelos</a></li>
+  <li><a href="#el-ciclo-de-vida-del-modelado-matemático" id="toc-el-ciclo-de-vida-del-modelado-matemático" class="nav-link" data-scroll-target="#el-ciclo-de-vida-del-modelado-matemático"><span class="header-section-number">1.2.2</span> El Ciclo de Vida del Modelado Matemático</a></li>
+  </ul></li>
+  <li><a href="#formulación-general-de-modelos-de-optimización" id="toc-formulación-general-de-modelos-de-optimización" class="nav-link" data-scroll-target="#formulación-general-de-modelos-de-optimización"><span class="header-section-number">1.3</span> Formulación General de Modelos de Optimización</a>
+  <ul class="collapse">
+  <li><a href="#clasificación-de-los-modelos-de-optimización" id="toc-clasificación-de-los-modelos-de-optimización" class="nav-link" data-scroll-target="#clasificación-de-los-modelos-de-optimización"><span class="header-section-number">1.3.1</span> Clasificación de los Modelos de Optimización</a></li>
+  </ul></li>
+  <li><a href="#la-estructura-del-libro-optimización-no-lineal-y-en-redes" id="toc-la-estructura-del-libro-optimización-no-lineal-y-en-redes" class="nav-link" data-scroll-target="#la-estructura-del-libro-optimización-no-lineal-y-en-redes"><span class="header-section-number">1.4</span> La Estructura del Libro: Optimización No Lineal y en Redes</a>
+  <ul class="collapse">
+  <li><a href="#bloque-i-optimización-no-lineal-temas-2-a-6" id="toc-bloque-i-optimización-no-lineal-temas-2-a-6" class="nav-link" data-scroll-target="#bloque-i-optimización-no-lineal-temas-2-a-6"><span class="header-section-number">1.4.1</span> Bloque I: Optimización No Lineal (Temas 2 a 6)</a></li>
+  <li><a href="#bloque-ii-optimización-en-redes-temas-7-a-11" id="toc-bloque-ii-optimización-en-redes-temas-7-a-11" class="nav-link" data-scroll-target="#bloque-ii-optimización-en-redes-temas-7-a-11"><span class="header-section-number">1.4.2</span> Bloque II: Optimización en Redes (Temas 7 a 11)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la Investigación Operativa</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>La <strong>Investigación Operativa</strong> (conocida internacionalmente como <em>Operations Research</em> o <em>Management Science</em>) es la disciplina científica que aplica métodos analíticos avanzados para dar soporte a la toma de decisiones complejas en sistemas reales. Lejos de constituir un mero conjunto de herramientas analíticas o algoritmos aislados, representa una metodología sistemática y estructurada. Combina la modelización matemática, el análisis estadístico y la optimización para diseñar, gestionar y mejorar sistemas complejos bajo condiciones de recursos limitados.</p>
+<p>En este capítulo de apertura, estableceremos las bases conceptuales y epistemológicas de la disciplina. Exploraremos el origen histórico de la Investigación Operativa, formalizaremos el concepto de modelo matemático, detallaremos las fases fundamentales del ciclo de modelización y describiremos los elementos estructurales de un problema de optimización. Finalmente, introduciremos las dos grandes vertientes que estructuran este volumen: la optimización no lineal y la optimización en redes.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Objetivos de aprendizaje">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo, serás capaz de:</p>
+<ol type="1">
+<li><strong>Definir</strong> el alcance, el origen y las herramientas esenciales de la Investigación Operativa en el ámbito profesional y académico.</li>
+<li><strong>Diferenciar</strong> entre modelos físicos (concretos) y matemáticos (abstractos), comprendiendo el equilibrio crítico entre realismo y manejabilidad matemática.</li>
+<li><strong>Describir y aplicar</strong> las cuatro fases del ciclo de vida de un proyecto de modelización matemática.</li>
+<li><strong>Estructurar formalmente</strong> un problema de optimización matemática, identificando sus variables de decisión, restricciones y función objetivo.</li>
+<li><strong>Clasificar</strong> los problemas de optimización atendiendo a criterios de linealidad, dominio de variables y presencia de incertidumbre.</li>
+</ol>
+</div>
+</div>
+<section id="definición-e-historia-de-la-investigación-operativa" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="definición-e-historia-de-la-investigación-operativa"><span class="header-section-number">1.1</span> Definición e Historia de la Investigación Operativa</h2>
+<section id="raíces-históricas-y-el-nacimiento-de-la-disciplina" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="raíces-históricas-y-el-nacimiento-de-la-disciplina"><span class="header-section-number">1.1.1</span> Raíces Históricas y el Nacimiento de la Disciplina</h3>
+<p>La Investigación Operativa no nació en laboratorios académicos aislados, sino en el fragor de la necesidad estratégica y militar durante la Segunda Guerra Mundial. A finales de la década de 1930, el mando militar británico se enfrentaba a la inminente amenaza aérea del régimen nazi. Para contrarrestarla, desarrollaron el sistema de radares costeros, pero se percataron rápidamente de que disponer de la tecnología no bastaba: era imperativo aprender a utilizarla de manera integrada y eficiente.</p>
+<p>Fue entonces cuando el físico británico Patrick Blackett organizó un grupo multidisciplinar de científicos (que incluía matemáticos, físicos, astrofísicos y militares) conocido históricamente como el <strong>“Blackett’s Circus”</strong> (el Circo de Blackett). Este equipo analizó científicamente las operaciones militares reales, logrando hitos memorables como la determinación del tamaño óptimo de los convoyes navales de suministro para minimizar las pérdidas causadas por los submarinos alemanes, o la calibración de la profundidad de detonación de las cargas antisubmarinas en los bombarderos.</p>
+<p>Paralelamente, en la Unión Soviética, el matemático y economista <strong>Leonid Kantorovich</strong> desarrolló de forma independiente técnicas de planificación matemática para la industria del carbón y del acero en 1939. Kantorovich sentó las bases de lo que hoy conocemos como Programación Lineal, trabajo que le valdría el Premio Nobel de Economía en 1975 por su teoría sobre la asignación óptima de recursos.</p>
+<p>Tras la finalización del conflicto mundial, en 1947, el matemático estadounidense <strong>George Dantzig</strong> revolucionó la disciplina al proponer el <strong>método del Símplex</strong>, un algoritmo sistemático y extremadamente eficiente para resolver problemas de programación lineal. Este descubrimiento coincidió con la invención y el rápido desarrollo de las primeras computadoras electrónicas, lo que permitió aplicar las metodologías de la Investigación Operativa a la planificación industrial, la logística comercial, el sector financiero y la administración pública. La rápida expansión económica de la posguerra demandaba una gestión científica y optimizada de las grandes corporaciones, consolidando el éxito de esta disciplina.</p>
+</section>
+<section id="definiciones-formales" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="definiciones-formales"><span class="header-section-number">1.1.2</span> Definiciones Formales</h3>
+<p>Existen dos definiciones clásicas promovidas por las instituciones profesionales de referencia a nivel mundial:</p>
+<ul>
+<li><strong>The Operational Research Society (Reino Unido)</strong>: La Investigación Operativa es la aplicación del método científico a problemas complejos en la dirección y gestión de grandes sistemas de personas, máquinas, materiales y recursos financieros en la industria, el comercio, la administración pública y la defensa. Su enfoque característico reside en construir un modelo científico del sistema, incorporando factores de riesgo e incertidumbre, para predecir y comparar las consecuencias de diversas decisiones, estrategias y controles alternativos.</li>
+<li><strong>Institute for Operations Research and the Management Sciences (INFORMS, EE.UU.)</strong>: La Investigación Operativa se define como el empleo de la ciencia de la decisión y la modelización analítica avanzada para resolver problemas y mejorar el rendimiento de sistemas y procesos de negocio complejos.</li>
+</ul>
+</section>
+<section id="herramientas-de-la-investigación-operativa" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="herramientas-de-la-investigación-operativa"><span class="header-section-number">1.1.3</span> Herramientas de la Investigación Operativa</h3>
+<p>Para dar respuesta a problemas de diversa naturaleza, la Investigación Operativa se sirve de un amplio catálogo de metodologías científicas:</p>
+<ul>
+<li><strong>Optimización matemática</strong>: Modelos lineales, enteros, no lineales y dinámicos orientados a maximizar rendimientos o minimizar costes bajo restricciones de recursos.</li>
+<li><strong>Teoría de grafos y optimización en redes</strong>: Algoritmos discretos para resolver problemas de conectividad, distribución, transporte y caminos óptimos.</li>
+<li><strong>Procesos estocásticos y teoría de colas</strong>: Modelización del comportamiento de sistemas sujetos a aleatoriedad y análisis de líneas de espera en sistemas de servicios, logística y telecomunicaciones.</li>
+<li><strong>Simulación computacional</strong>: Simulación analítica (como los métodos de Montecarlo o la simulación de eventos discretos) para evaluar el rendimiento de sistemas complejos cuando las soluciones analíticas cerradas resultan inviables.</li>
+<li><strong>Teoría de juegos y decisión multicriterio</strong>: Análisis de interacciones estratégicas entre agentes competitivos y metodologías para tomar decisiones cuando existen múltiples objetivos contrapuestos.</li>
+</ul>
+</section>
+</section>
+<section id="el-concepto-de-modelo-en-ciencias-de-la-decisión" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="el-concepto-de-modelo-en-ciencias-de-la-decisión"><span class="header-section-number">1.2</span> El Concepto de Modelo en Ciencias de la Decisión</h2>
+<p>Un <strong>modelo</strong> es una representación simplificada, abstracta y selectiva de un sistema real destinada a facilitar la comprensión de su estructura interna y predecir su comportamiento bajo diversos escenarios.</p>
+<p>La labor del modelador matemático es similar a la del cartógrafo. Tal y como enunció el filósofo Alfred Korzybski, <em>“el mapa no es el territorio”</em>. Un mapa a escala 1:1 sería perfectamente inútil por su inmanejabilidad. De igual modo, un modelo matemático que pretenda incluir cada mínimo detalle físico del sistema real resultará intratable computacionalmente. La clave reside en realizar una <strong>abstracción selectiva</strong>: identificar y capturar las variables esenciales del problema eliminando el ruido irrelevante, logrando un equilibrio óptimo entre fidelidad (realismo) y manejabilidad (capacidad de resolución).</p>
+<section id="clasificación-general-de-los-modelos" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="clasificación-general-de-los-modelos"><span class="header-section-number">1.2.1</span> Clasificación General de los Modelos</h3>
+<p>Atendiendo a su naturaleza física o abstracta, los modelos se dividen clásicamente en:</p>
+<ul>
+<li><strong>Modelos concretos o icónicos</strong>: Representaciones físicas a escala del sistema real. Ejemplos de esto son las maquetas de aviones ensayadas en túneles de viento o los modelos tridimensionales de proteínas. Su análisis se realiza mediante experimentación directa.</li>
+<li><strong>Modelos abstractos o analíticos</strong>: Representaciones formales donde las variables del sistema y sus relaciones lógicas se expresan mediante ecuaciones, inecuaciones y funciones matemáticas. Son el objeto de estudio de la optimización y permiten una manipulación analítica o numérica asistida por computadoras.</li>
+</ul>
+<p>Desde la perspectiva de su propósito metodológico, podemos catalogar los modelos matemáticos en tres niveles de madurez analítica:</p>
+<ol type="1">
+<li><strong>Modelos Descriptivos</strong>: Representan la estructura del sistema para responder a la pregunta <em>“¿qué está ocurriendo?”</em>.</li>
+<li><strong>Modelos Predictivos</strong>: Utilizan datos históricos y estadística para responder a la pregunta <em>“¿qué podría ocurrir en el futuro?”</em>.</li>
+<li><strong>Modelos Prescriptivos</strong>: Integran los niveles anteriores para responder a la pregunta <em>“¿qué decisión debemos tomar para optimizar el rendimiento del sistema?”</em>. La optimización matemática pertenece a esta última categoría.</li>
+</ol>
+</section>
+<section id="el-ciclo-de-vida-del-modelado-matemático" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="el-ciclo-de-vida-del-modelado-matemático"><span class="header-section-number">1.2.2</span> El Ciclo de Vida del Modelado Matemático</h3>
+<p>La resolución de un problema mediante la Investigación Operativa no consiste en un proceso lineal, sino en un ciclo iterativo de retroalimentación constante que consta de cuatro fases diferenciadas:</p>
+<ol type="1">
+<li><strong>Observación y definición del problema</strong>: Se estudian los límites del sistema real y se identifican las metas del decisor. Se recopilan, depuran y analizan los datos empíricos relevantes del problema.</li>
+<li><strong>Formulación matemática</strong>: Se eligen las variables que representan las decisiones controlables, se describen las limitaciones físicas y operativas mediante restricciones (ecuaciones e inecuaciones) y se formaliza la métrica de éxito o coste como una función objetivo.</li>
+<li><strong>Validación y análisis de sensibilidad</strong>: Se resuelve el modelo numéricamente y se contrasta si las soluciones obtenidas son coherentes con la realidad del sistema. Se evalúa la robustez del modelo mediante el análisis de sensibilidad, midiendo cómo varían las decisiones óptimas ante perturbaciones en los parámetros del modelo.</li>
+<li><strong>Implementación e integración</strong>: Se traduce la solución matemática en decisiones operativas ejecutables por la organización. Se diseñan sistemas informáticos de soporte a la decisión y se establecen mecanismos de supervisión para detectar cambios en el sistema real que exijan reformular el modelo.</li>
+</ol>
+</section>
+</section>
+<section id="formulación-general-de-modelos-de-optimización" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="formulación-general-de-modelos-de-optimización"><span class="header-section-number">1.3</span> Formulación General de Modelos de Optimización</h2>
+<p>Un modelo de optimización matemática busca seleccionar la mejor alternativa posible dentro de un conjunto de soluciones factibles. Su formulación matemática genérica se escribe formalmente como:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min_{x} \text{ o } \max_{x} \quad &amp; f(x) \\
+\text{sujeto a} \quad &amp; g_i(x) \le 0, \quad i = 1, \dots, m \\
+&amp; h_j(x) = 0, \quad j = 1, \dots, p \\
+&amp; x \in X \subseteq \mathbb{R}^n
+\end{aligned}
+\]</span></p>
+<p>Donde los componentes esenciales del modelo son:</p>
+<ul>
+<li><strong>Variables de decisión (<span class="math inline">\(x\)</span>)</strong>: El vector <span class="math inline">\(x = (x_1, x_2, \dots, x_n)^T\)</span> de dimensiones <span class="math inline">\(n\)</span> que representa los factores bajo control directo del decisor que se desea determinar.</li>
+<li><strong>Función objetivo (<span class="math inline">\(f(x)\)</span>)</strong>: La función escalar de las variables de decisión que mide la efectividad, el coste, el tiempo o el beneficio del sistema y que se pretende optimizar (minimizar o maximizar).</li>
+<li><strong>Restricciones de desigualdad (<span class="math inline">\(g_i(x) \le 0\)</span>) e igualdad (<span class="math inline">\(h_j(x) = 0\)</span>)</strong>: Ecuaciones o inecuaciones que representan límites físicos (capacidad, stock), económicos (presupuesto), técnicos o de balance de flujo del sistema. Definen el <strong>espacio factible</strong> (o región factible) <span class="math inline">\(\mathcal{S}\)</span> del problema.</li>
+<li><strong>Espacio de definición (<span class="math inline">\(X\)</span>)</strong>: El dominio general donde viven las variables (por ejemplo, números reales, enteros, no negativos, etc.).</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo Ilustrativo: La Dieta Óptima (Formulación Paso a Paso)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Ejemplo Ilustrativo: La Dieta Óptima (Formulación Paso a Paso)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Supongamos que deseamos diseñar una dieta de bajo coste utilizando dos alimentos básicos: Leche (<span class="math inline">\(x_1\)</span>) y Verdura (<span class="math inline">\(x_2\)</span>). Disponemos de los siguientes datos de coste y nutrición:</p>
+<ul>
+<li>Un litro de leche cuesta <span class="math inline">\(0.80\)</span> € y aporta <span class="math inline">\(3\)</span> unidades de calcio y <span class="math inline">\(1\)</span> unidad de hierro.</li>
+<li>Un kilo de verdura cuesta <span class="math inline">\(1.20\)</span> € y aporta <span class="math inline">\(1\)</span> unidad de calcio y <span class="math inline">\(2\)</span> unidades de hierro.</li>
+<li>Los requisitos mínimos diarios de un individuo son <span class="math inline">\(6\)</span> unidades de calcio y <span class="math inline">\(4\)</span> unidades de hierro.</li>
+</ul>
+<p>Para formular el modelo matemático de este problema operativo:</p>
+<ol type="1">
+<li><strong>Variables de decisión</strong>:
+<ul>
+<li><span class="math inline">\(x_1\)</span>: Litros de leche consumidos al día.</li>
+<li><span class="math inline">\(x_2\)</span>: Kilos de verdura consumidos al día.</li>
+</ul></li>
+<li><strong>Función objetivo (minimizar el coste total diario)</strong>: <span class="math display">\[ \min \quad 0.80 x_1 + 1.20 x_2 \]</span></li>
+<li><strong>Restricciones</strong>:
+<ul>
+<li>Requisito de Calcio: <span class="math inline">\(3 x_1 + 1 x_2 \ge 6 \implies 6 - 3 x_1 - x_2 \le 0\)</span></li>
+<li>Requisito de Hierro: <span class="math inline">\(1 x_1 + 2 x_2 \ge 4 \implies 4 - x_1 - 2 x_2 \le 0\)</span></li>
+<li>No negatividad (no se puede consumir comida negativa): <span class="math inline">\(x_1, x_2 \ge 0\)</span></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<section id="clasificación-de-los-modelos-de-optimización" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="clasificación-de-los-modelos-de-optimización"><span class="header-section-number">1.3.1</span> Clasificación de los Modelos de Optimización</h3>
+<p>Atendiendo a las propiedades algebraicas y analíticas de sus componentes, los problemas de optimización se clasifican de la siguiente manera:</p>
+<ul>
+<li><strong>Según la linealidad</strong>:
+<ul>
+<li><em>Programación Lineal (LP)</em>: Tanto la función objetivo <span class="math inline">\(f(x)\)</span> como todas las funciones de restricciones <span class="math inline">\(g_i(x)\)</span> e <span class="math inline">\(h_j(x)\)</span> son funciones afines (de primer grado). Permiten la aplicación del algoritmo del Símplex y métodos de punto interior. Su resolución numérica es sumamente rápida, pudiendo manejar millones de variables y restricciones.</li>
+<li><em>Programación No Lineal (NLP)</em>: Al menos una de las funciones involucradas (<span class="math inline">\(f\)</span>, <span class="math inline">\(g_i\)</span> o <span class="math inline">\(h_j\)</span>) presenta curvatura o componentes no lineales (como potencias, exponenciales, logaritmos o funciones trigonométricas). La búsqueda del óptimo requiere herramientas de cálculo multivariable y análisis de curvatura.</li>
+</ul></li>
+<li><strong>Según el dominio de definición</strong>:
+<ul>
+<li><em>Optimización Continua</em>: El espacio de búsqueda <span class="math inline">\(X\)</span> es continuo (<span class="math inline">\(x \in \mathbb{R}^n\)</span>). Esto nos permite explotar las derivadas de la función (gradiente, hessiana) para dirigir la búsqueda.</li>
+<li><em>Optimización Entera o Discreta (IP)</em>: Las variables de decisión solo pueden tomar valores en el conjunto de los números enteros (<span class="math inline">\(x \in \mathbb{Z}^n\)</span>). Estos problemas son combinatorios y presentan una alta dificultad de resolución (son NP-duros).</li>
+<li><em>Optimización Binaria</em>: Las variables se restringen a <span class="math inline">\(x_j \in \{0, 1\}\)</span>, representando decisiones lógicas excluyentes del tipo “sí” o “no” (por ejemplo, construir una planta o no).</li>
+<li><em>Optimización Entera Mixta (MIP)</em>: Coexisten variables continuas y enteras/binarias dentro del mismo modelo, permitiendo modelar simultáneamente decisiones lógicas y cantidades físicas continuas.</li>
+</ul></li>
+<li><strong>Según la presencia de incertidumbre</strong>:
+<ul>
+<li><em>Optimización Determinista</em>: Todos los coeficientes y parámetros del modelo se conocen con absoluta certeza.</li>
+<li><em>Optimización Estocástica</em>: Algunos parámetros del modelo se comportan como variables aleatorias con distribuciones de probabilidad conocidas. Se busca optimizar el valor esperado o cumplir restricciones de probabilidad (restricciones de azar).</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="la-estructura-del-libro-optimización-no-lineal-y-en-redes" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="la-estructura-del-libro-optimización-no-lineal-y-en-redes"><span class="header-section-number">1.4</span> La Estructura del Libro: Optimización No Lineal y en Redes</h2>
+<p>Este volumen se organiza en dos bloques metodológicos bien diferenciados por su naturaleza matemática, geométrica y algorítmica:</p>
+<section id="bloque-i-optimización-no-lineal-temas-2-a-6" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="bloque-i-optimización-no-lineal-temas-2-a-6"><span class="header-section-number">1.4.1</span> Bloque I: Optimización No Lineal (Temas 2 a 6)</h3>
+<p>Cuando abandonamos la hipótesis de linealidad, la optimización matemática gana sustancialmente en realismo, pero incrementa de manera drástica su complejidad teórica y computacional.</p>
+<ul>
+<li><strong>Métodos Numéricos (Tema 2)</strong>: Estudiaremos las herramientas fundamentales de la optimización continua sin restricciones en una y múltiples dimensiones. Analizaremos algoritmos de búsqueda unidimensional (sección áurea, Fibonacci, bisección, Newton) y métodos multivariables basados en el gradiente (descenso de gradiente, método de Newton y técnicas Quasi-Newton como BFGS).</li>
+<li><strong>Análisis Convexo (Tema 3)</strong>: Estableceremos las propiedades de los conjuntos y funciones convexas. En este marco matemático se formula el resultado cardinal de la optimización: cualquier mínimo local es de forma garantizada un mínimo global, dotando a los algoritmos numéricos de una gran estabilidad. Introduciremos el concepto de subgradiente para manejar funciones no diferenciables.</li>
+<li><strong>Condiciones KKT (Temas 4 y 5)</strong>: Analizaremos las condiciones necesarias y suficientes de optimalidad para problemas restringidos mediante los multiplicadores de Lagrange y las condiciones de Karush-Kuhn-Tucker. Estudiaremos su aplicación a la programación lineal y cuadrática (el algoritmo del Símplex de Wolfe).</li>
+<li><strong>Ciencia de Datos (Tema 6)</strong>: Veremos la aplicación de la optimización continua en el aprendizaje automático moderno, analizando la regresión robusta bajo diferentes normas (<span class="math inline">\(\ell_1\)</span>, <span class="math inline">\(\ell_2\)</span>, <span class="math inline">\(\ell_\infty\)</span>), las Máquinas de Vectores de Soporte (SVM) y la explicabilidad mediante contrafácticos.</li>
+</ul>
+</section>
+<section id="bloque-ii-optimización-en-redes-temas-7-a-11" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="bloque-ii-optimización-en-redes-temas-7-a-11"><span class="header-section-number">1.4.2</span> Bloque II: Optimización en Redes (Temas 7 a 11)</h3>
+<p>La optimización en redes aprovecha la estructura combinatorial de los grafos para resolver problemas de gran envergadura de forma extremadamente eficiente.</p>
+<ul>
+<li><strong>Representación y Estructura (Tema 7)</strong>: Modelado formal de redes empleando matrices de adyacencia e incidencia. Analizaremos la propiedad de total unimodularidad, que permite resolver problemas discretos de redes como si fuesen continuos sin perder la integridad de las soluciones. Estudiaremos la obtención de árboles soporte mínimos (MST).</li>
+<li><strong>Caminos Mínimos (Tema 8)</strong>: Algoritmos clásicos de Dijkstra, Bellman-Ford y Floyd-Warshall. Abordaremos la formulación matemática dual del camino mínimo expresada como tensiones y potenciales de nodos.</li>
+<li><strong>Flujos en Redes (Tema 9)</strong>: Estudio del espacio vectorial de flujos. Analizaremos el Lema de Coloración de Minty y el teorema cardinal de Flujo Máximo - Corte Mínimo de Ford-Fulkerson.</li>
+<li><strong>Emparejamientos (Tema 10)</strong>: Teoría de emparejamientos y asignación óptima de tareas mediante el algoritmo Húngaro.</li>
+<li><strong>Rutas y TSP (Tema 11)</strong>: Planificación de rutas de reparto (el Cartero Chino y el TSP) mediante formulaciones lineales enteras con eliminación exponencial de subtours, heurísticas y algoritmos de aproximación.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Prefacio">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Prefacio</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema2.html" class="pagination-link" aria-label="Optimización No Lineal y Métodos Numéricos">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización No Lineal y Métodos Numéricos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

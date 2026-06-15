@@ -1,0 +1,356 @@
+%Cosas del preámbulo
+\RequirePackage{pdfmanagement-testphase}
+\DeclareDocumentMetadata{uncompress,pdfversion=2.0}
+%Formato del documento
+\documentclass[aspectratio=169]{beamer}
+\setcounter{tocdepth}{2}
+
+\usepackage{hyperref}
+\usepackage{tagpdf}
+\tagpdfsetup{activate-all,interwordspace}
+
+%\usepackage[tagged, highstructure]{accessibility}
+
+%\usepackage{axessibility}
+
+\usepackage{accsupp}
+
+\mode<presentation> {
+	\usetheme{Boadilla}
+%	\setbeamercovered{transparent}
+}
+
+\usepackage{color}
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+%\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{tikz}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+\parskip=0.1cm
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+  \href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on en Redes] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+      \textbf{Optimizaci\'on y An\'alisis de Redes} \\ Introducci\'on
+}
+
+\author[]
+{      Antonio Alonso Ayuso \\
+      {\ttfamily antonio.alonso@urjc.es}
+}
+
+\institute[]
+{
+      Universidad Rey Juan Carlos\\
+
+  %there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+\date{}
+
+\AtBeginSection
+{%
+\begin{frame}<beamer>
+\frametitle{Contenidos del tema}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+  \newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+%%
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+%\section*{Portada}
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+  \titlepage % call the title page information from above
+\end{frame}}
+
+\subsection*{Índice de contenidos}
+\begin{frame}
+\frametitle{Contenidos del tema}
+  \tableofcontents
+\end{frame}
+
+\section{Investigaci\'on Operativa}
+\subsection*{Qué es la Investigación Operativa}
+\begin{frame}{>Qu\'e es la Investigaci\'on Operativa?}{ Institute for Operations Research and the Management Sciences (INFORMS)}
+	\vspace*{-7mm}
+	\begin{center}
+		\includegraphics[angle=-90,width=0.75\textwidth]{fig/WhatsOR}
+	\end{center}
+\end{frame}
+
+%%
+\begin{frame}{¿Qu\'e es la Investigaci\'on Operativa?}{Operational Research Society}
+\begin{block}{}
+		La Investigaci\'on Operativa es la {\color{blue}aplicaci\'on del
+			m\'etodo cient\'{\i}­fico} a los {\color{blue} problemas complejos}
+		producidos en la {\color{blue} direcci\'on y gesti\'on de grandes
+			sistemas} de hombres, m\'aquinas, materiales y dinero, en la
+		industria, comercio, administraci\'on y defensa.
+\end{block}
+
+El enfoque caracter\'{\i}­stico consiste en {\color{blue} 	construir un modelo cient\'{\i}­fico del sistema}, incorporando medidas de factores tales como el azar y el riesgo, mediante el cual se pueda predecir y {\color{blue} comparar los resultados de las diferentes decisiones}, estrategias o controles posibles.
+\end{frame}
+
+\subsection*{Herramientas de Investigaci\'on Operativa}
+\begin{frame}
+	\frametitle{Herramientas de Investigaci\'on Operativa}
+	\begin{itemize}
+		\item\only<1>{Optimización matem\'atica}
+		\only<2>{ \alert{Optimización matem\'atica (no Lineal)}}
+		\item\only<1>{Teor\'ia de grafos}
+		\only<2>{ \alert{Teor\'ia de grafos}}
+		\item Sistemas din\'amicos
+		\item T\'ecnicas de simulaci\'on
+		\item Teor\'ia de colas
+		\item Teor\'ia de conjuntos difusos
+		\item Teor\'ia de la decisi\'on
+		\item Teor\'ia de la decisi\'on multicriterio
+		\item Teor\'ia de juegos
+		\item \ldots
+	\end{itemize}
+\end{frame}
+
+\section[Optimizaci\'on-modelo]{Optimizaci\'on y modelo}
+\subsection*{Construcción de modelos en Investigación Operativa}
+\begin{frame}
+	\frametitle{?`Qu\'{e} es un modelo?}
+	\begin{itemize}\itemsep 3mm
+		\item Estructura
+		\item Reflejar caracter\'{\i}sticas
+		\item Analizar el comportamiento de un sistema
+	\end{itemize}
+
+	\begin{block}{Tipos de modelos}
+	\begin{itemize}\itemsep 3mm
+	\item \textcolor[rgb]{0.00,0.00,1.00}{\textbf{Modelo concreto}}: Realizaci\'{o}n f\'{\i}sica a escala de un sistema a analizar.
+        \item \textcolor[rgb]{0.00,0.00,1.00}{\textbf{Modelo abstracto}}: Relaciones y definiciones matem\'{a}ticas que representan las relaciones internas del sistema que est\'{a} siendo modelado.
+	\end{itemize}
+	\end{block}
+
+	\pause
+	Los modelos son ayuda para la \emph{toma de decisiones}.
+
+\end{frame}
+
+\subsection*{Modelos de Optimización Matemática}
+
+\begin{frame}
+\frametitle{Modelos de optimización matem\'{a}tica}
+
+	\begin{block}{Modelo de optimización matem\'{a}tica}
+	Un modelo de programaci\'{o}n matem\'{a}tica consta de:
+	\begin{itemize}\itemsep 3mm
+		\item Funci\'{o}n \alert{\textbf{objetivo}}
+		\item Conjunto de \alert{\textbf{variables}}
+		\item Conjunto de \alert{\textbf{restricciones}}
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\subsection*{Clasificación de los modelos de Optimización Matemática}
+
+\begin{frame}
+\frametitle{Clasificación}
+
+	\begin{block}{	Atendiendo al tipo de ecuaciones del modelo:}
+	\begin{itemize}\itemsep 3mm
+		\item \textcolor[rgb]{0.00,0.00,1.00}{\textbf{Optimización lineal}}: Funci\'{o}n objetivo y condiciones lineales
+		\item \textcolor[rgb]{0.00,0.00,1.00}{\textbf{Optimización no lineal}}: Algunas condiciones o la funci\'{o}n objetivo no lineal
+		\item \textcolor[rgb]{0.00,0.00,1.00}{\textbf{Optimización estoc\'{a}stica}}: Algunos parametros desconocidos que se representan mediante variables son aleatorias (discretas) que se incluyen en el modelo..
+	\end{itemize}	
+	\end{block}
+	\begin{block}<2->{Atendiendo al tipo de variables del modelo:}
+	\begin{itemize}\itemsep 3mm
+		\item \textcolor[rgb]{0.00,0.00,1.00}{\textbf{Continua}}: Variables continuas $\geqslant 0$
+		\item \textcolor[rgb]{0.00,0.00,1.00}{\textbf{Entera}}: Variables enteras
+		\item \textcolor[rgb]{0.00,0.00,1.00}{\textbf{Binaria 0--1}}: Variables binarias 0--1
+		\item \textcolor[rgb]{0.00,0.00,1.00}{\textbf{Entera mixta}}: Variables continuas junto a variables enteras o binarias
+	\end{itemize}	
+	\end{block}
+\end{frame}
+
+\subsection*{Optimización No Lineal}
+
+\begin{frame}{Optimización no lineal}
+	\begin{itemize}\itemsep 5mm
+		\item Sin restricciones: resultados clásicos de Análisis Matemático.
+		\item Con restricciones:
+		\begin{itemize}\itemsep 3mm
+			\item Función objetivo y/o región factible convexa: buenas propiedades, los óptimos locales son globales.
+			\item Ausencia de convexidad: problema muy difícil de resolver. Normalmente solo encontramos óptimos locales.
+		\end{itemize}
+		\item Diferenciabilidad: más información sobre el comportamiento de la función.
+		\item Muchas veces es necesario recurrir a métodos numéricos aproximados.
+	\end{itemize}
+\end{frame}
+
+\subsection*{Optimización en  Redes}
+\begin{frame}{Optimización en redes}
+		\begin{itemize}\itemsep 5mm
+			\item Estadística:  mínimos cuadrados, máxima verosimilitud, etc.
+			\item Ciencia de datos y {\em machine learning}: las redes neuronales y los máquinas de vector soporte utilizadas en clasificación y/o discriminación. 
+			\item Representación más exacta de las relaciones internas del modelo (por ejemplo, relación entre agua embalsada y altura del pantano, etc.)
+			\item etc.
+		\end{itemize}
+\end{frame}
+
+\begin{frame}{Optimización en redes}
+\begin{itemize}\itemsep 5mm
+	\item Muchos problemas de optimización se pueden representar en un grafo.
+	\item Los grafos tiene buenas propiedades que hacen posible encontrar buenas propiedades teóricas de los problemas y algoritmos eficientes.
+	\begin{itemize}\itemsep 3mm
+		\item La matriz de incidencia es totalmente unimodular (el determinante de cualquier submatriz cuadrada es -1, 0 o 1). 
+		\item Las soluciones básicas / puntos extremos de la región factible están asociados a árboles soportes. 
+		\item Todo esto permite obtener versiones muy eficientes del algoritmo del simplex y, en muchos casos, que la relajación lineal del problema con variables enteras tenga solución óptima entera. 
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Optimización en redes}
+	\begin{itemize}\itemsep 3mm
+		\item Problemas de rutas.
+		\item Problema de tráfico y flujo.
+		\item Secuenciación y planificación.
+		\item Gestión de proyectos.
+		\item Tráfico en internet.
+		\item Metabolismo celular (y sus aplicaciones al cáncer).
+		\item Localización de instalaciones, 
+		\item etc.
+	\end{itemize}
+\end{frame}
+
+
+\end{document} 

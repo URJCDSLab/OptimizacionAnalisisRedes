@@ -1,0 +1,1417 @@
+\clearemptydoublepage
+\part{Introducci\'{o}n a la Programaci\'{o}n No Lineal}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PROGRAMCI\'{O}N NO LINEAL
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearemptydoublepage
+%%
+\chapter{Funciones Convexas}
+%%
+Los funciones convexas y c\'{o}ncavas tienen buenas propiedades que las convierten en funciones
+interesantes dentro del \'{a}mbito de la optimizaci\'{o}n. Por ejemplo, el m\'{\i}nimo local de una funci\'{o}n
+convexa en un conjunto convexo es tambi\'{e}n un m\'{\i}nimo global. En este cap\'{\i}tulo estudiamos este
+tipo de funciones y sus propiedades m\'{a}s importantes. Como veremos en el cap\'{\i}tulo siguiente,
+estas propiedades ser\'{a}n \'{u}tiles para desarrollar condiciones de optimalidad.
+%%
+\begin{definicion}[Funci\'{o}n convexa]
+Sea $f:\SS\subset\Re^n\fd \Re$, con $\SS\neq\emptyset$, convexo. Se dice que $f$ es convexa
+si:
+  $$
+   f(\lambda \vx_1+(1-\lambda)\vx_2)\leq\lambda f(\vx_1)+ (1-\lambda)
+   f(\vx_2),\qquad \forall \vx_1,\vx_2\in\SS,\,\forall \lambda\in (0,1).
+  $$
+\end{definicion}
+\begin{definicion}[Funci\'{o}n estrictamente convexa]
+Se dice que $f$ es estrictamente convexa si la desigualdad anterior es estricta con $\vx_1\neq
+\vx_2$.
+\end{definicion}
+\begin{definicion}[Funci\'{o}n c\'{o}ncava]
+Se dice que $f$ es c\'{o}ncava si $-f$ es convexa.
+\end{definicion}
+Si consideramos $\vx_1$, $\vx_2$, puntos del dominio de $f$ y su media ponderada
+$\lambda\vx_1+(1-\lambda)\vx_2$, $\lambda\in (0,1)$, entonces, una funci\'{o}n es convexa si el
+valor de $f$ en todos los puntos $\lambda\vx_1+(1-\lambda)\vx_2$, esto es
+$f(\lambda\vx_1+(1-\lambda)\vx_2)$, quedan por debajo del segmento que une los puntos
+$[\vx_1,f(\vx_1)]$ y $[\vx_2,f(\vx_2)]$.
+\begin{center}
+\begin{pspicture}(0,-1.5)(15,4.5)
+    \psset{yunit=10mm,xunit=10mm}
+    \psline{<->}(0,-0.5)(4,-0.5)
+    \parabola{<->}(0.25,3.0625)(2,0)
+    \psline(0.5,2.25)(3.5,2.25)
+    \psline[linestyle=dashed]{->}(0.5,-0.5)(0.5,2.25)
+    \psline[linestyle=dashed]{->}(3.5,-0.5)(3.5,2.25)
+    \psline[linestyle=dashed]{->}(1.7,-0.5)(1.7,2.25)
+    \rput(0.5,-0.8){\footnotesize \makebox(0,0){$x_1$}}
+    \rput(3.5,-0.8){\footnotesize \makebox(0,0){$x_2$}}
+    \rput(1.9,-0.8){\footnotesize \makebox(0,0){$\lambda x_1+(1-\lambda)x_2$}}
+    \rput(2,-1.2){\footnotesize Funci\'{o}n convexa}
+    \rput(2,-1.6){\footnotesize $f(x)=(x-2)^2$}
+    %%
+    \psline{<->}(5,-0.5)(9,-0.5)
+    \parabola{<->}(5,1)(7,3)
+    \psline(5.5,1.875)(8.5,1.875)
+    \psline[linestyle=dashed]{->}(5.5,-0.5)(5.5,1.875)
+    \psline[linestyle=dashed]{->}(8.5,-0.5)(8.5,1.875)
+    \psline[linestyle=dashed]{->}(6.7,-0.5)(6.7,1.875)
+    \rput(5.5,-0.8){\footnotesize \makebox(0,0){$x_1$}}
+    \rput(8.5,-0.8){\footnotesize \makebox(0,0){$x_2$}}
+    \rput(6.9,-0.8){\footnotesize \makebox(0,0){$\lambda x_1+(1-\lambda)x_2$}}
+    \rput(7,-1.2){\footnotesize Funci\'{o}n c\'{o}ncava}
+    \rput(7,-1.6){\footnotesize $f(x)=(x)^2-2x+3$}
+    %%
+    \psline{<->}(10,-0.5)(14,-0.5)
+    \rput(10.25,0.25){\pscurve(0,0)(1,2)(2,1)(3,2)}
+    \rput(12,-1.2){\footnotesize Funci\'{o}n no c\'{o}ncava ni convexa}
+\end{pspicture}
+\end{center}
+\begin{ejemplo}
+Las siguientes funciones son convexas (y sus opuestas son c\'{o}ncavas):
+   \begin{enumerate}
+     \item $f(x)=3x-4$.
+     \item $f(x)=\abs{x}$.
+     \item $f(x)=x^2-2x$.
+     \item $f(x)=3-x^{1/2}$ si $x\geq 0$.
+     \item $f(x_1,x_2)=2x_1^2+x_2-2x_1x_2$.
+     \item $f(x_1,x_2,x_3)=x_1^4+2x_2^2+3x_3^2-4x_1-4x_2x_3$.
+   \end{enumerate}
+\end{ejemplo}
+Algunas propiedades de las funciones convexas que son:
+\begin{enumerate}
+\item Sean $f_1$, $f_2$, \dots, $f_k:\Re^n\fd\Re$ funciones convexas. Entonces:
+  \begin{enumerate}
+    \item $\displaystyle f(\vx)=\sum_{j=1}^k\alpha_k f_j(\vx)$, con $\alpha_j>0$, $j=1,\dots,k$
+    es una funci\'{o}n convexa.
+    \item $\max\{f_1(\vx),\dots,f_k(\vx)\}$ es una funci\'{o}n convexa.
+  \end{enumerate}
+\item Sea $g:\Re^n\fd\Re$ una funci\'{o}n c\'{o}ncava y sea $\SS=\{\vx\,/\, g(\vx)>0\}$. Entonces, la
+funci\'{o}n $f:\Re^n\fd\Re=1/g(\vx)$ es convexa en $\SS$.
+\item Sea $g:\Re\fd\Re$ un funci\'{o}n convexa no decreciente y sea $h:\Re^n\fd\Re$ una funci\'{o}n
+convexa. Entonces la funci\'{o}n compuesta $f:\Re^n\fd\Re$ definida como $f(\vx)=g(h(\vx))$ es
+convexa.
+\item Sea $g:\Re^n\fd\Re$ una funci\'{o}n convexa y sea $\vh:\Re^n\fd\Re^m$ una funci\'{o}n af\'{\i}n de la
+forma $\vh(\vx)=\vA\vx+\vb$, donde $\vA$ es una matriz $m\times n$ y $\vb$ es un vector
+$m\times 1$. Entonces la composici\'{o}n $f:\Re^n\fd\Re$ definida por $f(\vx)=g(\vh(\vx))$ es una
+funci\'{o}n convexa.
+\end{enumerate}
+\bigskip
+
+A continuaci\'{o}n vamos a estudiar resultados sobre funciones convexas que permiten
+caracterizarlas sin utilizar la definici\'{o}n, que en muchas ocasiones resulta muy engorrosa.
+Estos resultados son f\'{a}cilmente extrapolables al caso de funciones c\'{o}ncavas.
+\begin{lema}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y sea $f:\SS\fd\Re$ una funci\'{o}n convexa.
+Entonces, el conjunto de nivel $\SS_\alpha=\{\vx\in\SS\,/\, f(\vx)\leq\alpha\}$, donde
+$\alpha\in\Re$, es convexo.
+\end{lema}
+\begin{demostracion}
+Sea $\vx_1,\vx_2\in\SS_\alpha$. Entonces, $f(\vx_1)\leq\alpha$ y $f(\vx_2)\leq\alpha$. Sea
+$\lambda\in(0,1)$ y $\vx=\lambda\vx_1+(1-\lambda)\vx_2$. Por ser $\SS$ convexo, $\vx\in\SS$ y
+por convexidad de $f$:
+   $$
+     f(\vx)=f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)\leq\lambda
+     f(\vx_1)+(1-\lambda)f(\vx_2)\leq\lambda\alpha+(1-\lambda)\alpha=\alpha,
+   $$
+y, por tanto, $\vx\in\SS_\alpha$ es convexo.
+\end{demostracion}
+Una caracter\'{\i}stica importante de las funciones convexas es que son continuas en el interior de
+su dominio, como establece el siguiente resultado.
+\begin{teorema}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n convexa.
+Entonces, $f$ es continua en el interior de $\SS$.
+\end{teorema}
+\begin{demostracion}
+Sea $\ovx\in\SS$ un punto del interior de $\SS$. Para probar que $f$ es continua en $\ovx$ es
+necesario ver que dado un $\epsilon>0$, existe un $\delta>0$ tal que
+$\norma{\vx-\ovx}\leq\delta$ implica que $\abs{f(\vx)-f(\ovx)}\leq\epsilon$.
+
+Puesto que $\ovx\in\text{int}\SS$, existe un $\delta'>0$ tal que si
+$\norma{\vx-\ovx}\leq\delta'$ entonces $\vx\in\SS$. Consideremos el siguiente $\theta$:
+  \begin{equation}\label{t313-dem1}
+    \theta=\max_{1\leq i\leq
+    n}\bigl\{\max\bigl\{f(\ovx+\delta'\ve_i)-f(\ovx),f(\ovx-\delta'\ve_i)-f(\ovx)\bigr\}\bigr\},
+  \end{equation}
+donde $\ve_i$ es el vector de ceros excepto en la posici\'{o}n $i$-\'{e}sima, que tiene un 1.
+
+N\'{o}tese que por ser $f$ convexa, se verifica que $0\leq\theta<\infty$. Efectivamente, si fuese
+$\theta< 0$, entonces para un $i$ se verificar\'{\i}a que $f(\vx)>f(\vx+\delta'\ve_i)$ y
+$f(\vx)>f(\vx-\delta'\ve_i)$ y, siendo $\vx$ igual a
+$\frac{1}{2}=\vx+\delta'\ve_i+\frac{1}{2}\vx-\delta'\ve_i$, se tiene que
+$f(\vx)\leq\frac{1}{2}f(\vx+\delta'\ve_i)+\frac{1}{2}f(\vx-\delta'\ve_i)$, lo que es
+contradictorio.
+
+Sea
+  \begin{equation}\label{t313-dem2}
+     \delta=\min\Bigl(\frac{\delta'}{n},\frac{\epsilon\delta'}{n\theta}\Bigr),
+  \end{equation}
+y sea $\vx$ tal que $\norma{\vx-\ovx}\leq\delta$. Construyamos los siguiente vectores $\vz_i$,
+$i=1,\dots,n$ :
+  \begin{equation*}
+    \vz_i=\begin{cases}
+          \delta'\ve_i &\text{si $x_i-\ox_i\geq 0$,}
+          \\
+          -\delta'\ve_i &\text{si $x_i-\ox_i\leq 0$,}
+        \end{cases}
+  \end{equation*}
+Entonces
+  $$
+   \vx-\ovx=\sum_{i=1}^n\alpha_i\vz_i,
+   $$
+donde $\alpha_i\geq 0$ para $i=1,\dots,n$. Adem\'{a}s:
+  \begin{equation}\label{t313-dem3}
+     \norma{\vx-\ovx}=\delta'\Bigl(\sum_{i=1}^n\alpha_i^2\bigr)^{\frac{1}{2}}.
+  \end{equation}
+De \eqref{t313-dem2} y puesto que $\norma{\vx-\ovx}\leq\delta$, se sigue que:
+  \begin{equation*}
+     \frac{\delta'}{n}\delta\geq\delta'\Bigl(\sum_{i=1}^n\alpha_i^2\bigr)^{\frac{1}{2}}.
+  \end{equation*}
+De donde
+  \begin{equation*}
+     \frac{1}{n}\geq\Bigl(\sum_{i=1}^n\alpha_i^2\Bigr)^{\frac{1}{2}}\geq\alpha_i,\qquad i=1,\dots,n.
+  \end{equation*}
+y, por tanto,  $\alpha_i\leq\frac{1}{n}$ para $i=1,\dots,n$. Por ser $f$ convexa y $0\leq
+n\alpha_i\leq 1$, se tiene que:
+  \begin{align*}
+   f(\vx)=f\Bigl(\ovx+\sum_{i=1}^n\alpha_i\vz_i \Bigr)& = f\Bigl(\frac{1}{n}\sum_{i=1}^n(\ovx+n\alpha_i\vz_i)\Bigr)
+   \\
+   & \leq \frac{1}{n}\sum_{i=1}^n f(\ovx+n\alpha_i\vz_i)
+   \\
+   &=\frac{1}{n}\sum_{i=1}^nf\bigl((1-n\alpha_i)\ovx+n\alpha_i(\ovx+\vz_i)\bigl)
+   \\
+   &\leq \frac{1}{n}\sum_{i=1}^n\bigl((1-n\alpha_i)f(\ovx)+n\alpha_if(\ovx+\vz_i)\bigl).
+  \end{align*}
+Por tanto,
+  $$
+    f(\vx)-f(\ovx)\leq\sum_{i=1}^n \alpha_i(f(\ovx+\vz_i)-f(\ovx)).
+ $$
+De la definici\'{o}n de $\theta$ en \eqref{t313-dem1} se tiene que
+$f(\ovx-\vz_i)-f(\ovx)\leq\theta$, $\forall i$. Puesto que $\alpha_i\geq 0$, se tiene que:
+  \begin{equation}\label{t313-dem4}
+    f(\vx)-f(\ovx)\leq\theta\sum_{i=1}^n\alpha_i.
+  \end{equation}
+Considerando \eqref{t313-dem2} y \eqref{t313-dem3} y con un razonamiento similar al hecho
+anteriormente se concluye que $\alpha_i\leq\frac{\epsilon}{n\theta}$ y, sustituyendo en
+\eqref{t313-dem4} se obtiene:
+  \begin{equation*}
+    f(\vx)-f(\ovx)\leq\theta\sum_{i=1}^n\alpha_i\leq\theta n\frac{\epsilon}{n\theta}=\epsilon,
+  \end{equation*}
+esto es, $f(\vx)-f(\ovx)\leq\epsilon$.
+
+Concluyendo, hemos visto que $\norma{\vx-\ovx}\leq\delta$ implica que $f(\vx)-f(\ovx)\leq
+\epsilon$. Por definici\'{o}n, esto establece la semi-continuidad superior de $f$ en $\ovx$. Ahora
+es necesario demostrar la semi-continuidad inferior, esto es, que $f(\ovx)-f(\vx)\leq
+\epsilon$. Para ello, consideremos $\vy=2\ovx-\vx$; entonces $\norma{\vy-\ovx}\leq\delta$ y,
+como hemos visto anteriormente:
+  \begin{equation}\label{t313-dem5}
+     f(\vy)-f(\ovx)\leq\epsilon.
+  \end{equation}
+Pero $\ovx=\frac{1}{2}\vy+\frac{1}{2}\vx$ y por ser $f$ convexa, tenemos que:
+  \begin{equation}\label{t313-dem6}
+     f(\ovx)\leq\frac{1}{2}f(\vy)+\frac{1}{2}f(\vx).
+  \end{equation}
+Combinando \eqref{t313-dem5} y \eqref{t313-dem6} se sigue que $f(\ovx)-f(\vx)\leq\epsilon$ y,
+por tanto, $f$ es semicontinua inferior en $\ovx$.
+\end{demostracion}
+N\'{o}tese que una funci\'{o}n c\'{o}ncava o convexa no tiene porque ser continua en cualquier punto. Sin
+embargo, el teorema anterior establece que los puntos de discontinuidad s\'{o}lo se encuentran en
+la frontera, como ilustra el siguiente ejemplo.
+\begin{ejemplo}
+Sea $\SS=\{x\,/\, -1\leq x\leq 1\}$ y $f$ la funci\'{o}n:
+  $$
+    f(x)=\begin{cases}
+            x^2, &\text{si $\abs{x}<1$},
+            \\
+            2, & \text{si $x=1$.}
+         \end{cases}
+  $$
+\end{ejemplo}
+El siguiente concepto de derivada direccional es particularmente \'{u}til en el desarrollo de
+algunos criterios de optimalidad y en el desarrollo de procedimientos computacionales que
+buscan direcciones de descenso o de aumento.
+\begin{definicion}[Derivada direccional]
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y sea $f:\SS\fd\Re$ una funci\'{o}n. Sea
+$\ovx\in\SS$ y $\vd$ una direcci\'{o}n tal que $\ovx+\lambda\vd\in\SS$, para $\lambda>0$
+suficientemente peque\~{n}o. La derivada direccional de $f$ en $\ovx$ a lo largo de la direcci\'{o}n
+$\vd$, denotada por $f'(\ovx,\vd)$ se define por el siguiente l\'{\i}mite, si existe:
+  $$
+  f'(\ovx,\vd)=\lim_{\lambda\fd 0^+}\frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda}.
+  $$
+\end{definicion}
+\begin{lema}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y sea $f:\SS\fd\Re$ una funci\'{o}n convexa. Sea
+$\ovx\in\SS$ y $\vd$ una direcci\'{o}n tal que $\ovx+\lambda\vd\in\SS$, para $\lambda>0$ y
+suficientemente peque\~{n}o. Entonces, siempre existe el siguiente l\'{\i}mite:
+  \begin{equation}\label{l315}
+    \lim_{\lambda\fd 0^+}\frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda}.
+  \end{equation}
+\end{lema}
+\begin{demostracion}
+ Sean $\lambda_2>\lambda_1>0$ dos n\'{u}meros suficientemente peque\~{n}os. Por ser $f$ una funci\'{o}n
+ convexa tenemos que:
+  $$
+  f(\ovx+\lambda_1\vd)=f\biggl(\frac{\lambda_1}{\lambda_2}(\ovx+\lambda_2\vd)+\Bigl(1-\frac{\lambda_1}{\lambda_2}\Bigr)\ovx\biggr)
+    \leq \frac{\lambda_1}{\lambda_2}
+    f(\ovx+\lambda_2\vd)+\Bigl(1-\frac{\lambda_1}{\lambda_2}\Bigr)f(\ovx).
+  $$
+Esta desigualdad implica que:
+  $$
+  \frac{f(\ovx+\lambda_1\vd)-f(\ovx)}{\lambda_1}\leq
+  \frac{f(\ovx+\lambda_2\vd)-f(\ovx)}{\lambda_2}.
+  $$
+Entonces, el cociente   $\displaystyle\frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda}$ es no
+creciente como funci\'{o}n de $\lambda>0$.
+
+Consid\'{e}rese un $\lambda>0$; por ser $f$ convexa, se tiene que:
+  \begin{align*}
+    f(\ovx) & =f\biggl(\frac{\lambda}{1+\lambda}(\ovx+\vd)+\frac{1}{1+\lambda}(\ovx+\lambda\vd)\biggr)
+    \\
+    &\leq \frac{\lambda}{1+\lambda}f(\ovx+\vd)+\frac{1}{1+\lambda}f(\ovx+\lambda\vd),
+  \end{align*}
+y tambi\'{e}n:
+  $$
+   \frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda}\geq f(\ovx)-f(\ovx-\vd).
+  $$
+Entonces el cociente $\frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda}$ est\'{a} acotado inferiormente
+por la constante $f(\ovx)-f(\ovx-\vd)$ y, por tanto, el l\'{\i}mite \eqref{l315} existe y viene
+dado por:
+  $$
+    \lim_{\lambda\fd 0^+}\frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda}=
+        \inf_{\lambda>0}\frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda}.
+  $$
+\end{demostracion}
+Una funci\'{o}n  $f$ en $\SS$ est\'{a} perfectamente definida por el conjunto $\{(\vx,f(\vx))\,/\,
+\vx\in\SS\}\subset\Re^{n+1}$, conjunto que se denomina {\em grafo} de $f$. El grafo nos
+permite definir dos nuevos conjuntos de $\Re^{n+1}$: el conjunto de puntos que quedan por
+encima del grafo o {\em epigrafo} y el conjunto de puntos que quedan por debajo del grafo o
+{\em hipografo}. A partir de estos conjuntos ser\'{a} posible no s\'{o}lo caracterizar las funciones
+convexas, sino que tambi\'{e}n podremos introducir el concepto de subgradiente, cuya papel dentro
+de la optimizaci\'{o}n es b\'{a}sico.
+\begin{definicion}[Epigrafo e hipografo]
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y sea $f:\SS\fd\Re$ una funci\'{o}n convexa. El
+epigrafo de $f$ es un subconjunto de $\Re^{n+1}$ definido por:
+   $$
+  \text{epi}f=\{(\vx,y)\,/\, \vx\in\SS,\, y\in\Re,\, y\geq f(\vx)\}.
+   $$
+El hipografo de $f$ es un subconjunto de $\Re^{n+1}$ definido por:
+   $$
+   \text{hipo}f=\{(\vx,y)\,/\, \vx\in\SS,\, y\in\Re,\, y\leq f(\vx)\}.
+   $$
+\end{definicion}
+\begin{center}
+\begin{pspicture}(0,-3)(15,4.5)
+    \psset{yunit=10mm,xunit=10mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](3.75,3.5)(0.25,3.5)
+    \psline[linewidth=0pt](0.25,3.5)(0.25,3.0625)
+    \parabola[linewidth=0pt](0.25,3.0625)(2,0)
+    \psline[linewidth=0pt](3.75,3.0625)(3.75,3.5)
+    }
+    \pscustom[fillstyle=solid,fillcolor=gray]{
+    \psline[linewidth=0pt](3.75,-1)(0.25,-1)
+    \psline[linewidth=0pt](0.25,-1)(0.25,3.0625)
+    \parabola[linewidth=0pt](0.25,3.0625)(2,0)
+    \psline[linewidth=0pt](3.75,3.0625)(3.75,-1)
+    }
+    \parabola{<->}(0.25,3.0625)(2,0)
+    \rput(2,-2.2){\footnotesize Funci\'{o}n convexa}
+    \rput(2,-2.6){\footnotesize $f(x)=(x-2)^2$}
+    \rput(2,-0.5){\footnotesize $\text{hipo} f$}
+    \rput(2,3){\footnotesize $\text{epi} f$}
+    %%
+
+    %%
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](9,3.5)(5,3.5)
+    \psline[linewidth=0pt](5,3.5)(5,1)
+    \parabola[linewidth=0pt](5,1)(7,3)
+    \psline[linewidth=0pt](9,1)(9,3.5)
+    }
+    \pscustom[fillstyle=solid,fillcolor=gray]{
+    \psline[linewidth=0pt](9,-1)(5,-1)
+    \psline[linewidth=0pt](5,-1)(5,1)
+    \parabola[linewidth=0pt](5,1)(7,3)
+    \psline[linewidth=0pt](9,1)(9,-1)
+    }
+    \parabola{<->}(5,1)(7,3)
+    \rput(7,-2.2){\footnotesize Funci\'{o}n c\'{o}ncava}
+    \rput(7,-2.6){\footnotesize $f(x)=(x)^2-2x+3$}
+    \rput(7,0){\footnotesize $\text{hipo} f$}
+    \rput(7,3.25){\footnotesize $\text{epi} f$}
+    %%
+    \rput(10.25,0){
+    \pscustom[fillstyle=solid,fillcolor=gray]{
+    \psline[linewidth=0pt](3,3.5)(0,3.5)
+    \psline[linewidth=0pt](0,3.5)(0,0)
+    \pscurve[linewidth=0pt](0,0)(1,2)(2,1)(3,2)
+    \psline[linewidth=0pt](3,2)(3,3.5)
+    }
+    }
+    \rput(10.25,0){
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](3,-1)(0,-1)
+    \psline[linewidth=0pt](0,-1)(0,0)
+    \pscurve[linewidth=0pt](0,0)(1,2)(2,1)(3,2)
+    \psline[linewidth=0pt](3,2)(3,-1)
+    }
+    }
+    \rput(10.25,0){\pscurve{<->}(0,0)(1,2)(2,1)(3,2)}
+    \rput(12,-2){\footnotesize Funci\'{o}n no c\'{o}ncava ni convexa}
+    \rput(12,0){\footnotesize $\text{hipo} f$}
+    \rput(12,2.7){\footnotesize $\text{epi} f$}
+\end{pspicture}
+\end{center}
+\begin{teorema}\label{t322}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y sea $f:\SS\fd\Re$ una funci\'{o}n convexa.
+Entonces,  $f$ es una funci\'{o}n convexa si y s\'{o}lo si su epigrafo es un conjunto convexo.
+\end{teorema}
+\begin{demostracion}
+Supongamos que $f$ es convexa y sean $(\vx_1,y_1)$ y $(\vx_2,y_2)$ dos puntos del epigrafo.
+Esto es
+ $$
+  \vx_1,\vx_2\in\SS,\qquad y_1\geq f(\vx_1),\qquad y_2\geq f(\vx_2).
+ $$
+Sea $\lambda\in(0,1)$. Entonces:
+ $$
+ \lambda y_1+(1-\lambda)y_2\geq \lambda f(\vx_1)+(1-\lambda) f(\vx_2)\geq
+ f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr),
+ $$
+donde la \'{u}ltima desigualdad es cierta por ser $f$ convexa. Puesto que
+$\lambda\vx_1+(1-\lambda)\vx_2\in\SS$ entonces
+ $$
+ \bigl(\lambda\vx_1+(1-\lambda)\vx_2,\lambda y_1+(1-\lambda)y_2\bigr)
+ $$
+pertenece al epigrafo de $f$. Por tanto, el epigrafo es convexo.
+
+Inversamente, supongamos que el epigrafo es convexo y tomemos dos puntos $\vx_1,\vx_2\in\SS$.
+Entonces:
+ $$
+ \bigl(\lambda\vx_1+(1-\lambda)\vx_2,\lambda
+ y_1+(1-\lambda)y_2\bigr)\in\text{epi}f,\qquad\forall\lambda\in(0,1).
+ $$
+En otras palabras:
+ $$
+ \lambda f(\vx_1)+(1-\lambda) f(\vx_2)\geq f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr),\qquad\forall
+ \lambda\in(0,1).
+ $$
+Esto es, $f$ es convexa.
+\end{demostracion}
+Este resultado permite verificar la convexidad o concavidad de una funci\'{o}n a partir del
+estudio de la concavidad o convexidad de un conjunto, que en muchas ocasiones resulta m\'{a}s
+sencillo.
+\begin{definicion}[Subgradiente]
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y sea $f:\SS\fd\Re$ una funci\'{o}n convexa. Un
+vector $\B{\xi}$ es un subgradiente de $f$ en $\ovx$ si
+  $$
+    f(\vx)\geq f(\ovx)+\B{\xi}^T(\vx-\ovx),\qquad \forall \vx\in\SS.
+  $$
+De forma similar, si $f:\SS\fd\Re^n$ es una funci\'{o}n concava., el vector $\B{\xi}$ es un
+subgradiente de $f$ en $\ovx$ si
+  $$
+    f(\vx)\leq f(\ovx)+\B{\xi}^T(\vx-\ovx),\qquad \forall \vx\in\SS.
+  $$
+\end{definicion}
+%%
+\begin{definicion}[Subdiferencial]
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n convexa. El
+conjunto de subgradientes de $f$ en $\ovx$ se denomina subdiferencial de $f$ en $\ovx$.
+\end{definicion}
+\begin{center}
+\begin{pspicture}(0,-1)(5,4.5)
+    \psset{yunit=10mm,xunit=10mm}
+    %%
+    \psline{<->}(0,-0.5)(4,-0.5)
+    %%
+    \pscurve{<-}(0,3)(1.5,1)(2.5,1.5)
+    \psline{->}(2.5,1.5)(4.3,4.5)
+    %%
+    \rput(2.5,-1){\footnotesize $\ovx$}
+    \rput(3.7,-1){\footnotesize $\vx$}
+    %%
+    \psline(1.5,.5)(4.3,3.3)
+    \psline[linestyle=dashed](2.5,-0.5)(2.5,1.5)
+    \psline[linestyle=dashed](2.5,-0.5)(2.5,1.5)
+    \psline[linestyle=dashed]{<->}(4,-0.5)(4,1.5)
+    \psline[linestyle=dashed]{<->}(4,1.5)(4,3)
+    \psline(2.5,1.5)(4.3,1.5)
+    \rput(4.5,0.75){\footnotesize $f(\vx)$}
+    \rput(5,2){\footnotesize $\xi^T(\vx-\ovx)$}
+    \rput(3,1.75){\footnotesize $\xi$}
+    \psarc(2.5,1.5){0.3}{0}{20}
+\end{pspicture}
+\end{center}
+%%
+De la definici\'{o}n de subgradiente se obtiene inmediatamente que el subdiferencial de una
+funci\'{o}n en un punto es un conjunto convexo. Geom\'{e}tricamente, la funci\'{o}n
+$f(\ovx)+\B{\xi}^T(\vx-\ovx)$ es uno de los posibles hiperplanos soportes sobre el epigrafo de
+la funci\'{o}n $f$ en $\ovx$ y el subgradiente $\B{\xi}$ corresponde a la pendiente de dicha
+funci\'{o}n.
+%%
+\begin{teorema}\label{t325}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y sea $f:\SS\fd\Re$ una funci\'{o}n convexa.
+Entonces, para cualquier punto $\ovx\in\text{int}\SS$, existe un vector $\B{\xi}$ tal que el
+hiperplano:
+ $$
+  H=\bigl\{(\vx,y)\,/\, y=f(\ovx)+\B{\xi}^T(\vx-\ovx)\bigr\}
+ $$
+es soporte del epigrafo de $f$ en el punto $\bigl(\ovx,f(\ovx)\bigr)$. En particular:
+  $$
+    f(\vx)\geq f(\ovx)+\B{\xi}^T(\vx-\ovx),\qquad \forall \vx\in\SS,
+  $$
+esto es, $\B{\xi}$ es un subgradiente de $f$ en $\SS$.
+\end{teorema}
+\begin{demostracion}
+ Por el teorema \ref{t322}, el epigrafo de $f$ es convexo. Teniendo en cuenta que
+ $(\ovx,f(\ovx))$ es un punto de la frontera del epigrafo, existe un hiperplano soporte en ese
+ punto. Esto es, existe un vector no nulo $(\V{\xi}_0,\mu)\in\Re^{n+1}$ tal que:
+   \begin{equation}\label{t325-dem}
+   \B{\xi}_0^T(\vx-\ovx)+\mu(y-f(\ovx))\leq 0,\qquad\forall (\vx,y)\in\text{epi}f,
+   \end{equation}
+donde $\mu$ es no positivo ya que, en otro caso, la desigualdad anterior resulta falsa para un
+$y$ suficientemente grande.
+
+Veamos que realmente es $\mu<0$. Por contradicci\'{o}n, supongamos que $\mu=0$. Entonces
+   $$
+   \B{\xi}_0^T(\vx-\ovx)\leq 0,\qquad\forall\vx\in\SS.
+   $$
+Puesto que $\ovx\in\text{int}\SS$, existe un $\lambda>0$ tal que $\ovx+\lambda\B{\xi}_0\in\SS$
+y, aplicando la desigualdad anterior para $\vx=\ovx+\lambda\B{\xi}_0$, resulta:
+  $$
+  \lambda\B{\xi}_0^T\B{\xi}_0\leq 0,
+  $$
+y, por tanto, $\B{\xi}_0=\vv$. Entonces, $(\B{\xi}_0,\mu)=(\vv,0)$ que entra en contradicci\'{o}n
+con la hip\'{o}tesis de que era un vector no nulo. Por tanto $\mu<0$.
+
+Consideremos $\displaystyle\B{\xi}=\frac{\B{\xi}_0}{\abs{\mu}}$ y dividiendo la desigualdad
+\eqref{t325-dem} por $\abs{\mu}$, resulta:
+   \begin{equation}\label{t325-dem2}
+   \B{\xi}^T(\vx-\ovx)+y-f(\ovx)\leq 0,\qquad\forall (\vx,y)\in\text{epi}f.
+   \end{equation}
+En particular, el hiperplano
+  $$
+  H=\bigl\{(\ovx,y)\,/\, y=f(\ovx)+\B{\xi}^T(\vx-\ovx)\bigr\}
+  $$
+es soporte del epigrafo de $f$ en el punto $(\ovx,f(\ovx)$. Tomando $y=f(\ovx)$ en
+\eqref{t325-dem2}, se tiene que $f(\vx)\geq f(\ovx)+\B{\xi}^T(\vx-\ovx)$ para todo $\vx\in\SS$
+y $\B{\xi}$ es un subgradiente de $f$ en $\ovx$.
+\end{demostracion}
+\begin{corolario}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n estrictamente
+convexa. Entonces, para $\ovx\in\text{int}\SS$, existe un vector $\B{\xi}$ tal que:
+  $$
+    f(\vx)> f(\ovx)+\xi^T(\vx-\ovx),\qquad \forall \vx\in\SS,\;\vx\neq\ovx.
+  $$
+\end{corolario}
+\begin{demostracion}
+Por el teorema anterior, existe un vector $\B{\xi}$ tal que:
+  $$
+    f(\vx)\geq f(\ovx)+\B{\xi}^T(\vx-\ovx),\qquad\forall \vx\in\SS.
+  $$
+Por reducci\'{o}n al absurdo, supongamos que existe un punto $\hat{\vx}\neq\ovx$ tal que
+  \begin{equation}\label{c325-dem1}
+    f(\hat{\vx})=f(\ovx)+\B{\xi}^T(\hat{\vx}-\ovx).
+  \end{equation}
+Entonces, por ser $f$ estrictamente convexa, resulta:
+  \begin{equation}\label{c325-dem2}
+    f\bigl(\lambda\ovx+(1-\lambda)\hat{\vx}\bigr)< \lambda f(\ovx)+(1-\lambda)
+    f(\hat{\vx})=f(\ovx)+(1-\lambda)\B{\xi}^T(\hat{\vx}-\ovx),\qquad\forall\lambda\in (0,1).
+  \end{equation}
+Tomando $\vx=\lambda\ovx+(1-\lambda)\hat{\vx}$ en la expresi\'{o}n \eqref{c325-dem1}, resulta
+   $$
+    f\bigl(\lambda\ovx+(1-\lambda)\hat{\vx}\bigr)\geq f(\ovx)+(1-\lambda)\B{\xi}^T(\hat{\vx}-\ovx),\qquad\forall\lambda\in
+    (0,1),
+  $$
+que contradice \eqref{c325-dem2}.
+\end{demostracion}
+\begin{teorema}\label{t326}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$. Si para cada punto
+$\ovx\in\text{int}\SS$ existe un vector $\B{\xi}$ tal que:
+  $$
+    f(\vx)\geq f(\ovx)+\xi^T(\vx-\ovx),\qquad \forall \vx\in\SS,
+  $$
+entonces, $f$ es una funci\'{o}n convexa en el interior de $\SS$.
+\end{teorema}
+\begin{demostracion}
+Sea $\vx_1,\vx_2\in\SS$ y $\lambda\in(0,1)$. Por ser $\SS$ convexo, el interior tambi\'{e}n lo es
+y, por tanto, $\lambda\vx_1+(1-\lambda)\vx_2\in\text{int}\SS$. Por hip\'{o}tesis, existe un
+subgradiente $\B{\xi}$ de $f$ en el punto $\lambda\vx_1+(1-\lambda)\vx_2$. En particular, se
+verifican las dos desigualdades siguientes:
+  \begin{align*}
+    f(\vx_1) & \geq
+    f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)+(1-\lambda)\B{\xi}^T(\vx_1-\vx_2),
+    \\[2mm]
+    f(\vx_2) & \geq f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)+\lambda\B{\xi}^T(\vx_1-\vx_2).
+  \end{align*}
+Multiplicando estas desigualdades por $\lambda$ y $(1-\lambda)$ respectivamente y sum\'{a}ndolas,
+se obtiene:
+  $$
+   \lambda f(\vx_1)+(1-\lambda)f(\vx_2)\geq f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)
+  $$
+y $f$ es convexa.
+\end{demostracion}
+%%
+\section{Funciones convexas diferenciables}
+%%
+%%
+\begin{definicion}[Funci\'{o}n diferenciable]
+Sea $f:\SS\subset \Re^n\rightarrow \Re$, con $\SS\neq\emptyset$. Se dice que $f$ es
+diferenciable en $\ovx\in\inte (\SS)$ si existe un vector $\gf(\ovx)\in\Re^n$ y una funci\'{o}n
+$\alpha:\Re^n\fd\Re$ tales que:
+  $$
+   f(\vx)=f(\ovx)+\gf(\ovx)^T
+   (\vx-\ovx)+\norma{\vx-\ovx}\alpha(\ovx,\vx-\ovx),\qquad\forall \vx\in\SS,
+   $$
+verificando que
+  $$
+  \lim_{\vx\fd \ovx}\alpha(\ovx,\vx-\ovx)=0.
+  $$
+\par \noindent Se dice que $f$ es diferenciable en un abierto $\SS'\subseteq\SS$ si lo es $\forall
+\vx\in\SS'$.
+\end{definicion}
+En la figura anterior se puede comprobar como donde la funci\'{o}n es diferenciable s\'{o}lo
+existe un subgradiente. En este caso, el subgradiente se denomina gradiente. Pero por el
+contrario, si la funci\'{o}n no es diferenciable, es posible encontrar m\'{a}s de un hiperplano
+que deje el epigrafo por encima y el subgradiente no es \'{u}nico.
+\begin{definicion}[Gradiente]
+Al vector $\gf(\ovx)$ se le denomina gradiente de $f$ en $\ovx$:
+  $$
+   \gf(\ovx)^T=\bigl(\nabla f_1(\ovx),\dots,\nabla f_n(\ovx)\bigr).
+  $$
+Si $f$ es diferenciable en $\ovx$, entonces $\displaystyle\nabla f_i(\ovx)=\frac{\delta
+f(\ovx)}{\delta x_i}$, $i=1,\dots,n$.
+\end{definicion}
+%%
+\begin{proposicion}\label{p332}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n convexa. Si $f$
+es diferenciable en $\ovx\in\text{int}\SS$, el subdiferencial de $f$ en $\ovx$ contiene un
+\'{u}nico subgradiente, que coincide con el gradiente.
+\end{proposicion}
+\begin{demostracion}
+Por el teorema \ref{t325}, el conjunto de subgradientes de $f$ en $\ovx$ es no vac\'{\i}o. Sea
+$\B{\xi}$ un subgradiente de $f$ en $\ovx$. Por el teorema \ref{t325} y ser $f$ diferenciable
+en $\ovx$, se tiene que
+  \begin{align*}
+    f(\ovx+\lambda\vd)& \geq f(\ovx)+\lambda\B{\xi}^T\vd,
+    \\
+    f(\ovx+\lambda\vd)&=f(\ovx)+\lambda\gf(\ovx)^T\vd+\lambda\norma{\vd}\alpha(\ovx,\lambda\vd),
+  \end{align*}
+para cualquier vector $\vd$ y $\lambda$ suficientemente peque\~{n}o. Restando la igualdad a la
+desigualdad resulta:
+  $$
+  0\geq\lambda\bigl(\B{\xi}-\gf(\ovx)\bigr)^T\vd-\lambda\norma{\vd}\alpha(\ovx,\lambda\vd).
+  $$
+Dividiendo por $\lambda$ y tomando l\'{\i}mites por la derecha cuando $\lambda$ tiende a 0, se
+tiene que:
+  $$
+  \bigl(\B{\xi}-\gf(\ovx)\bigr)^T\vd\leq 0.
+  $$
+Tomando $\vd=\B{\xi}-\gf(\ovx)$, resulta $\B{\xi}=\gf(\ovx)$.
+\end{demostracion}
+Una consecuencia de esta proposici\'{o}n es la siguiente caracterizaci\'{o}n de funciones convexas
+diferenciables.
+\begin{teorema}\label{t333}
+Sea $\SS$ un conjunto convexo, abierto y no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n
+diferenciable en $\SS$. Entonces, $f$ es convexa si y s\'{o}lo si para cualquier punto
+$\ovx\in\SS$ se tiene que
+  $$
+  f(\vx)\geq f(\ovx)+\gf(\ovx)^T(\vx-\ovx),\qquad\forall \vx\in\SS.
+  $$
+De igual forma, $f$ es estrictamente convexa si y s\'{o}lo si para cualquier punto $\ovx\in\SS$ se
+tiene que
+  $$
+  f(\vx)> f(\ovx)+\gf(\ovx)^T(\vx-\ovx),\qquad\forall \vx\in\SS,\,\vx\neq\ovx.
+  $$
+\end{teorema}
+\begin{demostracion}
+Inmediata a partir de los teoremas \ref{t325} y \ref{t326} y la proposici\'{o}n \ref{p332}.
+\end{demostracion}
+De este resultado se pueden extraer varias conclusiones. As\'{\i}, si $f$ es una funci\'{o}n
+convexa, entonces dado un punto $\ovx$, la funci\'{o}n lineal $f(\ovx)+\gf(\ovx)^T(\vx-\ovx)$
+acota inferiormente $f$. Entonces, tomando m\'{\i}nimos de esta \'{u}ltima funci\'{o}n lineal en el
+conjunto $\SS$, obtenemos una cota inferior para el valor de la funci\'{o}n $f$ en $\SS$.
+\begin{teorema}
+Sea $\SS$ un conjunto convexo, abierto y no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n
+diferenciable en $\SS$. Entonces, $f$ es convexa si y s\'{o}lo si para cualquier par de puntos
+$\vx_1,\vx_2\in\SS$ se tiene que
+  $$
+  \bigl(\gf(\vx_2)-\gf(\vx_1)\bigr)^T(\vx_2-\vx_1)\geq 0.
+  $$
+De igual forma, $f$ es estrictamente convexa si y s\'{o}lo si para cada par de puntos distintos
+$\vx_1,\vx_2\in\SS$ se tiene que:
+  $$
+  \bigl(\gf(\vx_2)-\gf(\vx_1)\bigr)^T(\vx_2-\vx_1)> 0.
+  $$
+\end{teorema}
+\begin{demostracion}
+Sup\'{o}ngase que $f$ es convexa y sean $\vx_1,\vx_2\in\SS$. Por el teorema \ref{t333} se tiene
+que:
+  \begin{align*}
+  f(\vx_1) & \geq f(\vx_2)+\gf(\vx_2)^T(\vx_1-\vx_2),
+  \\
+  f(\vx_2) & \geq f(\vx_1)+\gf(\vx_1)^T(\vx_2-\vx_1).
+  \end{align*}
+Sumando ambas desigualdades, se obtiene que
+  $$
+  \bigl(\gf(\vx_2)-\gf(\vx_1)\bigr)^T(\vx_2-\vx_1)\geq 0.
+  $$
+Por otra parte, aplicando el teorema del valor medio, tenemos que
+ \begin{equation}\label{t334-1}
+ f(\vx_2)-f(\vx_1)=\gf(\vx)^T(\vx_2-\vx_1),
+ \end{equation}
+donde $\vx=\lambda\vx_1+(1-\lambda)\vx_2$, con $\lambda\in(0,1)$. Por hip\'{o}tesis tenemos que
+  $$
+  \bigl(\gf(\vx)-\gf(\vx_1)\bigr)^T(\vx-\vx_1)\geq 0,
+  $$
+esto es,
+  $$
+  (1-\lambda)\bigl(\gf(\vx)-\gf(\vx_1)\bigr)^T(\vx_2-\vx_1)\geq 0,
+  $$
+Esto implica que
+  $$
+  \gf(\vx)^T(\vx_2-\vx_1)\geq \gf(\vx_1)^T(\vx_2-\vx_1)
+  $$
+Por \eqref{t334-1}, se sigue que $f(\vx_2)\geq f(\vx_1)+\gf(\vx_1)^T(\vx_2-\vx_1)$ y, por el
+teorema \eqref{t333}, $f$ es convexa.
+
+Para el caso en que $f$ sea estrictamente convexa, la demostraci\'{o}n es similar.
+\end{demostracion}
+ Estos resultados proporcionan caracterizaciones de las funciones convexas. Pero no siempre
+es sencillo aprovecharlas. A continuaci\'{o}n estudiamos cuando una funci\'{o}n es dos veces
+diferenciable, propiedad que nos va a permitir determinar nuevas caracterizaciones m\'{a}s
+sencillas.
+\begin{definicion}[Funci\'{o}n dos veces diferenciable]
+Se dice que $f$ es dos veces diferenciable en $\ovx\in\inte (\SS)$, si existe un vector
+$\gf(\ovx)\in\Re^n$, una matriz sim\'{e}trica $\vH(\ovx)$ y una funci\'{o}n $\alpha:\Re^n\fd\Re$ tales
+que:
+  $$
+    f(\vx)=f(\ovx)+\gf(\ovx)^T(\vx-\ovx)+\frac{1}{2}(\vx-\ovx)^T\vH(\ovx)
+    (\vx-\ovx)+\norma{\vx-\ovx}^2\alpha(\ovx,\ovx-\vx),\qquad \forall \vx\in\SS,
+  $$
+verificando:
+  $$
+  \lim_{\vx\fd \ovx}\alpha(\ovx,\vx-\ovx)=0.
+  $$
+\end{definicion}
+\begin{definicion}[Matriz Hessiana]
+A la matriz $\vH(\ovx)$ se le denomina Matriz Hessiana de $f$ en $\ovx$. Si $f$ es dos veces
+diferenciable en $\ovx$:
+  $$
+    \vH(\ovx)=\biggl(\frac{\delta^2f(\ovx)}{\delta x_i\delta
+    x_j}\biggr)_{i,j=1,\dots,n}
+  $$
+\end{definicion}
+\begin{ejemplo}
+Sea $f(x_1,x_2)=2x_1+6x_2-2x_1^2-3x_2^2+4x_1x_2$ Entonces:
+ $$
+ \gf=(\vx)=\begin{pmatrix}2-4x_1+4x_2 \\
+ 6-6x_2+4x_1\end{pmatrix}\qquad\vH(\vx)=\begin{pmatrix}-4 & 4 \\ 4 & -6\end{pmatrix}
+ $$
+ Por ejemplo, tomando $\ovx=(0,0)$, el desarrollo de taylor de segundo orden es:
+ $$
+ f(\vx)=(2,6)\begin{pmatrix} x_1 \\ x_2\end{pmatrix}+\frac{1}{2}(x_1,x_2)
+  \begin{pmatrix}-4 & 4 \\ 4 & -6\end{pmatrix}\begin{pmatrix}x_1\\ x_2\end{pmatrix}
+ $$
+y, puesto que $f$ es cuadr\'{a}tica, la representaci\'{o}n es exacta.
+\end{ejemplo}
+El siguiente resultado permite caracterizar las funciones convexas a partir de su matriz
+Hessiana.
+\begin{teorema}
+Sea $\SS$ un conjunto convexo, abierto y  no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n dos
+veces diferenciable en $\SS$. Entonces, $f$ es convexa en $\SS$ si la matriz hessiana es
+semidefinida positiva en cualquier punto de $\SS$.
+\end{teorema}
+\begin{demostracion}
+Sup\'{o}ngase que $f$ es convexa y sea $\ovx\in\SS$. Tenemos que demostrar que
+$\vx^T\vH(\ovx)\vx\geq 0$ para $\vx\in\Re^n$.
+
+Puesto que $\SS$ es abierto, existe un $\lambda$, $\abs{\lambda}\neq 0$, tal que
+$\ovx+\lambda\vx\in\SS$. Por el teorema \ref{t333} y teniendo en cuenta que $f$ es dos veces
+diferenciable, se obtiene:
+   \begin{align*}
+    f(\ovx+\lambda\vx)&\geq f(\ovx)+\lambda\gf(\ovx)^T\vx,
+     \\
+     f(\ovx+\lambda\vx)&=f(\ovx)+\lambda\gf(\ovx)^T\vx+\frac{1}{2}\lambda^2\vx^T\vH(\ovx)\vx+\lambda^2\norma{\vx}^2\alpha(\ovx,\lambda\vx).
+   \end{align*}
+Restando la segunda expresi\'{o}n a la primera, se obtiene:
+    $$
+    \frac{1}{2}\lambda^2\vx^T\vH(\ovx)\vx+\lambda^2\norma{\vx}^2\alpha(\ovx,\lambda\vx)\geq 0.
+    $$
+Dividiendo por $ºlambda^2>0$ y tomando l\'{\i}mites cuando $\lambda\rightarrow 0$ se tiene que
+$\vx^T\vH(\ovx)\vx\geq 0$.
+
+Inversamente, sip\'{o}ngase que la matriz Hessiana es semidefinida positiva en $\SS$ y sean $\vx$
+y $\ovx$ dos puntos de $\SS$; por el teorema del valor medio, se tiene que
+   \begin{equation}\label{t337-1}
+     f(\vx)=f(\ovx)+\gf(\ovx)^T(\vx-\ovx)+\frac{1}{2}(\vx-\ovx)^T\vH(\hat{\vx})(\vx-\ovx),
+   \end{equation}
+donde $\hat{\vx}=\lambda\ovx+(1-\lambda)\vx$ para alg\'{u}n $\lambda\in(0,1)$. Puesto que $\SS$ es
+convexo, $\hat{\vx}$ pertenece a $\SS$ y, como por hip\'{o}tesis $\vH(\hat{\vx})$ es semidefinida
+positiva, se tiene que
+  $$
+  (\vx-\ovx)^T\vH(\hat{\vx})(\vx-\ovx)\geq 0,
+  $$
+y, por \eqref{t337-1}, se concluye que
+  $$
+  f(\vx)\geq f(\ovx)+\gf(\ovx)^T(\vx-\ovx)
+  $$
+Puesto que esta desigualdad es v\'{a}lida para cualquier par de puntos $\vx,\ovx\in\SS$, a partir
+del teorema \ref{t333}, se concluye que $f$ es convexa.
+\end{demostracion}
+\begin{observacion}
+Una matriz es semidefinida (definida) positiva si todos sus autovalores son mayores o iguales
+(mayores) que 0.
+\end{observacion}
+Este teorema es \'{u}til para determinar la convexidad y concavidad de una funci\'{o}n. En el caso en
+que la funci\'{o}n ea cuadr\'{a}tica, adem\'{a}s, la matriz Hessiana es independiente de los puntos y el
+problema de estudiar la convexidad de la funci\'{o}n se reduce a estudiar el car\'{a}cter de una
+funci\'{o}n constante.
+\begin{teorema}
+Sea $\SS$ un conjunto convexo, abierto y  no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n dos
+veces diferenciable en $\SS$. Entonces, si la matriz Hessiana es definida positiva, entonces
+$f$ es estrictamente convexa en $\SS$. Inversamente, si $f$ es estrictamente convexa. entonces
+la matriz Hessiana es semidefinida positiva en cualquier punto de $\SS$. Sin embargo, si $f$
+es estrictamente convexa y cuadr\'{a}tica, entonces la matriz Hessiana es definida positiva.
+\end{teorema}
+\begin{ejemplo}
+Sea $f(x_1,x_2,x_3)=x_1x_2+2x_1^2+x_2^2+2x_3^2-6x_1x_3$. Estudiar su convexidad.
+
+La matriz Hessiana es:
+ $$
+  \vH=\begin{pmatrix}
+          4 & 1 & -6 \\ 1 & 2 & 0 \\ -6 & 0 & 4
+       \end{pmatrix}
+ $$
+y los menores principales son: $4>0$, $7>0$, mientras que el determinante es negativo. Por
+tanto, no es ni c\'{o}ncava no convexa.
+\end{ejemplo}
+\begin{ejemplo}
+Sea $f(x_1,x_2)=10-2(x_2-x_1^2)^2$. Estudiar su convexidad.
+
+La matriz Hessiana es:
+ $$
+  \vH=\begin{pmatrix}
+          8x_2-24x_1^2 & 8x_1 \\ 8x_1 & -4
+       \end{pmatrix}
+ $$
+Para que sea convexa debe verificarse que:
+   \begin{align*}
+        8x_2-24x_1^2= 8(x_2-3x_1^2) & \geq 0 \\
+        -32x_2+96x_1^2-64x_1^2=32(x_1^2-x_2) & \geq 0
+   \end{align*}
+Esto es, $x_1^2\geq x_2$ y $x_2\geq 3x_1^2$. Esto s\'{o}lo se verifica si $x_1=x_2=0$. Por tanto,
+$f$ s\'{o}lo es convexa en el punto $(0,0)$.
+
+Para que sea c\'{o}ncava, deber\'{a} ser:
+   \begin{align*}
+        8x_2-24x_1^2= 8(x_2-3x_1^2) & \leq 0 \\
+        -32x_2+96x_1^2-64x_1^2=32(x_1^2-x_2) & \geq 0
+   \end{align*}
+   Esto es, $x_2\leq 3x_1^2$ y $x_2\leq x_1^2$. Por tanto, la funci\'{o}n es c\'{o}ncava si $x_2\leq x_1^2$.
+\end{ejemplo}
+\begin{ejemplo}
+Sea $f(x_1,x_2)=-x_1^2-5x_2^2+2x_1x_2+10x_1-10x_2$. Estudiar su convexidad.
+
+La matriz Hessiana es:
+ $$
+  \vH=\begin{pmatrix}
+          -2 & 2 \\ 2 & -10
+       \end{pmatrix}
+ $$
+y los menores son $-2<0$ y $16>0$. Por tanto, $-f$ es convexa y $f$ c\'{o}ncava.
+\end{ejemplo}
+%%
+\section{\'{O}ptimos de una funci\'{o}n convexa}
+%%
+Ya comentamos al inicio del tema que una de las propiedades m\'{a}s importantes de las funciones
+convexas dentro del campo de la optimizaci\'{o}n era el hecho de que sus m\'{\i}nimos locales tambi\'{e}n
+son globales. Esto es fundamental ya que los m\'{e}todos desarrollados hasta el momento s\'{o}lo
+permiten hallar \'{o}ptimos locales. Antes de dar resultados, vamos a formalizar el concepto de
+m\'{\i}nimo local y global.
+\begin{definicion}[M\'{\i}nimo global]
+Dada la funci\'{o}n $f:\Re^n\rightarrow\Re$, se dice que $\ovx$ es un m\'{\i}nimo global si:
+  $$
+    f(\ovx)\leq f(\vx)\qquad  \forall \vx\in\Re^n.
+  $$
+\end{definicion}
+\begin{definicion}[M\'{\i}nimo local]
+Dada la funci\'{o}n $f:\Re^n\rightarrow \Re$, se dice que $\ovx$ es un m\'{\i}nimo local si existe un
+entorno de radio $\epsilon$ centrado en $\ovx$ tal que:
+  $$
+  f(\ovx)\leq f(\vx)\qquad \forall \vx\in N_\epsilon (\ovx)\subset  \Re^n.
+  $$
+\end{definicion}
+\begin{teorema}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n convexa en
+$\SS$. Entonces, si $\ovx$ es un m\'{\i}nimo local de $f$, es tambi\'{e}n un m\'{\i}nimo global. Si, adem\'{a}s,
+$f$ es estrictamente convexa  o $\ovx$ es un m\'{\i}nimo local estricto, el m\'{\i}nimo es \'{u}nico.
+\end{teorema}
+El siguiente resultado nos proporciona una condici\'{o}n necesaria y suficiente para que un
+m\'{\i}nimo local sea m\'{\i}nimo global.
+\begin{teorema}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n convexa en
+$\SS$. Entonces, el punto $\ovx\in\SS$ es un m\'{\i}nimo global de $f$ en $\SS$ si y s\'{o}lo si $f$
+tiene un subgradiente $\B{\xi}$ en $\ovx$ tal que $\B{\xi}^T(\vx-\ovx)\geq 0$ para todo
+$\vx\in\SS$.
+\end{teorema}
+\begin{demostracion}
+Ver {\em Non Linear Programming},(segunda edici\'{o}n) de M.S. Bazarra, H.D. Sherali y C.M.
+Shetty, p\'{a}gina 102.
+\end{demostracion}
+\begin{corolario}
+Bajo las hip\'{o}tesis del teorema anterior, si $\SS$ es abierto, entonces $\ovx$ es m\'{\i}nimo de $f$
+en $\SS$ si y s\'{o}lo si el vector $\vv$ es subgradiente de $f$ en $\ovx$. En particular, si
+$\SS=\Re^n$, $\ovx$ es un m\'{\i}nimo global de la funci\'{o}n $f$ si y s\'{o}lo si $\vv$ es sugradiente de
+$f$ en $\ovx$.
+\end{corolario}
+\begin{demostracion}
+Por el teorema anterior, $\ovx$ es una soluci\'{o}n \'{o}ptima si y s\'{o}lo si $\B{\xi}^T(\vx-\ovx)\geq
+0$ para cada $\vx\in\SS$, donde $\B{\xi}$ es un subgradiente de $f$ en $\ovx$. Como $\SS$ es
+abierto, existe un $\lambda>0$ tal que $\vx=\ovx-\lambda\B{\xi}\in\SS$. Por tanto,
+$-\lambda\norma{\B{\xi}}\geq 0$, esto es, $\B{\xi}=\vv$.
+\end{demostracion}
+\begin{corolario}\label{t343-c2}
+Si adem\'{a}s de las hip\'{o}tesis del teorema, suponemos que $f$ es diferenciable, entonces $\ovx$ es
+un m\'{\i}nimo de $f$ en $\SS$ si y s\'{o}lo si $\gf(\ovx)^T(\vx-\ovx)\geq 0$ para todo $\vx\in\SS$.
+M\'{a}s a\'{u}n, si $\SS$ es abierto, entonces $\ovx$ es \'{o}ptimo si y s\'{o}lo si $\gf(\ovx)º=\vv$.
+\end{corolario}
+El teorema anterior permite caracterizar los puntos m\'{\i}nimos de $f$ en $\SS$. Estas condiciones
+se reducen a resultados cl\'{a}sicos de An\'{a}lisis cuando $f$ es diferenciable y $\SS$ abierto. Otra
+consecuencia de este teorema es que dado un punto no \'{o}ptimo $\ovx$, donde
+$\gf(\ovx)^T(\vx-\ovx)<0$ para alg\'{u}n $\vx\in\SS$, es obvio que para mejorar esta soluci\'{o}n se
+puede avanzar desde $\ovx$ a lo largo de la direcci\'{o}n $\vd=\vx-\ovx$. La determinaci\'{o}n de la
+longitud de paso en el avance se puede obtener resolviendo el siguiente problema
+unidimensional:
+  $$
+    \min_\lambda f(\ovx+\lambda(\vx-\ovx))\qquad\text{sujeto a }\qquad \lambda\geq
+    0\quad\text{ y }\quad \ovx+\lambda(\vx-\ovx)\in\SS.
+  $$
+Este m\'{e}todo es del denominado {\em m\'{e}todo de las direcciones factibles}.
+\begin{teorema}
+Consid\'{e}rese el problema de minimizar $f(\vx)$ sujeto a $\vx\in\SS$, donde $f$ es una funci\'{o}n
+convexa diferenciable y $\SS$ es un conjunto convexo. Sup\'{o}ngase, adem\'{a}s, que existe un punto
+\'{o}ptimo $\ovx$. Entonces, el conjunto $\SS^*$ de soluciones para el problema viene dado por:
+  $$
+  \SS^*=\{\vx\in\SS\,/\, \gf(\ovx)^T(\vx-\ovx)\leq
+  0\qquad\text{and}\qquad\gf(\vx)=\gf(\ovx)\}
+  $$
+\end{teorema}
+\begin{demostracion}
+Sea $\hat{\SS}$ el conjunto de soluciones \'{o}ptimas, Vamos a probar que $\SS^*=\hat{\SS}$. Para
+ello veamos que se verifican las dos inclusiones.
+
+Sea $\hat{\vx}\in\SS^*$. Por ser $f$ convexa y por la definici\'{o}n de $\SS^*$, se deduce que
+$\hat{\vx}\in\SS$ y
+  $$
+    f(\ovx)\geq
+    f(\hat{\vx})+\gf(\hat{\vx})^T(\ovx-\hat{\vx})=f(\hat{\vx})+\gf(\ovx)^T(\ovx-\hat{\vx})\geq
+    f(\hat{\vx})
+  $$
+y, por ser $\ovx$ un \'{o}ptimo, $\hat{\vx}\in\hat{\SS}$, esto es, $\SS^*\subseteq\hat{\SS}$.
+
+Inversamente, supongamos que $\hat{\vx}\in\hat{\SS}$; por tanto, $\hat{\vx}\in\SS$ y
+$f(\ovx)=f(\hat{\vx})$. Esto significa que
+  $$
+  f(\ovx)=f(\hat{\vx})\geq f(\ovx)+\gf(\ovx)^T(\hat{\vx}-\ovx)
+  $$
+Esto es,
+  $$
+  \gf(\ovx)^T(\hat{\vx}-\ovx)\leq 0.
+  $$
+Pero por el corolario \ref{t343-c2}, tenemos que $\gf(\ovx)^T(\hat{\vx}-\ovx)\geq 0$. Por
+tanto,
+  $$
+  \gf(\ovx)^T(\hat{\vx}-\ovx)=0.
+  $$
+Intercambiando los papeles de $\hat{\vx}$ y $\ovx$ se obtiene que
+$\gf(\hat{\vx})^T(\ovx-\hat{\vx})=0.$ Entonces
+  \begin{equation}\label{t344-1}
+    \Bigl[\gf(\ovx)-\gf(\hat{\vx})\bigr]^T(\ovx-\hat{\vx})=0
+  \end{equation}
+Por otra parte:
+  \begin{equation}\label{t344-2}
+    \Bigl[\gf(\ovx)-\gf(\hat{\vx})\bigr]^T=\gf\bigl(\hat{\vx}+\lambda(\ovx-\hat{\vx})\bigr)_{\lambda=0}^{\lambda=1}=
+    \int_{\lambda=0}^{\lambda=1}
+    \vH\bigl(\hat{\vx}+\lambda(\ovx-\hat{\vx})\bigr)(\ovx-\hat{\vx})d\lambda=\vG(\ovx-\hat{\vx})
+  \end{equation}
+donde $\vG=\int_0^1\vH\bigl(\hat{\vx}+\lambda(\ovx-\hat{\vx})\bigr)d\lambda$ y donde la
+integral de la matriz se calcula componente a componente.
+
+N\'{o}tese que $\vG$ es una matriz semidefinida positiva. Efectivamente,
+   $$
+   \vd^T\vG\vd=\int_0^1\vd^T\vH\bigl(\hat{\vx}+\lambda(\ovx-\hat{\vx})\bigr)\vd d\lambda\geq
+   0
+   $$
+para todo $\vd\in\Re^n$, puesto que por ser $f$ convexa, la expresi\'{o}n
+$\vd^T\vH\bigl(\hat{\vx}+\lambda(\ovx-\hat{\vx})\bigr)\vd$ es no negativa como funci\'{o}n de
+$\lambda$.
+
+Por tanto, por \eqref{t344-1} y \eqref{t344-2}, tenemos que
+ $$
+ 0=(\ovx-\hat{\vx})^T\bigl[\gf(\ovx)-\gf(\hat{\vx})\bigr]=(\ovx-\hat{\vx})^T\vG(\ovx-\hat{\vx})
+ $$.
+Pero, por ser $\vG$ semidefinida positiva, esta \'{u}ltima expresi\'{o}n implica que
+$\vG(\ovx-\hat{\vx})=\vv$ (resultado cl\'{a}sico de an\'{a}lisis). Entonces, por \eqref{t344-2},
+tenemos que $\gf(\ovx)=\gf(\hat{\vx})$.
+
+Por tanto, hemos comprobado que $\hat{\vx}\in\SS$, $\gf(\ovx)^T(\hat{\vx}-\ovx)\leq 0$  y
+$\gf(\hat{\vx})=\gf(\ovx)$. Por tanto, $\hat{\vx}\in\SS^*$ y $\hat{\SS}\subseteq\SS^*$. Como
+ya hab\'{\i}amos probado la otra inclusi\'{o}n, se tiene que $\hat{\SS}=\SS^*$.
+\end{demostracion}
+\begin{corolario}
+El $\SS^*$ el conjunto de soluciones \'{o}ptimas puede expresarse como:
+  $$
+  \SS^*=\{\vx\in\SS\,/\, \gf(\ovx)^T(\vx-\ovx)=0,\qquad\text{y}\qquad \gf(\vx)=\gf\ovx)\}
+  $$
+\end{corolario}
+\begin{demostracion}
+La demostraci\'{o}n es inmediata a partir de la definici\'{o}n de $\SS^*$ del teorema anterior y por
+el hecho de que $\gf(\ovx)^T(\vx-\ovx)\geq 0$ para cada punto $\vx\in\SS$ por el corolario
+\ref{t343-c2}.
+\end{demostracion}
+\begin{corolario}
+Si $f$ es una funci\'{o}n cuadr\'{a}tica de la forma $f(\vx)=\vc^T\vx+\frac{1}{2}\vx^T\vH\vx$ y $\SS$
+es un poliedro, entonces $\SS^*$ es un poliedro dado por:
+  $$
+  \SS^*=\{ \vx\in\SS\,/\, \vc^T(\vx-\ovx)\leq 0,\, \vH(\vx-\ovx)=\vv\}=
+         \{ \vx\in\SS\,/\, \vc^T(\vx-\ovx)= 0,\, \vH(\vx-\ovx)=\vv\}
+  $$
+\end{corolario}
+\begin{demostracion}
+La demostraci\'{o}n es inmediata sin m\'{a}s que considerar que $\gf(\ovx)=\vc+\vH\vx$ en el teorema y
+el corolario anteriores.
+\end{demostracion}
+\bigskip
+
+Cuando se trata de maximizar una funci\'{o}n convexa en un conjunto convexo, ya no es posible
+encontrar condiciones necesarias y suficientes sencillas, ya que es posible que muchos \'{o}ptimos
+locales verifiquen dichas condiciones. El siguiente resultado proporciona una condici\'{o}n
+necesaria, aunque como veremos en un ejemplo posterior esta condici\'{o}n se verifica incluso para
+puntos que no son \'{o}ptimos locales.
+\begin{teorema}
+Sea $f:\Re^n\rightarrow\Re$ una funci\'{o}n convexa y sea $\SS$ un conjunto convexo de $\Re^n$.
+Consid\'{e}rese el problema de maximizar $f(\vx)$ sujeto a $\vx\in\SS$. Si $\ovx\in\SS$ es un
+\'{o}ptimo local, entonces $\B{\xi}^T(\vx-\ovx)\leq 0$ para cada $\vx\in\SS$. donde $\B{\xi}$ es
+cualquier subgradiente de $f$ en $\ovx$.
+\end{teorema}
+\begin{demostracion}
+Sea $\ovx\in\SS$ un \'{o}ptimo local. Entonces existe un entorno $N_\epsilon(\ovx)$ tal que
+$f(\vx)\leq f(\ovx)$ para cada $\vx\in\SS\cap N_\epsilon(\ovx)$. Sea $\vx\in\SS$, tomando un
+$\lambda>0$ suficientemente peque\~{n}o, el punto $\ovx+\lambda(\vx-\ovx)$ pertenece a $\SS\cap
+N_\epsilon(\ovx)$. Por tanto:
+  \begin{equation}\label{t346-1}
+    f\bigl(\ovx+\lambda(\vx-\ovx)\bigr)\leq f(\ovx).
+  \end{equation}
+Sea $\B{\xi}$ un subgradiente de $f$ en $\ovx$. Por ser $f$ convexa, tenemos que
+  \begin{equation*}
+    f\bigl(\ovx+\lambda(\vx-\ovx)\bigr)-f(\ovx)\geq \lambda\B{\xi}^T(\vx-\ovx).
+  \end{equation*}
+La desigualdad anterior, junto con \eqref{t344-1} implica que $\lambda\B{\xi}^T(\vx-\ovx)\leq
+0$ y, puesto que  $\lambda>0$, se obtiene el resultado.
+\end{demostracion}
+\begin{corolario}
+Si a las hip\'{o}tesis del teorema anterior se a\~{n}ade que $f$ es diferenciable, entonces si $\ovx$
+es un \'{o}ptimo local, $\gf(\ovx)^T(\vx-\ovx)\leq 0$, $\forall \vx\in\SS$.
+\end{corolario}
+Estos dos \'{u}ltimos resultados proporcionan una condici\'{o}n necesaria pero no suficiente, como
+muestra el siguiente ejemplo.
+\begin{ejemplo}
+Sea $f(x)=x^2$ y $\SS=\{x\,/\, -1\leq x\leq 2\}$. El m\'{a}ximo de $f$ e $\SS$ es igual a 4 y se
+alcanza con $x=2$.
+
+Sin embargo, en $\hat{x}=0$ se tiene que $\gf(x)=0$ y, por tanto, $\gf(0)^T(x-\hat{x})=0$ para
+cada punto de $x\in\SS$ cuando es evidente que $x=0$ no es un \'{o}ptimo local.
+\end{ejemplo}
+En el caso de que $\SS$ sea un poliedro compacto, el siguiente resultado nos permite
+garantizar que el \'{o}ptimo se alcanza en un punto extremo, por lo menos. Este resultado ha sido
+muy aplicada en los m\'{e}todos computacionales, como, por ejemplo, el m\'{e}todo del simplex.
+\begin{teorema}
+Sea $f:\Re^n\rightarrow\Re$ una funci\'{o}n convexa y sea $\SS$ un poliedro compacto no vac\'{\i}o.
+Consid\'{e}rese el problema de maximizar $f(\vx)$ con $\vx\in\SS$. Entonces existe un punto
+extremo de $\ovx$ de $\SS$ que resuelve el problema.
+\end{teorema}
+\begin{demostracion}
+Por ser $f$ convexa, $f$ es continua. Puesto que $\SS$ es compacto, el m\'{a}ximo de $f$ se
+alcanza en un punto de $\SS$, sea $\vx'$. Si $\vx!`$ no es un punto extremo, por ser $\SS$ un
+poliedro y aplicando el teorema de representaci\'{o}n, $\vx'$ se puede poner como combinaci\'{o}n
+lineal de los puntos extremos de $\SS$:
+  $$
+    \vx'=\sum_{j=1}^k\lambda_j\vx_j\qquad,\lambda_j=1,\qquad\lambda_j\geq 0,\quad
+    j=1,\dots,k
+  $$
+y donde $\vx_j$, $j=1,\dots,k$ son puntos extremos de $\SS$. Por ser $f$ convexa se tiene que:
+  $$
+  f(\vx')=f\Bigl(\sum_{j=1}^k\lambda_j\vx_j\Bigr)\leq\sum_{j=1}^kf(\vx_j)
+  $$
+y puesto que $f(\vx')\geq f(\vx_j)$, para $j=1,\dots,k$, la desigualdad anterior implica que
+$f(\vx')=f(\vx_j)$, $j=1,\dots,k$. Por tanto, estos $k$ puntos extremos son soluciones \'{o}ptimas
+del problema.
+\end{demostracion}
+%%
+\section{Extensi\'{o}n del concepto de funci\'{o}n convexa}
+%%
+En esta secci\'{o}n presentamos varios tipos de funciones que, siendo similares a las funciones
+convexas, s\'{o}lo mantienen algunas de sus propiedades. Muchas de las condiciones que se imponen
+en los resultados posteriores sobre optimalidad no requieren que se verifiquen las condiciones
+tan restrictivas de convexidad y es posible relajar alguna de ellas.
+%%
+\begin{definicion}[Funci\'{o}n cuasi-convexa]
+Sea $f:\SS\subset \Re^n\fd\Re$, con $\SS\neq\emptyset$  convexo. Se dice que $f$ es
+cuasi-convexa si
+  $$
+    f(\lambda\vx_1+(1-\lambda)
+    \vx_2)\leq \max\{f(\vx_1),f(\vx_2)\},\qquad\forall\vx_1,\vx_2\in\SS,\quad\forall \lambda\in
+    [0,1],
+  $$
+\end{definicion}
+De la definici\'{o}n anterior, $f$ es cuasi-convexa si siempre que $f(\vx_2)\geq f(\vx_1)$,
+entonces $f(\vx_2)$ es mayor o igual que $f(\vx)$, donde $\vx$ es cualquier combinaci\'{o}n lineal
+convexa de $\vx_1$ y $\vx_2$.
+\begin{center}
+\begin{pspicture}(0,-0.7)(12,4)
+    \psset{yunit=10mm,xunit=10mm}
+    \rput(0,2){\pscurve(0,1)(0.5,0.3)(1,0)\pscurve(1,-1)(1.3,-1.1)(1.5,-1.5)\pscurve(1.5,-1.5)(2.7,-0.5)(3,0.5)}
+    \rput(4,2){\pscurve(0,1)(0.5,0.3)(1,0)\psline(1,0)(1.5,0)\pscurve(1.5,-1.5)(2.7,-0.5)(3,0.5)}
+    %\psline[linestyle=dashed]{->}(0.5,-0.5)(0.5,2.25)
+    \rput(2,-0.2){\footnotesize cuasi-convexa}
+    \rput(6,-0.2){\footnotesize cuasi-convexa}
+    \rput(10,-0.2){\footnotesize Ni cuasi-convexa ni cuasi-c\'{o}ncava}
+    \rput(8,0.25){\pscurve(0,0)(1,2)(2,1)(3,2)}
+\end{pspicture}
+\end{center}
+El siguiente resultado permite caracterizar las funciones cuasi-convexas a partir de sus
+conjuntos de nivel.
+\begin{teorema}
+Sea $f:\SS\fd\Re$, donde $\SS$ es un conjunto convexo no vac\'{\i}o de $\Re^n$. La funci\'{o}n $f$ es
+cuasi-convexa si y s\'{o}lo si $\SS_\alpha=\{\vx\in\SS\,/\, f(\vx)\leq\alpha\}$ es convexo para
+cualquier numero real $\alpha$.
+\end{teorema}
+\begin{demostracion}
+Sean $f$ cuasi-convexa y $\vx_1,\vx_2\in\SS_\alpha$. Entonces $\vx_1,\vx_2\in\SS$ y
+  $$
+  \max\{f(\vx_1),f(\vx_2)\}\leq\alpha.
+  $$
+Sea $\lambda\in(0,1)$ y $\vx=\lambda\vx_1+(1-\lambda)\vx_2$. Por ser $\SS$ convexo,
+$\vx\in\SS$ y por ser $f$ cuasi-convexa:
+   $$
+     f(\vx)=f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)\leq\max\bigl\{f(\vx_1),f(\vx_2)\bigr\}\leq\alpha
+   $$
+y, por tanto, $\vx\in\SS_\alpha$  y $\SS_\alpha$ es convexo.
+
+Supongamos ahora que $\SS_\alpha$ es convexo para cualquier n\'{u}mero real $\alpha$. Sean
+$\vx_1,\vx_2\in\SS$. Entonces para $\lambda\in(0,1)$,
+$\vx=\lambda\vx_1+(1-\lambda)\vx_2\in\SS$, por ser $\SS$ convexo.
+
+Adem\'{a}s, $\vx_1,\vx_2\in\SS_\alpha$ para $\alpha=\max\{f(\vx_1),f(\vx_2)\}$. Por hip\'{o}tesis,
+$\SS_\alpha$ es convexo y, por tanto, $\vx\in\SS_\alpha$. Entonces,
+  $$
+  f(\vx)\leq\alpha=\max\bigl\{f(\vx_1),f(\vx_2)\bigr\}
+  $$
+y $f$ es cuasi-convexa.
+\end{demostracion}
+La definici\'{o}n de funci\'{o}n cuasi-convexa no permite mantener el resultado que garantiza que
+cualquier m\'{\i}nimo local tambi\'{e}n es global. A continuaci\'{o}n restringimos ese concepto,
+introduciendo las funciones estrictamente cuasi-convexa, que s\'{\i} permiten mantener el
+resultado anterior.
+\begin{definicion}[Funci\'{o}n estrictamente cuasi-convexa]\label{estricta-cuasi}
+Sea $f:\SS\subset \Re^n\fd\Re$, con $\SS\neq\emptyset$  convexo. Se dice que $f$ es
+estrictamente cuasi-convexa si
+  $$
+    f(\lambda\vx_1+(1-\lambda)
+    \vx_2)<\max\{f(\vx_1),f(\vx_2)\},\qquad\forall\vx_1,\vx_2\in\SS,\quad
+    f(\vx_1)\neq f(\vx_2),\quad\forall \lambda\in(0,1).
+  $$
+\end{definicion}
+\begin{center}
+\begin{pspicture}(0,-0.7)(13,4)
+    \psset{yunit=10mm,xunit=10mm}
+    \rput(0,1.5){\pscurve(0,1)(0.9,0.3)(1,0)\psline(1,0)(2,0)\pscurve(2,0)(2.8,0.5)(3,1.5)}
+    \rput(4,2){\pscurve(0,-1)(1.7,0)(2,1)\pscurve(2,1)(2.5,1.5)(3,1)\pscurve(3,1)(3.2,0.5)(3.5,-1)}
+    %\psline[linestyle=dashed]{->}(0.5,-0.5)(0.5,2.25)
+    \rput(6,-0.1){\footnotesize Estrictamente}
+    \rput(6,-0.4){\footnotesize cuasi-c\'{o}ncava}
+    \rput(2,-0.1){\footnotesize Estrictamente}
+    \rput(2,-0.4){\footnotesize cuasi-convexa}
+    \rput(11,-0.1){\footnotesize Ni estrictamente cuasi-convexa}
+    \rput(11,-0.4){\footnotesize ni estrictamente cuasi-c\'{o}ncava}
+    \rput(9,0.25){\pscurve(0,0)(1,2)(2,1)(3,2)}
+\end{pspicture}
+\end{center}
+\begin{proposicion}
+Toda funci\'{o}n convexa es estrictamente cuasi-convexa.
+\end{proposicion}
+\begin{demostracion}
+Trivial a partir de la definici\'{o}n \ref{estricta-cuasi}.
+\end{demostracion}
+La importancia de las funciones estrictamente cuasi-convexas radica en que aseguran que un
+m\'{\i}nimo local en un conjunto convexo es tambi\'{e}n un m\'{\i}nimo global.
+\begin{teorema}\label{t356}
+Sea $f:\Re^n\fd\Re$ una funci\'{o}n estrictamente cuasi-convexa. Consid\'{e}rese el problema de
+minimizar $f(\vx)$ con $\vx\in\SS$, donde $\SS\subset\Re^n$ es un conjunto convexo no vac\'{\i}o.
+Si $\ovx$ es un \'{o}ptimo local, entonces $\ovx$ es tambi\'{e}n un \'{o}ptimo global.
+\end{teorema}
+\begin{demostracion}
+Por contradicci\'{o}n, supongamos que existe un punto $\hat{\vx}\in\SS$ tal que
+$f(\hat{\vx})<f(\ovx)$. Por ser $\SS$ un conjunto convexo, los puntos
+$\lambda\hat{\vx}+(1-\lambda)\ovx$ con $\lambda \in(0,1)$ tambi\'{e}n pertenecen a $\SS$.
+
+Puesto que $\ovx$ es un m\'{\i}nimo local se tiene que existe un $\delta\in(0,1)$ tal que:
+ $$
+  f(\ovx)\leq f\bigl(\lambda\hat{\vx}+(1-\lambda)\ovx\bigr),\qquad\forall\lambda\in(0,\delta).
+ $$
+Pero, al ser $f$ estrictamente cuasi-convexa y $f(\hat{\vx})<f(\ovx)$, se tiene que:
+ $$
+  f\bigl(\lambda\hat{\vx}+(1-\lambda)\ovx\bigr)\leq f(\ovx),\qquad\forall\lambda\in(0,1).
+ $$
+que entra en contradicci\'{o}n con el hecho de que $\ovx$ sea un m\'{\i}nimo local.
+\end{demostracion}
+\begin{lema}\label{l357}
+Sea $f:\SS\subset \Re^n\fd\Re$ estrictamente cuasi-convexa y semi-continua inferiormente, con
+$\SS\neq\emptyset$ convexo. Entonces $f$ es cuasi-convexa.
+\end{lema}
+\begin{demostracion}
+Sean $\vx_1$ y $\vx_2$ dos puntos de $\SS$. Si $f(\vx_1)\neq f(\vx_2)$, al ser $f$
+estrictamente cuasi-convexa, se tiene que
+  $$
+  f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)<\max\bigl\{ f(\vx_1),
+  f(\vx_2)\bigr\},\qquad\forall\lambda\in(0,1).
+  $$
+Ahora, supongamos que $f(\vx_1)=f(\vx_2)$. Para ver que $f$ es quasi-convexa es necesario
+comprobar que
+  $$
+    f\bigl(\lambda\vx_1+(1-\lambda)\vx_2\bigr)\leq f(\vx_1),\qquad\forall \lambda\in (0,1).
+  $$
+Por contradicci\'{o}n, supongamos que existe un $\mu\in (0,1)$ para el que:
+  $$
+    f\bigl(\mu\vx_1+(1-\mu)\vx_2\bigr)> f(\vx_1).
+  $$
+Sea $\vx=\mu\vx_1+(1-\mu)\vx_2$. Puesto que $f$ es semicontinua inferiormente, existe un
+$\lambda\in (0,1)$ tal que
+  \begin{equation}\label{l357-dem1}
+    f(\vx)>f\bigl(\lambda\vx_1+(1-\lambda)\vx\bigr)> f(\vx_1)=f(\vx_2).
+  \end{equation}
+N\'{o}tese que $\vx$ puede representarse como una combinaci\'{o}n lineal convexa de
+$\lambda\vx_1+(1-\lambda)\vx$ y $\vx_2$. Entonces, por ser $f$ estrictamente cuasi-convexa y
+puesto que
+  \begin{equation*}
+    f\bigl(\lambda\vx_1+(1-\lambda)\vx\bigr)> f(\vx_2),
+  \end{equation*}
+se deduce que:
+  \begin{equation*}
+    f(\vx)<f\bigl(\lambda\vx_1+(1-\lambda)\vx\bigr),
+  \end{equation*}
+que entra en contradicci\'{o}n con \eqref{l357-dem1} y, por tanto, $f$ es cuasi-convexa.
+\end{demostracion}
+El teorema \ref{t356} asegura que un \'{o}ptimo local de una funci\'{o}n estrictamente cuasi-convexa
+en un conjunto convexo  es tambi\'{e}n un \'{o}ptimo global, pero no asegura la unicidad del mismo. La
+siguiente versi\'{o}n de funciones cuasi-convexas si permite asegurar la unicidad del \'{o}ptimo
+global.
+\begin{definicion}[Funci\'{o}n fuertemente cuasi-convexa]
+Sea $f:\SS\subset \Re^n\fd\Re$, con $\SS\neq\emptyset$  convexo. Se dice que $f$ es
+fuertemente cuasi-convexa si
+  $$
+    f\bigl(\lambda\vx_1+(1-\lambda)
+    \vx_2\bigr)<\max\bigl\{f(\vx_1),f(\vx_2)\bigr\},\qquad\forall\vx_1,\vx_2\in\SS,\quad
+    \vx_1\neq x_2,\quad\forall \lambda\in(0,1).
+  $$
+\end{definicion}
+De las definiciones anteriores de funciones cuasi-convexas, estrictamente cuasi-convexas
+y fuertemente cuasi-convexas, se deducen trivialmente las siguientes relaciones:
+  \begin{enumerate}
+    \item Si $f$ estrictamente convexa, entonces, $f$ es fuertemente cuasi-convexa.
+    \item Si $f$ fuertemente cuasi-convexa, entonces, $f$ es estrictamente cuasi-convexa .
+    \item Si $f$ estrictamente fuertemente convexa, entonces, $f$ es cuasi-convexa, incluso
+          si $f$ no es semicontinua.
+  \end{enumerate}
+\begin{teorema}\label{t359}
+Sea $f:\Re^n\fd\Re$ una funci\'{o}n fuertemente cuasi-convexa. Consid\'{e}rese el problema de
+minimizar$f\vx)$ con $\vx\in\SS$, donde $\SS\subset\Re^n$ es un conjunto convexo no vac\'{\i}o. Si
+$\ovx$ es un \'{o}ptimo local, entonces $\ovx$ es el \'{u}nico \'{o}ptimo global.
+\end{teorema}
+\begin{demostracion}
+Puesto que $\ovx$ es un \'{o}ptimo local, existe un entorno $N_\epsilon(\ovx)$, $\epsilon>0$ tal
+que $f(\vx)\geq f(\ovx)$ en todo punto $\vx\in\SS\cap N_\epsilon(\ovx)$. Por contradicci\'{o}n,
+supongamos que existe un punto $\hat{\vx}\in\SS$, $\hat{\vx}\neq\ovx$, tal que $f(\ovx)\geq
+f(\hat{\vx})$. Por ser $f$ fuertemente cuasi-convexa se tiene que:
+  $$
+  f\bigl(\lambda\hat{\vx}+(1-\lambda)\ovx\bigr)<\max\bigl\{f(\hat{\vx}),f(\ovx)\bigr\}
+  $$
+para todo $\lambda\in(0,1)$. Pero para valores de $\lambda$ suficientemente peque\~{n}os, el punto
+$\lambda\hat{\vx}+(1-\lambda)\ovx$ pertenece al conjunto $\SS\cap N_\epsilon(\ovx)$ y la
+desigualdad anterior entra en contradicci\'{o}n con el hecho de que $\ovx$ sea un \'{o}ptimo local.
+\end{demostracion}
+Por \'{u}ltimo, cuando las funciones son diferenciables es posible relajar a\'{u}n m\'{a}s estas
+definiciones. El concepto de funciones pseudo-convexas que se da a continuaci\'{o}n, el hecho de
+que el gradiente sea nulo en un punto proporciona una condici\'{o}n suficiente para que ese punto
+sea \'{o}ptimo global.
+\begin{definicion}[Funci\'{o}n pseudo-convexa y estrictamente pseudo-convexa]
+Sea $f:\SS\subset \Re^n\fd\Re$, diferenciable en $\SS$, con $\SS\neq\emptyset$  abierto. Se
+dice que $f$ es pseudo-convexa si $\forall\vx_1,\vx_2\in\SS$ con
+$\gf(\vx_1)^T(\vx_2-\vx_1)\geq 0$ se verifica que $f(\vx_2)\geq f(\vx_1)$.
+\par
+\noindent Se dice que $f$ es estrictamente pseudo-convexa si $\forall\vx_1,\vx_2\in\SS$ con
+$\vx_1\neq\vx_2$ y $\nabla f(\vx_1)^T(\vx_2-\vx_1)\geq 0$ se verifica que $f(\vx_2)>f(\vx_1)$.
+\end{definicion}
+\begin{center}
+\begin{pspicture}(0,-0.7)(13,4)
+    \psset{yunit=10mm,xunit=10mm}
+    \rput(2,.5){\pscurve(-2,2)(-1,0.1)(0,0)\pscurve(0,0)(1,0.1)(1.8,3)}
+    \rput(6,2){\pscurve(-1,-1)(-.5,-0.33)(0,0)(.5,0.33)(1,1)}
+    \rput(11,2){\pscurve(-1,-1)(-.5,-0.125)(0,0)(.5,0.125)(1,1)}
+    %\psline[linestyle=dashed]{->}(0.5,-0.5)(0.5,2.25)
+    \rput(2,-0.1){\footnotesize Pseudo-convexa}
+    \rput(6,-0.1){\footnotesize Pseudo-convexa y}
+    \rput(6,-0.4){\footnotesize pseudo-c\'{o}ncava}
+    \rput(11,-0.1){\footnotesize Ni Pseudo-convexa}
+    \rput(11,-0.4){\footnotesize ni pseudo-c\'{o}ncava}
+\end{pspicture}
+\end{center}
+\begin{teorema}\label{t3511}
+Sea $\SS$ un conjunto convexo, abierto y no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n
+pseudo-convexa y diferenciable en $\SS$. Entonces. $f$ es estrictamente cuasi-convexa y
+quasi-convexa.
+\end{teorema}
+\begin{demostracion}
+Veamos en primer lugar que $f$ es estrictamente cuasi-convexa. Por contradicci\'{o}n, supongamos
+que existen dos puntos $\vx_1$ y $\vx_2$ de $\SS$, con $f(\vx_1)\neq f(\vx_2)$ tales que:
+  $$
+   f(\vx')\geq\max\bigl\{f(\vx_1),f(\vx_2)\bigr\},
+  $$
+donde $\vx'=\lambda\vx_1+(1-\lambda)\vx_2$, para alg\'{u}n $\lambda\in (0,1)$. Sin p\'{e}rdida de
+generalidad, se puede suponer que $f(\vx_1)< f(\vx_2)$, esto es:
+  \begin{equation}\label{t3511-dem1}
+  f(\vx')\geq f(\vx_2)> f(\vx_1).
+  \end{equation}
+Por ser $f$ pseudo-convexa, tenemos que $\gf(\vx')^T(\vx_1-\vx')<0$. Por otra parte
+  $$
+  \vx_1-\vx'=-\frac{(1-\lambda)}{\lambda}(\vx_2-\vx').
+  $$
+Entonces, resulta $\gf(\vx')^T(\vx_2-\vx')>0$. Por ser $f$ pseudo-convexa, se tiene que
+$f(\vx_2)\geq f(\vx')$ y junto con  \eqref{t3511-dem1}, resulta $f(\vx_2)=f(\vx')$.
+
+Por ser $\gf(\vx')^T(\vx_2-\vx')>0$, existe un punto $\hat{\vx}=\mu\vx'+(1-\mu)\vx_2$, con
+$\mu\in(0,1)$ tal que:
+  $$
+  f(\hat{\vx})> f(\vx')= f(\vx_2)
+  $$
+De nuevo, por ser $f$ pseudo-convexa, se tiene que $\gf(\hat{\vx})^T(\vx_2-\hat{\vx})<0$. De
+igual forma, $\gf(\hat{\vx})^T(\vx'-\hat{\vx})<0$. Esto es:
+  \begin{align*}
+    \gf(\hat{\vx})^T(\vx_2-\hat{\vx}) & <0,
+    \\
+   \gf(\hat{\vx})^T(\vx'-\hat{\vx}) & <0.
+  \end{align*}
+Como
+  $$
+  \vx_2-\hat{\vx}=\frac{\mu}{1-\mu}(\hat{\vx}-\vx'),
+  $$
+las dos desigualdades anteriores resultan incompatibles. Por tanto, $f$ es estrictamente
+cuasi-convexa.
+
+Por el lema \ref{l357}, al ser $f$ estrictamente cuasi-convexa y diferenciable (por tanto,
+continua), $f$ es tambi\'{e}n cuasi-convexa.
+\end{demostracion}
+\begin{teorema}\label{t3512}
+Sea $\SS$ un conjunto convexo, abierto y no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re$ una funci\'{o}n
+estrictamente pseudo-convexa y diferenciable en $\SS$. Entonces, $f$ es fuertemente
+cuasi-convexa.
+\end{teorema}
+\begin{demostracion}
+Por contradicci\'{o}n, sup\'{o}ngase que existen dos puntos $\vx_1$ y $\vx_2$ de $\SS$ y un
+$\lambda\in(0,1)$ tales que:
+  $$
+   f(\vx)\geq\max\bigl\{f(\vx_1),f(\vx_2)\bigr\},
+  $$
+donde $\vx=\lambda\vx_1+(1-\lambda)\vx_2$. Puesto que $f(\vx_1)\leq f(\vx)$ y ser $f$
+estrictamente pseudo-convexa, resulta:
+  $$
+  \gf(\vx)^T(\vx_1-\vx_2)<0.
+  $$
+De igual forma, al ser $f(\vx_2)\leq f(\vx)$, tenemos que:
+  $$
+  \gf(\vx)^T(\vx_2-\vx_1)<0,
+  $$
+y estas dos desigualdades son incompatibles y, por por tanto, $f$ es fuertemente
+cuasi-convexa.
+\end{demostracion}
+En el caso de que la funci\'{o}n $f$ sea cuadr\'{a}tica, los teoremas \ref{t3511} y \ref{t3512}
+establecen que $f$ es pseudo-convexa si y s\'{o}lo si es estrictamente cuasi-convexa. Adem\'{a}s $f$
+es cuasi-convexa si y s\'{o}lo si es cuasi-convexa. M\'{a}s a\'{u}n, $f$ es estrictamente pseudo-convexa
+si y s\'{o}lo si $f$ es estrictamente cuasi-convexa. Esto es, todas estas propiedades son
+equivalentes en el caso de funciones cuadr\'{a}ticas.
+
+La figura \ref{fconvexidad} contienen las relaciones entre los distintos conceptos de
+convexidad que acabamos de introducir.
+\begin{figure}
+  \begin{center}
+  \caption{Relaci\'{o}n entre los conceptos asociados a convexidad}
+  \setlength{\unitlength}{1mm}
+  \begin{picture}(130,140)
+    \put(20,120){\framebox(30,10){Estric. Convexa}}
+    \put(50,125){\vector(1,0){18}}
+    \put(40,120){\vector(0,-1){20}}
+    \put(25,110){\makebox(0,0){\small + Diferenciabilidad}}
+    \put(70,120){\framebox(24,10){Convexa}}
+    \put(85,120){\vector(0,-1){20}}
+    \put(70,110){\makebox(0,0){\small +Diferenciabilidad}}
+    \put(94,123){\line(1,0){10}}
+    \put(104,123){\line(0,-1){88}}
+    \put(104,35){\vector(-1,0){9}}
+    \put(94,127){\line(1,0){15}}
+    \put(109,127){\line(0,-1){122}}
+    \put(109,5){\vector(-1,0){19}}
+    \put(15,90){\framebox(45,10){Estric. Pseudoconvexa}}
+    \put(40,90){\vector(0,-1){20}}
+    \put(60,95){\vector(1,0){8}}
+    \put(20,60){\framebox(36,10){Fuert. cuasiconvexa}}
+    \put(40,60){\vector(0,-1){20}}
+    \put(30,60){\line(0,-1){55}}
+    \put(30,5){\vector(1,0){10}}
+    \put(68,90){\framebox(28,10){Pseudoconvexa}}
+    \put(85,90){\vector(0,-1){50}}
+    \put(35,30){\framebox(60,10){Estrictamente cuasi-convexa}}
+    \put(65,20){\makebox(0,0){\small\shortstack{ + semicontinuidad \\ inferior}}}
+    \put(65,30){\vector(0,-1){20}}
+    \put(40,00){\framebox(50,10){Cuasi-convexa}}
+  \end{picture}
+  \caption{Relaci\'{o}n entre los conceptos de convexidad}\label{fconvexidad}
+\end{center}
+\end{figure}
+%%
+\section{Convexidad puntual}
+%%
+Las secciones anteriores estudiaban la convexidad de una funci\'{o}n en un conjunto convexo, peor
+en ocasiones esta condici\'{o}n es excesiva y se puede relajar de forma que s\'{o}lo se exija la
+convexidad de la funci\'{o}n en un punto.
+\begin{definicion}
+Sea $\SS$ un conjunto convexo no vac\'{\i}o de $\Re^n$ y $f:\SS\fd\Re^n$.
+\begin{itemize}
+  \item Se dice que $f$ es {\em convexa} en $\ovx\in\SS$ si
+    $$
+    f\bigl(\lambda\ovx+(1-\lambda)\vx\bigr)\leq\lambda f(\ovx)+(1-\lambda)f(\vx),\qquad\forall
+    \lambda\in (0,1),\;\forall\vx\in\SS.
+    $$
+  \item Se dice que $f$ es {\em estrictamente convexa} en $\ovx\in\SS$ si
+    $$
+    f\bigl(\lambda\ovx+(1-\lambda)\vx\bigr)<\lambda f(\ovx)+(1-\lambda)f(\vx),\qquad\forall
+    \lambda\in (0,1),\;\forall\vx\in\SS,\; \vx\neq\ovx.
+    $$
+  \item Se dice que $f$ es {\em cuasi-convexa} en $\ovx\in\SS$ si
+    $$
+    f\bigl(\lambda\ovx+(1-\lambda)\vx\bigr)\leq \max\bigl\{f(\ovx),f(\vx)\bigr\},\qquad\forall
+    \lambda\in (0,1),\;\forall\vx\in\SS.
+    $$
+  \item Se dice que $f$ es {\em estrictamente cuasi-convexa} en $\ovx\in\SS$ si
+    $$
+    f\bigl(\lambda\ovx+(1-\lambda)\vx\bigr)<\max\bigl\{f(\ovx),f(\vx)\bigr\},\qquad\forall
+    \lambda\in (0,1),\;\forall\vx\in\SS \text{ tal que } f(\vx)\neq f(\ovx).
+    $$
+  \item Se dice que $f$ es {\em fuertemente cuasi-convexa} en $\ovx\in\SS$ si
+    $$
+    f\bigl(\lambda\ovx+(1-\lambda)\vx\bigr)<\max\bigl\{f(\ovx),f(\vx)\bigr\},\qquad\forall
+    \lambda\in (0,1),\;\forall\vx\in\SS,\; \vx\neq\ovx.
+    $$
+  \item Se dice que $f$ es {\em pseudo-convexa} en $\ovx\in\SS$ si $\gf(\ovx)^T(\vx-\ovx)\geq
+        0$ para $\vx\in\SS$ implica que $f(\vx)\geq f(\ovx)$.
+  \item Se dice que $f$ es {\em estrictamente pseudo-convexa} en $\ovx\in\SS$ si
+       $\gf(\ovx)^T(\vx-\ovx)\geq 0$ para $\vx\in\SS$, $\vx\neq \ovx$, implica que $f(\vx)>f(\ovx)$.
+\end{itemize}
+\end{definicion}

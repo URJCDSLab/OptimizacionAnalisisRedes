@@ -1,0 +1,3263 @@
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+\documentclass[aspectratio=169]{beamer}
+
+
+\mode<presentation> {
+	\usetheme{Boadilla}
+	%	\setbeamercovered{transparent}
+	\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage[spanish]{babel}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
+\usepackage{relsize}
+\usepackage{cancel}
+\usepackage{times}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+%\usepackage{algpseudocode}
+
+
+%\usepackage{times}
+%\usepackage[spanish]{babel}
+%\usepackage{latexsym,bezier,enumerate,dcolumn}
+%\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb}
+\usepackage{graphics}%,pst-node,lscape,epsfig,fancyhdr,layout,pgf}
+\usepackage{graphicx}%,comment,url,times,rotating}
+%\usepackage[latin1]{inputenc}
+%\usepackage{relsize}
+\usepackage{color}
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows,shapes,positioning}
+\usetikzlibrary{graphs}
+\usetikzlibrary{decorations.markings}
+\usepackage{eurosym}
+\usepackage{subfig}
+\usepackage{ragged2e}
+\usepackage{comment}
+\usepackage{pgfplots}
+\addtobeamertemplate{block begin}{}{\justifying} % Justify all blocks
+\captionsetup[subfigure]{labelformat=empty}
+
+\parskip=0.1cm
+
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+\setcounter{tocdepth}{2}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+
+%-------------------------------------------------------
+% DEFFINING AND REDEFINING COMMANDS
+%-------------------------------------------------------
+
+% colored hyperlinks
+\newcommand{\chref}[2]{
+\href{#1}{{\usebeamercolor[bg]{Feather}#2}}
+}
+\usefonttheme[onlymath]{serif}
+%\usefonttheme{serif}
+%-------------------------------------------------------
+% INFORMATION IN THE TITLE PAGE
+%-------------------------------------------------------
+
+\title[Optimizaci\'on en Redes] % [] is optional - is placed on the bottom of the sidebar on every slide
+{ % is placed on the title page
+	\textbf{Optimizaci\'on en Redes} \\ Tema 6. Problema de Camino Mínimo.
+}
+
+\author[]{Elisenda Molina, Javier Yañez}
+
+\institute[]
+{
+Universidad Complutense de Madrid\\
+
+%there must be an empty line above this line - otherwise some unwanted space is added between the university and the country (I do not know why;( )
+}
+
+
+\date{}
+
+\begin{comment}
+    \AtBeginSection
+{%
+\begin{frame}<beamer>
+\frametitle{Contenidos del tema}
+\tableofcontents[currentsection]
+\end{frame}
+}
+
+\end{comment}
+
+\newcommand{\fld}{\rightarrow}
+\newcommand{\fli}{\leftarrow}
+
+\newcommand{\tq}{\,\vert\,}
+
+\def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+\newcommand{\V}[1]{\mathbf{#1}}
+\newcommand{\B}[1]{\boldsymbol{#1}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norma}[1]{\lVert#1\rVert}
+\newcommand{\deter}[1]{\abs{\boldsymbol{#1}}}
+%%
+%% NÃºmeros reales, enteros y narutales
+%%
+\newcommand{\Na}{I\!\! N}
+\renewcommand{\Re}{I\!\! R}
+\newcommand{\rn}[1]{I\!\! R^{\mathstrut #1}}
+\newcommand{\En}{\mathbb{Z}}
+\newcommand{\nat}{I\!\! N}
+\newcommand{\real}{I\!\! R}
+\newcommand{\ent}{\mathbb{Z}}
+%%%
+%%
+%% letras caligrÃ¡ficas
+%%
+\newcommand{\A}{ \mathcal{A} }
+\newcommand{\BB}{ \mathcal{B}}
+\newcommand{\C}{ \mathcal{C} }
+\newcommand{\D}{ \mathcal{D} }
+\newcommand{\E}{ \mathcal{E} }
+\newcommand{\F}{ \mathcal{F} }
+\newcommand{\G}{ \mathcal{G} }
+\renewcommand{\H}{\mathcal{ H}}
+\newcommand{\I}{ \mathcal{I} }
+\newcommand{\J}{ \mathcal{J} }
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L} }
+\newcommand{\M}{ \mathcal{M} }
+\newcommand{\N}{ \mathcal{N} }
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\X}{ \mathcal{X} }
+\newcommand{\VCR}{\mathcal{VCR}}
+%%
+\newcommand{\ovx}{\overline{\V{x}}}
+%%
+%% Letras en negrita (vectores)
+%%
+\newcommand{\vv}{\B{0}}
+\newcommand{\va}{\V{a}}
+\newcommand{\vb}{\V{b}}
+\newcommand{\vc}{\V{c}}
+\newcommand{\vf}{\V{f}}
+\newcommand{\vd}{\V{d}}
+\newcommand{\ve}{\V{e}}
+\newcommand{\vh}{\V{h}}
+\newcommand{\vl}{\V{l}}
+\newcommand{\vp}{\V{p}}
+\newcommand{\vu}{\V{u}}
+\newcommand{\vw}{\V{w}}
+\newcommand{\vx}{\V{x}}
+\newcommand{\vy}{\V{y}}
+\newcommand{\vz}{\V{z}}
+\newcommand{\vA}{\V{A}}
+\newcommand{\vB}{\V{B}}
+\newcommand{\vE}{\V{E}}
+\newcommand{\vG}{\V{G}}
+\newcommand{\vH}{\V{H}}
+\newcommand{\vI}{\V{I}}
+\newcommand{\vN}{\V{N}}
+\newcommand{\vT}{\V{T}}
+\newcommand{\vX}{\V{X}}
+\newcommand{\vY}{\V{Y}}
+%%
+%-------------------------------------------------------
+% THE BODY OF THE PRESENTATION
+%-------------------------------------------------------
+
+\begin{document}
+
+%-------------------------------------------------------
+% THE TITLEPAGE
+%-------------------------------------------------------
+
+{%\1% % this is the name of the PDF file for the background
+\begin{frame}[plain] % the plain option removes the header from the title page, noframenumbering removes the numbering of this frame only
+  \titlepage % call the title page information from above
+\end{frame}}
+
+
+\begin{frame}
+\frametitle{Contenidos del tema}
+  \tableofcontents
+\end{frame}
+
+\section{Introducción}
+
+%\begin{frame}{Introducción}
+%\begin{itemize}\itemsep 4mm
+%	\item Muchos problemas reales se pueden representar meidante dirigida $G=(V,U)$ con pesos.,
+%	\item Estos pesos representan distancias, tiempo, costes, etc.
+%	\item Muchos problemas plantean de forma natural la b\'{u}squeda de un camino uniendo dos v\'{e}rtices concretos $s,t \in V$ de forma que la
+%	distancia, tiempo, etc. total del camino ---la suma de las 	correspondientes magnitudes de los arcos que lo componen--- sea
+%	m\'{\i}nima.
+%\end{itemize}
+%\end{frame}
+
+\begin{comment}
+    
+
+
+\begin{frame}{Ejemplo 1}
+\begin{columns}
+	\column{0.67\textwidth}
+\begin{itemize}\itemsep 1mm
+	\item En un determinado per\'{\i}odo de tiempo se desea ir desde Madrid hasta Tokio.
+	\item Como no hay vuelo directo entre Madrid y Tokio, debe hacerse al menos un trasbordo, pudiendo utilizar los aeropuertos de Londres, Par\'{\i}s, Frankfurt o Singapur.
+	%\item Se desea saber cu\'{a}l debe ser el itinerario a seguir de forma que el coste total sea m\'{\i}nimo.
+%	\item El problema se puede plantear sobre una red dirigida queda definida por los aeropuertos como v\'{e}rtices y los vuelos directos como arcos.
+%	\item Cada arco se valora por el coste asociado al vuelo.
+%	\item La soluci\'{o}n de este problema es el camino que une los v\'{e}rtices $m$ y $t$ con coste total m\'{\i}nimo.
+\end{itemize}	
+\column{0.3\textwidth}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},line width=1pt, color=blue,x=0.9cm,y=1.5cm]
+		\node[node_style]  (m) at (0,0) {M} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+		\node[node_style] (p) at (2,0) {P} ;
+		\node[node_style] (t) at (4,0) {T} ;
+		\node[node_style] (l) at (0,2) {L} ;
+		\node[node_style] (f) at (2,2) {F} ;
+		\node[node_style] (s) at (4,2) {S} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+		
+		
+		\draw (m) edge[->]  node[left,draw=none] { 20 }(l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+		\draw (m) edge[->]  node[above,draw=none] { 40 } (f) ;
+		\draw (m) edge[->]  node[below,draw=none] { 27 } (p) ;
+		\draw (l) edge[->] node[above,draw=none] { 10 } (f) ;
+		% \draw (2) edge[->, loop above] (2) ;
+		\draw (p) edge[->,bend left=20] node[left,draw=none] { 9 } (f) ;
+		\draw (f) edge[->,bend left=20] node[left,draw=none] { 11 }(p) ;             % arcos rectos
+		%  \draw (p) edge[->] (f) ;
+		\draw (p) edge[->] node[below,draw=none] { 100 } (s) ;
+		\draw (p) edge[->] node[below,draw=none] { 150 } (t) ;
+		\draw (f) edge[->]  node[above,draw=none] { 90 }(s) ;
+		\draw (s) edge[->] node[right,draw=none] { 35 }(t) ;
+	\end{tikzpicture}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Ejemplo 2}
+
+		\begin{itemize}\itemsep 3mm
+			\item Un barco de carga debe decidir la ruta a seguir desde el puerto de origen $O$ (puerto 1) a un puerto de destino $D$ (puerto 5).
+			\item En los puertos intermedios  de arribada $i$ puede tener disponible una carga para 	trasladarla a otro puerto $j$, obteniendo un beneficio $b_{ij}>0$, o bien tiene que viajar de vac\'{\i}o con el consiguiente coste $b_{ij}<0$.
+  \item Beneficios y costes:
+  %
+  $$
+  \begin{array}{c}
+  b_{12}=15 \;\; b_{13}=5 \;\; b_{14}=5 \;\;  b_{15}=20 \;\; b_{23}=-5 \;\; b_{24}=-25 \;\; b_{25}=5
+  \\
+  b_{32}=-5 \;\; b_{34}=-15 \;\; b_{35}=10 \;\; b_{42}=20 \;\; b_{43}=-10 \;\; b_{45}=5
+	\end{array}
+$$
+		\end{itemize}	
+
+
+\end{frame}
+
+
+\begin{frame}
+
+ \frametitle{Ejemplo 3}
+
+\begin{itemize}\itemsep 3mm
+\item
+Un taller de reparación de automóviles debe disponer de un analizador de motores.
+\item
+El precio de un analizador nuevo es de 1000\$ y los gastos de mantenimiento anuales son $m_i$ durante el año $i$ siendo: $m_1=60$, $m_2=80$ y $m_3=120$.
+\item
+La tienda puede tener el analizador durante 1, 2 o 3 años y después de utilizarlo durante $i$ años, puede revenderlo por $s_1=800$, $s_2=600$ y $s_3=500$. Después de revenderlo, hay que comprar uno nuevo.
+\item
+En este momento, hay que comprar un analizador y el objetivo es encontrar el plan óptimo de sustitución de forma que el coste total sea mínimo durante los próximos 5 años.
+ \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Introducción}
+\begin{itemize}\itemsep 4mm
+	\item El problema de camino m\'{\i}nimo es uno de los problemas de
+	optimizaci\'{o}n combinatoria m\'{a}s relevantes.
+	%\item Muchos problemas de 	gesti\'{o}n se pueden plantear como problemas de camino m\'{\i}nimo.
+	\item El problema fue planteado inicialmente por Wiener en 1873 y Lucas en 1882 (pero
+	adjudicado a Tr\'{e}maux).
+	\item Los primeros algoritmos precisos se deben a Shimbel  en 1953, posteriormente ampliado por
+	Bellman en 1958.
+	\item Posteriormente, en 1959, Dijkstra propuso un nuevo
+	algoritmo para este problema.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Introducción}
+
+\begin{itemize} \itemsep 4mm
+\item Algoritmos de grafos: basados en el {\it Principio de Optimalidad de Bellman} (arborescencia de caminos mínimos)
+\begin{enumerate}
+  \item Ecuaciones de optimalidad de Bellman: redes sin circuitos
+  \item Algoritmo de Dijkstra: longitudes positivas
+  \item  Algoritmo de Bellman-Ford: el más general.
+\end{enumerate}
+\item Modelos de PM relacionados.
+\item Camino mínimo de todos a todos los vértices.
+\end{itemize}
+
+\end{frame}
+
+\section{Problema de Camino Mínimo. Definición formal}
+
+
+\begin{frame}{Definición formal}
+\begin{block}{Problema de Camino mínimo}
+Dada la red dirigida $(G=(V,U), \{ d_u, u \in U \} )$ y fijados dos
+v\'{e}rtices $s,t \in V$, determinar el camino $\mu [s,t]$ con longitud m\'{\i}nima.
+
+La \underline{longitud de un camino} es la suma de las longitudes de los
+arcos que lo componen
+$$ d(\mu ) = \sum_{u \in \mu } d_u $$
+\end{block}
+
+Para plantear el problema de camino m\'{\i}nimo se introduce
+la matriz $n \times n$,
+$D$, que se define de la siguiente forma  $\forall i, j \in V$:
+$$ d_{ij} = \left\{ \begin{array}{ll} 0 & i = j \\ d_u & u=(i,j) \in U \\
+	\infty & (i,j) \not\in U \end{array} \right. $$
+
+\end{frame}
+
+%\begin{frame}{}
+%\begin{itemize}
+%	\item A diferencia del problema del \'{a}rbol soporte de peso m\'{\i}nimo ---que
+%	siempre existe para un grafo conexo--- el problema de camino m\'{\i}nimo
+%	entre dos vértices no siempre tiene solución.
+%	\item Esto ocurre incluso incluso existiendo camino entre esos v\'{e}rtices.
+%\end{itemize}
+%\end{frame}
+
+
+\begin{frame}{¿Existencia de solución?}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (a) at (0,1.5) {$a$} ;
+			\node[node_style] (b) at (2,3) {$b$} ;
+			\node[node_style] (c) at (2,1.5) {$c$} ;
+			\node[node_style] (d) at (2,0) {$d$} ;
+			\node[node_style] (e) at (4,1.5) {$e$} ;
+			\node[node_style] (f) at (6,3) {$f$} ;
+			\node[node_style] (g) at (6,0) {$g$} ;
+			\draw  [line width=1.5pt] (a) edge[->] node[above] {3} (b) ;
+			\draw  [line width=1.5pt] (a) edge[->] node[above] {5} (c) ;
+			\draw  [line width=1.5pt] (a) edge[->] node[below] {8} (d) ;
+			\draw  [line width=1.5pt] (b) edge[->] node[left] {5} (c) ;
+			\draw  [line width=1.5pt] (c) edge[->] node[above] {4} (e) ;
+			\draw  [line width=1.5pt] (c) edge[->] node[left] {7} (d) ;
+			\draw  [line width=1.5pt] (c) edge[->] node[below] {2} (g) ;
+			\draw  [line width=1.5pt] (e) edge[->] node[above] {1} (g) ;
+			\draw  [line width=1.5pt] (f) edge[->,bend right=20] node[right] {6} (g) ;
+			\draw  [line width=1.5pt] (f) edge[->] node[above] {2} (b) ;
+			\draw  [line width=1.5pt] (g) edge[->,bend right=20] node[right] {1} (f) ;
+			\draw  [line width=1.5pt] (g) edge[->] node[below] {1} (d) ;
+			\only<1>{
+				\draw  [line width=1.5pt] (b) edge[->] node[above] {-6} (e) ;
+				\draw  [line width=1.5pt] (e) edge[->] node[above] {3} (f) ;
+			}
+			%\only<2>{
+%				\draw  [line width=1.5pt,color=blue] (a) edge[->] node[above] {3} (b) ;
+%				\draw  [line width=1.5pt,color=blue] (b) edge[->] node[above] {-6} (e) ;
+%				\draw  [line width=1.5pt,color=blue] (e) edge[->] node[above] {3} (f) ;
+%			}
+%			\only<3>{
+%				\draw  [line width=1.5pt,color=red] (a) edge[->]  node[above] {3} (b) ;
+%				\draw  [line width=1.5pt,color=red] (f) edge[->] node[above] {2} (b) ;
+%				\draw  [line width=1.5pt,color=red] (b) edge[->,bend right=20] node[above] {-6} (e) ;
+%				\draw  [line width=1.5pt,color=red] (e) edge[->,bend right=20] node[above] {3}  (f) ;
+%				\draw  [line width=1.5pt,color=red] (b) edge[->,bend right=-20] node[above] {-6}  (e) ;
+%				\draw  [line width=1.5pt,color=red] (e) edge[->,bend right=-20] node[above] {3} (f) ;
+%			}
+		\end{tikzpicture}
+	\end{center}	
+%	\only<2->{Para hallar el camino m\'inimo desde el nodo $a$ al nodo $f$, una primera aproximaci\'on es decir
+%		que la soluci\'on es el camino $a-b-e-f$, con un peso acumulado de $3-6+2=-1$.}
+%	
+%	\visible<3->{Una vez en el nodo $f$, podemos volver a $b$ de aqu\'i otra vez a $e$ y retornar, por 	\'ultimo, a $f$:
+%		$	a\fld b\fld e\fld f\fld b\fld e\fld f$
+%		El peso de este camino es:
+%		$
+%		3-6+2+2-6+2=-3
+%		$
+%		Mejor que el anterior!!}
+\end{frame}
+
+\begin{frame}{Condiciones de existencia}
+	\begin{block}{Teorema}
+		
+		Dada una red dirigida $(G=(V,U), \{ d_u, \, u\in U\})$, el problema de encontrar el camino m\'inimo entre los nodos $i\in V$ y
+		$j\in V$ tiene soluci\'on \'optima finita si y s\'olo si:
+		\begin{enumerate}[H1] \itemsep 3mm
+			\item Existe al menos un camino de $i$ a $j$, y
+			\item ning\'un camino de $i$ a $j$ tiene un circuito de longitud negativa.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\end{comment}
+
+\section{POB. Ecuaciones de optimalidad}
+
+\begin{comment}
+    
+
+
+\begin{frame}{Principio de Optimalidad de Bellman}
+			Una secuencia \'optima de decisiones que resuelve un problema debe cumplir la propiedad de que cualquier subsecuencia de decisiones, que tenga el mismo estado final, debe ser tambi\'en \'optima respecto al subproblema correspondiente.
+		
+		\smallskip
+		
+		\centering{\alert{Toda pol\'itica \'optima se compone de subpol\'iticas \'optimas}}
+	
+	\begin{figure}
+		\centering
+		\subfloat[R.E. Bellman,1920-1984]{{\includegraphics[width=0.18\textwidth]{bellman}}}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Principio de Optimalidad de Bellman}
+\begin{itemize}\itemsep 4mm
+	\item Adaptación del \underline{{\bf Principio de optimalidad de Bellman}} al problema de camino mínimo:
+	\begin{center}
+	\begin{minipage}{0.8\textwidth}
+Si $\mu^*[s, t]$ es un camino de longitud m\'{\i}nima entre los v\'{e}rtices $s$ y $t$ que pasa por los v\'{e}rtices $i$ y $j$, entonces el trozo de ese camino entre $i$ y $j$, $\mu^*[i, j]$, es de longitud m\'{\i}nima entre los caminos que
+unen $i$ y $j$.	
+\end{minipage}
+\end{center}
+	\item Si $u_{ij}$ es la longitud de un camino m\'{\i}nimo entre los v\'{e}rtices $i$ y $j$, se verifica:
+	$$u_{st} = \min_{i,j \in V} \{ u_{si}+u_{ij}+u_{jt} \}$$
+	%\item En particular, eliminando el v\'{e}rtice $j$ y considerando que $i$ sea un predecesor de $t$, resulta:
+%	$$u_{st} = \min_{i \in V} \{ u_{si}+d_{it} \}$$
+%	
+\end{itemize}
+	
+
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Ecuaciones de optimalidad de Bellman}
+	
+\begin{block}{Condidión necesaria de optimalidad}
+		Dada una red $G=(N,A,\vd)$ sin circuitos de longitud negativa y con caminos desde el nodo 1 a cada uno de los
+		dem\'as nodos, si $u_j$ es la longitud del camino m\'inimo que va de 1 a $j$, entonces el vector $(u_2,u_2,\dots,u_n)$  verifica las ecuaciones de Bellman:
+		\begin{align*}
+			u_1 = & 0 \\
+			u_j = & \min_{k\neq j}\{u_k + d_{kj}\} \quad j=2,\ldots,n.
+		\end{align*}	
+	\end{block}
+\end{frame}
+
+
+\begin{frame}{Ecuaciones de optimalidad de Bellman}{Ejemplo}
+	Plantear las ecuaciones de Bellman y obtener el camino m\'inimo desde el nodo 1 al resto en el siguiente grafo:
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (1) at (0,1.5) {1} ;
+			\node[node_style] (2) at (4,0) {2} ;
+			\node[node_style] (3) at (2,0.5) {3} ;
+			\node[node_style] (4) at (4,2.5) {4} ;
+			\node[node_style] (5) at (2,3) {5 } ;
+			\draw  [line width=1.5pt] (1) edge[->] node[below] {10} (3) ;
+			\draw  [line width=1.5pt] (1) edge[->] node[above] {4} (5) ;
+			\draw  [line width=1.5pt] (5) edge[->] node[right] {3} (3) ;
+			\draw  [line width=1.5pt] (5) edge[->] node[above] {8} (4) ;
+			\draw  [line width=1.5pt] (3) edge[->] node[below] {2} (2) ;
+			\draw  [line width=1.5pt] (4) edge[->] node[right] {2} (2) ;
+		\end{tikzpicture}
+	\end{center}	
+\end{frame}
+
+\begin{frame}{Ecuaciones de optimalidad de Bellman, ¿suficientes?}
+%\begin{itemize}
+%	\item El resultado anterior establece identifica condiciones necesarias de \'{o}ptimo para el problema de camino m\'{\i}nimo.
+%	\item Sin embargo, las ecuaciones de Bellman en general no son suficientes como se prueba en el siguiente ejemplo.
+%\end{itemize}
+\begin{columns}
+\column{0.2\textwidth}
+	\begin{center}
+	\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+		\node[node_style] (1) at (0,4) {1} ;
+		\node[node_style] (3) at (0,0) {3} ;
+		\node[node_style] (2) at (0,2) {2} ;
+		\draw  [line width=1.5pt] (1) edge[->] node[right] {10} (2) ;
+		\draw  [line width=1.5pt] (2) edge[->,bend right=20] node[left] {1} (3) ;
+		\draw  [line width=1.5pt] (3) edge[->,bend right=20] node[right] {-1} (2) ;
+	\end{tikzpicture}
+\end{center}	
+\column{0.8\textwidth}\small
+\begin{itemize}
+	\item Ecuaciones de Bellman:
+	$
+	\left\{ \begin{array}{l} u_1 = 0 \\ u_2 = \min \{0+10, u_3 -1
+		\} \\u_3 = \min\{0+\infty, u_2+1\} = u_2 + 1 \end{array} \right.
+	$
+	\item La soluci\'{o}n de las ecuaciones de Bellman debe verificar:
+	$$
+	u_1 = 0, u_2 \leq 10, u_3 = u_2 + 1
+	$$
+	\item El vector $(0,5,6)$ las verifica, ¿identifica las longitudes de los caminos m\'{\i}nimos?
+	\item El problema se presenta por la existencia de un circuito de longitud $0$.
+	
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Ecuaciones de optimalidad de Bellman}
+	\begin{block}{Proposición 8.1.}
+		Las ecuaciones de optimalidad
+$$
+		\left\{ \begin{array}{l} u_1 = 0 \\ u_j = \min_{k \neq j} \{ u_k + d_{kj}
+			\}  \quad j \neq 1 \end{array} \right.
+		$$ permiten construir la arborescencia asociada al problema de
+		camino m\'{\i}nimo si no existen circuitos de longitud nula.
+	\end{block}
+
+\begin{itemize}
+\item $(u_1,\dots,u_n)$, ¿solución única?
+\item Arborescencia de caminos mínimos desde 1, ¿es única?
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Ejemplo}
+Plantear las ecuaciones de Bellman y obtener el camino m\'inimo desde el nodo M hasta el resto de los nodos en el ejemplo del aeropuerto.
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1},line width=1pt, color=blue,y=1.5cm]
+			\node[node_style]  (m) at (0,0) {M} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+			\node[node_style] (p) at (2,0) {P} ;
+			\node[node_style] (t) at (4,0) {T} ;
+			\node[node_style] (l) at (0,2) {L} ;
+			\node[node_style] (f) at (2,2) {F} ;
+			\node[node_style] (s) at (4,2) {S} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+			
+			
+			\draw (m) edge[->]  node[left,draw=none] { 20 }(l) ;  % arcos curvos \draw (m) edge[->,bend left=20] (l) ;
+			\draw (m) edge[->]  node[above,draw=none] { 40 } (f) ;
+			\draw (m) edge[->]  node[below,draw=none] { 27 } (p) ;
+			\draw (l) edge[->] node[above,draw=none] { 10 } (f) ;
+			% \draw (2) edge[->, loop above] (2) ;
+			\draw (p) edge[->,bend left=20] node[left,draw=none] { 9 } (f) ;
+			\draw (f) edge[->,bend left=20] node[left,draw=none] { 11 }(p) ;             % arcos rectos
+			%  \draw (p) edge[->] (f) ;
+			\draw (p) edge[->] node[below,draw=none] { 100 } (s) ;
+			\draw (p) edge[->] node[below,draw=none] { 150 } (t) ;
+			\draw (f) edge[->]  node[above,draw=none] { 90 }(s) ;
+			\draw (s) edge[->] node[right,draw=none] { 35 }(t) ;
+		\end{tikzpicture}
+		\end{center}
+\end{frame}
+
+\begin{frame}{Principio de optimalidad de Bellman}{Ejemplo}
+	\begin{itemize}\itemsep 4mm
+		\item En general, la aplicaci\'on de las ecuaciones de Bellman es complicada.
+		\item Adem\'as, su resoluci\'on tiene complejidad $n!$, ya que depende del orden en que se tomen los nodos.
+		\item Con una ordenaci\'on adecuada, la complejidad se reduce a $n^2$ m\'as la complejidad del algoritmo de ordenamiento ($O(n^2)$).
+		\item Este ordenamiento s\'olo es posible en caso de que el grafo no tenga circuitos.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Redes sin circuitos}
+	
+	\begin{block}{Proposici\'on}
+		Un digrafo $G=(N,A)$ no tiene circuitos, si y s\'olo si es posible obtener una ordenaci\'on de los $n$ nodos tal que si existe el arco $(i,j)$, entonces $i<j$.
+	\end{block}
+	
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (1) at (0,1.5) {1} ;
+			\node[node_style] (2) at (4,0) {2} ;
+			\node[node_style] (3) at (2,0.5) {3} ;
+			\node[node_style] (4) at (4,2.5) {4} ;
+			\node[node_style] (5) at (2,3) {5} ;
+			\draw  [line width=1.5pt] (1) edge[->] node[below] {10} (3) ;
+			\draw  [line width=1.5pt] (1) edge[->] node[above] {4} (5) ;
+			\draw  [line width=1.5pt] (5) edge[->] node[right] {3} (3) ;
+			\draw  [line width=1.5pt] (5) edge[->] node[above] {8} (4) ;
+			\draw  [line width=1.5pt] (3) edge[->] node[below] {2} (2) ;
+			\draw  [line width=1.5pt] (4) edge[->] node[right] {2} (2) ;
+		\end{tikzpicture}
+		
+		\begin{tabular}{ccccc}
+			1$^o$ & 2$^o$& 3$^o$ & 4$^o$ & 5$^o$
+			\\ \hline
+			1 & 5 & 3 & 4 & 2
+		\end{tabular}
+	\end{center}	
+\end{frame}
+
+
+%\begin{frame}{Redes sin circuitos}
+%	
+%	Para determinar la numeraci\'on, se ejecuta el siguiente procedimiento:
+%	\begin{enumerate}[\mbox{Paso} 1.-]\itemsep 3mm
+%		\item Inicializar $k\fli 1$.
+%		\item Se selecciona un nodo al que no llegue ning\'un arco (siempre existe, por ser un
+%		digrafo sin circuitos).
+%		\item Se asigna a dicho nodo el n\'umero $k$. Se elimina este nodo y todas las aristas
+%		que inciden en \'el.
+%		\item Si $k=n$, se para, ya se han numerado todos los nodos.
+%		\\
+%		En otro caso, se hace $k\fli k+1$ y se repite el paso 2.
+%	\end{enumerate}
+%	Una vez ordenados adecuadamente, la resolución de las ecuaciones de Bellman es trivial.
+%\end{frame}
+
+
+\begin{frame}{$[{\bf u},{\bf p},\sigma] = CamMinSinCircuitos(B,D)$}
+
+{\small
+%\begin{algorithm}
+%\caption{$[{\bf u},{\bf p},\sigma] = CamMinSinCircuitos(B,D)$}
+
+\begin{algorithmic}
+ \State {\em Inicialización:}
+  \State {$q_j = \sum_{i=1}^{n} b_{ij} \quad \forall j=1,\ldots ,n$}
+  \State {$m = 1$, $W = V = \{ 1, \ldots ,n \}$ }
+ % \State {$W = V = \{ 1, \ldots ,n \}$}
+  \State { \em  Ordenación de los vértices:}
+ \While{$W \neq \emptyset$}
+  \State {Sea $k \in W$ tal que $q_k = 0$}
+  \State {$\sigma_m = k$}
+  \State {$m = m+1$}
+  \State {$W = W - \{ k \}$}
+  \State {$q_j = q_j - b_{kj} \quad \forall j \in W$}
+ \EndWhile
+ \State {\em  Solución de la ecuación de optimalidad:}
+ \State {$u_{\sigma_1} = 0$, $p(\sigma_1) = \sigma_1$}
+% \State {$p(\sigma_1) = \sigma_1$}
+ \For{$j=2,\ldots,n$}
+   \State {$u_{\sigma_j} = \min_{k<j} \{ u_{\sigma_k} + d_{{\sigma_k},{\sigma_j}} \}  = u_{\sigma_{k^*}} + d_{{\sigma_{k^*}},{\sigma_j}}$}
+   \State {$p(\sigma_j) = \sigma_{k^*}$}
+ \EndFor
+ \end{algorithmic}
+% \end{algorithm}
+}
+
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Bellman. Complejidad}
+	\begin{itemize}\itemsep 4mm
+		\item Digrafo sin circuitos
+		\item Ordenaci\'on: $O(n^2)$
+            \item Ecuaciones: $O(n^2)$
+            \item Algoritmo: $O(n^2)$
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Redes sin circuitos}{Ejemplo}
+	\begin{columns}
+		\column{0.4\textwidth}
+	\begin{center}
+		\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (a) at (0,1.5) {1} ;
+			\node[node_style] (b) at (2,3) { } ;
+			\node[node_style] (c) at (2,1.5) { } ;
+			\node[node_style] (d) at (2,0) { } ;
+			\node[node_style] (e) at (4,1.5) { } ;
+			\node[node_style] (f) at (6,3) { } ;
+			\node[node_style] (g) at (6,0) { } ;
+			\draw  [line width=1.5pt] (a) edge[->] node[above] {3} (b) ;
+			\draw  [line width=1.5pt] (a) edge[->] node[above] {5} (c) ;
+			\draw  [line width=1.5pt] (a) edge[->] node[below] {8} (d) ;
+			\draw  [line width=1.5pt] (b) edge[->] node[left] {5} (c) ;
+			\draw  [line width=1.5pt] (b) edge[->] node[above] {-6} (e) ;
+			\draw  [line width=1.5pt] (c) edge[->] node[above] {4} (e) ;
+			\draw  [line width=1.5pt] (c) edge[->] node[left] {7} (d) ;
+			\draw  [line width=1.5pt] (c) edge[->] node[below] {2} (g) ;
+			\draw  [line width=1.5pt] (e) edge[->] node[above] {2} (f) ;
+			\draw  [line width=1.5pt] (e) edge[->] node[above] {3} (g) ;
+			\draw  [line width=1.5pt] (f) edge[->] node[right] {6} (g) ;
+			\draw  [line width=1.5pt] (b) edge[->] node[above] {2} (f) ;
+			\draw  [line width=1.5pt] (g) edge[->] node[below] {1} (d) ;
+			
+	%		\only<2>{
+%			\draw  [line width=1.5pt,red] (a) edge[->] node[above] {3} (b) ;
+%			\draw  [line width=1.5pt,red] (a) edge[->] node[above] {5} (c) ;
+%			\draw  [line width=1.5pt,red] (b) edge[->] node[above] {-6} (e) ;
+%			\draw  [line width=1.5pt,red] (e) edge[->] node[above] {2} (f) ;
+%			\draw  [line width=1.5pt,red] (e) edge[->] node[above] {3} (g) ;
+%			\draw  [line width=1.5pt,red] (g) edge[->] node[below] {1} (d) ;
+%		}
+		\end{tikzpicture}
+	\end{center}	
+	\column{0.4\textwidth}
+%	\visible<2>{
+{\color{white}
+	\begin{align*}
+		u_1 & = 0 \\
+		u_2 & = u_1+3=3 \\
+		u_3 & = \min\{u_1+5,u_2+5\}= 5\\
+		u_4 & = \min\{u_2-6,u_3+4\}= -3\\
+		u_5 & = \min\{u_2+2,u_4+2\}= -1\\
+		u_6 & = \min\{u_3+2,u_4+3,u_5+6\}= 0\\
+		u_4 & = \min\{u_1+8,u_3+7,u_6+1\}= 1\\
+	\end{align*} }
+	%}
+	
+	\end{columns}
+	
+\end{frame}
+
+\end{comment}
+
+\section{Algoritmo de Dijkstra. Redes con pesos positivos}
+
+\begin{comment}
+    
+
+\begin{frame}{Redes con pesos positivos. Algoritmo de Dijkstra}
+	\begin{itemize}\itemsep 3mm
+		\item Para el caso en que las longitudes de los arcos sean no negativas,
+		uno de los algoritmos m\'{a}s eficientes es el de
+		Dijkstra, introducido en 1959.
+		\item Es un algoritmo v\'alido para grafos con \alert{distancias positivas}
+		\item Su complejidad algor\'itmica es $O(n^2)$.
+	\end{itemize}
+	\begin{figure}
+		\centering
+		\subfloat[E.W. Dijkstra, 1930-2002]{\makebox[.3\textwidth]{\includegraphics[width=0.15\textwidth]{dijkstra}}}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Redes con pesos positivos. Algoritmo de Dijkstra}{Esquema}
+	
+ \begin{itemize}\itemsep 3mm
+           \item Es un algoritmo de tipo {\it greedy}.
+		\item En cada iteración determina el camino m\'inimo desde el nodo 1 a un nuevo nodo.
+		\item Al cabo de $n-1$ iteraciones se resuelve el problema.
+		\item En la etapa $k$:
+            \begin{itemize}
+                \item Se conoce el camino m\'inimo desde el nodo 1 a $k$ nodos.
+                \item Resto de nodos: se conoce una cota superior, que se mejora a lo largo de las iteraciones.
+            \end{itemize}		
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Redes con pesos positivos. Algoritmo de Dijkstra}
+	
+ \begin{itemize}\itemsep 5mm
+		\item El algoritmo etiqueta a los nodos en dos conjuntos:
+		\begin{itemize}\itemsep 3mm
+			\item Conjunto de \alert{nodos permanentes, $\PP$}: nodos de los que se conoce el camino mínimo desde 1.	
+						
+			\item Conjunto de \alert{nodos transitorios, $\T$}: nodos por conectar con 1 a través de un camino mínimo	
+		
+		\end{itemize}
+		\item Inicialmente $\PP=\{1\}$ y se conecta el nodo más cercano, que pasa de $\T$ a $\PP$.
+           \item En cada iteración se conecta el nodo más cercano a 1 usando como intermediarios los nodos de $\PP$
+            \item Termina en $n-1$ iteraciones.
+		
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{Redes con pesos positivos. Algoritmo de Dijkstra}
+	
+   \begin{itemize}\itemsep 5mm
+		\item 	Se basa en aproximar la longitud del camino m\'{\i}nimo desde $1$ a $j$, $u_j$,
+		por
+		\begin{center}
+			\alert{$ u^P_j \equiv $ longitud del camino m\'{\i}nimo de $1$ a $j$ utilizando como v\'{e}rtices intermedios los v\'{e}rtices del conjunto $\PP\subset V$}
+		\end{center}
+           \begin{itemize}
+		\item Para \alert{$j\in \PP$}: $u^P_j=u_j$		
+		\item Para \alert{$j\in \T$}: $u^P_j\geq u_j$		
+		\end{itemize}
+		\item En cada iteración se hace permanente el nodo transitorio con menor $u^P_j$		
+	\end{itemize}
+	
+\end{frame}
+
+%\end{document}
+
+\begin{frame}{Redes con pesos positivos. Algoritmo de Dijkstra}
+	\begin{itemize}
+		\item 	Inicialmente:
+		\begin{alignat*}{2}
+			u_1 & =0, &\qquad \PP=&\{1\},\\[2mm]
+			u_j^P & =d_{1j}, &\qquad \T=&\{2,\dots,n\},
+		\end{alignat*}
+		donde $d_{ij}=+\infty$ si no existe el arco de $i$ a $j$.
+		\item En la primera iteraci\'on se toma el m\'inimo de los $u_j^P$ y ese nodo pasa de transitorio a permanente:
+		$$
+		j^*=\arg\min_{j\in\T}\{u_{1j}\},\quad\quad\PP\fli\PP\cup\{j^*\},\quad\quad\T\fli
+		\T\setminus\{j^*\}, \quad\quad u_{j^*}=u_{j^*}^P .
+		$$
+		\item Antes de seleccionar el siguiente nodo se actualiza el vector $\vu^P$ (s\'olo las componentes de los nodos en $\T$): \alert{todos?}
+		$$
+		u_k^P\fli \min\bigl\{u_k^P,\, u_{j^*}+d_{j^*k}\bigr\},\qquad\forall k\in\T.
+		$$
+		\item Este proceso se repite hasta que no queden nodos transitorios ($\T=\emptyset$).
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Algoritmo de Dijkstra. Pseudoc\'odigo}
+	
+	\begin{description}
+		\item[Paso 0. Inicio.]
+			\begin{align*}
+			u_1 = & 0 \\
+			u_j^P = & d_{1j} \quad \forall j=2,\ldots,n \\
+			\PP = & \{1\} && \textrm{Nodos permanentes} \\
+			\T = & \{2,\ldots,n\} && \textrm{Nodos transitorios} \\
+			Pred(j) = & 1 \quad \forall j=2,\ldots,n && \textrm{Nodo anterior al nodo }j
+		\end{align*}
+		\item[Paso 1. Etiquetar permanentes.] Elegir $k\in \T: u_k^P =\min_{j \in \T}\{u_j^P\}$. Hacer:
+			$$\PP=\PP\cup\{k\}\qquad \T=\T\setminus\{k\} \qquad u_{k}=u_{k}^P$$
+		Si $\T=\varnothing$ parar.
+		\item[Paso 2. Revisar etiquetas transitorias.] $\forall j \in\T$: $u_j^P=\min\{u_j^P,u_k+d_kj\}$. Si se modifica, hacer $Pred(j)=k$. Ir al paso 1.
+	\end{description}
+	
+\end{frame}
+
+\begin{frame}{Algoritmo de Dijkstra. Justificación.}
+
+El algoritmo de Dijkstra garantiza la construcci\'{o}n del camino
+m\'{\i}nimo al ser las longitudes no negativas. Este resultado se
+demuestra a continuaci\'{o}n
+
+\begin{block}{Proposición}
+	Sea la red $(G=(V,U);\{ d_u , u \in U \})$. Supongamos que
+	$d_u \geq 0, \forall u \in U $. Entonces,
+	el algoritmo de Dijkstra construye los caminos de longitud m\'{\i}nima.
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Dijkstra}{Ejemplo}
+	
+	\begin{block}{Ejemplo}
+		Encontrar el camino m\'inimo del nodo $1$ a todos los dem\'as en el siguiente grafo usando el algoritmo de Dijkstra:
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (0,0) {1} ;
+				\node[node_style] (2) at (1.5,2) {2} ;
+				\node[node_style] (3) at (3,0) {3} ;
+				\node[node_style] (4) at (4.5,2) {4} ;
+				\node[node_style] (5) at (6,0) {5} ;
+				\draw (1) edge[->] node[left] {100} (2) ;
+				\draw (1) edge[->] node[above] {30} (3) ;
+				\draw (2) edge[->] node[right] {20} (3) ;
+				\draw (3) edge[->] node[left] {10} (4) ;
+				\draw (3) edge[->] node[above] {60} (5) ;
+				\draw (4) edge[->] node[above] {15} (2) ;
+				\draw (4) edge[->] node[right] {50} (5) ;
+			\end{tikzpicture}
+		\end{center}
+	\end{block}
+	
+\end{frame}
+
+\begin{frame}{Algoritmo de Dijkstra}{Ejemplo}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\onslide<1>{\node[node_style] (1) at (0,0) {1} ;}
+				\onslide<1-2>{\node[node_style] (2) at (1.5,2) {2} ;}
+				\onslide<1-2>{\node[node_style] (3) at (3,0) {3} ;}
+				\onslide<1-4>{\node[node_style] (4) at (4.5,2) {4} ;}
+				\onslide<1-4>{\node[node_style] (5) at (6,0) {5} ;}
+				\onslide<1-2>{\draw (1) edge[->,line width=1pt] node[left] {100} (2) ;}
+				\onslide<1-2>{\draw (1) edge[->,line width=1pt] node[above] {30} (3) ;}
+				\onslide<1-3>{\draw (2) edge[->,line width=1pt] node[right] {20} (3) ;}
+				\onslide<1-4>{\draw (3) edge[->,line width=1pt] node[left] {10} (4) ;}
+				\onslide<1-4>{\draw (3) edge[->,line width=1pt] node[above] {60} (5) ;}
+				\onslide<1-6>{\draw (4) edge[->,line width=1pt] node[above] {15} (2) ;}
+				\onslide<1-6>{\draw (4) edge[->,line width=1pt] node[right] {50} (5) ;}
+				\onslide<2->{\node[node_style,color=red,line width=1pt] (1) at (0,0) {1} ;}
+				\onslide<3-7>{\node[node_style,color=blue,line width=1pt] (2) at (1.5,2) {2} ;}
+				\onslide<3>{\node[node_style,color=blue,line width=1pt] (3) at (3,0) {3} ;}
+				\onslide<3->{\draw (1) edge[->,line width=1pt,color=blue] node[left] {100} (2) ;}
+				\onslide<3>{\draw (1) edge[->,line width=1pt,color=blue] node[above] {30} (3) ;}
+				\onslide<4->{\node[node_style,color=red,line width=1pt] (3) at (3,0) {3} ;}
+				\onslide<4->{\draw (1) edge[->,line width=1pt,color=red] node[above] {30} (3) ;}
+				\onslide<4->{\draw (2) edge[->,line width=1pt,color=blue] node[right] {20} (3) ;}
+				\onslide<5>{\node[node_style,color=blue,line width=1pt] (4) at (4.5,2) {4} ;}
+				\onslide<5-9>{\node[node_style,color=blue,line width=1pt] (5) at (6,0) {5} ;}
+				\onslide<5>{\draw (3) edge[->,line width=1pt,color=blue] node[left] {10} (4) ;}
+				\onslide<5->{\draw (3) edge[->,line width=1pt,color=blue] node[above] {60} (5) ;}
+				\onslide<6->{\node[node_style,color=red,line width=1pt] (4) at (4.5,2) {4} ;}
+				\onslide<6->{\draw (3) edge[->,line width=1pt,color=red] node[left] {10} (4) ;}
+				\onslide<7>{\draw (4) edge[->,line width=1pt,color=blue] node[above] {15} (2) ;}
+				\onslide<7-9>{\draw (4) edge[->,line width=1pt,color=blue] node[right] {50} (5) ;}
+				\onslide<8->{\node[node_style,color=red,line width=1pt] (2) at (1.5,2) {2} ;}
+				\onslide<8->{\draw (4) edge[->,line width=1pt,color=red] node[above] {15} (2) ;}
+				\onslide<10->{\node[node_style,color=red,line width=1pt] (5) at (6,0) {5} ;}
+				\onslide<10->{\draw (4) edge[->,line width=1pt,color=red] node[right] {50} (5) ;}
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{.5\textwidth}
+		\begin{small}
+			
+			\only<3>{
+				\begin{align*}
+					u_1 & = 0 \\
+					u_2^P & = 100 \\
+					u_3^P & = 30 \\
+					u_4^P & = \infty \\
+					u_5^P & = \infty \\
+					\PP & = \{1\} \quad \T = \{2,3,4,5\} \\
+					Pred(j) & = 1 \quad \forall j=2,3,4,5
+			\end{align*}}
+			
+			\only<4>{
+				\begin{multline*}
+					u_k^P = \min\{u_j^P:j\in \T\}=u^P_3=30 \Rightarrow \\ \PP=\{1,3\}, \T=\{2,4,5\}, u_3=30=u^P_3
+			\end{multline*}}
+			
+			\only<5>{
+				\begin{align*}
+					u_2^P = & \min\{u_2^P,u_3+d_{32}\} = \\
+					& \min\{100,30+\infty\} = 100, Pred(2) = 1 \\
+					u_4^P = & \min\{u_4^P,u_3+d_{34}\} = \\
+					& \min\{\infty,30+10\} = 40, Pred(4) = \textcolor{blue}{3} \\
+					u_5^P = & \min\{u_5^P,u_3+d_{35}\} = \\
+					& \min\{\infty,30+60\} = 90, Pred(5) = \textcolor{blue}{3}
+			\end{align*}}
+			
+			\only<6>{
+				\begin{multline*}
+					u_k^P = \min\{u_j^P:j\in \T\} = u^P_4 = 40 \Rightarrow \\ \PP=\{1,3,4\}, \T=\{2,5\}, u_4=40=u^P_4
+			\end{multline*}}
+			
+			\only<7>{
+				\begin{align*}
+					u_2^P = & \min\{u_2^P,u_4+d_{42}\} = \\
+					& \min\{100,40+15\} = 55, Pred(2) = \textcolor{blue}{4} \\
+					u_5^P = & \min\{u_5^P,u_4+d_{45}\} = \\
+					& \min\{90,40+50\}=90, Pred(5) = \textcolor{blue}{4}
+			\end{align*}}
+			
+			\only<8>{
+				\begin{multline*}
+					u_k^P = \min\{u_j^P:j\in \T\} = u^P_2 = 55 \Rightarrow \\ \PP=\{1,3,4,2\}, \T=\{5\}, u_2=55=u^P_2
+			\end{multline*}}
+			
+			\only<9>{
+				\begin{align*}
+					u_5^P = & \min\{u_5^P,u_2+d_{25}\} = \\
+					& \min\{90,55+\infty\}= 90, Pred(5) = 4
+			\end{align*}}
+			
+			\only<10>{
+				\begin{multline*}
+					u_k^P = \min\{u_j^P:j\in \T\} = u_5^P = 90 \Rightarrow \\ \PP=\{1,3,4,2,5\}, \T=\varnothing, u_5=90=u_5^P
+			\end{multline*}}
+			
+			\only<11>{
+				\begin{align*}
+					Pred(1) = & 1 & u_1 = & 0 \\
+					Pred(2) = & 4 & u_2 = & 55 \\
+					Pred(3) = & 1 & u_3 = & 30 \\
+					Pred(4) = & 3 & u_4 = & 40 \\
+					Pred(5) = & 4 & u_5 = & 90
+			\end{align*}}
+			
+		\end{small}
+	\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{$[{\bf u},{\bf p}] = CamMinDijkstra(D)$}
+
+{\tiny
+\begin{algorithmic}
+ %\color{red}
+ \State {Entrada:}
+ \State {$D$ :  Matriz asociada a la red dirigida ($d_{i,j} = d_u$ si $u=(i,j)\in U$; $d_{i,j} = \infty$
+ si no existe el arco $(i,j)$)}
+ \State {Salida:}
+  \State { ${\bf u}$ : Vector que identifica la distancia del camino m\'{\i}nimo $\mu[1,j] \quad \forall j\in V$}
+  \State { ${\bf p}$ : Vector que identifica la arborescencia del camino
+ m\'{\i}nimo que parte de $1$, $ 1 \rightarrow \cdots \rightarrow p(p(j)) \rightarrow p(j) \rightarrow j$.}
+% \color{black}
+  \State { \emph{Inicializaci\'{o}n:}}
+ %\color{red}
+  \State { Inicialmente, $\PP$ es el nodo $1\in V$, $\T$ es $V\setminus \PP$; la arborescencia inicial es el conjunto de arcos que salen de $1$.}
+ %\color{black}
+  \State { $\PP= \{ 1 \} \quad \T = \{ 2,\ldots , n \}$}
+  \State { $u_1= 0,\  u_j = d_{1j} \ \forall j= 2, \ldots ,n$}
+  \State { $p(j) = 1 \quad \forall j=1,\ldots ,n$}
+  \State { \emph{Proceso de actualizaci\'{o}n:}}
+ \While{$\T \neq \emptyset$}
+ %\color{red}
+  \State { El nodo $k\in \T$ es el m\'{a}s pr\'{o}ximo a $P$, se a\~{n}ade a $\PP$.}
+ %\color{black}
+   \State { $u_k \equiv \min_{j \in \T} \{ u_j \}$}
+  \State { $\PP= \PP \cup \{ k \} \quad \T = \T \setminus \{ k \}$}
+  \For {\alert{$j\in \Gamma^+(k)\cap \T$}} %$j \in T$}
+   \If{$ u_j > u_k + d_{k,j}$}
+  %   \color{red}
+      \State { Al nodo $j\in \T$ compensa ir desde $k$.}
+  %   \color{black}
+      \State { $p(j) = k$}
+      \State { $u_j = u_k + d_{k,j}$}
+      \EndIf
+ \EndFor
+ \EndWhile
+\end{algorithmic}
+}
+
+\end{frame}
+
+
+
+\begin{frame}{Algoritmo de Dijkstra. Complejidad}
+
+ \begin{itemize}\itemsep 4mm
+		\item Digrafo con pesos positivos
+	    \item Determinación de nuevo nodo permanente: $n-1$ iteraciones con $n-k-1$ comparaciones,
+  $O(n^2)$
+            \item Actualización de etiquetas: $O(m)$
+            \item Algoritmo: $O(n^2)$ ($m\leq \frac{n(n-1)}{2}$)
+	\end{itemize}
+\end{frame}
+
+\end{comment}
+
+\section{Algoritmo de Bellman-Ford. Redes con pesos negativos}
+
+\begin{comment}
+   
+
+
+\begin{frame}{Algoritmo de Bellman-Ford}
+	{\small
+	\begin{itemize}
+	\item Caso general: existen arcos de longitud negativa, {\em pero no circuitos de longitud negativa}, ¿o también?
+   \item Algoritmo de Bellman-Ford: publicado por Ford en 1956, aunque fue propuesto primero por Shimbel en 1955 y posteriormente por Bellman en 1958 y Moore en 1959.
+   \item Idea: aproximar el camino m\'{\i}nimo desde 1 a cualquier v\'{e}rtice $j$ por el camino m\'{\i}nimo de 1 a $j$ usando (a los sumo) $1,2, \ldots $ arcos.
+	\item Complejidad: $O(n^3)$
+ \end{itemize}
+
+%
+\vspace*{-1cm}
+ \begin{figure}
+		\centering
+		\subfloat[L. Ford, 1927-2017]{\makebox[.15\textwidth] {\includegraphics[width=0.12\textwidth]{ford}}} \hspace{0.22cm}
+		\subfloat[R.E. Bellman, 1920-1984]{\makebox[.15\textwidth]{\includegraphics[width=0.12\textwidth]{bellman}}} \hspace{0.23cm}
+		\subfloat[E.F. Moore, 1925-2003]{\makebox[.15\textwidth]{\includegraphics[width=0.12\textwidth]{moore}}}
+	\end{figure}
+ }
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Bellman-Ford. Esquema}
+	\begin{itemize}\itemsep 2mm
+		\item Hallar el camino m\'inimo desde el nodo 1 al nodo $j$ utilizando $m$ arcos o menos.
+		\item Se empieza con $m=1$ y se incrementa hasta un m\'aximo de $m=n-1$.
+		\item Si no hay circuitos de longitud negativa, el algoritmo converge en $n$ iteraciones a lo sumo. (\alert{¿y si los hay?})
+		\item Se define:
+		$$
+		u_j^{m}=\text{ longitud del camino m\'inimo de 1 a $j$ utilizando $m$ arcos o menos.}
+		$$
+		\item Inicialmente:
+		$$
+		u_j^1=\begin{cases}
+			0, & \text{ si $j=1$,}
+			\\[2mm]
+			d_{1j}, & \text{ si $(1,j)\in A$,}
+			\\[2mm]
+			\infty, & \text{ si $(1,j)\notin A$.}
+		\end{cases}
+		$$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo de Bellman-Ford}
+	\begin{itemize}\itemsep 5mm
+		\item
+	Para $m=2$
+ %se comprueba qué es mejor:
+%	\begin{itemize}\itemsep 3mm
+%		\item Llegar a cada nodo directamente desde el nodo 1 (un arco).
+%		\item Llegar a cada nodo pasando por un nodo intermedio (dos arcos)
+%	\end{itemize}
+%	\item En definitiva:
+	$$
+	u_j^2=\min\Bigl\{u_j^{1},\min_{k\neq j}\bigl\{u_k^1+d_{kj}\bigr\}\Bigr\}.
+	$$
+	\item En general:
+	$$
+	u_j^m=\min\Bigl\{u_j^{m-1},\min_{k\neq j}\bigl\{u_k^{m-1}+d_{kj}\bigr\}\Bigr\}.
+	$$	
+ \item Se repite el razonamiento hasta llegar a $m=n-1$. \alert{¿Se puede parar antes?}
+	\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Algoritmo de Bellman-Ford. Pseudoc\'odigo}
+	\begin{enumerate}[\mbox{Paso} 1.-]\itemsep 0mm
+		\item Inicializar:
+		$$
+		u_j^1=\begin{cases}
+			0, & \text{ si $j=1$,}
+			\\
+			d_{1j}, & \text{ si $(1,j)\in A$,}
+			\\
+			\infty, & \text{ si $(1,j)\notin A$.}
+		\end{cases}
+		$$
+		y hacer $m\fli 1$.
+		\item Hacer $m\fli m+1$ y calcular:
+		$$
+		u_j^{m}=\min\Bigl\{u_j^{m-1},\min_{k\neq j}\bigl\{u_k^{m-1}+d_{kj}\bigr\}\Bigr\},\qquad\forall
+		j=2,\dots,n.
+		$$
+		\item Si $m=n-1$, parar.
+		\\
+		En otro caso, ir al paso 2.
+	\end{enumerate}
+	{\small \begin{itemize}
+			\item El n\'umero total de iteraciones de este algoritmo es $n-1$.
+			\item
+			Pero no siempre va a ser necesario realizarlas.
+			\item
+			Si $u_j^{m+1}=u_j^{m}$ en una iteraci\'on, la soluci\'on con $m$ arcos es \'optima.	
+		\end{itemize}}
+\end{frame}
+
+
+
+\begin{frame}{Algoritmo de Bellman-Ford. Ejemplo}
+	
+	\begin{block}{Ejemplo}
+		Encontrar el camino m\'inimo del nodo $1$ a todos los dem\'as en el siguiente grafo usando el algoritmo de Bellman-Ford:
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (0,1.5) {1} ;
+				\node[node_style] (2) at (2,3) {2} ;
+				\node[node_style] (3) at (2,0) {3} ;
+				\node[node_style] (4) at (4,1.5) {4} ;
+				\draw (1) edge[->] node[left] {5} (2) ;
+				\draw (1) edge[->] node[below] {2} (3) ;
+				\draw (2) edge[->] node[left] {3} (3) ;
+				\draw (2) edge[->,bend left=20] node[above] {4} (4) ;
+				\draw (4) edge[->,bend left=20] node[below] {-3} (2) ;
+				\draw (3) edge[->,bend left=20] node[above] {1} (4) ;
+				\draw (4) edge[->,bend left=20] node[below] {6} (3) ;
+			\end{tikzpicture}
+		\end{center}
+	\end{block}
+	
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Resoluci\'on}
+	
+	\begin{columns}
+		\column{.35\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (0,1.5) {1} ;
+				\node[node_style] (2) at (2,3) {2} ;
+				\node[node_style] (3) at (2,0) {3} ;
+				\node[node_style] (4) at (4,1.5) {4} ;
+				\draw (1) edge[->] node[left] {5} (2) ;
+				\onslide<1-2>{\draw (1) edge[->] node[below] {2} (3) ;}
+				\draw (2) edge[->] node[left] {3} (3) ;
+				\draw (2) edge[->,bend left=20] node[above] {4} (4) ;
+				\onslide<1-2>{\draw (4) edge[->,bend left=20] node[below] {-3} (2) ;}
+				\onslide<1-2>{\draw (3) edge[->,bend left=20] node[above] {1} (4) ;}
+				\draw (4) edge[->,bend left=20] node[below] {6} (3) ;
+				\onslide<3->{\draw (1) edge[->,line width=1pt,color=red] node[below] {2} (3) ;}
+				\onslide<3->{\draw (3) edge[->,bend left=20,line width=1pt,color=red] node[above] {1} (4) ;}
+				\onslide<3->{\draw (4) edge[->,bend left=20,line width=1pt,color=red] node[below] {-3} (2) ;}
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{.66\textwidth}
+		\only<1>{
+			\begin{align*}
+				u_1^1 = & 0 \\
+				u_2^1 = & 5 \\
+				u_3^1 = & 2 \\
+				u_4^1 = & \infty \\
+				m = & 1 \\
+				\\ \\
+		\end{align*}}
+		
+		\only<2>{
+			\begin{align*}
+				u_2^2 = & \min\big\{u_2^1, \min\{u_3^1 + d_{32}, u_4^1 + d_{42}\}\big\} = \\
+				& \min\big\{5,\min\{2+\infty, \infty-3\}\big\} = 5 = u_2^1 \\
+				u_3^2 = & \min\big\{u_3^1, \min\{u_2^1 + d_{23}, u_4^1 + d_{43}\}\big\} = \\
+				& \min\big\{2,\min\{5+3, \infty+6\}\big\} = 2 = u_3^1 \\
+				u_4^2 = & \min\big\{u_4^1, \min\{u_2^1 + d_{24}, u_3^1 + d_{34}\}\big\} = \\
+				& \min\big\{\infty,\min\{5+4, 2+1\}\big\} = 3 \neq u_4^1 \\
+				m = & 2
+		\end{align*}}
+		
+		\only<3>{
+			\begin{align*}
+				u_2^3 = & \min\big\{u_2^2, \min\{u_3^2 + d_{32}, u_4^2 + d_{42}\}\big\} = \\
+				& \min\big\{5,\min\{2+\infty, 3-3\}\big\} = 0 \neq u_2^2 \\
+				u_3^3 = & \min\big\{u_3^2, \min\{u_2^2 + d_{23}, u_4^2 + d_{43}\}\big\} = \\
+				& \min\big\{2,\min\{5+3, 3+6\}\big\} = 2 = u_3^2 \\
+				u_4^3 = & \min\big\{u_4^2, \min\{u_2^2 + d_{24}, u_3^2 + d_{34}\}\big\} = \\
+				& \min\big\{3,\min\{5+4, 2+1\}\big\} = 3 = u_4^2 \\
+				m = & 3
+		\end{align*}}
+		
+		%\only<4->{
+%			\begin{align*}
+%				u_2^4 = & \min\big\{u_2^3, \min\{u_3^3 + d_{32}, u_4^3 + d_{42}\}\big\} = \\
+%				& \min\big\{0,\min\{2+\infty, 3-3\}\big\} = 0 = u_2^3 \\
+%				u_3^4 = & \min\big\{u_3^3, \min\{u_2^3 + d_{23}, u_4^3 + d_{43}\}\big\} = \\
+%				& \min\big\{2,\min\{0+3, 3+6\}\big\} = 2 = u_3^2 \\
+%				u_4^4 = & \min\big\{u_4^3, \min\{u_2^3 + d_{24}, u_3^3 + d_{34}\}\big\} = \\
+%				& \min\big\{3,\min\{0+4, 2+1\}\big\} = 3 = u_4^2 \\
+%				m = & 4
+%		\end{align*}}
+	\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Redes con circuitos de longitud negativa}
+	
+	Si el digrafo tiene circuitos de longitud negativa, el camino hasta los nodos que componen el circuito tiene longitud $-\infty$ y tiene un n\'umero infinito de arcos.
+	
+	\medskip
+	
+	En otro caso, la soluci\'on se obtiene con un m\'aximo de $n-1$ arcos.
+	
+	\medskip
+	
+	
+	Modificación del algoritmo para detectar circuitos de long. negativa: hacer $n$  iteraciones,
+	\begin{itemize}
+		\item
+		Si el digrafo no tiene circuitos de longitud negativa $\Rightarrow$ $\vu^{n-1}=\vu^{n}$.
+		\item
+		Si $u_j^n=\infty$ oara algun $j\in V$ no existe ning\'un camino 		desde 1 a $j$
+		\item
+		Si $\vu^{n-1}\neq\vu^n\, \Rightarrow$ el digrafo tiene un circuito de longitud negativa.
+	\end{itemize}
+\end{frame}
+
+
+\begin{comment}
+
+\begin{frame}{Redes con circuitos de longitud negativa}
+	\begin{enumerate}[\mbox{Paso} 1.-]\itemsep 0mm
+		\item Inicializar:
+		$$
+		u_j^1=\begin{cases}
+			0, & \text{ si $j=1$,}
+			\\
+			d_{1j}, & \text{ si $(1,j)\in A$,}
+			\\
+			\infty, & \text{ si $(1,j)\notin A$.}
+		\end{cases}
+		$$
+		y hacer $m\fli 1$.
+		\item Hacer $m\fli m+1$ y calcular:
+		$$
+		u_j^{m}=\min\Bigl\{u_j^{m-1},\min_{k\neq j}\bigl\{u_k^{m-1}+d_{kj}\bigr\}\Bigr\},\qquad\forall
+		j=2,\dots,n.
+		$$
+		\item Si
+		$$
+		u_j^m=u_j^{m-1},\qquad\forall j=2,\dots,n,
+		$$
+		parar, la soluci\'on actual es \'optima.
+		\\
+		En otro caso, si $m=n$, parar, existen circuitos de longitud negativa
+		\\
+		En otro caso, ir al paso 2.
+	\end{enumerate}
+\end{frame}
+
+
+
+\begin{frame}{Redes con circuitos de longitud negativa. Ejemplo}
+	\begin{center}
+		\begin{tikzpicture}[scale=0.750,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+			\node[node_style] (a) at (0,1.5) {a} ;
+			\node[node_style] (b) at (2,3) {b} ;
+			\node[node_style] (c) at (2,1.5) {c} ;
+			\node[node_style] (d) at (2,0) {d} ;
+			\node[node_style] (e) at (4,1.5) {e} ;
+			\node[node_style] (f) at (6,3) {f} ;
+			\node[node_style] (g) at (6,0) {g} ;
+			\draw  [line width=1.5pt] (a) edge[->] node[above] {8} (b) ;
+			\draw  [line width=1.5pt] (a) edge[->] node[above] {5} (c) ;
+			\draw  [line width=1.5pt] (a) edge[->] node[below] {3} (d) ;
+			\draw  [line width=1.5pt] (b) edge[->] node[left] {5} (c) ;
+			\draw  [line width=1.5pt] (c) edge[->] node[above] {4} (e) ;
+			\draw  [line width=1.5pt] (c) edge[->] node[left] {7} (d) ;
+			\draw  [line width=1.5pt] (c) edge[->] node[below] {2} (g) ;
+			\draw  [line width=1.5pt] (e) edge[->] node[above] {3} (g) ;
+			\draw  [line width=1.5pt] (f) edge[->,bend right=20] node[right] {6} (g) ;
+			\draw  [line width=1.5pt] (f) edge[->] node[above] {2} (b) ;
+			\draw  [line width=1.5pt] (g) edge[->,bend right=20] node[right] {1} (f) ;
+			\draw  [line width=1.5pt] (g) edge[->] node[below] {1} (d) ;
+			\draw  [line width=1.5pt] (b) edge[->] node[above] {-6} (e) ;
+			\draw  [line width=1.5pt] (e) edge[->] node[above] {2} (f) ;
+			\only<2>{
+				\draw  [line width=1.5pt,color=blue] (f) edge[->] node[above] {2} (b) ;
+				\draw  [line width=1.5pt,color=blue] (b) edge[->] node[above] {-6} (e) ;
+				\draw  [line width=1.5pt,color=blue] (e) edge[->] node[above] {2} (f) ;
+			}
+		\end{tikzpicture}
+		
+		\only<2>{El circuito $\color{blue} b\fld e\fld f\fld b$ tiene longitud
+			$\color{red} -6+2+2=-2$.}
+		
+		\only<3>{
+			Inicialmente:
+			$$
+			u_a^1=0\quad u_b^1=8\quad u_c^1=5\quad u_d^1=3,\quad
+			u_e^1=\infty\quad u_f^1=\infty\quad u_g^1=\infty
+			$$
+			
+			Aplicando el algoritmo, se obtiene:
+			$$
+			u_a^6=0\quad u_b^6=6\quad u_c^6=5\quad u_d^6=3,
+			\quad
+			u_e^6=0\quad u_f^6=2\quad u_g^6=3
+			$$
+		}
+		\only<4>{\footnotesize\vspace*{-3mm}
+			$
+			u_a^6=0\qquad u_b^6=6\qquad u_c^6=5\qquad u_d^6=3,\qquad
+			u_e^6=0\qquad u_f^6=2\qquad u_g^6=3.
+			$		
+			Para $m=7$, obtenemos:
+			\begin{align*}
+				%		u_a^7=& 0
+				%		\\
+				u_b^7=&\min\{u_b^6,u_a^6+8,u_f^6+2\}=\min\{6,0+8,2+2\}=4
+				\\
+				u_c^7=&\min\{u_c^6,u_a^6+5,u_b^6+5\}=\min\{5,0+5,4+5\}=5
+				\\
+				u_d^7=&\min\{u_d^6,u_a^6+3,u_c^6+7,u_g^3+1\}=\min\{3,0+3,5+7,3+1\}=3
+				\\
+				u_e^7=&\min\{u_e^6,u_b^6-6,u_c^6+4\}=\min\{9,6-6,5+4\}=0
+				\\
+				u_f^7=&\min\{u_f^6,u_e^6+2,u_g^6+6\}=\min\{2,0+2,3+6\}=2
+				\\
+				u_g^7=&\min\{u_g^6,u_c^6+2,u_e^6+3,u_f^6+1\}=\min\{3,5+2,0+3,2+1\}=3
+			\end{align*}
+			$u_b^6=6\neq 4=u_b^7 \quad\Rightarrow\exists$ circuito de longitud negativa.}
+	\end{center}	
+\end{frame}
+
+%\begin{comment}
+
+\begin{frame}{$[{\bf u},{\bf p}] = CamMinBellmanFord(G,{\bf d})$}
+
+{\tiny
+\begin{algorithmic}
+ \State {Entrada:}
+ \State {$G,\mathbb{d}$ :  Red dirigida} %($d_{i,j} = d_u$ si $u=(i,j)\in U$; $d_{i,j} = \infty$ si no existe el arco $(i,j)$)
+ \State {Salida:}
+ \State {${\bf u}$ : Vector que identifica la distancia del camino m\'{\i}nimo $\mu[1,j] \quad \forall j\in V$}
+ \State {${\bf p}$ : Vector que identifica la arborescencia del camino
+ m\'{\i}nimo que parte de $1$, $ 1 \rightarrow \cdots \rightarrow p(p(j)) \rightarrow p(j) \rightarrow j$.}
+ \color{black}
+ \State {\emph{Inicializaci\'{o}n:}}
+% \color{red}
+ \State {${\bf u}^t$ ($t=1$): identifica las longitudes de caminos m\'{\i}nimos con $0$ \'{o} $1$ arco; la arborescencia inicial es el conjunto de arcos que salen de $1$.}
+ \color{black}
+ \State {$t= 1$}
+ \State {$u^t_1= 0,\  u^t_j = d_{1j} \ \forall j= 2, \ldots ,n$}
+ \State {$p(j) = 1 \quad \forall j=1,\ldots ,n$}
+ \State {\emph{Proceso de actualizaci\'{o}n:}}
+ \For {$t=1,2,\ldots,n-2$}
+ %  \color{red}
+   \State {Determinaci\'{o}n de los caminos m\'{\i}nimos utilizando $t+1$ arcos.}
+   \color{black}
+   \For {$j=1,2,\ldots,n$}
+     \color{red}
+     \State {Para todo $j\in V$ se determina el nodo anterior $k \in V$ del camino m\'{\i}nimo con $t+1$ arcos.}
+     \color{black}
+     \State {$u_k^t + d_{kj} \equiv \min_{{\color{red} l\in \Gamma^-(j)}} \{ u_l^t + d_{lj} \}$}
+     \color{red}
+     \State {Se compara con el camino m\'{\i}nimo con $t$ arcos.}
+     \color{black}
+    \State {$u_j^{t+1}= Min \left\{ u_j^t , u_k^t + d_{kj} \right\} $}
+     \If{$ u^t_j > u^t_k + d_{k,j}$}
+     %  \color{red}
+       \State {Y si compensa usar un arco m\'{a}s, se modifica la arborescencia.}
+       \color{black}
+       \State {$p(j) = k$}
+     \EndIf
+   \EndFor
+ \EndFor
+% \color{red}
+ \State {Si existe soluci\'{o}n \'{o}ptima, se identifica ${\bf u}$ con ${\bf u}^{n-1}$}
+ \color{black}
+ \State {$u_j = u^{n-1}_j \ \forall j= 1, \ldots ,n$}
+ \end{algorithmic}
+}
+
+\end{frame}
+
+\end{comment}
+
+\section{Modelos de Programación Matem\'atica asociados}
+
+\subsection{Modelo de flujo}
+
+
+
+\begin{frame}{Modelo de flujo: camino mínimo $\mu^*[s,t]$}
+   
+\begin{itemize}
+    \item {\bf Datos:} $(G=(V,U), \{ d_u, u \in U \} )$
+    \item {\bf Variables:}
+	$$x_{u} = \begin{cases}1, & \textrm{si se usa el arco $u\in U$ en el camino mínimo,}
+    \\
+    0, & \textrm{si no se usa.}  
+    \end{cases}$$
+    \item {\bf Restricciones:}
+     \begin{itemize}
+      \item Nodos intermedios $i\in V\setminus\{s,t\}$: entra 1 arco y sale 1 arco:
+         $$
+     \sum_{u\in \Gamma^-(i)} x_u - \sum_{u\in \Gamma^+(i)} x_u=0
+     $$
+         \item De $s\in V$ sólo sale un arco:
+         $$
+     \sum_{u\in \Gamma^-(s)} x_u - \sum_{u\in \Gamma^+(s)} x_u=-1
+     $$
+         \item A $t\in V$ sólo llega un arco:
+         $$
+     \sum_{u\in \Gamma^-(t)} x_u - \sum_{u\in \Gamma^+(i)} x_u=1
+     $$       
+     \end{itemize}   
+
+\end{itemize}
+
+
+\end{frame}
+
+
+\begin{comment}
+    
+
+\begin{frame}{Modelo de flujo: camino mínimo $\mu^*[s,t]$}
+
+	\begin{align*}
+		\min\;\;     & \sum_{u\in U} d_u x_u \\
+		\textrm{s.a.:\;\;} &  \sum_{u\in \Gamma^-(s)}x_{u} - \sum_{u\in \Gamma^+(s)} x_{u}  = -1 \\
+		&  \sum_{u\in \Gamma^-(t)} x_{u} - \sum_{u\in \Gamma^+(t)}x_{u} = 1\\
+		&   \sum_{u\in \Gamma^-(i)} x_{u} - \sum_{u\in \Gamma^+(i)}x_{u}=0\qquad \forall i\neq s,t \\
+		&   x_{u} \in \{0,1\}, \; u\in U
+	\end{align*}
+	
+\end{frame}
+
+\end{comment}
+
+
+\begin{frame}
+	
+	\frametitle{Ejemplo}
+	
+	\begin{block}{Ejemplo}
+		Establecer el modelo de programaci\'on lineal para resolver el problema de camino m\'inimo entre $s$ y $t$ en el siguiente grafo:
+		\begin{figure}
+			\begin{tikzpicture}[auto,node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (s) at (0,1) {s} ;
+				\node[node_style] (1) at (2,2) {1} ;
+				\node[node_style] (2) at (2,0) {2} ;
+				\node[node_style] (3) at (4,1) {3} ;
+				\node[node_style] (4) at (6,2) {4} ;
+				\node[node_style] (5) at (6,0) {5} ;
+				\node[node_style] (t) at (8,1) {t} ;
+				\draw (s) edge[->] node[above] {\textcolor{red}{5}} (1) ;
+				\draw (s) edge[->] node[below] {\textcolor{red}{4}} (2) ;
+				\draw (1) edge[->,bend left=20] node[right] {\textcolor{red}{4}} (2) ;
+				\draw (1) edge[->] node[above] {\textcolor{red}{2}} (3) ;
+				\draw (1) edge[->] node[above] {\textcolor{red}{7}} (4) ;
+				\draw (2) edge[->,bend left=20] node[left] {\textcolor{red}{3}} (1) ;
+				\draw (2) edge[->] node[above] {\textcolor{red}{4}} (3) ;
+				\draw (2) edge[->] node[below] {\textcolor{red}{5}} (5) ;
+				\draw (3) edge[->] node[above] {\textcolor{red}{7}} (4) ;
+				\draw (3) edge[->] node[above] {\textcolor{red}{7}} (5) ;
+				\draw (3) edge[->] node[above] {\textcolor{red}{13}} (t) ;
+				\draw (4) edge[->] node[above] {\textcolor{red}{5}} (t) ;
+				\draw (5) edge[->] node[below] {\textcolor{red}{2}} (t) ;
+			\end{tikzpicture}
+		\end{figure}
+	\end{block}
+	
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Resoluci\'on}
+
+{\tiny 
+    \begin{center}
+        \begin{tabular}{|r|ccccccccccccc|}
+      %  \hline
+      %  Índice & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13
+      %  \\
+        \hline
+        Arco & $(s,1)$ & $(s,2)$ & $(1,2)$ & $(1,3)$ & $(1,4)$ & $(2,1)$ & $(2,3)$ & $(2,5)$ &
+        $(3,4)$ & $(3,5)$ & $(3,t)$ & $(4,t)$ & $(5,t)$ 
+        \\
+        Dist. & 5 &	4 &	4 &	2 &	7 &	3 &	4 &	5 &	7 &	7 &	13 & 5 & 2
+        \\
+        \hline
+        \end{tabular}
+    \end{center}
+}	
+
+{\small
+$$
+\begin{array}{rrrrrrrrrrrrrrl}
+\text{Min} & \multicolumn{14}{l}{5x_{s1}+	4x_{s2}+	4x_{12}+	2x_{13}+	7x_{14}+	3x_{21}+	4x_{23}+	5x_{25}+	7x_{34}+	7x_{35}+	13x_{3t}+	5x_{4t}+	2x_{5t}}
+\\
+\text{s.a.} & -x_{s1} & - x_{s2} & & & & & & & & & & & & = -1
+\\
+& +x_{s1} & &-x_{12} & -x_{13} & -x_{14} & +x_{21} & & & & & & &  & =  0
+\\
+&  & +x_{s2} &+x_{12} &  &  & -x_{21} & -x_{23} & -x_{25} & & & & &  & =  0
+\\
+&  &  & & +x_{13} &  &  & +x_{23} &  & -x_{34} & -x_{35} & -x_{3t} & &  & =  0
+\\
+&  &  & &  & +x_{14}  &  &  &  & +x_{34} &  &  & -x_{4t} &  & =  0
+
+\\
+&  &  & &  &  &  &  & +x_{25}  &  & +x_{35}  &  &  & -x_{5t} & =  0
+\\
+&  &  & &  &  &  &  &  &  &   & +x_{3t}  & +x_{4t} & +x_{5t} & =  1
+\\
+& \multicolumn{13}{c}{x_{ij}\in \{0,1\}, \; \forall \, u=(i,j)\in U} &
+\end{array}
+$$
+}
+	
+\end{frame}
+
+\begin{frame}{Modelo de flujo: camino mínimo $\mu^*[s,t]$}
+	
+	\textbf{Modelo:}
+	\begin{align*}
+		\min\;\;     & \sum_{u\in U} d_u x_{u} \\
+		\textrm{s.a.:\;\;} &   {\bf -A x}={\bf b} \\
+		&   x_{u} \in \{0,1\}, \; u\in U
+	\end{align*}
+%
+${\bf A}$: matriz de \alert{incidencia} del grafo
+\\
+\hspace*{0.5cm} ($a_{ik}=1$, si $(i,*)\in U$, $a_{ik}=-1$, si $(*,i)\in U$, 0 en otro caso)
+\\
+${\bf b}$: $b_i=0$, $i\neq s,t$, $b_s=-1$, $b_t=1$
+\end{frame}
+
+
+\begin{frame}{Unimodularidad e Integralidad}
+
+
+\begin{block}{Definición 8.2. Matriz TU}
+	Una matriz entera $A$ de dimensi\'{o}n $m
+	\times n$ se dice \underline{totalmente} \underline{unimodular} si el
+	determinante de cualquier submatriz cuadrada de $A$ es igual a $0$,
+	$1$ o $-1$.
+\end{block}
+
+\begin{block}{Definición 8.3. Poliedro Integral}
+Sea $$ S_{RC} = \left\{ {\bf x} \in I \! \! R^n \ / \ A {\bf x} =
+{\bf b}, {\bf x} \geq {\bf 0} \right\} $$ el conjunto  de soluciones
+factibles del problema relajado $RC$ en su forma est\'{a}ndar.
+
+Se dice que $S_{RC}\neq \emptyset$ es
+	\underline{integral} si sus puntos extremos son enteros, es decir,
+	son soluciones factibles del problema $PE$.
+\end{block}
+
+
+\begin{block}{Proposición 8.5. PLE y matrices TU}
+	Si la matriz de restricciones $A$ es
+	totalmente unimodular, entonces $S_{RC}$ es integral para todo ${\bf
+		b} \in \mathbf{Z}^m$ tal que $ S_{RC} \neq \emptyset$.
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}{Modelo de flujo: camino mínimo $\mu^*[s,t]$}
+
+\begin{block}{Proposición 8.6.}
+	La matriz de incidencia de un digrafo es totalmente unimodular.
+\end{block}
+	
+	\textbf{Probelma relajado:}
+	\begin{align*}
+		\min\;\;     & \sum_{u\in U} d_u x_{u} \\
+		\textrm{s.a.:\;\;} &   {\bf -A x}={\bf b} \\
+		&   x_{u} \geq 0, \; u\in U
+	\end{align*}
+
+\end{frame}
+
+
+\begin{frame}{Modelo de Flujo. Relajación lineal. Problema dual}
+
+\begin{center}
+	{\small
+		\begin{tabular}{ccc}
+			\hline
+			{\sc {\bf Problema de  minimización}} & & {\sc
+				{\bf Problema de maximización}}
+			\\
+			\hline
+			\\
+			{ Variables} & & { Restricciones}
+			\\
+			\hline
+			\\
+			$\geq 0 $  & $\longleftrightarrow$ & $\leq$
+			\\
+			$\leq 0 $  & $\longleftrightarrow$ & $\geq$
+			\\
+			{no restringido}  & $\longleftrightarrow$ &
+			$=$
+			\\
+			\hline
+			{ Restricciones} & & { Variables}
+			\\
+			\hline
+			\\
+			$\geq$ & $\longleftrightarrow$ & $\geq 0$
+			\\
+			$\leq$ & $\longleftrightarrow$ & $\leq 0$
+			\\
+			$=$ & $\longleftrightarrow$ & { no
+				restringido}
+			\\
+			\hline
+			\\
+		\end{tabular}
+	}
+\end{center}
+
+
+\end{frame}
+
+
+\begin{frame}{Modelo de Flujo. Relajación lineal. Problema dual}
+
+$$
+\begin{array}{rrrrrrrrlc}
+\text{Max} & -u_s &  & & & &  & +  u_t & & 
+\\
+\text{\small s.a.} & -u_s & + u_1 & & & & &  & \leq 5 & (s,1)
+\\
+& -u_s & & + u_2 &  &  & &  & \leq 4 & (s,2)
+\\
+&  & -u_1  & + u_2 & & & &  & \leq 4 & (1,2)
+\\
+&  & -u_1  &  & u_3 &  & &  & \leq 2 & (1,3)
+\\
+& \multicolumn{7}{c}{\cdots} & \cdots &
+\\
+&  &   &  & -u_3 &  &  & +u_t & \leq 13 & (3,t)
+\\
+&  &   &  &  &  -u_4 &   & +u_t  & \leq 5 & (4,t)
+\\
+&  &   &  &    & & -u_5 & +u_t  & \leq 2 & (5,t)
+\\[2mm]
+& \multicolumn{8}{c}{u_i \text{ \small no restringida en signo } i\in\{s,1,2,3,4,5,t\}} 
+\end{array}
+$$
+
+\begin{itemize} \itemsep 3mm
+\item $u_t$: longitud mínima en $G$ de $s$ a $t$, \alert{resto?}
+\item Arcos del camino: restricciones sin holgura en el óptimo.
+\end{itemize}
+
+
+\end{frame}
+
+
+\begin{comment}
+    
+
+
+\subsection{Modelo de las ecuaciones de Bellman. Algoritmo de relajaci\'{o}n}
+
+
+\begin{frame}{Modelo de las ecuaciones de Bellman}
+La soluci\'{o}n de las ecuaciones de Bellman
+$$
+B \left\{ \begin{array}{l} u_1 = 0 \\ u_j = \min_{k \neq j} \{ u_k + d_{kj}
+	\} \quad j \neq 1 \end{array} \right.
+$$
+%
+\noindent coincide con la soluci\'{o}n del PLC:
+%
+$$ P \left\{ \begin{array}{rrl} Max & u_2 + \cdots + u_n & \\ & u_j -u_k &
+	\leq d_{kj} \quad \forall (k,j) \in U \end{array} \right. $$
+
+
+\begin{block}{Proposición 8.7.}
+	Dado un vector de dimensi\'{o}n $n$, $(u_1,\ldots,u_n)$, se verifica que
+	$$ {\bf u} \in  B \quad \Longleftrightarrow \quad {\bf u} \in P $$
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Ejemplo}
+
+\vspace*{-1cm}
+\begin{center}
+  \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+  \node[node_style]  (1) at (0,0) {1} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+  \node[node_style] (2) at (2,0) {2} ;
+  \node[node_style] (3) at (3,2) {3} ;
+  \node[node_style] (4) at (1,2) {4} ;
+  \node[node_style] (5) at (4,0) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+
+
+  \draw (1) edge[->]  node[above,draw=none] { 7 } (2) ;
+  \draw (1) edge[->]  node[above,draw=none] { 1 } (4) ;
+  \draw (4) edge[->] node[above,draw=none] { 4 } (2) ;
+% \draw (2) edge[->, loop above] (2) ;
+  \draw (4) edge[->] node[above,draw=none] { 1 } (3) ;
+  \draw (3) edge[->] node[above,draw=none] { 4 } (2) ;
+  \draw (2) edge[->] node[above,draw=none] { 2 } (5) ;
+  \draw (3) edge[->] node[above,draw=none] { 4 } (5) ;
+ \end{tikzpicture}
+\end{center}
+
+	\vspace*{-0.5cm}
+	
+	$$ P \left\{ \begin{array}{rrrrrrrl} Max &  & u_2 & +u_3 & +u_4 & +u_5 &  &
+		\\  & -u_1 & +u_2 &  &  &  & \leq & 7
+		\\  & -u_1 &  &  &+u_4 &  & \leq & 1
+		\\  &  & -u_2 &  & & +u_5 & \leq & 2
+		\\  &  & u_2 & - u_3  & & & \leq & 4
+		\\  &  &  & - u_3  & &+u_5 & \leq & 4
+		\\  &  & u_2 &  &-u_4 &  & \leq & 4
+		\\  &  &  & u_3 &-u_4 &  & \leq & 1
+	\end{array} \right.$$
+	
+	{\bf Soluci\'{o}n:} $ u_1 = 0$, $u_2 = 5$, $u_3 = 2$, $u_4 = 1$, $u_5=6$
+	
+	\hspace*{1.5cm} \alert{¿arcos de la arborescencia soluci\'{o}n?}
+
+
+\end{frame}
+
+
+
+%\noindent {\bf Demostraci\'{o}n}
+%
+%\begin{itemize}
+%	\item[$\Rightarrow$]
+%	
+%	Por definici\'{o}n de los $u_j$, se verifica que $$  u_j \leq u_k +
+%	d_{kj} \quad \forall (k,j) \in U $$ \noindent y, por consiguiente,
+%	el vector ${\bf u}$ es una soluci\'{o}n del problema $P$.
+%	
+%	Para ver que es la que maximiza la funci\'{o}n objetivo $u_2 +
+%	\cdots + u_n$, se demuestra que no puede haber otra soluci\'{o}n
+%	${\bf u}'$ de $P$ mejor, puesto que en este caso existe al menos un
+%	$j\in \{ 2, \ldots ,n \}$ tal que $u_j' > u_j$, o, lo que es
+%	equivalente, $u_j' = u_j + \delta_j$ con $\delta_j > 0$; el vector
+%	$\delta$ recoge la diferencia entre las dos soluciones: $\mathbf{u}'
+%	= \mathbf{u} + \mathbf{\delta}$.
+%	
+%	A partir de este v{\'{e}}rtice concreto $j$, sea  $p(j)$ el predecesor de
+%	$j$ en la arborescencia asociada a las ecuaciones de Bellman, por lo
+%	que verifica $u_j = u_{p(j)} + d_{p(j)j}$.
+%	
+%	Al ser $\mathbf{u}'$ una soluci{\'{o}}n de $P$, se verifica $ u_j' - u_k'
+%	\leq d_{kj}$ para todo $k \neq j$, en particular, si $k=p(j)$ y
+%	considerando que $u_{p(j)}' = u_{p(j)} + \delta_{p(j)}$, se tiene:
+%	$$ u_j' - u_{p(j)}' \leq d_{p(j)j} \quad \Longleftrightarrow \quad
+%	u_j + \delta_j - u_{p(j)} - \delta_{p(j)} \leq d_{p(j)j}   $$
+%	
+%	
+%	Se concluye as\'{\i} ($u_j - u_{p(j)} = d_{p(j)j}$) que $\delta_j
+%	\leq \delta_{p(j)} $ y $\delta_{p(j)} > 0$.
+%	
+%	El proceso se itera a $p(p(j)), p(p(p(j))), \ldots $ hasta llegar a la ra\'{\i}z $1$ y concluir que
+%	$\delta_1 > 0$, que contradice que
+%	$$ u_1' = u_1 + \delta_1 = u_1 = 0 $$
+%	
+%	
+%	\item[$\Leftarrow$]
+%	
+%	Por ser $u_j - u_k \leq d_{kj} \quad \forall (k,j)\in U $ y ser
+%	$d_{kj}= \infty \quad \forall (k,j) \not\in U$ se verifica siempre que
+%	
+%	$$ u_j \leq u_k + d_{kj} \quad \forall k \neq j, \forall j \neq 1 \Longleftrightarrow u_j \leq \min_{k \neq j} \{u_k + d_{kj} \} \  \forall j \neq 1 $$
+%	
+%	Adem\'{a}s, $u_j$ alcanza la cota superior $\forall j \neq 1$.
+%	En caso contrario, si existe un $j$ tal que
+%	
+%	$$ u_j < \min_{k \neq j} \{u_k + d_{kj} \} $$
+%	
+%	\noindent se elegiría el primero que está más cerca del vértice $1$ siguiendo el vector ${\bf p}$ definido por $u_h = u_{p(h)}+d_{p(h),h}$ para aquellos vértices $h$ que sí alcancen la cota superior; para ese vértice $j$, se define un nuevo valor:
+%	
+%	$$ u_j' = \min_{k \neq j} \{ u_k + d_{kj} \} $$
+%	
+%	\noindent y para todos los posteriores a este vértice $j$ (en el sentido del vector ${\bf p}$ anterior) se reajusta el nuevo valor aumentándolo si es el caso. Este proceso se repite hasta que todos los valores $u_j$ alcancen la cota máxima y, por consiguiente, se verifican las ecuaciones de Bellman:
+%	$$ u_j = \min_{k \neq j} \{u_k + d_{kj} \} \  \forall j \neq 1 $$
+%	
+%\end{itemize}
+%
+%\begin{flushright} $\bullet$ \end{flushright}
+%
+%
+%Considerando que el problema $P$ es equivalente a la soluci\'{o}n del
+%problema de camino m\'{\i}nimo desde el v\'{e}rtice $1$ al resto, se
+%sugiere el siguiente procedimiento de relajaci\'{o}n, que se basa en
+%dar una cota superior de la funci\'{o}n objetivo sin considerar las
+%restricciones de $P$ e ir incorporando \'{e}stas hasta llegar a la
+%soluci\'{o}n \'{o}ptima.
+%
+%La aproximaci\'{o}n anterior de las magnitudes $u_j$ por cotas
+%superiores se inicializa con $u_j = d_{1j}$, que es siempre mayor
+%o igual que la distancia del camino m\'{\i}nimo de $1$ a $j$; esta
+%inicializaci\'{o}n est\'{a} asociada a la arborescencia $p(j)=1$ para todo
+%$j \in V$.
+%
+%La restricci\'{o}n $u_j - u_k \leq d_{kj}$, cuando no es verificada,
+%indica que se puede obtener una cota superior con valor inferior
+%si se ajusta $u_j = u_k + d_{kj}$ determinando el acceso a $j$
+%desde $k$, por lo que se actualiza $p(j)=k$.
+%
+%Para el caso en que $u_j = u_k = \infty$, se considera que $u_j -
+%u_k = \infty$.
+
+
+\begin{frame}{Algoritmo de relajaci\'{o}n (Ford, 1956)}
+
+
+{\bf Idea:} {\em aproximar $u_j$ por cotas superiores sin considerar las restricciones e irlas incorporando hasta llegar a la solución óptima}.
+
+
+{\bf Inicio:}
+\begin{itemize}
+\item $u_1=0$
+\item $u_j=d_{1j}$, $\forall \, j\neq 1$
+\item $p(j)=1$,  $\forall \, j\neq 1$
+\end{itemize}
+
+{\bf Paso principal:} mientras exista un arco $(k,j)\in U$ t.q. $u_j-u_k> d_{kj}$ hacer:
+\begin{itemize}
+\item $u_j=u_k+d_{kj}$
+\item $p(j)=k$
+\end{itemize}
+
+{\bf Complejidad:} $O(mn)$ (\alert{cuántas veces se repite el paso principal?})
+
+
+{\bf Detección de circuitos de longitud negativa:}  repetir $n$ veces el paso principal.
+
+
+
+%\begin{center}%[b!]
+%	\begin{algorithm}
+%		\caption{$[{\bf u},{\bf p}] = CamMinRelajacion(D)$}
+%		\label{alg-cam-min-relajacion}
+%		\begin{algorithmic}
+%			\color{red}
+%			\STATE Entrada:
+%			\STATE $D$ :  Matriz asociada a la red dirigida ($d_{i,j} = d_u$ si $u=(i,j)\in U$; $d_{i,j} = \infty$
+%			si no existe el arco $(i,j)$)
+%			\STATE Salida:
+%			\STATE ${\bf u}$ : Vector que identifica la distancia del camino m\'{\i}nimo $\mu[1,j] \quad \forall j\in V$
+%			\STATE ${\bf p}$ : Vector que identifica la arborescencia del camino
+%			m\'{\i}nimo que parte de $1$, $ 1 \rightarrow \cdots \rightarrow p(p(j)) \rightarrow p(j) \rightarrow j$.
+%			\color{black}
+%			\STATE \emph{Inicializaci\'{o}n:}
+%			\color{red}
+%			\STATE La arborescencia inicial es el conjunto de arcos que salen
+%			de $1$ al resto de nodos.
+%			\color{black}
+%			\STATE $u_1 = 0$
+%			\STATE $u_j = d_{1,j} \quad \forall j=2,\ldots ,n$
+%			\STATE $p(j) = 1 \quad \forall j=1,\ldots ,n$
+%			\STATE \emph{Proceso de comparaci\'{o}n:}
+%			\color{red}
+%			\STATE Se buscan todos los arcos para que verifiquen la restricci\'{o}n.
+%			\color{black}
+%			\WHILE{$\exists (k,j) \in U$ tal que $u_j - u_k > d_{kj}$}
+%			\STATE $u_j = u_k + d_{k,j} $
+%			\STATE $p(j) = k$
+%			\ENDWHILE
+%			
+%			%
+%			%\IF{$N$ is even}
+%			%\STATE $X \leftarrow X \times X$
+%			%\STATE $N \leftarrow N / 2$
+%			%\ELSE[$N$ is odd]
+%			%\STATE $y \leftarrow y \times X$
+%			%\STATE $N \leftarrow N - 1$
+%			%\ENDIF
+%			
+%		\end{algorithmic}
+%		
+%	\end{algorithm}
+%\end{center}
+
+
+%La complejidad algor\'{\i}tmica del algoritmo de relajaci\'{o}n es $O(m
+%\cdot n)$, ya que cada ciclo de comprobaciones implica los $m$
+%arcos y debe realizarse dicho ciclo hasta que no se modifique
+%ning\'{u}n $u_j$. En el peor de los casos, cuando la arborescencia
+%soluci\'{o}n es un camino de longitud $n-1$, en cada uno de los ciclos
+%anteriores se fija s\'{o}lo uno de los $u_j$, por lo que el n\'{u}mero
+%m\'{a}ximo de ciclos ser\'{a} $n-1$. De ah\'{\i} la complejidad obtenida.
+
+\end{frame}
+
+
+\begin{frame}{Ejemplo}
+
+
+\begin{center}
+  \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+  \node[node_style]  (1) at (0,0) {1} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+  \node[node_style] (2) at (2,0) {2} ;
+  \node[node_style] (3) at (3,2) {3} ;
+  \node[node_style] (4) at (1,2) {4} ;
+  \node[node_style] (5) at (4,0) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+
+
+  \draw (1) edge[->]  node[above,draw=none] { 7 } (2) ;
+  \draw (1) edge[->]  node[above,draw=none] { 1 } (4) ;
+  \draw (4) edge[->] node[above,draw=none] { 4 } (2) ;
+% \draw (2) edge[->, loop above] (2) ;
+  \draw (4) edge[->] node[above,draw=none] { 1 } (3) ;
+  \draw (3) edge[->] node[above,draw=none] { 4 } (2) ;
+  \draw (2) edge[->] node[above,draw=none] { 2 } (5) ;
+  \draw (3) edge[->] node[above,draw=none] { 4 } (5) ;
+ \end{tikzpicture}
+\end{center}
+
+%\bigskip
+%
+%{\it Aplicando el algoritmo de relajaci\'{o}n al
+%	ejemplo~\ref{ej-sin-circuitos}, se tiene:
+%	
+%	\begin{enumerate}
+%		\item Inicializaci\'{o}n
+%		
+%		$$ \begin{array}{|r|c|c|c|c|c|} \hline j & 1 & 2  & 3 & 4 & 5 \\
+%			\hline u_j & 0& 7 & \infty & 1 & \infty \\ \hline p(j) & 1 & 1 & 1
+%			& 1 & 1 \\ \hline
+%		\end{array} $$
+%		
+%		\item Primer ciclo de comprobaciones:
+%		
+%		$$ \begin{array}{rlll}  u_2 - u_1 & \leq 7 &  &
+%			\\  u_4 - u_1 & \leq 1 &   &
+%			\\ u_5 - u_2 & \not\leq 2 &   u_5 = u_2 + 2 = 9 & p(5) = 2
+%			\\ u_2 - u_3 & \leq 4 & & \\ u_5 - u_3 & \leq 4 &  & \\ u_2 -
+%			u_4 & \not\leq 4 &  u_2 = u_4 + 4 = 5 & p(2)=4 \\ u_3 - u_4 &
+%			\not\leq 1 &  u_3 = u_4 + 1 = 2 & p(3) = 4 \end{array} $$
+%		
+%		Se obtiene as\'{\i}
+%		
+%		$$ \begin{array}{|r|c|c|c|c|c|} \hline j & 1 & 2  & 3 & 4 & 5 \\
+%			\hline u_j & 0& 5 & 2 & 1 & 9 \\ \hline p(j) & 1 & 4 & 4 & 1 & 2
+%			\\ \hline
+%		\end{array} $$
+%		
+%		\item Segundo ciclo de comprobaciones:
+%		
+%		$$ \begin{array}{rlll}  u_2 - u_1 & \leq 7 &  &
+%			\\  u_4 - u_1 & \leq 1 &   & \\ u_5 - u_2 & \not\leq 2 &   u_5 = u_2 + 2 = 7 & p(5) = 2
+%			\\ u_2 - u_3 & \leq 4 & & \\ u_5 - u_3 & \not\leq 4 & u_5 = u_3 + 4 = 6 & p(5)=3 \\ u_2 -
+%			u_4 & \leq 4 &  & \\ u_3 - u_4 & \leq 1 & &
+%		\end{array} $$
+%		
+%		Se obtiene as\'{\i}
+%		
+%		$$ \begin{array}{|r|c|c|c|c|c|} \hline j & 1 & 2  & 3 & 4 & 5 \\
+%			\hline u_j & 0& 5 & 2 & 1 & 6 \\ \hline p(j) & 1 & 4 & 4 & 1 & 3
+%			\\ \hline
+%		\end{array} $$
+%		
+%		\item Tercer ciclo de comprobaciones:
+%		
+%		$$ \begin{array}{rlll}  u_2 - u_1 & \leq 7 &  &
+%			\\  u_4 - u_1 & \leq 1 &   & \\ u_5 - u_2 & \leq 2 &  &
+%			\\ u_2 - u_3 & \leq 4 & & \\ u_5 - u_3 & \leq 4 &  &  \\ u_2 -
+%			u_4 & \leq 4 &  & \\ u_3 - u_4 & \leq 1 & &
+%		\end{array} $$
+%		
+%		Se obtiene as\'{\i}, al no haberse modificado ning\'{u}n $u_j$, la soluci\'{o}n
+%		\'{o}ptima:
+%		
+%		$$ \begin{array}{|r|c|c|c|c|c|} \hline j & 1 & 2  & 3 & 4 & 5 \\
+%			\hline u_j & 0& 5 & 2 & 1 & 6 \\ \hline p(j) & 1 & 4 & 4 & 1 & 3
+%			\\ \hline
+%		\end{array} $$
+%		
+%	\end{enumerate}
+%	
+%	
+%}
+%
+%\bigskip
+%
+%En el ejemplo~\ref{ej-sin-circuitos} se ha llegado al \'{o}ptimo
+%despu\'{e}s de dos ciclos de comprobaciones al ser $2$ el n\'{u}mero
+%m\'{a}ximo de arcos de cualquiera de los caminos m\'{\i}nimos. Con el fin
+%de detectar circuitos de longitud negativa, hay que realizar $n$
+%ciclos, si no se ha modificado ning\'{u}n $u_j$, la red no tiene
+%circuitos de longitud negativa y se ha llegado al \'{o}ptimo.
+%
+%
+%\bigskip
+
+
+\end{frame}
+
+
+\begin{frame}{Problema Dual}
+
+
+$$ P \left\{ \begin{array}{rrl} Max & u_2 + \cdots + u_n & \\ & u_j -u_k &
+	\leq d_{kj} \quad \forall (k,j) \in U \end{array} \right. $$
+
+\vspace{1cm}
+
+$$ D \left\{ \begin{array}{rrl} Min & \sum_{(k,j) \in U} d_{kj} x_{kj} & \\
+	& \sum_{k} x_{kj} - \sum_{i} x_{ji}  & = 1 \quad \forall j \neq 1  \\
+	& x_{kj}  & \geq 0 \quad \forall (k,j) \in U  \end{array} \right.
+$$
+
+
+\end{frame}
+
+
+\begin{frame}{Ejemplo}
+
+\vspace*{-1cm}
+\begin{center}
+  \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+  \node[node_style]  (1) at (0,0) {1} ; % etiqueta encima del nodo \node[node_style]  (m) at (0,0) [label=above:2] {m} ;
+  \node[node_style] (2) at (2,0) {2} ;
+  \node[node_style] (3) at (3,2) {3} ;
+  \node[node_style] (4) at (1,2) {4} ;
+  \node[node_style] (5) at (4,0) {5} ;   %   incluyendo valores en las aristas:  \draw (l) edge node[above,draw=none] { 50.0 } (f);
+
+
+  \draw (1) edge[->]  node[above,draw=none] { 7 } (2) ;
+  \draw (1) edge[->]  node[above,draw=none] { 1 } (4) ;
+  \draw (4) edge[->] node[above,draw=none] { 4 } (2) ;
+% \draw (2) edge[->, loop above] (2) ;
+  \draw (4) edge[->] node[above,draw=none] { 1 } (3) ;
+  \draw (3) edge[->] node[above,draw=none] { 4 } (2) ;
+  \draw (2) edge[->] node[above,draw=none] { 2 } (5) ;
+  \draw (3) edge[->] node[above,draw=none] { 4 } (5) ;
+ \end{tikzpicture}
+\end{center}
+
+{\small
+\begin{columns}
+\begin{column}{7cm}
+$$ P \left\{ \begin{array}{rrrrrrrl} Max &  & u_2 & +u_3 & +u_4 & +u_5 &  &
+		\\  & -u_1 & +u_2 &  &  &  & \leq & 7
+		\\  & -u_1 &  &  &+u_4 &  & \leq & 1
+		\\  &  & -u_2 &  & & +u_5 & \leq & 2
+		\\  &  & u_2 & - u_3  & & & \leq & 4
+		\\  &  &  & - u_3  & &+u_5 & \leq & 4
+		\\  &  & u_2 &  &-u_4 &  & \leq & 4
+		\\  &  &  & u_3 &-u_4 &  & \leq & 1
+	\end{array} \right.$$
+	%
+	$$ u_1 = 0,\, u_2 = 5,\, u_3 = 2, \, u_4 = 1, \, u_5=6$$
+\end{column}
+
+\begin{column}{7cm}
+$$
+D \left\{  \begin{array}{rr} Min & 7 x_{12} + x_{14} + \cdots + 4 x_{42}
+		+ x_{43}  \\ &  x_{12} + x_{42} + x_{32} - x_{25}  = 1
+		\\  &  x_{43} - x_{32} - x_{35}  = 1
+		\\  &  x_{14} - x_{42} - x_{43}   = 1
+         \\  &  x_{25} + x_{35} = 1
+         \\ & x_{u} \geq 0, \; \forall\, u \in U
+\end{array} \right.$$
+	%
+	$$\bar{x}_{12} = 0,\,\bar{x}_{14} = 4,\, \bar{x}_{25} = 0,\, \bar{x}_{32} = 0,
+$$
+$$
+\bar{x}_{35} = 1, \, \bar{x}_{42} =1, \,\bar{x}_{43} = 2$$
+
+\hspace{0.8cm} \alert{¿Qué representa la solución del dual?}
+\end{column}
+\end{columns}
+}
+
+%
+%
+%La variable de decisi\'{o}n $\{ x_{kj} \ / \ (k,j) \in U \}$ se interpreta de la
+%siguiente forma:
+%\begin{itemize}
+%	\item  $x_{kj} = 0$ si el arco $(k,j)$ no pertenece a la arborescencia.
+%	\item  $x_{kj} \geq 1$ identifica los arcos de la arborescencia.
+%	Adem\'{a}s, es un n\'{u}mero entero que es igual al n\'{u}mero de caminos que
+%	unen la ra\'{\i}z $1$ con alg\'{u}n v\'{e}rtice utilizando dicho arco.
+%\end{itemize}
+%
+%\bigskip
+%
+%{\it En el caso del ejemplo~\ref{ej-sin-circuitos}, el problema
+%	dual es:
+%	
+%	$$ \begin{array}{rrl} Min & 7 x_{12} + x_{14} + \cdots + 4 x_{42}
+%		+ x_{43} & \\ &  x_{12} + x_{42} + x_{32} - x_{25} & = 1
+%		\\  &  x_{43} - x_{32} - x_{35} & = 1
+%		\\  &  x_{14} - x_{42} - x_{43}  & = 1  \\  &  x_{25} + x_{35}
+%		& = 1 \\ & x_{u} & \geq 0 \ \forall u \in U \end{array} $$
+%	
+%	La soluci\'{o}n de este problema es:
+%	
+%	$$ \bar{x}_{12} = 0 \quad \bar{x}_{14} = 4 \quad \bar{x}_{25} = 0
+%	\quad \bar{x}_{32} = 0 \quad \bar{x}_{35} = 1 \quad \bar{x}_{42} =
+%	1 \quad \bar{x}_{43} = 2  $$
+%	
+%	\noindent y alcanza un valor de la funci\'{o}n objetivo igual a $14 =
+%	u_2 + u_3 + u_4 + u_5$.
+%	
+%}
+%
+%\bigskip
+%
+%
+%Este problema dual $D$ no determina la arborescencia de m\'{\i}nimo
+%peso, puesto que las variables $x_u$ no son binarias, sino que al
+%identificar $x_u$ el n\'{u}mero de caminos m\'{\i}nimos que salen de $1$ y
+%utilizan el arco $u \in U$, est\'{a} minimizando la suma total de
+%todos los caminos que salen de $1$.
+\end{frame}
+
+\end{comment}
+
+\section{Problema del camino m\'inimo desde todos los nodos}
+
+\begin{frame}{Problema del camino m\'inimo desde todos los nodos}
+	\begin{itemize}\itemsep 4mm
+		\item Este problema se puede abordar aplicando los algoritmos anteriores para cada nodo del grafo: \alert{¿eficiente?}
+	%	\item Multiplica por $n$ la complejidad del algoritmo: con Bellman-Ford la complejidad sería $O(n^4)$.
+		\item Se desaprovecha mucha informaci\'on.
+		\item Algoritmo de Floyd-Wharsall:
+\begin{itemize}
+\item V\'alido para calcular las distancias m\'inimas entre cualquier par de nodos: pueden existir distancias negativas.
+\item Idea: considerar todos los nodos $k\in V$ como posibles puntos intermedios: ¿es mejor, en el camino de $i$ a $j$, pasar por el nodo intermedio $k$ o no?
+        \item Complejidad: $O(n^3)$
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+	
+	\frametitle{Algoritmo de Floyd-Warshall}
+		\begin{itemize}\itemsep 5mm
+		\item Se define $u_{ij}^{(k)}$ como la longitud del camino m\'inimo $\mu^{(k)}[i,j]$ utilizando como nodos intermedios s\'olo $\{1,\dots,k-1\}$.
+	\begin{itemize}\itemsep 3mm
+		\item  Inicialmente, $k=0$,  $u_{ij}^{(0)}=d_{ij}$.
+		\item En una iteración $k$ cualquiera, para cada par $(i,j)$, se compara:
+		\begin{itemize}\itemsep 1mm
+			\item La longitud del camino de $i$ a $j$ sin utilizar los nodos $k$, $k+1$, \dots, $n$.
+			\item La suma de la longitud de los caminos de longitud m\'inima de $i$ a $k$ m\'as de $k$ a $j$.
+		\end{itemize}
+		\item Si la longitud mejora al pasar por $k$, se actualiza el camino m\'inimo: {\color{red} ¿cómo?}
+	\end{itemize}
+	\item Complejidad $O(n^3)$: $n$ iteraciones,  cada iteraci\'on $n^2$ comparaciones.
+	\item En cada iteraci\'on se debe ir guardando la informaci\'on del \'arbol de caminos m\'inimos que se va construyendo: {\color{red} ¿cómo?}
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Algoritmo de Floyd-Warshall}
+	
+	 \noindent [Paso 0.] Inicializar:
+      \begin{itemize}
+        \item Matriz de longitudes mínimas: $U^{(0)}=D$, matriz de distancias, $u^{(0)}_{ij}=d_{ij}$.
+        \item Matriz de {\color{red} sucesores}: $S^{(0)}$, $s^{(0)}_{ij}=j$ (sucesor de $i$ en el camino $\mu^{(0)}[i,j]$)
+       \end{itemize}
+        
+		 \noindent [Paso 1.] Para $k=1,2,\dots,n$:
+		\begin{itemize}\itemsep 3mm
+		\item Para cada par de nodos $i,j$:
+		 $$
+		 u_{ij}^{(k+1)}=\min\bigl\{u_{ij}^{(k)}, u_{ik}^{(k)} + u_{kj}^{(k)}\bigr\}
+		 $$
+        \item Si $u_{ij}^{(k+1)}= u_{ik}^{(k)} + u_{kj}^{(k)}<u_{ij}^{(k)}$, actualizar camino: 
+             {\color{red} $s^{(k)}_{ij}=s^{(k-1)}_{ih}$}              
+         \end{itemize}          
+	
+\end{frame}
+
+
+
+
+%\end{document}
+
+%\begin{frame}
+%	
+%	\frametitle{Ejemplo}
+%	
+%	\begin{block}{Ejemplo}
+%		Encontrar los caminos m\'inimos de cada nodo a todos los dem\'as en el siguiente grafo usando el algoritmo de Floyd-Warshall:
+%		\begin{center}
+%			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+%				\node[node_style] (1) at (2,3) {1} ;
+%				\node[node_style] (2) at (4,1.75) {2} ;
+%				\node[node_style] (3) at (3,0) {3} ;
+%				\node[node_style] (4) at (1,0) {4} ;
+%				\node[node_style] (5) at (0,1.75) {5} ;
+%				\draw (1) edge[->] node[above] {5} (2) ;
+%				\draw (1) edge[->] node[left] {2} (4) ;
+%				\draw (2) edge[->] node[right] {2} (3) ;
+%				\draw (3) edge[->] node[right] {3} (1) ;
+%				\draw (3) edge[->] node[right] {7} (5) ;
+%				\draw (4) edge[->] node[below] {4} (3) ;
+%				\draw (4) edge[->] node[below] {1} (5) ;
+%				\draw (5) edge[->] node[above] {1} (1) ;
+%				\draw (5) edge[->] node[above] {3} (2) ;
+%			\end{tikzpicture}
+%		\end{center}
+%	\end{block}
+%	
+%\end{frame}
+
+
+\begin{frame}
+  \frametitle{Ejemplo}
+
+  \begin{block}{Ejemplo}
+   Encontrar los caminos m\'inimos de cada nodo a todos los dem\'as en el siguiente grafo usando el algoritmo de Floyd-Warshall:
+    \begin{center}
+    \begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+      \node[node_style] (1) at (2,3) {1} ;
+      \node[node_style] (2) at (4,1.75) {2} ;
+      \node[node_style] (3) at (3,0) {3} ;
+      \node[node_style] (4) at (1,0) {4} ;
+      \node[node_style] (5) at (0,1.75) {5} ;
+      \draw (1) edge[->] node[above] {5} (2) ;
+      \draw (1) edge[->] node[left] {2} (4) ;
+      \draw (2) edge[->] node[right] {2} (3) ;
+      \draw (3) edge[->] node[right] {3} (1) ;
+      \draw (3) edge[->] node[right] {7} (5) ;
+      \draw (4) edge[->] node[below] {4} (3) ;
+      \draw (4) edge[->] node[below] {1} (5) ;
+      \draw (5) edge[->] node[above] {1} (1) ;
+      \draw (5) edge[->] node[above] {3} (2) ;
+    \end{tikzpicture}
+    \end{center}
+  \end{block}
+
+\begin{center}  
+
+  {\color{red} ¿cómo calcular todos los $u_{ij}^{(k)}$ ``a mano''? 
+  \\
+  ¿cómo reconstruir los caminos mínimos obtenidos?}
+
+  \end{center}
+
+\end{frame}
+
+
+\end{document}
+
+
+\begin{frame}
+
+  \frametitle{Resoluci\'on}
+
+
+    \only<1>{Sin intermediarios:
+    \begin{align*}
+    U^{(1)} = & \left(
+              \begin{array}{ccccc}
+                0      & 5      & \infty & 2      & \infty \\
+                \infty & 0      & 2      & \infty & \infty \\
+                3      & \infty & 0      & \infty & 7      \\
+                \infty & \infty & 4      & 0      & 1      \\
+                1      & 3      & \infty & \infty & 0      \\
+              \end{array}
+            \right)
+    \end{align*}}
+
+    \only<2>{¿merece la pena usar a 1 como intermediario?
+    \begin{align*}
+    U^{(2)} = & \left(
+              \begin{array}{ccccc}
+                0      & 5      & \infty & 2      & \infty \\
+                \infty & 0      & 2      & \infty & \infty \\
+                3      & \textcolor{blue}{8} & 0      & \textcolor{blue}{5} & 7      \\
+                \infty & \infty & 4      & 0      & 1      \\
+                1      & 3      & \infty & \textcolor{blue}{3}      & 0      \\
+              \end{array}
+            \right)
+    \end{align*}}
+
+    \only<3>{¿merece la pena usar a 2 como intermediario?
+    \begin{align*}
+    U^{(3)} = & \left(
+              \begin{array}{ccccc}
+                0      & 5      & \textcolor{blue}{7} & 2      & \infty \\
+                \infty & 0      & 2 & \infty & \infty \\
+                3      & 8      & 0 & 5      & 7      \\
+                \infty & \infty & 4 & 0      & 1      \\
+                1      & 3      & \textcolor{blue}{5} & 3      & 0      \\
+              \end{array}
+            \right)
+    \end{align*}}
+
+    \only<4>{¿merece la pena usar a 3 como intermediario?
+    \begin{align*}
+    U^{(4)}= & \left(
+              \begin{array}{ccccc}
+                0 &  5 & 7 & 2 & \textcolor{blue}{14} \\
+                \textcolor{blue}{5} &  0 & 2 & \textcolor{blue}{7} &  \textcolor{blue}{9} \\
+                3 &  8 & 0 & 5 &  7 \\
+                \textcolor{blue}{7} & \textcolor{blue}{12} & 4 & 0 &  1 \\
+                1 &  3 & 5 & 3 &  0 \\
+              \end{array}
+            \right)
+    \end{align*}}
+
+    \only<5>{¿merece la pena usar a 4 como intermediario?
+    \begin{align*}
+    U^{(5)} = & \left(
+              \begin{array}{ccccc}
+                0 &  5 & \textcolor{blue}{6} & 2 & \textcolor{blue}{3} \\
+                5 &  0 & 2 & 7 & \textcolor{blue}{8} \\
+                3 &  8 & 0 & 5 & \textcolor{blue}{6} \\
+                7 & 12 & 4 & 0 & 1 \\
+                1 &  3 & 5 & 3 & 0 \\
+              \end{array}
+            \right)
+    \end{align*}}
+
+    \only<6>{¿merece la pena usar a 5 como intermediario?
+    \begin{align*}
+    U^{(6)} = & \left(
+              \begin{array}{ccccc}
+                0 & 5 & 6 & 2 & 3 \\
+                5 & 0 & 2 & 7 & 8 \\
+                3 & 8 & 0 & 5 & 6 \\
+                \textcolor{blue}{2} & \textcolor{blue}{4} & 4 & 0 & 1 \\
+                1 & 3 & 5 & 3 & 0 \\
+              \end{array}
+            \right)
+    \end{align*}}
+
+    \only<7->{
+    \begin{align*}
+    U^{(6)} = & \left(
+              \begin{array}{ccccc}
+                0 & 5 & 6 & 2 & 3 \\
+                5 & 0 & 2 & 7 & 8 \\
+                3 & 8 & 0 & 5 & 6 \\
+                2 & 4 & 4 & 0 & 1 \\
+                1 & 3 & 5 & 3 & 0 \\
+              \end{array}
+            \right)
+    \end{align*}}
+
+\end{frame}
+%
+
+%\begin{frame}
+%	
+%	\frametitle{Resoluci\'on}
+%	
+%	\begin{columns}
+%		\column{.49\textwidth}
+%	%	\begin{center}
+%%			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+%%				\onslide<1-7,9->{\node[node_style] (1) at (2,3) {1} ;}
+%%				\onslide<1-8,10->{\node[node_style] (2) at (4,1.75) {2} ;}
+%%				\onslide<1-9,11->{\node[node_style] (3) at (3,0) {3} ;}
+%%				\onslide<1-10,12->{\node[node_style] (4) at (1,0) {4} ;}
+%%				\onslide<1-11>{\node[node_style] (5) at (0,1.75) {5} ;}
+%%				
+%%				\onslide<1-7,9,11->{\draw (1) edge[->] node[above] {5} (2) ;}
+%%				\onslide<1-7,11>{\draw (1) edge[->] node[left] {2} (4) ;}
+%%				\onslide<1-8,10-11>{\draw (2) edge[->] node[right] {2} (3) ;}
+%%				\onslide<1-8,11->{\draw (3) edge[->] node[right] {3} (1) ;}
+%%				\draw (3) edge[->] node[right] {7} (5) ;
+%%				\onslide<1-7,9,10,12->{\draw (4) edge[->] node[below] {4} (3) ;}
+%%				\onslide<1-7,12->{\draw (4) edge[->] node[below] {1} (5) ;}
+%%				\onslide<1-10>{\draw (5) edge[->] node[above] {1} (1) ;}
+%%				\onslide<1-10>{\draw (5) edge[->] node[above] {3} (2) ;}
+%%				
+%%				\onslide<8>{
+%%					\node[node_style,color=red,line width=1pt] (1) at (2,3) {1} ;
+%%					\draw (1) edge[->,line width=1pt,color=red] node[above] {5} (2) ;
+%%					\draw (1) edge[->,line width=1pt,color=red] node[left] {2} (4) ;
+%%					\draw (4) edge[->,line width=1pt,color=red] node[below] {4} (3) ;
+%%					\draw (4) edge[->,line width=1pt,color=red] node[below] {1} (5) ;}
+%%				
+%%				\onslide<9>{
+%%					\node[node_style,color=red,line width=1pt] (2) at (4,1.75) {2} ;
+%%					\draw (2) edge[->,line width=1pt,color=red] node[right] {2} (3) ;
+%%					\draw (3) edge[->,line width=1pt,color=red] node[right] {3} (1) ;
+%%					\draw (1) edge[->,line width=1pt,color=red] node[left] {2} (4) ;
+%%					\draw (4) edge[->,line width=1pt,color=red] node[below] {1} (5) ;
+%%				}
+%%				
+%%				\onslide<10>{
+%%					\node[node_style,color=red,line width=1pt] (3) at (3,0) {3} ;
+%%					\draw (1) edge[->,line width=1pt,color=red] node[above] {5} (2) ;
+%%					\draw (3) edge[->,line width=1pt,color=red] node[right] {3} (1) ;
+%%					\draw (1) edge[->,line width=1pt,color=red] node[left] {2} (4) ;
+%%					\draw (4) edge[->,line width=1pt,color=red] node[below] {1} (5) ;
+%%				}
+%%				
+%%				\onslide<11>{
+%%					\node[node_style,color=red,line width=1pt] (4) at (1,0) {4} ;
+%%					\draw (4) edge[->,line width=1pt,color=red] node[below] {4} (3) ;
+%%					\draw (4) edge[->,line width=1pt,color=red] node[below] {1} (5) ;
+%%					\draw (5) edge[->,line width=1pt,color=red] node[above] {1} (1) ;
+%%					\draw (5) edge[->,line width=1pt,color=red] node[above] {3} (2) ;
+%%				}
+%%				
+%%				\onslide<12>{
+%%					\node[node_style,color=red,line width=1pt] (5) at (0,1.75) {5} ;
+%%					\draw (1) edge[->,line width=1pt,color=red] node[left] {2} (4) ;
+%%					\draw (2) edge[->,line width=1pt,color=red] node[right] {2} (3) ;
+%%					\draw (5) edge[->,line width=1pt,color=red] node[above] {1} (1) ;
+%%					\draw (5) edge[->,line width=1pt,color=red] node[above] {3} (2) ;
+%%				}
+%%			\end{tikzpicture}
+%%		\end{center}
+%%		\column{.25\textwidth}
+%		
+%		\only<1>{\begin{align*}
+%				U^{(1)} = & \left(
+%				\begin{array}{|c|cccc}
+%				\hline 	0      & 5      & \infty & 2      & \infty \\
+%				\hline	\infty & 0      & 2      & \infty & \infty \\
+%					3      & \infty & 0      & \infty & 7      \\
+%					\infty & \infty & 4      & 0      & 1      \\
+%					1      & 3      & \infty & \infty & 0      \\
+%				\end{array}
+%				\right)
+%		\end{align*}
+%        }
+%
+%        \only<2>{
+%			\begin{align*}
+%				U^{(2)} = & \left(
+%				\begin{array}{c|c|ccc}
+%  			0      & 5      & \infty & 2      & \infty \\
+%			\hline		\infty & 0      & 2      & \infty & \infty \\
+%			\hline		3      & 8 & 0      & 5 & 7      \\
+%					\infty & \infty & 4      & 0      & 1      \\
+%					1      & 3      & \infty & 3 & 0      \\
+%				\end{array}
+%				\right)
+%		\end{align*}
+%      }
+%
+%         \only<3>{
+%			\begin{align*}
+%				U^{(3)} = & \left(
+%				\begin{array}{cc|c|cc}
+%  			0      & 5      & 7 & 2      & \infty \\
+%					\infty & 0      & 2      & \infty & \infty \\
+%			\hline		3      & 8 & 0      & 5 & 7      \\
+%			\hline		\infty & \infty & 4      & 0      & 1      \\
+%					1      & 3      & 5 & 3 & 0      \\
+%				\end{array}
+%				\right)
+%		\end{align*}
+%      }
+%
+%           \only<4>{
+%			\begin{align*}
+%				U^{(4)} = & \left(
+%				\begin{array}{ccc|c|c}
+%  			0      & 5      & 7 & 2      & 14 \\
+%					5 & 0      & 2      & 7 & 9 \\
+%					3      & 8 & 0      & 5 & 7      \\
+%			\hline		7 & 12 & 4      & 0      & 1      \\
+%			\hline		1      & 3      & 5 & 3 & 0      \\
+%				\end{array}
+%				\right)
+%		\end{align*}
+%      }
+%
+%        \column{.49\textwidth}
+%    \only<1>{
+%   \begin{align*}
+%				U^{(2)} = & \left(
+%				\begin{array}{ccccc}
+%  			0      & 5      & \infty & 2      & \infty \\
+%					\infty & 0      & 2      & \infty & \infty \\
+%					3      & {\color{blue} 8} & 0      & {\color{blue} 5} & 7      \\
+%					\infty & \infty & 4      & 0      & 1      \\
+%					1      & 3      & \infty & {\color{blue} 3} & 0      \\
+%				\end{array}
+%				\right)
+%		\end{align*}
+%}
+%		
+%		\only<2>{
+%			\begin{align*}
+%				U^{(3)} = & \left(
+%				\begin{array}{ccccc}
+%  			0      & 5      & {\color{blue} 7} & 2      & \infty \\
+%					\infty & 0      & 2      & \infty & \infty \\
+%					3      & 8 & 0      & 5 & 7      \\
+%					\infty & \infty & 4      & 0      & 1      \\
+%					1      & 3      & {\color{blue} 5} & 3 & 0      \\
+%				\end{array}
+%				\right)
+%		\end{align*}
+%      }
+%		
+%		\only<3>{
+%			\begin{align*}
+%				U^{(4)} = & \left(
+%				\begin{array}{ccccc}
+%  			0      & 5      & 7 & 2      & {\color{blue} 14} \\
+%					{\color{blue} 5} & 0      & 2      & {\color{blue} 7} & {\color{blue}  9} \\
+%					3      & 8 & 0      & 5 & 7      \\
+%					{\color{blue} 7} & {\color{blue}  12} & 4      & 0      & 1      \\
+%					1      & 3      & 5 & 3 & 0      \\
+%				\end{array}
+%				\right)
+%		\end{align*}}
+%		
+%		\only<4>{
+%$$	\begin{array}{cc}
+%				U^{(5)} = & \left(
+%				\begin{array}{ccccc}
+%  			0      & 5      & 7 & 2      & 14 \\
+%					5 & 0      & 2      & 7 & 9\\
+%					3      & 8 & 0      & 5 & 7      \\
+%					{\color{blue} 2} &   {\color{blue} 4} & 4      & 0      & 1      \\
+%					1      & 3      & 5 & 3 & 0      \\
+%				\end{array}
+%				\right)
+%		\end{array}
+%$$}			
+%		
+%	\end{columns}
+%	
+%\end{frame}
+
+
+\end{comment}
+
+\begin{frame}[allowframebreaks]
+	
+	\frametitle{Bibliograf\'ia}\small
+	
+	\bibliographystyle{plain}
+	\begin{thebibliography}{10}
+		
+		\bibitem{bellman1958}
+		Richard Bellman.
+		\newblock On a routing problem.
+		\newblock {\em Quarterly of Applied Mathematics}, 16:87-90,
+		1958.
+		
+		\bibitem{bellman1957}	Richard Bellman.
+		\newblock  {\em Dynamic Programming}.
+		\newblock Princeton University Press, Princeton, NJ, 1957.
+		
+		\bibitem{dijkstra1959}
+		Edsger W. Dijkstra.
+		\newblock A note on two problems in connecxion with graphs.
+		\newblock {\em Numerische Mathematik}, 1(1):269--271,
+		1959.
+		
+		\bibitem{floyd1962}
+		Robert W. Floyd.
+		\newblock Algorithm 97: Shortest Path.
+		\newblock {\em Communications of the ACM}, 5(6):345,
+		1962.
+		
+		\bibitem{ford1956}
+		Lester R. Ford.
+		\newblock Network flow theory.
+		\newblock {\em Paper P-923, RAND Corporation},
+		1956.
+		
+		\bibitem{moore1959}
+		Edward F. Moore.
+		\newblock The shortest path through a maze.
+		\newblock {\em Proceedings of the International Symposium Switching Theory, Part II}, 285--292,
+		1959.
+		
+		\bibitem{roy1959}
+		Bernard Roy.
+		\newblock Transitivit\'e et connexit\'e.
+		\newblock {\em Comptes rendus de l'Acad\'emie des Sciences}, 249:216--218,
+		1959.
+		
+		\bibitem{shimbel1955}
+		Alfonso Shimbel.
+		\newblock Structure in communication nets.
+		\newblock {\em Proceedings of the Symposium on Information Networks}, 199--203,
+		1955.
+		
+		\bibitem{warshall1962}
+		Stephen Warshall.
+		\newblock A theorem on Boolean matrices.
+		\newblock {\em Journal of the ACM}, 9(1):11--12,
+		1962.
+		
+	\end{thebibliography}
+	
+\end{frame}
+
+
+\end{document}
+
+
+\begin{frame}{Multiplicaci\'on de matrices}
+	\begin{itemize}\itemsep 4mm
+	\item Sea un grafo $G=(N,A)$, con $n$ nodos, y la matriz  $D$ de distancias entre cada par de nodos,
+	$$
+	d_{kj} =\begin{cases}
+		d_{kj} &\quad (k,j)\in A,
+		\\
+		\infty & \quad (k,j)\notin A,
+	\end{cases}
+	$$
+	donde $d_{kj}$ es peso del arco $(k,j)\in A$.
+	\item
+	Se puede definir una operaci\'on entre matrices que calcule la longitud del camino m\'inimo entre cada par de nodos: el elemento $(d_{kj})^m$ de $D^m$ es la longitud del camino m\'inimo entre $k$ y $j$ utilizando $m$ o menos arcos.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Multiplicaci\'on de matrices}
+	\begin{itemize}\itemsep 4mm
+	\item Para calcular cada fila de la matriz hay que aplicar una iteraci\'on del algoritmo de Bellmand-Ford.
+	\item $A^2$ se calcula mediante la siguiente operaci\'on:
+	$$
+	(d_{ij})^2=\min\bigl\{d_{ij},min_{k\in N}\{d_{ik}+d_{kj}\}\bigr\}
+	$$
+	\item En general:
+	$$
+	(d_{ij})^{m+1}=\min\bigl\{(d_{ij})^m,min_{k\in N}\{(d_{ik})^m+d_{kj}\}\bigr\}
+	$$
+	\item
+	El camino m\'inimo entre dos nodos tiene un m\'aximo de $n-1$ arcos. Por tanto, son necesarias $n$ iteraciones.
+	\item
+	Como hay $n$ filas y hay que hacer hasta $n$ iteraciones, el algoritmo tiene complejidad $\theta(n^4)$.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Multiplicaci\'on de matrices}
+		\begin{itemize}\itemsep 4mm
+		\item Sin embargo, si solo se necesitan las longitudes (y  no la descripci\'on del camino m\'inimo), se puede reducir la complejidad del algoritmo.
+		\item En lugar de calcular $D^2$,  $D^3$, \dots, $D^n$, se puede calcular $D^2$,  $D^4$, $D^8$, \dots, con lo que la complejidad se reduce a $\theta(n^3 \ln n)$.
+		\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Multiplicaci\'on de matrices. Ejemplo}
+	
+	\begin{columns}
+		\column{.35\textwidth}
+		\begin{center}
+			\begin{tikzpicture}[node_style/.style={draw,circle,minimum size=0.5cm,inner sep=1}]
+				\node[node_style] (1) at (0,1.5) {1} ;
+				\node[node_style] (2) at (2,3) {2} ;
+				\node[node_style] (3) at (2,0) {3} ;
+				\node[node_style] (4) at (4,1.5) {4} ;
+				\draw  [line width=1.5pt]  (1) edge[->,bend right=20] node[above] {4} (2) ;
+				\draw  [line width=1.5pt]  (1) edge[->] node[left] {5} (3) ;
+				\draw  [line width=1.5pt]  (1) edge[->] node[above] {6} (4) ;
+				\draw  [line width=1.5pt]  (2) edge[->,bend right=20] node[above] {-3} (1) ;
+				\draw  [line width=1.5pt]  (2) edge[->] node[below] {7} (4) ;
+				\draw  [line width=1.5pt]  (3) edge[->] node[left] {-1} (4) ;
+			\end{tikzpicture}
+		\end{center}
+		
+		\column{.66\textwidth}
+		$$
+		D=
+		\begin{pmatrix}
+			0 & 4 & 5 & 6 \\
+			-3 & 0 & \infty & 7 \\
+			\infty & \infty & 0 & -1 \\
+			\infty & \infty & \infty & 0
+		\end{pmatrix}
+		$$
+		\onslide<2->{
+			$$
+			D^{(2)}=
+			\begin{pmatrix}
+				0 & 4 & 5 & 4 \\
+				-3 & 0 & 2 & 3 \\
+				\infty & \infty & 0 & -1 \\
+				\infty & \infty & \infty & 0
+			\end{pmatrix}
+			$$
+			$$
+			D^{(3)}=
+			\begin{pmatrix}
+				0 & 4 & 5 & 4 \\
+				-3 & 0 & 2 & 1 \\
+				\infty & \infty & 0 & -1 \\
+				\infty & \infty & \infty & 0
+			\end{pmatrix}
+			$$
+		}
+	\end{columns}
+	\onslide<3>{\footnotesize\vspace*{-5mm}
+		\begin{itemize}
+			\item La primera fila coincide con el resultado del algoritmo de Bellman-Ford.
+			\item Se para cuando se llega a $D^{(n-1)}$ o cuando las distancias no var\'ian de una iteraci\'on a otra.
+		\end{itemize}
+	}
+\end{frame}
+
+
+\begin{frame}
+	
+	\frametitle{Algoritmo de Floyd-Warshall}
+	
+	Fue publicado por Floyd en 1962 en \cite{floyd1962}, aunque una versi\'on similar fue publicado previamente por Roy en 1959 en \cite{roy1959} y posteriormente por Warshall en 1962 en \cite{warshall1962}.
+	
+	\begin{figure}
+		\centering
+		\subfloat[R.W. Floyd, 1936-2001]{\makebox[.18\textwidth]{\includegraphics[width=0.15\textwidth]{floyd}}} \hspace{0.25cm}
+		\subfloat[B. Roy, 1934-2017]{\makebox[.18\textwidth]{\includegraphics[width=0.15\textwidth]{roy}}} \hspace{0.25cm}
+		\subfloat[S. Warshall, 1935-2006]{\makebox[.18\textwidth]{\includegraphics[width=0.15\textwidth]{warshall}}}
+	\end{figure}
+\end{frame}
+
+
+\section{Modelos de programaci\'{o}n matem\'{a}tica asociados}
+
+Se pueden considerar dos problemas de optimizaci\'{o}n lineales
+asociados. El primero se basa en la identificaci\'{o}n de la variable
+de decisi\'{o}n que selecciona o no los arcos como pertenecientes al
+camino m\'{\i}nimo que une dos v\'{e}rtices $s$ y $t$ concretos. Se introduce la propiedad de total unimodularidad de la matriz de incidencia de cualquier digrafo, que permitir\'{a} simplificar la soluci\'{o}n de dicho problema como un problema de programaci\'{o}n lineal; posteriormente se plantea el dual de dicho problema, que permitir\'{a} interpretar los valores $u_j$ introducidos en las ecuaciones de Bellman como las variables duales.
+
+El segundo propone un problema de programaci\'{o}n lineal equivalente
+a la soluci\'{o}n de las ecuaciones de  Bellman. A partir de \'{e}ste, se
+propone un algoritmo de relajaci\'{o}n que resuelve el problema de
+camino m\'{\i}nimo desde un v\'{e}rtice fijo. Su dual identificar\'{a} la
+arborescencia \'{o}ptima asociada a la soluci\'{o}n del problema.
+
+
+\subsection{Modelo de selecci\'{o}n de arcos. Unimodularidad}
+
+Considerando que hay que elegir un subconjunto de arcos que
+conforman un camino, las variables a considerar son variables
+binarias $x_u \in \{ 0,1 \} \ \forall u \in U$; el valor $x_u=1$ asociar\'{a} el arco $u\in U$ al camino m\'{\i}nimo y el valor $x_u=0$ lo excluir\'{a}.
+
+Para garantizar que los arcos elegidos determinen un camino
+entre $s$ y $t$ hay que especificar tres condiciones, que est\'{a}n relacionadas con la matriz de incidencia:
+\begin{itemize}
+	\item El camino sale del nodo $s$.
+	
+	M\'{a}s generalmente, el n\'{u}mero de arcos del camino que salen de $s$ debe superar en $1$ al n\'{u}mero de arcos que entran en $s$, dicho de otro modo:
+	$$ \sum_{u\in w^+(s)} x_u = \sum_{u\in w^-(s)} x_u + 1 \quad  \Leftrightarrow \quad \sum_{u\in w^+(s)} x_u - \sum_{u\in w^-(s)} x_u = 1$$
+	Considerando que la matriz de incidencia se caracteriza por $a_{iu} = 1,-1,0$ si $u\in w^+(i), \in w^-(i), \not\in w(i)$ respectivamente, la condici\'{o}n anterior se puede especificar como:
+	$$ \sum_{u=1}^m a_{su} = 1$$
+	\noindent que, por coherencia con otros modelos posteriores, se puede multiplicar por $-1$ para obtener:
+	$$ \sum_{u=1}^m - a_{su} = -1$$
+	
+	\item El camino termina en el nodo $t$.
+	Procediendo del mismo modo con el nodo $t$, al que deben llegar un numero de arcos superior en una unidad al n\'{u}mero de arcos que salen de dicho nodo, se obtiene:
+	$$ \sum_{u=1}^m - a_{tu} = +1$$
+	
+	\item Para los nodos restantes, debe entrar y salir el mismo n\'{u}mero de arcos, pudiendo ser $0$ este n\'{u}mero en el caso en no pase el camino por el v\'{e}rtice, $1$ si pasa una vez, etc. Se obtiene entonces:
+	$$ \sum_{u=1}^m - a_{iu} = 0 \qquad \forall i \in V - \{ s,t \}$$
+	
+\end{itemize}
+
+\begin{nota}
+	Al considerar que a los nodos anteriores pueden llegar o salir m\'{a}s de un arco se est\'{a} suponiendo que los caminos pueden repetir nodos (incluir un ciclo que pase por ellos); en este caso, no ser\'{\i}an caminos elementales.
+\end{nota}
+
+
+La funci\'{o}n objetivo debe minimizar la suma de las longitudes de los arcos
+seleccionados
+$$ Min \ \sum_{u \in U} d_u x_u $$
+
+En forma matricial, el problema de minimizar el camino m\'{\i}nimo
+entre $s$ y $t$ ser\'{\i}a $$  \begin{array}{rrl} Min & {\bf d}^t {\bf
+		x} & \\  & - A {\bf x} & = {\bf b} \\
+	& {\bf x} & \in \{ 0,1 \}^m \end{array} $$
+
+\noindent donde
+${\bf b}^t = (0 \ldots 0,\stackrel{s}{-1},0  \ldots 0,\stackrel{t}{1},0
+\ldots 0)$ y $A$ es la matriz de incidencia del digrafo asociado al problema.
+
+
+Si se relaja la restricci\'{o}n de ser binarias las variables $x_u$ exigiendo simplemente que sean enteras, la variable de decisi\'{o}n $x_u$ especificar\'{\i}a el n\'{u}mero de veces que se utiliza el arco $u\in U$; el camino no ser\'{\i}a entonces simple, pues repetir\'{\i}a arcos. En cualquier caso, valores enteros mayores que $1$ s\'{o}lo tienen sentido si existe un circuito de longitud negativa y el camino m\'{\i}nimo pasar\'{\i}a por repetir dicho circuito un n\'{u}mero arbitrariamente grande de veces, indicando as\'{\i} que el problema de programaci\'{o}n matem\'{a}tica as\'{\i} definido tendr\'{\i}a soluci\'{o}n no acotada.
+
+
+Adem\'{a}s, como se analiza con m\'{a}s detalle en la siguiente subsecci\'{o}n, la matriz
+$A$ es totalmente unimodular y, en consecuencia, la soluci\'{o}n del
+problema de programaci\'{o}n relajado continuamente proporciona la
+soluci\'{o}n del problema de camino m\'{\i}nimo. En el caso en que no haya circuitos de longitud negativa, los valores de $x_u$ s\'{o}lo tomar\'{a}n el valor $0$ \'{o} $1$.
+
+Por consiguiente, el modelo de programaci\'{o}n lineal asociado al
+problema de camino m\'{\i}nimo de un v\'{e}rtice al resto ser\'{\i}a: $$ P_A \left\{
+\begin{array}{rrl} Min & {\bf d}^t {\bf x} & \\  & -A {\bf x} & =
+	{\bf b} \\ & {\bf x} & \geq {\bf 0} \end{array} \right. $$
+
+\bigskip
+
+{\it En el ejemplo~\ref{ej-sin-circuitos}, la matriz de incidencia, cambiada de signo,
+	y los vectores ${\bf b}$ y ${\bf d}$ son:
+	
+	$$ -A = \left( \begin{array}{rrrrrrr} -1 & -1 & 0 & 0 & 0 & 0 & 0
+		\\ 1 & 0 & -1 & 1 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1 & -1 & 0 & 1 \\ 0 & 1
+		& 0 & 0 & 0 & -1 & -1 \\ 0 & 0 & 1 & 0 & 1 & 0 & 0 \end{array}
+	\right) \quad {\bf b} = \left( \begin{array}{r} -1 \\ 0 \\ 0 \\ 0
+		\\ 1 \end{array} \right) \quad {\bf d} = \left(
+	\begin{array}{r} 7 \\ 1 \\ 2 \\ 4 \\ 4 \\ 4 \\ 1
+	\end{array} \right)$$
+	
+	La soluci\'{o}n del problema de programaci\'{o}n binaria es:
+	
+	$$ \bar{x}_{12} = 0 \quad \bar{x}_{14} = 1 \quad \bar{x}_{25} = 0
+	\quad \bar{x}_{32} = 0 \quad \bar{x}_{35} = 1 \quad \bar{x}_{42} =
+	0 \quad \bar{x}_{43} = 1 $$
+	
+}
+
+\bigskip
+
+
+
+
+
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% UNIMODULARIDA E INTEGRALIDAD. DEFINICIONES Y RESULTADOS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{Relajaci\'{o}n Continua. Unimodularidad}
+\label{sssec-unimodularidad}
+
+El t\'{e}rmino de Optimizaci\'{o}n Combinatoria se distingue del t\'{e}rmino m\'{a}s
+general de Programaci\'{o}n entera por considerar aqu\'{e}l problemas que
+est\'{a}n fuertemente estructurados y tener, en consecuencia,
+propiedades espec\'{\i}ficas.
+
+Una de estas propiedades se refiere a la posibilidad de obtener la
+soluci\'{o}n del problema de programaci\'{o}n relaj\'{a}ndolo continuamente, es
+decir, obviar la restricci\'{o}n de integralidad de las variables del
+modelo. Una opci\'{o}n, en este caso, ser\'{\i}a aplicar el algoritmo del
+simplex al problema entero y, olvid\'{a}ndose de la restricci\'{o}n de
+integralidad, obtener la soluci\'{o}n.
+
+Esta situaci\'{o}n es la que se presenta en el modelo de selecci\'{o}n de
+arcos de esta subsecci\'{o}n. Puede ser identificada a partir de las
+propiedades algebraicas de la matriz $A$ del modelo de Programaci\'{o}n
+entera asociado:
+
+
+$$ PE \left\{ \begin{array}{rrl} Min & {\bf c}^t {\bf x} & \\ & A
+	{\bf x} & = {\bf b} \\ & {\bf x} & \geq {\bf 0} \ entera
+\end{array} \right. $$
+
+Para este problema $PE$ se definen  $$ S = \left\{ {\bf x} \in I \!
+\! R^n \ / \ A {\bf x} = {\bf b} , {\bf x} \geq {\bf 0} \ entera
+\right\} $$ y
+$$ z^*_{PE} = Min \{ {\bf c}^t {\bf x} \  / \  {\bf x} \in S \} $$
+
+
+\bigskip
+
+
+
+El problema de programaci\'{o}n lineal que resulta de eliminar la
+restricci\'{o}n de integralidad de la variable ${\bf x}$ es una
+relajaci\'{o}n del problema original, en el sentido de que se han
+eliminado parte de sus restricciones.
+
+A continuaci\'{o}n se introduce formalmente el concepto de relajaci\'{o}n de
+un problema de optimizaci\'{o}n.
+
+
+
+\begin{defin}
+	
+	Dado un problema de optimizaci\'{o}n $$ P \left\{
+	\begin{array}{rrl} Min & z_P({\bf x}) & \\ &  {\bf x} & \in S_P
+	\end{array} \right. $$
+	
+	Una \underline{relajaci\'{o}n} del problema $P$ es un nuevo problema de
+	optimizaci\'{o}n: $$ RP \left\{
+	\begin{array}{rrl} Min & z_{RP}({\bf x}) & \\ &  {\bf x} & \in
+		S_{RP}
+	\end{array} \right. $$
+	
+	\noindent verificando:
+	
+	$$ \left\{ \begin{array}{l} S_P \subset S_{RP}  \\ z_P({\bf x}) \geq z_{RP}({\bf x})
+		\quad \forall {\bf x} \in S_P \end{array} \right. $$
+\end{defin}
+
+
+Introduciendo $$
+z^*_{P} = Min \{ z_{P}({\bf x}) \  / \  {\bf x} \in S_P \} $$
+y $$ z^*_{RP} = Min \{ z_{RP}({\bf x}) \  / \  {\bf x} \in S_{RP} \}
+$$ se deducen autom\'{a}ticamente dos propiedades:
+
+\begin{propo}
+	Si $RP$ no tiene soluci\'{o}n factible, $P$ tampoco la tiene.
+\end{propo}
+
+\begin{propo}
+	Si $RP$ tiene soluci\'{o}n factible, se verifica que $z^*_{P} \geq z^*_{RP}$
+\end{propo}
+
+\bigskip
+
+Para el problema $PE$ introducido anteriormente se puede definir la
+\underline{relajaci\'{o}n} \underline{continua} si no se consideran las
+restricciones de integralidad de las variables:
+
+$$ RC \left\{ \begin{array}{rrl} Min & {\bf c}^t {\bf x} & \\ & A
+	{\bf x} & = {\bf b} \\ & {\bf x} & \geq {\bf 0}
+\end{array} \right. $$
+
+
+Seg\'{u}n la notaci\'{o}n anterior, el conjunto $S_{RC}$ ser\'{\i}a el conjunto
+de soluciones (continuas) factibles, que incluye al conjunto de
+soluciones factibles enteras; la funci\'{o}n objetivo del problema
+relajado ser\'{\i}a la misma, es decir, $ z_{RC} = {\bf c}^t {\bf x}$.
+
+
+Consecuentemente, si la relajaci\'{o}n continua alcanza el \'{o}ptimo en una
+soluci\'{o}n entera, este \'{o}ptimo es la soluci\'{o}n \'{o}ptima entera. En caso
+contrario, la informaci\'{o}n obtenida puede ser \'{u}til para llegar al
+\'{o}ptimo entero, seg\'{u}n se estudia en la siguiente secci\'{o}n.  En el caso
+que la relajaci\'{o}n continua termine con soluci\'{o}n no acotada, el
+problema entero o no tiene soluci\'{o}n factible o tiene soluci\'{o}n no
+acotada.
+
+
+\bigskip
+
+En determinadas condiciones se puede asegurar que la soluci\'{o}n del
+problema $RC$ proporciona directamente la soluci\'{o}n del problema
+$PE$.
+
+\bigskip
+
+\begin{ejemplo}
+	\label{ej-unimodular} Sea el problema de programaci\'{o}n entera:
+	
+	$$ PE \left\{ \begin{array}{rrrrrrl} Max & 2 x_1 & + 3 x_2 & & & &
+		\\ & x_1 & + x_2 & + x_1^h & & & = 4 \\ & x_1 & & & + x_2^h & & = 2
+		\\ & & x_2 & & & + x_3^h & = 3
+		\\ & & & & & {\bf x} & \geq {\bf 0} \ entera  \end{array} \right. $$
+	
+	Es f\'{a}cil comprobar que la soluci\'{o}n del problema relajado
+	continuamente $RC$ es el vector $(1,3,0,1,0)$, que es soluci\'{o}n
+	factible de $PE$.
+	
+\end{ejemplo}
+
+\bigskip
+
+Las condiciones generales que permiten obtener la soluci\'{o}n del
+problema $PE$ a partir de la soluci\'{o}n de $RC$ est\'{a}n relacionadas con
+la propiedad de unimodularidad de la matriz $A$ de restricciones del
+problema $PE$.
+
+\begin{defin}
+	\label{def-unimodularidad} Una matriz entera $A$ de dimensi\'{o}n $m
+	\times n$ se dice \underline{totalmente} \underline{unimodular} si el
+	determinante de cualquier submatriz cuadrada de $A$ es igual a $0$,
+	$1$ o $-1$.
+\end{defin}
+
+\bigskip
+
+{\it La matriz $A$ asociada al ejemplo~\ref{ej-unimodular} $$ A =
+	\left( \begin{array}{ccccc} 1 & 1 & 1 & 0 & 0 \\ 1 & 0 & 0 & 1 & 0
+		\\ 0 & 1 & 0 & 0 & 1 \end{array} \right) $$
+	\noindent es totalmente unimodular. }
+
+\bigskip
+
+Al poder elegir submatrices de tama\~{n}o $1 \times 1$, se deduce que
+cualquier elemento $a_{ij}$ de la matriz $A$ debe ser igual a $0$,
+$1$ o $-1$.
+
+La implicaci\'{o}n inversa no es cierta; por ejemplo, el determinante de
+la matriz
+
+$$ A = \left( \begin{array}{ccc} 1 & -1 & 0 \\ 0 & 1 & -1 \\ 1 & 0
+	& 1 \end{array} \right) $$
+
+\noindent es igual a $2$.
+
+\bigskip
+
+Sea $$ S_{RC} = \left\{ {\bf x} \in I \! \! R^n \ / \ A {\bf x} =
+{\bf b}, {\bf x} \geq {\bf 0} \right\} $$ el conjunto  de soluciones
+factibles del problema relajado $RC$ en su forma est\'{a}ndar.
+
+
+\begin{defin}
+	\label{def-integral} Se dice que $S_{RC}\neq \emptyset$ es
+	\underline{integral} si sus puntos extremos son enteros, es decir,
+	son soluciones factibles del problema $PE$.
+\end{defin}
+
+\bigskip
+
+Se verifica la siguiente propiedad:
+\begin{propo}
+	\label{pr-unimodularidad} Si la matriz de restricciones $A$ es
+	totalmente unimodular, entonces $S_{RC}$ es integral para todo ${\bf
+		b} \in \mathbf{Z}^m$ tal que $ S_{RC} \neq \emptyset$.
+	
+\end{propo}
+
+\noindent {\bf Demostraci\'{o}n}
+
+Dada una base $B \subset A$, se verifica necesariamente que $|B| \in
+\{ +1,-1 \}$.  Por la f\'{o}rmula de Cramer, la inversa de una matriz es
+la traspuesta de su matriz adjunta. Al ser $A$ una matriz totalmente
+unimodular, todos los elementos de la matriz adjunta de $B\subset
+A$, son $0$, $1$ o $-1$, de forma que se verifica, si $B^a$ es la
+matriz adjunta de $B$:
+
+$$ {\bf \bar{x}}_B^t = {\bf b}^t \begin{array}{c} 1 \\ \hline |B|
+\end{array} B^a $$
+
+En consecuencia, cada componente de la soluci\'{o}n b\'{a}sica $\bar{x}_s$
+es el resultado de sumar y restar las componentes del vector de
+t\'{e}rminos independientes, que son n\'{u}meros enteros.
+
+\begin{flushright} $\bullet$ \end{flushright}
+
+\bigskip
+
+{\it
+	
+	Sea la matriz $B$ y su matriz adjunta $B^a$:
+	
+	$$ B = \left( \begin{array}{ccc} 1 & 1 & 0 \\ 1 & 0 & 0  \\ 0 & 1
+		& 1 \end{array} \right) \qquad B^a = \left( \begin{array}{ccc} 0 &
+		-1 & 1 \\ -1 & 1 & -1  \\ 0 & 0 & -1 \end{array} \right) $$
+	
+	Al ser $|B| = -1$, cualquier vector ${\bf b} \in \mathbf{Z}^3$
+	determinar\'{a} una soluci\'{o}n entera del sistema de ecuaciones $B {\bf x}
+	= {\bf b}$, ya que
+	
+	$$ {\bf \bar{x}}^t = (\bar{x}_1,\bar{x}_2,\bar{x}_3) = ( b_2, b_1
+	- b_2 , - b_1 + b_2 + b_3) $$
+	
+}
+
+\bigskip
+
+La proposici\'{o}n \ref{pr-unimodularidad} se puede generalizar al caso
+en que el conjunto de soluciones factibles del problema relajado
+est\'{e} definido por un conjunto de inecuaciones:
+
+
+$$ S_{RC} = \left\{ {\bf x} \in I \! \! R^n \ / \ A {\bf x} \leq
+{\bf b}, {\bf x} \geq {\bf 0} \right\} $$
+
+S\'{o}lo hay que considerar que si $A$ es una matriz totalmente
+unimodular, la matriz ampliada $(A,I)$ definida al a\~{n}adir $m$
+vectores unitarios, tambi\'{e}n es totalmente unimodular.
+
+\bigskip
+
+{\it
+	
+	En el ejemplo~\ref{ej-unimodular}, habr\'{\i}a sido suficiente comprobar
+	que la matriz $$ A = \left( \begin{array}{cc} 1 & 1 \\ 1 & 0 \\ 0 &
+		1 \end{array} \right) $$ \noindent es totalmente unimodular al
+	considerar el problema con restricciones:
+	
+	
+	$$ PE \left\{ \begin{array}{rrrl} Max & 2 x_1 & + 3 x_2 &  \\ &
+		x_1 & + x_2 & \leq 4 \\ & x_1 & & \leq 2
+		\\ & & x_2 & \leq 3
+		\\ & &  {\bf x} & \geq {\bf 0} \ entera  \end{array} \right.$$
+	
+}
+
+\bigskip
+
+La matriz de incidencia de un digrafo es totalmente unimodular, por
+lo que en el modelo de selecci\'{o}n de arcos ser\'{\i}a suficiente con
+aplicar el algoritmo del simplex para obtener la arborescencia
+soluci\'{o}n. A continuaci\'{o}n se demuestra este resultado.
+
+\begin{propo}
+	\label{pr-incidencia-unimodular} La matriz de incidencia de un
+	digrafo es totalmente unimodular.
+\end{propo}
+
+\noindent {\bf Demostraci\'{o}n}
+
+La matriz $A$ es totalmente unimodular si cualquier submatriz
+cuadrada tiene determinante $0$, $1$ \'{o} $-1$. La demostraci\'{o}n se hace
+por inducci\'{o}n del n\'{u}mero $k$ de filas y columnas de la matriz
+cuadrada.
+
+\begin{itemize}
+	\item $k=1$
+	
+	Por definici\'{o}n, todos los elementos de $A$ son $0$, $1$ \'{o} $-1$.
+	
+	\item Se supone cierta la propiedad para cualquier submatriz
+	$(k-1) \times (k-1)$.
+	
+	\item Sea $B$ una submatriz cuadrada $k \times k$.
+	
+	Hay tres opciones exclusivas y exhaustivas:
+	\begin{itemize}
+		\item Existe una columna con todos los elementos nulos.
+		
+		En este caso, el determinante de $B$ es $0$.
+		
+		\item Existe una columna con un \'{u}nico elemento distinto de $0$.
+		
+		El determinante de $B$ ser\'{a} el producto de dicho elemento ($1$ \'{o}
+		$-1$) por el determinante que resulta al quitar de $B$ la fila y
+		columna de dicho elemento y variando el signo si es el caso. Por la
+		hip\'{o}tesis de inducci\'{o}n, este determinante vale $0$, $1$ \'{o} $-1$.
+		
+		\item Todas las columnas tienen dos elementos distintos de $0$.
+		
+		En este caso, al sumar todas las filas de $B$ el vector ${\bf 0}$,
+		se concluye que $det(B)=0$.
+		
+	\end{itemize}
+	
+	En cualquier caso, se ha demostrado que el determinante de cualquier
+	matriz cuadrada $k \times k$ toma los valores $0$, $1$ \'{o} $-1$.
+	
+\end{itemize}
+
+
+\begin{flushright}  $\bullet$  \end{flushright}
+
+
+\subsubsection{Modelo dual}
+
+A continuaci\'{o}n se plantea el problema dual del problema $P_A$ y se interpretar\'{a}n las variables duales.
+
+Recordando el planteamiento de pares duales en programaci\'{o}n lineal en forma can\'{o}nica:
+\begin{center}     % FORMULACION CANONICA
+	$ P_c \left\{ \begin{array}{rrl} Min & {\bf c}^t {\bf x}& \\ & A {\bf x} & \geq {\bf b} \\
+		& {\bf x}&  \geq {\bf 0} \end{array} \right.  \qquad \qquad \qquad \qquad
+	D_c \left\{ \begin{array}{rrl} Max & {\bf b}^t {\bf u}& \\ & A^t {\bf u}   & \leq {\bf c} \\
+		& {\bf u}& \geq {\bf 0} \end{array} \right.  $
+\end{center}
+
+Si se sustituye la inecuaci\'{o}n del problema $P_c$ por una ecuaci\'{o}n, se tiene el formato del problema $P_A$:
+
+\begin{center}     % FORMULACION est\'{a}ndar
+	$ P_s \left\{ \begin{array}{rrl} Min & {\bf c}^t {\bf x}& \\ & A {\bf x} & = {\bf b} \\
+		& {\bf x}&  \geq {\bf 0} \end{array} \right.  \qquad \qquad \qquad \qquad
+	D_s \left\{ \begin{array}{rrl} Max & {\bf b}^t {\bf u}& \\ & A^t {\bf u} &
+		\leq {\bf c}  \end{array} \right.  $
+\end{center}
+
+En el problema dual $D_A$ habr\'{a} tantas variables como restricciones en $P_A$, en total $n=|V|$; sea $u_i$ la variable dual asociada al nodo $i\in V$.
+Por otra parte, habr\'{a} en el problema dual tantas restricciones como variables en $P_A$, en total $m=|U|$.
+El par de problemas duales ser\'{a} entonces:
+
+\begin{center}     % FORMULACION est\'{a}ndar
+	$ P_A \left\{ \begin{array}{rrl} Min & {\bf d}^t {\bf x} & \\  & -A {\bf x} & =
+		{\bf b} \\ & {\bf x} & \geq {\bf 0} \end{array} \right. \qquad \qquad
+	D_A \left\{ \begin{array}{rrl} Max & {\bf b}^t {\bf u}& \\ & u_j -u_k &
+		\leq d_{kj} \quad \forall (k,j) \in U \end{array} \right.  $
+\end{center}
+
+
+\bigskip
+
+{\it En el ejemplo~\ref{ej-sin-circuitos}, el problema $D_A$ se concreta de la siguiente forma:
+	
+	$$ D_A \left\{ \begin{array}{rrrrrrrl} Max & -u_1 &  &  &  & u_5 &  &
+		\\  & -u_1 & +u_2 &  &  &  & \leq & 7
+		\\  & -u_1 &  &  &+u_4 &  & \leq & 1
+		\\  &  & -u_2 &  & & +u_5 & \leq & 2
+		\\  &  & u_2 & - u_3  & & & \leq & 4
+		\\  &  &  & - u_3  & &+u_5 & \leq & 4
+		\\  &  & u_2 &  &-u_4 &  & \leq & 4
+		\\  &  &  & u_3 &-u_4 &  & \leq & 1
+	\end{array} \right.$$
+	
+	El valor $u_5$ de la soluci\'{o}n de este problema coincide con la longitud m\'{\i}nima del camino que sale de $1$ y va a $5$, este camino tiene la propiedad de que para todos sus arcos, las restricciones se alcanzan en la igualdad; en este caso, las asociadas a los arcos: $\{ (1,4); (4,3); (3,5) \}$. La soluci\'{o}n completa, identificando tambi\'{e}n el vector $p$, es la siguiente:
+	
+	$$ \begin{array}{|c|c|c|} \hline
+		j & p(j) & u_j \\ \hline
+		1 & 1 & 0 \\ 2 & 4 & 5 \\3 & 4 & 2 \\4 & 1 & 1 \\5 & 3 & 6 \\ \hline \end{array} $$
+	
+}
+
+Conviene destacar que este problema resuelve s\'{o}lo el camino que une dos v\'{e}rtices prefijados, los otros valores de los $u_j$ asociados a v\'{e}rtices por los que no pasa dicho camino no identifican las longitudes m\'{\i}nimas entre el v\'{e}rtice inicial y dicho $j$.
+
+\bigskip
+
+{\it En el ejemplo anterior, en concreto, otra soluci\'{o}n \'{o}ptima del problema $D_A$ es $(0,4,2,1,6)$, pues verifica todas las restricciones y alcanza el mismo valor de la funci\'{o}n objetivo $u_5 = 6$; sin embargo, el valor $u_2=4$ no identifica la longitud del camino m\'{\i}nimo que va desde $1$ a $2$. Este v\'{e}rtice $2$ no pertenece al camino m\'{\i}nimo $\mu[1,5] = \{ (1,4) - (4,3) - (3,5)$.
+	
+}
+
+\bigskip
+
+Para resolver el problema del camino m\'{\i}nimo desde un v\'{e}rtice al resto, hay que plantear otro modelo de programaci\'{o}n equivalente a las ecuaciones de Bellman.
+
+
+
+\bigskip
+

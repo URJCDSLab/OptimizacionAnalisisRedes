@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Optimización en Ciencia de Datos: Regresión y SVM – Apuntes de Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema7.html" rel="next">
+<link href="./tema5.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="estilos_html.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema6.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimización en Ciencia de Datos: Regresión y SVM</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Apuntes de Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la Investigación Operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización No Lineal y Métodos Numéricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Convexo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de Optimalidad y KKT</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aplicaciones de KKT: Programación Lineal y Cuadrática</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema6.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimización en Ciencia de Datos: Regresión y SVM</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a Grafos y Árboles Soporte</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">El Problema del Camino Mínimo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Problemas de Flujo en Redes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problemas de Emparejamiento (Matching)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Rutas Eulerianas, Hamiltonianas y TSP</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#introducción-a-la-optimización-en-aprendizaje-automático" id="toc-introducción-a-la-optimización-en-aprendizaje-automático" class="nav-link active" data-scroll-target="#introducción-a-la-optimización-en-aprendizaje-automático"><span class="header-section-number">6.1</span> Introducción a la Optimización en Aprendizaje Automático</a></li>
+  <li><a href="#el-problema-de-ajuste-de-datos-en-diferentes-normas" id="toc-el-problema-de-ajuste-de-datos-en-diferentes-normas" class="nav-link" data-scroll-target="#el-problema-de-ajuste-de-datos-en-diferentes-normas"><span class="header-section-number">6.2</span> El Problema de Ajuste de Datos en Diferentes Normas</a>
+  <ul class="collapse">
+  <li><a href="#regresión-lineal-clásica-norma-ell_2" id="toc-regresión-lineal-clásica-norma-ell_2" class="nav-link" data-scroll-target="#regresión-lineal-clásica-norma-ell_2"><span class="header-section-number">6.2.1</span> 1. Regresión Lineal Clásica (Norma <span class="math inline">\(\ell_2\)</span>)</a></li>
+  <li><a href="#ajustes-en-normas-robustas-ell_1-y-ell_infty" id="toc-ajustes-en-normas-robustas-ell_1-y-ell_infty" class="nav-link" data-scroll-target="#ajustes-en-normas-robustas-ell_1-y-ell_infty"><span class="header-section-number">6.2.2</span> 2. Ajustes en Normas Robustas (<span class="math inline">\(\ell_1\)</span> y <span class="math inline">\(\ell_\infty\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#regresión-lineal-múltiple-y-selección-de-características" id="toc-regresión-lineal-múltiple-y-selección-de-características" class="nav-link" data-scroll-target="#regresión-lineal-múltiple-y-selección-de-características"><span class="header-section-number">6.3</span> Regresión Lineal Múltiple y Selección de Características</a>
+  <ul class="collapse">
+  <li><a href="#selección-de-variables-mediante-programación-entera-mixta" id="toc-selección-de-variables-mediante-programación-entera-mixta" class="nav-link" data-scroll-target="#selección-de-variables-mediante-programación-entera-mixta"><span class="header-section-number">6.3.1</span> Selección de Variables mediante Programación Entera Mixta</a></li>
+  </ul></li>
+  <li><a href="#máquinas-de-vectores-de-soporte-svm" id="toc-máquinas-de-vectores-de-soporte-svm" class="nav-link" data-scroll-target="#máquinas-de-vectores-de-soporte-svm"><span class="header-section-number">6.4</span> Máquinas de Vectores de Soporte (SVM)</a></li>
+  <li><a href="#explicabilidad-y-contrafácticos-counterfactuals" id="toc-explicabilidad-y-contrafácticos-counterfactuals" class="nav-link" data-scroll-target="#explicabilidad-y-contrafácticos-counterfactuals"><span class="header-section-number">6.5</span> Explicabilidad y Contrafácticos (Counterfactuals)</a>
+  <ul class="collapse">
+  <li><a href="#formulación-del-problema-de-optimización" id="toc-formulación-del-problema-de-optimización" class="nav-link" data-scroll-target="#formulación-del-problema-de-optimización"><span class="header-section-number">6.5.1</span> Formulación del Problema de Optimización</a></li>
+  <li><a href="#formulación-entera-mixta-para-un-clasificador-de-regresión-logística" id="toc-formulación-entera-mixta-para-un-clasificador-de-regresión-logística" class="nav-link" data-scroll-target="#formulación-entera-mixta-para-un-clasificador-de-regresión-logística"><span class="header-section-number">6.5.2</span> Formulación Entera Mixta para un Clasificador de Regresión Logística</a></li>
+  </ul></li>
+  <li><a href="#implementación-práctica-en-python" id="toc-implementación-práctica-en-python" class="nav-link" data-scroll-target="#implementación-práctica-en-python"><span class="header-section-number">6.6</span> Implementación Práctica en Python</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimización en Ciencia de Datos: Regresión y SVM</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>La optimización matemática es el motor silencioso que impulsa la ciencia de datos y el aprendizaje automático (<em>machine learning</em>). Desde el ajuste clásico de una recta hasta el entrenamiento de redes neuronales profundas, el proceso de “aprendizaje” a partir de datos consiste en formular una función de pérdida que mide la discrepancia entre el modelo y la realidad, y resolver el problema de optimización asociado para hallar los parámetros óptimos. En este capítulo, estudiaremos cómo la optimización no lineal y la programación entera mixta dan respuesta a problemas clave: el ajuste de regresiones en diferentes normas, la selección óptima de variables, la formulación de las Máquinas de Vectores de Soporte (SVM) y la generación de explicaciones contrafácticas para modelos de caja negra.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Objetivos de aprendizaje">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo, serás capaz de:</p>
+<ol type="1">
+<li><strong>Formular y resolver</strong> el problema de ajuste de curvas lineales y cuadráticas bajo diferentes normas (<span class="math inline">\(\ell_1\)</span>, <span class="math inline">\(\ell_2\)</span>, <span class="math inline">\(\ell_\infty\)</span>) usando programación lineal y cuadrática.</li>
+<li><strong>Modelar la selección de características</strong> (<em>feature selection</em>) en regresión múltiple utilizando variables binarias y restricciones lógicas.</li>
+<li><strong>Deducir la formulación de SVM</strong> de margen máximo y margen blando, y comprender la importancia de su problema dual y el truco del kernel.</li>
+<li><strong>Comprender la necesidad de explicabilidad</strong> en ciencia de datos y formular el problema biobjetivo para la búsqueda de contrafácticos.</li>
+<li><strong>Formular y resolver</strong> el problema de búsqueda de contrafácticos en regresión logística como un modelo de optimización cuadrático entero mixto (MIQP).</li>
+<li><strong>Implementar en Python</strong> modelos de regresión multivariante y clasificadores SVM utilizando las librerías <code>CVXPY</code> y <code>scikit-learn</code>.</li>
+</ol>
+</div>
+</div>
+<section id="introducción-a-la-optimización-en-aprendizaje-automático" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="introducción-a-la-optimización-en-aprendizaje-automático"><span class="header-section-number">6.1</span> Introducción a la Optimización en Aprendizaje Automático</h2>
+<p>El proceso de entrenamiento de un modelo de aprendizaje automático consiste en ajustar los parámetros de una función hipótesis <span class="math inline">\(f(x; w)\)</span> para modelar un patrón en un conjunto de datos. Las principales aplicaciones de la optimización en este ámbito son: - <strong>Estimación puntual</strong>: Maximizar la función de verosimilitud (MLE) o minimizar el error cuadrático medio. - <strong>Regularización</strong>: Añadir términos de penalización en la función objetivo (normas <span class="math inline">\(\ell_1\)</span> o <span class="math inline">\(\ell_2\)</span>) para controlar la complejidad del modelo y evitar el sobreajuste (<em>overfitting</em>). - <strong>Clasificación</strong>: Maximizar el margen de separación entre clases o minimizar la pérdida de bisagra (<em>hinge loss</em>).</p>
+</section>
+<section id="el-problema-de-ajuste-de-datos-en-diferentes-normas" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="el-problema-de-ajuste-de-datos-en-diferentes-normas"><span class="header-section-number">6.2</span> El Problema de Ajuste de Datos en Diferentes Normas</h2>
+<p>Dada una muestra de observaciones de dos variables, <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>, el ajuste de datos consiste en encontrar una función <span class="math inline">\(f(x)\)</span> tal que <span class="math inline">\(y_i \approx f(x_i)\)</span> para toda observación <span class="math inline">\(i = 1, \dots, n\)</span>.</p>
+<p>Consideremos una muestra de <span class="math inline">\(n = 19\)</span> observaciones:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x\)</span></th>
+<th>0.0</th>
+<th>0.5</th>
+<th>1.0</th>
+<th>1.5</th>
+<th>1.9</th>
+<th>2.5</th>
+<th>3.0</th>
+<th>3.5</th>
+<th>4.0</th>
+<th>4.5</th>
+<th>5.0</th>
+<th>5.5</th>
+<th>6.0</th>
+<th>6.6</th>
+<th>7.0</th>
+<th>7.6</th>
+<th>8.5</th>
+<th>9.0</th>
+<th>10.0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y\)</span></td>
+<td>1.0</td>
+<td>0.9</td>
+<td>0.7</td>
+<td>1.5</td>
+<td>2.0</td>
+<td>2.4</td>
+<td>3.2</td>
+<td>2.0</td>
+<td>2.7</td>
+<td>3.5</td>
+<td>1.0</td>
+<td>4.0</td>
+<td>3.6</td>
+<td>2.7</td>
+<td>5.7</td>
+<td>4.6</td>
+<td>6.0</td>
+<td>6.8</td>
+<td>7.3</td>
+</tr>
+</tbody>
+</table>
+<section id="regresión-lineal-clásica-norma-ell_2" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="regresión-lineal-clásica-norma-ell_2"><span class="header-section-number">6.2.1</span> 1. Regresión Lineal Clásica (Norma <span class="math inline">\(\ell_2\)</span>)</h3>
+<p>La regresión lineal clásica asume que la relación toma la forma de una recta <span class="math inline">\(y = a + b x + \epsilon\)</span>. Los parámetros <span class="math inline">\(a\)</span> (intersección) y <span class="math inline">\(b\)</span> (pendiente) se obtienen minimizando el error cuadrático medio: <span class="math display">\[ \min_{a, b} \sum_{i=1}^n (a + b x_i - y_i)^2 \]</span> Las ecuaciones normales obtenidas al anular el gradiente nos proporcionan la conocida recta por mínimos cuadrados ordinarios (MCO): <span class="math display">\[ Y = 0.4261 + 0.6108 x \]</span></p>
+</section>
+<section id="ajustes-en-normas-robustas-ell_1-y-ell_infty" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="ajustes-en-normas-robustas-ell_1-y-ell_infty"><span class="header-section-number">6.2.2</span> 2. Ajustes en Normas Robustas (<span class="math inline">\(\ell_1\)</span> y <span class="math inline">\(\ell_\infty\)</span>)</h3>
+<p>Cuando los datos contienen valores atípicos (<em>outliers</em>) o errores de medición severos (como el punto <span class="math inline">\((5.0, 1.0)\)</span> en nuestra muestra), la norma cuadrática <span class="math inline">\(\ell_2\)</span> se ve fuertemente distorsionada. Proponemos alternativas más robustas: - <strong>Norma <span class="math inline">\(\ell_1\)</span> (Desviaciones Absolutas)</strong>: Minimiza la suma de los valores absolutos de los residuos: <span class="math display">\[ \min_{a, b} \sum_{i=1}^n |a + b x_i - y_i| \]</span> - <strong>Norma <span class="math inline">\(\ell_\infty\)</span> (Minimax)</strong>: Minimiza el máximo error cometido: <span class="math display">\[ \min_{a, b} \max_{i=1, \dots, n} |a + b x_i - y_i| \]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Formulación en Programación Lineal para Ajustes Robustos">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Formulación en Programación Lineal para Ajustes Robustos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Podemos formular la minimización en normas <span class="math inline">\(\ell_1\)</span> y <span class="math inline">\(\ell_\infty\)</span> como problemas de programación lineal continua equivalentes mediante la introducción de variables auxiliares de error: - <strong>Formulación para la Norma <span class="math inline">\(\ell_1\)</span></strong>: <span class="math display">\[
+    \begin{aligned}
+    \min_{a, b, e} \quad &amp; \sum_{i=1}^n e_i \\
+    \text{sujeto a} \quad &amp; a + b x_i - y_i \le e_i, \quad i = 1, \dots, n \\
+    &amp; -(a + b x_i - y_i) \le e_i, \quad i = 1, \dots, n \\
+    &amp; e_i \ge 0, \quad i = 1, \dots, n
+    \end{aligned}
+    \]</span> - <strong>Formulación para la Norma <span class="math inline">\(\ell_\infty\)</span></strong>: <span class="math display">\[
+    \begin{aligned}
+    \min_{a, b, z} \quad &amp; z \\
+    \text{sujeto a} \quad &amp; a + b x_i - y_i \le z, \quad i = 1, \dots, n \\
+    &amp; -(a + b x_i - y_i) \le z, \quad i = 1, \dots, n \\
+    &amp; z \ge 0
+    \end{aligned}
+    \]</span></p>
+</div>
+</div>
+<p>Al resolver estos modelos sobre los datos de nuestra muestra, se aprecian los siguientes ajustes lineales y cuadráticos: 1. <strong>Ajuste lineal <span class="math inline">\(\ell_1\)</span></strong>: <span class="math inline">\(y = 0.6375x + 0.5812\)</span> (con un error total de <span class="math inline">\(11.46\)</span> y un máximo error de <span class="math inline">\(2.77\)</span> en <span class="math inline">\(x=5.0\)</span>). 2. <strong>Ajuste lineal <span class="math inline">\(\ell_\infty\)</span></strong>: <span class="math inline">\(y = 0.6245x - 0.4000\)</span> (con un error total de <span class="math inline">\(19.95\)</span> y un máximo error minimizado de <span class="math inline">\(1.725\)</span> en <span class="math inline">\(x=3.5, 7.0\)</span>). 3. <strong>Ajuste cuadrático <span class="math inline">\(\ell_1\)</span></strong>: <span class="math inline">\(y = 0.0337x^2 + 0.2945x + 0.9823\)</span>. 4. <strong>Ajuste cuadrático <span class="math inline">\(\ell_\infty\)</span></strong>: <span class="math inline">\(y = 0.1250x^2 - 0.6250x + 2.4750\)</span> (máximo error de <span class="math inline">\(1.475\)</span>).</p>
+</section>
+</section>
+<section id="regresión-lineal-múltiple-y-selección-de-características" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="regresión-lineal-múltiple-y-selección-de-características"><span class="header-section-number">6.3</span> Regresión Lineal Múltiple y Selección de Características</h2>
+<p>Cuando disponemos de <span class="math inline">\(m\)</span> variables independientes <span class="math inline">\(X_1, \dots, X_m\)</span>, el modelo es: <span class="math display">\[ Y = \beta_0 + \beta_1 X_1 + \dots + \beta_m X_m + \epsilon \]</span></p>
+<section id="selección-de-variables-mediante-programación-entera-mixta" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="selección-de-variables-mediante-programación-entera-mixta"><span class="header-section-number">6.3.1</span> Selección de Variables mediante Programación Entera Mixta</h3>
+<p>En presencia de múltiples variables explicativas, a menudo deseamos construir un modelo disperso (<em>sparse</em>) que solo incluya un subconjunto óptimo de características. Definimos variables binarias de decisión <span class="math inline">\(\delta_j \in \{0, 1\}\)</span> para indicar si la característica <span class="math inline">\(j\)</span> participa en el modelo (<span class="math inline">\(\beta_j \neq 0\)</span>). Imponemos restricciones de “Gran M” utilizando cotas inferiores <span class="math inline">\(\underline{\beta}_j\)</span> y superiores <span class="math inline">\(\overline{\beta}_j\)</span> sobre el valor físico de los coeficientes: <span class="math display">\[ \underline{\beta}_j \delta_j \le \beta_j \le \overline{\beta}_j \delta_j, \quad j = 1, \dots, m \]</span> Esto nos permite plantear restricciones estructurales complejas: - <strong>Número máximo de variables seleccionadas</strong>: <span class="math display">\[ \sum_{j=1}^m \delta_j \le M_{\max} \]</span> - <strong>Relación de exclusión mutua entre variables <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span></strong>: <span class="math display">\[ \delta_i + \delta_j \le 1 \]</span> - <strong>Inclusión obligatoria de al menos una entre <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span></strong>: <span class="math display">\[ \delta_i + \delta_j \ge 1 \]</span></p>
+<p>El problema resultante es un modelo <strong>Entero Cuadrático Mixto (MIQP)</strong>.</p>
+</section>
+</section>
+<section id="máquinas-de-vectores-de-soporte-svm" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="máquinas-de-vectores-de-soporte-svm"><span class="header-section-number">6.4</span> Máquinas de Vectores de Soporte (SVM)</h2>
+<p>El objetivo de una SVM es clasificar observaciones binarias <span class="math inline">\(y_i \in \{-1, +1\}\)</span> mediante un hiperplano <span class="math inline">\(w^T x + b = 0\)</span> que maximice el margen de separación (la distancia al punto más cercano de cada clase).</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Formulación Primal de SVM (Caso Linealmente Separable)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Formulación Primal de SVM (Caso Linealmente Separable)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La distancia del punto más cercano al hiperplano es <span class="math inline">\(1/\|w\|_2\)</span>. Maximizar el margen <span class="math inline">\(2/\|w\|_2\)</span> equivale a minimizar su recíproco al cuadrado, dando lugar al problema cuadrático convexo restringido: <span class="math display">\[
+\begin{aligned}
+\min_{w, b} \quad &amp; \frac{1}{2} \|w\|_2^2 \\
+\text{sujeto a} \quad &amp; y_i (w^T x_i + b) \ge 1, \quad i = 1, \dots, n
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Formulación Primal de SVM (Caso No Separable - Margen Blando)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Formulación Primal de SVM (Caso No Separable - Margen Blando)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si los datos no son perfectamente separables, introducimos variables de holgura <span class="math inline">\(\xi_i \ge 0\)</span> que miden la penetración de un punto en el margen o su mala clasificación. El parámetro de regularización <span class="math inline">\(C &gt; 0\)</span> controla el equilibrio entre la maximización del margen y la penalización de errores: <span class="math display">\[
+\begin{aligned}
+\min_{w, b, \xi} \quad &amp; \frac{1}{2} \|w\|_2^2 + C \sum_{i=1}^n \xi_i \\
+\text{sujeto a} \quad &amp; y_i (w^T x_i + b) \ge 1 - \xi_i, \quad i = 1, \dots, n \\
+&amp; \xi_i \ge 0, \quad i = 1, \dots, n
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Formulación Dual de SVM y el Truco del Kernel">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Formulación Dual de SVM y el Truco del Kernel
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Planteando las condiciones de optimalidad de la Lagrangiana, podemos reescribir el problema en su forma dual: <span class="math display">\[
+\begin{aligned}
+\max_{\alpha} \quad &amp; \sum_{i=1}^n \alpha_i - \frac{1}{2} \sum_{i=1}^n \sum_{j=1}^n \alpha_i \alpha_j y_i y_j (x_i^T x_j) \\
+\text{sujeto a} \quad &amp; 0 \le \alpha_i \le C, \quad i = 1, \dots, n \\
+&amp; \sum_{i=1}^n \alpha_i y_i = 0
+\end{aligned}
+\]</span> - <strong>Vectores de soporte</strong>: Los puntos con multiplicador óptimo <span class="math inline">\(\alpha_i &gt; 0\)</span> son los únicos que determinan la posición del hiperplano óptimo. - <strong>El Truco del Kernel</strong>: Dado que los datos de entrada solo intervienen en el problema dual mediante el producto escalar <span class="math inline">\(x_i^T x_j\)</span>, podemos reemplazar este término por una función de coincidencia kernel <span class="math inline">\(K(x_i, x_j) = \phi(x_i)^T \phi(x_j)\)</span>. Esto permite proyectar los datos de forma implícita a un espacio de características infinito o de gran dimensión (como el kernel Gaussiano RBF), logrando fronteras de decisión altamente no lineales en el espacio original sin incurrir en costes computacionales prohibitivos.</p>
+</div>
+</div>
+</section>
+<section id="explicabilidad-y-contrafácticos-counterfactuals" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="explicabilidad-y-contrafácticos-counterfactuals"><span class="header-section-number">6.5</span> Explicabilidad y Contrafácticos (Counterfactuals)</h2>
+<p>El auge de los modelos de caja negra (redes neuronales, random forests) ha motivado el desarrollo de técnicas de explicabilidad. Una explicación contrafáctica responde a la pregunta: <em>“¿Qué cambios mínimos debe realizar una persona <span class="math inline">\(x^0\)</span> clasificada en la clase negativa para cambiar la predicción a la clase positiva?”</em></p>
+<section id="formulación-del-problema-de-optimización" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="formulación-del-problema-de-optimización"><span class="header-section-number">6.5.1</span> Formulación del Problema de Optimización</h3>
+<p>Dado un clasificador <span class="math inline">\(P: \mathcal{X} \to [0, 1]\)</span> que devuelve la probabilidad de clase positiva, y un perfil <span class="math inline">\(x^0\)</span> con <span class="math inline">\(P(x^0) &lt; \tau\)</span> (negativo), buscamos un nuevo perfil factible <span class="math inline">\(x\)</span> que minimice la función de coste del cambio <span class="math inline">\(C(x^0, x)\)</span> bajo la condición de cruzar el umbral de clasificación: <span class="math display">\[
+\begin{aligned}
+\min_{x \in \mathcal{X}(x^0)} \quad &amp; C(x^0, x) \\
+\text{sujeto a} \quad &amp; P(x) \ge \nu
+\end{aligned}
+\]</span> - <strong>Contrafácticos Endógenos</strong>: El conjunto de búsqueda se restringe a muestras reales de la base de datos ya clasificadas como positivas. Su modelización es discreta (localización de instalaciones). - <strong>Contrafácticos Exógenos</strong>: El contrafáctico generado es un perfil sintético en un espacio continuo, resolviéndose mediante optimización continua o entera mixta.</p>
+</section>
+<section id="formulación-entera-mixta-para-un-clasificador-de-regresión-logística" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="formulación-entera-mixta-para-un-clasificador-de-regresión-logística"><span class="header-section-number">6.5.2</span> Formulación Entera Mixta para un Clasificador de Regresión Logística</h3>
+<p>En la regresión logística, la probabilidad de clase positiva es <span class="math inline">\(\varphi(w^T x - b)\)</span> con <span class="math inline">\(\varphi(t) = 1/(1+e^{-t})\)</span>. La restricción de probabilidad <span class="math inline">\(P(x) \ge \nu\)</span> se linealiza como: <span class="math display">\[ w^T x - b \ge \ln\left(\frac{\nu}{1 - \nu}\right) \]</span> Si la función de coste combina la distancia euclídea (<span class="math inline">\(\ell_2\)</span>) y una penalización por el número de características modificadas (<span class="math inline">\(\ell_0\)</span>), el modelo se formula como un problema <strong>MIQP</strong>: <span class="math display">\[
+\begin{aligned}
+\min_{x, \delta} \quad &amp; \sum_{k=1}^K (x_k^0 - x_k)^2 + \lambda \sum_{k=1}^K \delta_k \\
+\text{sujeto a} \quad &amp; \sum_{k=1}^K w_k x_k - b \ge \ln\left(\frac{\nu}{1 - \nu}\right) \\
+&amp; -M_k \delta_k \le x_k^0 - x_k \le M_k \delta_k, \quad k = 1, \dots, K \\
+&amp; x_k = x_k^0, \quad \forall k \in \mathcal{K}_{\text{inmutable}} \\
+&amp; \delta_k \in \{0, 1\}, \quad k = 1, \dots, K
+\end{aligned}
+\]</span></p>
+</section>
+</section>
+<section id="implementación-práctica-en-python" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="implementación-práctica-en-python"><span class="header-section-number">6.6</span> Implementación Práctica en Python</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Código Python: Ajustes en Diferentes Normas y SVM con CVXPY">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Código Python: Ajustes en Diferentes Normas y SVM con CVXPY
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>El siguiente script completo implementa los ajustes de datos univariantes utilizando las normas <span class="math inline">\(\ell_1, \ell_2, \ell_\infty\)</span>, y formula el clasificador SVM de margen blando en 2D:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Datos del ajuste de curvas</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x_data <span class="op">=</span> np.array([<span class="fl">0.0</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>, <span class="fl">1.9</span>, <span class="fl">2.5</span>, <span class="fl">3.0</span>, <span class="fl">3.5</span>, <span class="fl">4.0</span>, <span class="fl">4.5</span>, <span class="fl">5.0</span>, <span class="fl">5.5</span>, <span class="fl">6.0</span>, <span class="fl">6.6</span>, <span class="fl">7.0</span>, <span class="fl">7.6</span>, <span class="fl">8.5</span>, <span class="fl">9.0</span>, <span class="fl">10.0</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>y_data <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">0.9</span>, <span class="fl">0.7</span>, <span class="fl">1.5</span>, <span class="fl">2.0</span>, <span class="fl">2.4</span>, <span class="fl">3.2</span>, <span class="fl">2.0</span>, <span class="fl">2.7</span>, <span class="fl">3.5</span>, <span class="fl">1.0</span>, <span class="fl">4.0</span>, <span class="fl">3.6</span>, <span class="fl">2.7</span>, <span class="fl">5.7</span>, <span class="fl">4.6</span>, <span class="fl">6.0</span>, <span class="fl">6.8</span>, <span class="fl">7.3</span>])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables de decision para la recta y = a + bx</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> cp.Variable()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> cp.Variable()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Ajuste L2 (Minimos Cuadrados Ordinarios) ---</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>cost_l2 <span class="op">=</span> cp.sum_squares(a <span class="op">+</span> b <span class="op">*</span> x_data <span class="op">-</span> y_data)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>prob_l2 <span class="op">=</span> cp.Problem(cp.Minimize(cost_l2))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>prob_l2.solve()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Recta L2 (MCO):"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  y = </span><span class="sc">{</span>a<span class="sc">.</span>value<span class="sc">:.4f}</span><span class="ss"> + </span><span class="sc">{</span>b<span class="sc">.</span>value<span class="sc">:.4f}</span><span class="ss">x"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Ajuste L1 (Desviaciones Absolutas - Robustez) ---</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>cost_l1 <span class="op">=</span> cp.<span class="bu">sum</span>(cp.<span class="bu">abs</span>(a <span class="op">+</span> b <span class="op">*</span> x_data <span class="op">-</span> y_data))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>prob_l1 <span class="op">=</span> cp.Problem(cp.Minimize(cost_l1))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>prob_l1.solve()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Recta L1:"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  y = </span><span class="sc">{</span>a<span class="sc">.</span>value<span class="sc">:.4f}</span><span class="ss"> + </span><span class="sc">{</span>b<span class="sc">.</span>value<span class="sc">:.4f}</span><span class="ss">x"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Ajuste L_infinito (Minimax - Minimo Error Maximo) ---</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>cost_linf <span class="op">=</span> cp.norm(a <span class="op">+</span> b <span class="op">*</span> x_data <span class="op">-</span> y_data, <span class="st">"inf"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>prob_linf <span class="op">=</span> cp.Problem(cp.Minimize(cost_linf))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>prob_linf.solve()</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Recta L_infinito:"</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  y = </span><span class="sc">{</span>a<span class="sc">.</span>value<span class="sc">:.4f}</span><span class="ss"> + </span><span class="sc">{</span>b<span class="sc">.</span>value<span class="sc">:.4f}</span><span class="ss">x"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Formulacion Primal de SVM de Margen Blando</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>X_svm <span class="op">=</span> np.vstack([np.random.randn(<span class="dv">10</span>, <span class="dv">2</span>) <span class="op">-</span> <span class="dv">2</span>, np.random.randn(<span class="dv">10</span>, <span class="dv">2</span>) <span class="op">+</span> <span class="dv">2</span>])</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>y_svm <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">1</span>]<span class="op">*</span><span class="dv">10</span> <span class="op">+</span> [<span class="dv">1</span>]<span class="op">*</span><span class="dv">10</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>m, d <span class="op">=</span> X_svm.shape</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> cp.Variable(d)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>intercept <span class="op">=</span> cp.Variable()</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>xi <span class="op">=</span> cp.Variable(m)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Parametro de penalizacion</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>objetivo_svm <span class="op">=</span> cp.Minimize(<span class="fl">0.5</span> <span class="op">*</span> cp.sum_squares(w) <span class="op">+</span> C <span class="op">*</span> cp.<span class="bu">sum</span>(xi))</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>restricciones_svm <span class="op">=</span> [</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    y_svm[i] <span class="op">*</span> (X_svm[i] <span class="op">@</span> w <span class="op">+</span> intercept) <span class="op">&gt;=</span> <span class="dv">1</span> <span class="op">-</span> xi[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(m)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>] <span class="op">+</span> [xi <span class="op">&gt;=</span> <span class="dv">0</span>]</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>prob_svm <span class="op">=</span> cp.Problem(objetivo_svm, restricciones_svm)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>prob_svm.solve()</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Hiperplano Separador SVM:"</span>)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  w = </span><span class="sc">{</span>w<span class="sc">.</span>value<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  b = </span><span class="sc">{</span>intercept<span class="sc">.</span>value<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tema5.html" class="pagination-link" aria-label="Aplicaciones de KKT: Programación Lineal y Cuadrática">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aplicaciones de KKT: Programación Lineal y Cuadrática</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema7.html" class="pagination-link" aria-label="Introducción a Grafos y Árboles Soporte">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a Grafos y Árboles Soporte</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

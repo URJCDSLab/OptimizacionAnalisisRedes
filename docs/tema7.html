@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Introducción a Grafos y Árboles Soporte – Apuntes de Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema8.html" rel="next">
+<link href="./tema6.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="estilos_html.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema7.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a Grafos y Árboles Soporte</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Apuntes de Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la Investigación Operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización No Lineal y Métodos Numéricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Convexo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de Optimalidad y KKT</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aplicaciones de KKT: Programación Lineal y Cuadrática</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimización en Ciencia de Datos: Regresión y SVM</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema7.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a Grafos y Árboles Soporte</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">El Problema del Camino Mínimo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Problemas de Flujo en Redes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problemas de Emparejamiento (Matching)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Rutas Eulerianas, Hamiltonianas y TSP</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#origen-histórico-y-definiciones-básicas" id="toc-origen-histórico-y-definiciones-básicas" class="nav-link active" data-scroll-target="#origen-histórico-y-definiciones-básicas"><span class="header-section-number">7.1</span> Origen Histórico y Definiciones Básicas</a>
+  <ul class="collapse">
+  <li><a href="#el-problema-de-königsberg-euler-1736" id="toc-el-problema-de-königsberg-euler-1736" class="nav-link" data-scroll-target="#el-problema-de-königsberg-euler-1736"><span class="header-section-number">7.1.1</span> 1. El Problema de Königsberg (Euler, 1736)</a></li>
+  <li><a href="#definición-formal-de-un-grafo" id="toc-definición-formal-de-un-grafo" class="nav-link" data-scroll-target="#definición-formal-de-un-grafo"><span class="header-section-number">7.1.2</span> 2. Definición Formal de un Grafo</a></li>
+  <li><a href="#subgrafos-conectividad-y-grados" id="toc-subgrafos-conectividad-y-grados" class="nav-link" data-scroll-target="#subgrafos-conectividad-y-grados"><span class="header-section-number">7.1.3</span> 3. Subgrafos, Conectividad y Grados</a></li>
+  </ul></li>
+  <li><a href="#representación-de-grafos" id="toc-representación-de-grafos" class="nav-link" data-scroll-target="#representación-de-grafos"><span class="header-section-number">7.2</span> Representación de Grafos</a>
+  <ul class="collapse">
+  <li><a href="#representación-geométrica-y-grafos-planares" id="toc-representación-geométrica-y-grafos-planares" class="nav-link" data-scroll-target="#representación-geométrica-y-grafos-planares"><span class="header-section-number">7.2.1</span> 1. Representación Geométrica y Grafos Planares</a></li>
+  <li><a href="#representación-en-ordenador" id="toc-representación-en-ordenador" class="nav-link" data-scroll-target="#representación-en-ordenador"><span class="header-section-number">7.2.2</span> 2. Representación en Ordenador</a></li>
+  </ul></li>
+  <li><a href="#estructura-matemática-de-los-árboles" id="toc-estructura-matemática-de-los-árboles" class="nav-link" data-scroll-target="#estructura-matemática-de-los-árboles"><span class="header-section-number">7.3</span> Estructura Matemática de los Árboles</a></li>
+  <li><a href="#árbol-soporte-de-mínimo-peso-mst" id="toc-árbol-soporte-de-mínimo-peso-mst" class="nav-link" data-scroll-target="#árbol-soporte-de-mínimo-peso-mst"><span class="header-section-number">7.4</span> Árbol Soporte de Mínimo Peso (MST)</a>
+  <ul class="collapse">
+  <li><a href="#algoritmo-de-kruskal-1956" id="toc-algoritmo-de-kruskal-1956" class="nav-link" data-scroll-target="#algoritmo-de-kruskal-1956"><span class="header-section-number">7.4.1</span> 1. Algoritmo de Kruskal (1956)</a></li>
+  <li><a href="#algoritmo-de-prim" id="toc-algoritmo-de-prim" class="nav-link" data-scroll-target="#algoritmo-de-prim"><span class="header-section-number">7.4.2</span> 2. Algoritmo de Prim</a></li>
+  </ul></li>
+  <li><a href="#implementación-en-python" id="toc-implementación-en-python" class="nav-link" data-scroll-target="#implementación-en-python"><span class="header-section-number">7.5</span> Implementación en Python</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a Grafos y Árboles Soporte</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>El <strong>análisis de redes</strong> es una de las disciplinas más transversales y aplicadas de las matemáticas discretas y la optimización. Muchas de las infraestructuras de la sociedad moderna (las redes de transporte eléctrico, el tráfico vial, la fibra óptica, Internet o los mapas metabólicos celulares) se modelan matemáticamente mediante <strong>grafos</strong>. La abstracción espacial que proporciona un grafo permite obviar la geometría física de los sistemas para centrarse en sus propiedades topológicas, conectividad y flujos.</p>
+<p>En este capítulo, estudiaremos los conceptos elementales de la teoría de grafos, las formas estándar de representar redes en ordenador, las propiedades analíticas de los grafos planares y bipartitos, las caracterizaciones algebraicas de los árboles y los algoritmos clásicos de Kruskal y Prim para construir el árbol soporte de mínimo peso (MST) con sus aplicaciones en el aprendizaje no supervisado.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Objetivos de aprendizaje">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo, serás capaz de:</p>
+<ol type="1">
+<li><strong>Definir e identificar</strong> los diferentes tipos de grafos (dirigidos, no dirigidos, valorados, bipartitos y planares) y sus elementos constituyentes.</li>
+<li><strong>Aplicar el Teorema de Euler para grafos planares</strong> para relacionar el número de vértices, aristas y regiones, y deducir los límites de densidad de aristas.</li>
+<li><strong>Utilizar el Teorema de Kuratowski</strong> para demostrar analíticamente si un grafo dado es planar o no planar mediante la búsqueda de subdivisiones de <span class="math inline">\(K_5\)</span> o <span class="math inline">\(K_{3,3}\)</span>.</li>
+<li><strong>Caracterizar la estructura de los árboles</strong> empleando sus diversas definiciones equivalentes basadas en conectividad, aciclicidad y recuento de aristas.</li>
+<li><strong>Explicar e implementar</strong> los algoritmos de Kruskal y Prim para el cálculo del árbol soporte de mínimo peso (MST).</li>
+<li><strong>Modelar problemas de agrupamiento</strong> (<em>clustering</em>) jerárquico continuo a través del MST, y programar estas soluciones en Python usando la librería <strong>NetworkX</strong>.</li>
+</ol>
+</div>
+</div>
+<section id="origen-histórico-y-definiciones-básicas" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="origen-histórico-y-definiciones-básicas"><span class="header-section-number">7.1</span> Origen Histórico y Definiciones Básicas</h2>
+<section id="el-problema-de-königsberg-euler-1736" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="el-problema-de-königsberg-euler-1736"><span class="header-section-number">7.1.1</span> 1. El Problema de Königsberg (Euler, 1736)</h3>
+<p>La teoría de grafos nació formalmente en 1736 cuando Leonhard Euler resolvió el problema de los puentes de Königsberg. La ciudad estaba dividida por el río Pregel en cuatro porciones de tierra conectadas por siete puentes. El reto consistía en encontrar una ruta que cruzara cada puente exactamente una vez y regresara al origen. Euler demostró que tal recorrido (denominado hoy ciclo euleriano) era imposible. Lo fundamental de su análisis fue que obvió los detalles de las distancias o la forma de las riberas, modelando el problema como una red de nodos (tierra) y líneas (puentes). Dujo que un nodo solo puede cruzarse de forma completa si cada entrada tiene una salida, lo que exige que todos los nodos tengan un grado par. En Königsberg, los nodos tenían grado impar, cerrando toda posibilidad.</p>
+</section>
+<section id="definición-formal-de-un-grafo" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="definición-formal-de-un-grafo"><span class="header-section-number">7.1.2</span> 2. Definición Formal de un Grafo</h3>
+<ul>
+<li><strong>Grafo No Dirigido</strong>: Un par ordenado <span class="math inline">\(G = (V, E)\)</span> donde <span class="math inline">\(V\)</span> es un conjunto no vacío de <strong>vértices</strong> o <strong>nodos</strong> y <span class="math inline">\(E\)</span> es un conjunto de <strong>aristas</strong> formadas por pares no ordenados de vértices distintos <span class="math inline">\(\{u, v\}\)</span>.</li>
+<li><strong>Grafo Dirigido (Digrafo)</strong>: Un par ordenado <span class="math inline">\(G = (V, A)\)</span> donde los elementos de <span class="math inline">\(A\)</span> son <strong>arcos</strong> definidos por pares ordenados de vértices <span class="math inline">\((u, v)\)</span> (donde el flujo va del nodo origen <span class="math inline">\(u\)</span> al nodo destino <span class="math inline">\(v\)</span>).</li>
+<li><strong>Multigrafo</strong>: Grafo que contiene múltiples aristas conectando el mismo par de nodos.</li>
+<li><strong>Red o Grafo Valorado</strong>: Un grafo asociado a una función de coste <span class="math inline">\(w: E \to \mathbb{R}\)</span> que asigna un peso o longitud a cada conexión.</li>
+</ul>
+</section>
+<section id="subgrafos-conectividad-y-grados" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="subgrafos-conectividad-y-grados"><span class="header-section-number">7.1.3</span> 3. Subgrafos, Conectividad y Grados</h3>
+<ul>
+<li><strong>Subgrafo</strong>: Un grafo <span class="math inline">\(G' = (V', E')\)</span> es subgrafo de <span class="math inline">\(G = (V, E)\)</span> si <span class="math inline">\(V' \subseteq V\)</span> y <span class="math inline">\(E' \subseteq E \cap (V' \times V')\)</span>.</li>
+<li><strong>Grafo Parcial (Spanning Subgraph)</strong>: Un subgrafo que contiene a todos los vértices del grafo original (<span class="math inline">\(V' = V\)</span>).</li>
+<li><strong>Grado de un vértice (<span class="math inline">\(d(v)\)</span>)</strong>: Número de aristas incidentes en <span class="math inline">\(v\)</span>. En digrafos se desglosa en:
+<ul>
+<li><em>Grado de entrada (<span class="math inline">\(d^-(v)\)</span>)</em>: Número de arcos entrantes.</li>
+<li><em>Grado de salida (<span class="math inline">\(d^+(v)\)</span>)</em>: Número de arcos salientes.</li>
+</ul></li>
+<li><strong>Conexión</strong>: Una cadena es una secuencia de nodos y aristas consecutivas. Si no se repiten aristas es <em>simple</em>, y si no se repiten nodos es <em>elemental</em>. Un ciclo es una cadena cerrada simple.</li>
+<li><strong>Grafo Conexo</strong>: Existe al menos una cadena entre cualquier pareja de nodos de <span class="math inline">\(V\)</span>. En digrafos, si existe un camino dirigido de ida y vuelta para cualquier par, se denomina <strong>fuertemente conexo</strong>.</li>
+</ul>
+</section>
+</section>
+<section id="representación-de-grafos" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="representación-de-grafos"><span class="header-section-number">7.2</span> Representación de Grafos</h2>
+<section id="representación-geométrica-y-grafos-planares" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="representación-geométrica-y-grafos-planares"><span class="header-section-number">7.2.1</span> 1. Representación Geométrica y Grafos Planares</h3>
+<p>Un grafo es <strong>planar</strong> si puede ser dibujado en el plano bidimensional de manera que sus aristas solo se corten en sus vértices.</p>
+<ul>
+<li><strong>Regiones</strong>: Las caras cerradas (y la región no acotada exterior) delimitadas por la representación en el plano de un grafo planar.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Fórmula Planar de Euler">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Fórmula Planar de Euler
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (V, E)\)</span> un grafo planar conexo con <span class="math inline">\(n = |V|\)</span> vértices y <span class="math inline">\(m = |E|\)</span> aristas. Si <span class="math inline">\(r\)</span> es el número de regiones de su representación planar, entonces se cumple: <span class="math display">\[ n + r = m + 2 \]</span></p>
+<p><em>Demostración (por inducción sobre el número de aristas <span class="math inline">\(m\)</span>)</em>: - <strong>Base de la inducción (<span class="math inline">\(m=1\)</span>)</strong>: - Si conecta dos nodos distintos (<span class="math inline">\(n=2\)</span>), define 1 región (exterior): <span class="math inline">\(2 + 1 = 1 + 2\)</span> (correcto). - Si es un bucle sobre un único nodo (<span class="math inline">\(n=1\)</span>), divide el plano en una región interior y otra exterior (<span class="math inline">\(r=2\)</span>): <span class="math inline">\(1 + 2 = 1 + 2\)</span> (correcto). - <strong>Paso inductivo</strong>: Asumimos que la fórmula se cumple para grafos de <span class="math inline">\(k\)</span> aristas. Sea <span class="math inline">\(G\)</span> un grafo con <span class="math inline">\(m = k+1\)</span> aristas: - <em>Caso 1</em>: Si <span class="math inline">\(G\)</span> contiene un nodo de grado 1 (vértice pendiente <span class="math inline">\(v\)</span>), al eliminar <span class="math inline">\(v\)</span> y su arista asociada obtenemos un subgrafo conexo con <span class="math inline">\(n-1\)</span> vértices, <span class="math inline">\(k\)</span> aristas y las mismas <span class="math inline">\(r\)</span> regiones. Por hipótesis: <span class="math inline">\((n-1) + r = k + 2 \implies n + r = (k+1) + 2\)</span>. - <em>Caso 2</em>: Si no hay nodos de grado 1, <span class="math inline">\(G\)</span> contiene al menos un ciclo. Al eliminar una arista del ciclo, el número de aristas pasa a <span class="math inline">\(k\)</span> y las dos regiones adyacentes a la arista se unen en una sola (<span class="math inline">\(r-1\)</span> regiones en el subgrafo). Por hipótesis: <span class="math inline">\(n + (r-1) = k + 2 \implies n + r = (k+1) + 2\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Corolario de la Planaridad">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Corolario de la Planaridad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si <span class="math inline">\(G\)</span> es un grafo simple conexo planar con <span class="math inline">\(n \ge 3\)</span> vértices y <span class="math inline">\(m\)</span> aristas, entonces: <span class="math display">\[ 3r \le 2m \qquad \text{y} \qquad m \le 3n - 6 \]</span></p>
+<p><em>Demostración</em>: Como el grafo es simple y sin bucles, la frontera de toda región (incluida la exterior) contiene al menos 3 aristas. Sumando las fronteras sobre todas las regiones, cada arista se contabiliza a lo sumo dos veces (una para cada región que delimita). Por tanto: <span class="math display">\[ 3r \le \sum_{i=1}^r \text{longitud(frontera}_i) \le 2m \implies 3r \le 2m \]</span> Sustituyendo el teorema de Euler (<span class="math inline">\(r = m - n + 2\)</span>): <span class="math display">\[ 3(m - n + 2) \le 2m \implies 3m - 3n + 6 \le 2m \implies m \le 3n - 6. \quad \blacksquare \]</span></p>
+</div>
+</div>
+<p>Una consecuencia de este corolario es que el grafo completo <span class="math inline">\(K_5\)</span> (5 nodos, 10 aristas) no es planar, puesto que violaría la cota: <span class="math inline">\(10 \le 3(5) - 6 = 9\)</span> (falso).</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema de Kuratowski (1930)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema de Kuratowski (1930)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un grafo es planar si y solo si no contiene ningún subgrafo que sea homeomorfo (una subdivisión de aristas) o contenga como menor a los grafos no planares básicos <span class="math inline">\(K_5\)</span> o <span class="math inline">\(K_{3,3}\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Caracterización de Grafos Bipartitos">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Caracterización de Grafos Bipartitos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un grafo es bipartito (sus vértices se dividen en dos conjuntos disjuntos <span class="math inline">\(V_1\)</span> y <span class="math inline">\(V_2\)</span> sin conexiones internas) si y solo si <strong>no contiene ningún ciclo de longitud impar</strong>.</p>
+</div>
+</div>
+</section>
+<section id="representación-en-ordenador" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="representación-en-ordenador"><span class="header-section-number">7.2.2</span> 2. Representación en Ordenador</h3>
+<ul>
+<li><strong>Matriz de Adyacencia (<span class="math inline">\(A \in \mathbb{R}^{n \times n}\)</span>)</strong>: Matriz donde la posición <span class="math inline">\(a_{ij}\)</span> indica la existencia (1) o el coste de la arista que une los nodos <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span>.</li>
+<li><strong>Matriz de Incidencia (<span class="math inline">\(M \in \mathbb{R}^{n \times m}\)</span>)</strong>: Para digrafos, cada columna representa un arco y tiene un <span class="math inline">\(1\)</span> en la fila de origen y un <span class="math inline">\(-1\)</span> en la fila de destino. Al ser esta matriz <strong>totalmente unimodular (TUM)</strong>, los determinantes de sus submatrices cuadradas son siempre <span class="math inline">\(-1, 0\)</span> o <span class="math inline">\(1\)</span>, garantizando soluciones enteras bajo restricciones de balance.</li>
+<li><strong>Lista de Adyacencia</strong>: Estructura optimizada que asocia a cada nodo un vector dinámico con sus vecinos directos. Es idónea para grafos dispersos.</li>
+</ul>
+</section>
+</section>
+<section id="estructura-matemática-de-los-árboles" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="estructura-matemática-de-los-árboles"><span class="header-section-number">7.3</span> Estructura Matemática de los Árboles</h2>
+<p>Un árbol es un grafo que modela conexiones jerárquicas mínimas sin redundancia.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Caracterizaciones Equivalentes de un Árbol">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Caracterizaciones Equivalentes de un Árbol
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (V, E)\)</span> un grafo simple no dirigido con <span class="math inline">\(n\)</span> vértices. Las siguientes proposiciones son equivalentes: 1. <span class="math inline">\(G\)</span> es un árbol (conexo y acíclico). 2. <span class="math inline">\(G\)</span> es conexo y tiene exactamente <span class="math inline">\(n-1\)</span> aristas. 3. <span class="math inline">\(G\)</span> es acíclico y tiene exactamente <span class="math inline">\(n-1\)</span> aristas. 4. Existe un único camino elemental entre cualquier par de vértices de <span class="math inline">\(G\)</span>. 5. <span class="math inline">\(G\)</span> es acíclico, pero si se añade una arista cualquiera se forma exactamente un ciclo. 6. <span class="math inline">\(G\)</span> es conexo, pero si se elimina una arista cualquiera se desconecta.</p>
+</div>
+</div>
+</section>
+<section id="árbol-soporte-de-mínimo-peso-mst" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="árbol-soporte-de-mínimo-peso-mst"><span class="header-section-number">7.4</span> Árbol Soporte de Mínimo Peso (MST)</h2>
+<p>Dado un grafo conexo no dirigido valorado <span class="math inline">\(G = (V, E, w)\)</span>, un <strong>árbol soporte de mínimo peso</strong> es un grafo parcial <span class="math inline">\(T = (V, E_T)\)</span> con <span class="math inline">\(E_T \subseteq E\)</span> que es un árbol y minimiza el coste total de sus conexiones:</p>
+<p><span class="math display">\[ \min \sum_{e \in E_T} w(e) \]</span></p>
+<section id="algoritmo-de-kruskal-1956" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="algoritmo-de-kruskal-1956"><span class="header-section-number">7.4.1</span> 1. Algoritmo de Kruskal (1956)</h3>
+<p>Es de naturaleza codiciosa (greedy) y procesa las aristas de forma aislada: 1. Ordenar todas las aristas del grafo de menor a mayor peso. 2. Inicializar cada nodo en su propia componente conexa disjunta. 3. Recorrer las aristas en orden. Si los extremos de la arista actual pertenecen a componentes conexas distintas (no forman ciclo), añadir la arista al árbol y fusionar las componentes. En caso contrario, descartar. 4. Terminar al seleccionar <span class="math inline">\(n-1\)</span> aristas. - <em>Complejidad</em>: <span class="math inline">\(O(|E| \log |E|)\)</span> debido al coste de la ordenación inicial.</p>
+</section>
+<section id="algoritmo-de-prim" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="algoritmo-de-prim"><span class="header-section-number">7.4.2</span> 2. Algoritmo de Prim</h3>
+<p>Hace crecer una única componente conectada desde un nodo raíz arbitrario <span class="math inline">\(s\)</span>: 1. Inicializar los nodos cubiertos <span class="math inline">\(V_T = \{s\}\)</span> y el árbol de aristas <span class="math inline">\(E_T = \emptyset\)</span>. 2. Identificar la arista de coste mínimo <span class="math inline">\(\{u, v\}\)</span> tal que <span class="math inline">\(u \in V_T\)</span> y <span class="math inline">\(v \notin V_T\)</span>. 3. Añadir el nodo <span class="math inline">\(v\)</span> a <span class="math inline">\(V_T\)</span> y la arista <span class="math inline">\(\{u, v\}\)</span> a <span class="math inline">\(E_T\)</span>. 4. Repetir hasta cubrir todos los nodos (<span class="math inline">\(V_T = V\)</span>). - <em>Complejidad</em>: <span class="math inline">\(O(|E| + |V| \log |V|)\)</span> si se implementa mediante colas de prioridad con montículos de Fibonacci.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Clustering Jerárquico Basado en MST">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Clustering Jerárquico Basado en MST
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El MST es una herramienta potente en aprendizaje no supervisado. Para agrupar un conjunto de observaciones en <span class="math inline">\(k\)</span> grupos o clústeres disjuntos: 1. Construir un grafo completo donde los nodos son las observaciones y los pesos de las aristas corresponden a la distancia métrica (euclídea, Manhattan) entre los perfiles. 2. Calcular el MST del grafo. 3. Eliminar las <span class="math inline">\(k-1\)</span> aristas de mayor peso del MST. 4. Las <span class="math inline">\(k\)</span> componentes conexas resultantes definen los clústeres óptimos bajo el criterio de enlace simple (<em>Single-Linkage</em>).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="implementación-en-python" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="implementación-en-python"><span class="header-section-number">7.5</span> Implementación en Python</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Código Python: Cálculo de MST y Agrupamiento con NetworkX">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Código Python: Cálculo de MST y Agrupamiento con NetworkX
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>El siguiente script construye un grafo valorado, extrae su MST usando Kruskal y realiza una partición en <span class="math inline">\(k=3\)</span> clústeres basados en la topología de pesos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Inicializar el grafo no dirigido con pesos</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.Graph()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> [</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="dv">4</span>), (<span class="st">"A"</span>, <span class="st">"H"</span>, <span class="dv">8</span>), (<span class="st">"B"</span>, <span class="st">"C"</span>, <span class="dv">8</span>), (<span class="st">"B"</span>, <span class="st">"H"</span>, <span class="dv">11</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"C"</span>, <span class="st">"D"</span>, <span class="dv">7</span>), (<span class="st">"C"</span>, <span class="st">"F"</span>, <span class="dv">4</span>), (<span class="st">"C"</span>, <span class="st">"I"</span>, <span class="dv">2</span>), (<span class="st">"D"</span>, <span class="st">"E"</span>, <span class="dv">9</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"D"</span>, <span class="st">"F"</span>, <span class="dv">14</span>), (<span class="st">"E"</span>, <span class="st">"F"</span>, <span class="dv">10</span>), (<span class="st">"F"</span>, <span class="st">"G"</span>, <span class="dv">2</span>), (<span class="st">"G"</span>, <span class="st">"H"</span>, <span class="dv">1</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"G"</span>, <span class="st">"I"</span>, <span class="dv">6</span>), (<span class="st">"H"</span>, <span class="st">"I"</span>, <span class="dv">7</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>G.add_weighted_edges_from(edges)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Calcular el MST usando el algoritmo de Kruskal</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>mst <span class="op">=</span> nx.minimum_spanning_tree(G, algorithm<span class="op">=</span><span class="st">"kruskal"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>peso_mst <span class="op">=</span> mst.size(weight<span class="op">=</span><span class="st">"weight"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Peso total del MST obtenido: </span><span class="sc">{</span>peso_mst<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Aristas del arbol soporte:"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> u, v, data <span class="kw">in</span> mst.edges(data<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>u<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">: coste = </span><span class="sc">{</span>data[<span class="st">'weight'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Clustering basado en MST (k = 3 grupos)</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Ordenamos las aristas del MST por peso de forma ascendente</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>aristas_mst_ordenadas <span class="op">=</span> <span class="bu">sorted</span>(mst.edges(data<span class="op">=</span><span class="va">True</span>), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">2</span>][<span class="st">'weight'</span>])</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminamos las k-1 aristas mas costosas del arbol</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    u, v, _ <span class="op">=</span> aristas_mst_ordenadas[<span class="op">-</span>(i <span class="op">+</span> <span class="dv">1</span>)]</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    mst.remove_edge(u, v)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Las componentes conexas resultantes representan los clusters</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>clusters <span class="op">=</span> <span class="bu">list</span>(nx.connected_components(mst))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Particion del Grafo en </span><span class="sc">{</span>k<span class="sc">}</span><span class="ss"> clusters:"</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, cluster <span class="kw">in</span> <span class="bu">enumerate</span>(clusters):</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Cluster </span><span class="sc">{</span>idx <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>cluster<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tema6.html" class="pagination-link" aria-label="Optimización en Ciencia de Datos: Regresión y SVM">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimización en Ciencia de Datos: Regresión y SVM</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema8.html" class="pagination-link" aria-label="El Problema del Camino Mínimo">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">El Problema del Camino Mínimo</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

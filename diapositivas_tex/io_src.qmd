@@ -1,0 +1,54 @@
+\documentclass{report}
+\usepackage[spanish]{babel}
+\usepackage{latexsym,bezier,enumerate,longtable,dcolumn,color,pstcol,fancybox}
+\usepackage{amsmath,amsthm,amsopn,amstext,amscd,amsfonts,amssymb,pst-node,pst-tree}
+%%
+\includeonly{io-cconv,io-fconv,io-copt}
+%\includeonly{io-modelos}
+
+%%
+  \textwidth 16cm
+  \textheight 21cm
+  \oddsidemargin 0.4cm
+  \evensidemargin 0.4cm
+  \pagestyle{headings}
+  \parskip 3mm
+\input{estilo.sty}
+ \newtheorem{ejemplin}{\bf Ejemplo}
+ \newcommand{\ds}{\displaystyle}
+ %\newcommand{\nat}{I\!\! N}
+ %\newcommand{\real}{I\!\! R}
+ %\newcommand{\ent}{\mathbb{Z}}
+ \def\blok{\hspace*{\fill}{$\Box$}\vspace*{0.6cm}}
+ %%%%
+ %\newcommand{\inte}{\text{inte}}
+ %\newcommand{\so}{{\mathbf x}^*}
+ %\newcommand{\sor}{{\overline{\mathbf x}^*}}
+ %\newcommand{\sorB}{{\overline{\mathbf x}^*_B}}
+ %\newcommand{\sorN}{{\overline{\mathbf x}^*_N}}
+ %\newcommand{\sori}{{\overline{x}^*_i}}
+ %\newcommand{\Bi}{{\mathbf B}^{-1}}
+\newcommand{\dif}[1]{\widetilde{#1}}
+%%
+%%
+%% tipos de teoremas
+%%
+ \theoremstyle{remark}
+     \newtheorem{observacion}{\bf Observación}[chapter]
+     \newtheorem*{nota}{\bf Nota}
+% %%
+ \theoremstyle{plain}
+     \newtheorem{relacion}{\bf Relación}[chapter]
+     \newtheorem{proposicion}{\bf Proposición}[chapter]
+     \newtheorem{lema}{\bf Lema}[chapter]
+     \newtheorem{corolario}{\bf Corolario}[chapter]
+     \newtheorem{teorema}{\bf Teorema}[chapter]
+%%
+ \theoremstyle{definition}
+     \newtheorem{definicion}{\bf Definición}[chapter]
+%%
+\begin{document}
+	\include{io-cconv}
+	\include{io-fconv}
+	\include{io-copt}
+\end{document}

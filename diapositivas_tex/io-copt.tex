@@ -1,0 +1,2095 @@
+\clearemptydoublepage
+\chapter{Condiciones de optimalidad}
+%%
+En el tema anterior se han estudiado las funciones convexas, cuyas propiedades, como veremos a
+lo largo de este tema, permiten obtener buenas condiciones para garantizar optimalidad. En
+este tema veremos c\'{o}mo determinar estas condiciones cuando tratamos de optimizar una funci\'{o}n
+sujeto a un conjunto de restricciones, pero antes introducimos algunos resultados cl\'{a}sicos
+dentro de la optimizaci\'{o}n sin restricciones.
+
+Para resolver el problema de minimizar $f(x)$ sujeto a $\vx\in\SS$, donde $f$ es una funci\'{o}n
+convexa y $\SS$ es un conjunto convexo, en el tema anterior hemos visto que una condici\'{o}n
+necesaria y suficiente para que $\ovx$ sea \'{o}ptimo es que $\gf(\vx)^T(\vx-\ovx)\geq 0$ para
+todo $\vx\in\SS$. En este tema nos vamos a centrar en casos m\'{a}s concretos, cuando el conjunto
+$\SS$ viene dado en t\'{e}rminos de desigualdades e igualdades.
+%%
+\section{Condiciones de optimalidad en problemas sin restricciones}
+%%
+Supongamos el siguiente problema: minimizar $f(\vx)$ sin imponer ninguna restricci\'{o}n adicional
+sobre $\vx$, esto es, $\vx\in\Re^n$.  Este tipo de problemas rara vez aparecen en situaciones
+reales, pero su estudio est\'{a} justificado ya que las condiciones de optimalidad para problemas
+con restricciones son una extensi\'{o}n de las condiciones para problemas no restringidos.
+\begin{teorema}\label{t412}
+Dada $f: \Re^n\fd\Re$, diferenciable en $\ovx$, si existe un vector $\vd\in\Re^n$ tal que
+$\gf(\vx)^T\vd<0$, entonces, existe un $\delta>0$ tal que:
+  $$
+  f(\ovx+\lambda\vd)< f(\ovx),\qquad \forall \lambda\in (0,\delta).
+  $$
+\end{teorema}
+\begin{definicion}[direcci\'{o}n de descenso]
+El vector $\vd$ recibe el nombre de direcci\'{o}n de descenso de $f$ en $\ovx$.
+\end{definicion}
+\begin{demostracion}
+Por ser $f$ diferenciable en $\ovx$, se tiene que
+  $$
+  f(\ovx+\lambda\vd)=f(\ovx)+\lambda\gf(\ovx)^T\vd+\lambda\norma{\vd}\alpha(\ovx,\lambda\vd),
+  $$
+donde $\alpha(\ovx,\lambda\vd)\fd 0$ cuando $\lambda\fd 0$. Reordenando t\'{e}rminos y dividiendo
+por $\lambda$ resulta:
+  $$
+  \frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda}=\gf(\ovx)^T\vd+\norma{\vd}\alpha(\ovx,\lambda\vd).
+  $$
+Puesto que $\gf(\ovx)^T\vd<0$ y  $\alpha(\ovx,\lambda\vd)\fd 0$ cuando $\lambda\fd 0$, existe
+un $\delta>0$ tal que
+  $$
+  \gf(\ovx)^T\vd+\norma{\vd}\alpha(\ovx,\lambda\vd)<0,\qquad\forall \lambda\in(0,\delta).
+  $$
+Y entonces:
+  $$
+  f(\ovx+\lambda\vd)-f(\ovx)< 0,\qquad\forall\lambda\in(0,\delta).
+  $$
+\end{demostracion}
+\begin{corolario}\label{c412}
+Dada $f: \Re^n\fd\Re$, diferenciable en $\ovx$, si $\ovx$ es m\'{\i}nimo local, se verifica que
+$\gf(\ovx)=\vv$.
+\end{corolario}
+\begin{demostracion}
+Sup\'{o}ngase que $\gf(\ovx)\neq \vv$ y sea $\vd=-\gf(\ovx)$. Entonces
+  $$
+    \gf(\ovx)^T\vd=-\norma{\gf(\ovx)}<0.
+  $$
+Por el teorema \ref{t412} existe un $\delta>0$ tal que
+  $$
+  f(\ovx+\lambda\vd)< f(\ovx),\qquad\forall\lambda\in(0,\delta),
+  $$
+lo que contradice la hip\'{o}tesis de que $\ovx$ es un m\'{\i}nimo local.
+\end{demostracion}
+Las condiciones anteriores se suelen denominar condiciones {\em de primer orden}, ya que se
+basan en  el vector gradiente para obtener condiciones necesarias. Tambi\'{e}n es posible obtener
+condiciones necesarias {\em de segundo orden} a partir de la matriz Hessiana.
+\begin{teorema}
+Sea $f: \Re^n\fd\Re$ dos veces diferenciable en $\ovx$, si $\ovx$ es un m\'{\i}nimo local, se
+verifica que $\gf(\ovx)=\vv$ y $\vH(\ovx)$ es semidefinida positiva.
+\end{teorema}
+\begin{demostracion}
+ Sea $\vd$ una direcci\'{o}n cualquiera. Puesto que $f$ es dos veces diferenciable en $\ovx$, se
+ tiene que:
+  $$
+    f(\ovx+\lambda\vd)=f(\ovx)+\gf(\ovx)^T\vd+\frac{1}{2}\lambda^2\vd^T\vH(\ovx)
+    \vd+\lambda^2\norma{\vd}^2\alpha(\ovx,\vd),
+  $$
+verific\'{a}ndose que $\alpha(\ovx,\vx-\ovx)\fd 0$ cuando $\lambda\fd 0$. Como $\ovx$ es un m\'{\i}nimo
+local, del corolario \ref{c412} se tiene que $\gf(\ovx)=\vv$. Reordenando los t\'{e}rminos de la
+expresi\'{o}n anterior y dividiendo por $\lambda^2$, se obtiene:
+  $$
+    \frac{f(\ovx+\lambda\vd)-f(\ovx)}{\lambda^2}=\frac{1}{2}\vd^T\vH(\ovx)
+    \vd+\norma{\vd}^2\alpha(\ovx,\vd).
+  $$
+Por ser $\ovx$ m\'{\i}nimo local existe un $\delta>0$ tal que:
+  $$
+    f(\ovx+\lambda\vd)\geq f(\ovx),\qquad\forall\lambda\in (0,\delta).
+  $$
+Por tanto:
+  $$
+    \frac{1}{2}\vd^T\vH(\ovx)\vd+\norma{\vd}^2\alpha(\ovx,\vd)\geq
+    0,\qquad\forall\lambda\in(0,\delta).
+  $$
+Tomando l\'{\i}mites cuando $\lambda \fd 0$, resulta $\vd^T\vH(\ovx)\vd\geq 0$ y $\vH(\ovx)$ es
+semidefinida positiva.
+\end{demostracion}
+Los teoremas anteriores proporcionan condiciones necesarias. Esto es, deben verificarse para
+todo m\'{\i}nimo local, pero un punto que satisfaga estas condiciones no tiene que ser
+necesariamente un m\'{\i}nimo local. El siguiente teorema proporciona una condici\'{o}n suficiente para
+que un punto sea m\'{\i}nimo local. Adem\'{a}s, en caso de que la funci\'{o}n sea pseudo-convexa, la
+condici\'{o}n necesaria dada por el corolario \ref{c412} es tambi\'{e}n suficiente.
+\begin{teorema}
+Sea $f: \Re^n\fd\Re$ dos veces diferenciable en $\ovx$. Si $\gf(\ovx)=\vv$ y $\vH(\ovx)$ es
+definida positiva, entonces $\ovx$ es un m\'{\i}nimo local estricto.
+\end{teorema}
+\begin{demostracion}
+Por ser $f$ dos veces diferenciable se tiene que:
+  $$
+    f(\vx)=f(\ovx)+\gf(\ovx)^T(\vx-\ovx)+\frac{1}{2}(\vx-\ovx)^T\vH(\ovx)
+    (\vx-\ovx)+\norma{\vx-\ovx}\alpha(\ovx,\ovx-\vx),\qquad \forall \vx\in\Re^n.
+  $$
+donde $\alpha(\ovx,\ovx-\vx)\fd 0$ cuando $\vx\fd \ovx$. Por reducci\'{o}n al absurdo, sup\'{o}ngase
+que $\ovx$ no es un m\'{\i}nimo local; esto es, existe una sucesi\'{o}n $\{\vx_k\}$ de puntos que
+converge a $\ovx$ tal que $f(\vx_k)<f(\ovx)$ para cada $k$.
+
+Considerando que $\gf(\ovx)=\vv$ y que $f(\vx_k)<f(\ovx)$ y denotando
+  $$
+   \vd_k=\frac{\vx_k-\ovx}{\norma{\vx_k-\ovx}},
+  $$
+se tiene que:
+  $$
+    \frac{f(\vx_k)-f(\ovx)}{\norma{\vx_k-\ovx}^2}=\frac{1}{2}\vd_k^T\vH(\ovx)\vd_k
+    +\alpha(\ovx,\ovx-\vx_k) < 0,\qquad\forall k.
+  $$
+Puesto que la norma de $\vd_k$ es 1, existe un subconjunto de \'{\i}ndices $\H$ tal que
+$\{\vd_k\}_{k\in\H}$ converge a una direcci\'{o}n $\vd$, con $\norma{\vd}=1$. Tomando esta
+subsucesi\'{o}n y el hecho de que $\alpha(\ovx,\ovx-\vx))\fd 0$ cuando $k\in\H$ tiende a
+$+\infty$, se tiene que $\vd^T\vH\vd\leq 0$. Esto contradice la hip\'{o}tesis de que $\vH(\ovx)$
+es definida positiva y el hecho de que $\norma{\vd}=1$. Por tanto, $\ovx$ es un m\'{\i}nimo local.
+\end{demostracion}
+\begin{teorema}\label{t415}
+Sea $f:\SS\subset\Re^n\fd\Re$ pseudo-convexa sobre $\SS$. Entonces, $\ovx$ es m\'{\i}nimo global si
+y s\'{o}lo si $\gf(\ovx)=\vv$.
+\end{teorema}
+\begin{demostracion}
+Por el corolario \ref{c412} se prueba la condici\'{o}n necesaria. Para probar la suficiente,
+sup\'{o}ngase que $\gf(\ovx)=\vv$. Entonces $\gf(\ovx)^T(\vx-\ovx)=0$ para $\vx\in\Re^n$. Por ser
+$f$ pseudo-convexa se sigue que $f(\vx)\geq f(\ovx)$ para $\vx\in\Re^n$.
+\end{demostracion}
+El teorema anterior proporciona una condici\'{o}n necesaria y suficiente en t\'{e}rminos de la primera
+derivada para funciones pseudo-convexas. De la misma forma, se pueden obtener condiciones
+necesarias y suficientes en t\'{e}rminos de derivadas de mayor grado. Veamos un resultado para el
+caso unidimensional.
+%%
+\begin{teorema}
+Sea $f:\Re\fd\Re$ una funci\'{o}n infinitamente diferenciable. Un punto $x\in\Re$ es un m\'{\i}nimo
+local si y s\'{o}lo si se verifican alguna de las dos condiciones siguientes:
+  \begin{enumerate}
+    \item $f^{(j)}(x)=0$ para $j=1,2,\dots$.
+    \item Existe un $n\geq 2$ tal que $f^{(n)}(x)>0$ y $f^{(j)}(x)=0$ para todo
+    $j=1,\dots,n-1$.
+  \end{enumerate}
+donde $f^{(j)}(x)$ denota la $j$-\'{e}sima derivada de $f$ en el punto $x$.
+\end{teorema}
+\begin{demostracion}
+Ver Bazaraa, Sherali and Shetty (1993), p\'{a}gina 135.
+\end{demostracion}
+%\begin{demostracion}
+%Se sabe $x$ es un m\'{\i}nimo local si y s\'{o}lo si $f(x+h)-f(x)\geq 0$ para valores suficientemente
+%peque\~{n}os de $\abs{h}$. Utilizando el desarrollo de Taylor, esta propiedad es cierta si y s\'{o}lo
+%si:
+%  $$
+%  hf^{(1)}(x)+\frac{h^2}{2!)f^{(2)}(x)+\frac{h^3}{3!}f^{(3)}+\frac{h^4}{4!}+\dots\geq 0
+%  $$
+%  para un valor de $\abs{h}$ suficientemente peque\~{n}o.
+%\end{demostracion}
+%%
+\section{Optimizaci\'{o}n con restricciones}
+%%
+\subsection{Optimizaci\'{o}n con restricciones de desigualdad}
+%%
+En esta secci\'{o}n se estudian condiciones para la optimalidad del siguiente problema:
+   $$
+   \min\{f(\vx)\,/\, \vx\in\SS\}
+   $$
+para centrarnos, a continuaci\'{o}n en el caso en el que el conjunto $\SS$ venga dado por una
+serie de desigualdades:
+   \begin{equation}\label{PP}
+   \min\{f(\vx)\,/\, \vx\in\X,\;\; g_i(\vx)\leq 0,\; i=1,\dots,m\},
+   \end{equation}
+siendo $\X$ un abierto no vac\'{\i}o de $\Re^n$ y $f,g_i:\Re^n\fd\Re$.
+
+En primer lugar, estudiaremos el problema desde el punto de vista geom\'{e}trico, presentando
+condiciones necesarias para la optimalidad de un punto; estas condiciones se basan en el cono
+de direcciones que se define a continuaci\'{o}n.
+%%
+\begin{definicion}[Cono de direcciones factibles]\label{d421}
+%%
+Sea $\SS\subset\Re^n$ no vac\'{\i}o y sea $\ovx\in\SS$, se llama cono de direcciones factibles de
+$\SS$ en el punto $\ovx$ al conjunto:
+ $$
+   \D=\{\vd\in\Re^n\,/\,\vd\neq 0,\, \exists\delta_d>0\text{ tal que }
+   \ovx+\delta\vd\in\SS,\;\,\forall \delta\in (0,\delta_d)\}.
+ $$
+Cada uno de los vectores $\vd\in\D$ recibe el nombre de direcci\'{o}n factible.
+\end{definicion}
+\begin{definicion}[Cono de direcciones de mejora o de descenso]
+%%
+Sea $f:\Re^n\fd\Re$ una funci\'{o}n y sea $\SS\subset\Re^n$ no vac\'{\i}o. Dado un punto $\ovx\in\SS$,
+se llama cono de direcciones de descenso de $\SS$ en el punto $\ovx$ al conjunto:
+  $$
+    \F=\{\vd\in\Re^n\,/\, f(\ovx+\lambda\vd)< f(\ovx),\quad\forall\lambda\in(0,\delta),\text{ para alg\'{u}n $\delta>0$}\}.
+  $$
+Cada uno de los vectores $\vd\in\D$ recibe el nombre de direcci\'{o}n de descenso.
+\end{definicion}
+De las definiciones anteriores se deduce que es posible avanzar desde el punto $\ovx$ sobre
+cada una de las direcciones del conjunto $\D$ dentro de la regi\'{o}n factible. Por tanto, para
+que $\ovx$ sea un m\'{\i}nimo local, ser\'{a} necesario que el cono de direcciones de descenso y el
+cono de direcciones factibles tengan intersecci\'{o}n vac\'{\i}a, ya que de otro modo ser\'{a} posible
+avanzar por una direcci\'{o}n factible disminuyendo el valor de la funci\'{o}n objetivo y, por tanto,
+$\ovx$ no ser\'{a} \'{o}ptimo local.
+
+En el caso general esta propiedad no es de f\'{a}cil comprobaci\'{o}n, pero si $f$ es diferenciable el
+teorema \ref{t412} nos dice que si $\gf(\ovx)^T\vd<0$, entonces, $\vd$ es una direcci\'{o}n de
+descenso. En este caso, el siguiente conjunto es un subconjunto de las direcciones de
+descenso:
+  $$
+    \F_0=\{\vd\in\Re^n\,/\, \gf(\ovx)^T\vd<0\}.
+  $$
+Por tanto, si $\ovx$ es un m\'{\i}nimo local y $\gf(\ovx)^T\vd<0$, entonces $\vd\notin\D$. Esto es,
+tenemos una condici\'{o}n necesaria para que $\ovx$ sea un m\'{\i}nimo local. Esta idea queda
+formalizada en el siguiente teorema.
+\begin{teorema}\label{t422}
+Sea el problema de optimizaci\'{o}n $\min\{f(\vx)\, /\, \vx\in\SS\}$, con $f$ diferenciable en
+$\ovx\in\SS$.  Si $\ovx$ es un m\'{\i}nimo  local, entonces $\F_0\cap \D=\emptyset$.
+\end{teorema}
+\begin{demostracion}
+Por reducci\'{o}n al absurdo, sup\'{o}ngase que existe un vector $\vd\in\F_0\cap\D$. Entonces, por el
+teorema \ref{t412}, existe un $\delta_1>0$ tal que:
+  \begin{equation}\label{dem422-1}
+     f(\ovx+\lambda\vd)<f(\ovx),\qquad \forall \lambda\in(0,\delta_1).
+  \end{equation}
+Adem\'{a}s, por la definici\'{o}n \ref{d421}, existe un $\delta_2$ tal que:
+  \begin{equation}\label{dem422-2}
+     \ovx+\lambda\vd\in\SS,\qquad \forall \lambda\in(0,\delta_2).
+  \end{equation}
+La hip\'{o}tesis de que $\ovx$ es un m\'{\i}nimo local es contradictoria con \eqref{dem422-1} y
+\eqref{dem422-2}, ya que para $\lambda\in(0,\min\{\delta_1,\delta_2\})$, $\ovx+\lambda\vd$ es
+un punto factible de un entorno de $\ovx$ con menor valor en la funci\'{o}n objetivo.
+\end{demostracion}
+La implicaci\'{o}n inversa no es cierta, ya que si bien es cierto que $\F_0\subseteq\F$, no
+necesariamente se tiene que $\F_0=\F$. As\'{\i}, el corolario \ref{c412} nos garantiza que si
+$\ovx$ es un m\'{\i}nimo local, entonces $\gf(\ovx)=\vv$ y por tanto, no existen direcciones de
+descenso en ese punto; pero esta condici\'{o}n no es suficiente y puede ocurrir que un punto
+$\ovx$ no sea m\'{\i}nimo local y $\gf(\ovx)=\vv$; esto ocurre por ejemplo, si $\ovx$ es un m\'{a}ximo
+o un punto de silla. En este \'{u}ltimo caso, $\ovx$ es un punto de silla, existen direcciones de
+descenso y de ascenso en $\ovx$ pero $\gf(\ovx)^T\vd=0$ para cualquier direcci\'{o}n y, por tanto,
+$\vd\notin\F_0$. En este caso $\F_0$ y $\F$ son distintos.
+
+El teorema \ref{t415} garantiza que incluyendo la condici\'{o}n de pseudo-convexidad para la
+funci\'{o}n $f$, entonces $\gf(\ovx)=\vv$ es una condici\'{o}n necesaria y suficiente para que $\ovx$
+sea m\'{\i}nimo local y, por tanto, no es posible que se presente la situaci\'{o}n anterior y
+$\F_0=\F$.
+\begin{teorema}\label{t422-con}
+Sea el problema de optimizaci\'{o}n $\min\{f(\vx)\, /\, \vx\in\SS\}$, con $f$ diferenciable y
+pseudo-convexa en $\ovx\in\SS$. Si $\F_0\cap \D=\emptyset$  y existe un $\epsilon>0$ tal que
+$\vd=(\vx-\ovx)\in\D$ para cualquier $\vx\in\SS\cap N_\epsilon(\ovx)$, donde
+$N_\epsilon{\ovx}$ es un entorno de radio $\epsilon$, entonces $\ovx$ es un m\'{\i}nimo local de
+$f$.
+\end{teorema}
+\begin{demostracion}
+Sup\'{o}ngase que $F_0\cap\D=\emptyset$ y que se dan las condiciones del teorema. Entonces
+  $$
+  f(\vx)\geq f(\ovx),\qquad \forall \vx\in\SS\cap N_\epsilon(\ovx).
+  $$
+Efectivamente, supongamos que existe un $\hat{\vx}\in\SS\cap N_\epsilon(\ovx)$ tal que
+$f(\hat{\vx})< f(\ovx)$.
+
+Por hip\'{o}tesis, $\vd=(\hat{\vx}-\ovx)\in\D$. Adem\'{a}s, por ser $f$ pseudo-convexa en $\ovx$,
+tenemos que $\gf(\ovx)^T\vd<0$. De otro modo, si $\gf(\ovx)^T\vd\geq 0$, obtendr\'{\i}amos
+   $$
+    f(\hat{\vx})\equiv f(\ovx+\vd)\geq f(\ovx).
+   $$
+Por tanto, hemos visto que si $\ovx$ no es m\'{\i}nimo local en $\SS\cap N_\epsilon(\ovx)$,
+entonces, existe una direcci\'{o}n $\vd\in\F_0\cap\D$, en contradicci\'{o}n con la hip\'{o}tesis de
+partida.
+\end{demostracion}
+El teorema \ref{t422} nos proporciona una condici\'{o}n necesaria para que el punto $\ovx$ sea un
+m\'{\i}nimo local: $\F_0\cap\D=\emptyset$, donde $\F_0$ es un semiespacio abierto definido en
+t\'{e}rminos del vector $\gf(\ovx)$ y $\D$ es el cono de direcciones factibles, que no est\'{a}
+necesariamente definido en t\'{e}rminos de gradientes de las funciones implicadas. Como ocurr\'{\i}a
+antes, esta propiedad no es de f\'{a}cil comprobaci\'{o}n ya que no se conoce ninguna expresi\'{o}n
+anal\'{\i}tica del conjunto $\D$ de direcciones factibles. Cuando el punto $\ovx$ est\'{a} en el
+interior de $\SS$, el conjunto $\D$ es m\'{a}s f\'{a}cil de determinar, ya que siempre existe un
+entorno de $\ovx$ contenido en $\SS$ y, por tanto, todas son direcciones factibles. Pero si
+$\ovx$ est\'{a} en la frontera, algunas direcciones dejan de ser factibles. Es claro que las
+direcciones que debemos eliminar dependen de las restricciones que se verifiquen con igualdad.
+Esto nos lleva a introducir al siguiente definici\'{o}n:
+\begin{definicion}[Restricciones activas]
+Dada una soluci\'{o}n factible $\vx$ del problema \eqref{PP}, se dice que una restricci\'{o}n $g_i$ es
+activa si $g_i(\vx)=0$. En otro caso ($g_i(\vx)<0$), se dice que $g_i$ es inactiva.
+\end{definicion}
+N\'{o}tese que en el problema \eqref{PP}, si una restricci\'{o}n  activa en el punto $\ovx$ es
+diferenciable, el gradiente de dicha restricci\'{o}n en ese punto nos da la direcci\'{o}n de m\'{a}ximo
+crecimiento y, puesto que las restricciones est\'{a}n definidas con desigualdades del tipo ``menor
+o igual que", la orientaci\'{o}n de estos gradientes es hacia el exterior de la regi\'{o}n factible.
+Esto es, si una direcci\'{o}n $\vd$ es tal que $\gg_i(\ovx^T\vd<0$, entonces es una direcci\'{o}n
+factible respecto de la restricci\'{o}n $g_i$. N\'{o}tese que esta condici\'{o}n no permite caracterizar
+las direcciones factibles, pues puede ocurrir que el producto escalar sea 0 y se trate tambi\'{e}n
+de una direcci\'{o}n factible, por ejemplo, si la restricci\'{o}n es lineal. Entonces, si definimos el
+cono abierto $\G_0$ como:
+ $$
+ \G_0=\{ d\in\Re^n\,/\,\gg_i(\ovx)^Td<0,\, \forall i\in\I\}.
+ $$
+es claro que $\G_0\subseteq\D$, aunque no necesariamente $\G_0=\D$. Entonces, es posible
+sustituir la condici\'{o}n geom\'{e}trica $\F_0\cap\D=\emptyset$ por la condici\'{o}n anal\'{\i}tica m\'{a}s d\'{e}bil,
+pero m\'{a}s vers\'{a}til,  $\F_0\cap\G_0=\emptyset$, que tambi\'{e}n ser\'{a} necesaria para que $\ovx$ sea
+un m\'{\i}nimo local. Este es el resultado que establece el siguiente teorema.
+\begin{teorema}\label{t423}
+Sea el problema \eqref{PP}, $\ovx$ y $\I$ el conjunto de \'{\i}ndices correspondientes a las
+restricciones activas asociadas a $\ovx$, soluci\'{o}n factible del problema \eqref{PP}:
+   $$
+    \I=\bigl\{i\in\{1,\dots,m\}\,/\, g_i(\ovx)=0\bigr\}.
+   $$
+Entonces, si:
+  \begin{enumerate}
+    \item $f$, $g_i$, $i\in\I$, son diferenciables en $\ovx$,
+    \item $g_i$, $i\notin\I$, son continuas en $\ovx$,
+    \item $\ovx$ es un m\'{\i}nimo local de $f$,
+ \end{enumerate}
+se tiene que:
+ $$
+ \F_0\cap\G_0=\emptyset,
+ $$
+ donde
+ $$
+ \G_0=\{ d\in\Re^n\,/\,\gg_i(\ovx)^Td<0,\, \forall i\in\I\}.
+ $$
+\end{teorema}
+%%
+\begin{observacion}
+Aunque es evidente que el conjunto $\I$ depende del punto $\ovx$, si no es necesario, no se
+indicar\'{a} expl\'{\i}citamente.
+\end{observacion}
+%%
+\begin{demostracion}
+Se $\vd\in\G_0$. Puesto que $\ovx$ es factible, $\ovx\in\X$; como $\X$ es un abierto, existe
+un $\delta_1>0$ tal que:
+  \begin{equation}\label{dem423-1}
+  \ovx+\lambda\vd\in\X,\qquad \forall \lambda\in(0,\delta_1).
+  \end{equation}
+Por otra parte, como $g_i(\ovx)<0$ para $i\notin\I$ y estas son funciones continuas, existe un
+$\delta_2>0$ tal que:
+  \begin{equation}\label{dem423-2}
+  g_i(\ovx+\lambda\vd)<0,\qquad \forall \lambda\in(0,\delta_2).
+  \end{equation}
+Puesto que $\vd\in\G_0$, se tiene que:
+ $$
+ \gg_i(\ovx)^T\vd<0,\qquad \forall i\in\I.
+ $$
+Por \'{u}ltimo, por el teorema \ref{t412} se deduce que existe un $\delta_3>0$ tal que:
+  \begin{equation}\label{dem423-3}
+  g_i(\ovx+\lambda\vd)<g_i(\ovx),\qquad \forall \lambda\in(0,\delta_3).
+  \end{equation}
+Entonces de \eqref{dem423-1}, \eqref{dem423-2} y \eqref{dem423-3}, se tiene que los puntos de
+la forma
+  $$
+    \ovx+\lambda\vd,\qquad\forall \lambda\in(0,\delta),\quad\text{con
+    $\delta=\min\{\delta_1,\delta_2,\delta_3\}$},
+  $$
+son factibles para el problema \eqref{PP} ya que $\vd\in\D$, donde $\D$ es el cono de
+direcciones factibles. Por otro lado, $\vd\in\G_0$ implica que $\vd\in\D$ ($\G_0\subseteq\D$).
+Por el teorema \ref{t422}, al ser $\ovx$ un m\'{\i}nimo local, se tiene que $\F_0\cap\D=\emptyset$
+y, por tanto, $\F_0\cap\G_0=\emptyset$.
+\end{demostracion}
+\begin{teorema}\label{t4252}
+Sea el problema \eqref{PP}, $\ovx$ y $\I$ el conjunto de \'{\i}ndices correspondientes a la
+restricciones activas asociadas a $\ovx$, soluci\'{o}n factible del problema \eqref{PP}. Si:
+  \begin{enumerate}
+    \item $f$ es pseudo convexa en $\ovx$,
+    \item $g_i$, $i\in\I$, son estrictamente pseudo-convexas en $\ovx$,
+    \item $\F_0\cap\G_0=\emptyset$,
+ \end{enumerate}
+entonces, $\ovx$ es un m\'{\i}nimo local.
+\end{teorema}
+\begin{ejemplo}
+Consid\'{e}rese el siguiente problema
+ \begin{align*}
+   \min (x_1-3)^2+(x_2-2)^2 &
+   \\
+     x_1^2+x_2^2-5 & \leq 0
+   \\
+     -x_1 &\leq 0
+     \\
+     -x_2 &\leq 0
+     \\
+     x_1+x_2-3 &\leq 0
+ \end{align*}
+\begin{center}
+\begin{pspicture}(-1,-1)(4,5)
+    \psset{yunit=15mm,xunit=15mm,unit=15mm}
+    \psline[linestyle=dashed]{<->}(-0.5,0)(3,0)
+    \psline[linestyle=dashed]{<->}(0,-0.5)(0,3)
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+      \psarc(0,0){2.23606797}{63.4344}{90}
+      \psline(0,2.23606797)(0,0)
+      \psline(0,0)(2.23606797,0)
+      \psarc(0,0){2.23606797}{0}{26.5656}
+      \psline(2,1)(1,2)
+    }
+    \psline(0,0)(0,3)
+    \psline(0,0)(3,0)
+    \psline(1,2)(2,1)
+    \psarc(0,0){2.2361}{0}{26.5}
+    \psarc(0,0){2.2361}{63.5}{90}
+    \rput(2.05,1){\circle*{0.07}}
+    \rput(1.85,1.2){\circle*{0.07}}
+    %%
+    \rput(3,2){\circle*{0.07}}
+    \rput(3,2.2){\footnotesize \'{o}ptimo no restringido}
+    \psarc[linestyle=dashed](3,2){1}{180}{270}
+    \psarc[linestyle=dashed](3,2){.5}{180}{270}
+\end{pspicture}
+\end{center}
+Consid\'{e}rese el punto $\ovx=(\frac{9}{5},\frac{6}{5})$. La segunda restricci\'{o}n es la \'{u}nica
+activa y en ese punto
+  $$
+   \gf(\ovx)^T=\Bigl(\frac{-12}{5},\frac{-8}{5}\Bigr)\qquad\text{ y }\quad
+   \gg_2(\ovx)^T=(1,1)
+  $$
+En siguiente figura se muestran cuales son los conjuntos $\F_0$ y $\G_0$. Puesto que su
+intersecci\'{o}n es no vac\'{\i}a, este punto no es \'{o}ptimo.
+\begin{center}
+\begin{pspicture}(-3,-3)(6,7)
+    \psset{yunit=12mm,xunit=12mm,unit=12mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+      \psarc(0,0){2.23606797}{63.4344}{90}
+      \psline(0,2.23606797)(0,0)
+      \psline(0,0)(2.23606797,0)
+      \psarc(0,0){2.23606797}{0}{26.5656}
+      \psline(2,1)(1,2)
+    }
+    \pscustom[fillstyle=hlines,fillcolor=lightgray]{
+       \psline[linestyle=dashed,linewidth=0mm](2.3,-1.3)(3.3,-0.3)
+       \psline[linestyle=dashed,linewidth=0mm](3.3,-0.3)(-0.3,3.3)
+       \psline[linestyle=dashed,linewidth=0mm](-0.3,3.3)(-1.3,2.3)
+       %\psline[linestyle=dashed,linewidth=0mm](-1.3,2.3)(2.3,-1.3)
+    }
+    \pscustom[fillstyle=vlines,fillcolor=lightgray]{
+       \psline[linestyle=dashed,linewidth=0mm](3.8,0.575)(2.8,-0.175)
+       \psline[linestyle=dashed,linewidth=0mm](2.8,-0.175)(0.3,3.2625)
+       \psline[linestyle=dashed,linewidth=0mm](0.3,3.2625)(1.3,4.0625)
+       %\psline[linestyle=dashed,linewidth=0mm](1.3,4.0625)(3.8,0.575)
+    }
+    \psline{<->}(-1.5,0)(5,0)
+    \psline{<->}(0,-2)(0,5)
+    \rput(1.85,1.2){\circle*{0.1}}
+    \psline[linestyle=dashed,linewidth=0.25mm]{-}(3.3,-0.3)(-0.3,3.3)
+    \psline[linestyle=dashed,linewidth=0.25mm]{-}(2.8,-0.175)(0.3,3.2625)
+    \rput(-0.3,3.3){\psline{->}(0,0)(-0.2,-0.2)}
+    \rput(0.3,3.2625){\psline{->}(0,0)(0.20,0.15)}
+    \rput(3.3,-.3){\psline{->}(0,0)(-0.2,-0.2)}
+    \rput(2.8,-0.175){\psline{->}(0,0)(0.20,0.15)}
+    \rput(-0.5,3.4){$\G_0$}
+    \rput(0.6,3.7){$\F_0$}
+    %%
+    \rput(3,2){\circle*{0.07}}
+    \psarc[linestyle=dashed](3,2){1}{180}{270}
+    \psarc[linestyle=dashed](3,2){.5}{180}{270}
+\end{pspicture}
+\end{center}
+Sea ahora el punto $\ovx=(2,1)$. Ahora hay dos restricciones activas, la primera y la segunda
+y los gradientes resultan:
+  $$
+    \gf(\ovx)=(-2,-2)^T\qquad\gg_1(\ovx)=(4,2)^T\qquad\gg_2(\ovx)=(1,1)^T
+  $$
+La siguiente figura muestra cuales son los conjuntos $\F_0$ y $\G_0$.
+\begin{center}
+\begin{pspicture}(-3,-3)(4,7)
+    \psset{yunit=12mm,xunit=12mm,unit=12mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+      \psarc(0,0){2.23606797}{63.4344}{90}
+      \psline(0,2.23606797)(0,0)
+      \psline(0,0)(2.23606797,0)
+      \psarc(0,0){2.23606797}{0}{26.5656}
+      \psline(2,1)(1,2)
+    }
+    \pscustom[fillstyle=vlines,fillcolor=lightgray]{
+       \psline[linestyle=dashed,linewidth=0mm](4.3,0.7)(3.3,-0.3)
+       \psline[linestyle=dashed,linewidth=0mm](3.3,-0.3)(-0.3,3.3)
+       \psline[linestyle=dashed,linewidth=0mm](-0.3,3.3)(0.7,4.3)
+%       \psline[linestyle=dashed,linewidth=0mm](0.7,4.3)(4.3,0.7)
+    }
+    \pscustom[fillstyle=hlines,fillcolor=lightgray]{
+       \psline[linestyle=dashed,linewidth=0mm](2,-1.5)(3,-1)
+       \psline[linestyle=dashed,linewidth=0mm](3,-1)(2,1)
+       \psline[linestyle=dashed,linewidth=0mm](2,1)(-0.3,3.3)
+       \psline[linestyle=dashed,linewidth=0mm](-0.3,3.3)(-1.3,2.3)
+    }
+    \psline{<->}(-0.5,0)(3.5,0)
+    \psline{<->}(0,-0.5)(0,3.5)
+    \rput(2.05,1){\circle*{0.1}}
+    \psline[linestyle=dashed,linewidth=0.25mm]{-}(3.3,-0.3)(-0.3,3.3)
+    \psline[linestyle=dashed,linewidth=0.25mm]{-}(3,-1)(2,1)
+    \rput(-0.3,3.3){\psline{->}(0,0)(-0.2,-0.2)}
+    \rput(3,-1){\psline{->}(0,0)(-0.2,-0.1)}
+    \rput(-0.3,3.3){\psline{->}(0,0)(0.2,0.2)}
+    \rput(3.3,-.3){\psline{->}(0,0)(0.2,0.2)}
+    \rput(-0.85,3){$\G_0$}
+    \rput(2.5,-0.8){$\G_0$}
+    \rput(0.6,3.4){$\F_0$}
+    %%
+    \rput(3,2){\circle*{0.07}}
+    \psarc[linestyle=dashed](3,2){1}{180}{270}
+    \psarc[linestyle=dashed](3,2){.5}{180}{270}
+\end{pspicture}
+\end{center}
+En este caso, su intersecci\'{o}n es vac\'{\i}a. Pero no se da la condici\'{o}n suficiente del teorema
+\ref{t4252}, puesto que $g_2$ no es estrictamente pseudo-convexa en un entorno de $\ovx$. Sin
+embargo, aplicando el teorema \ref{t422-con}, se pude concluir que $\ovx$ es un m\'{\i}nimo local.
+De hecho, puesto que la funci\'{o}n objetivo es estrictamente convexa y la regi\'{o}n sobre la que se
+busca el m\'{\i}nimo es convexa, el m\'{\i}nimo es global y \'{u}nico.
+\end{ejemplo}
+\begin{ejemplo}
+Consid\'{e}rese el siguiente problema
+ \begin{align*}
+   \min (x_1-1)^2+(x_2-1)^2 &
+   \\
+     (x_1+x_2-1 )^3& \leq 0
+   \\
+     x_1 &\geq 0
+     \\
+     x_2 &\geq 0
+ \end{align*}
+N\'{o}tese que la condici\'{o}n necesaria del teorema \ref{t423} es cierta para cada cualquier punto
+factible de la recta $x_1+x_2=1$. Sin embargo, el conjunto de restricciones ouede ser
+representado equivalentemente por
+ \begin{align*}
+     x_1+x_2 & \leq 1
+     \\
+     x_1 &\geq 0
+     \\
+     x_2 &\geq 0
+ \end{align*}
+Es f\'{a}cil comprobar como la condici\'{o}n de que $\F_0\cap\G_0=\emptyset$ s\'{o}lo se verifica en el
+punto $\bigl(\frac{1}{2},\frac{1}{2}\bigr)$. Por ser $f$ una funci\'{o}n estrictamente conversa y
+la regi\'{o}n definida por las restricciones un conjunto convexo, aplicando el teorema
+\ref{t422-con}, se concluye que este punto es el \'{u}nico m\'{\i}nimo global del problema
+\end{ejemplo}
+%%
+\subsubsection*{Condiciones de Fritz-John}
+%%
+Seg\'{u}n el teorema anterior, para que el punto $\ovx$ sea m\'{\i}nimo local es necesario que
+$\F_0\cap\G_0$ sea vac\'{\i}o. Esto es, que el sistema:
+  \begin{align*}
+     \gf^T(\ovx)\vd & < 0
+     \\
+     \gg^T_i(\ovx)\vd & < 0\qquad\forall i\in\I
+  \end{align*}
+El siguiente teorema presenta las condiciones propuestas por Fritz John en 1948 obtenidas a
+partir de la condici\'{o}n de que el sistema anterior no tiene soluci\'{o}n. Utilizando un teorema de
+alternativa (que recordemos que establecen resultados del tipo ``uno y s\'{o}lo uno de dos
+sistemas de restricciones tiene soluci\'{o}n") obtiene un sistema alternativo en funci\'{o}n s\'{o}lo de
+los gradientes de las funciones implicadas, esto es $f$ y $g_i$, $i\in\I$.
+%%
+\begin{teorema}[Condiciones necesarias de Fritz-John]
+Sea el problema \eqref{PP} e $\I=\{i\,/\, g_i(\ovx)=0\}$ el conjunto de restricciones activas
+asociadas a $\ovx$, soluci\'{o}n factible de \eqref{PP}. Si
+ \begin{enumerate}
+    \item $f$ $g_i$, $i\in\I$, son diferenciables en $\ovx$,
+    \item $g_i$, $i\in\I$, son continuas en $\ovx$,
+    \item $\ovx$ es un m\'{\i}nimo local de $f$,
+ \end{enumerate}
+entonces, existen escalares $\{u_0,u_i, i\in\I\}$, no todos ellos nulos y con $u_0\geq 0$,
+$u_i\geq 0$, $\forall i\in\I$ tales que:
+   \begin{equation*}
+   u_0\gf(\ovx)+\sum_{i\in\I} u_i\gg_i(\ovx)=\vv.
+   \end{equation*}
+Si adem\'{a}s se verifica que las funciones $\{g_i,\, i\notin \I\}$ son diferenciables en $\ovx$,
+las condiciones anteriores se pueden escribir de la forma
+   \begin{align*}
+   u_0\gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx)  =\vv, &
+   \\
+   u_ig_i(\ovx) =0, & \qquad\forall i=1,\dots,m,
+   \\
+   u_0,u_i\geq 0, & \qquad\forall i=1,\dots,m,
+   \\
+   (u_0,\V{u})\neq(0,\B{0}). &
+   \end{align*}
+donde $\V{u}$ es el vector cuyas componentes son $u_i$ $i=1\dots,m$.
+\end{teorema}
+Antes de demostrar el teorema, veamos dos resultados previos necesarios.
+\begin{lema}[Farkas]\label{farkas}
+Sea $\vA$ una matriz $m\times n$ y sea $\vc\in\Re^n$, entonces uno y s\'{o}lo uno de los dos
+sistemas siguientes tiene soluci\'{o}n:
+   \begin{enumerate}
+     \item Existe $\vx\in\Re^n$ tal que $\vA\vx\leq 0$ y $\vc^T\vx>\vv$.
+     \item Existe $\vy\in\Re^m$ tal que $\vA^T\vy=\vc$ e $\vy\geq \vv$.
+   \end{enumerate}
+\end{lema}
+\begin{lema}[Gordan]\label{gordan}
+Sea $\vA$ una matriz $m\times n$, entonces uno y s\'{o}lo uno de los dos sistemas siguientes tiene
+soluci\'{o}n:
+   \begin{enumerate}
+     \item Existe $\vx\in\Re^n$ tal que $\vA\vx< 0$.
+     \item Existe $\vy\in\Re^m$ tal que $\vA^T\vy=\vv$ e $\vy\neq\vv$.
+   \end{enumerate}
+\end{lema}
+\begin{demostracion}{\bf (Condiciones de Fritz John)} \\
+Puesto que $\ovx$ es un m\'{\i}nimo local de \eqref{PP}, del teorema \ref{t423} se tiene que no
+existe un vector $\vd$ tal que $\gf(\ovx)^T\vd<0$ y $\gg(\ovx)^T\vd<0$, $\forall i\in\I$. Sea
+$\vA$ la matriz formada por las filas $\gf(\ovx)^T$ y $\gg(\ovx)^T$, $i\in\I$.
+
+La condici\'{o}n de optimalidad del teorema \ref{t423} es equivalente a decir que el sistema
+$\vA\vd<0$ no tiene soluci\'{o}n. Por el lema de Gordan, existe un vector $\vp$, $\vp\geq\vv$ tal
+que $\vA^T\vp=0$. Denotando las componentes de $\vp$ por $u_0$, $u_i$, $i\in\I$, se demuestra
+la primera parte del teorema. La segunda parte se obtiene sin m\'{a}s que considerar $u_i=0$,
+$\forall i\notin\I$.
+\end{demostracion}
+\begin{definicion}
+Los escalares $u_0$, $u_1$, \dots, $u_m$ se denominan multiplicadores de Lagrange.
+\par\noindent Las condiciones $u_ig_i(x)=0$ se denominan de holgura complementaria.
+\end{definicion}
+%%
+\subsubsection*{Interpretaci\'{o}n geom\'{e}trica}
+%%
+Supongamos que tenemos un punto $\ovx$; veamos c\'{o}mo interpretar geom\'{e}tricamente el hecho de
+que en $\ovx$ se verifican las condiciones necesarias de Fritz John. Las dos primeras
+condiciones, acerca de la diferenciabilidad y continuidad de las funciones implicadas se
+pueden considerar condiciones de regularidad, que garantizan la existencia de los gradientes
+de la tercera condici\'{o}n y un comportamiento regular de las restricciones no activas.
+
+La tercera condici\'{o}n se puede expresar como:
+   \begin{equation*}
+   u_0\bigl(-\gf(\ovx)\bigr)=\sum_{i\in\I} u_i\gg_i(\ovx)=\vv.
+   \end{equation*}
+Esto es, el opuesto de gradiente de la funci\'{o}n objetivo (direcci\'{o}n de m\'{a}ximo decrecimiento) se
+puede poner como combinaci\'{o}n lineal de los gradientes de las restricciones activas. Analizamos
+el caso m\'{a}s sencillo, cuando $u_0\neq 0$ y $\gf(\ovx)\neq\vv$. El hecho de que los
+multiplicadores sean todos no negativos implica que $-\gf(\ovx)$ pertenece al cono formado por
+los gradientes de las restricciones activas. La siguiente figura muestra la situaci\'{o}n para en
+$\Re^2$ cuando hay dos restriciones activas.
+  \setlength{\unitlength}{1mm}
+\begin{center}\begin{pspicture}(-2,-2)(2,3)
+ \psset{yunit=17mm,xunit=17mm}
+ \psline{->}(0,0)(0,1)
+ \rput(0,1.2){\footnotesize $-\gf(\ovx)$}
+ \psline{->}(0,0)(-1,1)%\put(35,15){\vector(-1,1){20}}
+ \rput(-1,1.2){\footnotesize $\gg_1(\ovx)$}
+ \psline{->}(0,0)(0.75,1)
+ \rput(0.75,1.2){\footnotesize $\gg_2(\ovx)$}
+ \psline(-1,0)(1,0)
+ \psline[linestyle=dashed](-1,-1)(1,1)
+ \psline[linestyle=dashed](1,-0.667)(-1,0.667)
+\end{pspicture}\end{center}
+Gr\'{a}ficamente, se  puede comprobar como el hecho de que $-\gf(\ovx)$ pertenezca a este cono
+implica que el conjunto $\G_0$ est\'{a} contenido en el conjunto de direcciones $\{\vd\,/\,
+\gf(\ovx)^T\vd>0\}$ y este es, precisamente, un subconjunto de las direcciones de crecimiento.
+Por tanto, $\G_0\cap\F_0=\emptyset$. Adem\'{a}s, en la siotuaci\'{o}n presentada en la figura
+anterior, las coordenadas de $\-\gf(\ovx)$ respecto de $\gg_1(\ovx)$ y $\gg_2(\ovx)$ son
+\'{u}nicas y, consecuentemente, los multiplicadores son \'{u}nicos.
+
+Veamos que ocurre cuando en tenemos m\'{a}s de $n$ restricciones activas. Veamos qu\'{e} ocurre si hay
+$n+1$ restricciones activas. Haciendo el estudio en $\Re^2$ una primera situaci\'{o}n ser\'{\i}a la
+siguiente:
+\begin{center}\begin{pspicture}(-2,-2)(2,3)
+ \psset{yunit=20mm,xunit=20mm}
+ \psline{->}(0,0)(0,1)
+ \rput(0,1.2){\footnotesize $\gg_3(\ovx)$}
+ \psline{->}(0,0)(-1,1)%\put(35,15){\vector(-1,1){20}}
+ \rput(-1,1.2){\footnotesize $\gg_1(\ovx)$}
+ \psline{->}(0,0)(0.75,1)
+ \rput(0.75,1.2){\footnotesize $\gg_2(\ovx)$}
+ \psline[linestyle=dashed](-1,0)(1,0)
+ \psline[linestyle=dashed](-1,-1)(1,1)
+ \psline[linestyle=dashed](1,-0.667)(-1,0.667)
+\end{pspicture}\end{center}
+Entonces, ese gradiente se puede poner como combinaci\'{o}n lineal de resto y eliminarse del
+sistema. N\'{o}tese que los conjuntos:
+  $$
+    \G_0^1=\{ \vd\,/\, \gg_1(\ovx)^T\vd=0,\,\, \gg_2(\ovx)^T\vd=0\}
+  $$
+  y
+  $$
+    \G_0=\{ \vd\,/\, \gg_1(\ovx)^T\vd=0,\,\, \gg_2(\ovx)^T\vd=0,\,\, \gg_3(\ovx)^T\vd=0\}
+  $$
+son iguales. Esta situaci\'{o}n se presenta cuando en el punto estudiado una de las restricciones
+es redundante. En este caso, la soluci\'{o}n no es \'{u}nica. As\'{\i}, si $-\gf(\ovx)$ est\'{a} situado seg\'{u}n
+la siguiente figura:
+\begin{center}\begin{pspicture}(-2,-2)(2,3)
+ \psset{yunit=20mm,xunit=20mm}
+ \psline{->}(0,0)(0.375,1)
+ \rput(0.3,1.2){\tiny $-\gf(\ovx)$}
+ \psline{->}(0,0)(-0.3,1)
+ \rput(-0.3,1.2){\tiny $\gg_3(\ovx)$}
+ \psline{->}(0,0)(-1,1)%\put(35,15){\vector(-1,1){20}}
+ \rput(-1.1,1.2){\tiny $\gg_1(\ovx)$}
+ \psline{->}(0,0)(0.75,1)
+ \rput(0.8,1.2){\tiny $\gg_2(\ovx)$}
+ \psline[linestyle=dashed](-1,-0.3)(1,0.3)
+ \psline[linestyle=dashed](-1,-1)(1,1)
+ \psline[linestyle=dashed](1,-0.667)(-1,0.667)
+\end{pspicture}\end{center}
+entonces es posible encontrar multiplicadores $(u_1,u_2,u_3)$ tales que  $\{u_1,u_2> 0$ y
+$u_3=0\}$;  $\{u_2,u_3>0$ y $u_3=0\}$; $\{u_1,u_2,u_3>0\}$. La soluci\'{o}n, por tanto, no es
+\'{u}nica.
+
+Pero si se presenta una situaci\'{o}n como la siguiente:
+\begin{center}\begin{pspicture}(-2,-3)(2,3)
+ \psset{yunit=20mm,xunit=20mm}
+ \psline{->}(0,0)(0,-1)
+ \rput(0,-1.2){\footnotesize $\gg_3(\ovx)$}
+ \psline{->}(0,0)(-1,1)%\put(35,15){\vector(-1,1){20}}
+ \rput(-1,1.2){\footnotesize $\gg_1(\ovx)$}
+ \psline{->}(0,0)(0.75,1)
+ \rput(0.75,1.2){\footnotesize $\gg_2(\ovx)$}
+ \psline[linestyle=dashed](-1,0)(1,0)
+ \psline[linestyle=dashed](-1,-1)(1,1)
+ \psline[linestyle=dashed](1,-0.667)(-1,0.667)
+\end{pspicture}\end{center}
+Entonces, la intersecci\'{o}n de los conjuntos:
+  $$
+    \G_0=\{ \vd\,/\, \gg_1(\ovx)^T\vd<0,\,\, \gg_2(\ovx)^T\vd<0\}
+  $$
+  y
+  $$
+    \G_0^3=\{ \vd\,/\, \gg_3(\ovx)^T\vd<0\}
+  $$
+es vac\'{\i}a. Esto no quiere decir que no exista ninguna direcci\'{o}n factible pues las direcciones
+$\vd^*$ tal que $\gg_i(\ovx)^T\vd^*=0$, $i\in\I$, pueden ser factibles:
+\begin{center}\begin{pspicture}(-2,-3)(2,3)
+ \psset{yunit=20mm,xunit=20mm}
+ \psline{->}(0,0)(0,-1)
+ \rput(0,-1.2){\footnotesize $\gg_3(\ovx)$}
+ \psline{->}(0,0)(-1,1)%\put(35,15){\vector(-1,1){20}}
+ \rput(-1,1.2){\footnotesize $\gg_1(\ovx)$}
+ \psline{->}(0,0)(0.75,1)
+ \rput(0.75,1.2){\footnotesize $\gg_2(\ovx)$}
+ \psline{<->}(-1.2,0)(1.2,0)
+ \psline[linestyle=dashed](-1,-1)(1,1)
+ \psline[linestyle=dashed](1,-0.667)(-1,0.667)
+ \rput(-1.2,0.2){\footnotesize $-\vd^*_1$}
+ \rput(1.2,0.2){\footnotesize $-\vd^*_1$}
+\end{pspicture}\end{center}
+Pero, puesto que $\G_0=\emptyset$, la condici\'{o}n $\G_0\cap\F_0=\emptyset$ se verifica
+trivialmente. N\'{o}tese, adem\'{a}s  que  es posible fijar $u_0=0$  y hallar una soluci\'{o}n para
+las condiciones de Fritz John, ya que $-\gg_3(\ovx)$ est\'{a} en el cono definido por
+$\gg_1(\ovx)$ y $\gg_2(\ovx)$:
+\begin{center}\begin{pspicture}(-2,-2)(2,3)
+ \psset{yunit=20mm,xunit=20mm}
+ \psline{->}(0,0)(0,1)
+ \rput(0,1.2){\footnotesize $\gg_3(\ovx)$}
+ \psline{->}(0,0)(-1,1)%\put(35,15){\vector(-1,1){20}}
+ \rput(-1,1.2){\footnotesize $\gg_1(\ovx)$}
+ \psline{->}(0,0)(0.75,1)
+ \rput(0.75,1.2){\footnotesize $\gg_2(\ovx)$}
+ \psline[linestyle=dashed](-1,0)(1,0)
+ \psline[linestyle=dashed](-1,-1)(1,1)
+ \psline[linestyle=dashed](1,-0.667)(-1,0.667)
+\end{pspicture}\end{center}
+y entonces
+   \begin{equation*}
+   -\gg_3(\ovx)=\sum_{i\in\I} u_i\gg_i(\ovx)=\vv,\qquad\text{con $u_1,u_2> 0$}
+   \end{equation*}
+Aunque esto no quiere decir que en ciertas circunstancias no existe soluci\'{o}n con $u_0>0$. As\'{\i},
+si el gradiente de la funci\'{o}n objetivo es tal que:
+\begin{center}\begin{pspicture}(-2,-3)(2,3)
+ \psset{yunit=20mm,xunit=20mm}
+ \psline{->}(0,0)(0.375,1)
+ \rput(0.3,1.2){\tiny $-\gf(\ovx)$}
+ \psline{->}(0,0)(0,-1)
+ \rput(0,-1.2){\tiny $\gg_3(\ovx)$}
+ \psline{->}(0,0)(-1,1)%\put(35,15){\vector(-1,1){20}}
+ \rput(-1,1.2){\tiny $\gg_1(\ovx)$}
+ \psline{->}(0,0)(0.75,1)
+ \rput(0.8,1.2){\tiny $\gg_2(\ovx)$}
+ \psline[linestyle=dashed](-1,0)(1,0)
+ \psline[linestyle=dashed](-1,-1)(1,1)
+ \psline[linestyle=dashed](1,-0.667)(-1,0.667)
+\end{pspicture}\end{center}
+entonces, existe una soluci\'{o}n tal que $u_0,u_1,u_2>0$ y $u_3=0$. El problema est\'{a} en que
+no siempre va a ser posible encontrar esta soluci\'{o}n.
+\begin{observacion}
+En esta interpretaci\'{o}n no hemos considerado el caso en el que los vectores linealmente
+dependientes tuviesen la misma direcci\'{o}n (con el mismo sentido u opuestos). La interpretaci\'{o}n
+en este caso se simplifica y no es necesario m\'{a}s que considerar que alg\'{u}n multiplicador puede
+ser 0. Esta situaci\'{o}n se presenta cuando una restricci\'{o}n de igualdad $g(\vx)=0$ se sustituye
+por dos desigualdades: $g(\vx)\leq 0$ y $g(\vx)\geq 0$, ya que en este caso los gradientes de
+estas dos restricciones son opuestos.
+\end{observacion}
+\begin{observacion}
+A la vista de lo anterior, los posibles candidatos a ser m\'{\i}nimos, seg\'{u}n las condiciones
+necesarias de Fritz John son.
+  \begin{enumerate}
+    \item Puntos de corte de varias restricciones.
+    \item Puntos en los que una restricci\'{o}n tenga el gradiente proporcional al gradiente de la
+    funci\'{o}n objetivo y con sentido opuesto (si tiene el mismo sentido, el multiplicador ser\'{a}
+    negativo).
+    \item Puntos en los que los gradientes de las restricciones de las restricciones
+          activas sean linealmente dependientes
+  \end{enumerate}
+\end{observacion}
+\begin{observacion}
+En esta interpretaci\'{o}n hemos supuesto que tanto $\gf(\ovx)$ como $\gg_i(\ovx)$, $i\in\I$ eran
+no nulos. N\'{o}tese que si alguno de los gradientes es nulo, es trivial encontrar una soluci\'{o}n
+para el sistema, sin m\'{a}s que tomar esos multiplicadores estrictamente positivos y el resto
+igual a 0.
+\end{observacion}
+\begin{ejemplo}
+Consid\'{e}rese el siguiente problema
+ \begin{align*}
+   \min (x_1-3)^2+(x_2-2)^2 &
+   \\
+     x_1^2+x_2^2-5 & \leq 0
+   \\
+     x_1+2x_2-4 &\leq 0
+   \\
+    -x_1 &\leq 0
+   \\
+    -x_2 &\leq 0
+ \end{align*}
+donde la regi\'{o}n factible viene dada en la siguiente figura. Veamos que se verifican las
+condiciones de Fritz-John en el punto $(2,1)$.
+\begin{center}
+\begin{pspicture}(-1,-1)(4,5)
+    \psset{unit=15mm,yunit=15mm,xunit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](2.23606797,0)(0,0)
+    \psline[linewidth=0pt](0,0)(0,2)
+    \psline[linewidth=0pt](0,2)(2.00001906,1.0000334)
+    \psarc[liftpen=2](0,0){2.23606797}{0}{26.4344}
+    }
+    \psline[linestyle=dashed]{<->}(-0.5,0)(3,0)
+    \psline[linestyle=dashed]{<->}(0,-0.5)(0,3)
+    \psline(0,0)(0,3)
+    \psline(0,0)(3,0)
+    \psline(0,2)(2,1)
+    \psarc(0,0){2.2361}{0}{26.5}
+    \rput(2.05,1){\circle*{0.1}}
+    \rput(2,1){\psline{->}(0,0)(0.35,0.7)}
+    \rput(2,1){\psline{->}(0,0)(-0.5,-0.5)}
+    \rput(2,1){\psline{->}(0,0)(0.7,0.35)}
+    \rput(2.3,1.9){\footnotesize $\gg_2(\ovx)$}
+    \rput(2.9,1.5){\footnotesize $\gg_1(\ovx)$}
+    \rput(1.3,0.3){\footnotesize $\gf(\ovx)$}
+    %%
+    \rput(3,2){\circle*{0.1}}
+    \rput(3,2.2){\footnotesize \'{o}ptimo no restringido}
+    %%
+    \psarc[linestyle=dashed](3,2){1}{180}{270}
+    \psarc[linestyle=dashed](3,2){2}{180}{270}
+\end{pspicture}
+\end{center}
+En ese punto las restricciones activas son $\I=\{1,2\}$. Por tanto, los multiplicadores
+asociados a las dos \'{u}ltimas restricciones son nulos. Las condiciones de F-J resultan:
+  $$
+  u_0\begin{pmatrix}-2 \\ -2\end{pmatrix}+
+  u_1\begin{pmatrix} 4 \\ 2 \end{pmatrix}+
+  u_2\begin{pmatrix} 1 \\ 2 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+  $$
+Esto implica que
+  $$
+  u_1=\frac{u_1}{3} \qquad u_2=\frac{2u_0}{3}.
+  $$
+Tomando $u-0>0$, se satisfacen las condiciones de F-J. Pero si se condidera el punto
+$\ovx=(0,0)$, las ecuaciones de F-J resultan:
+  $$
+  u_0\begin{pmatrix}-6 \\ -4\end{pmatrix}+
+  u_3\begin{pmatrix} -1 \\ 0 \end{pmatrix}+
+  u_4\begin{pmatrix} 0 \\ -1 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+  $$
+que tiene soluci\'{o}n para
+  $$
+  u_3=-6u_0 \qquad u_4=-4u_0,
+  $$
+y, por tanto, no verifica las condiciones de F-J, ya que  $u_0>0$ si y s\'{o}lo si
+$u_3,u_4<0$. Consecuentemente, el punto $(0,0)$ no es un m\'{\i}nimo local.
+\end{ejemplo}
+\begin{ejemplo}
+Consid\'{e}rese el siguiente problema
+ \begin{align*}
+   \min -x_1 &
+   \\
+     x_2+(1-x_1)^3 & \leq 0
+   \\
+    -x_2 &\leq 0
+ \end{align*}
+donde la regi\'{o}n factible viene dada en la siguiente figura.
+\begin{center}
+\begin{pspicture}(-2,-1.5)(4,7)
+    \psset{yunit=15mm,xunit=15mm,unit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+      \psline(-1,0)(1,0)
+      \pscurve(1,0)(0.5,0.125)(0,1)(-1,4)
+      %\psline(-1,4)(-1,0)
+    }
+    \psline[linestyle=dashed]{<->}(-0.5,0)(3,0)
+    \psline[linestyle=dashed]{<->}(0,-0.5)(0,3)
+    \pscurve{->}(1,0)(0.5,0.125)(0,1)(-1,4)
+    \psline{->}(1,0)(-1.5,0)
+    \rput(1,0){\psline{->}(0,0)(0,1)}
+    \rput(1,0){\psline{->}(0,0)(0,-1)}
+    \rput(1,0){\psline{->}(0,0)(-1,0)}
+    \rput(1,1.2){\footnotesize $\gg_1(\ovx)$}
+    \rput(1,-1.2){\footnotesize $\gg_2(\ovx)$}
+    \rput(0.2,-0.3){\footnotesize $\gf(\ovx)$}
+\end{pspicture}
+\end{center}
+Veamos qu\'{e} ocurre en el punto $(1,0)$. El conjunto de restricciones activas es
+$\I=\{1,2\}$ y las condiciones resultan:
+  $$
+  u_0\begin{pmatrix}-1 \\ 0\end{pmatrix}+
+  u_1\begin{pmatrix} 0 \\ 1 \end{pmatrix}+
+  u_2\begin{pmatrix} 0 \\ -1 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+  $$
+Este sistema s\'{o}lo tiene soluci\'{o}n si $u_0=0$. Entonces una soluci\'{o}n es $u_1=u_2=\alpha$,
+con $\alpha$ cualquier escalar. Por tanto, este punto verifica las condiciones necesarias
+de F-J, aunque al anular el multiplicador $u_0$, la funci\'{o}n objetivo no se ha considerado
+para determinarlo.
+\end{ejemplo}
+\begin{ejemplo}
+Consid\'{e}rese el siguiente problema
+ \begin{align*}
+   \min -x_1 &
+   \\
+     x_1+x_2-1 & \leq 0
+   \\
+    -x_2 &\leq 0
+ \end{align*}
+donde la regi\'{o}n factible viene dada en la siguiente figura.
+\begin{center}
+\begin{pspicture}(-1,-1)(4,5)
+    \psset{yunit=15mm,xunit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+       \psline(-1.5,0)(1,0)
+       \psline(1,0)(-1.5,2.5)
+       %\psline(-1.5,2.5)(-1.5,0)
+    }
+    \psline[linestyle=dashed]{<->}(-0.5,0)(3,0)
+    \psline[linestyle=dashed]{<->}(0,-0.5)(0,3)
+    \psline{->}(1,0)(-1.5,2.5)
+    \psline{->}(1,0)(-1.5,0)
+    %%
+    \rput(1,0){\psline{->}(0,0)(0.5,0.5)}
+    \rput(1,0){\psline{->}(0,0)(0,-0.5)}
+    \rput(1,0){\psline{->}(0,0)(-0.5,0)}
+    \rput(1.7,0.7){\footnotesize $\gg_1(\ovx)$}
+    \rput(1,-0.7){\footnotesize $\gg_2(\ovx)$}
+    \rput(0.2,-0.2){\footnotesize $\gf(\ovx)$}
+\end{pspicture}
+\end{center}
+El punto \'{o}ptimo es el punto $(1,0)$. El conjunto de restricciones activas es $\I=\{1,2\}$
+y las condiciones resultan:
+  $$
+  u_0\begin{pmatrix}-1 \\ 0\end{pmatrix}+
+  u_1\begin{pmatrix} 1 \\ 1 \end{pmatrix}+
+  u_2\begin{pmatrix} 0 \\ -1 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+  $$
+La soluci\'{o}n del sistema es $u_0=u_1=u_2=\alpha$, con $\alpha>0$.
+\end{ejemplo}
+Los ejemplos anteriores hemos visto c\'{o}mo existen puntos que verifican las condiciones de
+F-J de forma trivial, por ejemplo, si para un punto $\gf(\ovx)=\vv$ y $\gg_i(\ovx)=\vv$,
+con $i\in\I$, tomando $u_0$ y $u_i$ positivos y el resto de los multiplicadores igual a
+cero, tenemos una soluci\'{o}n para el sistema de ecuaciones. Incluso, si en un problema con
+restricciones de igualdad se sustituyen por dos restricciones de desigualdad, tomando los
+multiplicadores de estas dos restricciones iguales y positivos y el resto igual a 0,
+tenemos otra soluci\'{o}n del sistema de ecuaciones.
+
+En general, dada una regi\'{o}n, siempre es posible introducir nuevas restricciones
+redundantes que hagan que en un punto se verifiquen las condiciones de F-J. Por ejemplo,
+se puede a\~{n}adir la restricci\'{o}n $\norma{\vx-\ovx}\geq 0$, que es cierta siempre. En
+particular, en $\ovx$ esta restricci\'{o}n est\'{a} activa y el gradiente es $\vv$. Por tanto,
+$\F_0\cap\G_0=\emptyset$, puesto que $\G_0=\emptyset$ y $\ovx$ es un punto F-J.
+%%
+\subsubsection*{Condiciones de Karush-Kuhn-Tucker}
+%%
+Anteriormente hemos visto como existen puntos para los que tomando $u_0=0$ es posible
+determinar un vector de multiplicadores que cumplen las condiciones del teorema \ref{t423},
+$\F_0\cap\G_0$. Esto ocurr\'{\i}a cuando $\G_0=\emptyset$, ya que las condiciones se verifican
+independientemente de la funci\'{o}n objetivo. El siguiente resultado impone nuevas hip\'{o}tesis que
+garantizan que $u_0\neq 0$, esto es, imponen que la funci\'{o}n objetivo intervenga en las
+condiciones de optimalidad. Puesto que los problemas se presentaban cuando los gradientes de
+las restricciones activas eran linealmente dependientes, es \'{e}sta precisamente la nueva
+condici\'{o}n a\~{n}adida. Propuestas inicialmente por Karush en 1939, fueron desarrolladas por Kuhn y
+Tucker en 1951. Adem\'{a}s, como se ver\'{a} m\'{a}s adelante, las condiciones de Karush-Kuhn-Tucker son
+necesarias y suficientes sen el caso de problemas lineales.
+
+Es decir, estas condiciones no se aplican a todos los puntos, sino que se eliminan algunos
+puntos y, por tanto, no tenemos garant\'{\i}as de que el \'{o}ptimo global del problema est\'{e} entre los
+puntos que cumplen estas condiciones. Puede que en este punto los gradientes de las funciones
+activas sean linealmente dependientes.
+%%
+\begin{teorema}[Condiciones necesarias de Karush-Kuhn-Tucker]
+Sea el problema \eqref{PP} e $\I=\{i\,/\, g_i(\ovx)=0\}$ el conjunto de restricciones activas
+asociadas a $\ovx$, soluci\'{o}n factible de \eqref{PP}. Si
+ \begin{enumerate}
+    \item $f$ $g_i$, $i\in\I$, son diferenciables en $\ovx$,
+    \item $g_i$, $i\in\I$, son continuas en $\ovx$,
+    \item $\gg_i(\ovx)$, $i\in\I$, son linealmente independientes,
+    \item $\ovx$ es un m\'{\i}nimo local de $f$,
+ \end{enumerate}
+entonces, existen escalares $\{u_i, i\in\I\}$, con $u_i\geq 0$, $\forall i\in\I$, tales que:
+   $$
+   \gf(\ovx)+\sum_{i\in\I} u_i\gg_i(\ovx)=0.
+   $$
+ \\
+Si adem\'{a}s se verifica que las funciones $\{g_i,\, i\notin \I\}$ son diferenciables en $\ovx$,
+las condiciones anteriores se pueden escribir de la forma
+   \begin{align*}
+   \gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx)  =0, &
+   \\
+   u_ig_i(\ovx) =0, & \qquad\forall i=1,\dots,m,
+   \\
+   u_i\geq 0, & \qquad\forall i=1,\dots,m.
+   \end{align*}
+\end{teorema}
+\begin{demostracion}
+De las condiciones necesarias de Fritz John, se deduce que existen escalares $u_0$ y
+$\hat{u}_i$, $i\in\I$, no negativos y no todos iguales a 0, tales que:
+   $$
+   u_0\gf(\ovx)+\sum_{i\in\I}\hat{u}_i\gg_i(\ovx)=0.
+   $$
+Puesto que los gradientes de las restricciones activas son linealmente independientes, el
+escalar $u_0$ tiene que ser no nulo. En otro caso, existir\'{\i}a una combinaci\'{o}n lineal de todos
+los gradientes de las restricciones activas igual al vector $\vv$ con alg\'{u}n par\'{a}metro no nulo,
+lo que entra en contradicci\'{o}n con la hip\'{o}tesis de independencia.  Tomando
+$u_i=\frac{\hat{u}_i}{u_o}$, $\forall i\in\I$, se obtiene la primera parte de la demostraci\'{o}n
+y tomando, adem\'{a}s, $u_i=0$, $\forall i\notin \I$, se obtiene la segunda.
+\end{demostracion}
+Como en el caso de las condiciones de Fritz John, los escalares $u_i$ se denominan
+multiplicadores de Lagrange. Las condiciones que implican que $\ovx$ sean factibles se
+denominan condiciones de {\em factibilidad primal}, la condici\'{o}n de que
+  $$
+   \gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx)  =0,
+  $$
+se denomina condici\'{o}n de {\em factibilidad dual} y, por \'{u}ltimo, las condiciones de que
+$u_ig_i(\vx)=0$, $\forall i=1,\dots,m$, se denominan condiciones de {\em holgura
+complementaria}. Las tres condiciones, de factibilidad primal y dual y de holgura
+complementaria se denominan {condiciones de {\em Karush-Kuhn-Tucker, K-K-T,} y los puntos que
+las verifican son puntos K-K-T.
+\begin{observacion}
+Si el punto $\ovx$ es un m\'{a}ximo local, entonces las condiciones siguen siendo v\'{a}lidas sin m\'{a}s
+que pedir que los multiplicadores sean no positivos.
+\end{observacion}
+%%
+\begin{ejemplo}
+%%
+Sea el siguiente problema
+  \begin{align*}
+    \min\, & x_1+x_2
+    \\
+           & x_1^2+x_2^2-4\leq 0
+     \\
+           & -x_1^2+x_2\leq 0
+  \end{align*}
+Plantear las ecuaciones de Karush-Kuhn-Tucker y encontrar los candidatos a m\'{\i}nimo. La regi\'{o}n
+factible viene dada por la intersecci\'{o}n del interior de la circunferencia y el exterior de la
+par\'{a}bola de la siguiente figura:
+\begin{center}
+\begin{pspicture}(-3,-3)(4,4)
+    \psset{yunit=15mm,xunit=15mm,unit=15mm}
+    \psline[linestyle=dashed]{<->}(-2.5,0)(2.5,0)
+    \psline[linestyle=dashed]{<->}(0,-2.5)(0,2.5)
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psarc(0,0){2}{0}{50}
+    \parabola(1.250,1.562)(0,0)
+    \psarc(0,0){2}{130}{360}
+    }
+    \psline{->}(2.5,1)(3.25,1.75)
+    \rput(3,1.75){\makebox(0,0){$\gf$}}
+    \parabola{<->}(-1.7321,3)(0,0)
+    \pscircle(0,0){2}
+    %
+    \psline{->}(-0.5,0.25)(-0.1,0.65)
+    \rput(-.5,.25){\psline[linestyle=dashed]{->}(0,0)(0.7,0.7)}
+    \rput(-.5,.45){\makebox(0,0){\footnotesize $A$}}
+    %
+    \psline{->}(-1.414,-1.414)(-1.91,-1.91)
+    \rput(-1.414,-1.414){\psline[linestyle=dashed]{->}(0,0)(0.5,0.5)}
+    \rput(-1.41,-1.7){\footnotesize $B$}
+    %
+    \psline{->}(1.414,1.414)(1.91 , 1.91)
+    \rput(1.414,1.414){\psline[linestyle=dashed]{->}(0,0)(0.75,0.75)}
+    \rput(1.61,1.41){\makebox(0,0){\footnotesize $C$}}
+    %
+    \psline{->}(-1.25,1.562)(-1.692,2.412)
+    \rput(-1.25,1.562){\psline[linestyle=dashed]{->}(0,0)(0.5,0.5)}
+    \psline{->}(-1.25,1.562)(-.594,1.825)
+    \rput(-1.2,1.8){\footnotesize $D$}
+    %
+    \psline{->}(1.25,1.562)(1.692,2.412)
+    \rput(1.25,1.562){\psline[linestyle=dashed]{->}(0,0)(0.5,0.5)}
+    \psline{->}(1.25,1.562)(.594,1.825)
+    \rput(1.2,1.8){\footnotesize $E$}
+\end{pspicture}
+\end{center}
+El sistema de ecuaciones resulta:
+  \begin{align*}
+    1+2x_1u_1-2x_1u_2 & =0
+    \\
+    1+2x_2u_1+u_2    & =0
+    \\
+    u_1(x_1^2+x_2^2-4)& =0
+    \\
+    u_2(x_1^2-x_2) & =0
+    \\
+    u_1,u_2\geq 0 &
+  \end{align*}
+y las soluciones de estas ecuaciones son:
+\begin{itemize}
+\item Si $u_1=0$, entonces, de la segunda ecuaci\'{o}n, $u_2=-1$ y
+sustituyendo $u_2$ en la primera ecuaci\'{o}n del sistema resulta:
+  $$
+  1-2 x_1 (-1)=0
+  $$
+y $x_1=-\frac{1}{2}$. Puesto que la segunda restricci\'{o}n debe verificarse con igualdad, resulta
+$x_2=\frac{1}{4}$.
+
+Por tanto, el punto $A=(-\frac{1}{2},\frac{1}{4})$ es un candidato a m\'{a}ximo.
+\item Si $u_1\neq 0$ y $u_2=0$, el sistema resulta:
+  \begin{align*}
+    1+2x_1u_1 & =0
+    \\
+    1+2x_2u_1    & =0
+    \\
+    x_1^2+x_2^2-4 & =0
+  \end{align*}
+Despejando $x_1$ y $x_2$ en las dos primeras ecuaciones:
+  $$
+  x_1=\frac{-1}{2u_1}\qquad x_2=\frac{-1}{2u_2}
+  $$
+y sustituyendo en la tercera ecuaci\'{o}n:
+  $$
+   \frac{1}{4u_1^2}+\frac{1}{4u_1^2}-4=0
+  $$
+De donde:
+  $$
+  2-16u_1^2=0\Rightarrow u_1=\pm\frac{\sqrt{2}}{4}.
+  $$
+Para cada una de las dos soluciones se obtiene los puntos:
+  \begin{itemize}
+    \item Si $u_1=+\frac{\sqrt{2}}{4}$, entonces
+      $$
+      x_1=-\sqrt{2}\qquad x_2=-\sqrt{2}.
+      $$
+    \item Si $u_1=-\frac{\sqrt{2}}{4}$, entonces
+      $$
+      x_1=+\sqrt{2}\qquad x_2=+\sqrt{2}.
+      $$
+  \end{itemize}
+El primer punto ($B$) es un candidato a m\'{\i}nimo y el segundo punto ($C$) es un candidato a
+m\'{a}ximo.
+\item Si $u_1\neq 0$ y $u_2\neq 0$, el sistema resulta:
+  \begin{align*}
+    1+2x_1u_1-2x_1u_2 & =0
+    \\
+    1+2x_2u_1+u_2    & =0
+    \\
+    x_1^2+x_2^2-4 & =0
+    \\
+    -x_1^2+x_2 & =0
+    \\
+    u_1,u_2\geq 0 &
+  \end{align*}
+cuya soluci\'{o}n se encuentra en los puntos intersecci\'{o}n de las dos restricciones.  Despejando
+$x_1^2$ en la cuarta ecuaci\'{o}n y sustituyendo en la tercera resulta:
+  $$
+    x_2^2+x_2-4=0
+  $$
+cuya soluci\'{o}n es
+  $$
+    x_2=\frac{-1\pm\sqrt{17}}{2}
+   $$
+S\'{o}lo la ra\'{\i}z positiva es v\'{a}lida, ya que $x_2$ no toma valores negativos sobre la par\'{a}bola. Las
+dos soluciones asociadas al valor positivo son:
+  \begin{itemize}
+    \item Si $x_2=\frac{-1+\sqrt{17}}{2}\approx 1.562$ y $x_1=+\sqrt{\frac{-1+\sqrt{17}}{2}}\approx 1.250$,
+    sustituyendo en las dos primeras ecuaciones del sistema resulta:
+  \begin{align*}
+    1+\sqrt{2(-1+\sqrt{17})}u_1-\sqrt{2(-1+\sqrt{17})}u_2 & =0
+    \\
+    1+(-1+\sqrt{17})u_1+u_2    & =0
+  \end{align*}
+  cuya soluci\'{o}n es
+    $$
+      u_1\approx -0.339\qquad u_2\approx 0.059.
+    $$
+    y el punto $E$ no es un candidato ni a m\'{a}ximo ni a m\'{\i}nimo.
+    \item Si $x_2=\frac{-1+\sqrt{17}}{2}\approx 1.562$ y $x_1=-\sqrt{\frac{-1+\sqrt{17}}{2}}\approx -1.250$,
+    sustituyendo en las dos primeras ecuaciones del sistema se obtiene la soluci\'{o}n es:
+    $$
+      u_1\approx -0.145 \qquad u_2\approx -0.545.
+    $$
+    y el punto $D$ es un candidato a m\'{a}ximo.
+  \end{itemize}
+\end{itemize}
+%%
+\end{ejemplo}
+%%
+%%
+\begin{teorema}[Condiciones suficientes de Karush-Kuhn-Tucker]\label{kkt-suf-d}
+Sea el problema \eqref{PP} e $\I=\{i\,/\, g_i(\ovx)=0\}$ el conjunto de restricciones activas
+asociadas a $\ovx$, soluci\'{o}n factible de \eqref{PP}. Si
+ \begin{enumerate}
+    \item $f$ es pseudo-convexa en $\ovx$,
+    \item $g_i$, $i\in\I$, son cuasi-convexas y diferenciables en $\ovx$,
+    \item $\ovx$ cumple las condiciones necesarias de Karush-Kuhn-Tucker,
+\end{enumerate}
+entonces $\ovx$ es un m\'{\i}nimo global del problema \eqref{PP}.
+\end{teorema}
+\begin{observacion}
+Si las condiciones de pseudo-convexidad, cuasi-convexidad y diferenciabilidad se verifican
+s\'{o}lo localmente, entonces $\ovx$ ser\'{a} un m\'{\i}nimo local.
+\end{observacion}
+\begin{observacion}
+Si \'{e}l punto $\ovx$ es un m\'{a}ximo local, entonces, para que sea ´m\'{a}ximo global en la primera
+condici\'{o}n hay que exigir que $f$ sea pseudo-c\'{o}ncava ($-f$ pseudo-convexa).
+\end{observacion}
+%%
+\begin{demostracion}
+En el punto $\ovx$ se tiene que $g_i(\ovx)=0$, $\forall i\in\I$ y, por tanto:
+  $$
+  g_i(\vx)\leq g_i(\ovx),\qquad \text{para todo $\vx$ factible}.
+  $$
+Puesto que las funciones $g_i$, $i\in\I$ son cuasi-convexsas:
+  \begin{equation*}
+    g_i(\lambda\vx+(1-\lambda)\ovx)=g_i(\ovx+\lambda(\vx-\ovx))\leq g_i(\ovx)=0.
+  \end{equation*}
+Esto es:
+  $$
+  g_i(\ovx+\lambda(\vx-\ovx))\leq g_i(\ovx)=0,
+  $$
+y $(\vx-\ovx)$ es una direcci\'{o}n de descenso en $\ovx$ y:
+  $$
+  \gg_i(\ovx)^T(\vx-\ovx)\leq 0,\qquad\forall i\in\I.
+  $$
+Como los multiplicadores $u_i$ son no negativos, multiplicando cada una de estas expresiones y
+sumando, resulta
+  $$
+  \sum_{i\in\I} u_i\gg(\ovx)^T(\vx-\ovx)\leq 0.
+  $$
+A partir de las condiciones necesarias de K-K-T:
+  $$
+  \sum_{i\in\I} u_i\gg(\ovx)=-\gf(\ovx),
+  $$
+y resulta:
+  $$
+  \gf(\ovx)^T(\vx-\ovx)\geq 0.
+  $$
+Por ser $f$ pseudo-convexa:
+  $$
+  f(\vx)\geq f(\ovx),\qquad\text{para todo $x$ factible.}
+  $$
+\end{demostracion}
+\begin{observacion}
+Si $f$ es estrictamente pseudo-convexa, $\ovx$ es un m\'{\i}nimo \'{u}nico global.
+\end{observacion}
+\begin{ejemplo}
+En el problema
+  \begin{align*}
+    \min\, & x_1+x_2
+    \\
+           & x_1^2+x_2^2-4\leq 0
+     \\
+           & -x_1^2+x_2\leq 0
+  \end{align*}
+la funci\'{o}n objetivo es lineal y, por tanto, pseudo-c\'{o}ncava y pseudo-convexa. La matriz
+Hessiana de las restricciones son:
+  $$
+    \vH_1=\begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}\qquad
+    \vH_2=\begin{pmatrix} -2 & 0 \\ 0 & 0  \end{pmatrix}
+  $$
+y por tanto, la primera restricci\'{o}n es estrictamente convexa y la segunda es c\'{o}ncava.
+
+Los puntos que son soluci\'{o}n de las ecuaciones de Karush-Kuhn-Tucker son:
+  \begin{enumerate}
+    \item  $A=(-\frac{1}{2},\frac{1}{4})$ con multiplicadores $u_1=0$ y $u_2<0$, candidato a m\'{a}ximo, pero la \'{u}nica
+    restricci\'{o}n activa es c\'{o}ncava. No verifica las condiciones suficientes.
+    \item $B=(-\sqrt{2},-\sqrt{2})$ con $u_1>0$ y $u_2=0$. Es un candidato a m\'{\i}nimo y la \'{u}nica
+    restricci\'{o}n activa es convexa. Por tanto, es un m\'{\i}nimo global.
+    \item $C=(\sqrt{2},\sqrt{2})$ con $u_1<0$ y $u_2=0$. Es un candidato a m\'{a}ximo y la \'{u}nica
+    restricci\'{o}n activa es convexa. Por tanto, es un m\'{a}ximo global.
+    \item $D=\bigl(\frac{-1+\sqrt{17}}{2},-\sqrt{\frac{-1+\sqrt{17}}{2}}\bigr)$ con
+    $u_1<0$ y $u_2<0$. Es un candidato a m\'{a}ximo, pero luna de las restricciones activas es c\'{o}ncava.
+    No verifica las condiciones suficientes , aunque gr\'{a}ficamente se puede comprobar que es
+    un m\'{a}ximo local.
+  \end{enumerate}
+\end{ejemplo}
+
+%%
+\subsection{Optimizaci\'{o}n con restricciones de igualdad y desigualdad}
+%%
+En esta secci\'{o}n se generalizan los resultado anteriores para el caso en el que el problema
+incluye restricciones de igualdad y desigualdad. Ahora el problema a resolver es:
+   \begin{equation}\label{P}
+   \min\{f(\vx)\,/\, \vx\in\X,\;\, g_i(\vx)\leq 0,\; i=1,\dots,m,\;\, h_j(\vx)=0,\; j=1,\dots,\ell\}
+   \end{equation}
+siendo $\X$ un abierto no vac\'{\i}o de $\Re^n$ y $f,g_i,h_j:\Re^n\fd\Re$. El conjunto $\I$ de
+restricciones $g_i$ activas se define de forma an\'{a}loga para una soluci\'{o}n factible de
+\eqref{P}.
+
+Como una extensi\'{o}n natural del teorema \ref{t423}, el siguiente teorema establece que si
+$\ovx$ es un m\'{\i}nimo local del problema anterior, entonces $\F_0\cap\G_0\cap\H_0=\emptyset$,
+donde
+  $$
+   \H_0=\{\vd\,/\,\gh_i(\ovx)^T\vd=0\},\quad \text{ para $i=1,\dots,\ell$.}
+  $$
+\begin{teorema}\label{t431}
+Sea $\X$ un conjunto abierto de $\Re^n$ y $f:\Re^n\fd\Re$, $g_i:\Re^n\fd\Re$, $i=1,\dots,m$ y
+$h_i:\Re^n\fd\Re$, $i=1,\dots,\ell$. Sea $\ovx$ un \'{o}ptimo local de \eqref{P} e $\I$ el
+conjunto de restricciones activas $\I=\{i\,/\, g_i(\ovx)=0, i=1,\dots,m\}$. Entonces, si:
+  \begin{enumerate}
+    \item Las funciones $f$, $g_i$, $i\in\I$ son diferenciables en $\ovx$,
+    \item Las funciones $h_i$, $i=1,\dots,\ell$ son continuamente diferenciables en $\ovx$,
+    \item Las funciones $g_i$, $i\notin\I$ son continuas en $\ovx$,
+    \item $\gh_i(\ovx)$, $i=1,\dots,\ell$ son linealmente independientes,
+  \end{enumerate}
+entonces
+  $$
+  \F_0\cap \G_0\cap H_0=\emptyset,
+  $$
+donde
+  \begin{align*}
+    \F_0= &\{\vd\,/\, \gf(\ovx)^T\vd<0\}, \\
+    \G_0= &\{\vd\,/\, \gg(\ovx)^T\vd<0,\,\, \forall i\in\I \}, \\
+    \H_0= &\{\vd\,/\, \gh(\ovx)^T\vd<0,\,\,\forall i=1,\dots,\ell\}. \\
+  \end{align*}
+\end{teorema}
+\begin{demostracion}
+Ver {\em Non Linear Programming},(segunda edici\'{o}n) de M.S. Bazarra, H.D. Sherali y C.M.
+Shetty,, p\'{a}ginas 156-158.
+\end{demostracion}
+%%
+\subsubsection*{Condiciones necesarias de Fritz-John}
+%%
+El siguiente teorema expresa la condici\'{o}n geom\'{e}trica $\F_0\cap\G_0\cap\H_0=\emptyset$ en una
+forma algebr\'{a}ica m\'{a}s \'{u}til.  El siguiente teorema no es m\'{a}s que una extensi\'{o}n de las
+condiciones necesarias de Fritz John para el caso que nos ocupa.
+\begin{teorema}[Condiciones necesarias de Fritz-John]\label{t432}
+Sea el problema \eqref{P} e $\I=\{i\,/\, g_i(\ovx)=0\}$ el conjunto de restricciones activas
+asociadas a $\ovx$, soluci\'{o}n factible de \eqref{P}. Si
+ \begin{enumerate}
+    \item Las funciones $f$, $g_i$, $i\in\I$ son diferenciables en $\ovx$,
+    \item Las funciones $h_i$, $i=1,\dots,\ell$ son continuamente diferenciables,
+    \item Las funciones $g_i$, $i\notin\I$ son continuas en $\ovx$,
+    \item $\ovx$ es un m\'{\i}nimo local,
+ \end{enumerate}
+entonces, existen escalares $u_0$ ,$u_i$, $i\in\I$, $v_j$, $j=1,\dots,\ell$ tales que:
+   \begin{align*}
+   u_0\gf(\ovx)+\sum_{i\in\I} u_i\gg_i(\ovx)+\sum_{j=1}^\ell v_j\gh_j(\ovx) =\vv, &
+   \\
+   u_0,u_i\geq 0  & \qquad\forall i\in\I,
+   \\
+   (u_0,\V{u},\V{v}) \neq (0,\vv,\vv), &
+   \end{align*}
+donde $\overline{u}$ es el vector cuyas componentes son los escalares $u_i$, $i\in\I$ y
+$\overline{v}=(v_1,\dots,v_\ell)^T$. Si adem\'{a}s de las condiciones anteriores, $g_i$, $i\notin
+\I$ son diferenciables en $\ovx$, entonces, las condiciones anteriores se pueden escribir de
+la forma:
+   \begin{align*}
+   u_0\gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx)+\sum_{j=1}^l v_j\gh_j(\ovx) =\vv, &
+   \\
+   u_ig_i(\ovx)=0, & \qquad\forall i=1,\dots,m,
+   \\
+   u_0,u_i\geq 0, &\qquad\forall i\in\I,
+   \\
+  (u_0,\V{u},\V{v}) \neq (0,\vv,\vv). &
+  \end{align*}
+\end{teorema}
+\begin{demostracion}
+Si los vectores  $\gh_i(\ovx)$, para $i=1,\dots,\ell$ son linealmente dependientes, entonces
+es posible  encontrar un conjunto de escalares $\nu_1,\dots,\nu_\ell$, no todos nulos, tales
+que;
+  $$
+  \sum_{i=1}^\ell\nu_i\gh_i(\ovx)=\vv
+  $$
+Tomando $u_0$ y $u_i$, $i\in\I$ iguales a cero, la primera parte del teorema est\'{a} de mostrada.
+
+Sea ahora el caso en el que los vectores $\gh_i(\ovx)$ son linealmente independientes.
+Consid\'{e}rese $\vA_1$ la matriz cuyas filas est\'{a}n dadas por los vectores $\gf(\ovx)^T$ y
+$\gg_i^T(\ovx)$, $i\in\I$ y la matriz $\vA_2$ cuyas filas son los vectores $\gh_i(\ovx)^T$,
+$i=1,\dots,\ell$. Entonces, por el teorema \ref{t431}, el hecho de que $\ovx$ sea un m\'{\i}nimo
+local implica que el sistema:
+  $$
+    \vA_1\vd<\vv\qquad\text{y}\qquad\vA_2\vd=\vv,
+  $$
+no tiene soluci\'{o}n. Consideremos ahora los siguientes conjuntos:
+  \begin{align*}
+    \SS_1 & =\{(\vz_1,\vz_2)\,/\, \vz_1=\vA_1\vd,\, z_2=\vA_2\vd\},
+    \\
+    \SS_2 & =\{(\vz_1,\vz_2)\,/\, \vz_\leq\vv,\, z_2=\vv\}.
+  \end{align*}
+Estos conjuntos son ambos convexos y no vac\'{\i}os y son tales que $\SS_1\cap\SS_2=\emptyset$.
+Entonces existe un hiperplano que lo separa. Esto es, existe un vector
+$\vp^T=\vp_1^T,\vp_2^T)$ tal que:
+  $$
+  \vp_1^T\vA_1\vd+\vp_2^T\vA_2\vd\geq \vp_1^T\vz_1+\vp_2^T\vz_2,\qquad\forall \vd\in\Re^n,
+  \,(\vz_1,\vz_2)\in\text{Frontera}\{\SS_2\}.
+ $$
+Tomando $\vz_2=\vv$ y puesto que cada componente de $\vz_1$ puede ser negativo y tan grande en
+valor absoluto como se desee, se sigue que $\vp_1\geq \vv$.
+
+Tomando $(\vz_1,\vz_2)=(\vv,\vv)$, para cada $\vv\in\Re^n$ se verifica
+  $$
+   \vp_1^T\vA_1\vd+\vp_2^T\vA_2\vd\geq\vv.
+  $$
+En concreto, para $\vd=-(\vA_1^t\vp_1+\vA_2^T\vp_2)$, se tiene que
+  $$
+   -\norma{\vA_1^T\vp_1+\vA_2^T\vp_2}^2\geq\vv.
+  $$
+y, por tanto:
+  $$
+   \vA_1^T\vp_1+\vA_2^T\vp_2=\vv.
+  $$
+Es decir, hemos encontrado un vector $\vp^T=(\vp_1^T,\vp_2^T)$ con $\vp_1\geq\vv$ tal que
+$\vA_1^T\vp_1+\vA_2^T\vp_2=\vv$. Denotando por $u_0$ y $u_i$, $i\in\I$ las componentes de
+$\vp_1$ y $\V{v}=\vp_2$, se obtiene el primer resultado del teorema. La forma equivalente se
+obtiene de forma inmediata sin m\'{a}s que considerar $u_i=0$, $\forall i\notin\I$.
+\end{demostracion}
+N\'{o}tese que los multiplicadores de Lagrange $v_i$, $i=1,\dots,\ell$ asociados a restricciones
+de igualdad no est\'{a}n restringidos en signo.
+\begin{ejemplo}
+Consid\'{e}rese el siguiente problema
+ \begin{align*}
+   \min x_1^2+x_2^2 &
+   \\
+     x_1^2+x_2^2-5 & \leq 0
+   \\
+     x_1+2x_2-4 &= 0
+   \\
+    -x_1 &\leq 0
+   \\
+    -x_2 &\leq 0
+ \end{align*}
+donde la regi\'{o}n factible viene dada en la siguiente figura.
+\begin{center}
+\begin{pspicture}(-1,-1)(4,5)
+    \psset{yunit=15mm,xunit=15mm}
+    \psline[linestyle=dashed]{<->}(-0.5,0)(3,0)
+    \psline[linestyle=dashed]{<->}(0,-0.5)(0,3)
+    \psline(0,1.9)(0,2.1)
+    \psline(0,2)(2,1)
+    \psarc(0,0){3.37}{22}{31}
+    \rput(0.85,1.6){\circle*{0.10}}
+    %%
+    \psarc[linestyle=dashed](0,0){1}{10}{80}
+    \psarc[linestyle=dashed](0,0){1.5}{10}{80}
+    \psarc[linestyle=dashed](0,0){2}{10}{80}
+    %%
+    \rput(0.05,0){\circle*{0.1}}
+    \rput(1,-0.2){\footnotesize \'{o}ptimo no restringido}
+\end{pspicture}
+\end{center}
+Veamos que se verifican las condiciones de Fritz-John en el punto \'{o}ptimo
+$\ovx=(\frac{4}{5},\frac{8}{5})$. En ese punto la \'{u}nica restricci\'{o}n activa es la
+igualdad. Por tanto, los multiplicadores asociados a las desigualdades son nulos. Las
+condiciones de F-J resultan:
+  $$
+  u_0\begin{pmatrix}\frac{8}{5} \\ \frac{16}{5}\end{pmatrix}+
+  c_1\begin{pmatrix} 1 \\ 2 \end{pmatrix}=\vv
+  $$
+Una soluci\'{o}n es $u_0=0$ y $v_1=-8$.
+\end{ejemplo}
+\begin{ejemplo}
+Consid\'{e}rese el siguiente problema
+ \begin{align*}
+   \min (x_1-3)^2+(x_2-2)^2 &
+   \\
+     x_1^2+x_2^2-5 & \leq 0
+   \\
+     x_1+2x_2-4 &= 0
+   \\
+    -x_1 &\leq 0
+   \\
+    -x_2 &\leq 0
+ \end{align*}
+donde la regi\'{o}n factible viene dada en la siguiente figura. Veamos que se verifican las
+condiciones de Fritz-John en el punto \'{o}ptimo $(2,1)$.
+\begin{center}
+\begin{pspicture}(-1,-1)(4,5)
+    \psset{yunit=15mm,xunit=15mm}
+    \psline[linestyle=dashed]{<->}(-0.5,0)(3,0)
+    \psline[linestyle=dashed]{<->}(0,-0.5)(0,3)
+    \psline(0,1.9)(0,2.1)
+    \psline(0,2)(2,1)
+    \psarc(0,0){3.37}{20}{20}
+    \rput(2.05,1){\circle*{0.1}}
+    \rput(2,1){\psline{->}(0,0)(0.35,0.7)}
+    \rput(2,1){\psline{->}(0,0)(-0.5,-0.5)}
+    \rput(2,1){\psline{->}(0,0)(0.7,0.35)}
+    \rput(2.3,1.8){\footnotesize $\gh_1(\ovx)$}
+    \rput(2.9,1.5){\footnotesize $\gg_1(\ovx)$}
+    \rput(1.3,0.3){\footnotesize $\gf(\ovx)$}
+    %%
+    \rput(3,2){\circle*{0.1}}
+    \rput(3,2.2){\footnotesize \'{o}ptimo no restringido}
+    %%
+    \psarc[linestyle=dashed](3,2){1}{180}{270}
+    \psarc[linestyle=dashed](3,2){2}{180}{270}
+\end{pspicture}
+\end{center}
+En ese punto las restricciones activas son primera desigualdad y la igualdad. Por tanto,
+los multiplicadores asociados a las dos \'{u}ltimas restricciones son nulos. Las condiciones
+de F-J resultan:
+  $$
+  u_0\begin{pmatrix}-2 \\ -2\end{pmatrix}+
+  u_1\begin{pmatrix} 4 \\ 2 \end{pmatrix}+
+  v_1\begin{pmatrix} 1 \\ 2 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+  $$
+Una soluci\'{o}n para este sistema es $u_0=3$, $u_1=1$ y $v_1=2$.
+\end{ejemplo}
+\begin{ejemplo}
+Consid\'{e}rese el siguiente problema
+ \begin{align*}
+   \min -x_1 &
+   \\
+     x_2-(1-x_1)^3 & = 0
+   \\
+     -x_2-(1-x_1)^3 & = 0
+ \end{align*}
+donde el \'{u}nico punto factible es $\ovx=(1,0)$ y, por tanto, es \'{o}ptimo.
+\begin{center}
+\begin{pspicture}(-1,-1)(4,5)
+    \psset{yunit=15mm,xunit=15mm}
+    \psline[linestyle=dashed]{<->}(-0.5,0)(3,0)
+    \psline[linestyle=dashed]{<->}(0,-0.5)(0,3)
+    \psline(0,1.9)(0,2.1)
+    \psline(0,2)(2,1)
+    \rput(2.05,1){\circle*{0.1}}
+    \rput(2,1){\psline{->}(0,0)(0.35,0.7)}
+    \rput(2,1){\psline{->}(0,0)(-0.5,-0.5)}
+    \rput(2,1){\psline{->}(0,0)(-0.35,-0.7)}
+    \rput(2.3,1.8){\footnotesize $\gh_1(\ovx)$}
+    \rput(1.7,0.2){\footnotesize $\gh_2(\ovx)$}
+    \rput(1,0.5){\footnotesize $\gf(\ovx)$}
+    %%
+    \rput(3,2){\circle*{0.1}}
+    \rput(3,2.2){\footnotesize \'{o}ptimo no restringido}
+    %%
+    \psarc[linestyle=dashed](3,2){1}{180}{270}
+    \psarc[linestyle=dashed](3,2){2}{180}{270}
+\end{pspicture}
+\end{center}
+En ese punto resulta:
+  $$
+  u_0\begin{pmatrix}-1 \\ 0\end{pmatrix}+
+  v_1\begin{pmatrix} 0 \\ 1 \end{pmatrix}+
+  v_2\begin{pmatrix} -1 \\ 0 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+  $$
+que es cierto s\'{o}lo si $u_0=0$ y $v_1=v_2=\alpha$ con $\alpha$ cualquier escalar. Por
+tanto, el punto $\ovx$ verifica las condiciones de F-J.
+\end{ejemplo}
+%%
+\subsubsection*{Condiciones de Karush-Kuhn-Tucker}
+%%
+En las condiciones de Fritz John, el multiplicador de Lagrange asociado a la funci\'{o}n
+objetivo no tiene que ser necesariamente positivo, como qued\'{o} puesto de manifiesto en le
+\'{u}ltimo ejemplo. A\~{n}adiendo nuevas hip\'{o}tesis, que los gradientes de las restricciones
+activas sean linealmente independientes, s\'{\i} es posible asegurar que $u_0$ sea
+estrictamente positivo. El siguiente teorema generaliza las condiciones de
+Karush-Kuhn-Tucker para el problema \eqref{P}.
+\begin{teorema}[Condiciones necesarias de Karush-Kuhn-Tucker]
+Sea el problema \eqref{P} e $\I=\{i\,/\, g_i(\ovx)=0\}$ el conjunto de restricciones activas
+asociadas a $\ovx$, soluci\'{o}n factible de \eqref{P}. Si
+ \begin{enumerate}
+    \item Las funciones $f$, $g_i$, $i\in\I$ son diferenciables en $\ovx$,
+    \item Las funciones $h_i$, $i=1,\dots,\ell$ son continuamente diferenciables,
+    \item Las funciones $g_i$, $i\notin\I$ son continuas en $\ovx$,
+    \item Los gradientes $\gg(\ovx)$, $i\in\I$ y $\gh_i(\ovx)$, $i=1,\dots,\ell$ linealmente
+    independientes,
+    \item $\ovx$ es un m\'{\i}nimo local,
+ \end{enumerate}
+entonces, existen escalares $u_0$ ,$u_i$, $i\in\I$, $v_j$, $j=1,\dots,\ell$ tales que:
+   \begin{align*}
+   \gf(\ovx)+\sum_{i\in\I} u_i\gg_i(\ovx)+\sum_{j=1}^\ell v_j\gh_j(\ovx) =\vv, &
+   \\
+   u_i\geq 0 &\quad\forall i\in\I
+   \end{align*}
+Si adem\'{a}s de las condiciones anteriores, $g_i$, $i\notin \I\}$ son diferenciables en $\ovx$,
+entonces, las condiciones anteriores se pueden escribir de la forma:
+   \begin{align}
+   \gf(\ovx)+\sum_{i=1}^m u_i\gg_i(\ovx)+\sum_{j=1}^l v_j\gh_j(\ovx) =\vv,\nonumber &
+   \\
+   u_ig_i(\ovx)=0, & \qquad\forall i=1,\dots,m,\label{t437-1}
+   \\
+   u_i\geq 0, &\qquad\forall i\in\I.\nonumber
+  \end{align}
+\end{teorema}
+\begin{demostracion}
+Por el teorema \ref{t432}, existen escalares $u_0$ y $\hat{u}_i$ para $i\in\I$ y $\hat{v}_i$,
+para $i=\dots,\ell$ tales que:
+  \begin{align*}
+   u_0\gf(\ovx)+\sum_{i\in\I} \hat{u}_i\gg_i(\ovx)+\sum_{j=1}^\ell\hat{v}_j\gh_j(\ovx)
+   =\vv,&
+   \\
+   u_0,\hat{u}_i\geq 0, &\quad\forall i\in\I,
+  \end{align*}
+N\'{o}tese que $u_0>0$ ya que en otro caso, los gradientes $\gg_i(\ovx)$, $i\in\I$ y
+$\gh_i(\ovx)$, $i=1,\dots,\ell$ no ser\'{\i}an linealmente  independientes. Entonces, tomando
+$u_i=\frac{\hat{u}_i}{u_0}$ se obtiene el primer resultado. La forma equivalente propuesta por
+\eqref{t437-1} es cierta tomando $u_i=0$, $\forall i\notin\I$.
+\end{demostracion}
+Puede verse que si se sustituye cada restricci\'{o}n de igualdad $h_i(\vx)=0$ por dos
+desigualdades, $h_i(\vx)\leq 0$ y $h_i(\vx)\geq 0$, estas condiciones coinciden con las
+condiciones de Karush-Kuhn-Tucker en el caso de que s\'{o}lo existan restricciones de desigualdad.
+Denotando por $v^-_i$ y $v^+_i$ los dos multiplicadores asociados a estas dos restricciones y
+$v_i$ al multiplicador asociado a la igualdad, se tiene que $v_i=v_i^+-v_i^-$.
+%%
+\begin{teorema}[Condiciones suficientes de Karush-Kuhn-Tucker]
+Sea el problema \eqref{P} e $\I=\{i\,/\, g_i(\ovx)=0\}$ el conjunto de restricciones activas
+asociadas a $\ovx$, soluci\'{o}n factible de \eqref{P}. Si
+ \begin{enumerate}
+    \item $f$ es pseudo-convexa y diferenciable en $\ovx$,
+    \item $g_i$, $i\in\I$ son cuasi-convexas y diferenciables en $\ovx$,
+    \item Existen escalares $\{u_i, i\in\I\}$, con $u_i\geq 0$, $\forall i\in\I$
+          tales que:
+          $$
+          \gf(\ovx)+\sum_{i\in\I} u_i\gg_i(\ovx)+\sum_{j=1}^\ell v_j\gh_j(\ovx)=\vv,
+          $$
+ \item $h_j$, $j=1,\dots,\ell$ es cuasi-convexa si $v_j>0$ y cuasi-c\'{o}ncava si
+       $v_j<0$,
+ \end{enumerate}
+ entonces $\ovx$ es un m\'{\i}nimo global del problema \eqref{P}. En particular, si las condiciones
+ de convexidad generalizada s\'{o}lo se cumplen en un entorno de $\ovx$, entonces, $\ovx$ es un
+ m\'{\i}nimo local.
+\end{teorema}
+\begin{demostracion}
+Sea $\ovx$ un punto factible de \eqref{P}. Entonces, por ser $g(\ovx)=0$ y $g_i(\vx)\leq 0$,
+$\forall i\in\I$, se tiene que $g_i(\vx)\leq g_i(\ovx)$. Por ser $g_i$, $i\in\I$,
+cuasi-convexa se sigue que:
+  \begin{equation*}
+    g_i(\lambda\vx+(1-\lambda)\ovx)=g_i(\ovx+\lambda(\vx-\ovx))\leq\max\{g_i(\vx),g_i(\ovx)\}=g_i(\ovx),
+  \end{equation*}
+para todo $\lambda\in(0,1)$. Esto quiere decir que la funci\'{o}n $g_i$ no se incrementa si se
+avanza desde $\ovx$ a lo largo de la direcci\'{o}n $\vx-\ovx$. Por el teorema \ref{t412}, se tiene
+que
+  \begin{equation}\label{d438-1}
+  \gg_i(\ovx)^T(\vx-\ovx)\leq 0,\qquad\forall i\in\I.
+  \end{equation}
+De forma similar, como $h_i$ es cuasi-convexa en $\ovx$ si $v_j>0$ y $k_i$ es cuasi-concava en
+$\ovx$ si $v_i<0$. se tiene que:
+  \begin{align}
+    \label{d438-2}
+    \gh_i(\ovx)^T(\vx-\ovx)\leq 0 & \quad\text{si $v_i>0$,}
+    \\
+    \label{d438-3}
+    \gh_i(\ovx)^T(\vx-\ovx)\geq 0 & \quad\text{si $v_i<0$.}
+  \end{align}
+Multiplicando \eqref{d438-1},\eqref{d438-2} y \eqref{d438-3} por $u_i\geq 0$, $v_i>0$ y
+$v_i<0$, respectivamente y sumando, se obtiene:
+  $$
+  \Bigl(\sum_{i\in\I} u_i\gg_i(\ovx)(\vx-\ovx)+\sum_{j=1}^{\ell}v_j\gh_j(\ovx)\Bigr)^T(\vx-\ovx)\leq 0.
+  $$
+A partir de las condiciones necesarias de K-K-T:
+  $$
+  \sum_{i\in\I} u_i\gg(\ovx+\sum_{i=1}^\ell v_i\gh_i(\ovx))=-\gf(\ovx).
+  $$
+Y resulta:
+  $$
+  \gf(\ovx)^T(\vx-\ovx)\geq 0.
+  $$
+Por ser $f$ pseudo-convexa:
+  $$
+  f(\vx)\geq f(\ovx),\qquad\text{para todo $x$ factible.}
+  $$
+\end{demostracion}
+A partir de esta demostraci\'{o}n se puede ver c\'{o}mo las restricciones de igualdad con
+multiplicador negativo se pueden sustituir por restricciones del tipo ``mayor o igual
+que'' y las restricciones de igualdad con multiplicador positivo por restricciones del
+tipo ``menor o igual que'', mientras que aquellas con multiplicador nulo se pueden
+eliminar. Aplicando el teorema \ref{kkt-suf-d}, el punto $\ovx$ tambi\'{e}n es un \'{o}ptimo
+global para el problema relajado obtenido con las modificaciones anteriores.
+
+Pero la aplicaci\'{o}n del teorema \ref{kkt-suf-d} para resolver el problema relajado puede
+producir soluciones que no sean factibles para el problema \eqref{P}. Adem\'{a}s, en ausencia de
+convexidad, el hecho de que $\ovx$ sea \'{o}ptimo para \ref{P}, no implica que sea \'{o}ptimo para la
+relajaci\'{o}n. Por ejemplo, si se trata de minimizar la funci\'{o}n $-x_i^2-x_2^2$ sujeto a $x_i=0$ y
+$x_2=0$, es obvio que la soluci\'{o}n es $x_1=x_2=0$ y los multiplicadores resultantes son ambos
+igual a 0. Pero si se eliminan las dos restricciones (o incluso si se sustituyen por
+restricciones del tipo ``menor o igual" o ``mayor o igual") el problema resulta no acotado.
+%%
+\subsection*{Esquema de resoluci\'{o}n (m\'{e}todo KKT)}
+%%
+ El problema a resolver es:
+   $$
+   \min\{f(\vx)\,/\, \vx\in\X, g_i(x)\leq 0,\; i=1,\dots,m\},
+   $$
+ siendo $\X$ un abierto no vac\'{\i}o de $\Re^n$ y $f,g_i:\Re^n\fd\Re$.
+
+ Un posible esquema de resoluci\'{o}n es:
+ \begin{enumerate}[(t= 1). ]
+   \item Construir la funci\'{o}n
+     $$
+       L(\vx,\vu)=f(\vx)+\sum_{i=1}^m u_ig_i(\vx)\qquad \text{(funci\'{o}n Lagrangiana)}.
+     $$
+   \item Hallar los puntos K-K-T, es decir todos los puntos que verifican:
+     \begin{align*}
+       \frac{\delta L}{\delta x_j}=0\quad \forall j=1,\dots,n &
+       \qquad\text{(condici\'{o}n de gradiente),}
+       \\
+       g_i(\vx)\leq 0\quad \forall i=1,\dots,m
+       &\qquad\text{(condici\'{o}n de factibilidad),}
+       \\
+       u_ig_i(\vx)=0\quad\forall i=1\dots,m &\qquad \text{(condici\'{o}n de ortogonalidad),}
+       \\
+       u_i\geq 0\quad \forall i=i,\dots,m &\qquad\text{(condici\'{o}n de no negatividad).}
+     \end{align*}
+\item Condici\'{o}n de independencia lineal de  $\gg_i(\vx)$, $i\in\I$, siendo
+        $\I=\{i\,/\, g_i(\vx)=0\}$.
+\item $g_i$ cuasi-convexas diferenciables y $f$ pseudo-convexa en
+alg\'{u}n punto $\ovx$ soluci\'{o}n de las condiciones anteriores, $\ovx$ es m\'{\i}nimo global. En caso
+contrario, hay que analizar los puntos individualmente.
+\end{enumerate}
+\begin{observacion}
+\begin{itemize}
+\item Si el problema es de maximizaci\'{o}n, el \'{u}nico cambio en este procedimiento
+consiste en exigir $u_i\leq 0$, $\forall i=1,\dots,n$.
+\item Para identificar los puntos F-J, habr\'{\i}a que distinguir los casos en los que
+$u_0=0$ y en los que $u_0>0$. Los puntos de F-J son aquellos en los que $u_0=0$.
+\end{itemize}
+\end{observacion}
+%%
+\subsection{Aplicaci\'{o}n a un problema de Programaci\'{o}n Lineal}
+%%
+La condiciones expuestas anteriormente son v\'{a}lidas para cualquier problema No Lineal, pero en
+el caso de que tanto las restricciones como la funci\'{o}n objetivo sean lineales, la potencia de
+las mismas se multiplica. Supongamos el siguiente problema de programaci\'{o}n lineal:
+  \begin{align*}
+    \min\, & \vc^T\vx
+    \\
+    \text{s.a } &  \vA\vx\geq\vb
+    \\
+                & \vx\geq\vv
+  \end{align*}
+y su dual:
+  \begin{align*}
+    \max\, & \vb^T\vw
+    \\
+    \text{s.a } &  \vA^T\vw\geq\vc
+    \\
+                & \vw\geq\vv
+  \end{align*}
+Sea $\vx$ y $\vw$ un par de soluciones factibles para los problemas primal y dual
+respectivamente. Entonces
+  $$
+   \vc^T\vx\geq \vw^T\vA\vx\geq \vb^T\vx
+  $$
+y, por tanto, el valor \'{o}ptimo del problema primal est\'{a} acotado inferiormente por el valor
+\'{o}ptimo del problema dual y viceversa. Consecuentemente, si para alg\'{u}n par de soluciones
+factibles el valor de las funciones objetivo coincide, estas ser\'{a}n soluciones \'{o}ptimas.
+
+El problema primal se puede poner como:
+  \begin{align}
+    \min\, & \vc^T\vx\label{PL1}
+    \\
+    \text{s.a } &  \vb-\vA\vx\leq\vv\label{PL2}
+    \\
+                & -\vx\leq\vv\label{PL3}
+  \end{align}
+donde $\vA$ es la matriz de restricciones $m\times n$, $\vb$ es un vector $m\times 1$, $\vc$
+es un vector de costes $n\times 1$ y $\vx$ es un vector de $n$ variables.
+
+La primera cuesti\'{o}n es que toda funci\'{o}n lineal es convexa y c\'{o}ncava a la vez y diferenciable
+en todo punto. Teniendo en cuenta esto, todo m\'{\i}nimo local para el problema
+\eqref{PL1}--\eqref{PL3} es tambi\'{e}n m\'{\i}nimo global.
+
+Por otro lado, sea un punto factible $\ovx$ para \eqref{PL1}--\eqref{PL3} que verifique las
+condiciones necesarias de Karush-Kunh-Tucker. Puesto que $f$ es convexa y diferenciable,
+tambi\'{e}n es pseudo-convexa y todas las restricciones activas para el punto $\ovx$ son
+cuasi-convexas y, consecuentemente, $\ovx$ verifica las condiciones suficientes y es un m\'{\i}nimo
+global. Por tanto, las condiciones necesarias de Karush-Kuhn-Tucker para un problema lineal
+son tambi\'{e}n suficientes.
+
+Veamos c\'{o}mo quedan estas condiciones en este caso.
+\begin{itemize}
+\item Condiciones de factibilidad primal:
+    \begin{equation}
+      \vA\vx\geq\vb\qquad\qquad\vx\geq\vv
+    \end{equation}
+\item Condiciones de factibilidad dual:
+    \begin{equation}
+       \vc-\vA^T\vu_1-\vu_2=\vv
+    \end{equation}
+donde $\vu_1\geq 0$ y $\vu_2\geq 0$ son los multiplicadores asociados a las restricciones
+\eqref{PL2} y \eqref{PL3}, respectivamente.
+\item Condiciones de holgura complementaria:
+   \begin{align*}
+      u_{1i}(b_i-\va^i\vx)     & =0 &&\forall i=1,\dots,m
+      \\
+      u_{2i}^Tx_i          & =0 &&\forall i=1,\dots,n
+   \end{align*}
+donde $\va^i$  el la $i$-\'{e}sima fila de $\vA$.
+\end{itemize}
+Tomando $\vu_2=\vc-\vA^T\vu_1$, y teniendo en cuenta que $\vu_2\geq\vv$, las condiciones de
+factibilidad dual quedan:
+    \begin{equation}
+       \vc-\vA^T\vu_1\geq\vv,\qquad\qquad \vu_1\geq\vv,
+    \end{equation}
+y, por tanto, el vector $\vu_1$ es una soluci\'{o}n factible para el problema dual de
+\eqref{PL1}-\eqref{PL3}. Ahora veamos que el valor de la funci\'{o}n objetivo para estos
+multiplicadores coincide con el valor de la funci\'{o}n objetivo para $\vx$. Multiplicando las
+primeras condiciones de  factibilidad dual por la izquierda por el vector $\vx\geq 0$,
+resulta:
+    \begin{equation}\label{optimolineal}
+       \vc^T\vx-\vu_1^T\vA\vx-\vu_2^T\vx=\vv
+    \end{equation}
+Por otra parte, de la segunda condici\'{o}n de holgura complementaria, sumando las $n$
+condiciones, se tiene que $\vu_2^T\vx=0$. Y sumando las $m$ primeras condiciones de holgura
+complementaria se tiene que $\vb^T\vu_1=\vu_1^T \vA\vx$. Sustituyendo en \eqref{optimolineal},
+resulta
+    \begin{equation*}
+       \vc^T\vx-\vb^T\vu_1=\vv
+    \end{equation*}
+Por tanto, si $\vx$ es un punto K-K-T, los multiplicadores obtenidos son una soluci\'{o}n \'{o}ptima
+para el problema dual.
+
+Analicemos ahora c\'{o}mo resultan las condiciones de Karush-Kuhn-Tucker seg\'{u}n las distintas
+situaciones que se pueden presentar en un problema de Programaci\'{o}n Lineal. Para ello,
+consideremos el caso m\'{a}s sencillo, con dos variables, que nos permite hacer una interpretaci\'{o}n
+geom\'{e}trica.
+\begin{itemize}
+\item {\bf El problema tiene soluci\'{o}n \'{o}ptima finita \'{u}nica y no degenerada.}. Por ejemplo, para
+el problema
+  \begin{equation*}
+    \begin{array}{lccccccl}
+    \min\, & - & x & -2 & y
+    \\
+    \text{s.a } &  & x & + & y & - &4&\leq 0
+    \\
+                & -& x & + & y & - & 2& \leq 0
+    \\
+                & 2& x& +  & y & - & 7& \leq 0
+    \\
+                &  & x,&  & y &   & & \geq 0
+    \end{array}
+  \end{equation*}
+la soluci\'{o}n \'{o}ptima es el punto $(1,3)$. La siguiente figura muestra la regi\'{o}n factible, el
+punto \'{o}ptimo y los gradientes de las restricciones activas en ese punto.
+\begin{center}
+\begin{pspicture}(-1,-1)(6,7.5)
+    \psset{yunit=15mm,xunit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](0,0)(0,2)
+    \psline(0,2)(1,3)
+    \psline(1,3)(3,1)
+    \psline(3,1)(3.5,0)
+    \psline(3.5,0)(0,0)
+    }
+    \psline{->}(0,0)(4,0)
+    \psline{->}(0,0)(0,4)
+    \psline(0,2)(1,3)
+    \psline(3.5,0)(3,1)
+    \psline(3,1)(1,3)
+    \rput(1.2,4){\makebox(0,0){\footnotesize $\gf$}}
+    \rput(0.2,3.4){\makebox(0,0){\footnotesize $\gg_2$}}
+    \rput(1.8,3.4){\makebox(0,0){\footnotesize $\gg_1$}}
+    \psline[linestyle=dashed]{->}(1,3)(1.5,3.5)
+    \psline[linestyle=dashed]{->}(1,3)(0.25,3.75)
+    \psline[linestyle=dashed]{->}(1,3)(1.5,4)
+\end{pspicture}
+\end{center}
+Es inmediato comprobar como los multiplicadores son $u_1=\frac{3}{2}$ y $u_2=\frac{1}{2}$,
+estrictamente positivos y constituyen la soluci\'{o}n \'{o}ptima del problema dual. Efectivamente, se
+puede garantizar que ambos son estrictamente positivos ya que de otra forma, uno de los
+gradientes ser\'{\i}a proporcional al gradiente de la funci\'{o}n objetivo y, por tanto, la soluci\'{o}n no
+ser\'{\i}a \'{u}nica.
+
+Puesto que los dos gradientes de las restricciones activas forman base, estos multiplicadores
+son \'{u}nicos. Esto es, {\bf el problema dual tiene soluci\'{o}n \'{u}nica no degenerada}.
+%%
+\item {\bf El problema tiene soluci\'{o}n \'{o}ptima finita \'{u}nica degenerada.}. Esta situaci\'{o}n se
+presenta en el punto extremo \'{o}ptimo  el n\'{u}mero de restricciones activas es mayor que el n\'{u}mero
+de variables del problema.
+
+Por ejemplo, para el problema
+  \begin{equation*}
+    \begin{array}{lccccccl}
+    \min\, & - & x & -2 & y
+    \\
+    \text{s.a } &  & x & + & y & -& 4& \leq 0
+    \\
+                & -& x & + & y & -& 2& \leq 0
+    \\
+                & 2& x& +  & y & -& 7& \leq 0
+    \\
+                &  &  &    & y & -& 3& \leq 0
+    \\
+                &  &x,&    & y &  &  & \geq 0
+    \end{array}
+  \end{equation*}
+la soluci\'{o}n \'{o}ptima es el punto $(x,y)$ y las restricciones primera, segunda y cuarta son
+activas. La siguiente figura muestra cual es la situaci\'{o}n y c\'{o}mo son los gradientes de las
+restricciones y de la funci\'{o}n objetivo en este punto.
+\begin{center}
+\begin{pspicture}(-1,-1)(6,7.5)
+    \psset{yunit=15mm,xunit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](0,0)(0,2)
+    \psline(0,2)(1,3)
+    \psline(1,3)(3,1)
+    \psline(3,1)(3.5,0)
+    \psline(3.5,0)(0,0)
+    }
+    \psline{->}(0,0)(4,0)
+    \psline{->}(0,0)(0,4)
+    \psline(0,2)(1,3)
+    \psline(3.5,0)(3,1)
+    \psline(3,1)(1,3)
+    \psline(-0.5,3)(3,3)
+    \rput(-0.5,3){\psline{->}(0,0)(0,-0.3)}
+    \rput(3,3){\psline{->}(0,0)(0,-0.3)}
+    \rput(1.6,4.3){\makebox(0,0){\footnotesize $\gf$}}
+    \rput(0.2,3.5){\makebox(0,0){\footnotesize $\gg_2$}}
+    \rput(2,3.5){\makebox(0,0){\footnotesize $\gg_1$}}
+    \rput(0.8,4.1){\makebox(0,0){\footnotesize $\gg_4$}}
+    \psline[linestyle=dashed]{->}(1,3)(1,4)
+    \psline[linestyle=dashed]{->}(1,3)(1.75,3.75)
+    \psline[linestyle=dashed]{->}(1,3)(0.25,3.75)
+    \psline[linestyle=dashed]{->}(1,3)(1.5,4)
+\end{pspicture}
+\end{center}
+En este caso, los tres gradientes de las restricciones activas no son linealmente
+independientes y, por tanto, el punto no es de Karush-Kuhn-Tucker. Sin embargo, s\'{\i} es un
+punto Fritz-John y es posible encontrar m\'{a}s de una expresi\'{o}n para poner el opuesto del
+gradiente de la funci\'{o}n objetivo como combinaci\'{o}n lineal positiva de estos tres
+gradientes. Recu\'{e}rdese que el objetivo de imponer la independencia lineal de los
+gradientes no era otro que garantizar que $\G_0\neq\emptyset$ y as\'{\i} garantizar que $u_0$
+sea distinto de cero en cualquier soluci\'{o}n del sistema. Por tanto, aunque este punto no
+verifique las condiciones de Karush-Kuhn-Tucker, la \'{u}nica soluci\'{o}n del sistema con todos
+los multiplicadores no negativos es tal que $u_0\neq 0$ y los resultados son igualmente
+v\'{a}lidos.
+
+Por ejemplo, tomando $(u_1,u_2,u_4)=(\frac{3}{2},\frac{1}{2},0)$ y $(u_1,u_2,u_3)=(1,0,1)$ se
+obtienen dos soluciones para el sistema. Evidentemente, cualquier combinaci\'{o}n convexa de estos
+vectores de multiplicadores tambi\'{e}n es soluci\'{o}n para el sistema de ecuaciones y, por tanto,
+para el problema dual. Es decir, {\bf el problema dual tiene m\'{u}ltiples soluciones}.
+%%
+\item {\bf El problema tiene m\'{u}ltiples soluciones no degeneradas}. En este caso, el conjunto de soluciones
+viene dado todas las combinaciones convexas de los puntos extremos \'{o}ptimos m\'{a}s, en algunas
+ocasiones, una combinaci\'{o}n lineal positiva de direcciones extremas. La siguiente figura
+muestra cuales ser\'{\i}an estas situaciones.
+\begin{center}
+\begin{pspicture}(0,0)(10,5.5)
+    \psset{yunit=10mm,xunit=10mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](3.5,0)(0,0)
+    \psline[linewidth=0pt](0,0)(0,2)
+    \psline[linewidth=0pt](0,2)(3.5,5.5)
+    }
+    \psline{->}(0,0)(4,0)
+    \psline{->}(0,0)(0,4)
+    \psline{->}(0,2)(2,4)
+    \rput(1.8,2.5){\makebox(0,0){\footnotesize $\gf$}}
+    \psline[linestyle=dashed]{->}(1,3)(1.5,2.5)
+    %%
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](5,0)(5,2)
+    \psline(5,2)(6,3)
+    \psline(6,3)(8,1)
+    \psline(8,1)(8.5,0)
+    \psline(8.5,0)(5,0)
+    }
+    %%
+    \psline{->}(5,0)(9,0)
+    \psline{->}(5,0)(5,4)
+    \psline(5,2)(6,3)
+    \psline(6,3)(8,1)
+    \psline(8,1)(8.5,0)
+    \rput(6.3,1.3){\makebox(0,0){\footnotesize $\gf$}}
+    \psline[linestyle=dashed]{->}(7,2)(6.5,1.5)
+\end{pspicture}
+\end{center}
+Nosotros analizaremos la segunda situaci\'{o}n, en la que el conjunto de soluciones \'{o}ptimas es
+acotado, pero el otro caso es an\'{a}logo. En $\Re^2$ vendr\'{a} dado por un segmento. Por ejemplo,
+para el problema
+  \begin{equation*}
+    \begin{array}{lccccccl}
+    \min\, & - & x & - & y
+    \\
+    \text{s.a } &  & x & + & y & - &4&\leq 0
+    \\
+                & -& x & + & y & - & 2& \leq 0
+    \\
+                & 2& x& +  & y & - & 7& \leq 0
+    \\
+                &  & x,&  & y &   & & \geq 0
+    \end{array}
+  \end{equation*}
+el conjunto de soluciones \'{o}ptimas viene dado por todas las posibles combinaciones convexas de
+los puntos $(1,3)$ y $(3,1)$, como muestra la siguiente figura.
+\begin{center}
+\begin{pspicture}(-1,-1)(7.5,7.5)
+    \psset{yunit=15mm,xunit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](0,0)(0,2)
+    \psline(0,2)(1,3)
+    \psline(1,3)(3,1)
+    \psline(3,1)(3.5,0)
+    \psline(3.5,0)(0,0)
+    }
+    \psline{->}(0,0)(4,0)
+    \psline{->}(0,0)(0,4)
+    \psline(0,2)(1,3)
+    \psline(3.5,0)(3,1)
+    \psline(3,1)(1,3)
+    \rput(1.5,3.75){\makebox(0,0){\footnotesize $\gf$}}
+    \rput(0.3,3.4){\makebox(0,0){\footnotesize $\gg_2$}}
+    \rput(1.5,3){\makebox(0,0){\footnotesize $\gg_1$}}
+    \psline[linestyle=dashed]{->}(1,3)(1.5,3.5)
+    \psline[linestyle=dashed]{->}(1,3)(0.5,3.5)
+    \psline[linestyle=dashed]{->}(1,3)(1.75,3.75)
+    \rput(4.3,2.1){\makebox(0,0){\footnotesize $\gf$}}
+    \rput(3.2,1.5){\makebox(0,0){\footnotesize $\gg_1$}}
+    \rput(4.3,1.5){\makebox(0,0){\footnotesize $\gg_3$}}
+    \psline[linestyle=dashed]{->}(3,1)(3.5,1.5)
+    \psline[linestyle=dashed]{->}(3,1)(4,1.5)
+    \psline[linestyle=dashed]{->}(3,1)(4,2)
+\end{pspicture}
+\end{center}
+En cualquiera de los puntos \'{o}ptimos, s\'{o}lo el gradiente asociado a la primera restricci\'{o}n ser\'{a}
+no nulo, $u_1=1$ y el resto ser\'{a}n iguales a cero, incluso en los dos puntos extremos \'{o}ptimos.
+Por tanto, la soluci\'{o}n del dual tendr\'{a} a lo sumo una variable no nula y, por tanto, {\bf el
+problema dual tiene al menos una soluci\'{o}n degenerada.}
+%%
+\item {\bf El problema tiene m\'{u}ltiples soluciones y al menos una es degenerada}. Para el
+problema:
+  \begin{equation*}
+    \begin{array}{lccccccl}
+    \min\, & - & x & - & y
+    \\
+    \text{s.a } &  & x & + & y & - &4&\leq 0
+    \\
+                & -& x & + & y & - & 2& \leq 0
+    \\
+                & 2& x& +  & y & - & 7& \leq 0
+    \\
+                &     & y & - & 3& \leq 0
+    \\
+                &  & x,&  & y &   & & \geq 0
+    \end{array}
+  \end{equation*}
+el conjunto de soluciones \'{o}ptimas viene dado por todas las posibles combinaciones convexas de
+los puntos $(1,3)$ y $(3,1)$, como muestra la siguiente figura.
+\begin{center}
+\begin{pspicture}(-1,-1)(7.5,7.5)
+    \psset{yunit=15mm,xunit=15mm}
+    \pscustom[fillstyle=solid,fillcolor=lightgray]{
+    \psline[linewidth=0pt](0,0)(0,2)
+    \psline(0,2)(1,3)
+    \psline(1,3)(3,1)
+    \psline(3,1)(3.5,0)
+    \psline(3.5,0)(0,0)
+    }
+    \psline{->}(0,0)(4,0)
+    \psline{->}(0,0)(0,4)
+    \psline(0,2)(1,3)
+    \psline(3.5,0)(3,1)
+    \psline(3,1)(1,3)
+    \psline(-0.5,3)(3,3)
+    \rput(-0.5,3){\psline{->}(0,0)(0,-0.3)}
+    \rput(3,3){\psline{->}(0,0)(0,-0.3)}
+    \rput(2.2,4.2){\makebox(0,0){\footnotesize $\gf$}}
+    \rput(0.2,3.5){\makebox(0,0){\footnotesize $\gg_2$}}
+    \rput(1.9,3.5){\makebox(0,0){\footnotesize $\gg_1$}}
+    \rput(0.8,3.7){\makebox(0,0){\footnotesize $\gg_4$}}
+    \psline[linestyle=dashed]{->}(1,3)(1.5,3.5)
+    \psline[linestyle=dashed]{->}(1,3)(.5,3.5)
+    \psline[linestyle=dashed]{->}(1,3)(1.75,3.75)
+    \psline[linestyle=dashed]{->}(1,3)(1,4)
+    \rput(3.9,2.0){\makebox(0,0){\footnotesize $\gf$}}
+    \rput(3.2,1.5){\makebox(0,0){\footnotesize $\gg_1$}}
+    \rput(4,1.4){\makebox(0,0){\footnotesize $\gg_3$}}
+    \psline[linestyle=dashed]{->}(3,1)(3.5,1.5)
+    \psline[linestyle=dashed]{->}(3,1)(4,1.5)
+    \psline[linestyle=dashed]{->}(3,1)(4,2)
+\end{pspicture}
+\end{center}
+y la soluci\'{o}n asociada al punto $(3,1)$ es degenerada, aunque no el resto. N\'{o}tese que si
+alguna soluci\'{o}n perteneciente al interior del conjunto de soluciones \'{o}ptimas (en nuestro caso,
+al interior del segmento) es degenerada, es porque hay dos restricci\'{o}n que son iguales, lo que
+entra en contradicci\'{o}n con la hip\'{o}tesis de que la matriz de restricciones es de rango m\'{a}ximo.
+
+Pero en el caso que nos ocupa, la situaci\'{o}n es equivalente al caso en el que la soluci\'{o}n es
+m\'{u}ltiple y no degenerada. Ahora {\bf el dual tiene soluci\'{o}n degenerada}, aunque si en el
+problema anterior hab\'{\i}a un multiplicador nulo, ahora ser\'{a}n dos ($u_2$ y $u_4$).
+%%
+\item {\bf El problema tiene soluci\'{o}n no acotada}. En este caso ning\'{u}n punto verifica las
+condiciones de Karush-Kuhn-Tucker y, por tanto, {\bf el problema dual no tiene soluci\'{o}n}.
+%%
+\item {\bf El problema es no factible}. Aplicando las condiciones de Karush-Kuhn-Tucker al
+problema dual, \'{e}ste no puede tener soluci\'{o}n \'{o}ptima finita, ya que en caso contrario, su dual,
+que es el problema original, tendr\'{\i}a soluci\'{o}n (como se ha visto en los primeros casos). Por
+tanto, {\bf el problema dual es no factible o tiene soluci\'{o}n no acotada}.
+\end{itemize}
+Por tanto, a la vista del an\'{a}lisis anterior, resulta que si el problema primal tiene soluci\'{o}n
+\'{u}nica degenerada, entonces el problema dual tiene m\'{u}ltiples soluciones \'{o}ptimos y si el
+problema primal tiene m\'{u}ltiples \'{o}ptimos el problema dual tiene soluci\'{o}n degenerada. Adem\'{a}s,
+considerando que la dualidad es una propiedad involutiva, se tiene el siguiente resultado:
+\begin{proposicion}
+Dado un problema y su dual, uno tiene soluci\'{o}n \'{o}ptima finita degenerada si y s\'{o}lo si el otro
+tiene m\'{u}ltiples puntos \'{o}ptimos.
+\end{proposicion}

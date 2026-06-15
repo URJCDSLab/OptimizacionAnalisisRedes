@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Condiciones de Optimalidad y KKT – Apuntes de Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema5.html" rel="next">
+<link href="./tema3.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="estilos_html.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema4.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de Optimalidad y KKT</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Apuntes de Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la Investigación Operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización No Lineal y Métodos Numéricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Convexo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de Optimalidad y KKT</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aplicaciones de KKT: Programación Lineal y Cuadrática</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Optimización en Ciencia de Datos: Regresión y SVM</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introducción a Grafos y Árboles Soporte</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">El Problema del Camino Mínimo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Problemas de Flujo en Redes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problemas de Emparejamiento (Matching)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Rutas Eulerianas, Hamiltonianas y TSP</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#optimización-sin-restricciones" id="toc-optimización-sin-restricciones" class="nav-link active" data-scroll-target="#optimización-sin-restricciones"><span class="header-section-number">4.1</span> Optimización Sin Restricciones</a>
+  <ul class="collapse">
+  <li><a href="#direcciones-de-descenso" id="toc-direcciones-de-descenso" class="nav-link" data-scroll-target="#direcciones-de-descenso"><span class="header-section-number">4.1.1</span> 1. Direcciones de Descenso</a></li>
+  <li><a href="#condiciones-necesarias-y-suficientes-de-segundo-orden" id="toc-condiciones-necesarias-y-suficientes-de-segundo-orden" class="nav-link" data-scroll-target="#condiciones-necesarias-y-suficientes-de-segundo-orden"><span class="header-section-number">4.1.2</span> 2. Condiciones Necesarias y Suficientes de Segundo Orden</a></li>
+  </ul></li>
+  <li><a href="#optimización-con-restricciones-conceptos-de-conos" id="toc-optimización-con-restricciones-conceptos-de-conos" class="nav-link" data-scroll-target="#optimización-con-restricciones-conceptos-de-conos"><span class="header-section-number">4.2</span> Optimización Con Restricciones: Conceptos de Conos</a>
+  <ul class="collapse">
+  <li><a href="#definiciones-geométricas-de-conos" id="toc-definiciones-geométricas-de-conos" class="nav-link" data-scroll-target="#definiciones-geométricas-de-conos"><span class="header-section-number">4.2.1</span> 1. Definiciones Geométricas de Conos</a></li>
+  <li><a href="#caracterización-diferenciable-mediante-semiespacios" id="toc-caracterización-diferenciable-mediante-semiespacios" class="nav-link" data-scroll-target="#caracterización-diferenciable-mediante-semiespacios"><span class="header-section-number">4.2.2</span> 2. Caracterización Diferenciable mediante Semiespacios</a></li>
+  </ul></li>
+  <li><a href="#restricciones-de-desigualdad-y-cono-de-restricciones-activas" id="toc-restricciones-de-desigualdad-y-cono-de-restricciones-activas" class="nav-link" data-scroll-target="#restricciones-de-desigualdad-y-cono-de-restricciones-activas"><span class="header-section-number">4.3</span> Restricciones de Desigualdad y Cono de Restricciones Activas</a></li>
+  <li><a href="#condiciones-de-fritz-john-fj" id="toc-condiciones-de-fritz-john-fj" class="nav-link" data-scroll-target="#condiciones-de-fritz-john-fj"><span class="header-section-number">4.4</span> Condiciones de Fritz-John (FJ)</a>
+  <ul class="collapse">
+  <li><a href="#limitación-de-fritz-john-el-caso-de-multiplicador-nulo-u_0-0" id="toc-limitación-de-fritz-john-el-caso-de-multiplicador-nulo-u_0-0" class="nav-link" data-scroll-target="#limitación-de-fritz-john-el-caso-de-multiplicador-nulo-u_0-0"><span class="header-section-number">4.4.1</span> Limitación de Fritz-John: El Caso de Multiplicador Nulo (<span class="math inline">\(u_0 = 0\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#condiciones-de-karush-kuhn-tucker-kkt" id="toc-condiciones-de-karush-kuhn-tucker-kkt" class="nav-link" data-scroll-target="#condiciones-de-karush-kuhn-tucker-kkt"><span class="header-section-number">4.5</span> Condiciones de Karush-Kuhn-Tucker (KKT)</a>
+  <ul class="collapse">
+  <li><a href="#historia-de-kkt" id="toc-historia-de-kkt" class="nav-link" data-scroll-target="#historia-de-kkt"><span class="header-section-number">4.5.1</span> Historia de KKT</a></li>
+  <li><a href="#cualificación-de-restricciones-licq-y-otras" id="toc-cualificación-de-restricciones-licq-y-otras" class="nav-link" data-scroll-target="#cualificación-de-restricciones-licq-y-otras"><span class="header-section-number">4.5.2</span> Cualificación de Restricciones (LICQ y otras)</a></li>
+  <li><a href="#condiciones-necesarias-de-kkt" id="toc-condiciones-necesarias-de-kkt" class="nav-link" data-scroll-target="#condiciones-necesarias-de-kkt"><span class="header-section-number">4.5.3</span> 1. Condiciones Necesarias de KKT</a></li>
+  <li><a href="#condiciones-suficientes-de-kkt-bajo-convexidad" id="toc-condiciones-suficientes-de-kkt-bajo-convexidad" class="nav-link" data-scroll-target="#condiciones-suficientes-de-kkt-bajo-convexidad"><span class="header-section-number">4.5.4</span> 2. Condiciones Suficientes de KKT bajo Convexidad</a></li>
+  </ul></li>
+  <li><a href="#esquema-general-de-resolución-kkt" id="toc-esquema-general-de-resolución-kkt" class="nav-link" data-scroll-target="#esquema-general-de-resolución-kkt"><span class="header-section-number">4.6</span> Esquema General de Resolución KKT</a></li>
+  <li><a href="#restricciones-de-igualdad-y-desigualdad" id="toc-restricciones-de-igualdad-y-desigualdad" class="nav-link" data-scroll-target="#restricciones-de-igualdad-y-desigualdad"><span class="header-section-number">4.7</span> Restricciones de Igualdad y Desigualdad</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de Optimalidad y KKT</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>En las aplicaciones prácticas de la optimización, la inmensa mayoría de los problemas incorporan restricciones sobre los recursos, el presupuesto o las condiciones físicas del sistema. En este capítulo, estudiaremos la caracterización analítica y geométrica de los puntos óptimos. Comenzaremos analizando los problemas sin restricciones para asentar las bases diferenciales, introduciremos el formalismo geométrico de los conos de direcciones factibles y de descenso, y derivaremos las célebres condiciones necesarias de Fritz-John (FJ) y las condiciones necesarias y suficientes de Karush-Kuhn-Tucker (KKT).</p>
+<section id="optimización-sin-restricciones" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="optimización-sin-restricciones"><span class="header-section-number">4.1</span> Optimización Sin Restricciones</h2>
+<p>El estudio de problemas de optimización sin restricciones (<span class="math inline">\(\min f(x)\)</span> para <span class="math inline">\(x \in \mathbb{R}^n\)</span>) nos permite comprender cómo se comporta localmente una función basándonos en la información de sus derivadas.</p>
+<section id="direcciones-de-descenso" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="direcciones-de-descenso"><span class="header-section-number">4.1.1</span> 1. Direcciones de Descenso</h3>
+<p>Una dirección de descenso es un vector que apunta hacia regiones del espacio donde el valor de la función disminuye localmente.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Condición de Dirección de Descenso">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Condición de Dirección de Descenso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dada una función <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> diferenciable en <span class="math inline">\(\bar{x}\)</span>, si existe un vector <span class="math inline">\(d \in \mathbb{R}^n\)</span> tal que: <span class="math display">\[ \nabla f(\bar{x})^T d &lt; 0 \]</span> Entonces existe un escalar <span class="math inline">\(\delta &gt; 0\)</span> tal que: <span class="math display">\[ f(\bar{x} + \lambda d) &lt; f(\bar{x}), \quad \forall \lambda \in (0, \delta) \]</span></p>
+<p><em>Demostración</em>: Por la diferenciabilidad de <span class="math inline">\(f\)</span> en el punto <span class="math inline">\(\bar{x}\)</span>, podemos escribir el desarrollo de Taylor de primer orden como: <span class="math display">\[ f(\bar{x} + \lambda d) = f(\bar{x}) + \lambda \nabla f(\bar{x})^T d + \lambda \|d\| \alpha(\bar{x}, \lambda d) \]</span> Donde <span class="math inline">\(\alpha(\bar{x}, \lambda d) \to 0\)</span> cuando <span class="math inline">\(\lambda \to 0\)</span>. Dividiendo ambos miembros por el parámetro <span class="math inline">\(\lambda &gt; 0\)</span>, obtenemos: <span class="math display">\[ \frac{f(\bar{x} + \lambda d) - f(\bar{x})}{\lambda} = \nabla f(\bar{x})^T d + \|d\| \alpha(\bar{x}, \lambda d) \]</span> Puesto que <span class="math inline">\(\nabla f(\bar{x})^T d &lt; 0\)</span> por hipótesis, y dado que el término residual <span class="math inline">\(\alpha(\bar{x}, \lambda d)\)</span> tiende a cero conforme <span class="math inline">\(\lambda\)</span> se desvanece, existe un radio de entorno <span class="math inline">\(\delta &gt; 0\)</span> tal que para todo <span class="math inline">\(\lambda \in (0, \delta)\)</span> el lado derecho de la igualdad permanece estrictamente negativo. Esto implica que <span class="math inline">\(f(\bar{x} + \lambda d) - f(\bar{x}) &lt; 0\)</span>, lo que demuestra la tesis. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</section>
+<section id="condiciones-necesarias-y-suficientes-de-segundo-orden" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="condiciones-necesarias-y-suficientes-de-segundo-orden"><span class="header-section-number">4.1.2</span> 2. Condiciones Necesarias y Suficientes de Segundo Orden</h3>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Condiciones de Optimalidad de Segundo Orden (Sin Restricciones)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Condiciones de Optimalidad de Segundo Orden (Sin Restricciones)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> una función dos veces diferenciable.</p>
+<ol type="1">
+<li><strong>Condición Necesaria de Primer Orden (FONC)</strong>: Si <span class="math inline">\(\bar{x}\)</span> es un extremo local, entonces el gradiente en dicho punto se anula: <span class="math display">\[ \nabla f(\bar{x}) = 0 \]</span></li>
+<li><strong>Condición Necesaria de Segundo Orden (SONC)</strong>: Si <span class="math inline">\(\bar{x}\)</span> es un mínimo local, entonces la matriz hessiana es semidefinida positiva: <span class="math display">\[ \nabla^2 f(\bar{x}) \succeq 0 \]</span></li>
+<li><strong>Condición Suficiente de Segundo Orden (SOSC)</strong>: Si en un punto <span class="math inline">\(\bar{x}\)</span> se cumple que el gradiente es nulo y la matriz hessiana es definida positiva: <span class="math display">\[ \nabla f(\bar{x}) = 0 \qquad \text{y} \qquad \nabla^2 f(\bar{x}) \succ 0 \]</span> Entonces <span class="math inline">\(\bar{x}\)</span> es un mínimo local estricto de la función.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo Ilustrativo: Análisis de Puntos Estacionarios">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo Ilustrativo: Análisis de Puntos Estacionarios
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideremos la función univariante <span class="math inline">\(f(x) = (x^2 - 1)^3\)</span>. Sus dos primeras derivadas son: <span class="math display">\[ f'(x) = 6x(x^2 - 1)^2, \qquad f''(x) = 24x^2(x^2 - 1) + 6(x^2 - 1)^2 \]</span> Igualando la primera derivada a cero para localizar los puntos estacionarios, obtenemos los candidatos: <span class="math display">\[ x^* = 0, \qquad x^* = 1, \qquad x^* = -1 \]</span> Analicemos la curvatura de segundo orden en cada candidato:</p>
+<ul>
+<li><strong>En <span class="math inline">\(x^* = 0\)</span></strong>: <span class="math inline">\(f''(0) = 6(0 - 1) + 6(-1)^2 = 6 &gt; 0\)</span>. Al ser la segunda derivada estrictamente positiva, se cumple la condición suficiente de segundo orden, confirmando que <span class="math inline">\(x^* = 0\)</span> es un mínimo local.</li>
+<li><strong>En <span class="math inline">\(x^* = \pm 1\)</span></strong>: <span class="math inline">\(f''(\pm 1) = 0\)</span>. Al anularse la segunda derivada, no podemos concluir mediante las condiciones sufientes habituales. Un análisis de derivadas de orden superior revela que se trata de puntos de inflexión y no de extremos locales.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Suficiencia de Optimalidad bajo Pseudo-convexidad">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Suficiencia de Optimalidad bajo Pseudo-convexidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> una función pseudo-convexa definida sobre un conjunto convexo <span class="math inline">\(\mathcal{S}\)</span>. Un punto <span class="math inline">\(\bar{x} \in \mathcal{S}\)</span> es un mínimo global de <span class="math inline">\(f\)</span> si y solo si es un punto estacionario: <span class="math display">\[ \nabla f(\bar{x}) = 0 \]</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="optimización-con-restricciones-conceptos-de-conos" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="optimización-con-restricciones-conceptos-de-conos"><span class="header-section-number">4.2</span> Optimización Con Restricciones: Conceptos de Conos</h2>
+<p>Cuando el movimiento está limitado a una región factible <span class="math inline">\(\mathcal{S} \subseteq \mathbb{R}^n\)</span>, la caracterización de los extremos exige analizar la interacción entre las direcciones que reducen la función y las que permanecen dentro del conjunto.</p>
+<section id="definiciones-geométricas-de-conos" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="definiciones-geométricas-de-conos"><span class="header-section-number">4.2.1</span> 1. Definiciones Geométricas de Conos</h3>
+<ul>
+<li><strong>Cono de Direcciones Factibles (<span class="math inline">\(\mathcal{F}(\bar{x})\)</span>)</strong>: El conjunto de direcciones a lo largo de las cuales un paso infinitesimal no abandona la región factible <span class="math inline">\(\mathcal{S}\)</span>: <span class="math display">\[ \mathcal{F}(\bar{x}) = \{ d \in \mathbb{R}^n \mid d \neq 0, \ \exists \delta_d &gt; 0 \text{ tal que } \bar{x} + \lambda d \in \mathcal{S}, \ \forall \lambda \in (0, \delta_d) \} \]</span></li>
+<li><strong>Cono de Direcciones de Mejora/Descenso (<span class="math inline">\(\mathcal{D}(\bar{x})\)</span>)</strong>: El conjunto de direcciones a lo largo de las cuales el valor de la función objetivo disminuye localmente: <span class="math display">\[ \mathcal{D}(\bar{x}) = \{ d \in \mathbb{R}^n \mid d \neq 0, \ \exists \delta_d &gt; 0 \text{ tal que } f(\bar{x} + \lambda d) &lt; f(\bar{x}), \ \forall \lambda \in (0, \delta_d) \} \]</span></li>
+</ul>
+<p>Una condición fundamental de optimalidad geométrica establece que si un punto <span class="math inline">\(\bar{x}\)</span> es un mínimo local, no puede existir ninguna dirección que sea simultáneamente factible y de descenso:</p>
+<p><span class="math display">\[ \bar{x} \text{ es mínimo local} \implies \mathcal{F}(\bar{x}) \cap \mathcal{D}(\bar{x}) = \emptyset \]</span></p>
+</section>
+<section id="caracterización-diferenciable-mediante-semiespacios" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="caracterización-diferenciable-mediante-semiespacios"><span class="header-section-number">4.2.2</span> 2. Caracterización Diferenciable mediante Semiespacios</h3>
+<p>Si la función <span class="math inline">\(f\)</span> es diferenciable en <span class="math inline">\(\bar{x}\)</span>, definimos el semiespacio abierto de direcciones que forman un ángulo obtuso con el gradiente (direcciones de descenso analítico) como: <span class="math display">\[ \mathcal{D}_0(\bar{x}) = \{ d \in \mathbb{R}^n \mid \nabla f(\bar{x})^T d &lt; 0 \} \]</span></p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Exclusión de Direcciones de Descenso y Factibilidad">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Exclusión de Direcciones de Descenso y Factibilidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si <span class="math inline">\(\bar{x} \in \mathcal{S}\)</span> es un mínimo local de una función diferenciable <span class="math inline">\(f\)</span>, entonces el cono de direcciones factibles y el semiespacio de descenso analítico son disjuntos: <span class="math display">\[ \mathcal{D}_0(\bar{x}) \cap \mathcal{F}(\bar{x}) = \emptyset \]</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="restricciones-de-desigualdad-y-cono-de-restricciones-activas" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="restricciones-de-desigualdad-y-cono-de-restricciones-activas"><span class="header-section-number">4.3</span> Restricciones de Desigualdad y Cono de Restricciones Activas</h2>
+<p>Consideremos un conjunto factible delimitado por un conjunto de restricciones de desigualdad: <span class="math display">\[ \mathcal{S} = \{ x \in \mathcal{X} \mid g_i(x) \le 0, \ i = 1, \dots, m \} \]</span></p>
+<p>Donde <span class="math inline">\(\mathcal{X}\)</span> es un conjunto abierto.</p>
+<ul>
+<li><strong>Restricciones Activas (<span class="math inline">\(\mathcal{I}\)</span>)</strong>: Dado un punto factible <span class="math inline">\(\bar{x} \in \mathcal{S}\)</span>, es el conjunto de índices de las restricciones que se cumplen con igualdad estricta: <span class="math display">\[ \mathcal{I} = \{ i \in \{1, \dots, m\} \mid g_i(\bar{x}) = 0 \} \]</span> Las restricciones inactivas (<span class="math inline">\(g_i(\bar{x}) &lt; 0\)</span>) no limitan el movimiento local en un entorno pequeño del punto.</li>
+</ul>
+<p>Definimos el cono abierto de direcciones de descenso para las restricciones activas como: <span class="math display">\[ \mathcal{G}_0(\bar{x}) = \{ d \in \mathbb{R}^n \mid \nabla g_i(\bar{x})^T d &lt; 0, \ \forall i \in \mathcal{I} \} \]</span></p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Intersección Vacía con el Cono de Restricciones Activas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Intersección Vacía con el Cono de Restricciones Activas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(\bar{x} \in \mathcal{S}\)</span> un mínimo local de <span class="math inline">\(f\)</span>. Si <span class="math inline">\(f\)</span> y las restricciones activas <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) son diferenciables en <span class="math inline">\(\bar{x}\)</span>, y las restricciones inactivas son continuas, entonces no existe ninguna dirección en la intersección: <span class="math display">\[ \mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) = \emptyset \]</span></p>
+<p><em>Demostración</em>: Supongamos por contradicción que existe un vector <span class="math inline">\(d \in \mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x})\)</span>. Como <span class="math inline">\(d \in \mathcal{G}_0(\bar{x})\)</span>, se cumple que <span class="math inline">\(\nabla g_i(\bar{x})^T d &lt; 0\)</span> para toda <span class="math inline">\(i \in \mathcal{I}\)</span>. Por el teorema de dirección de descenso, existe un paso <span class="math inline">\(\delta_1 &gt; 0\)</span> tal que <span class="math inline">\(g_i(\bar{x} + \lambda d) &lt; g_i(\bar{x}) = 0\)</span> para todo <span class="math inline">\(\lambda \in (0, \delta_1)\)</span>.</p>
+<p>Para las restricciones inactivas (<span class="math inline">\(j \notin \mathcal{I}\)</span>), dado que <span class="math inline">\(g_j(\bar{x}) &lt; 0\)</span> y por la continuidad de <span class="math inline">\(g_j\)</span>, existe un paso <span class="math inline">\(\delta_2 &gt; 0\)</span> tal que <span class="math inline">\(g_j(\bar{x} + \lambda d) &lt; 0\)</span> para todo <span class="math inline">\(\lambda \in (0, \delta_2)\)</span>. Como el dominio <span class="math inline">\(\mathcal{X}\)</span> es abierto, existe un paso <span class="math inline">\(\delta_3 &gt; 0\)</span> tal que <span class="math inline">\(\bar{x} + \lambda d \in \mathcal{X}\)</span> para todo <span class="math inline">\(\lambda \in (0, \delta_3)\)</span>.</p>
+<p>Tomando el paso mínimo <span class="math inline">\(\delta = \min \{\delta_1, \delta_2, \delta_3\} &gt; 0\)</span>, se concluye que <span class="math inline">\(\bar{x} + \lambda d\)</span> es factible para todo <span class="math inline">\(\lambda \in (0, \delta)\)</span>, lo que implica que <span class="math inline">\(d \in \mathcal{F}(\bar{x})\)</span>. Sin embargo, dado que <span class="math inline">\(d \in \mathcal{D}_0(\bar{x})\)</span> por suposición, se cumple que <span class="math inline">\(\nabla f(\bar{x})^T d &lt; 0\)</span>, lo que implicaría que existe un paso de mejora factible, contradiciendo que <span class="math inline">\(\bar{x}\)</span> sea un mínimo local (puesto que <span class="math inline">\(\mathcal{D}_0(\bar{x}) \cap \mathcal{F}(\bar{x}) = \emptyset\)</span>). Por tanto, la intersección es vacía. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</section>
+<section id="condiciones-de-fritz-john-fj" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="condiciones-de-fritz-john-fj"><span class="header-section-number">4.4</span> Condiciones de Fritz-John (FJ)</h2>
+<p>El hecho geométrico de que <span class="math inline">\(\mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) = \emptyset\)</span> se puede traducir algebraicamente, aplicando teoremas de alternativa (como el Teorema de Gordan o el Lema de Farkas), en una condición de dependencia lineal de los vectores gradiente. El matemático Fritz John formuló estas condiciones en 1948.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Condiciones Necesarias de Fritz-John (1948)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Condiciones Necesarias de Fritz-John (1948)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(\bar{x}\)</span> un mínimo local del problema restringido por desigualdades. Si <span class="math inline">\(f\)</span> y las restricciones activas <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) son diferenciables en <span class="math inline">\(\bar{x}\)</span>, y las inactivas son continuas, existen escalares <span class="math inline">\(u_0, u_1, \dots, u_m\)</span> tales que:</p>
+<ol type="1">
+<li><strong>Factibilidad dual (Ecuación de Fritz-John)</strong>: <span class="math display">\[ u_0 \nabla f(\bar{x}) + \sum_{i=1}^m u_i \nabla g_i(\bar{x}) = 0 \]</span></li>
+<li><strong>Holgura complementaria</strong>: <span class="math display">\[ u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m \]</span></li>
+<li><strong>No negatividad</strong>: <span class="math display">\[ u_0, u_i \ge 0, \quad \forall i = 1, \dots, m \]</span></li>
+<li><strong>No trivialidad</strong>: <span class="math display">\[ (u_0, u_1, \dots, u_m) \neq (0, 0, \dots, 0) \]</span></li>
+</ol>
+</div>
+</div>
+<section id="limitación-de-fritz-john-el-caso-de-multiplicador-nulo-u_0-0" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="limitación-de-fritz-john-el-caso-de-multiplicador-nulo-u_0-0"><span class="header-section-number">4.4.1</span> Limitación de Fritz-John: El Caso de Multiplicador Nulo (<span class="math inline">\(u_0 = 0\)</span>)</h3>
+<p>Las condiciones de Fritz-John presentan un inconveniente analítico: es posible que en el óptimo el multiplicador asociado a la función objetivo sea cero (<span class="math inline">\(u_0 = 0\)</span>). En este escenario, la relación se reduce a: <span class="math display">\[ \sum_{i \in \mathcal{I}} u_i \nabla g_i(\bar{x}) = 0 \]</span></p>
+<p>Esto sucede si los gradientes de las restricciones activas son linealmente dependientes en el punto de interés. En tal caso, las condiciones de Fritz-John se satisfacen independientemente de cuál sea la función objetivo a optimizar, perdiendo todo su poder selectivo sobre el óptimo real del problema.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Caso de Estudio: Fallo de Fritz-John por Multiplicador Nulo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Caso de Estudio: Fallo de Fritz-John por Multiplicador Nulo
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideremos el problema: <span class="math display">\[
+\begin{aligned}
+\min_{x} \quad &amp; -x_1 \\
+\text{sujeto a} \quad &amp; g_1(x_1, x_2) = x_2 - (1 - x_1)^3 \le 0 \\
+&amp; g_2(x_1, x_2) = -x_2 \le 0
+\end{aligned}
+\]</span> La solución óptima de este problema es <span class="math inline">\(\bar{x} = (1, 0)\)</span>, donde ambas restricciones son activas (<span class="math inline">\(\mathcal{I} = \{1, 2\}\)</span>). Planteando las ecuaciones de Fritz-John: <span class="math display">\[ u_0 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + u_1 \begin{pmatrix} 3(1 - x_1)^2 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \]</span> Evaluando en el punto óptimo <span class="math inline">\(\bar{x} = (1, 0)\)</span>: <span class="math display">\[ u_0 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + u_1 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies \begin{aligned} -u_0 &amp;= 0 \\ u_1 - u_2 &amp;= 0 \end{aligned} \]</span> De donde se deduce obligatoriamente que <span class="math inline">\(u_0 = 0\)</span>, e <span class="math inline">\(u_1 = u_2 = \alpha &gt; 0\)</span>. La función objetivo no influye en las ecuaciones debido a la geometría singular de la región factible en dicho punto (la tangencia de las curvas de restricción).</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="condiciones-de-karush-kuhn-tucker-kkt" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="condiciones-de-karush-kuhn-tucker-kkt"><span class="header-section-number">4.5</span> Condiciones de Karush-Kuhn-Tucker (KKT)</h2>
+<p>Para garantizar que la función objetivo participe activamente en la caracterización de optimalidad (<span class="math inline">\(u_0 &gt; 0\)</span>), debemos imponer una condición de regularidad sobre la geometría de las restricciones en el óptimo, denominada <strong>cualificación de restricciones</strong> (Constraint Qualification).</p>
+<section id="historia-de-kkt" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="historia-de-kkt"><span class="header-section-number">4.5.1</span> Historia de KKT</h3>
+<p>Las condiciones KKT tienen una historia singular de redescubrimiento. Fueron formuladas por primera vez en 1939 por <strong>William Karush</strong> en su tesis de maestría inédita en la Universidad de Chicago. Doce años después, en 1951, los matemáticos <strong>Harold W. Kuhn</strong> y <strong>Albert W. Tucker</strong> las redescubrieron de manera independiente, publicándolas en un célebre artículo de congreso. La comunidad científica finalmente reconoció la contribución primordial de Karush renombrando las condiciones como Karush-Kuhn-Tucker.</p>
+</section>
+<section id="cualificación-de-restricciones-licq-y-otras" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="cualificación-de-restricciones-licq-y-otras"><span class="header-section-number">4.5.2</span> Cualificación de Restricciones (LICQ y otras)</h3>
+<p>La cualificación de restricciones más habitual es la <strong>Independencia Lineal de las Restricciones Activas (LICQ)</strong>: los gradientes de las restricciones activas <span class="math inline">\(\{\nabla g_i(\bar{x}), \forall i \in \mathcal{I}\}\)</span> deben ser linealmente independientes.</p>
+<p>Existen otras cualificaciones de restricciones importantes en la literatura:</p>
+<ul>
+<li><strong>LICQ (Linear Independence Constraint Qualification)</strong>: Gradientes de restricciones activas linealmente independientes. Satisface e implica todas las demás cualificaciones.</li>
+<li><strong>MFCQ (Mangasarian-Fromovitz Constraint Qualification)</strong>: Los gradientes de restricciones de igualdad son linealmente independientes y existe una dirección factible estrictamente interior para las desigualdades.</li>
+<li><strong>Condición de Slater</strong>: Para problemas convexos, existe al menos un punto <span class="math inline">\(x\)</span> estrictamente factible (<span class="math inline">\(g_i(x) &lt; 0\)</span> para toda <span class="math inline">\(i\)</span>).</li>
+</ul>
+</section>
+<section id="condiciones-necesarias-de-kkt" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="condiciones-necesarias-de-kkt"><span class="header-section-number">4.5.3</span> 1. Condiciones Necesarias de KKT</h3>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Condiciones Necesarias de KKT">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Condiciones Necesarias de KKT
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(\bar{x}\)</span> un mínimo local del problema. Si se verifica la cualificación de restricciones (LICQ) en <span class="math inline">\(\bar{x}\)</span>, entonces existen multiplicadores únicos <span class="math inline">\(u_1, \dots, u_m \ge 0\)</span> tales que:</p>
+<ol type="1">
+<li><strong>Estacionariedad (Gradiente nulo de la Lagrangiana)</strong>: <span class="math display">\[ \nabla f(\bar{x}) + \sum_{i=1}^m u_i \nabla g_i(\bar{x}) = 0 \]</span></li>
+<li><strong>Factibilidad primal</strong>: <span class="math display">\[ g_i(\bar{x}) \le 0, \quad \forall i = 1, \dots, m \]</span></li>
+<li><strong>Holgura complementaria</strong>: <span class="math display">\[ u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m \]</span></li>
+<li><strong>No negatividad (Factibilidad dual)</strong>: <span class="math display">\[ u_i \ge 0, \quad \forall i = 1, \dots, m \]</span></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="condiciones-suficientes-de-kkt-bajo-convexidad" class="level3" data-number="4.5.4">
+<h3 data-number="4.5.4" class="anchored" data-anchor-id="condiciones-suficientes-de-kkt-bajo-convexidad"><span class="header-section-number">4.5.4</span> 2. Condiciones Suficientes de KKT bajo Convexidad</h3>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Condiciones Suficientes de KKT bajo Convexidad">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Condiciones Suficientes de KKT bajo Convexidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(\bar{x}\)</span> un punto factible que satisface las condiciones necesarias de KKT con multiplicadores <span class="math inline">\(u_i\)</span>. Si:</p>
+<ol type="1">
+<li>La función objetivo <span class="math inline">\(f(x)\)</span> es <strong>pseudo-convexa</strong> en <span class="math inline">\(\bar{x}\)</span>.</li>
+<li>Las restricciones activas <span class="math inline">\(g_i(x)\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) son <strong>cuasi-convexas</strong> y diferenciables en <span class="math inline">\(\bar{x}\)</span>.</li>
+</ol>
+<p>Entonces <span class="math inline">\(\bar{x}\)</span> es un mínimo global del problema.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="esquema-general-de-resolución-kkt" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="esquema-general-de-resolución-kkt"><span class="header-section-number">4.6</span> Esquema General de Resolución KKT</h2>
+<p>El procedimiento analítico para resolver problemas mediante KKT se fundamenta en los siguientes pasos:</p>
+<ol type="1">
+<li><strong>Construir la función Lagrangiana</strong>: <span class="math display">\[ L(x, u) = f(x) + \sum_{i=1}^m u_i g_i(x) \]</span></li>
+<li><strong>Plantear las ecuaciones del sistema KKT</strong>:
+<ul>
+<li><span class="math inline">\(\nabla_x L(x, u) = 0\)</span>.</li>
+<li><span class="math inline">\(g_i(x) \le 0\)</span>, para todo <span class="math inline">\(i\)</span>.</li>
+<li><span class="math inline">\(u_i g_i(x) = 0\)</span>, para todo <span class="math inline">\(i\)</span>.</li>
+<li><span class="math inline">\(u_i \ge 0\)</span>, para todo <span class="math inline">\(i\)</span>.</li>
+</ul></li>
+<li><strong>Análisis por casos combinatorios</strong>: Para cada restricción <span class="math inline">\(i\)</span>, se evalúan los casos:
+<ul>
+<li><em>Caso A</em>: La restricción está inactiva (<span class="math inline">\(g_i(x) &lt; 0 \implies u_i = 0\)</span>).</li>
+<li><em>Caso B</em>: La restricción está activa (<span class="math inline">\(g_i(x) = 0 \implies u_i \ge 0\)</span>).</li>
+</ul></li>
+<li><strong>Descartar candidatos no factibles o con multiplicadores negativos</strong>.</li>
+<li><strong>Comprobar la cualificación LICQ y aplicar la suficiencia por convexidad</strong>.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Caso Práctico: Resolución Analítica Detallada">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Caso Práctico: Resolución Analítica Detallada
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideremos el problema: <span class="math display">\[
+\begin{aligned}
+\min_{x, y} \quad &amp; f(x, y) = (x - 3)^2 + (y - 2)^2 \\
+\text{sujeto a} \quad &amp; g_1(x, y) = x^2 + y^2 - 5 \le 0 \\
+&amp; g_2(x, y) = x + 2y - 4 \le 0
+\end{aligned}
+\]</span> La función objetivo mide el cuadrado de la distancia al punto <span class="math inline">\((3, 2)\)</span>. Construimos la Lagrangiana: <span class="math display">\[ L(x, y, u_1, u_2) = (x - 3)^2 + (y - 2)^2 + u_1(x^2 + y^2 - 5) + u_2(x + 2y - 4) \]</span> El sistema de derivadas parciales con respecto a <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> es:</p>
+<ol type="1">
+<li><span class="math inline">\(\frac{\partial L}{\partial x} = 2(x - 3) + 2u_1 x + u_2 = 0\)</span></li>
+<li><span class="math inline">\(\frac{\partial L}{\partial y} = 2(y - 2) + 2u_1 y + 2u_2 = 0\)</span></li>
+</ol>
+<p>Analizamos el caso donde ambas restricciones son activas (<span class="math inline">\(g_1 = 0\)</span> y <span class="math inline">\(g_2 = 0\)</span>):</p>
+<ul>
+<li><span class="math inline">\(x^2 + y^2 = 5\)</span></li>
+<li><span class="math inline">\(x + 2y = 4 \implies x = 4 - 2y\)</span></li>
+</ul>
+<p>Sustituyendo en la primera: <span class="math display">\[ (4 - 2y)^2 + y^2 = 5 \implies 5y^2 - 16y + 11 = 0 \]</span> Las soluciones son:</p>
+<ul>
+<li><span class="math inline">\(y = 1 \implies x = 2\)</span>.</li>
+<li><span class="math inline">\(y = 2.2 \implies x = -0.4\)</span> (este punto viola la restricción <span class="math inline">\(g_1 \le 0\)</span>, por lo que se descarta).</li>
+</ul>
+<p>Evaluamos el candidato <span class="math inline">\(\bar{x} = (2, 1)\)</span> en el sistema de derivadas para hallar los multiplicadores: <span class="math display">\[ 2(2 - 3) + 4u_1 + u_2 = 0 \implies 4u_1 + u_2 = 2 \]</span> <span class="math display">\[ 2(1 - 2) + 2u_1 + 4u_2 = 0 \implies 2u_1 + 4u_2 = 2 \implies u_1 + 2u_2 = 1 \]</span> Resolviendo el sistema lineal de multiplicadores: <span class="math display">\[ u_1 = \frac{1}{3} \ge 0, \qquad u_2 = \frac{2}{3} \ge 0 \]</span> Al ser ambos multiplicadores no negativos, el punto <span class="math inline">\((2, 1)\)</span> satisface KKT. Como la función objetivo es cuadrática estrictamente convexa y las restricciones son convexas, se cumplen las condiciones suficientes, lo que garantiza que <span class="math inline">\((2, 1)\)</span> es el <strong>mínimo global único</strong> del problema.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="restricciones-de-igualdad-y-desigualdad" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="restricciones-de-igualdad-y-desigualdad"><span class="header-section-number">4.7</span> Restricciones de Igualdad y Desigualdad</h2>
+<p>El marco analítico se extiende al incorporar restricciones de igualdad (<span class="math inline">\(h_j(x) = 0\)</span>).</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Condiciones Necesarias Generales de KKT">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Condiciones Necesarias Generales de KKT
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(\bar{x}\)</span> un mínimo local del problema restringido por desigualdades y ecuaciones. Si se cumple LICQ (los gradientes de las restricciones de igualdad y de las restricciones activas de desigualdad son linealmente independientes en <span class="math inline">\(\bar{x}\)</span>), existen multiplicadores únicos <span class="math inline">\(u_1, \dots, u_m \ge 0\)</span> y <span class="math inline">\(v_1, \dots, v_\ell \in \mathbb{R}\)</span> tales que:</p>
+<ol type="1">
+<li><strong>Estacionariedad</strong>: <span class="math display">\[ \nabla f(\bar{x}) + \sum_{i=1}^m u_i \nabla g_i(\bar{x}) + \sum_{j=1}^\ell v_j \nabla h_j(\bar{x}) = 0 \]</span></li>
+<li><strong>Factibilidad primal</strong>: <span class="math display">\[ g_i(\bar{x}) \le 0 \quad (\forall i), \qquad h_j(\bar{x}) = 0 \quad (\forall j) \]</span></li>
+<li><strong>Holgura complementaria</strong>: <span class="math display">\[ u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m \]</span></li>
+<li><strong>No negatividad (desigualdades)</strong>: <span class="math display">\[ u_i \ge 0, \quad \forall i = 1, \dots, m \]</span></li>
+</ol>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tema3.html" class="pagination-link" aria-label="Análisis Convexo">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Convexo</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema5.html" class="pagination-link" aria-label="Aplicaciones de KKT: Programación Lineal y Cuadrática">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aplicaciones de KKT: Programación Lineal y Cuadrática</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
