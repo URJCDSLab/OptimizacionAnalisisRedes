@@ -377,7 +377,12 @@ donde $e_i$ es el $i$-ésimo vector unitario. En cada paso, se resuelve un subpr
     
     Al no existir términos de acoplamiento cruzado entre las variables (la matriz hessiana es diagonal), el algoritmo localiza el mínimo exacto en una única iteración de $n=2$ pasos ortogonales.
 
-![Descenso por coordenadas cíclicas sobre curvas de nivel circulares independientes](images/coordenadas_ciclicas_ej1.png){#fig-coord-ciclicas-1 fig-align="center" width="50%"}
+::: {.content-visible when-format="html"}
+![Descenso por coordenadas cíclicas: trayectoria paso a paso sobre curvas de nivel circulares (animación)](images/coordenadas_ciclicas_ej1.gif){#fig-coord-ciclicas-1 fig-align="center" width="60%"}
+:::
+::: {.content-visible when-format="pdf"}
+![Descenso por coordenadas cíclicas: secuencia de pasos sobre curvas de nivel circulares](images/coordenadas_ciclicas_ej1_pasos.png){#fig-coord-ciclicas-1 fig-align="center" width="100%"}
+:::
 
 *   **Variables Acopladas**:
     Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ (ver @fig-coord-ciclicas-2) partiendo de $x_0 = (0, 0)^T$.
@@ -385,14 +390,21 @@ donde $e_i$ es el $i$-ésimo vector unitario. En cada paso, se resuelve un subpr
     *   *Paso 1*: Minimizamos respecto a $x$:
         $$ \min_{x} \quad f(x, 0) = 8x^2 - 25x - 29 \implies 16x - 25 = 0 \implies x_1 = (1.5625, 0)^T $$
     *   *Paso 2*: Minimizamos respecto a $y$ manteniendo $x = 1.5625$:
-        $$ \min_{y} \quad f(1.5625, y) = 7y^2 + 35.6875y + \text{ct} \implies 14y + 35.6875 = 0 \implies y = -\frac{571}{224} \approx -2.5491 $$
+        $$ \min_{y} \quad f(1.5625, y) = 7y^2 + 35.6875y + \text{ct} \implies 14y + 35.6875 = 0 \implies $$
+        $$y = -\frac{571}{224} \approx -2.5491 $$
         Lo que resulta en el punto $x_2 = (1.5625, -2.5491)^T$.
     *   *Paso 3*: Minimizamos de nuevo respecto a $x$ con $y = -2.5491$:
-        $$ \min_{x} \quad f(x, -2.5491) = 8x^2 - 32.6473x + \text{ct} \implies 16x - 32.6473 = 0 \implies x_3 = (2.0405, -2.5491)^T $$
+        $$ \min_{x} \quad f(x, -2.5491) = 8x^2 - 32.6473x + \text{ct} \implies 16x - 32.6473 = 0 \implies$$ 
+        $$x_3 = (2.0405, -2.5491)^T $$
     
     Debido al acoplamiento bilineal inducido por el término $3xy$, la trayectoria dibuja un patrón de "escalera", requiriendo múltiples ciclos para aproximarse al mínimo global situado en $x^* = (2.060, -2.656)$.
 
-![Trayectoria en escalera del descenso por coordenadas sobre una función cuadrática acoplada](images/coordenadas_ciclicas_ej2.png){#fig-coord-ciclicas-2 fig-align="center" width="50%"}
+::: {.content-visible when-format="html"}
+![Trayectoria en escalera del descenso por coordenadas cíclicas sobre una función cuadrática acoplada (animación)](images/coordenadas_ciclicas_ej2.gif){#fig-coord-ciclicas-2 fig-align="center" width="60%"}
+:::
+::: {.content-visible when-format="pdf"}
+![Trayectoria en escalera del descenso por coordenadas cíclicas sobre una función cuadrática acoplada](images/coordenadas_ciclicas_ej2_pasos.png){#fig-coord-ciclicas-2 fig-align="center" width="100%"}
+:::
 :::
 
 
@@ -438,7 +450,12 @@ Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ partiendo de $x_0 = (
     $$ d_0^T \nabla f(x_1) = 25(0.8925) - 31(0.7225) \approx 0 $$
     Lo cual ilustra la ortogonalidad requerida por la búsqueda exacta.
 
-![Trayectoria ortogonal de máximo descenso: giros de 90 grados sobre las curvas de nivel elípticas de la función cuadrática](images/steepest_descent_ej.png){#fig-steepest-descent fig-align="center" width="55%"}
+::: {.content-visible when-format="html"}
+![Máximo descenso: trayectoria iterativa con gradiente y ortogonalidad entre pasos consecutivos (animación)](images/steepest_descent.gif){#fig-steepest-descent fig-align="center" width="65%"}
+:::
+::: {.content-visible when-format="pdf"}
+![Máximo descenso: secuencia de iteraciones mostrando trayectoria ortogonal sobre las curvas de nivel elípticas](images/steepest_descent_pasos.png){#fig-steepest-descent fig-align="center" width="100%"}
+:::
 :::
 
 
