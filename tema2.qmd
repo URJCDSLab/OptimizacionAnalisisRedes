@@ -104,6 +104,8 @@ Por otro lado, un punto $x^*$ constituye un **mínimo local** si es la mejor sol
 
 En optimización no lineal general, debido a la posible presencia de no convexidades, los algoritmos locales basados en derivadas pueden converger hacia mínimos locales mediocres en lugar de alcanzar el óptimo global. Esta es la complejidad fundamental que diferencia al PNL de la programación lineal.
 
+![Ilustración de los distintos tipos de óptimos locales y globales (estrictos y no estrictos) sobre funciones convexas y no convexas](images/tipos_optimos.png){#fig-tipos-optimos fig-align="center" width="80%"}
+
 
 ## Fundamentos Matemáticos y Condiciones de Optimalidad
 
@@ -221,9 +223,17 @@ Los métodos de búsqueda unidimensional buscan minimizar una función real de u
 
 Estos métodos solo requieren evaluar el valor de la función objetivo. Exigen que la función sea **unimodal** en el intervalo $[a, b]$, es decir, que posea un único mínimo local en dicho intervalo, decreciendo de forma monótona a la izquierda del mínimo y creciendo a su derecha.
 
-La **Búsqueda Uniforme (Rejilla)** consiste en dividir el intervalo inicial $[a, b]$ en $n$ subintervalos de igual anchura mediante una rejilla de puntos $x_k = a + k \frac{b-a}{n}$ para $k = 0, \dots, n$. Se evalúa la función en todos los puntos de la rejilla, se identifica el punto mínimo $x_{k^*}$ y se define el nuevo intervalo reducido como $[x_{k^*-1}, x_{k^*+1}]$. Aunque es un método muy robusto, resulta poco eficiente debido a que no aprovecha la información de las evaluaciones previas.
+La **Búsqueda Uniforme (Rejilla)** consiste en dividir el intervalo inicial $[a, b]$ en $n$ subintervalos de igual anchura mediante una rejilla de puntos $x_k = a + k \frac{b-a}{n}$ para $k = 0, \dots, n$. Se evalúa la función en todos los puntos de la rejilla, se identifica el punto mínimo $x_{k^*}$ y se define el nuevo intervalo reducido como $[x_{k^*-1}, x_{k^*+1}]$. Aunque es un método muy robusto, resulta poco eficiente debido a que no aprovecha la información de las evaluaciones previas (ver la @fig-busqueda-uniforme-concepto).
 
-La **Búsqueda Dicotómica** evalúa la función únicamente en el entorno del punto medio del intervalo actual. En cada iteración $k$, calcula dos puntos simétricos respecto al centro separados por una perturbación infinitesimal $\epsilon > 0$: $\lambda_k = \frac{a_k + b_k}{2} - \epsilon$ y $\mu_k = \frac{a_k + b_k}{2} + \epsilon$. Si $f(\lambda_k) < f(\mu_k)$, el mínimo debe situarse en el intervalo izquierdo, actualizándose a $[a_k, \mu_k]$. Si $f(\lambda_k) > f(\mu_k)$, se actualiza a $[\lambda_k, b_k]$. Cada paso requiere dos evaluaciones y reduce el intervalo a prácticamente la mitad ($I_{k+1} \approx \frac{1}{2} I_k$).
+![Concepto de la Búsqueda Uniforme en rejilla: subdivisión equidistante del intervalo y reducción basada en el punto mínimo de la muestra](images/busqueda_uniforme_concepto.png){#fig-busqueda-uniforme-concepto fig-align="center" width="70%"}
+
+La **Búsqueda Dicotómica** evalúa la función en el entorno del punto medio del intervalo actual. Para ilustrar por qué es necesario evaluar al menos dos puntos internos en lugar de uno solo, consideremos la @fig-busqueda-dicotomica-insuficiente. Si únicamente evaluásemos la función en el punto medio exacto $c$, obtendríamos la misma información en ambos casos, haciendo imposible deducir si el mínimo se localiza en la mitad izquierda o derecha. 
+
+Para resolver este inconveniente, la Búsqueda Dicotómica calcula en cada iteración $k$ dos puntos simétricos respecto al centro separados por una perturbación infinitesimal $\delta > 0$: $\lambda_k = \frac{a_k + b_k}{2} - \delta$ y $\mu_k = \frac{a_k + b_k}{2} + \delta$. Si $f(\lambda_k) < f(\mu_k)$, el mínimo debe situarse en el intervalo izquierdo, actualizándose a $[a_k, \mu_k]$, mientras que si $f(\lambda_k) > f(\mu_k)$, se actualiza a $[\lambda_k, b_k]$ (ver la @fig-busqueda-dicotomica-concepto). Cada paso requiere dos evaluaciones y reduce el intervalo a prácticamente la mitad ($I_{k+1} \approx \frac{1}{2} I_k$).
+
+![Insuficiencia de evaluar un único punto medio: dos funciones unimodales diferentes pueden tener idéntico valor en $c$ teniendo sus mínimos globales en lados opuestos](images/busqueda_dicotomica_insuficiente.png){#fig-busqueda-dicotomica-insuficiente fig-align="center" width="85%"}
+
+![Concepto de la Búsqueda Dicotómica: la comparación de $\lambda_k$ y $\mu_k$ descarta con certeza una de las mitades del intervalo](images/busqueda_dicotomica_concepto.png){#fig-busqueda-dicotomica-concepto fig-align="center" width="70%"}
 
 La **Sección Áurea (Golden Section)** optimiza la búsqueda dicotómica al colocar los puntos de evaluación de manera que uno de ellos pueda ser reutilizado en la iteración siguiente. Para que se mantenga esta relación de escala constante entre iteraciones, la anchura de los intervalos decrece según la razón áurea $\alpha = (1 + \sqrt{5})/2 \approx 1.618$. Los puntos en cada paso $k$ sobre el intervalo $[a_k, b_k]$ se definen como $\lambda_k = b_k - (b_k - a_k)/\alpha$ y $\mu_k = a_k + (b_k - a_k)/\alpha$. Este método reduce el intervalo de incertidumbre en cada paso en un factor constante de $1/\alpha \approx 0.618$. A partir de la segunda iteración, solo se requiere evaluar la función en un único punto nuevo. Dada una tolerancia $\epsilon > 0$, el número total de iteraciones necesarias se calcula mediante la expresión $N = \lceil (\ln(b - a) - \ln(\epsilon)) / \ln(\alpha) \rceil$.
 
@@ -231,16 +241,40 @@ La **Búsqueda de Fibonacci** fija de antemano el número total de evaluaciones 
 
 A modo de ilustración de las trazas numéricas de estos algoritmos, consideremos la minimización en el intervalo $[1, 4]$ de la función de cuarto grado $f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1$ (cuyo gráfico se muestra en la @fig-opt-1d-ejemplo) utilizando una tolerancia de precisión $\epsilon = 0.15$:
 
+![Minimización de la función de cuarto grado y su mínimo global en $x^* = 3.0$](images/opt_1d_ejemplo.png){#fig-opt-1d-ejemplo fig-align="center" width="60%"}
+
+*   *Traza de la Búsqueda Dicotómica*: Usamos una perturbación $\delta = 0.02$.
+    *   *Iteración 1*: $[a_0, b_0] = [1, 4]$. El punto medio es $c = 2.5$. Evaluamos los puntos simétricos: $\lambda_0 = 2.5 - 0.02 = 2.48 \implies f(2.48) = -68.397$, y $\mu_0 = 2.5 + 0.02 = 2.52 \implies f(2.52) = -68.490$. Al cumplirse que $f(\lambda_0) > f(\mu_0)$, descartamos la porción izquierda $[a_0, \lambda_0]$. El nuevo intervalo es $[a_1, b_1] = [2.48, 4]$.
+    *   *Iteración 2*: $[a_1, b_1] = [2.48, 4]$. El punto medio es $c = 3.24$. Evaluamos $\lambda_1 = 3.24 - 0.02 = 3.22 \implies f(3.22) = -68.730$, y $\mu_1 = 3.24 + 0.02 = 3.26 \implies f(3.26) = -68.683$. Al cumplirse que $f(\lambda_1) < f(\mu_1)$, descartamos la porción derecha $[\mu_1, b_1]$. El nuevo intervalo es $[a_2, b_2] = [2.48, 3.26]$.
+    *   *Iteración 3*: $[a_2, b_2] = [2.48, 3.26]$. El punto medio es $c = 2.87$. Evaluamos $\lambda_2 = 2.87 - 0.02 = 2.85 \implies f(2.85) = -68.711$, y $\mu_2 = 2.87 + 0.02 = 2.89 \implies f(2.89) = -68.724$. Dado que $f(\lambda_2) > f(\mu_2)$, descartamos la izquierda. El nuevo intervalo es $[a_3, b_3] = [2.85, 3.26]$.
+    *   *Iteración 4*: $[a_3, b_3] = [2.85, 3.26]$. El punto medio es $c = 3.055$. Evaluamos $\lambda_3 = 3.055 - 0.02 = 3.035 \implies f(3.035) = -68.744$, y $\mu_3 = 3.055 + 0.02 = 3.075 \implies f(3.075) = -68.718$. Dado que $f(\lambda_3) < f(\mu_3)$, descartamos la derecha. El nuevo intervalo es $[a_4, b_4] = [2.85, 3.075]$.
+    *   *Iteración 5*: $[a_4, b_4] = [2.85, 3.075]$. El punto medio es $c = 2.9625$. Evaluamos $\lambda_4 = 2.9625 - 0.02 = 2.9425 \implies f(2.9425) = -68.730$, y $\mu_4 = 2.9625 + 0.02 = 2.9825 \implies f(2.9825) = -68.748$. Como $f(\lambda_4) > f(\mu_4)$, descartamos la izquierda. El nuevo intervalo es $[a_5, b_5] = [2.9425, 3.075]$. La amplitud resultante es de $3.075 - 2.9425 = 0.1325 \le 0.15$, finalizando el algoritmo.
+
+::: {.content-visible when-format="html"}
+![Animación de la Búsqueda Dicotómica (5 iteraciones)](images/dicotomica.gif){#fig-dicotomica fig-align="center" width="65%"}
+:::
+
+::: {.content-visible when-format="pdf"}
+![Evolución del intervalo en la Búsqueda Dicotómica (Pasos 1 a 4)](images/dicotomica_pasos.png){#fig-dicotomica fig-align="center" width="85%"}
+:::
+
 *   *Traza de la Sección Áurea*: El número de iteraciones requeridas es $N = \lceil (\ln(3.0) - \ln(0.15)) / \ln(1.618) \rceil = 7$.
     *   *Iteración 1*: $[a_0, b_0] = [1, 4]$. Amplitud $I_1 = 3.0 / 1.618 = 1.8541$. Calculamos $\lambda_0 = 4 - 1.8541 = 2.1459 \implies f(2.1459) = -66.692$, y $\mu_0 = 1 + 1.8541 = 2.8541 \implies f(2.8541) = -68.714$. Como $f(\lambda_0) > f(\mu_0)$, descartamos la izquierda. Nuevo intervalo: $[2.1459, 4]$.
     *   *Iteración 2*: $[a_1, b_1] = [2.1459, 4]$. Amplitud $I_2 = 1.8541 / 1.618 = 1.1459$. Reutilizamos $\lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) = -68.714$. Calculamos el nuevo punto $\mu_1 = 2.1459 + 1.1459 = 3.2918 \implies f(3.2918) = -68.654$. Como $f(\lambda_1) < f(\mu_1)$, descartamos la derecha. Nuevo intervalo: $[2.1459, 3.2918]$.
     *   *Iteración 7 (Última)*: El proceso continúa hasta que en la iteración $k=7$ la amplitud es $I_7 = 0.1033 \le 0.15$, convergiendo en el intervalo final $[2.9574, 3.0608]$, que contiene el mínimo en $x^* = 3.0$.
+
+::: {.content-visible when-format="html"}
+![Animación de la búsqueda por Sección Áurea (7 iteraciones)](images/seccion_aurea.gif){#fig-seccion-aurea fig-align="center" width="65%"}
+:::
+
+::: {.content-visible when-format="pdf"}
+![Evolución del intervalo en la búsqueda por Sección Áurea (Pasos 1 a 4)](images/seccion_aurea_pasos.png){#fig-seccion-aurea fig-align="center" width="85%"}
+:::
+
 *   *Traza de Fibonacci*: Fijamos $N = 6$ evaluaciones de la función (usando $F_7 = 21$).
     *   *Iteración 1*: $[a_0, b_0] = [1, 4]$. Amplitud del paso 1: $I_1 = \frac{13}{21} \cdot 3.0 \approx 1.8571$. Calculamos $\lambda_0 = 4 - 1.8571 = 2.1429 \implies f(2.1429) = -66.673$, y $\mu_0 = 1 + 1.8571 = 2.8571 \implies f(2.8571) = -68.715$. Como $f(\lambda_0) > f(\mu_0)$, descartamos la izquierda. Nuevo intervalo: $[2.1429, 4]$.
     *   *Iteración 2*: $[a_1, b_1] = [2.1429, 4]$. Amplitud $I_2 = \frac{8}{21} \cdot 3.0 \approx 1.1429$. Reutilizamos $\lambda_1 = \mu_0 = 2.8571$. Calculamos $\mu_1 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) = -68.657$. Como $f(\lambda_1) < f(\mu_1)$, descartamos la derecha. Nuevo intervalo: $[2.1429, 3.2857]$.
     *   *Iteración 6 (Última)*: La amplitud se reduce a $I_6 = 0.1429 \le 0.15$, logrando la convergencia en $[2.8541, 3.001]$ con una iteración menos que la sección áurea gracias al uso de la serie de Fibonacci.
-
-![Minimización de la función de cuarto grado y su mínimo en $x^* = 3.0$](images/opt_1d_ejemplo.png){#fig-opt-1d-ejemplo fig-align="center" width="60%"}
 
 ---
 
@@ -333,12 +367,29 @@ Minimizamos de nuevo la función $f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^
     *   *Iteración 3*: $c_2 = 2.875 \implies f'(2.875) = -0.4433 < 0 \implies$ nuevo intervalo $[2.875, 3.25]$.
     *   *Iteración 4*: $c_3 = 3.0625 \implies f'(3.0625) = 0.1760 > 0 \implies$ nuevo intervalo $[2.875, 3.0625]$.
     *   *Iteración 5*: $c_4 = 2.96875 \implies f'(2.96875) = -0.0964 < 0 \implies$ nuevo intervalo $[2.96875, 3.0625]$. La amplitud es de $0.0938 \le 0.15$, finalizando el algoritmo.
+
+::: {.content-visible when-format="html"}
+![Animación de la búsqueda por Bisección (Bolzano)](images/biseccion.gif){#fig-biseccion fig-align="center" width="65%"}
+:::
+
+::: {.content-visible when-format="pdf"}
+![Evolución del intervalo en la búsqueda por Bisección (Pasos 1 a 4)](images/biseccion_pasos.png){#fig-biseccion fig-align="center" width="85%"}
+:::
+
 *   *Iteración de Newton 1D*: Partimos de $x_0 = 1.0$.
     *   *Iteración 1*: $f'(1.0) = -30.0$, $f''(1.0) = 31.0 \implies x_1 = 1.0 - (-30.0 / 31.0) \approx 1.9677$.
     *   *Iteración 2*: $f'(1.9677) \approx -8.459$, $f''(1.9677) \approx 14.450 \implies x_2 = 1.9677 - (-8.459 / 14.450) \approx 2.5529$.
     *   *Iteración 3*: $f'(2.5529) \approx -2.235$, $f''(2.5529) \approx 7.177 \implies x_3 = 2.5529 - (-2.235 / 7.177) \approx 2.8637$.
     *   *Iteración 4*: $f'(2.8637) \approx -0.485$, $f''(2.8637) \approx 4.146 \implies x_4 = 2.8637 - (-0.485 / 4.146) \approx 2.9808$.
     *   *Iteración 5*: $f'(2.9808) \approx -0.059$, $f''(2.9808) \approx 3.154 \implies x_5 = 2.9808 - (-0.059 / 3.154) \approx 2.9995 \approx 3.0$. Convergencia en 5 iteraciones.
+
+::: {.content-visible when-format="html"}
+![Animación del método de Newton 1D](images/newton_1d.gif){#fig-newton-1d fig-align="center" width="65%"}
+:::
+
+::: {.content-visible when-format="pdf"}
+![Aproximaciones cuadráticas en el método de Newton 1D (Pasos 1 a 4)](images/newton_1d_pasos.png){#fig-newton-1d fig-align="center" width="85%"}
+:::
 
 ---
 
@@ -394,17 +445,16 @@ Es uno de los algoritmos de optimización multivariable más sencillos. Evita po
     *   *Paso 1*: Minimizamos respecto a $x$: $\min_{x} f(x, 0) = (x-2)^2 + 1 \implies x_1 = 2 \implies x_1 = (2, 0)$.
     *   *Paso 2*: Minimizamos respecto a $y$: $\min_{y} f(2, y) = (y-1)^2 \implies y_1 = 1 \implies x_2 = (2, 1)$.
     Al no existir términos de acoplamiento cruzado entre las variables (la matriz hessiana es diagonal), el algoritmo localiza el mínimo exacto en una única iteración de $n=2$ pasos ortogonales.
+
+![Descenso por coordenadas cíclicas sobre curvas de nivel circulares independientes](images/coordenadas_ciclicas_ej1.png){#fig-coord-ciclicas-1 fig-align="center" width="50%"}
+
 *   **Variables Acopladas**: Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ (ver @fig-coord-ciclicas-2) partiendo de $x_0 = (0, 0)$.
     *   *Paso 1*: Minimizamos respecto a $x$: $\min_{x} f(x, 0) = 8x^2 - 25x - 29 \implies 16x - 25 = 0 \implies x_1 = (1.5625, 0)$.
     *   *Paso 2*: Minimizamos respecto a $y$ manteniendo $x = 1.5625$: $\min_{y} f(1.5625, y) = 7y^2 + 35.6875y + \text{ct} \implies 14y + 35.6875 = 0 \implies y = -571/224 \approx -2.5491 \implies x_2 = (1.5625, -2.5491)$.
     *   *Paso 3*: Minimizamos de nuevo respecto a $x$ con $y = -2.5491$: $\min_{x} f(x, -2.5491) = 8x^2 - 32.6473x + \text{ct} \implies 16x - 32.6473 = 0 \implies x_3 = (2.0405, -2.5491)$.
     Debido al acoplamiento bilineal inducido por el término $3xy$, la trayectoria dibuja un patrón de "escalera", requiriendo múltiples ciclos para aproximarse al mínimo global situado en $x^* = (2.060, -2.656)$.
-:::
 
-::: {layout-nw="[1,1]"}
-![Descenso por coordenadas cíclicas sobre curvas de nivel circulares independientes](images/coordenadas_ciclicas_ej1.png){#fig-coord-ciclicas-1 width="90%"}
-
-![Trayectoria en escalera del descenso por coordenadas sobre una función cuadrática acoplada](images/coordenadas_ciclicas_ej2.png){#fig-coord-ciclicas-2 width="90%"}
+![Trayectoria en escalera del descenso por coordenadas sobre una función cuadrática acoplada](images/coordenadas_ciclicas_ej2.png){#fig-coord-ciclicas-2 fig-align="center" width="50%"}
 :::
 
 ### Método del Máximo Descenso (Steepest Descent)
