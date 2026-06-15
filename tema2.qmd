@@ -239,12 +239,14 @@ A modo de ilustración de las trazas numéricas de estos algoritmos, consideremo
 
 ![Minimización de la función de cuarto grado y su mínimo global en $x^* = 3.0$](images/opt_1d_ejemplo.png){#fig-opt-1d-ejemplo fig-align="center" width="60%"}
 
-*   *Traza de la Búsqueda Dicotómica*: Usamos una perturbación $\delta = 0.02$.
-    *   *Iteración 1*: $[a_0, b_0] = [1, 4]$. El punto medio es $c = 2.5$. Evaluamos los puntos simétricos: $\lambda_0 = 2.5 - 0.02 = 2.48 \implies f(2.48) = -68.397$, y $\mu_0 = 2.5 + 0.02 = 2.52 \implies f(2.52) = -68.490$. Al cumplirse que $f(\lambda_0) > f(\mu_0)$, descartamos la porción izquierda $[a_0, \lambda_0]$. El nuevo intervalo es $[a_1, b_1] = [2.48, 4]$.
-    *   *Iteración 2*: $[a_1, b_1] = [2.48, 4]$. El punto medio es $c = 3.24$. Evaluamos $\lambda_1 = 3.24 - 0.02 = 3.22 \implies f(3.22) = -68.730$, y $\mu_1 = 3.24 + 0.02 = 3.26 \implies f(3.26) = -68.683$. Al cumplirse que $f(\lambda_1) < f(\mu_1)$, descartamos la porción derecha $[\mu_1, b_1]$. El nuevo intervalo es $[a_2, b_2] = [2.48, 3.26]$.
-    *   *Iteración 3*: $[a_2, b_2] = [2.48, 3.26]$. El punto medio es $c = 2.87$. Evaluamos $\lambda_2 = 2.87 - 0.02 = 2.85 \implies f(2.85) = -68.711$, y $\mu_2 = 2.87 + 0.02 = 2.89 \implies f(2.89) = -68.724$. Dado que $f(\lambda_2) > f(\mu_2)$, descartamos la izquierda. El nuevo intervalo es $[a_3, b_3] = [2.85, 3.26]$.
-    *   *Iteración 4*: $[a_3, b_3] = [2.85, 3.26]$. El punto medio es $c = 3.055$. Evaluamos $\lambda_3 = 3.055 - 0.02 = 3.035 \implies f(3.035) = -68.744$, y $\mu_3 = 3.055 + 0.02 = 3.075 \implies f(3.075) = -68.718$. Dado que $f(\lambda_3) < f(\mu_3)$, descartamos la derecha. El nuevo intervalo es $[a_4, b_4] = [2.85, 3.075]$.
-    *   *Iteración 5*: $[a_4, b_4] = [2.85, 3.075]$. El punto medio es $c = 2.9625$. Evaluamos $\lambda_4 = 2.9625 - 0.02 = 2.9425 \implies f(2.9425) = -68.730$, y $\mu_4 = 2.9625 + 0.02 = 2.9825 \implies f(2.9825) = -68.748$. Como $f(\lambda_4) > f(\mu_4)$, descartamos la izquierda. El nuevo intervalo es $[a_5, b_5] = [2.9425, 3.075]$. La amplitud resultante es de $3.075 - 2.9425 = 0.1325 \le 0.15$, finalizando el algoritmo.
+::: {.callout-note title="Ejemplo: Búsqueda Dicotómica"}
+Minimizamos en el intervalo $[1, 4]$ la función de cuarto grado $f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1$ con perturbación $\delta = 0.02$ y tolerancia $\epsilon = 0.15$:
+
+*   **Iteración 1**: $[a_0, b_0] = [1, 4]$. El punto medio es $c = 2.5$. Evaluamos los puntos simétricos: $\lambda_0 = 2.5 - 0.02 = 2.48 \implies f(2.48) = -68.397$, y $\mu_0 = 2.5 + 0.02 = 2.52 \implies f(2.52) = -68.490$. Al cumplirse que $f(\lambda_0) > f(\mu_0)$, descartamos la porción izquierda $[a_0, \lambda_0]$. El nuevo intervalo es $[a_1, b_1] = [2.48, 4]$.
+*   **Iteración 2**: $[a_1, b_1] = [2.48, 4]$. El punto medio es $c = 3.24$. Evaluamos $\lambda_1 = 3.24 - 0.02 = 3.22 \implies f(3.22) = -68.730$, y $\mu_1 = 3.24 + 0.02 = 3.26 \implies f(3.26) = -68.683$. Al cumplirse que $f(\lambda_1) < f(\mu_1)$, descartamos la porción derecha $[\mu_1, b_1]$. El nuevo intervalo es $[a_2, b_2] = [2.48, 3.26]$.
+*   **Iteración 3**: $[a_2, b_2] = [2.48, 3.26]$. El punto medio es $c = 2.87$. Evaluamos $\lambda_2 = 2.87 - 0.02 = 2.85 \implies f(2.85) = -68.711$, y $\mu_2 = 2.87 + 0.02 = 2.89 \implies f(2.89) = -68.724$. Dado que $f(\lambda_2) > f(\mu_2)$, descartamos la izquierda. El nuevo intervalo es $[a_3, b_3] = [2.85, 3.26]$.
+*   **Iteración 4**: $[a_3, b_3] = [2.85, 3.26]$. El punto medio es $c = 3.055$. Evaluamos $\lambda_3 = 3.055 - 0.02 = 3.035 \implies f(3.035) = -68.744$, y $\mu_3 = 3.055 + 0.02 = 3.075 \implies f(3.075) = -68.718$. Dado que $f(\lambda_3) < f(\mu_3)$, descartamos la derecha. El nuevo intervalo es $[a_4, b_4] = [2.85, 3.075]$.
+*   **Iteración 5**: $[a_4, b_4] = [2.85, 3.075]$. El punto medio es $c = 2.9625$. Evaluamos $\lambda_4 = 2.9625 - 0.02 = 2.9425 \implies f(2.9425) = -68.730$, y $\mu_4 = 2.9625 + 0.02 = 2.9825 \implies f(2.9825) = -68.748$. Como $f(\lambda_4) > f(\mu_4)$, descartamos la izquierda. El nuevo intervalo es $[a_5, b_5] = [2.9425, 3.075]$. La amplitud resultante es de $3.075 - 2.9425 = 0.1325 \le 0.15$, finalizando el algoritmo.
 
 ::: {.content-visible when-format="html"}
 ![Animación de la Búsqueda Dicotómica (5 iteraciones)](images/dicotomica.gif){#fig-dicotomica fig-align="center" width="65%"}
@@ -253,36 +255,14 @@ A modo de ilustración de las trazas numéricas de estos algoritmos, consideremo
 ::: {.content-visible when-format="pdf"}
 ![Evolución del intervalo en la Búsqueda Dicotómica (Pasos 1 a 4)](images/dicotomica_pasos.png){#fig-dicotomica fig-align="center" width="85%"}
 :::
-
-::: {.callout-tip title="Código Python: Búsqueda Dicotómica" collapse="true"}
-```python
-f = lambda x: 0.25*x**4 - (13/3)*x**3 + 27*x**2 - 72*x + 1
-a, b = 1.0, 4.0
-tol = 0.15
-delta = 0.02
-
-print("Iteración | a_k     | b_k     | c_k     | lambda_k | mu_k    | f(lambda) | f(mu)")
-print("-" * 80)
-for k in range(1, 10):
-    c = (a + b) / 2
-    lmbda = c - delta
-    mu = c + delta
-    f_l = f(lmbda)
-    f_m = f(mu)
-    print(f"{k:9d} | {a:7.4f} | {b:7.4f} | {c:7.4f} | {lmbda:8.4f} | {mu:7.4f} | {f_l:9.4f} | {f_m:8.4f}")
-    if f_l < f_m:
-        b = mu
-    else:
-        a = lmbda
-    if (b - a) < tol:
-        break
-```
 :::
 
-*   *Traza de la Sección Áurea*: El número de iteraciones requeridas es $N = \lceil (\ln(3.0) - \ln(0.15)) / \ln(1.618) \rceil = 7$.
-    *   *Iteración 1*: $[a_0, b_0] = [1, 4]$. Amplitud $I_1 = 3.0 / 1.618 = 1.8541$. Calculamos $\lambda_0 = 4 - 1.8541 = 2.1459 \implies f(2.1459) = -66.692$, y $\mu_0 = 1 + 1.8541 = 2.8541 \implies f(2.8541) = -68.714$. Como $f(\lambda_0) > f(\mu_0)$, descartamos la izquierda. Nuevo intervalo: $[2.1459, 4]$.
-    *   *Iteración 2*: $[a_1, b_1] = [2.1459, 4]$. Amplitud $I_2 = 1.8541 / 1.618 = 1.1459$. Reutilizamos $\lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) = -68.714$. Calculamos el nuevo punto $\mu_1 = 2.1459 + 1.1459 = 3.2918 \implies f(3.2918) = -68.654$. Como $f(\lambda_1) < f(\mu_1)$, descartamos la derecha. Nuevo intervalo: $[2.1459, 3.2918]$.
-    *   *Iteración 7 (Última)*: El proceso continúa hasta que en la iteración $k=7$ la amplitud es $I_7 = 0.1033 \le 0.15$, convergiendo en el intervalo final $[2.9574, 3.0608]$, que contiene el mínimo en $x^* = 3.0$.
+::: {.callout-note title="Ejemplo: Sección Áurea"}
+Minimizamos en el intervalo $[1, 4]$ la función de cuarto grado $f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1$ con tolerancia $\epsilon = 0.15$. El número de iteraciones requeridas es $N = \lceil (\ln(3.0) - \ln(0.15)) / \ln(1.618) \rceil = 7$.
+
+*   **Iteración 1**: $[a_0, b_0] = [1, 4]$. Amplitud $I_1 = 3.0 / 1.618 = 1.8541$. Calculamos $\lambda_0 = 4 - 1.8541 = 2.1459 \implies f(2.1459) = -66.692$, y $\mu_0 = 1 + 1.8541 = 2.8541 \implies f(2.8541) = -68.714$. Como $f(\lambda_0) > f(\mu_0)$, descartamos la izquierda. Nuevo intervalo: $[2.1459, 4]$.
+*   **Iteración 2**: $[a_1, b_1] = [2.1459, 4]$. Amplitud $I_2 = 1.8541 / 1.618 = 1.1459$. Reutilizamos $\lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) = -68.714$. Calculamos el nuevo punto $\mu_1 = 2.1459 + 1.1459 = 3.2918 \implies f(3.2918) = -68.654$. Como $f(\lambda_1) < f(\mu_1)$, descartamos la derecha. Nuevo intervalo: $[2.1459, 3.2918]$.
+*   **Iteración 7 (Última)**: El proceso continúa hasta que en la iteración $k=7$ la amplitud es $I_7 = 0.1033 \le 0.15$, convergiendo en el intervalo final $[2.9574, 3.0608]$, que contiene el mínimo en $x^* = 3.0$.
 
 ::: {.content-visible when-format="html"}
 ![Animación de la búsqueda por Sección Áurea (7 iteraciones)](images/seccion_aurea.gif){#fig-seccion-aurea fig-align="center" width="65%"}
@@ -291,80 +271,14 @@ for k in range(1, 10):
 ::: {.content-visible when-format="pdf"}
 ![Evolución del intervalo en la búsqueda por Sección Áurea (Pasos 1 a 4)](images/seccion_aurea_pasos.png){#fig-seccion-aurea fig-align="center" width="85%"}
 :::
-
-::: {.callout-tip title="Código Python: Sección Áurea" collapse="true"}
-```python
-import math
-f = lambda x: 0.25*x**4 - (13/3)*x**3 + 27*x**2 - 72*x + 1
-a, b = 1.0, 4.0
-tol = 0.15
-alpha = (1 + math.sqrt(5)) / 2
-
-lmbda = b - (b - a) / alpha
-mu = a + (b - a) / alpha
-f_l = f(lmbda)
-f_m = f(mu)
-
-print("Iteración | a_k     | b_k     | lambda_k | mu_k    | f(lambda) | f(mu)")
-print("-" * 75)
-print(f"{1:9d} | {a:7.4f} | {b:7.4f} | {lmbda:8.4f} | {mu:7.4f} | {f_l:9.4f} | {f_m:8.4f}")
-
-n_iter = int(math.ceil((math.log(b - a) - math.log(tol)) / math.log(alpha)))
-for k in range(2, n_iter + 1):
-    if f_l < f_m:
-        b = mu
-        mu = lmbda
-        f_m = f_l
-        lmbda = b - (b - a) / alpha
-        f_l = f(lmbda)
-    else:
-        a = lmbda
-        lmbda = mu
-        f_l = f_m
-        mu = a + (b - a) / alpha
-        f_m = f(mu)
-    print(f"{k:9d} | {a:7.4f} | {b:7.4f} | {lmbda:8.4f} | {mu:7.4f} | {f_l:9.4f} | {f_m:8.4f}")
-```
 :::
 
-*   *Traza de Fibonacci*: Fijamos $N = 6$ evaluaciones de la función (usando $F_7 = 21$).
-    *   *Iteración 1*: $[a_0, b_0] = [1, 4]$. Amplitud del paso 1: $I_1 = \frac{13}{21} \cdot 3.0 \approx 1.8571$. Calculamos $\lambda_0 = 4 - 1.8571 = 2.1429 \implies f(2.1429) = -66.673$, y $\mu_0 = 1 + 1.8571 = 2.8571 \implies f(2.8571) = -68.715$. Como $f(\lambda_0) > f(\mu_0)$, descartamos la izquierda. Nuevo intervalo: $[2.1429, 4]$.
-    *   *Iteración 2*: $[a_1, b_1] = [2.1429, 4]$. Amplitud $I_2 = \frac{8}{21} \cdot 3.0 \approx 1.1429$. Reutilizamos $\lambda_1 = \mu_0 = 2.8571$. Calculamos $\mu_1 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) = -68.657$. Como $f(\lambda_1) < f(\mu_1)$, descartamos la derecha. Nuevo intervalo: $[2.1429, 3.2857]$.
-    *   *Iteración 6 (Última)*: La amplitud se reduce a $I_6 = 0.1429 \le 0.15$, logrando la convergencia en $[2.8541, 3.001]$ con una iteración menos que la sección áurea gracias al uso de la serie de Fibonacci.
+::: {.callout-note title="Ejemplo: Búsqueda de Fibonacci"}
+Minimizamos en el intervalo $[1, 4]$ la función de cuarto grado $f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1$ con tolerancia $\epsilon = 0.15$. Fijamos $N = 6$ evaluaciones de la función (usando $F_7 = 21$).
 
-::: {.callout-tip title="Código Python: Búsqueda de Fibonacci" collapse="true"}
-```python
-f = lambda x: 0.25*x**4 - (13/3)*x**3 + 27*x**2 - 72*x + 1
-a, b = 1.0, 4.0
-n = 6
-fib = [1, 1]
-for i in range(2, n + 2):
-    fib.append(fib[-1] + fib[-2])
-    
-lmbda = a + (1 - fib[n] / fib[n+1]) * (b - a)
-mu = a + (fib[n] / fib[n+1]) * (b - a)
-f_l = f(lmbda)
-f_m = f(mu)
-
-print("Iteración | a_k     | b_k     | lambda_k | mu_k    | f(lambda) | f(mu)")
-print("-" * 75)
-print(f"{1:9d} | {a:7.4f} | {b:7.4f} | {lmbda:8.4f} | {mu:7.4f} | {f_l:9.4f} | {f_m:8.4f}")
-
-for k in range(2, n):
-    if f_l < f_m:
-        b = mu
-        mu = lmbda
-        f_m = f_l
-        lmbda = a + (1 - fib[n-k+1] / fib[n-k+2]) * (b - a)
-        f_l = f(lmbda)
-    else:
-        a = lmbda
-        lmbda = mu
-        f_l = f_m
-        mu = a + (fib[n-k+1] / fib[n-k+2]) * (b - a)
-        f_m = f(mu)
-    print(f"{k:9d} | {a:7.4f} | {b:7.4f} | {lmbda:8.4f} | {mu:7.4f} | {f_l:9.4f} | {f_m:8.4f}")
-```
+*   **Iteración 1**: $[a_0, b_0] = [1, 4]$. Amplitud del paso 1: $I_1 = \frac{13}{21} \cdot 3.0 \approx 1.8571$. Calculamos $\lambda_0 = 4 - 1.8571 = 2.1429 \implies f(2.1429) = -66.673$, y $\mu_0 = 1 + 1.8571 = 2.8571 \implies f(2.8571) = -68.715$. Como $f(\lambda_0) > f(\mu_0)$, descartamos la izquierda. Nuevo intervalo: $[2.1429, 4]$.
+*   **Iteración 2**: $[a_1, b_1] = [2.1429, 4]$. Amplitud $I_2 = \frac{8}{21} \cdot 3.0 \approx 1.1429$. Reutilizamos $\lambda_1 = \mu_0 = 2.8571$. Calculamos $\mu_1 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) = -68.657$. Como $f(\lambda_1) < f(\mu_1)$, descartamos la derecha. Nuevo intervalo: $[2.1429, 3.2857]$.
+*   **Iteración 6 (Última)**: La amplitud se reduce a $I_6 = 0.1429 \le 0.15$, logrando la convergencia en $[2.8541, 3.001]$ con una iteración menos que la sección áurea gracias al uso de la serie de Fibonacci.
 :::
 
 ---
@@ -381,12 +295,14 @@ El **Método de la Secante** evita el cálculo de la segunda derivada del métod
 
 Minimizamos de nuevo la función $f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1$ en $[1, 4]$ partiendo del punto inicial $x_0 = 1.0$. Las derivadas son $f'(x) = x^3 - 13x^2 + 54x - 72$ y $f''(x) = 3x^2 - 26x + 54$.
 
-*   *Iteración de Bisección*: $[a_0, b_0] = [1, 4]$.
-    *   *Iteración 1*: Punto medio $c_0 = 2.5 \implies f'(2.5) = -2.6225 < 0$. Descartamos la izquierda, nuevo intervalo $[2.5, 4]$.
-    *   *Iteración 2*: Punto medio $c_1 = 3.25 \implies f'(3.25) = 0.5156 > 0$. Descartamos la derecha, nuevo intervalo $[2.5, 3.25]$.
-    *   *Iteración 3*: $c_2 = 2.875 \implies f'(2.875) = -0.4433 < 0 \implies$ nuevo intervalo $[2.875, 3.25]$.
-    *   *Iteración 4*: $c_3 = 3.0625 \implies f'(3.0625) = 0.1760 > 0 \implies$ nuevo intervalo $[2.875, 3.0625]$.
-    *   *Iteración 5*: $c_4 = 2.96875 \implies f'(2.96875) = -0.0964 < 0 \implies$ nuevo intervalo $[2.96875, 3.0625]$. La amplitud es de $0.0938 \le 0.15$, finalizando el algoritmo.
+::: {.callout-note title="Ejemplo: Método de Bisección"}
+Minimizamos en el intervalo $[1, 4]$ la función de cuarto grado $f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1$ con tolerancia $\epsilon = 0.15$. Las derivadas son $f'(x) = x^3 - 13x^2 + 54x - 72$ y $f''(x) = 3x^2 - 26x + 54$.
+
+*   **Iteración 1**: $[a_0, b_0] = [1, 4]$. Punto medio $c_0 = 2.5 \implies f'(2.5) = -2.6225 < 0$. Descartamos la izquierda, nuevo intervalo $[2.5, 4]$.
+*   **Iteración 2**: Punto medio $c_1 = 3.25 \implies f'(3.25) = 0.5156 > 0$. Descartamos la derecha, nuevo intervalo $[2.5, 3.25]$.
+*   **Iteración 3**: $c_2 = 2.875 \implies f'(2.875) = -0.4433 < 0 \implies$ nuevo intervalo $[2.875, 3.25]$.
+*   **Iteración 4**: $c_3 = 3.0625 \implies f'(3.0625) = 0.1760 > 0 \implies$ nuevo intervalo $[2.875, 3.0625]$.
+*   **Iteración 5**: $c_4 = 2.96875 \implies f'(2.96875) = -0.0964 < 0 \implies$ nuevo intervalo $[2.96875, 3.0625]$. La amplitud es de $0.0938 \le 0.15$, finalizando el algoritmo.
 
 ::: {.content-visible when-format="html"}
 ![Animación de la búsqueda por Bisección (Bolzano)](images/biseccion.gif){#fig-biseccion fig-align="center" width="65%"}
@@ -395,34 +311,16 @@ Minimizamos de nuevo la función $f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^
 ::: {.content-visible when-format="pdf"}
 ![Evolución del intervalo en la búsqueda por Bisección (Pasos 1 a 4)](images/biseccion_pasos.png){#fig-biseccion fig-align="center" width="85%"}
 :::
-
-::: {.callout-tip title="Código Python: Método de Bisección" collapse="true"}
-```python
-df = lambda x: x**3 - 13*x**2 + 54*x - 72
-a, b = 1.0, 4.0
-tol = 0.15
-
-print("Iteración | a_k     | b_k     | c_k     | f'(c)")
-print("-" * 55)
-for k in range(1, 10):
-    c = (a + b) / 2
-    val_df = df(c)
-    print(f"{k:9d} | {a:7.4f} | {b:7.4f} | {c:7.4f} | {val_df:8.4f}")
-    if val_df < 0:
-        a = c
-    else:
-        b = c
-    if (b - a) < tol:
-        break
-```
 :::
 
-*   *Iteración de Newton 1D*: Partimos de $x_0 = 1.0$.
-    *   *Iteración 1*: $f'(1.0) = -30.0$, $f''(1.0) = 31.0 \implies x_1 = 1.0 - (-30.0 / 31.0) \approx 1.9677$.
-    *   *Iteración 2*: $f'(1.9677) \approx -8.459$, $f''(1.9677) \approx 14.450 \implies x_2 = 1.9677 - (-8.459 / 14.450) \approx 2.5529$.
-    *   *Iteración 3*: $f'(2.5529) \approx -2.235$, $f''(2.5529) \approx 7.177 \implies x_3 = 2.5529 - (-2.235 / 7.177) \approx 2.8637$.
-    *   *Iteración 4*: $f'(2.8637) \approx -0.485$, $f''(2.8637) \approx 4.146 \implies x_4 = 2.8637 - (-0.485 / 4.146) \approx 2.9808$.
-    *   *Iteración 5*: $f'(2.9808) \approx -0.059$, $f''(2.9808) \approx 3.154 \implies x_5 = 2.9808 - (-0.059 / 3.154) \approx 2.9995 \approx 3.0$. Convergencia en 5 iteraciones.
+::: {.callout-note title="Ejemplo: Método de Newton 1D"}
+Minimizamos en el intervalo $[1, 4]$ la función de cuarto grado $f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1$ partiendo del punto inicial $x_0 = 1.0$. Las derivadas son $f'(x) = x^3 - 13x^2 + 54x - 72$ y $f''(x) = 3x^2 - 26x + 54$.
+
+*   **Iteración 1**: Partimos de $x_0 = 1.0$. $f'(1.0) = -30.0$, $f''(1.0) = 31.0 \implies x_1 = 1.0 - (-30.0 / 31.0) \approx 1.9677$.
+*   **Iteración 2**: $f'(1.9677) \approx -8.459$, $f''(1.9677) \approx 14.450 \implies x_2 = 1.9677 - (-8.459 / 14.450) \approx 2.5529$.
+*   **Iteración 3**: $f'(2.5529) \approx -2.235$, $f''(2.5529) \approx 7.177 \implies x_3 = 2.5529 - (-2.235 / 7.177) \approx 2.8637$.
+*   **Iteración 4**: $f'(2.8637) \approx -0.485$, $f''(2.8637) \approx 4.146 \implies x_4 = 2.8637 - (-0.485 / 4.146) \approx 2.9808$.
+*   **Iteración 5**: $f'(2.9808) \approx -0.059$, $f''(2.9808) \approx 3.154 \implies x_5 = 2.9808 - (-0.059 / 3.154) \approx 2.9995 \approx 3.0$. Convergencia en 5 iteraciones.
 
 ::: {.content-visible when-format="html"}
 ![Animación del método de Newton 1D](images/newton_1d.gif){#fig-newton-1d fig-align="center" width="65%"}
@@ -431,25 +329,6 @@ for k in range(1, 10):
 ::: {.content-visible when-format="pdf"}
 ![Aproximaciones cuadráticas en el método de Newton 1D (Pasos 1 a 4)](images/newton_1d_pasos.png){#fig-newton-1d fig-align="center" width="85%"}
 :::
-
-::: {.callout-tip title="Código Python: Método de Newton 1D" collapse="true"}
-```python
-df = lambda x: x**3 - 13*x**2 + 54*x - 72
-ddf = lambda x: 3*x**2 - 26*x + 54
-x = 1.0
-tol = 1e-5
-
-print("Iteración | x_k     | f'(x_k)  | f''(x_k) | x_k+1")
-print("-" * 55)
-for k in range(1, 10):
-    val_df = df(x)
-    val_ddf = ddf(x)
-    x_new = x - val_df / val_ddf
-    print(f"{k:9d} | {x:7.4f} | {val_df:8.4f} | {val_ddf:8.4f} | {x_new:7.4f}")
-    if abs(x_new - x) < tol:
-        break
-    x = x_new
-```
 :::
 
 
@@ -477,30 +356,7 @@ Es uno de los algoritmos de optimización multivariable más sencillos. Evita po
 
 ![Trayectoria en escalera del descenso por coordenadas sobre una función cuadrática acoplada](images/coordenadas_ciclicas_ej2.png){#fig-coord-ciclicas-2 fig-align="center" width="50%"}
 
-::: {.callout-tip title="Código Python: Descenso por Coordenadas" collapse="true"}
-```python
-import numpy as np
 
-# Función del ejemplo
-f = lambda x: 8*x[0]**2 + 3*x[0]*x[1] + 7*x[1]**2 - 25*x[0] + 31*x[1] - 29
-
-# Punto inicial
-x = np.array([0.0, 0.0])
-print(f"Punto inicial x_0: {x}")
-
-# Paso 1: optimizar x (componente 0) manteniendo y = 0
-x[0] = 25 / 16
-print(f"Paso 1 (optimizar x): {x} -> f(x) = {f(x):.4f}")
-
-# Paso 2: optimizar y (componente 1) manteniendo x = 1.5625
-x[1] = - (3*x[0] + 31) / 14
-print(f"Paso 2 (optimizar y): {x} -> f(x) = {f(x):.4f}")
-
-# Paso 3: optimizar x (componente 0) manteniendo y = -2.5491
-x[0] = - (3*x[1] - 25) / 16
-print(f"Paso 3 (optimizar x): {x} -> f(x) = {f(x):.4f}")
-```
-:::
 :::
 
 ### Método del Máximo Descenso (Steepest Descent)
@@ -519,31 +375,7 @@ Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ partiendo de $x_0 = (
 *   *Búsqueda de línea*: Minimizamos $\phi(\alpha) = f(25\alpha, -31\alpha) = 9402\alpha^2 - 1586\alpha - 29$. Derivando e igualando a cero: $\phi'(\alpha) = 18804\alpha - 1586 = 0 \implies \alpha_0 \approx 0.0843$.
 *   *Actualización*: $x_1 = x_0 + \alpha_0 d_0 = (0, 0)^T + 0.0843 (25, -31)^T = (2.109, -2.615)^T$. El nuevo gradiente en $x_1$ es $\nabla f(x_1) \approx (0.8925, 0.7225)^T$. Su producto escalar con la dirección anterior es $d_0^T \nabla f(x_1) = 25(0.8925) - 31(0.7225) \approx 0$, lo que ilustra la ortogonalidad.
 
-::: {.callout-tip title="Código Python: Máximo Descenso" collapse="true"}
-```python
-import numpy as np
 
-# Función y gradiente del ejemplo
-f = lambda x: 8*x[0]**2 + 3*x[0]*x[1] + 7*x[1]**2 - 25*x[0] + 31*x[1] - 29
-grad_f = lambda x: np.array([16*x[0] + 3*x[1] - 25, 3*x[0] + 14*x[1] + 31])
-
-# Punto inicial
-x = np.array([0.0, 0.0])
-g = grad_f(x)
-d = -g
-print(f"Punto inicial x_0: {x}")
-print(f"Gradiente g_0: {g} -> Dirección de descenso d_0: {d}")
-
-# Búsqueda lineal exacta: minimizar f(x + alpha * d)
-# alpha_0 = 1586 / 18804 approx 0.0843
-alpha = 1586 / 18804
-x_new = x + alpha * d
-g_new = grad_f(x_new)
-print(f"Paso 1: x_1 = {x_new} -> f(x_1) = {f(x_new):.4f}")
-print(f"Nuevo gradiente g_1: {g_new}")
-print(f"Producto escalar d_0^T g_1: {np.dot(d, g_new):.6f} (Ortogonalidad)")
-```
-:::
 :::
 
 ![Trayectoria ortogonal de máximo descenso: giros de 90 grados sobre las curvas de nivel elípticas de la función cuadrática](images/steepest_descent_ej.png){#fig-steepest-descent fig-align="center" width="55%"}
