@@ -268,7 +268,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
+ <span class="menu-text">Conclusiones</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -466,6 +466,16 @@ window.Quarto = {
 <section id="métodos-sin-derivadas" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="métodos-sin-derivadas"><span class="header-section-number">2.4.1</span> Métodos sin Derivadas</h3>
 <p>Estos métodos solo evalúan la función objetivo y requieren que la función sea <strong>unimodal</strong> en el intervalo <span class="math inline">\([a, b]\)</span>, es decir, que posea un único mínimo local en dicho intervalo.</p>
+<div id="fig-opt-1d-biseccion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-opt-1d-biseccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/opt_1d_biseccion.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-opt-1d-biseccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.1: Búsqueda unidimensional y reducción de intervalos de incertidumbre
+</figcaption>
+</figure>
+</div>
 <ul>
 <li><strong>Búsqueda Dicotómica</strong>: Evalúa la función en dos puntos simétricos <span class="math inline">\(\lambda_k\)</span> y <span class="math inline">\(\mu_k\)</span> muy próximos al punto medio del intervalo actual para descartar una porción del intervalo en cada iteración basándose en el signo del cambio.</li>
 <li><strong>Sección Áurea (Golden Section)</strong>: Optimiza la búsqueda manteniendo constante la razón de reducción de la amplitud del intervalo entre iteraciones sucesivas. Para que un punto evaluado en la iteración <span class="math inline">\(k\)</span> pueda ser reutilizado como punto de evaluación en la iteración <span class="math inline">\(k+1\)</span>, los puntos deben colocarse de modo que cumplan la relación del número áureo: <span class="math display">\[ \alpha = \frac{1 + \sqrt{5}}{2} \approx 1.618033988 \]</span> Los puntos de evaluación en cada paso <span class="math inline">\(k\)</span> sobre el intervalo <span class="math inline">\([a_k, b_k]\)</span> se definen como: <span class="math display">\[ \lambda_k = b_k - \frac{b_k - a_k}{\alpha}, \qquad \mu_k = a_k + \frac{b_k - a_k}{\alpha} \]</span> Esto reduce el intervalo de incertidumbre en cada paso en un factor de <span class="math inline">\(1/\alpha \approx 0.618\)</span>, requiriendo una sola evaluación de función por iteración tras la primera.</li>

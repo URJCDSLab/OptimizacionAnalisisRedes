@@ -36,6 +36,8 @@ Un conjunto es convexo si no presenta "entrantes" o cavidades, de modo que la co
 -   **Combinación Lineal**:
     Se define eliminando ambas condiciones ($\lambda_i \in \mathbb{R}$ sin restricciones). Genera subespacios vectoriales.
 
+![Comparación entre un conjunto convexo (izquierda) y un conjunto no convexo (derecha)](images/conjuntos_convexos.png){#fig-conjuntos-convexos fig-align="center" width="80%"}
+
 ### Ejemplos de Conjuntos Convexos Básicos
 
 -   **Hiperplano**:
@@ -157,6 +159,8 @@ Por tanto, $\lambda x_1 + (1 - \lambda) x_2 \in \mathcal{S}_\alpha$, lo que demu
 -   **Epígrafe ($\text{epi } f$)**:
     El conjunto de puntos en $\mathbb{R}^{n+1}$ situados sobre o por encima de la gráfica de la función:
     $$ \text{epi } f = \{ (x, y) \in \mathcal{S} \times \mathbb{R} \mid y \ge f(x) \} $$
+
+![Representación gráfica del epígrafe de una función convexa y su secante](images/epigrafo.png){#fig-epigrafo fig-align="center" width="80%"}
 
 
 ::: {.callout-important title="Teorema: Relación entre Epígrafe y Convexidad"}

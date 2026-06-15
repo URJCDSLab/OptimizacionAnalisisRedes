@@ -28,6 +28,8 @@ El problema busca encontrar un camino elemental $\mu^*$ de $s$ a $t$ de coste m�
 -   **Ausencia de ciclos de coste negativo**:
     No debe haber ningún ciclo de coste total negativo en la red que sea accesible desde $s$ y desde el cual se pueda alcanzar el destino $t$. Si existiera tal ciclo, podríamos recorrerlo indefinidamente, reduciendo el coste total acumulado hacia $-\infty$, por lo que el camino mínimo no estaría bien definido.
 
+![Un digrafo con pesos en los arcos y el camino mínimo de origen a destino destacado en rojo](images/camino_minimo_dijkstra.png){#fig-camino-minimo-dijkstra fig-align="center" width="75%"}
+
 
 ## El Principio de Optimalidad de Bellman
 

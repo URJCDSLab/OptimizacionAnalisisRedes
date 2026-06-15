@@ -268,7 +268,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
+ <span class="menu-text">Conclusiones</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -438,6 +438,16 @@ window.Quarto = {
 <section id="ajustes-en-normas-robustas-ell_1-y-ell_infty" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="ajustes-en-normas-robustas-ell_1-y-ell_infty"><span class="header-section-number">6.2.2</span> Ajustes en Normas Robustas (<span class="math inline">\(\ell_1\)</span> y <span class="math inline">\(\ell_\infty\)</span>)</h3>
 <p>Cuando los datos contienen valores atípicos (<em>outliers</em>) o errores de medición severos (como el punto <span class="math inline">\((5.0, 1.0)\)</span> en nuestra muestra), la norma cuadrática <span class="math inline">\(\ell_2\)</span> se ve fuertemente distorsionada. Proponemos alternativas más robustas: - <strong>Norma <span class="math inline">\(\ell_1\)</span> (Desviaciones Absolutas)</strong>: Minimiza la suma de los valores absolutos de los residuos: <span class="math display">\[ \min_{a, b} \sum_{i=1}^n |a + b x_i - y_i| \]</span> - <strong>Norma <span class="math inline">\(\ell_\infty\)</span> (Minimax)</strong>: Minimiza el máximo error cometido: <span class="math display">\[ \min_{a, b} \max_{i=1, \dots, n} |a + b x_i - y_i| \]</span></p>
+<div id="fig-regresion-robusta" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-regresion-robusta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/regresion_robusta.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-regresion-robusta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.1: Comparativa del ajuste lineal robusto en norma l1 frente a la distorsión por outliers de la norma l2
+</figcaption>
+</figure>
+</div>
 <div class="callout callout-style-default callout-note callout-titled" title="Formulación en Programación Lineal para Ajustes Robustos">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

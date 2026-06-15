@@ -233,7 +233,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
+ <span class="menu-text">Conclusiones</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -387,6 +387,16 @@ window.Quarto = {
 <li><strong>Cono de Direcciones Factibles (<span class="math inline">\(\mathcal{F}(\bar{x})\)</span>)</strong>: El conjunto de direcciones a lo largo de las cuales un paso infinitesimal no abandona la región factible <span class="math inline">\(\mathcal{S}\)</span>: <span class="math display">\[ \mathcal{F}(\bar{x}) = \{ d \in \mathbb{R}^n \mid d \neq 0, \ \exists \delta_d &gt; 0 \text{ tal que } \bar{x} + \lambda d \in \mathcal{S}, \ \forall \lambda \in (0, \delta_d) \} \]</span></li>
 <li><strong>Cono de Direcciones de Mejora/Descenso (<span class="math inline">\(\mathcal{D}(\bar{x})\)</span>)</strong>: El conjunto de direcciones a lo largo de las cuales el valor de la función objetivo disminuye localmente: <span class="math display">\[ \mathcal{D}(\bar{x}) = \{ d \in \mathbb{R}^n \mid d \neq 0, \ \exists \delta_d &gt; 0 \text{ tal que } f(\bar{x} + \lambda d) &lt; f(\bar{x}), \ \forall \lambda \in (0, \delta_d) \} \]</span></li>
 </ul>
+<div id="fig-cono-direcciones" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cono-direcciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/cono_direcciones.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cono-direcciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.1: Cono de direcciones factibles y cono tangente en un punto frontera
+</figcaption>
+</figure>
+</div>
 <p>Una condición fundamental de optimalidad geométrica establece que si un punto <span class="math inline">\(\bar{x}\)</span> es un mínimo local, no puede existir ninguna dirección que sea simultáneamente factible y de descenso:</p>
 <p><span class="math display">\[ \bar{x} \text{ es mínimo local} \implies \mathcal{F}(\bar{x}) \cap \mathcal{D}(\bar{x}) = \emptyset \]</span></p>
 </section>
@@ -519,6 +529,16 @@ window.Quarto = {
 <li><strong>Holgura complementaria</strong>: <span class="math display">\[ u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m \]</span></li>
 <li><strong>No negatividad (Factibilidad dual)</strong>: <span class="math display">\[ u_i \ge 0, \quad \forall i = 1, \dots, m \]</span></li>
 </ol>
+<div id="fig-condiciones-kkt" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-condiciones-kkt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/condiciones_kkt.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-condiciones-kkt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.2: Interpretación geométrica de las condiciones KKT con restricciones activas
+</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>

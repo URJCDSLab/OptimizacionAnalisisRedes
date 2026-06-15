@@ -78,6 +78,8 @@ Cuando el movimiento está limitado a una región factible $\mathcal{S} \subsete
     El conjunto de direcciones a lo largo de las cuales el valor de la función objetivo disminuye localmente:
     $$ \mathcal{D}(\bar{x}) = \{ d \in \mathbb{R}^n \mid d \neq 0, \ \exists \delta_d > 0 \text{ tal que } f(\bar{x} + \lambda d) < f(\bar{x}), \ \forall \lambda \in (0, \delta_d) \} $$
 
+![Cono de direcciones factibles y cono tangente en un punto frontera](images/cono_direcciones.png){#fig-cono-direcciones fig-align="center" width="60%"}
+
 Una condición fundamental de optimalidad geométrica establece que si un punto $\bar{x}$ es un mínimo local, no puede existir ninguna dirección que sea simultáneamente factible y de descenso:
 
 $$ \bar{x} \text{ es mínimo local} \implies \mathcal{F}(\bar{x}) \cap \mathcal{D}(\bar{x}) = \emptyset $$
@@ -201,6 +203,8 @@ Sea $\bar{x}$ un mínimo local del problema. Si se verifica la cualificación de
     $$ u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m $$
 4.  **No negatividad (Factibilidad dual)**:
     $$ u_i \ge 0, \quad \forall i = 1, \dots, m $$
+
+![Interpretación geométrica de las condiciones KKT con restricciones activas](images/condiciones_kkt.png){#fig-condiciones-kkt fig-align="center" width="60%"}
 :::
 
 ### Condiciones Suficientes de KKT bajo Convexidad

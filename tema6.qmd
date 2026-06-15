@@ -50,6 +50,8 @@ Cuando los datos contienen valores atípicos (*outliers*) o errores de medición
     Minimiza el máximo error cometido:
     $$ \min_{a, b} \max_{i=1, \dots, n} |a + b x_i - y_i| $$
 
+![Comparativa del ajuste lineal robusto en norma l1 frente a la distorsión por outliers de la norma l2](images/regresion_robusta.png){#fig-regresion-robusta fig-align="center" width="80%"}
+
 
 ::: {.callout-note title="Formulación en Programación Lineal para Ajustes Robustos"}
 Podemos formular la minimización en normas $\ell_1$ y $\ell_\infty$ como problemas de programación lineal continua equivalentes mediante la introducción de variables auxiliares de error:

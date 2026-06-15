@@ -94,6 +94,8 @@ $$ C(S, T) = \sum_{i \in S, j \in T} u_{ij} $$
     $$ v^* = \min_{(S,T)} C(S, T) $$
 :::
 
+![Una red de transporte con capacidades y flujo compatible, mostrando un corte mínimo de capacidad 14](images/red_flujo_maximo.png){#fig-red-flujo-maximo fig-align="center" width="75%"}
+
 ### Algoritmo de Ford-Fulkerson (Camino Aumentante)
 El algoritmo busca repetidamente rutas donde sea posible añadir flujo de $s$ a $t$ en la **red residual** $G_f$:
 -   **Red Residual $G_f$**:

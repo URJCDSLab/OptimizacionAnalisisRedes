@@ -268,7 +268,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Conclusiones</span></span></a>
+ <span class="menu-text">Conclusiones</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -358,6 +358,16 @@ window.Quarto = {
 <section id="el-problema-de-königsberg-euler-1736" class="level3" data-number="7.1.1">
 <h3 data-number="7.1.1" class="anchored" data-anchor-id="el-problema-de-königsberg-euler-1736"><span class="header-section-number">7.1.1</span> El Problema de Königsberg (Euler, 1736)</h3>
 <p>La teoría de grafos nació formalmente en 1736 cuando Leonhard Euler resolvió el problema de los puentes de Königsberg. La ciudad estaba dividida por el río Pregel en cuatro porciones de tierra conectadas por siete puentes. El reto consistía en encontrar una ruta que cruzara cada puente exactamente una vez y regresara al origen. Euler demostró que tal recorrido (denominado hoy ciclo euleriano) era imposible. Lo fundamental de su análisis fue que obvió los detalles de las distancias o la forma de las riberas, modelando el problema como una red de nodos (tierra) y líneas (puentes). Dujo que un nodo solo puede cruzarse de forma completa si cada entrada tiene una salida, lo que exige que todos los nodos tengan un grado par. En Königsberg, los nodos tenían grado impar, cerrando toda posibilidad.</p>
+<div id="fig-puentes-konigsberg" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-puentes-konigsberg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/puentes_konigsberg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-puentes-konigsberg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.1: Grafo asociado al problema de los puentes de Königsberg
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="definición-formal-de-un-grafo" class="level3" data-number="7.1.2">
 <h3 data-number="7.1.2" class="anchored" data-anchor-id="definición-formal-de-un-grafo"><span class="header-section-number">7.1.2</span> Definición Formal de un Grafo</h3>
@@ -477,6 +487,16 @@ window.Quarto = {
 <h2 data-number="7.4" class="anchored" data-anchor-id="árbol-soporte-de-mínimo-peso-mst"><span class="header-section-number">7.4</span> Árbol Soporte de Mínimo Peso (MST)</h2>
 <p>Dado un grafo conexo no dirigido valorado <span class="math inline">\(G = (V, E, w)\)</span>, un <strong>árbol soporte de mínimo peso</strong> es un grafo parcial <span class="math inline">\(T = (V, E_T)\)</span> con <span class="math inline">\(E_T \subseteq E\)</span> que es un árbol y minimiza el coste total de sus conexiones:</p>
 <p><span class="math display">\[ \min \sum_{e \in E_T} w(e) \]</span></p>
+<div id="fig-kruskal-prim-mst" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-kruskal-prim-mst-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/kruskal_prim_mst.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kruskal-prim-mst-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7.2: Árbol Soporte de Mínimo Peso (MST) destacado en color rojo sobre un grafo valorado
+</figcaption>
+</figure>
+</div>
 <section id="algoritmo-de-kruskal-1956" class="level3" data-number="7.4.1">
 <h3 data-number="7.4.1" class="anchored" data-anchor-id="algoritmo-de-kruskal-1956"><span class="header-section-number">7.4.1</span> Algoritmo de Kruskal (1956)</h3>
 <p>Es de naturaleza codiciosa (greedy) y procesa las aristas de forma aislada: 1. Ordenar todas las aristas del grafo de menor a mayor peso. 2. Inicializar cada nodo en su propia componente conexa disjunta. 3. Recorrer las aristas en orden. Si los extremos de la arista actual pertenecen a componentes conexas distintas (no forman ciclo), añadir la arista al árbol y fusionar las componentes. En caso contrario, descartar. 4. Terminar al seleccionar <span class="math inline">\(n-1\)</span> aristas. - <em>Complejidad</em>: <span class="math inline">\(O(|E| \log |E|)\)</span> debido al coste de la ordenación inicial.</p>

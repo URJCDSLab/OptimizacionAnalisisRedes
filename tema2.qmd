@@ -154,6 +154,8 @@ $$ \min_{\alpha > 0} \phi(\alpha) = f(x_k + \alpha d_k) $$
 
 Estos métodos solo evalúan la función objetivo y requieren que la función sea **unimodal** en el intervalo $[a, b]$, es decir, que posea un único mínimo local en dicho intervalo.
 
+![Búsqueda unidimensional y reducción de intervalos de incertidumbre](images/opt_1d_biseccion.png){#fig-opt-1d-biseccion fig-align="center" width="80%"}
+
 -   **Búsqueda Dicotómica**:
     Evalúa la función en dos puntos simétricos $\lambda_k$ y $\mu_k$ muy próximos al punto medio del intervalo actual para descartar una porción del intervalo en cada iteración basándose en el signo del cambio.
 -   **Sección Áurea (Golden Section)**:
