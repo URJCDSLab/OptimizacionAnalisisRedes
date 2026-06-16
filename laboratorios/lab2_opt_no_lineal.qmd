@@ -1,0 +1,214 @@
+---
+title: "Laboratorio 2: optimización no lineal con Python"
+subtitle: "Optimización y Análisis de Redes"
+author: "Víctor Aceña Gil / Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+---
+
+# Introducción
+
+La optimización no lineal constituye un pilar central de la investigación operativa moderna. En este laboratorio práctico, pondremos en práctica los conceptos de optimización no lineal sin restricciones y restringida utilizando dos aproximaciones complementarias en Python:
+1. La implementación manual del algoritmo del **descenso de gradiente** (para comprender de manera algorítmica cómo funciona la búsqueda local de primer orden).
+2. El uso de la librería de optimización convexa **CVXPY** (para modelar y resolver de forma exacta problemas estructurados con restricciones de tipo lineal y cuadrático).
+
+# Fundamentos teóricos
+
+## El método del descenso de gradiente (sin restricciones)
+
+Para minimizar una función diferenciable y convexa $f: \mathbb{R}^n \to \mathbb{R}$ sin restricciones:
+$$ \min_{x \in \mathbb{R}^n} f(x) $$
+
+El método del **descenso de gradiente** es un algoritmo iterativo de búsqueda local de primer orden. Su principio geométrico es sencillo: el gradiente $\nabla f(x)$ apunta en la dirección de máximo crecimiento local de la función; por lo tanto, la dirección opuesta, $-\nabla f(x)$, es la dirección de **máximo descenso**.
+
+El paso iterativo se formula como:
+$$ x^{(k+1)} = x^{(k)} - \alpha \nabla f(x^{(k)}) $$
+
+Donde:
+- $x^{(k)}$ representa la aproximación del óptimo en la iteración $k$.
+- $\alpha > 0$ es el **tamaño de paso** (o *learning rate*), que controla la longitud del desplazamiento en la dirección de descenso.
+- $\nabla f(x^{(k)})$ es el vector gradiente evaluado en el punto actual.
+
+### Elección del tamaño de paso ($\alpha$)
+La velocidad de convergencia y la estabilidad del algoritmo dependen críticamente de la elección de $\alpha$:
+- **Paso demasiado pequeño**: El algoritmo converge de forma extremadamente lenta hacia el óptimo, requiriendo un gran número de iteraciones.
+- **Paso demasiado grande**: El algoritmo puede oscilar de forma salvaje alrededor del mínimo e incluso divergir, alejándose de la solución.
+
+## Optimización restringida mediante programación cuadrática (QP)
+
+Muchos problemas reales imponen límites sobre las variables (presupuesto, capacidades físicas, no negatividad). Un caso de especial relevancia es la **Programación Cuadrática (QP)**, que consiste en minimizar una función cuadrática sujeta a restricciones lineales de igualdad y/o desigualdad:
+$$
+\begin{aligned}
+& \underset{x \in \mathbb{R}^n}{\text{minimizar}} \quad & \frac{1}{2} x^T P x + q^T x \\
+& \text{sujeto a} \quad & G x \le h \\
+& & A x = b
+\end{aligned}
+$$
+
+Si la matriz $P$ es semidefinida positiva ($P \succeq 0$), el problema es convexo, lo que garantiza que cualquier mínimo local es global y que se satisfacen las condiciones de Karush-Kuhn-Tucker (KKT).
+
+### Modelado con CVXPY
+**CVXPY** es un lenguaje de modelado empotrado en Python para problemas de optimización convexa. Permite definir el problema de forma matemática y legible en lugar de construir manualmente las matrices en formato estándar. Sus componentes principales son:
+1. **Variables (`cp.Variable`)**: Las incógnitas del problema. Pueden declararse con restricciones de signo integradas (p. ej. `cp.Variable(nonneg=True)`).
+2. **Función objetivo (`cp.Minimize` o `cp.Maximize`)**: La expresión matemática que se desea optimizar.
+3. **Restricciones (`[ ... ]`)**: Una lista de inecuaciones (`>=`, `<=`) o ecuaciones (`==`) lineales.
+4. **Problema (`cp.Problem`)**: Entidad que agrupa la función objetivo y las restricciones, y sobre la cual se invoca el método `.solve()` para llamar al solver numérico subyacente.
+
+Tras la resolución, el valor óptimo de las variables se recupera en la propiedad `.value`, y los multiplicadores de Lagrange (variables duales) asociados a las restricciones se almacenan en `.dual_value`.
+
+# Ejercicios de laboratorio propuestos
+
+## Ejercicio 1: descenso de gradiente manual
+
+Implementa un algoritmo de descenso de gradiente en Python para encontrar el mínimo de la función cuadrática:
+$$ f(x, y) = x^2 + 2y^2 $$
+
+El gradiente analítico es $\nabla f(x, y) = (2x, 4y)^T$.
+
+Realiza la búsqueda partiendo del punto inicial $x^{(0)} = (2, 2)^T$, utilizando una tasa de aprendizaje constante $\alpha = 0.1$ durante un total de 10 iteraciones. Imprime por pantalla las coordenadas de cada punto intermedio y el valor de la función objetivo.
+
+```python
+# Completa el código
+import numpy as np
+
+def f(x):
+    return x[0]**2 + 2*x[1]**2
+
+def grad_f(x):
+    return np.array([2*x[0], 4*x[1]])
+
+# Algoritmo de descenso
+# ...
+```
+
+<details>
+<summary>Pincha aquí para ver la solución</summary>
+
+```python
+import numpy as np
+
+# Definimos la función objetivo
+def f(x):
+    return x[0]**2 + 2*x[1]**2
+
+# Definimos el gradiente analítico
+def grad_f(x):
+    return np.array([2.0 * x[0], 4.0 * x[1]])
+
+# Configuración del algoritmo
+x = np.array([2.0, 2.0])  # Punto inicial x0
+alpha = 0.1              # Tamaño de paso
+iteraciones = 10         # Número de iteraciones
+
+print("Punto de inicio:")
+print(f"Iteración 0: x = {x}, f(x) = {f(x):.4f}")
+print("-" * 45)
+
+# Bucle del descenso de gradiente
+for k in range(1, iteraciones + 1):
+    # Paso iterativo: x^(k+1) = x^(k) - alpha * grad_f(x^(k))
+    x = x - alpha * grad_f(x)
+    print(f"Iteración {k}: x = {x}, f(x) = {f(x):.4f}")
+```
+
+**Análisis de resultados**:
+El punto óptimo teórico de la función es el origen $(0, 0)^T$ con un valor mínimo de $f(0, 0) = 0$. Observando la progresión de las iteraciones:
+- En la iteración 1: $x^{(1)} = (2, 2) - 0.1(4, 8) = (1.6, 1.2)^T$, con $f(x^{(1)}) = 5.44$.
+- En la iteración 10: el punto alcanza aproximadamente $x^{(10)} \approx (0.2147, 0.0121)^T$ con $f(x^{(10)}) \approx 0.0464$.
+El algoritmo converge de forma estable hacia el mínimo global debido a que la función es estrictamente convexa y la tasa de aprendizaje $\alpha = 0.1$ es adecuada para este rango de curvatura.
+
+</details>
+
+## Ejercicio 2: optimización restringida con CVXPY
+
+Utiliza la librería CVXPY para resolver el siguiente problema de optimización cuadrática (QP) con restricciones lineales:
+$$
+\begin{aligned}
+& \underset{x_1, x_2}{\text{minimizar}} \quad & \frac{1}{2} (x_1^2 + x_2^2) \\
+& \text{sujeto a} \quad & x_1 + 2x_2 \ge 4 \\
+& & x_1 \ge 0, \ x_2 \ge 0
+\end{aligned}
+$$
+
+Imprime por pantalla el estado de resolución, el valor óptimo de las variables de decisión, el coste mínimo alcanzado y el valor de la variable dual (multiplicador de Lagrange) correspondiente a la restricción principal.
+
+```python
+# Completa el código
+import cvxpy as cp
+# ...
+```
+
+<details>
+<summary>Pincha aquí para ver la solución</summary>
+
+### Resolución con CVXPY
+
+```python
+import cvxpy as cp
+
+# 1. Definir las variables de decisión con restricciones de no negatividad
+x1 = cp.Variable(nonneg=True)
+x2 = cp.Variable(nonneg=True)
+
+# 2. Definir la función objetivo
+objetivo = cp.Minimize(0.5 * (x1**2 + x2**2))
+
+# 3. Definir la lista de restricciones
+restricciones = [x1 + 2*x2 >= 4]
+
+# 4. Construir y resolver el problema
+problema = cp.Problem(objetivo, restricciones)
+resultado = problema.solve()
+
+# 5. Mostrar resultados
+print("Estado del problema:", problema.status)
+print(f"Valor óptimo de la función objetivo: {resultado:.4f}")
+print(f"Variables óptimas: x1 = {x1.value:.4f}, x2 = {x2.value:.4f}")
+print(f"Multiplicador de Lagrange dual (restricción principal): {restricciones[0].dual_value:.4f}")
+```
+
+### Justificación teórica mediante condiciones KKT
+
+Para verificar analíticamente los resultados numéricos obtenidos por el solver, formulamos la función Lagrangiana asociando multiplicadores $\mu \ge 0$ para la restricción de recursos y $v_1, v_2 \ge 0$ para las restricciones de no negatividad:
+$$ L(x_1, x_2, \mu, v_1, v_2) = \frac{1}{2}(x_1^2 + x_2^2) + \mu(4 - x_1 - 2x_2) - v_1 x_1 - v_2 x_2 $$
+
+Las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) establecen:
+
+1.  **Estacionariedad (Gradiente nulo de la Lagrangiana)**:
+    $$ \frac{\partial L}{\partial x_1} = x_1 - \mu - v_1 = 0 \implies x_1 = \mu + v_1 $$
+    $$ \frac{\partial L}{\partial x_2} = x_2 - 2\mu - v_2 = 0 \implies x_2 = 2\mu + v_2 $$
+
+2.  **Holgura complementaria**:
+    $$ \mu(4 - x_1 - 2x_2) = 0 $$
+    $$ v_1 x_1 = 0, \quad v_2 x_2 = 0 $$
+
+3.  **Viabilidad primal y dual**:
+    $$ x_1 + 2x_2 \ge 4, \quad x_1 \ge 0, \quad x_2 \ge 0 $$
+    $$ \mu \ge 0, \quad v_1 \ge 0, \quad v_2 \ge 0 $$
+
+**Resolución del sistema KKT**:
+Si asumimos que la restricción principal está activa ($x_1 + 2x_2 = 4 \implies \mu > 0$), y dado que el óptimo se encuentra en el cuadrante positivo ($x_1 > 0, x_2 > 0$), por holgura complementaria se cumple que $v_1 = 0$ y $v_2 = 0$.
+
+Sustituyendo en las ecuaciones de estacionariedad:
+$$ x_1 = \mu $$
+$$ x_2 = 2\mu $$
+
+Introduciendo estos valores en la restricción activa:
+$$ \mu + 2(2\mu) = 4 \implies 5\mu = 4 \implies \mu^* = 0.8 $$
+
+Esto nos da de forma exacta las variables óptimas y el multiplicador de Lagrange:
+- $x_1^* = 0.8$
+- $x_2^* = 1.6$
+- $\mu^* = 0.8$
+
+El valor óptimo de la función es:
+$$ f(0.8, 1.6) = \frac{1}{2}(0.8^2 + 1.6^2) = \frac{1}{2}(0.64 + 2.56) = 1.60 $$
+
+Como se observa, los valores teóricos ($x_1^* = 0.8$, $x_2^* = 1.6$, $f^* = 1.6$, $\mu^* = 0.8$) **coinciden con precisión matemática absoluta** con los devueltos de forma numérica por CVXPY en la simulación.
+
+</details>
