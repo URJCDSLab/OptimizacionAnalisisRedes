@@ -1,4 +1,4 @@
-# Rutas Eulerianas, Hamiltonianas y TSP
+# Rutas eulerianas, hamiltonianas y TSP
 
 El diseño de rutas óptimas es uno de los campos más estudiados de la optimización combinatoria y la logística de distribución. Abarca desde problemas solubles en tiempo polinomial, como la determinación de rutas que recorren todas las calles (aristas) de una ciudad al menor coste (el Problema del Cartero Chino), hasta problemas altamente complejos y NP-duros, como la secuenciación de visitas a clientes (vértices) minimizando el kilometraje total sin repetir visitas (el Problema del Viajante o TSP), constituyendo uno de los desafíos más célebres y estudiados de la optimización entera y combinatoria [@papadimitriou1998combinatorial; @wolsey1998integer].
 
@@ -16,7 +16,7 @@ Al finalizar este capítulo, serás capaz de:
 :::
 
 
-## Grafos Eulerianas
+## Grafos eulerianos
 
 Un grafo conexo es euleriano si admite un recorrido cerrado que recorre cada arista exactamente una vez y regresa al nodo de origen. El origen del estudio de estos grafos se remonta a 1736, cuando **Leonhard Euler** resolvió el famoso problema de los **Puentes de Königsberg**, sentando las bases de la teoría de grafos moderna al demostrar que no existía una ruta que cruzara los siete puentes de la ciudad sin repetir ninguno.
 
@@ -32,11 +32,11 @@ Un grafo simple conexo no dirigido $G = (V, E)$ contiene un camino euleriano abi
 :::
 
 
-## El Problema del Cartero Chino (CPP)
+## El problema del cartero chino (CPP)
 
 Formulado por el matemático chino **Mei-Ko Kwan** en 1960, el Problema del Cartero Chino (Chinese Postman Problem, CPP) busca la ruta cerrada de longitud mínima que recorra **cada arista del grafo al menos una vez**. Su nombre fue acuñado por Alan Goldman en honor al origen de Kwan.
 
-### Estrategia de Resolución en Grafos No Dirigidos
+### Estrategia de resolución en grafos no dirigidos
 
 -   **Caso A: El grafo es euleriano**:
     Cualquier ciclo euleriano es solución óptima del problema. La longitud de la ruta óptima es exactamente igual a la suma de los pesos de todas las aristas de la red.
@@ -50,13 +50,13 @@ Formulado por el matemático chino **Mei-Ko Kwan** en 1960, el Problema del Cart
     5.  Calcular el ciclo euleriano sobre este multigrafo modificado.
 
 
-## Ciclos Hamiltonianos
+## Ciclos hamiltonianos
 
 Un **ciclo hamiltoniano** es un ciclo simple que visita cada nodo de la red exactamente una vez (excepto el inicial, al que regresa para cerrar el ciclo). Su nombre se debe al matemático irlandés William Rowan Hamilton, quien en 1857 inventó el *Juego Icosian*, consistente en encontrar un camino a lo largo de las aristas de un dodecaedro regular que visitara cada vértice una sola vez.
 
 A diferencia del problema euleriano, que se resuelve de forma inmediata analizando la paridad de los grados en tiempo lineal, determinar si un grafo general contiene un ciclo hamiltoniano es un problema **NP-completo**. No se conocen condiciones necesarias y suficientes sencillas de verificar.
 
-### Teoremas de Suficiencia de Hamiltonianidad
+### Teoremas de suficiencia de hamiltonianidad
 
 Disponemos de condiciones suficientes basadas en la densidad de aristas o en los grados mínimos de los nodos:
 
@@ -75,13 +75,13 @@ Entonces $G$ contiene al menos un ciclo hamiltoniano.
 :::
 
 
-## El Problema del Viajante (TSP)
+## El problema del viajante (TSP)
 
 ![Una ruta hamiltoniana óptima que resuelve el problema del viajante (TSP) sobre un conjunto de ciudades](images/tsp_ruta.png){#fig-tsp-ruta fig-align="center" width="70%"}
 
 El Problema del Viajante (Traveling Salesperson Problem, TSP) busca encontrar el ciclo hamiltoniano de menor longitud o coste total en un grafo completo valorado.
 
-### Formulación Lineal Entera DFJ (Dantzig-Fulkerson-Johnson, 1954)
+### Formulación lineal entera DFJ (Dantzig-Fulkerson-Johnson, 1954)
 
 Sean variables binarias $x_{ij} = 1$ si la ruta óptima incluye ir directamente del nodo $i$ al nodo $j$, y 0 en caso contrario.
 
@@ -97,7 +97,7 @@ $$
 
 Las **restricciones de eliminación de subtours** (tercera inecuación) evitan que el modelo genere soluciones compuestas por ciclos independientes inconexos que no recorren la totalidad de los nodos en una sola traza. Como el número de subconjuntos $S$ crece de forma exponencial ($2^n - 2$), en la práctica estas restricciones se añaden dinámicamente mediante algoritmos de corte (*Branch-and-Cut*).
 
-### Formulación Lineal Entera MTZ (Miller-Tucker-Zemlin, 1960)
+### Formulación lineal entera MTZ (Miller-Tucker-Zemlin, 1960)
 
 Una alternativa para evitar la formulación exponencial es introducir variables auxiliares continuas $u_i \in \mathbb{R}$ que representan el "orden de visita" de cada nodo $i$:
 
@@ -110,7 +110,7 @@ $$
 -   *Ventaja*: El número de restricciones de eliminación de subtours es polinomial ($O(n^2)$), lo que permite escribir el modelo completo directamente en solvers convencionales.
 -   *Desventaja*: La relajación lineal del modelo MTZ es significativamente más débil que la del modelo DFJ. Esto provoca que los solvers tarden mucho más tiempo en resolver problemas medianos mediante ramificación y acotación (*Branch-and-Bound*) al no poder acotar el espacio de búsqueda con eficacia.
 
-### Heurísticas y Algoritmos de Aproximación
+### Heurísticas y algoritmos de aproximación
 
 -   **Heurística del Vecino más Cercano**:
     Algoritmo constructivo ávido (*greedy*) que parte de un nodo aleatorio y salta en cada paso al nodo no visitado más cercano. Es extremadamente rápido ($O(n^2)$), pero presenta el riesgo de dejar nodos aislados muy lejanos para el final, generando un último paso de retorno al origen de coste desorbitado.

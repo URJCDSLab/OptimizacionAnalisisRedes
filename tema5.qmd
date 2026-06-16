@@ -1,4 +1,4 @@
-# Aplicaciones de KKT: Programación Lineal y Cuadrática
+# Programación lineal y cuadrática
 
 Las condiciones de Karush-Kuhn-Tucker (KKT) adquieren una relevancia excepcional al aplicarse sobre problemas con estructuras matemáticas específicas, como la **Programación Lineal (LP)** y la **Programación Cuadrática (QP)**. En ambos casos, las restricciones son afines, lo que garantiza que las cualificaciones de restricciones (como LICQ) se verifiquen de forma natural en cualquier punto factible. Además, cuando la función objetivo es convexa, las condiciones necesarias de KKT se convierten también en suficientes, proporcionando un marco algebraico cerrado para hallar y certificar el óptimo global.
 
@@ -17,13 +17,13 @@ Al finalizar este capítulo, serás capaz de:
 :::
 
 
-## Programación Lineal (LP)
+## Programación lineal (LP)
 
 La Programación Lineal consiste en optimizar una función lineal sujeta a restricciones lineales de igualdad y desigualdad. Su simplicidad estructural permite deducir propiedades de dualidad muy potentes, cuyas bases matemáticas e históricas se detallan exhaustivamente en los textos de programación matemática [@bazaraa2011linear; @luenberger2015linear].
 
 ![Región factible y dirección de optimización en un problema de programación lineal](images/region_factible_lp.png){#fig-region-factible-lp fig-align="center" width="70%"}
 
-### Dualidad en Programación Lineal
+### Dualidad en programación lineal
 
 Consideremos el par de problemas primal (P) y dual (D) en su forma canónica estándar:
 
@@ -60,7 +60,7 @@ Combinando ambas desigualdades encadenadas, obtenemos:
 $$ b^T w \le w^T A x \le c^T x \implies b^T w \le c^T x. \quad \blacksquare $$
 :::
 
-### Condiciones KKT en Programación Lineal
+### Condiciones KKT en programación lineal
 
 Para aplicar el teorema de KKT, reescribimos el problema primal (P) en formato estándar de minimización con restricciones de tipo $\le 0$:
 $$
@@ -94,7 +94,7 @@ $$ c^T x = u^T b = b^T u $$
 
 Esto demuestra que el vector de multiplicadores KKT $u$ es factible en el problema dual (D) y proporciona exactamente el mismo valor objetivo que la solución primal $x$. Por el teorema de dualidad fuerte, **los multiplicadores KKT $u$ del problema primal son idénticos a las variables óptimas $w^*$ del problema dual**.
 
-### Interpretación Económica: Precios Sombra
+### Interpretación económica: precios sombra
 
 En el ámbito de la economía y la gestión de operaciones, los problemas de optimización lineal suelen representar la asignación de recursos limitados (como horas de mano de obra, materias primas o presupuesto) para maximizar un beneficio o minimizar un coste de producción. En este marco:
 
@@ -110,7 +110,7 @@ La condición de holgura complementaria $u_i (b_i - a_i^T x^*) = 0$ posee entonc
 1.  Si al alcanzar el plan de producción óptimo sobra parte del recurso $i$ ($b_i - a_i^T x^* > 0$), dicho recurso no es un factor limitante (es abundante). Por tanto, añadir más cantidad del mismo no aumentará el beneficio, lo que obliga a que su precio sombra sea cero ($u_i^* = 0$).
 2.  Si un recurso posee un precio sombra estrictamente positivo ($u_i^* > 0$), significa que dicho recurso es valioso y está limitando la producción. En consecuencia, se consumirá por completo en el óptimo, dejando la holgura en cero ($b_i - a_i^T x^* = 0$).
 
-### Clasificación de Óptimos y Relaciones de Dualidad
+### Clasificación de óptimos y relaciones de dualidad
 
 Atendiendo a la geometría del espacio y la unicidad de las soluciones, se clasifican los siguientes escenarios recíprocos entre primal y dual (analizados sobre un espacio en $\mathbb{R}^2$):
 
@@ -134,7 +134,7 @@ Atendiendo a la geometría del espacio y la unicidad de las soluciones, se clasi
     -   *Dual*: El dual es no factible, o posee solución no acotada.
 
 
-## Programación Cuadrática (QP)
+## Programación cuadrática (QP)
 
 La programación cuadrática optimiza una función objetivo cuadrática sujeta a un conjunto de restricciones lineales de igualdad o desigualdad:
 
@@ -148,7 +148,7 @@ $$
 
 Para garantizar que el problema sea convexo (y que las condiciones KKT sean necesarias y suficientes para alcanzar el óptimo global), la matriz simétrica $Q \in \mathbb{R}^{n \times n}$ debe ser **semidefinida positiva** ($Q \succeq 0$).
 
-### El Sistema KKT para QP en Forma Matricial
+### El sistema KKT para QP en forma matricial
 
 Asociando multiplicadores $u \ge 0$ para las restricciones de recursos y $v \ge 0$ para las de no negatividad, la Lagrangiana es:
 $$ L(x, u, v) = c^T x + \frac{1}{2} x^T Q x + u^T (b - A x) - v^T x $$
@@ -183,7 +183,7 @@ b
 $$
 donde recordamos que además deben satisfacerse las restricciones de no negatividad para todas las variables y las condiciones lógicas de complementariedad ($u^T y + v^T x = 0$).
 
-### Linealización y Algoritmo del Símplex de Wolfe
+### Linealización y algoritmo del Símplex de Wolfe
 
 El sistema KKT es lineal en todas sus partes excepto por la condición de complementariedad $u^T y + v^T x = 0$. Philip Wolfe propuso en 1959 adaptar el algoritmo del Símplex lineal para resolver este sistema utilizando una técnica de **entrada restringida** (restricted entry rule):
 
@@ -195,7 +195,7 @@ El sistema KKT es lineal en todas sus partes excepto por la condición de comple
 4.  Si el algoritmo finaliza con un coste óptimo de cero (todas las artificiales fuera de la base), el punto resultante satisface KKT y es el óptimo global del problema cuadrático.
 
 
-## Caso Práctico Detallado: Algoritmo de Wolfe
+## Caso práctico detallado: algoritmo de Wolfe
 
 Consideremos el problema de minimizar la distancia euclídea al punto $(4, 4)$ en una región delimitada por tres restricciones lineales:
 $$
@@ -218,9 +218,9 @@ Formulamos el sistema lineal de Wolfe agregando variables primales de holgura $y
     -   $2x_1 - 8 + u_1 - u_2 + 2u_3 - v_1 + z_1 = 0 \implies 2x_1 + u_1 - u_2 + 2u_3 - v_1 + z_1 = 8$
     -   $2x_2 - 8 + u_1 + u_2 + u_3 - v_2 + z_2 = 0 \implies 2x_2 + u_1 + u_2 + u_3 - v_2 + z_2 = 8$
 
-### Progresión de las Tablas del Símplex de Wolfe
+### Progresión de las tablas del Símplex de Wolfe
 
-#### Tabla Inicial (Iteración 1)
+#### Tabla inicial (iteración 1)
 
 -   **Base**: $\{y_1, y_2, y_3, z_1, z_2\}$
 -   **Valor del Objetivo**: $16$ (Suma de artificiales $z_1 + z_2 = 8 + 8 = 16$)
@@ -236,7 +236,7 @@ Formulamos el sistema lineal de Wolfe agregando variables primales de holgura $y
 
 *Análisis*: Los costes reducidos más negativos corresponden a las variables $x_1, x_2, u_1, u_3$. Por la regla de entrada restringida, no podemos introducir $u_1$ ni $u_3$ porque sus holguras asociadas $y_1, y_3$ se encuentran actualmente en la base (son básicas). Por tanto, seleccionamos **$x_2$** para entrar en la base. Aplicando el criterio de la razón mínima, la variable saliente es **$y_2$** (pivote $= 1$).
 
-#### Tabla 2 (Iteración 2)
+#### Tabla 2 (iteración 2)
 
 -   **Base**: $\{y_1, x_2, y_3, z_1, z_2\}$
 -   **Valor del Objetivo**: $12$
@@ -252,7 +252,7 @@ Formulamos el sistema lineal de Wolfe agregando variables primales de holgura $y
 
 *Análisis*: $u_1, u_3$ siguen bloqueados por $y_1, y_3$. Seleccionamos **$x_1$** para entrar en la base. El criterio de la razón mínima determina que sale **$y_1$** (pivote $= 2$).
 
-#### Tabla 3 (Iteración 3)
+#### Tabla 3 (iteración 3)
 
 -   **Base**: $\{x_1, x_2, y_3, z_1, z_2\}$
 -   **Valor del Objetivo**: $8$
@@ -268,7 +268,7 @@ Formulamos el sistema lineal de Wolfe agregando variables primales de holgura $y
 
 *Análisis*: Como $y_1$ ha salido de la base ($y_1 = 0$), se desbloquea la entrada de **$u_1$**. Entra $u_1$ y sale **$z_2$** (pivote $= 1$).
 
-#### Tabla 4 (Iteración 4)
+#### Tabla 4 (iteración 4)
 
 -   **Base**: $\{x_1, x_2, y_3, z_1, u_1\}$
 -   **Valor del Objetivo**: $4$
@@ -284,7 +284,7 @@ Formulamos el sistema lineal de Wolfe agregando variables primales de holgura $y
 
 *Análisis*: $u_3, v_2$ siguen bloqueados por $y_3, x_2$. La única variable viable con coste reducido negativo es la holgura primal **$y_2$**. Entra $y_2$ y sale **$z_1$** (pivote $= 2$).
 
-#### Tabla Final (Iteración 5)
+#### Tabla final (iteración 5)
 
 -   **Base**: $\{x_1, x_2, y_3, y_2, u_1\}$
 -   **Valor del Objetivo**: $0$

@@ -1,4 +1,4 @@
-# El Problema del Camino Mínimo
+# Caminos mínimos
 
 El problema del **camino mínimo** (Shortest Path Problem) es una de las piedras angulares de la optimización de redes. Su propósito es determinar la ruta de menor coste o distancia acumulada entre un nodo origen $s$ y un nodo destino $t$, o desde un origen único hacia todos los demás nodos de la red. Este problema no solo cuenta con aplicaciones directas en sistemas de navegación vial y enrutamiento de paquetes de datos en telecomunicaciones, sino que sirve como subproblema crítico en algoritmos de mayor envergadura (como los algoritmos de generación de columnas o los problemas de flujo de coste mínimo), constituyendo un campo fundamental de estudio en la optimización combinatoria [@ahuja1993network; @bertsekas1998network; @cormen2009introduction].
 
@@ -16,7 +16,7 @@ Al finalizar este capítulo, serás capaz de:
 :::
 
 
-## Definición Formal y Condiciones de Existencia
+## Definición formal y condiciones de existencia
 
 Sea un digrafo conexo valorado $G = (V, A, c)$, donde $c_{ij}$ es el coste o peso asociado al arco dirigido $(i, j) \in A$.
 Dado un camino dirigido $\mu = (v_0, v_1, \dots, v_k)$ con arcos $(v_{i-1}, v_i) \in A$, la longitud o coste de la ruta es:
@@ -32,7 +32,7 @@ El problema busca encontrar un camino elemental $\mu^*$ de $s$ a $t$ de coste m�
 ![Un digrafo con pesos en los arcos y el camino mínimo de origen a destino destacado en rojo](images/camino_minimo_dijkstra.png){#fig-camino-minimo-dijkstra fig-align="center" width="75%"}
 
 
-## El Principio de Optimalidad de Bellman
+## El principio de optimalidad de Bellman
 
 El **Principio de Optimalidad de Bellman** es la base teórica de la programación dinámica aplicada a redes: *"Si el camino óptimo para ir de un nodo $s$ a un nodo $t$ pasa por un nodo intermedio $i$, entonces la porción de la ruta que une $s$ con $i$ debe ser también el camino óptimo entre estos dos nodos"*.
 
@@ -45,21 +45,21 @@ Donde $\text{Pred}(j) = \{ i \in V \mid (i, j) \in A \}$ representa el conjunto 
 :::
 
 
-## Redes Sin Circuitos (DAGs) y Ordenación Topológica
+## Redes sin circuitos (DAGs) y ordenación topológica
 
 Si el digrafo no contiene ciclos (Directed Acyclic Graph, DAG), podemos explotar su estructura geométrica ordenando sus nodos para resolver las ecuaciones de Bellman en un único paso secuencial.
 
-### Ordenación Topológica
+### Ordenación topológica
 Consiste en etiquetar los nodos con números $t(i) \in \{1, \dots, n\}$ tales que para todo arco dirigido $(i, j) \in A$ se cumpla la relación de orden $t(i) < t(j)$. El algoritmo localiza repetidamente nodos con grado de entrada cero ($d^-(i) = 0$), les asigna la etiqueta correspondiente y los elimina de la red junto con sus arcos salientes.
 
-### Algoritmo de Resolución
+### Algoritmo de resolución
 Una vez reordenados los nodos como $1, 2, \dots, n$ (con el origen $s$ como nodo 1), calculamos las distancias de forma directa:
 $$ d(1) = 0 $$
 $$ d(j) = \min_{i < j, (i,j) \in A} \{ d(i) + c_{ij} \}, \quad j = 2, \dots, n $$
 -   *Complejidad*: $O(|V| + |A|)$, que es lineal y óptima.
 
 
-## Redes con Pesos No Negativos: Algoritmo de Dijkstra
+## Redes con pesos no negativos: algoritmo de Dijkstra
 
 Cuando los costes de los arcos son no negativos ($c_{ij} \ge 0$), se utiliza el **Algoritmo de Dijkstra**. Es un método de etiquetado que mantiene un conjunto de distancias provisionales y permanentes:
 
@@ -77,11 +77,11 @@ Cuando los costes de los arcos son no negativos ($c_{ij} \ge 0$), se utiliza el 
 -   *Complejidad*: $O(|A| + |V| \log |V|)$ si se utilizan colas de prioridad con montículos de Fibonacci.
 
 
-## Redes con Pesos Negativos: Algoritmo de Bellman-Ford
+## Redes con pesos negativos: algoritmo de Bellman-Ford
 
 Si existen arcos con pesos negativos, Dijkstra puede fallar debido a que la etiqueta de un nodo fijada como permanente podría abaratarse posteriormente a través de un camino con arcos negativos. En este escenario, aplicamos el **Algoritmo de Bellman-Ford**.
 
-### Algoritmo Paso a Paso
+### Algoritmo paso a paso
 
 1.  **Inicialización**:
     $d(s) = 0$ e $d(j) = \infty$ para todo $j \neq s$.
@@ -97,11 +97,11 @@ Entonces existe al menos un **ciclo de coste negativo** accesible desde el orige
 :::
 
 
-## Formulación en Programación Lineal Primal-Dual
+## Formulación en programación lineal primal-dual
 
 El problema del camino mínimo puede formularse y resolverse como un programa lineal continuo.
 
-### Modelo Primal (Flujo de Coste Mínimo de Una Unidad)
+### Modelo primal (flujo de coste mínimo de una unidad)
 Asumiendo que queremos enviar una unidad de flujo desde el origen $s$ al destino $t$:
 
 $$
@@ -116,7 +116,7 @@ La variable continua $x_{ij}$ representa la cantidad de flujo que pasa por el ar
 -   **Total Unimodularidad (TUM)**:
     La matriz de coeficientes de este sistema es la matriz de incidencia nodo-arco de la red. Al ser esta matriz totalmente unimodular, cualquier base factible del problema de programación lineal es entera. Por tanto, resolver el problema lineal continuo garantiza obtener una solución binaria óptima ($x_{ij}^* \in \{0, 1\}$) que define de forma exacta el camino mínimo.
 
-### Modelo Dual (Potenciales Nodales)
+### Modelo dual (potenciales nodales)
 Asociando una variable dual no restringida $u_i \in \mathbb{R}$ a la ecuación de balance de cada nodo $i \in V$, el problema dual es:
 
 $$
@@ -133,7 +133,7 @@ Las variables duales $u_i$ representan potenciales nodales o tensiones. Si fijam
 :::
 
 
-## Camino Mínimo Entre Todos los Pares de Nodos: Floyd-Warshall
+## Camino mínimo entre todos los pares de nodos: Floyd-Warshall
 
 El **Algoritmo de Floyd-Warshall** es un método de programación dinámica que calcula las distancias mínimas entre cualquier pareja de nodos de forma simultánea.
 

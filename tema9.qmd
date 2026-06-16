@@ -1,4 +1,4 @@
-# Problemas de Flujo en Redes
+# Flujos en redes
 
 La optimización de **flujos en redes** representa una de las ramas más maduras y de mayor impacto práctico de la investigación operativa. Permite modelar y resolver de forma exacta el envío de entidades físicas o lógicas (tales como toneladas de mercancía, litros de crudo, vatios de potencia eléctrica o gigabytes de datos) a través de canales con capacidades limitadas, cuya teoría y aplicaciones algorítmicas se estudian detalladamente en los textos clásicos de flujos y optimización en redes [@ahuja1993network; @bertsekas1998network]. En este capítulo, estudiaremos el concepto algebraico de flujo y cociclo, el célebre Lema de Coloración de Arcos de Minty (herramienta teórica cardinal para demostrar optimalidades), el teorema de flujo máximo y corte mínimo, el algoritmo de Ford-Fulkerson y el problema general del flujo de coste mínimo y transbordo.
 
@@ -14,11 +14,11 @@ Al finalizar este capítulo, serás capaz de:
 :::
 
 
-## Estructura Algebraica de Flujos y Cociclos
+## Estructura algebraica de flujos y cociclos
 
 Sea un digrafo conexo $G = (V, A)$.
 
-### Definición de Flujo y Circulación
+### Definición de flujo y circulación
 Un **flujo** en la red $G$ es un vector $x \in \mathbb{R}^{|A|}$ que asigna a cada arco dirigido $(i, j) \in A$ un caudal o cantidad $x_{ij}$. El flujo debe cumplir con las ecuaciones de conservación en los nodos:
 $$ \sum_{j \mid (i, j) \in A} x_{ij} - \sum_{j \mid (j, i) \in A} x_{ji} = b_i, \quad \forall i \in V $$
 Donde el vector $b \in \mathbb{R}^{|V|}$ representa los balances externos:
@@ -41,7 +41,7 @@ Donde:
 :::
 
 
-## El Lema de Coloración de Arcos de Minty (1966)
+## El lema de coloración de arcos de Minty (1966)
 
 El lema de coloración de Minty es un teorema fundamental en optimización combinatoria. Permite demostrar de forma directa teoremas de dualidad y existencia de flujos compatibles.
 
@@ -72,7 +72,7 @@ La demostración del lema es constructiva y define el algoritmo de etiquetado:
 :::
 
 
-## El Problema del Flujo Máximo
+## El problema del flujo máximo
 
 Busca enviar la mayor cantidad posible de flujo desde un nodo fuente $s$ a un nodo sumidero $t$ respetando las capacidades superiores de los arcos $u_{ij}$:
 
@@ -84,7 +84,7 @@ $$
 \end{aligned}
 $$
 
-### Cortes y Capacidad de un Corte
+### Cortes y capacidad de un corte
 Un corte $(S, T)$ es una partición del conjunto de nodos $V$ tal que el origen $s \in S$ y el destino $t \in T$ (donde $T = V \setminus S$). La **capacidad del corte** es la suma de las capacidades de los arcos que cruzan de $S$ a $T$:
 $$ C(S, T) = \sum_{i \in S, j \in T} u_{ij} $$
 
@@ -99,7 +99,7 @@ $$ C(S, T) = \sum_{i \in S, j \in T} u_{ij} $$
 
 ![Una red de transporte con capacidades y flujo compatible, mostrando un corte mínimo de capacidad 14](images/red_flujo_maximo.png){#fig-red-flujo-maximo fig-align="center" width="75%"}
 
-### Algoritmo de Ford-Fulkerson (Camino Aumentante)
+### Algoritmo de Ford-Fulkerson (camino aumentante)
 El algoritmo busca repetidamente rutas donde sea posible añadir flujo de $s$ a $t$ en la **red residual** $G_f$:
 
 -   **Red Residual $G_f$**:
@@ -118,7 +118,7 @@ El algoritmo busca repetidamente rutas donde sea posible añadir flujo de $s$ a 
     5.  Volver al paso 2.
 
 
-## Problema de Flujo de Coste Mínimo y Transbordo
+## Problema de flujo de coste mínimo y transbordo
 
 El problema de flujo de coste mínimo busca satisfacer las demandas $b_i$ de todos los nodos al menor coste lineal posible, respetando capacidades inferiores y superiores en los arcos:
 

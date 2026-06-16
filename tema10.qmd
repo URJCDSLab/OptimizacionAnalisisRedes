@@ -1,4 +1,4 @@
-# Problemas de Emparejamiento (Matching)
+# Emparejamientos
 
 El problema de **emparejamiento** (matching) aborda la selección de un subconjunto de aristas de un grafo de tal manera que ninguna de ellas comparta un vértice común. Esta estructura discreta, en apariencia sencilla, posee una enorme relevancia teórica y práctica en problemas de asignación de tareas a operarios, emparejamiento de alumnos a centros universitarios (como en los algoritmos estables de Gale-Shapley), y enrutamiento en redes complejas, constituyendo una de las áreas más ricas de la optimización combinatoria [@ahuja1993network; @papadimitriou1998combinatorial].
 
@@ -16,11 +16,11 @@ Al finalizar este capítulo, serás capaz de:
 :::
 
 
-## Conceptos Fundamentales de Emparejamiento
+## Conceptos fundamentales de emparejamiento
 
 Sea un grafo simple no dirigido $G = (V, E)$.
 
-### Definición de Emparejamiento
+### Definición de emparejamiento
 Un subconjunto de aristas $M \subseteq E$ es un **emparejamiento** si para todo par de aristas distintas $e_1, e_2 \in M$ se cumple que no comparten ningún nodo ($e_1 \cap e_2 = \emptyset$).
 
 -   **Vértice Saturado (o Emparejado)**:
@@ -36,7 +36,7 @@ Un subconjunto de aristas $M \subseteq E$ es un **emparejamiento** si para todo 
 
 ![Ejemplo de un emparejamiento máximo destacado en color rojo en un grafo bipartito](images/emparejamiento_bipartito.png){#fig-emparejamiento-bipartito fig-align="center" width="70%"}
 
-### Cadenas Alternantes e Incrementales
+### Cadenas alternantes e incrementales
 Dada una red con un emparejamiento $M$:
 
 -   **Cadena Alternante**:
@@ -54,7 +54,7 @@ Definimos la diferencia simétrica $M' = M \oplus P = (M \setminus P) \cup (P \s
 :::
 
 
-## Búsqueda mediante Árboles Alternantes
+## Búsqueda mediante árboles alternantes
 
 Para localizar de forma algorítmica las cadenas incrementales, construimos una estructura jerárquica de búsqueda denominada **árbol alternante**:
 
@@ -65,11 +65,11 @@ Para localizar de forma algorítmica las cadenas incrementales, construimos una 
 -   *Flores (Blossoms)*: En grafos bipartitos, el árbol alternante se construye sin ciclos impares. En grafos generales, la presencia de ciclos de longitud impar (denominados flores) puede bloquear la búsqueda del algoritmo. Jack Edmonds resolvió este problema en 1965 con su algoritmo de contraer las flores en un supernodo durante la búsqueda de caminos y expandirlas posteriormente al actualizar el emparejamiento.
 
 
-## Problemas de Recubrimiento en Grafos
+## Problemas de recubrimiento en grafos
 
 Estudiamos la relación entre seleccionar aristas independientes y cubrir los componentes del grafo.
 
-### Definición de Recubrimientos y Conjuntos Independientes
+### Definición de recubrimientos y conjuntos independientes
 
 -   **Recubrimiento de Vértices (Vertex Cover)**:
     Un subconjunto de nodos $V_C \subseteq V$ tal que toda arista del grafo tiene al menos uno de sus extremos en $V_C$:
@@ -97,7 +97,7 @@ $$ \alpha_E(G) = \alpha_V(G) $$
 :::
 
 
-## Emparejamiento de Máximo Peso y Algoritmo Húngaro
+## Emparejamiento de máximo peso y algoritmo húngaro
 
 Cuando cada arista $\{u, v\}$ tiene asociado un beneficio o peso $w_{uv} \ge 0$, el problema de emparejamiento de peso máximo busca maximizar la recompensa total acumulada:
 $$ \max \sum_{e \in M} w(e) \quad \text{s.t. } M \text{ es un emparejamiento en } G $$

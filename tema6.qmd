@@ -1,4 +1,4 @@
-# Optimización en Ciencia de Datos: Regresión y SVM
+# Optimización en ciencia de datos
 
 La optimización matemática es el motor silencioso que impulsa la ciencia de datos y el aprendizaje automático (*machine learning*). Desde el ajuste clásico de una recta hasta el entrenamiento de redes neuronales profundas, el proceso de "aprendizaje" a partir de datos consiste en formular una función de pérdida que mide la discrepancia entre el modelo y la realidad, y resolver el problema de optimización asociado para hallar los parámetros óptimos. En este capítulo, estudiaremos cómo la optimización no lineal y la programación entera mixta dan respuesta a problemas clave: el ajuste de regresiones en diferentes normas, la selección óptima de variables, la formulación de las Máquinas de Vectores de Soporte (SVM) y la generación de explicaciones contrafácticas para modelos de caja negra.
 
@@ -14,7 +14,7 @@ Al finalizar este capítulo, serás capaz de:
 :::
 
 
-## Introducción a la Optimización en Aprendizaje Automático
+## Introducción a la optimización en aprendizaje automático
 
 El proceso de entrenamiento de un modelo de aprendizaje automático consiste en ajustar los parámetros de una función hipótesis $f(x; w)$ para modelar un patrón en un conjunto de datos, siguiendo los principios y metodologías analíticas del aprendizaje estadístico clásico [@hastie2009elements]. Las principales aplicaciones de la optimización en este ámbito son:
 
@@ -26,7 +26,7 @@ El proceso de entrenamiento de un modelo de aprendizaje automático consiste en 
     Maximizar el margen de separación entre clases o minimizar la pérdida de bisagra (*hinge loss*).
 
 
-## El Problema de Ajuste de Datos en Diferentes Normas
+## El problema de ajuste de datos en diferentes normas
 
 Dada una muestra de observaciones de dos variables, $x$ e $y$, el ajuste de datos consiste en encontrar una función $f(x)$ tal que $y_i \approx f(x_i)$ para toda observación $i = 1, \dots, n$.
 
@@ -36,13 +36,13 @@ Consideremos una muestra de $n = 19$ observaciones:
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | $y$ | 1.0 | 0.9 | 0.7 | 1.5 | 2.0 | 2.4 | 3.2 | 2.0 | 2.7 | 3.5 | 1.0 | 4.0 | 3.6 | 2.7 | 5.7 | 4.6 | 6.0 | 6.8 | 7.3 |
 
-### Regresión Lineal Clásica (Norma $\ell_2$)
+### Regresión lineal clásica (norma $\ell_2$)
 La regresión lineal clásica asume que la relación toma la forma de una recta $y = a + b x + \epsilon$. Los parámetros $a$ (intersección) y $b$ (pendiente) se obtienen minimizando el error cuadrático medio:
 $$ \min_{a, b} \sum_{i=1}^n (a + b x_i - y_i)^2 $$
 Las ecuaciones normales obtenidas al anular el gradiente nos proporcionan la conocida recta por mínimos cuadrados ordinarios (MCO):
 $$ Y = 0.4261 + 0.6108 x $$
 
-### Ajustes en Normas Robustas ($\ell_1$ y $\ell_\infty$)
+### Ajustes en normas robustas ($\ell_1$ y $\ell_\infty$)
 Cuando los datos contienen valores atípicos (*outliers*) o errores de medición severos (como el punto $(5.0, 1.0)$ en nuestra muestra), la norma cuadrática $\ell_2$ se ve fuertemente distorsionada. Proponemos alternativas más robustas:
 
 -   **Norma $\ell_1$ (Desviaciones Absolutas)**:
@@ -90,12 +90,12 @@ Al resolver estos modelos sobre los datos de nuestra muestra, se aprecian los si
     $y = 0.1250x^2 - 0.6250x + 2.4750$ (máximo error de $1.475$).
 
 
-## Regresión Lineal Múltiple y Selección de Características
+## Regresión lineal múltiple y selección de características
 
 Cuando disponemos de $m$ variables independientes $X_1, \dots, X_m$, el modelo es:
 $$ Y = \beta_0 + \beta_1 X_1 + \dots + \beta_m X_m + \epsilon $$
 
-### Selección de Variables mediante Programación Entera Mixta
+### Selección de variables mediante programación entera mixta
 En presencia de múltiples variables explicativas, a menudo deseamos construir un modelo disperso (*sparse*) que solo incluya un subconjunto óptimo de características. Definimos variables binarias de decisión $\delta_j \in \{0, 1\}$ para indicar si la característica $j$ participa en el modelo ($\beta_j \neq 0$).
 Imponemos restricciones de "Gran M" utilizando cotas inferiores $\underline{\beta}_j$ y superiores $\overline{\beta}_j$ sobre el valor físico de los coeficientes:
 $$ \underline{\beta}_j \delta_j \le \beta_j \le \overline{\beta}_j \delta_j, \quad j = 1, \dots, m $$
@@ -111,7 +111,7 @@ Esto nos permite plantear restricciones estructurales complejas:
 El problema resultante es un modelo **Entero Cuadrático Mixto (MIQP)**.
 
 
-## Máquinas de Vectores de Soporte (SVM)
+## Máquinas de vectores de soporte (SVM)
 
 El objetivo de una SVM es clasificar observaciones binarias $y_i \in \{-1, +1\}$ mediante un hiperplano $w^T x + b = 0$ que maximice el margen de separación (la distancia al punto más cercano de cada clase).
 
@@ -156,11 +156,11 @@ $$
 :::
 
 
-## Explicabilidad y Contrafácticos (Counterfactuals)
+## Explicabilidad y contrafácticos (counterfactuals)
 
 El auge de los modelos de caja negra (redes neuronales, random forests) ha motivado el desarrollo de técnicas de explicabilidad. Una explicación contrafáctica responde a la pregunta: *"¿Qué cambios mínimos debe realizar una persona $x^0$ clasificada en la clase negativa para cambiar la predicción a la clase positiva?"*
 
-### Formulación del Problema de Optimización
+### Formulación del problema de optimización
 Dado un clasificador $P: \mathcal{X} \to [0, 1]$ que devuelve la probabilidad de clase positiva, y un perfil $x^0$ con $P(x^0) < \tau$ (negativo), buscamos un nuevo perfil factible $x$ que minimice la función de coste del cambio $C(x^0, x)$ bajo la condición de cruzar el umbral de clasificación:
 $$
 \begin{aligned}
@@ -173,7 +173,7 @@ $$
 -   **Contrafácticos Exógenos**:
     El contrafáctico generado es un perfil sintético en un espacio continuo, resolviéndose mediante optimización continua o entera mixta.
 
-### Formulación Entera Mixta para un Clasificador de Regresión Logística
+### Formulación entera mixta para un clasificador de regresión logística
 En la regresión logística, la probabilidad de clase positiva es $\varphi(w^T x - b)$ con $\varphi(t) = 1/(1+e^{-t})$. La restricción de probabilidad $P(x) \ge \nu$ se linealiza como:
 $$ w^T x - b \ge \ln\left(\frac{\nu}{1 - \nu}\right) $$
 Si la función de coste combina la distancia euclídea ($\ell_2$) y una penalización por el número de características modificadas ($\ell_0$), el modelo se formula como un problema **MIQP**:
@@ -188,7 +188,7 @@ $$
 $$
 
 
-## Implementación Práctica en Python
+## Implementación práctica en Python
 
 
 ::: {.callout-tip title="Código Python: Ajustes en Diferentes Normas y SVM con CVXPY" collapse="true"}

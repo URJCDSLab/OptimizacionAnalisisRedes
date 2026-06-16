@@ -1,4 +1,4 @@
-# Introducción a Grafos y Árboles Soporte
+# Grafos y árboles soporte
 
 El **análisis de redes** es una de las disciplinas más transversales y aplicadas de las matemáticas discretas y la optimización. Muchas de las infraestructuras de la sociedad moderna (las redes de transporte eléctrico, el tráfico vial, la fibra óptica, Internet o los mapas metabólicos celulares) se modelan matemáticamente mediante **grafos**. La abstracción espacial que proporciona un grafo permite obviar la geometría física de los sistemas para centrarse en sus propiedades topológicas, conectividad y flujos, siguiendo los enfoques fundamentales de la optimización y algoritmos de redes [@ahuja1993network; @bertsekas1998network; @cormen2009introduction].
 
@@ -16,15 +16,15 @@ Al finalizar este capítulo, serás capaz de:
 :::
 
 
-## Origen Histórico y Definiciones Básicas
+## Origen histórico y definiciones básicas
 
-### El Problema de Königsberg (Euler, 1736)
+### El problema de Königsberg (Euler, 1736)
 La teoría de grafos nació formalmente en 1736 cuando Leonhard Euler resolvió el problema de los puentes de Königsberg. La ciudad estaba dividida por el río Pregel en cuatro porciones de tierra conectadas por siete puentes. El reto consistía en encontrar una ruta que cruzara cada puente exactamente una vez y regresara al origen.
 Euler demostró que tal recorrido (denominado hoy ciclo euleriano) era imposible. Lo fundamental de su análisis fue que obvió los detalles de las distancias o la forma de las riberas, modelando el problema como una red de nodos (tierra) y líneas (puentes). Dujo que un nodo solo puede cruzarse de forma completa si cada entrada tiene una salida, lo que exige que todos los nodos tengan un grado par. En Königsberg, los nodos tenían grado impar, cerrando toda posibilidad.
 
 ![Grafo asociado al problema de los puentes de Königsberg](images/puentes_konigsberg.png){#fig-puentes-konigsberg fig-align="center" width="50%"}
 
-### Definición Formal de un Grafo
+### Definición formal de un grafo
 
 -   **Grafo No Dirigido**:
     Un par ordenado $G = (V, E)$ donde $V$ es un conjunto no vacío de **vértices** o **nodos** y $E$ es un conjunto de **aristas** formadas por pares no ordenados de vértices distintos $\{u, v\}$.
@@ -35,7 +35,7 @@ Euler demostró que tal recorrido (denominado hoy ciclo euleriano) era imposible
 -   **Red o Grafo Valorado**:
     Un grafo asociado a una función de coste $w: E \to \mathbb{R}$ que asigna un peso o longitud a cada conexión.
 
-### Subgrafos, Conectividad y Grados
+### Subgrafos, conectividad y grados
 
 -   **Subgrafo**:
     Un grafo $G' = (V', E')$ es subgrafo de $G = (V, E)$ si $V' \subseteq V$ y $E' \subseteq E \cap (V' \times V')$.
@@ -51,9 +51,9 @@ Euler demostró que tal recorrido (denominado hoy ciclo euleriano) era imposible
     Existe al menos una cadena entre cualquier pareja de nodos de $V$. En digrafos, si existe un camino dirigido de ida y vuelta para cualquier par, se denomina **fuertemente conexo**.
 
 
-## Representación de Grafos
+## Representación de grafos
 
-### Representación Geométrica y Grafos Planares
+### Representación geométrica y grafos planares
 Un grafo es **planar** si puede ser dibujado en el plano bidimensional de manera que sus aristas solo se corten en sus vértices.
 
 -   **Regiones**:
@@ -102,7 +102,7 @@ Un grafo es planar si y solo si no contiene ningún subgrafo que sea homeomorfo 
 Un grafo es bipartito (sus vértices se dividen en dos conjuntos disjuntos $V_1$ y $V_2$ sin conexiones internas) si y solo si **no contiene ningún ciclo de longitud impar**.
 :::
 
-### Representación en Ordenador
+### Representación en ordenador
 
 -   **Matriz de Adyacencia ($A \in \mathbb{R}^{n \times n}$)**:
     Matriz donde la posición $a_{ij}$ indica la existencia (1) o el coste de la arista que une los nodos $i$ y $j$.
@@ -112,7 +112,7 @@ Un grafo es bipartito (sus vértices se dividen en dos conjuntos disjuntos $V_1$
     Estructura optimizada que asocia a cada nodo un vector dinámico con sus vecinos directos. Es idónea para grafos dispersos.
 
 
-## Estructura Matemática de los Árboles
+## Estructura matemática de los árboles
 
 Un árbol es un grafo que modela conexiones jerárquicas mínimas sin redundancia.
 
@@ -129,7 +129,7 @@ Sea $G = (V, E)$ un grafo simple no dirigido con $n$ vértices. Las siguientes p
 :::
 
 
-## Árbol Soporte de Mínimo Peso (MST)
+## Árbol soporte de mínimo peso (MST)
 
 Dado un grafo conexo no dirigido valorado $G = (V, E, w)$, un **árbol soporte de mínimo peso** es un grafo parcial $T = (V, E_T)$ con $E_T \subseteq E$ que es un árbol y minimiza el coste total de sus conexiones:
 
