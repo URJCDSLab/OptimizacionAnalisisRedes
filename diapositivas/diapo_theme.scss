@@ -14,7 +14,7 @@ $heading-color: #0f172a; // Deep slate dark blue
 
 // Heading styles
 $presentation-heading-font-weight: 700;
-$presentation-title-slide-text-align: left;
+$presentation-title-slide-text-align: center;
 
 // Code block styles
 $code-block-bg: #0f172a;
@@ -27,44 +27,77 @@ $code-block-color: #f8fafc;
     font-size: 1.8rem;
     
     section {
-      padding: 20px 40px;
+      padding: 40px 60px;
+      box-sizing: border-box;
     }
   }
   
-  // Title slide styling
+  // Title slide styling (Beamer Madrid-like but modernized)
   .title-slide {
-    text-align: left;
-    border-left: 10px solid #0284c7;
-    padding-left: 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     
     h1 {
-      font-size: 2.8em;
-      color: #0f172a;
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 0.2em;
+      font-size: 2.2em;
+      color: #ffffff !important;
+      background-color: #0284c7; // Cerulean blue title box
+      padding: 25px 40px;
+      border-radius: 8px;
+      margin-bottom: 20px !important;
+      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
+      width: 90%;
+      text-align: center;
+      line-height: 1.2;
     }
     
     h2.subtitle {
-      font-size: 1.5em;
+      font-size: 1.3em;
       color: #64748b;
-      margin-top: 0.1em;
-      margin-bottom: 1.5em;
+      margin-top: 10px;
+      margin-bottom: 40px;
+      text-align: center;
     }
     
-    .author, .date, .institute {
+    .author {
+      font-size: 1.1em;
+      color: #0f172a;
+      font-weight: 600;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+    
+    .institute {
       font-size: 0.9em;
-      color: #334155;
+      color: #64748b;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .date {
+      font-size: 0.9em;
+      color: #64748b;
+      text-align: center;
     }
   }
 
-  // Slide headings
-  h2 {
-    font-size: 1.8em;
-    color: #0284c7; // Cerulean blue for slide titles
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 10px;
-    margin-bottom: 30px;
+  // Slide headings for regular slides (modernized Beamer top bar)
+  section:not(.title-slide) h2 {
+    font-size: 1.6em;
+    color: #ffffff; // White text for header bar
+    background-color: #0284c7; // Cerulean blue background band
+    margin-top: -40px; // Pull to the top edge of the slide padding
+    margin-left: -60px; // Pull to the left edge
+    margin-right: -60px; // Pull to the right edge
+    padding: 15px 60px;
+    font-weight: 700;
+    text-shadow: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
+    text-align: left;
   }
 
   // Lists
@@ -111,9 +144,59 @@ $code-block-color: #f8fafc;
     }
   }
 
-  // Footer/slide number
+  // Full-width modernized Beamer footer
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: 2;
+    background-color: #f1f5f9; // Soft blue-gray footer
+    border-top: 1px solid #cbd5e1;
+    
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px 40px;
+      box-sizing: border-box;
+      font-size: 0.55em;
+      color: #64748b;
+      
+      .footer-left {
+        flex: 1;
+        text-align: left;
+      }
+      
+      .footer-center {
+        flex: 1;
+        text-align: center;
+        font-weight: 600;
+      }
+      
+      .footer-right {
+        flex: 1;
+        text-align: right;
+        padding-right: 50px; // Leave room for the page number
+      }
+    }
+  }
+
+  // Reposition and style the Reveal.js page number
   .slide-number {
-    color: #64748b;
-    background-color: transparent;
+    position: absolute;
+    right: 40px;
+    bottom: 10px;
+    font-size: 0.55em !important;
+    color: #64748b !important;
+    background-color: transparent !important;
+    z-index: 3;
+    font-family: "Outfit", sans-serif;
+    font-weight: 600;
   }
 }
