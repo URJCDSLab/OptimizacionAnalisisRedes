@@ -209,10 +209,17 @@ Caracterización diferencial de extremos locales sin restricciones:
 Consiste en minimizar una función real de una variable $f: \mathbb{R} \to \mathbb{R}$ en un intervalo acotado $[a, b]$.
 
 *   Caso de prueba para trazas numéricas:
-    $$ f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1 \quad \text{en} \quad [1, 4] $$
-*   Mínimo global analítico situado exactamente en $x^* = 3.0$:
+    $$ f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1 $$
+    definida en el intervalo $[1, 4]$.
+*   Mínimo global analítico situado exactamente en $x^* = 3.0$.
 
-![](../images/opt_1d_ejemplo.png){fig-align="center" width="50%"}
+---
+
+## Función de prueba unidimensional
+
+Representación gráfica de la función de prueba en el intervalo $[1, 4]$:
+
+![](../images/opt_1d_ejemplo.png){fig-align="center" width="70%"}
 
 ---
 
@@ -243,11 +250,11 @@ Evaluar un único punto medio es insuficiente porque dos funciones unimodales di
 
 ---
 
-## Búsqueda dicotómica: paso a paso numérico
+## Búsqueda dicotómica: paso a paso numérico (paso 1)
 
 Minimizamos $f(x)$ en $[1, 4]$ con $\delta = 0.02$ y tolerancia $\epsilon = 0.15$:
 
-*   **Paso 1**: $[a_0, b_0] = [1, 4]$. Punto medio $c = 2.5$.
+*   **Paso 1**: Intervalo inicial $[a_0, b_0] = [1, 4]$. Punto medio $c = 2.5$.
     
     *   Planteamos y sustituimos:
         $$ \lambda_0 = \frac{a_0 + b_0}{2} - \delta = \frac{1 + 4}{2} - 0.02 = 2.48 $$
@@ -255,15 +262,32 @@ Minimizamos $f(x)$ en $[1, 4]$ con $\delta = 0.02$ y tolerancia $\epsilon = 0.15
     *   Calculamos evaluaciones:
         $$ f(2.48) \approx -68.397 \qquad f(2.52) \approx -68.490 $$
     *   Como $f(\lambda_0) > f(\mu_0) \implies$ descartamos $[a_0, \lambda_0]$. Nuevo intervalo: $[2.48, 4]$.
-*   **Paso 2**: $[a_1, b_1] = [2.48, 4]$. Punto medio $c = 3.24$.
+
+---
+
+## Búsqueda dicotómica: paso a paso numérico (paso 2)
+
+*   **Paso 2**: $[a_1, b_1] = [2.48, 4]$. Punto medio $c_1 = 3.24$.
     
-    *   $\lambda_1 = 3.22 \implies f(3.22) = -68.730$
-    *   $\mu_1 = 3.26 \implies f(3.26) = -68.683$
-    *   Como $f(\lambda_1) < f(\mu_1)$, descartamos $[\mu_1, b_1]$. Nuevo intervalo: $[2.48, 3.26]$.
-*   **Paso 3**: $[a_2, b_2] = [2.48, 3.26]$. Punto medio $c = 2.87$.
+    *   Planteamos y sustituimos:
+        $$ \lambda_1 = \frac{a_1 + b_1}{2} - \delta = 3.22 $$
+        $$ \mu_1 = \frac{a_1 + b_1}{2} + \delta = 3.26 $$
+    *   Calculamos evaluaciones:
+        $$ f(3.22) \approx -68.730 \qquad f(3.26) \approx -68.683 $$
+    *   Como $f(\lambda_1) < f(\mu_1) \implies$ descartamos $[\mu_1, b_1]$. Nuevo intervalo: $[2.48, 3.26]$.
+
+---
+
+## Búsqueda dicotómica: paso a paso numérico (paso 3 y siguientes)
+
+*   **Paso 3**: $[a_2, b_2] = [2.48, 3.26]$. Punto medio $c_2 = 2.87$.
     
-    *   $\lambda_2 = 2.85 \implies f(2.85) = -68.711$, $\mu_2 = 2.89 \implies f(2.89) = -68.724$.
-    *   $f(\lambda_2) > f(\mu_2) \implies$ nuevo intervalo: $[2.85, 3.26]$.
+    *   Planteamos y sustituimos:
+        $$ \lambda_2 = 2.85 \qquad \mu_2 = 2.89 $$
+    *   Calculamos evaluaciones:
+        $$ f(2.85) \approx -68.711 \qquad f(2.89) \approx -68.724 $$
+    *   Como $f(\lambda_2) > f(\mu_2) \implies$ descartamos $[a_2, \lambda_2]$. Nuevo intervalo final: $[2.85, 3.26]$.
+*   **Fin de la búsqueda**: El intervalo final es $[2.85, 3.26]$ con amplitud $0.41$. Para alcanzar la tolerancia $\epsilon = 0.15$ se requerirían iteraciones adicionales.
 
 ---
 
@@ -285,11 +309,11 @@ El proceso divide iterativamente el intervalo de búsqueda prácticamente a la m
 
 ---
 
-## Sección áurea: paso a paso numérico
+## Sección áurea: paso a paso numérico (paso 1)
 
 Minimizamos $f(x)$ en $[1, 4]$ con tolerancia $\epsilon = 0.15$:
 
-*   **Paso 1**: $[a_0, b_0] = [1, 4]$.
+*   **Paso 1**: Intervalo inicial $[a_0, b_0] = [1, 4]$.
     
     *   Amplitud teórica:
         $$ I_1 = \frac{b_0 - a_0}{\alpha} = \frac{4 - 1}{1.61803} \approx 1.8541 $$
@@ -297,12 +321,31 @@ Minimizamos $f(x)$ en $[1, 4]$ con tolerancia $\epsilon = 0.15$:
         $$ \lambda_0 = b_0 - I_1 = 4 - 1.8541 = 2.1459 \implies f(2.1459) \approx -66.692 $$
         $$ \mu_0 = a_0 + I_1 = 1 + 1.8541 = 2.8541 \implies f(2.8541) \approx -68.714 $$
     *   Como $f(\lambda_0) > f(\mu_0) \implies$ descartamos $[a_0, \lambda_0]$. Nuevo intervalo: $[2.1459, 4]$.
-*   **Paso 2**: $[a_1, b_1] = [2.1459, 4]$. Amplitud $I_2 = 1.8541 / 1.618 = 1.1459$.
+
+---
+
+## Sección áurea: paso a paso numérico (paso 2)
+
+*   **Paso 2**: $[a_1, b_1] = [2.1459, 4]$. Amplitud $I_2 = 1.8541 / 1.61803 = 1.1459$.
     
-    *   Reutilizamos $\lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) = -68.714$.
-    *   Calculamos $\mu_1 = 2.1459 + 1.1459 = 3.2918 \implies f(3.2918) = -68.654$.
-    *   $f(\lambda_1) < f(\mu_1) \implies$ nuevo intervalo: $[2.1459, 3.2918]$.
-*   El algoritmo continúa reutilizando evaluaciones hasta el paso 7, donde la amplitud $0.1033 \le 0.15$.
+    *   Reutilizamos el punto interior evaluado:
+        $$ \lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) \approx -68.714 $$
+    *   Sustituimos y calculamos el nuevo punto:
+        $$ \mu_1 = a_1 + I_2 = 2.1459 + 1.1459 = 3.2918 \implies f(3.2918) \approx -68.654 $$
+    *   Como $f(\lambda_1) < f(\mu_1) \implies$ descartamos $[\mu_1, b_1]$. Nuevo intervalo: $[2.1459, 3.2918]$.
+
+---
+
+## Sección áurea: paso a paso numérico (pasos siguientes)
+
+*   **Paso 3**: $[a_2, b_2] = [2.1459, 3.2918]$. Amplitud $I_3 = 0.7082$.
+    
+    *   Reutilizamos:
+        $$ \mu_2 = \lambda_1 = 2.8541 \implies f(2.8541) \approx -68.714 $$
+    *   Calculamos el nuevo punto:
+        $$ \lambda_2 = b_2 - I_3 = 3.2918 - 0.7082 = 2.5836 \implies f(2.5836) \approx -68.601 $$
+    *   Como $f(\lambda_2) > f(\mu_2) \implies$ descartamos $[a_2, \lambda_2]$. Nuevo intervalo: $[2.5836, 3.2918]$.
+*   **Convergencia**: El proceso continúa de forma análoga. En el **paso 7**, la amplitud de búsqueda se reduce a $0.1033 \le 0.15$ (tolerancia alcanzada), con el óptimo localizado en el intervalo final $[2.91, 3.01]$.
 
 ---
 
@@ -324,7 +367,7 @@ La amplitud del intervalo se contrae de forma secuencial manteniendo la proporci
 
 ---
 
-## Fibonacci: paso a paso numérico
+## Fibonacci: paso a paso numérico (paso 1)
 
 Minimizamos $f(x)$ en $[1, 4]$ mediante Fibonacci para un total de $N=6$ evaluaciones ($F_7 = 21$):
 
@@ -336,8 +379,19 @@ Minimizamos $f(x)$ en $[1, 4]$ mediante Fibonacci para un total de $N=6$ evaluac
         $$ \lambda_0 = b_0 - I_1 = 4 - 1.8571 = 2.1429 \implies f(2.1429) \approx -66.673 $$
         $$ \mu_0 = a_0 + I_1 = 1 + 1.8571 = 2.8571 \implies f(2.8571) \approx -68.715 $$
     *   Como $f(\lambda_0) > f(\mu_0) \implies$ nuevo intervalo: $[2.1429, 4]$.
-*   **Paso 2**: $[a_1, b_1] = [2.1429, 4]$. Paso $I_2 = \frac{8}{21} \cdot 3 = 1.1429$.
-    Reutiliza $\lambda_1 = \mu_0 = 2.8571$. Calcula $\mu_1 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) = -68.657 \implies [2.1429, 3.2857]$.
+
+---
+
+## Fibonacci: paso a paso numérico (paso 2 y siguientes)
+
+*   **Paso 2**: $[a_1, b_1] = [2.1429, 4]$. Paso $I_2 = \frac{F_5}{F_7}(b_0 - a_0) = \frac{8}{21} \cdot 3 = 1.1429$.
+    
+    *   Reutilizamos el punto interior evaluado:
+        $$ \lambda_1 = \mu_0 = 2.8571 \implies f(2.8571) \approx -68.715 $$
+    *   Sustituimos y calculamos el nuevo punto:
+        $$ \mu_1 = a_1 + I_2 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) \approx -68.657 $$
+    *   Como $f(\mu_1) > f(\lambda_1) \implies$ descartamos $[\mu_1, b_1]$. Nuevo intervalo final: $[2.1429, 3.2857]$.
+*   **Pasos siguientes**: El algoritmo continúa de forma análoga reduciendo los coeficientes de Fibonacci hasta agotar las $N=6$ evaluaciones de la función planificadas, estrechando el intervalo en torno a $x^* = 3.0$.
 
 ---
 
@@ -352,7 +406,7 @@ Minimizamos $f(x)$ en $[1, 4]$ mediante Fibonacci para un total de $N=6$ evaluac
 
 ---
 
-## Bisección: paso a paso numérico
+## Bisección: paso a paso numérico (paso 1)
 
 Minimizamos $f(x)$ con $f'(x) = x^3 - 13x^2 + 54x - 72$ en $[1, 4]$, $\epsilon = 0.15$:
 
@@ -363,14 +417,27 @@ Minimizamos $f(x)$ con $f'(x) = x^3 - 13x^2 + 54x - 72$ en $[1, 4]$, $\epsilon =
     *   Sustituimos y calculamos la derivada:
         $$ f'(2.5) = (2.5)^3 - 13(2.5)^2 + 54(2.5) - 72 = -2.625 < 0 $$
     *   Descartamos la mitad izquierda $\implies$ nuevo intervalo $[2.5, 4]$.
-*   **Paso 2**: $[a_1, b_1] = [2.5, 4]$. Punto medio $c = 3.25$.
+
+---
+
+## Bisección: paso a paso numérico (paso 2)
+
+*   **Paso 2**: $[a_1, b_1] = [2.5, 4]$. Punto medio $c_1 = 3.25$.
     
-    *   $f'(3.25) = 0.5156 > 0$.
-    *   Descartamos la mitad derecha $\implies$ nuevo intervalo $[2.5, 3.25]$.
-*   **Paso 3**: $[a_2, b_2] = [2.5, 3.25]$. Punto medio $c = 2.875$.
+    *   Sustituimos y calculamos la derivada:
+        $$ f'(3.25) = (3.25)^3 - 13(3.25)^2 + 54(3.25) - 72 = 0.5156 > 0 $$
+    *   Como $f'(c_1) > 0 \implies$ descartamos la mitad derecha. Nuevo intervalo: $[2.5, 3.25]$.
+
+---
+
+## Bisección: paso a paso numérico (paso 3 y siguientes)
+
+*   **Paso 3**: $[a_2, b_2] = [2.5, 3.25]$. Punto medio $c_2 = 2.875$.
     
-    *   $f'(2.875) = -0.4433 < 0 \implies$ nuevo intervalo $[2.875, 3.25]$.
-*   El proceso finaliza en el paso 5 con un intervalo de amplitud $0.0938 \le 0.15$.
+    *   Sustituimos y calculamos la derivada:
+        $$ f'(2.875) = (2.875)^3 - 13(2.875)^2 + 54(2.875) - 72 = -0.4433 < 0 $$
+    *   Como $f'(c_2) < 0 \implies$ descartamos la mitad izquierda. Nuevo intervalo: $[2.875, 3.25]$.
+*   **Convergencia**: En el **paso 5**, el intervalo es $[2.9531, 3.0469]$ con una amplitud de $0.0938 \le 0.15$, alcanzando la tolerancia.
 
 ---
 
@@ -391,7 +458,7 @@ El método se basa en el teorema de Bolzano, acotando sucesivamente el valor don
 
 ---
 
-## Newton 1D: paso a paso numérico
+## Newton 1D: paso a paso numérico (paso 1)
 
 Minimizamos la misma función partiendo de $x_0 = 1.0$:
 
@@ -402,16 +469,28 @@ Minimizamos la misma función partiendo de $x_0 = 1.0$:
         $$ f''(x_0) = f''(1.0) = 3(1)^2 - 26(1) + 54 = 31.0 $$
     *   Sustituimos en la regla de Newton:
         $$ x_1 = x_0 - \frac{f'(x_0)}{f''(x_0)} = 1.0 - \frac{-30.0}{31.0} \approx 1.9677 $$
-*   **Paso 2**: $x_1 = 1.9677$.
+
+---
+
+## Newton 1D: paso a paso numérico (paso 2)
+
+*   **Paso 2**: Partimos del punto anterior $x_1 = 1.9677$.
     
-    *   $f'(1.9677) \approx -8.459$, $f''(1.9677) \approx 14.450$.
-    *   $x_2 = 1.9677 - (-8.459 / 14.450) \approx 2.5529$.
-*   **Paso 3**: $x_2 = 2.5529$.
+    *   Calculamos primera y segunda derivada:
+        $$ f'(1.9677) \approx -8.459 \qquad f''(1.9677) \approx 14.450 $$
+    *   Sustituimos en la regla de Newton:
+        $$ x_2 = x_1 - \frac{f'(x_1)}{f''(x_1)} = 1.9677 - \frac{-8.459}{14.450} \approx 2.5529 $$
+
+---
+
+## Newton 1D: paso a paso numérico (pasos 3-5)
+
+*   **Paso 3**: Partimos de $x_2 = 2.5529$.
     
-    *   $f'(2.5529) \approx -2.235$, $f''(2.5529) \approx 7.177$.
-    *   $x_3 = 2.5529 - (-2.235 / 7.177) \approx 2.8637$.
-*   **Paso 4**: $x_3 = 2.8637 \implies x_4 = 2.8637 - (-0.485 / 4.146) \approx 2.9808$.
-*   **Paso 5**: $x_4 = 2.9808 \implies x_5 = 2.9808 - (-0.059 / 3.154) \approx 2.9995 \approx 3.0$.
+    *   Calculamos derivadas: $f'(2.5529) \approx -2.235$, $f''(2.5529) \approx 7.177$.
+    *   Actualización: $x_3 = 2.5529 - \frac{-2.235}{7.177} \approx 2.8637$.
+*   **Paso 4**: $x_3 = 2.8637 \implies x_4 = 2.8637 - \frac{-0.485}{4.146} \approx 2.9808$.
+*   **Paso 5**: $x_4 = 2.9808 \implies x_5 = 2.9808 - \frac{-0.059}{3.154} \approx 2.9995 \approx 3.0$.
 
 ---
 
@@ -459,7 +538,7 @@ Donde:
 
 ---
 
-## Coordenadas cíclicas: paso a paso numérico
+## Coordenadas cíclicas: paso a paso numérico (paso 1)
 
 Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ desde $x_0 = (0, 0)^T$:
 
@@ -470,36 +549,46 @@ Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ desde $x_0 = (0, 0)^T
     *   Derivamos respecto a $x$ e igualamos a cero:
         $$ \frac{df(x,0)}{dx} = 16x - 25 = 0 \implies x = \frac{25}{16} = 1.5625 $$
     *   El punto resultante es $x_1 = (1.5625, 0)^T$.
-*   **Paso 2**: Optimizamos respecto a $y$ con $x=1.5625$:
-    
-    *   $\min_y \quad f(1.5625, y) = 7y^2 + 35.6875y + \text{ct}$
-    *   Derivando: $14y + 35.6875 = 0 \implies y_2 \approx -2.5491$.
-    *   Punto resultante: $x_2 = (1.5625, -2.5491)^T$.
-*   **Paso 3**: Optimizamos de nuevo respecto a $x$ con $y=-2.5491$:
-    
-    *   $\min_x \quad 8x^2 - 32.6473x + \text{ct} \implies 16x - 32.6473 = 0 \implies x_3 = (2.0405, -2.5491)^T$.
 
 ---
 
-## Coordenadas cíclicas: visualización del método
+## Coordenadas cíclicas: paso a paso numérico (paso 2)
 
-La presencia de acoplamiento entre variables (términos cruzados en la Hessiana) afecta drásticamente a la convergencia:
+*   **Paso 2**: Optimizamos respecto a $y$ fijando $x = 1.5625$:
+    
+    *   Sustituimos en la ecuación:
+        $$ f(1.5625, y) = 7y^2 + 35.6875y - 48.531 $$
+    *   Derivamos respecto a $y$ e igualamos a cero:
+        $$ \frac{\partial f(1.5625, y)}{\partial y} = 14y + 35.6875 = 0 \implies y_2 \approx -2.5491 $$
+    *   El punto resultante es $x_2 = (1.5625, -2.5491)^T$.
 
-::: {.columns}
-::: {.column width="50%"}
-### Variables desacopladas
-Localiza el mínimo en exactamente $n=2$ búsquedas ortogonales.
+---
 
-![](../images/coordenadas_ciclicas_ej1.gif){fig-align="center" width="100%"}
-:::
+## Coordenadas cíclicas: paso a paso numérico (paso 3)
 
-::: {.column width="50%"}
-### Variables acopladas
-Dibuja un patrón en "escalera" que ralentiza la convergencia del algoritmo.
+*   **Paso 3**: Optimizamos respecto a $x$ fijando $y = -2.5491$:
+    
+    *   Sustituimos en la ecuación:
+        $$ f(x, -2.5491) = 8x^2 - 32.647 x - 62.533 $$
+    *   Derivamos respecto a $x$ e igualamos a cero:
+        $$ \frac{\partial f(x, -2.5491)}{\partial x} = 16x - 32.647 = 0 \implies x_3 \approx 2.0405 $$
+    *   El punto resultante es $x_3 = (2.0405, -2.5491)^T$.
 
-![](../images/coordenadas_ciclicas_ej2.gif){fig-align="center" width="100%"}
-:::
-:::
+---
+
+## Coordenadas cíclicas: variables desacopladas
+
+Avanza minimizando respecto a una sola variable a la vez. Si las variables están desacopladas (Hessiana diagonal), localiza el mínimo en exactamente $n=2$ pasos ortogonales exactos:
+
+![](../images/coordenadas_ciclicas_ej1.gif){fig-align="center" width="55%"}
+
+---
+
+## Coordenadas cíclicas: variables acopladas
+
+Si las variables están acopladas (término bilineal $3xy$), la trayectoria dibuja un patrón de "escalera", haciendo lenta la convergencia:
+
+![](../images/coordenadas_ciclicas_ej2.gif){fig-align="center" width="55%"}
 
 ---
 
@@ -516,7 +605,7 @@ Dibuja un patrón en "escalera" que ralentiza la convergencia del algoritmo.
 
 ---
 
-## Máximo descenso: paso a paso numérico
+## Máximo descenso: paso a paso numérico (paso 1)
 
 Caso cuadrático acoplado $f(x, y)$ desde $x_0 = (0, 0)^T$:
 
@@ -528,19 +617,30 @@ Caso cuadrático acoplado $f(x, y)$ desde $x_0 = (0, 0)^T$:
         $$ \nabla f(x_0) = \begin{pmatrix} 16(0)+3(0)-25 \\ 3(0)+14(0)+31 \end{pmatrix} = \begin{pmatrix} -25 \\ 31 \end{pmatrix} $$
     *   Dirección de búsqueda ($d_0 = -\nabla f(x_0)$):
         $$ d_0 = \begin{pmatrix} 25 \\ -31 \end{pmatrix} $$
-*   **Paso 2**: Búsqueda lineal exacta:
+
+---
+
+## Máximo descenso: paso a paso numérico (paso 2)
+
+*   **Paso 2**: Búsqueda lineal exacta en la dirección $d_0 = (25, -31)^T$:
     
-    *   Sustituimos $x_0 + \alpha d_0 = (25\alpha, -31\alpha)^T$ en $f(x, y)$ para obtener $\phi(\alpha)$:
+    *   Sustituimos la trayectoria $x(\alpha) = x_0 + \alpha d_0 = (25\alpha, -31\alpha)^T$:
         $$ \phi(\alpha) = f(25\alpha, -31\alpha) = 9402\alpha^2 - 1586\alpha - 29 $$
     *   Derivamos e igualamos a cero:
         $$ \phi'(\alpha) = 18804\alpha - 1586 = 0 \implies \alpha_0 = \frac{1586}{18804} \approx 0.0843 $$
-*   **Paso 3**: Actualización:
+
+---
+
+## Máximo descenso: paso a paso numérico (pasos 3-4)
+
+*   **Paso 3**: Actualizamos el punto con la longitud de paso óptima $\alpha_0 \approx 0.0843$:
+      $$ x_1 = x_0 + \alpha_0 d_0 = \begin{pmatrix} 0 \\ 0 \end{pmatrix} + 0.0843 \begin{pmatrix} 25 \\ -31 \end{pmatrix} \approx \begin{pmatrix} 2.109 \\ -2.615 \end{pmatrix} $$
+*   **Paso 4**: Verificamos la ortogonalidad teórica en el nuevo punto:
     
-    *   $x_1 = x_0 + \alpha_0 d_0 = \begin{pmatrix} 2.109 \\ -2.615 \end{pmatrix} $.
-*   **Paso 4**: Verificación de la ortogonalidad en el nuevo punto:
-    
-    *   $\nabla f(x_1) \approx (0.8925, 0.7225)^T$.
-    *   $d_0^T \nabla f(x_1) = 25(0.8925) - 31(0.7225) \approx 0$.
+    *   Evaluamos el gradiente en $x_1$:
+        $$ \nabla f(x_1) \approx \begin{pmatrix} 0.8925 \\ 0.7225 \end{pmatrix} $$
+    *   El producto escalar es nulo (ortogonales):
+        $$ d_0^T \nabla f(x_1) = 25(0.8925) - 31(0.7225) \approx 0 $$
 
 ---
 
@@ -567,21 +667,28 @@ $$ x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k) $$
 
 ---
 
-## Newton multivariable: paso a paso numérico
+## Newton multivariable: paso a paso numérico (pasos 1-2)
 
-Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ desde $x_0 = (0, 0)^T$.
+Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ desde $x_0 = (0, 0)^T$:
 
-*   **Paso 1**: Calculamos el gradiente y la matriz hessiana en el punto actual:
+*   **Paso 1**: Calculamos el gradiente y la Hessiana en el punto actual:
     
-    *   Ecuaciones del gradiente y de la hessiana:
+    *   Expresiones teóricas:
         $$ \nabla f(x, y) = \begin{pmatrix} 16x + 3y - 25 \\ 3x + 14y + 31 \end{pmatrix} \implies \nabla f(x_0) = \begin{pmatrix} -25 \\ 31 \end{pmatrix} $$
         $$ H = \nabla^2 f(x, y) = \begin{pmatrix} 16 & 3 \\ 3 & 14 \end{pmatrix} \quad (\text{constante}) $$
-*   **Paso 2**: Calculamos la inversa de la hessiana (determinante $D = 16 \cdot 14 - 3^2 = 215$):
+*   **Paso 2**: Calculamos la inversa de la Hessiana $H^{-1}$ (determinante $|H| = 16 \cdot 14 - 3^2 = 215$):
     $$ H^{-1} = \frac{1}{215} \begin{pmatrix} 14 & -3 \\ -3 & 16 \end{pmatrix} $$
-*   **Paso 3**: Aplicamos la actualización teórica de Newton:
-    $$ x_1 = x_0 - H^{-1} \nabla f(x_0) = \begin{pmatrix} 0 \\ 0 \end{pmatrix} - \frac{1}{215} \begin{pmatrix} 14 & -3 \\ -3 & 16 \end{pmatrix} \begin{pmatrix} -25 \\ 31 \end{pmatrix} $$
-    $$ x_1 = - \frac{1}{215} \begin{pmatrix} 14(-25) - 3(31) \\ -3(-25) + 16(31) \end{pmatrix} = -\frac{1}{215} \begin{pmatrix} -443 \\ 571 \end{pmatrix} = \begin{pmatrix} 443/215 \\ -571/215 \end{pmatrix} \approx \begin{pmatrix} 2.0605 \\ -2.6558 \end{pmatrix} $$
-    ¡Al ser cuadrática, Newton converge al mínimo exacto en exactamente una iteración!
+
+---
+
+## Newton multivariable: paso a paso numérico (paso 3)
+
+*   **Paso 3**: Aplicamos la actualización iterativa del método de Newton:
+    $$ x_1 = x_0 - H^{-1} \nabla f(x_0) $$
+    $$ x_1 = \begin{pmatrix} 0 \\ 0 \end{pmatrix} - \frac{1}{215} \begin{pmatrix} 14 & -3 \\ -3 & 16 \end{pmatrix} \begin{pmatrix} -25 \\ 31 \end{pmatrix} $$
+    $$ x_1 = -\frac{1}{215} \begin{pmatrix} 14(-25) - 3(31) \\ -3(-25) + 16(31) \end{pmatrix} = -\frac{1}{215} \begin{pmatrix} -443 \\ 571 \end{pmatrix} = \begin{pmatrix} 443/215 \\ -571/215 \end{pmatrix} $$
+    $$ x_1 \approx \begin{pmatrix} 2.0605 \\ -2.6558 \end{pmatrix} $$
+*   **Conclusión**: Dado que la función $f(x,y)$ es cuadrática, la aproximación local es exacta y el método de Newton converge al mínimo global en **exactamente una iteración**.
 
 ---
 
