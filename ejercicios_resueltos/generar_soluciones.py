@@ -80,6 +80,7 @@ book:
     - "Antonio Alonso Ayuso"
   chapters:
     - index.qmd
+    - tema1_intro_soluciones.qmd
     - tema2_opt_no_lineal_soluciones.qmd
 
 format:

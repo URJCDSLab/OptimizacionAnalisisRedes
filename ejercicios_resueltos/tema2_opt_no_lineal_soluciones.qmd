@@ -535,3 +535,46 @@ print("Mínimo numérico alcanzado por Newton:", res.x)
 ```
 
 </details>
+
+---
+
+### Apartado 4: Newton multivariante en funciones no cuadráticas
+
+Considere ahora una función no cuadrática dada por:
+$$ g(x, y) = e^x - x + y^2 $$
+Partiendo del punto inicial $x_0 = (1, 1)^T$, calcule la primera iteración de Newton multivariante $x_1$. Determine si $x_1$ es el óptimo analítico de la función y discuta cómo difiere la convergencia del método en funciones no cuadráticas.
+
+<details>
+<summary>Ver solución del Apartado 4</summary>
+
+**Resolución matemática:**
+
+1.  **Cálculo del gradiente de $g(x, y)$**:
+    $$ \nabla g(x, y) = \begin{pmatrix} e^x - 1 \\ 2y \end{pmatrix} $$
+    Evaluando en $x_0 = (1, 1)^T$:
+    $$ \nabla g(1, 1) = \begin{pmatrix} e^1 - 1 \\ 2(1) \end{pmatrix} = \begin{pmatrix} e-1 \\ 2 \end{pmatrix} \approx \begin{pmatrix} 1.7183 \\ 2 \end{pmatrix} $$
+
+2.  **Cálculo de la matriz hessiana de $g(x, y)$**:
+    $$ H(x, y) = \nabla^2 g(x, y) = \begin{pmatrix} e^x & 0 \\ 0 & 2 \end{pmatrix} $$
+    Evaluando en $x_0 = (1, 1)^T$:
+    $$ H(1, 1) = \begin{pmatrix} e & 0 \\ 0 & 2 \end{pmatrix} \approx \begin{pmatrix} 2.7183 & 0 \\ 0 & 2 \end{pmatrix} $$
+
+3.  **Cálculo de la matriz inversa de la hessiana**:
+    Al ser una matriz diagonal, su inversa se obtiene directamente invirtiendo los elementos de la diagonal principal:
+    $$ H^{-1}(1, 1) = \begin{pmatrix} e^{-1} & 0 \\ 0 & 0.5 \end{pmatrix} \approx \begin{pmatrix} 0.3679 & 0 \\ 0 & 0.5 \end{pmatrix} $$
+
+4.  **Actualización de Newton**:
+    $$ x_1 = x_0 - H^{-1} \nabla g(x_0) $$
+    $$ x_1 = \begin{pmatrix} 1 \\ 1 \end{pmatrix} - \begin{pmatrix} e^{-1} & 0 \\ 0 & 0.5 \end{pmatrix} \begin{pmatrix} e-1 \\ 2 \end{pmatrix} = \begin{pmatrix} 1 \\ 1 \end{pmatrix} - \begin{pmatrix} e^{-1}(e-1) \\ 0.5(2) \end{pmatrix} = \begin{pmatrix} 1 \\ 1 \end{pmatrix} - \begin{pmatrix} 1 - e^{-1} \\ 1 \end{pmatrix} = \begin{pmatrix} e^{-1} \\ 0 \end{pmatrix} \approx \begin{pmatrix} 0.3679 \\ 0 \end{pmatrix} $$
+
+5.  **Análisis del óptimo analítico**:
+    El gradiente de $g(x, y)$ es nulo si:
+    $$ \nabla g(x, y) = \begin{pmatrix} e^x - 1 \\ 2y \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies e^x = 1 \implies x^* = 0, \quad 2y = 0 \implies y^* = 0 $$
+    El mínimo analítico global exacto se encuentra en $x^* = (0, 0)^T$.
+    Dado que $x_1 = (e^{-1}, 0)^T \approx (0.3679, 0)^T \neq (0, 0)^T$, el método **no ha convergido al óptimo en una sola iteración**.
+
+6.  **Discusión de la convergencia**:
+    En funciones no cuadráticas, la aproximación polinómica de segundo orden dada por el desarrollo de Taylor no es exacta en todo el espacio (debido a la presencia de derivadas de orden superior, como las de la exponencial $e^x$). Por tanto, la dirección y longitud de paso de Newton cometen un error de truncamiento. El método no alcanza el óptimo en una sola iteración, sino que requiere un proceso iterativo. Su principal ventaja es que goza de **convergencia cuadrática local** (es decir, el número de dígitos significativos correctos se duplica aproximadamente en cada iteración una vez que el algoritmo se encuentra lo suficientemente cerca del óptimo $x^*$).
+
+</details>
+

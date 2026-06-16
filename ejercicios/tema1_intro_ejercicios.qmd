@@ -1,0 +1,34 @@
+# Ejercicios del Tema 1: Introducción a la investigación operativa
+
+## Ejercicio 1: modelado, ciclo de vida e historia
+
+1. **El circo de Blackett**: Durante la Segunda Guerra Mundial, el grupo de investigación operativa liderado por Patrick Blackett analizó el tamaño óptimo de los convoyes de barcos mercantes escoltados que cruzaban el Atlántico. Explique el razonamiento matemático y operativo detrás de este problema: ¿por qué los convoyes más grandes resultaban ser más seguros frente a los ataques de submarinos enemigos (U-Boote)? Justifique la relación entre el perímetro del convoy (zona expuesta a ataques) y su área (capacidad de transporte).
+2. **Propósitos de modelización**: En el contexto del diseño y gestión de una red de distribución eléctrica nacional:
+   - Dé un ejemplo de **modelo físico/icónico**.
+   - Dé un ejemplo de **modelo descriptivo**.
+   - Dé un ejemplo de **modelo predictivo**.
+   - Dé un ejemplo de **modelo prescriptivo**.
+3. **Ciclo de vida en logística**: Una gran cadena de supermercados desea optimizar las rutas de reparto de su flota de camiones para minimizar el consumo de combustible. Describa brevemente qué acciones específicas se llevarían a cabo en cada una de las 4 fases del ciclo de vida del modelado matemático (Observación, Formulación, Validación e Implementación).
+
+---
+
+## Ejercicio 2: formulación matemática y clasificación de modelos
+
+Una microcervecería artesanal produce dos tipos de cerveza: una IPA (*India Pale Ale*) y una Stout. Para la elaboración de cada hectolitro (hl) se consumen recursos limitados según la siguiente tabla:
+
+| Cerveza | Malta (kg) | Lúpulo (kg) | Tiempo fermentación (días) |
+| :--- | :---: | :---: | :---: |
+| **IPA** | 15 | 4 | 2 |
+| **Stout** | 20 | 2 | 3 |
+| **Disponibilidad** | 300 kg | 50 kg | 45 días-fermentador |
+
+El beneficio neto de la venta de un hectolitro de IPA es de $150$ € y el de Stout es de $120$ €.
+
+Se pide:
+
+1. **Formulación lineal**: Plantear el modelo de optimización matemática para maximizar el beneficio neto de la microcervecería. Defina con precisión las variables de decisión, la función objetivo y todas las restricciones operativas. Clasifique este modelo según los criterios tradicionales de optimización.
+2. **Formulación no lineal con descuento por volumen**: Suponga ahora que el mercado es sensible a la cantidad producida, de modo que el precio unitario del hectolitro disminuye linealmente según la producción total debido a promociones y descuentos. La función de beneficio total pasa a ser no lineal:
+   - IPA: el beneficio unitario es $150 - 2x_1$ € por hectolitro, donde $x_1$ es la cantidad de IPA producida.
+   - Stout: el beneficio unitario es $120 - 3x_2$ € por hectolitro, donde $x_2$ es la cantidad de Stout producida.
+   
+   Formule el nuevo problema de optimización para maximizar el beneficio total y clasifíquelo nuevamente según su linealidad.

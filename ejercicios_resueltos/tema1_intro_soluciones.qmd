@@ -1,0 +1,129 @@
+# Soluciones del Tema 1: Introducción a la investigación operativa
+
+## Ejercicio 1: modelado, ciclo de vida e historia
+
+<details>
+<summary><b>Resolución del Ejercicio 1</b></summary>
+
+### 1. El circo de Blackett ( convoyes navales )
+El análisis de Patrick Blackett y su equipo sobre la seguridad de los convoyes navales durante la Segunda Guerra Mundial se basó en una relación geométrica fundamental:
+
+* **Geometría del convoy**:
+  - Si agrupamos los barcos mercantes en una sola gran formación (aproximadamente circular), el **área** del convoy (proporcional al número de barcos que transportan mercancías) crece con el cuadrado del radio: $A \propto R^2$.
+  - Sin embargo, el **perímetro** del convoy (la zona expuesta que debe ser protegida por barcos de escolta como destructores) crece linealmente con el radio: $P \propto R$.
+* **Consecuencia de seguridad**:
+  - Al duplicar el área del convoy (doble de barcos mercantes), el perímetro expuesto sólo aumenta por un factor de aproximadamente $\sqrt{2} \approx 1.41$, no al doble.
+  - Esto significa que un convoy grande requiere **menos escoltas por barco mercante** que varios convoyes pequeños separados.
+  - Además, la probabilidad de que un submarino enemigo avistara un convoy grande era casi la misma que la de avistar un convoy pequeño, por lo que agrupar los barcos redujo drásticamente el número de encuentros y pérdidas.
+
+---
+
+### 2. Propósitos de modelización en una red eléctrica
+* **Modelo físico/icónico**: Una maqueta a escala de una subestación eléctrica para ensayar la distribución espacial física de los transformadores y cables de alta tensión.
+* **Modelo descriptivo**: Un diagrama unifilar que representa el estado actual de las líneas de transporte y subestaciones, mostrando el flujo de potencia instantáneo en cada línea para responder a: *¿dónde hay sobrecarga hoy?*
+* **Modelo predictivo**: Un modelo de regresión o red neuronal que estima la demanda eléctrica nacional para las próximas 24 horas basándose en la temperatura prevista y el día de la semana.
+* **Modelo prescriptivo**: Un modelo de optimización (despacho económico de energía) que determina qué centrales generadoras deben encenderse y a qué potencia operar mañana para satisfacer la demanda prevista al menor coste operativo total.
+
+---
+
+### 3. Ciclo de vida del modelado en logística de reparto
+1. **Observación**: Reunirse con los gestores de tráfico, recopilar datos GPS de rutas históricas, consumos medios de combustible por vehículo y coordenadas de los puntos de entrega del supermercado.
+2. **Formulación**: Definir las variables de decisión (si el camión $k$ visita el cliente $j$ después de $i$), plantear la función objetivo (minimizar kilómetros o consumo equivalente de combustible) y escribir las restricciones (horarios de entrega, capacidad de carga máxima del camión, tiempos de descanso del conductor).
+3. **Validación**: Resolver el modelo para un subconjunto de rutas reales conocidas y contrastar el plan del algoritmo frente al plan histórico del supermercado para comprobar si la solución es realista y si el ahorro estimado es factible.
+4. **Implementación**: Integrar el software de optimización de rutas en la aplicación móvil de los repartidores y en el ERP del centro logístico, formando al personal de planificación.
+</details>
+
+---
+
+## Ejercicio 2: formulación matemática y clasificación de modelos
+
+<details>
+<summary><b>Resolución del Ejercicio 2</b></summary>
+
+### 1. Formulación lineal
+Definimos las variables de decisión:
+* $x_1$: Hectolitros (hl) de cerveza IPA a producir.
+* $x_2$: Hectolitros (hl) de cerveza Stout a producir.
+
+**Función objetivo**:
+Maximizar el beneficio neto total (en €):
+$$\max_{x_1, x_2} \quad Z = 150x_1 + 120x_2$$
+
+**Restricciones**:
+1. Límite de Malta (kg):
+   $$15x_1 + 20x_2 \le 300$$
+2. Límite de Lúpulo (kg):
+   $$4x_1 + 2x_2 \le 50$$
+3. Límite de tiempo en fermentación (días):
+   $$2x_1 + 3x_2 \le 45$$
+4. No negatividad:
+   $$x_1, x_2 \ge 0$$
+
+**Clasificación del modelo**:
+* **Linealidad**: Modelo de Programación Lineal (LP), ya que tanto la función objetivo como todas las restricciones son funciones lineales.
+* **Dominio**: Programación continua (o real) en $\mathbb{R}^2$ (asumiendo que los hectolitros se pueden fraccionar).
+* **Determinismo**: Modelo determinista (todos los parámetros son conocidos y no estocásticos).
+
+---
+
+### 2. Formulación no lineal
+Con la nueva política de precios sensibles a la cantidad de producción:
+* Beneficio unitario de IPA: $150 - 2x_1$ €/hl.
+* Beneficio unitario de Stout: $120 - 3x_2$ €/hl.
+
+**Nueva función objetivo**:
+Maximizar el beneficio total resultante de multiplicar la cantidad por el precio unitario:
+$$\max_{x_1, x_2} \quad Z(x_1, x_2) = x_1(150 - 2x_1) + x_2(120 - 3x_2) = -2x_1^2 + 150x_1 - 3x_2^2 + 120x_2$$
+
+**Restricciones**: Las restricciones de recursos físicos permanecen inalteradas:
+$$\begin{aligned}
+15x_1 + 20x_2 &\le 300 \\
+4x_1 + 2x_2 &\le 50 \\
+2x_1 + 3x_2 &\le 45 \\
+x_1, x_2 &\ge 0
+\end{aligned}$$
+
+**Clasificación del modelo**:
+* **Linealidad**: Modelo de Programación No Lineal (NLP), debido a que la función objetivo contiene términos cuadráticos (es cóncava cuadrática).
+* **Dominio**: Continuo.
+* **Determinismo**: Determinista.
+
+---
+
+### 3. Verificación computacional mediante Python
+Podemos resolver el modelo cuadrático utilizando `scipy.optimize` en Python:
+
+```python
+import numpy as np
+from scipy.optimize import minimize
+
+# Definimos la función objetivo a minimizar (negativo del beneficio para maximizar)
+def objective(x):
+    return -(-2 * x[0]**2 + 150 * x[0] - 3 * x[1]**2 + 120 * x[1])
+
+# Definimos las restricciones g_i(x) <= 0
+# 15*x1 + 20*x2 <= 300  -->  15*x1 + 20*x2 - 300 <= 0
+# 4*x1 + 2*x2 <= 50     -->  4*x1 + 2*x2 - 50 <= 0
+# 2*x1 + 3*x2 <= 45     -->  2*x1 + 3*x2 - 45 <= 0
+constraints = [
+    {'type': 'ineq', 'fun': lambda x: 300 - (15 * x[0] + 20 * x[1])},
+    {'type': 'ineq', 'fun': lambda x: 50 - (4 * x[0] + 2 * x[1])},
+    {'type': 'ineq', 'fun': lambda x: 45 - (2 * x[0] + 3 * x[1])}
+]
+
+# Límites de no negatividad
+bounds = [(0, None), (0, None)]
+
+# Punto de inicio
+x0 = [0, 0]
+
+# Resolver
+res = minimize(objective, x0, method='SLSQP', bounds=bounds, constraints=constraints)
+
+print("--- SOLUCIÓN DE VERIFICACIÓN ---")
+print(f"Estado de la optimización: {res.message}")
+print(f"Cantidad IPA (hl) óptima x1: {round(res.x[0], 4)} hl")
+print(f"Cantidad Stout (hl) óptima x2: {round(res.x[1], 4)} hl")
+print(f"Beneficio máximo total: {round(-res.fun, 2)} €")
+```
+</details>
