@@ -21,9 +21,9 @@ format:
       </div>
 ---
 
-# Introducción a la Investigación Operativa
+# Introducción a la investigación operativa
 
-## Raíces Históricas
+## Raíces históricas
 
 La **investigación operativa (IO)** o *Operations Research* nace formalmente durante la Segunda Guerra Mundial:
 
@@ -33,7 +33,7 @@ La **investigación operativa (IO)** o *Operations Research* nace formalmente du
 
 ---
 
-## Definición de Investigación Operativa
+## Definición de investigación operativa
 
 ::: {.callout-note title="Operational Research Society"}
 La Investigación Operativa es la **aplicación del método científico** a los **problemas complejos** producidos en la dirección y gestión de grandes sistemas de personas, máquinas, materiales y dinero, en la industria, comercio, administración y defensa.
@@ -43,7 +43,7 @@ La Investigación Operativa es la **aplicación del método científico** a los 
 
 ---
 
-## Herramientas de la Investigación Operativa
+## Herramientas de la investigación operativa
 
 La IO abarca múltiples metodologías cuantitativas:
 
@@ -54,19 +54,20 @@ La IO abarca múltiples metodologías cuantitativas:
 *   Simulación de eventos discretos
 *   Teoría de juegos y teoría de la decisión
 
-# El Concepto de Modelo
+# El concepto de modelo
 
-## ¿Qué es un Modelo?
+## ¿Qué es un modelo?
 
 Un **modelo** es una representación simplificada de la realidad diseñada para estructurar, analizar y predecir el comportamiento de un sistema real.
 
-### Tipos de Modelos
-*   **Modelos Concretos (Físicos)**: Representaciones físicas a escala (ej. túnel de viento, maqueta de un edificio).
-*   **Modelos Abstractos (Matemáticos)**: Relaciones y ecuaciones cuantitativas que definen la lógica interna del sistema. Son la herramienta central en ciencias de la decisión.
+### Tipos de modelos
+
+*   **Modelos concretos (físicos)**: Representaciones físicas a escala (ej. túnel de viento, maqueta de un edificio).
+*   **Modelos abstractos (matemáticos)**: Relaciones y ecuaciones cuantitativas que definen la lógica interna del sistema. Son la herramienta central en ciencias de la decisión.
 
 ---
 
-## Ciclo de Vida del Modelado
+## Ciclo de vida del modelado
 
 El proceso de modelización matemática es iterativo:
 
@@ -85,9 +86,9 @@ flowchart LR
 3.  **Validación**: Contrastar con datos reales y analizar sensibilidad.
 4.  **Implementación**: Toma de decisiones informada.
 
-# Modelos de Optimización
+# Modelos de optimización
 
-## Formulación General
+## Formulación general
 
 Un modelo de programación matemática consta de:
 
@@ -105,28 +106,28 @@ $$
 
 ---
 
-## Clasificación de Modelos de Optimización
+## Clasificación de modelos de optimización
 
 Atendiendo al tipo de ecuaciones y funciones:
 
-*   **Optimización Lineal (LP)**: Función objetivo y restricciones estrictamente lineales.
-*   **Optimización No Lineal (NLP)**: Objetivo o alguna restricción presentan curvatura no lineal.
-*   **Optimización Estocástica**: Incluye parámetros probabilísticos y aleatorios.
+*   **Optimización lineal (LP)**: Función objetivo y restricciones estrictamente lineales.
+*   **Optimización no lineal (NLP)**: Objetivo o alguna restricción presentan curvatura no lineal.
+*   **Optimización estocástica**: Incluye parámetros probabilísticos y aleatorios.
 
 ---
 
-## Clasificación según el Tipo de Variables
+## Clasificación según el tipo de variables
 
-*   **Optimización Continua**: Las variables de decisión pueden tomar cualquier valor real dentro de un intervalo:
+*   **Optimización continua**: Las variables de decisión pueden tomar cualquier valor real dentro de un intervalo:
     $$ x_i \ge 0, \quad x_i \in \mathbb{R} $$
-*   **Optimización Entera**: Las variables deben ser valores enteros (ej. número de camiones a comprar):
+*   **Optimización entera**: Las variables deben ser valores enteros (ej. número de camiones a comprar):
     $$ x_i \in \mathbb{Z} $$
-*   **Optimización Binaria**: Decisiones lógicas sí/no ($x_i \in \{0, 1\}$).
-*   **Entera Mixta (MIP)**: Combina variables continuas y enteras.
+*   **Optimización binaria**: Decisiones lógicas sí/no ($x_i \in \{0, 1\}$).
+*   **Entera mixta (MIP)**: Combina variables continuas y enteras.
 
-# Optimización No Lineal y en Redes
+# Optimización no lineal y en redes
 
-## Bloque I: Optimización No Lineal (NLP)
+## Bloque I: optimización no lineal (NLP)
 
 Se estudian problemas continuos donde la curvatura juega un papel crítico:
 
@@ -139,7 +140,7 @@ Se estudian problemas continuos donde la curvatura juega un papel crítico:
 
 ---
 
-## Bloque II: Optimización en Redes
+## Bloque II: optimización en redes
 
 Modelado y resolución eficiente de problemas estructurados sobre grafos:
 
@@ -150,7 +151,8 @@ Modelado y resolución eficiente de problemas estructurados sobre grafos:
 :::
 
 ::: {.column width="45%"}
-### Problemas Clave
+### Problemas clave
+
 *   Caminos mínimos.
 *   Flujo máximo.
 *   Emparejamientos.

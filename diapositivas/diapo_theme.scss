@@ -146,57 +146,57 @@ $code-block-color: #f8fafc;
 
   // Full-width modernized Beamer footer
   .footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-    margin: 0;
-    z-index: 2;
-    background-color: #f1f5f9; // Soft blue-gray footer
-    border-top: 1px solid #cbd5e1;
+    position: absolute !important;
+    bottom: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 10 !important;
+    background-color: #f1f5f9 !important; // Soft blue-gray footer
+    border-top: 1px solid #cbd5e1 !important;
+    display: block !important;
     
     .footer-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      padding: 10px 40px;
-      box-sizing: border-box;
-      font-size: 0.55em;
-      color: #64748b;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
+      padding: 12px 40px !important;
+      box-sizing: border-box !important;
+      font-size: 0.55em !important;
+      color: #64748b !important;
       
       .footer-left {
-        flex: 1;
-        text-align: left;
+        flex: 1 !important;
+        text-align: left !important;
       }
       
       .footer-center {
-        flex: 1;
-        text-align: center;
-        font-weight: 600;
+        flex: 1 !important;
+        text-align: center !important;
+        font-weight: 600 !important;
       }
       
       .footer-right {
-        flex: 1;
-        text-align: right;
-        padding-right: 50px; // Leave room for the page number
+        flex: 1 !important;
+        text-align: right !important;
+        padding-right: 50px !important; // Leave room for the page number
       }
     }
   }
 
   // Reposition and style the Reveal.js page number
   .slide-number {
-    position: absolute;
-    right: 40px;
-    bottom: 10px;
+    position: absolute !important;
+    right: 40px !important;
+    bottom: 12px !important;
     font-size: 0.55em !important;
     color: #64748b !important;
     background-color: transparent !important;
-    z-index: 3;
-    font-family: "Outfit", sans-serif;
-    font-weight: 600;
+    z-index: 11 !important;
+    font-family: "Outfit", sans-serif !important;
+    font-weight: 600 !important;
   }
 }
