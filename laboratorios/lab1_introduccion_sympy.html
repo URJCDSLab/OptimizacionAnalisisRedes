@@ -2410,6 +2410,11 @@ white-space: nowrap;
 height: auto;
 line-height: normal;
 }
+
+main.content p, main.content li {
+text-align: justify;
+text-justify: inter-word;
+}
 </style>
 </head>
 
@@ -2496,12 +2501,14 @@ line-height: normal;
 <p>Para asegurar que dispones de las librerías necesarias en tu entorno de Python, puedes instalarlas ejecutando:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install autograd sympy numpy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A continuación, importamos los módulos que utilizaremos:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="b27004b5" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autograd <span class="im">import</span> grad, hessian</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Configurar SymPy para que imprima las expresiones matemáticas con formato elegante</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sp.init_printing(use_unicode<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="diferenciación-simbólica-y-numérica-en-python" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Diferenciación simbólica y numérica en Python</h1>
@@ -2512,7 +2519,8 @@ line-height: normal;
 <section id="enfoque-numérico-con-autograd" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="enfoque-numérico-con-autograd"><span class="header-section-number">3.1.1</span> Enfoque numérico con Autograd</h3>
 <p>Autograd realiza diferenciación automática a partir de la definición estándar de la función en Python:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f_num(x):</span>
+<div id="7dfa8605" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f_num(x):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">5</span><span class="op">*</span>x <span class="op">+</span> <span class="dv">10</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtener la función derivada de primer orden</span></span>
@@ -2520,82 +2528,126 @@ line-height: normal;
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">1.0</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;El gradiente numérico en x0 es:&quot;</span>, gradiente_num(x0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>El gradiente numérico en x0 es: 5.0</code></pre>
+</div>
+</div>
 </section>
 <section id="enfoque-simbólico-con-sympy" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="enfoque-simbólico-con-sympy"><span class="header-section-number">3.1.2</span> Enfoque simbólico con SymPy</h3>
 <p>SymPy construye un árbol de expresión analítica sobre una variable simbólica para realizar derivación formal:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir la variable simbólica</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sp.symbols(<span class="st">&#39;x&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Definir la expresión matemática</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>f_sym <span class="op">=</span> <span class="dv">5</span><span class="op">*</span>x <span class="op">+</span> <span class="dv">10</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Calcular la derivada analítica</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>derivada_sym <span class="op">=</span> sp.diff(f_sym, x)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Derivada analítica:&quot;</span>, derivada_sym)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Evaluar la derivada en el punto x0</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>x0_val <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>derivada_en_x0 <span class="op">=</span> derivada_sym.subs(x, x0_val)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;El gradiente simbólico evaluado en x0 es:&quot;</span>, derivada_en_x0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="59a8eff4" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir la variable simbólica</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sp.symbols(<span class="st">&#39;x&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Definir la expresión matemática</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>f_sym <span class="op">=</span> <span class="dv">5</span><span class="op">*</span>x <span class="op">+</span> <span class="dv">10</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Calcular la derivada analítica</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>derivada_sym <span class="op">=</span> sp.diff(f_sym, x)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Derivada analítica:&quot;</span>, derivada_sym)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Evaluar la derivada en el punto x0</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>x0_val <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>derivada_en_x0 <span class="op">=</span> derivada_sym.subs(x, x0_val)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;El gradiente simbólico evaluado en x0 es:&quot;</span>, derivada_en_x0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Derivada analítica: 5
+El gradiente simbólico evaluado en x0 es: 5</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="funciones-multivariantes" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="funciones-multivariantes"><span class="header-section-number">3.2</span> Funciones multivariantes</h2>
 <p>Analicemos ahora una función lineal multivariante (un plano en <span class="math inline">\(\mathbb{R}^2\)</span>): <span class="math display">\[ f(x_1, x_2) = 5x_1 + 10x_2 + 4 \]</span></p>
-<p>Deseamos evaluar en el punto <span class="math inline">\(\mathbf{x}_0 = (1, 2)^T\)</span>: - El vector gradiente: <span class="math inline">\(\nabla f(\mathbf{x}_0)\)</span> - La matriz hessiana: <span class="math inline">\(\mathbf{H}_f(\mathbf{x}_0)\)</span></p>
+<p>Deseamos evaluar en el punto <span class="math inline">\(\mathbf{x}_0 = (1, 2)^T\)</span>:</p>
+<ul>
+<li>El vector gradiente: <span class="math inline">\(\nabla f(\mathbf{x}_0)\)</span></li>
+<li>La matriz hessiana: <span class="math inline">\(\mathbf{H}_f(\mathbf{x}_0)\)</span></li>
+</ul>
 <section id="implementación-con-autograd" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="implementación-con-autograd"><span class="header-section-number">3.2.1</span> Implementación con Autograd</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plano_num(x): </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">5</span><span class="op">*</span>x[<span class="dv">0</span>] <span class="op">+</span> <span class="dv">10</span><span class="op">*</span>x[<span class="dv">1</span>] <span class="op">+</span> <span class="dv">4</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">2.0</span>])</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtener gradiente y hessiano</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>grad_plano <span class="op">=</span> grad(plano_num)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>hess_plano <span class="op">=</span> hessian(plano_num)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente numérico en x0:&quot;</span>, grad_plano(x0))</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Hessiana numérica en x0:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_plano(x0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="da1c776c" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plano_num(x): </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">5</span><span class="op">*</span>x[<span class="dv">0</span>] <span class="op">+</span> <span class="dv">10</span><span class="op">*</span>x[<span class="dv">1</span>] <span class="op">+</span> <span class="dv">4</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">2.0</span>])</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtener gradiente y hessiano</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>grad_plano <span class="op">=</span> grad(plano_num)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>hess_plano <span class="op">=</span> hessian(plano_num)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente numérico en x0:&quot;</span>, grad_plano(x0))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Hessiana numérica en x0:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_plano(x0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gradiente numérico en x0: [ 5. 10.]
+Hessiana numérica en x0:
+ [[0. 0.]
+ [0. 0.]]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\vacek\anaconda3\envs\oar_env\Lib\site-packages\autograd\tracer.py:16: UserWarning: Output seems independent of input.
+  warnings.warn(&quot;Output seems independent of input.&quot;)</code></pre>
+</div>
+</div>
 </section>
 <section id="implementación-con-sympy" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="implementación-con-sympy"><span class="header-section-number">3.2.2</span> Implementación con SymPy</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir variables simbólicas</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> sp.symbols(<span class="st">&#39;x1 x2&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Definir la función</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>f_plano_sym <span class="op">=</span> <span class="dv">5</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">10</span><span class="op">*</span>x2 <span class="op">+</span> <span class="dv">4</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Calcular gradiente (como matriz columna de derivadas parciales)</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>grad_plano_sym <span class="op">=</span> sp.Matrix([sp.diff(f_plano_sym, var) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Calcular matriz hessiana</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>hess_plano_sym <span class="op">=</span> sp.hessian(f_plano_sym, (x1, x2))</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Evaluar en x0 = (1, 2)</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>eval_dict <span class="op">=</span> {x1: <span class="fl">1.0</span>, x2: <span class="fl">2.0</span>}</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente simbólico en x0:&quot;</span>, grad_plano_sym.subs(eval_dict))</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Hessiana simbólica en x0:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_plano_sym.subs(eval_dict))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c4956b6f" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir variables simbólicas</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> sp.symbols(<span class="st">&#39;x1 x2&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Definir la función</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>f_plano_sym <span class="op">=</span> <span class="dv">5</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">10</span><span class="op">*</span>x2 <span class="op">+</span> <span class="dv">4</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Calcular gradiente (como matriz columna de derivadas parciales)</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>grad_plano_sym <span class="op">=</span> sp.Matrix([sp.diff(f_plano_sym, var) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Calcular matriz hessiana</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>hess_plano_sym <span class="op">=</span> sp.hessian(f_plano_sym, (x1, x2))</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Evaluar en x0 = (1, 2)</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>eval_dict <span class="op">=</span> {x1: <span class="fl">1.0</span>, x2: <span class="fl">2.0</span>}</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente simbólico en x0:&quot;</span>, grad_plano_sym.subs(eval_dict))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Hessiana simbólica en x0:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_plano_sym.subs(eval_dict))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gradiente simbólico en x0: Matrix([[5], [10]])
+Hessiana simbólica en x0:
+ Matrix([[0, 0], [0, 0]])</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="funciones-paramétricas-con-sympy" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="funciones-paramétricas-con-sympy"><span class="header-section-number">3.3</span> Funciones paramétricas con SymPy</h2>
 <p>Una gran ventaja del cálculo simbólico es la capacidad de trabajar con parámetros sin asignarles valores de antemano. Consideremos el plano con coeficientes genéricos <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span>: <span class="math display">\[ f(x_1, x_2) = a x_1 + b x_2 + 4 \]</span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir variables y parámetros simbólicos</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x1, x2, a, b <span class="op">=</span> sp.symbols(<span class="st">&#39;x1 x2 a b&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>f_param <span class="op">=</span> a<span class="op">*</span>x1 <span class="op">+</span> b<span class="op">*</span>x2 <span class="op">+</span> <span class="dv">4</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular gradiente y hessiano analíticos genéricos</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>grad_param <span class="op">=</span> sp.Matrix([sp.diff(f_param, var) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>hess_param <span class="op">=</span> sp.hessian(f_param, (x1, x2))</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente analítico genérico:</span><span class="ch">\n</span><span class="st">&quot;</span>, grad_param)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Hessiana analítica genérica:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_param)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar en el punto x0 = (1, 2) con parámetros a = 5, b = 10</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>res_grad <span class="op">=</span> grad_param.subs({x1: <span class="dv">1</span>, x2: <span class="dv">2</span>, a: <span class="dv">5</span>, b: <span class="dv">10</span>})</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Gradiente sustituyendo parámetros:&quot;</span>, res_grad)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8d29c402" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir variables y parámetros simbólicos</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x1, x2, a, b <span class="op">=</span> sp.symbols(<span class="st">&#39;x1 x2 a b&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>f_param <span class="op">=</span> a<span class="op">*</span>x1 <span class="op">+</span> b<span class="op">*</span>x2 <span class="op">+</span> <span class="dv">4</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular gradiente y hessiano analíticos genéricos</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>grad_param <span class="op">=</span> sp.Matrix([sp.diff(f_param, var) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>hess_param <span class="op">=</span> sp.hessian(f_param, (x1, x2))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente analítico genérico:</span><span class="ch">\n</span><span class="st">&quot;</span>, grad_param)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Hessiana analítica genérica:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_param)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar en el punto x0 = (1, 2) con parámetros a = 5, b = 10</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>res_grad <span class="op">=</span> grad_param.subs({x1: <span class="dv">1</span>, x2: <span class="dv">2</span>, a: <span class="dv">5</span>, b: <span class="dv">10</span>})</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Gradiente sustituyendo parámetros:&quot;</span>, res_grad)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gradiente analítico genérico:
+ Matrix([[a], [b]])
+
+Hessiana analítica genérica:
+ Matrix([[0, 0], [0, 0]])
+
+Gradiente sustituyendo parámetros: Matrix([[5], [10]])</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="estudio-de-curvatura-y-convexidad" class="level1" data-number="4">
@@ -2607,14 +2659,16 @@ line-height: normal;
 <li><p><strong>Cóncava</strong>: La matriz hessiana es semidefinida negativa (<span class="math inline">\(\mathbf{H}_f(\mathbf{x}) \preceq 0\)</span>) para todo <span class="math inline">\(\mathbf{x}\)</span>. Sus autovalores son no positivos (<span class="math inline">\(\lambda_i \le 0\)</span>).</p></li>
 </ul>
 <p>Podemos utilizar NumPy para hallar numéricamente los autovalores a partir del hessiano simbólico convertido:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una función auxiliar para obtener autovalores numéricos</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcular_autovalores(matriz_sympy, punto_dict<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> punto_dict:</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        mat_eval <span class="op">=</span> matriz_sympy.subs(punto_dict)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        mat_eval <span class="op">=</span> matriz_sympy</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    mat_np <span class="op">=</span> np.array(mat_eval).astype(np.float64)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.linalg.eigvals(mat_np)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="4cd718ad" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una función auxiliar para obtener autovalores numéricos</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcular_autovalores(matriz_sympy, punto_dict<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> punto_dict:</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        mat_eval <span class="op">=</span> matriz_sympy.subs(punto_dict)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        mat_eval <span class="op">=</span> matriz_sympy</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    mat_np <span class="op">=</span> np.array(mat_eval).astype(np.float64)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.linalg.eigvals(mat_np)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="ejercicios-de-laboratorio-propuestos" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Ejercicios de laboratorio propuestos</h1>
@@ -2627,8 +2681,10 @@ line-height: normal;
 <li><p>Empleando <strong>Autograd</strong>.</p></li>
 <li><p>Empleando <strong>SymPy</strong>.</p></li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="83e74516" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="ejercicio-2-estudio-de-convexidad-multivariante-constante" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="ejercicio-2-estudio-de-convexidad-multivariante-constante"><span class="header-section-number">5.2</span> Ejercicio 2: estudio de convexidad multivariante constante</h2>
@@ -2640,8 +2696,10 @@ line-height: normal;
 <li><p>Convierte la matriz a NumPy y calcula sus autovalores.</p></li>
 <li><p>Con base en el signo de los autovalores, concluye si la función es convexa, cóncava o indefinida.</p></li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="82d12cfe" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="ejercicio-3-convexidad-de-funciones-no-cuadráticas-dominio-factible" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="ejercicio-3-convexidad-de-funciones-no-cuadráticas-dominio-factible"><span class="header-section-number">5.3</span> Ejercicio 3: convexidad de funciones no cuadráticas (dominio factible)</h2>
@@ -2651,14 +2709,18 @@ line-height: normal;
 <li><p>Dado que los elementos de la matriz dependen de las variables, la convexidad varía en distintas regiones del espacio. Encuentra analíticamente la región o conjunto de puntos <span class="math inline">\((x_1, x_2)\)</span> donde la función es <strong>cóncava</strong> (es decir, donde el menor principal de primer orden y el determinante alternan de signo: <span class="math inline">\(M_1 \le 0\)</span> y <span class="math inline">\(M_2 \ge 0\)</span>).</p></li>
 <li><p>Utiliza la función <code>sp.solve</code> para hallar la región correspondiente de la variable <span class="math inline">\(x_2\)</span> en función de <span class="math inline">\(x_1\)</span>.</p></li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6e98b955" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="ejercicio-4-convexidad-constante-en-3d" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="ejercicio-4-convexidad-constante-en-3d"><span class="header-section-number">5.4</span> Ejercicio 4: convexidad constante en 3D</h2>
 <p>Determina si la función: <span class="math display">\[ f(\mathbf{x}) = x^2 + 3y^2 + z^2 + xy - 4z - 5x + 14 \]</span> es estrictamente convexa en su dominio calculando los autovalores de su matriz hessiana con SymPy y NumPy.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="21d592ff" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 </section>
 

@@ -9,9 +9,12 @@
 El análisis de Patrick Blackett y su equipo sobre la seguridad de los convoyes navales durante la Segunda Guerra Mundial se basó en una relación geométrica fundamental:
 
 * **Geometría del convoy**:
+
   - Si agrupamos los barcos mercantes en una sola gran formación (aproximadamente circular), el **área** del convoy (proporcional al número de barcos que transportan mercancías) crece con el cuadrado del radio: $A \propto R^2$.
   - Sin embargo, el **perímetro** del convoy (la zona expuesta que debe ser protegida por barcos de escolta como destructores) crece linealmente con el radio: $P \propto R$.
+
 * **Consecuencia de seguridad**:
+
   - Al duplicar el área del convoy (doble de barcos mercantes), el perímetro expuesto sólo aumenta por un factor de aproximadamente $\sqrt{2} \approx 1.41$, no al doble.
   - Esto significa que un convoy grande requiere **menos escoltas por barco mercante** que varios convoyes pequeños separados.
   - Además, la probabilidad de que un submarino enemigo avistara un convoy grande era casi la misma que la de avistar un convoy pequeño, por lo que agrupar los barcos redujo drásticamente el número de encuentros y pérdidas.
@@ -42,6 +45,7 @@ El análisis de Patrick Blackett y su equipo sobre la seguridad de los convoyes 
 
 ### 1. Formulación lineal
 Definimos las variables de decisión:
+
 * $x_1$: Hectolitros (hl) de cerveza IPA a producir.
 * $x_2$: Hectolitros (hl) de cerveza Stout a producir.
 
@@ -50,6 +54,7 @@ Maximizar el beneficio neto total (en €):
 $$\max_{x_1, x_2} \quad Z = 150x_1 + 120x_2$$
 
 **Restricciones**:
+
 1. Límite de Malta (kg):
    $$15x_1 + 20x_2 \le 300$$
 2. Límite de Lúpulo (kg):
@@ -60,6 +65,7 @@ $$\max_{x_1, x_2} \quad Z = 150x_1 + 120x_2$$
    $$x_1, x_2 \ge 0$$
 
 **Clasificación del modelo**:
+
 * **Linealidad**: Modelo de Programación Lineal (LP), ya que tanto la función objetivo como todas las restricciones son funciones lineales.
 * **Dominio**: Programación continua (o real) en $\mathbb{R}^2$ (asumiendo que los hectolitros se pueden fraccionar).
 * **Determinismo**: Modelo determinista (todos los parámetros son conocidos y no estocásticos).
@@ -68,6 +74,7 @@ $$\max_{x_1, x_2} \quad Z = 150x_1 + 120x_2$$
 
 ### 2. Formulación no lineal
 Con la nueva política de precios sensibles a la cantidad de producción:
+
 * Beneficio unitario de IPA: $150 - 2x_1$ €/hl.
 * Beneficio unitario de Stout: $120 - 3x_2$ €/hl.
 
@@ -84,6 +91,7 @@ x_1, x_2 &\ge 0
 \end{aligned}$$
 
 **Clasificación del modelo**:
+
 * **Linealidad**: Modelo de Programación No Lineal (NLP), debido a que la función objetivo contiene términos cuadráticos (es cóncava cuadrática).
 * **Dominio**: Continuo.
 * **Determinismo**: Determinista.

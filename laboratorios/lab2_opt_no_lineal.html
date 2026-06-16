@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Víctor Aceña Gil / Antonio Alonso Ayuso">
+<meta name="author" content="Víctor Aceña Gil - Antonio Alonso Ayuso">
 <meta name="dcterms.date" content="2026-06-16">
 
 <title>Laboratorio 2: optimización no lineal con Python</title>
@@ -2410,6 +2410,11 @@ white-space: nowrap;
 height: auto;
 line-height: normal;
 }
+
+main.content p, main.content li {
+text-align: justify;
+text-justify: inter-word;
+}
 </style>
 </head>
 
@@ -2444,16 +2449,16 @@ line-height: normal;
   <ul class="collapse">
   <li><a href="#ejercicio-1-descenso-de-gradiente-manual" id="toc-ejercicio-1-descenso-de-gradiente-manual" class="nav-link" data-scroll-target="#ejercicio-1-descenso-de-gradiente-manual"><span class="header-section-number">3.1</span> Ejercicio 1: descenso de gradiente manual</a>
   <ul class="collapse">
-  <li><a href="#tareas" id="toc-tareas" class="nav-link" data-scroll-target="#tareas"><span class="header-section-number">3.1.1</span> Tareas:</a></li>
+  <li><a href="#tareas" id="toc-tareas" class="nav-link" data-scroll-target="#tareas"><span class="header-section-number">3.1.1</span> Tareas</a></li>
   </ul></li>
   <li><a href="#ejercicio-2-optimización-sin-restricciones-con-scipy" id="toc-ejercicio-2-optimización-sin-restricciones-con-scipy" class="nav-link" data-scroll-target="#ejercicio-2-optimización-sin-restricciones-con-scipy"><span class="header-section-number">3.2</span> Ejercicio 2: optimización sin restricciones con SciPy</a>
   <ul class="collapse">
-  <li><a href="#tareas-1" id="toc-tareas-1" class="nav-link" data-scroll-target="#tareas-1"><span class="header-section-number">3.2.1</span> Tareas:</a></li>
+  <li><a href="#tareas-1" id="toc-tareas-1" class="nav-link" data-scroll-target="#tareas-1"><span class="header-section-number">3.2.1</span> Tareas</a></li>
   </ul></li>
   <li><a href="#ejercicio-3-optimización-restringida-con-cvxpy-y-scipy-teoría-y-práctica" id="toc-ejercicio-3-optimización-restringida-con-cvxpy-y-scipy-teoría-y-práctica" class="nav-link" data-scroll-target="#ejercicio-3-optimización-restringida-con-cvxpy-y-scipy-teoría-y-práctica"><span class="header-section-number">3.3</span> Ejercicio 3: optimización restringida con CVXPY y SciPy (Teoría y Práctica)</a>
   <ul class="collapse">
-  <li><a href="#tareas-teóricas" id="toc-tareas-teóricas" class="nav-link" data-scroll-target="#tareas-teóricas"><span class="header-section-number">3.3.1</span> Tareas teóricas:</a></li>
-  <li><a href="#tareas-de-código" id="toc-tareas-de-código" class="nav-link" data-scroll-target="#tareas-de-código"><span class="header-section-number">3.3.2</span> Tareas de código:</a></li>
+  <li><a href="#tareas-teóricas" id="toc-tareas-teóricas" class="nav-link" data-scroll-target="#tareas-teóricas"><span class="header-section-number">3.3.1</span> Tareas teóricas</a></li>
+  <li><a href="#tareas-de-código" id="toc-tareas-de-código" class="nav-link" data-scroll-target="#tareas-de-código"><span class="header-section-number">3.3.2</span> Tareas de código</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -2474,7 +2479,7 @@ line-height: normal;
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Víctor Aceña Gil / Antonio Alonso Ayuso </p>
+             <p>Víctor Aceña Gil - Antonio Alonso Ayuso </p>
           </div>
   </div>
     
@@ -2522,7 +2527,11 @@ line-height: normal;
 </ul>
 <section id="criterio-de-parada" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="criterio-de-parada"><span class="header-section-number">2.1.1</span> Criterio de parada</h3>
-<p>En una implementación real, la iteración se detiene cuando se cumple alguna de las siguientes condiciones: 1. Se alcanza un número máximo de iteraciones (<span class="math inline">\(k \ge K_{\max}\)</span>). 2. El gradiente es prácticamente cero, lo que indica que estamos en un punto estacionario: <span class="math inline">\(\|\nabla f(x^{(k)})\|_2 &lt; \epsilon\)</span>, donde <span class="math inline">\(\epsilon &gt; 0\)</span> es una tolerancia (por ejemplo, <span class="math inline">\(10^{-6}\)</span>).</p>
+<p>En una implementación real, la iteración se detiene cuando se cumple alguna de las siguientes condiciones:</p>
+<ol type="1">
+<li>Se alcanza un número máximo de iteraciones (<span class="math inline">\(k \ge K_{\max}\)</span>).</li>
+<li>El gradiente es prácticamente cero, lo que indica que estamos en un punto estacionario: <span class="math inline">\(\|\nabla f(x^{(k)})\|_2 &lt; \epsilon\)</span>, donde <span class="math inline">\(\epsilon &gt; 0\)</span> es una tolerancia (por ejemplo, <span class="math inline">\(10^{-6}\)</span>).</li>
+</ol>
 <hr>
 </section>
 </section>
@@ -2560,7 +2569,11 @@ line-height: normal;
 <section id="optimización-con-restricciones-el-método-slsqp" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="optimización-con-restricciones-el-método-slsqp"><span class="header-section-number">2.2.2</span> Optimización con restricciones: el método SLSQP</h3>
 <p>Cuando existen restricciones analíticas, el método por defecto de SciPy es <strong>SLSQP</strong> (Sequential Least Squares Programming). SLSQP formula y resuelve aproximaciones cuadráticas del problema original sujeto a la linealización de las restricciones en cada paso.</p>
-<p>Para definir restricciones en SciPy se utilizan diccionarios dentro de una lista: 1. <strong>Inecuaciones</strong>: En SciPy se asume que las restricciones de desigualdad están formuladas como <strong><span class="math inline">\(g(x) \ge 0\)</span></strong>. Si tu problema teórico tiene la forma estándar <span class="math inline">\(h(x) \le c\)</span>, debes reescribirla como <span class="math inline">\(c - h(x) \ge 0\)</span>. 2. <strong>Ecuaciones</strong>: Restricciones de igualdad de la forma <span class="math inline">\(e(x) = 0\)</span>.</p>
+<p>Para definir restricciones en SciPy se utilizan diccionarios dentro de una lista:</p>
+<ol type="1">
+<li><strong>Inecuaciones</strong>: En SciPy se asume que las restricciones de desigualdad están formuladas como <strong><span class="math inline">\(g(x) \ge 0\)</span></strong>. Si tu problema teórico tiene la forma estándar <span class="math inline">\(h(x) \le c\)</span>, debes reescribirla como <span class="math inline">\(c - h(x) \ge 0\)</span>.</li>
+<li><strong>Ecuaciones</strong>: Restricciones de igualdad de la forma <span class="math inline">\(e(x) = 0\)</span>.</li>
+</ol>
 <p>Ejemplo de sintaxis:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Restricción: x1 + 2*x2 &gt;= 4  ==&gt;  x1 + 2*x2 - 4 &gt;= 0</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> restriccion_lineal(x):</span>
@@ -2595,7 +2608,8 @@ line-height: normal;
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="obtención-de-soluciones-duales-multiplicadores-de-lagrange"><span class="header-section-number">2.3.2</span> Obtención de Soluciones Duales (Multiplicadores de Lagrange)</h3>
 <p>En la teoría de la optimización, las <strong>variables duales</strong> (o multiplicadores de Lagrange/KKT asociados a las restricciones) nos indican la sensibilidad del valor óptimo de la función objetivo ante pequeñas variaciones en los límites de las restricciones (también llamados <em>precios sombra</em>).</p>
 <p>CVXPY recupera de forma nativa e inmediata estas variables duales:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
+<div id="012aee88" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir variables</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> cp.Variable(<span class="dv">2</span>, nonneg<span class="op">=</span><span class="va">True</span>)  <span class="co"># nonneg=True añade la restricción x &gt;= 0</span></span>
@@ -2614,6 +2628,10 @@ line-height: normal;
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Obtener los multiplicadores de Lagrange (dualidad)</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>valor_dual <span class="op">=</span> restriccion.dual_value</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Multiplicador de Lagrange de la restricción:&quot;</span>, valor_dual)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Multiplicador de Lagrange de la restricción: 0.8000000000000002</code></pre>
+</div>
+</div>
 <hr>
 </section>
 </section>
@@ -2669,30 +2687,32 @@ line-height: normal;
 <h2 data-number="3.1" class="anchored" data-anchor-id="ejercicio-1-descenso-de-gradiente-manual"><span class="header-section-number">3.1</span> Ejercicio 1: descenso de gradiente manual</h2>
 <p>Implementa un script en Python para resolver mediante descenso de gradiente manual la minimización de la función cuadrática: <span class="math display">\[ f(x, y) = x^2 + 2y^2 \]</span></p>
 <section id="tareas" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="tareas"><span class="header-section-number">3.1.1</span> Tareas:</h3>
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="tareas"><span class="header-section-number">3.1.1</span> Tareas</h3>
 <ol type="1">
 <li>Define la función objetivo <span class="math inline">\(f(x, y)\)</span> y su gradiente analítico <span class="math inline">\(\nabla f(x, y) = (2x, 4y)^T\)</span> en Python.</li>
 <li>Implementa el bucle iterativo partiendo de <span class="math inline">\(x^{(0)} = (2, 2)^T\)</span> con una tasa de aprendizaje constante <span class="math inline">\(\alpha = 0.1\)</span> durante un total de <span class="math inline">\(K = 10\)</span> iteraciones.</li>
 <li>Imprime en cada iteración: el número de iteración, el punto <span class="math inline">\((x^{(k)}, y^{(k)})\)</span> y el valor de la función objetivo <span class="math inline">\(f(x^{(k)}, y^{(k)})\)</span>.</li>
 <li>Reflexiona: ¿El algoritmo ha llegado al mínimo global exacto <span class="math inline">\((0,0)\)</span> en 10 iteraciones? ¿Por qué?</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># x es un array de dimensión 2</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> grad_f(x):</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([<span class="dv">2</span><span class="op">*</span>x[<span class="dv">0</span>], <span class="dv">4</span><span class="op">*</span>x[<span class="dv">1</span>]])</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Punto inicial</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>x_k <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="fl">2.0</span>])</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.1</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Bucle de optimización</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a3cb0efa" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># x es un array de dimensión 2</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> grad_f(x):</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([<span class="dv">2</span><span class="op">*</span>x[<span class="dv">0</span>], <span class="dv">4</span><span class="op">*</span>x[<span class="dv">1</span>]])</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Punto inicial</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>x_k <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="fl">2.0</span>])</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Bucle de optimización</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <hr>
 </section>
 </section>
@@ -2701,7 +2721,7 @@ line-height: normal;
 <p>Resuelve la misma optimización sin restricciones del Ejercicio 1: <span class="math display">\[ \min \quad f(x, y) = x^2 + 2y^2 \]</span></p>
 <p>utilizando la función <code>minimize</code> de <code>scipy.optimize</code>.</p>
 <section id="tareas-1" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="tareas-1"><span class="header-section-number">3.2.1</span> Tareas:</h3>
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="tareas-1"><span class="header-section-number">3.2.1</span> Tareas</h3>
 <ol type="1">
 <li>Realiza la optimización de dos maneras distintas:
 <ul>
@@ -2711,14 +2731,16 @@ line-height: normal;
 <li>Para ambos casos, utiliza el método <code>&#39;BFGS&#39;</code> e inicializa en <span class="math inline">\(x^{(0)} = (2, 2)^T\)</span>.</li>
 <li>Imprime el informe completo de optimización de ambos casos. Compare los valores finales de <code>nfev</code> (evaluaciones de la función) y <code>njev</code> (evaluaciones del gradiente) de cada caso y con los de tu método manual. ¿Qué diferencias observas?</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Caso A: sin gradiente</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Caso B: con gradiente analítico</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="51d06827" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Caso A: sin gradiente</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Caso B: con gradiente analítico</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <hr>
 </section>
 </section>
@@ -2732,7 +2754,7 @@ line-height: normal;
 \end{aligned}
 \]</span></p>
 <section id="tareas-teóricas" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="tareas-teóricas"><span class="header-section-number">3.3.1</span> Tareas teóricas:</h3>
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="tareas-teóricas"><span class="header-section-number">3.3.1</span> Tareas teóricas</h3>
 <ol type="1">
 <li>Escribe el Lagrangiano del problema utilizando los multiplicadores de Lagrange <span class="math inline">\(\mu\)</span> (para la restricción principal) y <span class="math inline">\(\lambda_1, \lambda_2\)</span> (para las de no negatividad).</li>
 <li>Plantea las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT).</li>
@@ -2740,19 +2762,21 @@ line-height: normal;
 </ol>
 </section>
 <section id="tareas-de-código" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="tareas-de-código"><span class="header-section-number">3.3.2</span> Tareas de código:</h3>
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="tareas-de-código"><span class="header-section-number">3.3.2</span> Tareas de código</h3>
 <ol type="1">
 <li>Resuelve el problema utilizando <strong>CVXPY</strong>. Recupera el punto óptimo primal, el valor objetivo y el multiplicador de Lagrange asociado a la restricción <span class="math inline">\(x_1 + 2x_2 \ge 4\)</span> empleando su propiedad <code>.dual_value</code>.</li>
 <li>Resuelve el problema utilizando <strong><code>scipy.optimize.minimize</code></strong> con el método <code>&#39;SLSQP&#39;</code>. Define correctamente las cotas de no negatividad (<code>bounds</code>) y la restricción principal como un diccionario (recuerda que SciPy asume que las restricciones de desigualdad son de la forma <span class="math inline">\(g(x) \ge 0\)</span>).</li>
 <li>Compara los resultados de ambos códigos con tu cálculo analítico. ¿Coinciden el punto óptimo y el multiplicador de Lagrange obtenido? Explica los resultados.</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Resolución con CVXPY</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Resolución con SciPy SLSQP</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6465597e" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Resolución con CVXPY</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Resolución con SciPy SLSQP</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 </section>
 </section>

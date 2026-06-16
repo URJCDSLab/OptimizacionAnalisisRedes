@@ -51,6 +51,7 @@ Q_1 + 4Q_2 = 17
 $$
 
 Despejando y resolviendo el sistema:
+
 *   De la segunda ecuación: $Q_1 = 17 - 4Q_2$.
 *   Sustituyendo en la primera:
     $$ 3(17 - 4Q_2) + Q_2 = 18 \implies 51 - 12Q_2 + Q_2 = 18 \implies 11Q_2 = 33 \implies Q_2^* = 3 $$
@@ -81,6 +82,7 @@ Analizar la convexidad de las funciones de beneficio de cada empresa y discutir 
 1.  **Convexidad del problema individual**:
     El problema de cada empresa es un problema de maximización de beneficios. En el contexto de optimización, un problema de maximización es convexo si la función objetivo es cóncava y el conjunto factible es convexo (lo cual se cumple ya que los intervalos de producción $[0, 8]$ y $[0, 6]$ son conjuntos convexos).
     Analicemos la segunda derivada de las funciones de beneficio individuales:
+
     *   Empresa 1: $\frac{\partial^2 B_1}{\partial Q_1^2} = -3 < 0$. Al ser la segunda derivada estrictamente negativa para cualquier punto, $B_1$ es estrictamente cóncava respecto a $Q_1$.
     *   Empresa 2: $\frac{\partial^2 B_2}{\partial Q_2^2} = -4 < 0$. Por tanto, $B_2$ es estrictamente cóncava respecto a $Q_2$.
     *   **Conclusión**: Ambos problemas de optimización individuales son estrictamente convexos.
@@ -134,6 +136,7 @@ Analizar la convexidad de las siguientes funciones en sus respectivos dominios u
     Por lo tanto:
     $$ H(x, y) = e^{x^2 + y^2} \begin{pmatrix} 2 + 4x^2 & 4xy \\ 4xy & 2 + 4y^2 \end{pmatrix} $$
 3.  **Menores principales**:
+
     *   $M_1 = e^{x^2 + y^2}(2 + 4x^2) > 0$ (ya que la función exponencial es siempre estrictamente positiva y $2 + 4x^2 \ge 2$).
     *   $M_2 = \det(H) = e^{2(x^2 + y^2)} \left[ (2 + 4x^2)(2 + 4y^2) - 16x^2y^2 \right]$
         $$ M_2 = e^{2(x^2 + y^2)} \left[ 4 + 8x^2 + 8y^2 + 16x^2y^2 - 16x^2y^2 \right] = e^{2(x^2 + y^2)} \left[ 4 + 8x^2 + 8y^2 \right] > 0 $$
@@ -153,10 +156,12 @@ Analizar la convexidad de las siguientes funciones en sus respectivos dominios u
 2.  **Matriz hessiana ($H$)**:
     $$ H(x, y) = \begin{pmatrix} 4 & -4 \\ -4 & 12y^2 \end{pmatrix} $$
 3.  **Menores principales**:
+
     *   $M_1 = 4 > 0$.
     *   $M_2 = \det(H) = 48y^2 - 16 = 16(3y^2 - 1)$.
     *   **Análisis**: Para que la función sea convexa en su dominio, la hessiana debe ser semidefinida positiva para todo $(x,y) \in \mathbb{R}^2$. Sin embargo, vemos que $M_2$ depende del valor de la variable $y$:
-        *   Si $3y^2 - 1 < 0 \implies |y| < \frac{1}{\sqrt{3}}$, entonces $M_2 < 0$. Al ser el determinante negativo, la matriz es indefinida.
+
+    *   Si $3y^2 - 1 < 0 \implies |y| < \frac{1}{\sqrt{3}}$, entonces $M_2 < 0$. Al ser el determinante negativo, la matriz es indefinida.
     *   **Conclusión**: La función **no es convexa en todo el dominio $\mathbb{R}^2$** (únicamente exhibe convexidad local en el espacio donde se satisface $|y| \ge \frac{1}{\sqrt{3}}$).
 
 </details>
@@ -214,10 +219,12 @@ Las condiciones necesarias de primer orden (FONC) exigen que el vector gradiente
 $$ \nabla f(x, y) = \begin{pmatrix} 3x^2 - 3 \\ 3y^2 - 12 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} $$
 
 Esto genera un sistema de dos ecuaciones independientes:
+
 1.  $3x^2 - 3 = 0 \implies x^2 = 1 \implies x = \pm 1$.
 2.  $3y^2 - 12 = 0 \implies y^2 = 4 \implies y = \pm 2$.
 
 Combinando todas las soluciones posibles, obtenemos **cuatro puntos críticos**:
+
 *   $P_1 = (1, 2)$
 *   $P_2 = (1, -2)$
 *   $P_3 = (-1, 2)$
@@ -302,6 +309,7 @@ en el intervalo acotado $[1, 3]$. Se sabe que el mínimo analítico exacto se en
     $$ \lambda_0 = b_0 - I_1 = 3 - 1.2361 = 1.7639 $$
     $$ \mu_0 = a_0 + I_1 = 1 + 1.2361 = 2.2361 $$
 4.  **Evaluación de la función**:
+
     *   $f(\lambda_0) = f(1.7639) = 1.7639 \ln(1.7639) - 1.5(1.7639) \approx -1.6449$
     *   $f(\mu_0) = f(2.2361) = 2.2361 \ln(2.2361) - 1.5(2.2361) \approx -1.5548$
 5.  **Descarte de intervalos**:
@@ -320,10 +328,12 @@ en el intervalo acotado $[1, 3]$. Se sabe que el mínimo analítico exacto se en
 **Resolución matemática:**
 
 1.  **Ecuaciones de las derivadas**:
+
     *   Función: $f(x) = x \ln(x) - 1.5x$
     *   Primera derivada: $f'(x) = \ln(x) + x \left(\frac{1}{x}\right) - 1.5 = \ln(x) - 0.5$
     *   Segunda derivada: $f''(x) = \frac{1}{x}$
 2.  **Evaluación en el punto inicial $x_0 = 1.0$**:
+
     *   $f'(1.0) = \ln(1.0) - 0.5 = -0.5$
     *   $f''(1.0) = \frac{1}{1.0} = 1.0$
 3.  **Actualización de Newton**:
@@ -388,6 +398,7 @@ Calculemos el óptimo analítico global de la función cuadrática igualando su 
 $$ \nabla f(x, y) = \begin{pmatrix} 6x + 2y - 4 \\ 2x + 2y - 2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} $$
 
 Resolviendo el sistema:
+
 *   De la segunda ecuación: $2x + 2y = 2 \implies x + y = 1 \implies y = 1 - x$.
 *   Sustituyendo en la primera:
     $$ 6x + 2(1 - x) - 4 = 0 \implies 4x - 2 = 0 \implies x^* = 0.5 $$
@@ -497,6 +508,7 @@ Se pide aplicar el método de **Newton multivariante** libre partiendo del punto
 **Resolución matemática:**
 
 Para calcular la inversa de la matriz de segundo orden:
+
 1.  **Determinante**:
     $$ \det(H) = 6(2) - 2(2) = 12 - 4 = 8 $$
 2.  **Matriz adjunta transpuesta**:
