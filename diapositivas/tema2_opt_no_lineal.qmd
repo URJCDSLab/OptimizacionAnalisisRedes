@@ -13,9 +13,11 @@ format:
     width: 1280
     height: 720
     margin: 0.05
+title-slide-attributes:
+  data-background-gradient: "linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0369a1 100%)"
 ---
 
-# Introducción y formulación
+# Introducción y formulación {background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0369a1 100%)"}
 
 ## ¿De qué trata este tema?
 
@@ -129,7 +131,7 @@ Donde:
 *   $\beta > 0$: Coeficiente de aversión al riesgo.
 *   Es un problema **cuadrático convexo (QP)**.
 
-# Óptimos y análisis diferencial
+# Óptimos y análisis diferencial {background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0369a1 100%)"}
 
 ## Óptimos locales, globales y puntos de silla
 
@@ -202,7 +204,7 @@ Caracterización diferencial de extremos locales sin restricciones:
     $$ \nabla f(x^*) = 0 \qquad \text{y} \qquad \nabla^2 f(x^*) \succ 0 $$
     Entonces $x^*$ es un **mínimo local estricto**.
 
-# Métodos de búsqueda unidimensional
+# Métodos de búsqueda unidimensional {background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0369a1 100%)"}
 
 ## Métodos de búsqueda unidimensional
 
@@ -249,9 +251,12 @@ Minimizamos $f(x)$ en $[1, 4]$ con $\delta = 0.02$ y tolerancia $\epsilon = 0.15
 
 *   **Paso 1**: $[a_0, b_0] = [1, 4]$. Punto medio $c = 2.5$.
     
-    *   $\lambda_0 = 2.48 \implies f(2.48) = -68.397$
-    *   $\mu_0 = 2.52 \implies f(2.52) = -68.490$
-    *   Como $f(\lambda_0) > f(\mu_0)$, descartamos $[a_0, \lambda_0]$. Nuevo intervalo: $[2.48, 4]$.
+    *   Planteamos y sustituimos:
+        $$ \lambda_0 = \frac{a_0 + b_0}{2} - \delta = \frac{1 + 4}{2} - 0.02 = 2.48 $$
+        $$ \mu_0 = \frac{a_0 + b_0}{2} + \delta = \frac{1 + 4}{2} + 0.02 = 2.52 $$
+    *   Calculamos evaluaciones:
+        $$ f(2.48) \approx -68.397 \qquad f(2.52) \approx -68.490 $$
+    *   Como $f(\lambda_0) > f(\mu_0) \implies$ descartamos $[a_0, \lambda_0]$. Nuevo intervalo: $[2.48, 4]$.
 *   **Paso 2**: $[a_1, b_1] = [2.48, 4]$. Punto medio $c = 3.24$.
     
     *   $\lambda_1 = 3.22 \implies f(3.22) = -68.730$
@@ -277,11 +282,14 @@ Minimizamos $f(x)$ en $[1, 4]$ con $\delta = 0.02$ y tolerancia $\epsilon = 0.15
 
 Minimizamos $f(x)$ en $[1, 4]$ con tolerancia $\epsilon = 0.15$:
 
-*   **Paso 1**: $[a_0, b_0] = [1, 4]$. Amplitud $I_1 = 3 / 1.618 = 1.8541$.
+*   **Paso 1**: $[a_0, b_0] = [1, 4]$.
     
-    *   $\lambda_0 = 4 - 1.8541 = 2.1459 \implies f(2.1459) = -66.692$.
-    *   $\mu_0 = 1 + 1.8541 = 2.8541 \implies f(2.8541) = -68.714$.
-    *   $f(\lambda_0) > f(\mu_0) \implies$ nuevo intervalo: $[2.1459, 4]$.
+    *   Amplitud teórica:
+        $$ I_1 = \frac{b_0 - a_0}{\alpha} = \frac{4 - 1}{1.61803} \approx 1.8541 $$
+    *   Sustituimos y calculamos puntos:
+        $$ \lambda_0 = b_0 - I_1 = 4 - 1.8541 = 2.1459 \implies f(2.1459) \approx -66.692 $$
+        $$ \mu_0 = a_0 + I_1 = 1 + 1.8541 = 2.8541 \implies f(2.8541) \approx -68.714 $$
+    *   Como $f(\lambda_0) > f(\mu_0) \implies$ descartamos $[a_0, \lambda_0]$. Nuevo intervalo: $[2.1459, 4]$.
 *   **Paso 2**: $[a_1, b_1] = [2.1459, 4]$. Amplitud $I_2 = 1.8541 / 1.618 = 1.1459$.
     
     *   Reutilizamos $\lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) = -68.714$.
@@ -297,9 +305,14 @@ Minimizamos $f(x)$ en $[1, 4]$ con tolerancia $\epsilon = 0.15$:
     $$ F_0=1, F_1=1, F_2=2, F_3=3, F_4=5, F_5=8, F_6=13, F_7=21, \dots $$
 *   Trazado para $N=6$ ($F_7 = 21$):
     
-    *   **Paso 1**: $[a_0, b_0] = [1, 4]$. Paso $I_1 = \frac{13}{21} \cdot 3 \approx 1.8571$.
-        $\lambda_0 = 4 - 1.8571 = 2.1429 \implies f(2.1429) = -66.673$, $\mu_0 = 1 + 1.8571 = 2.8571 \implies f(2.8571) = -68.715$.
-        $f(\lambda_0) > f(\mu_0) \implies$ nuevo intervalo: $[2.1429, 4]$.
+    *   **Paso 1**: $[a_0, b_0] = [1, 4]$.
+        
+        *   Amplitud teórica del paso:
+            $$ I_1 = \frac{F_6}{F_7}(b_0 - a_0) = \frac{13}{21}(4 - 1) = \frac{39}{21} \approx 1.8571 $$
+        *   Sustituimos y calculamos:
+            $$ \lambda_0 = b_0 - I_1 = 4 - 1.8571 = 2.1429 \implies f(2.1429) \approx -66.673 $$
+            $$ \mu_0 = a_0 + I_1 = 1 + 1.8571 = 2.8571 \implies f(2.8571) \approx -68.715 $$
+        *   Como $f(\lambda_0) > f(\mu_0) \implies$ nuevo intervalo: $[2.1429, 4]$.
     *   **Paso 2**: $[a_1, b_1] = [2.1429, 4]$. Paso $I_2 = \frac{8}{21} \cdot 3 = 1.1429$.
         Reutiliza $\lambda_1 = \mu_0 = 2.8571$. Calcula $\mu_1 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) = -68.657 \implies [2.1429, 3.2857]$.
 
@@ -317,9 +330,12 @@ Busca el cero de la derivada ($f'(x) = 0$). Compara signos en los extremos (debe
 
 Minimizamos $f(x)$ con $f'(x) = x^3 - 13x^2 + 54x - 72$ en $[1, 4]$, $\epsilon = 0.15$:
 
-*   **Paso 1**: $[a_0, b_0] = [1, 4]$. Punto medio $c = 2.5$.
+*   **Paso 1**: $[a_0, b_0] = [1, 4]$.
     
-    *   $f'(2.5) = -2.6225 < 0$.
+    *   Punto medio teórico:
+        $$ c_0 = \frac{a_0 + b_0}{2} = \frac{1 + 4}{2} = 2.5 $$
+    *   Sustituimos y calculamos la derivada:
+        $$ f'(2.5) = (2.5)^3 - 13(2.5)^2 + 54(2.5) - 72 = -2.625 < 0 $$
     *   Descartamos la mitad izquierda $\implies$ nuevo intervalo $[2.5, 4]$.
 *   **Paso 2**: $[a_1, b_1] = [2.5, 4]$. Punto medio $c = 3.25$.
     
@@ -348,8 +364,11 @@ Minimizamos la misma función partiendo de $x_0 = 1.0$:
 
 *   **Paso 1**: Partimos de $x_0 = 1.0$.
     
-    *   $f'(1) = -30.0$, $f''(1) = 31.0$.
-    *   $x_1 = 1.0 - (-30.0 / 31.0) \approx 1.9677$.
+    *   Ecuaciones teóricas y derivadas ($f''(x) = 3x^2 - 26x + 54$):
+        $$ f'(x_0) = f'(1.0) = 1^3 - 13(1)^2 + 54(1) - 72 = -30.0 $$
+        $$ f''(x_0) = f''(1.0) = 3(1)^2 - 26(1) + 54 = 31.0 $$
+    *   Sustituimos en la regla de Newton:
+        $$ x_1 = x_0 - \frac{f'(x_0)}{f''(x_0)} = 1.0 - \frac{-30.0}{31.0} \approx 1.9677 $$
 *   **Paso 2**: $x_1 = 1.9677$.
     
     *   $f'(1.9677) \approx -8.459$, $f''(1.9677) \approx 14.450$.
@@ -373,7 +392,7 @@ Minimizamos la misma función partiendo de $x_0 = 1.0$:
     *   Convergencia superlineal con orden $\approx 1.618$.
     *   Exige disponer de dos puntos iniciales $x_0$ y $x_{-1}$.
 
-# Métodos multivariables
+# Métodos multivariables {background-gradient="linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0369a1 100%)"}
 
 ## Métodos multivariables de optimización sin restricciones
 
@@ -410,13 +429,16 @@ Si las variables están acopladas (término bilineal $3xy$), la trayectoria dibu
 
 Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ desde $x_0 = (0, 0)^T$:
 
-*   **Paso 1**: Optimizamos respecto a $x$ con $y=0$:
+*   **Paso 1**: Optimizamos respecto a $x$ fijando $y = y_0 = 0$:
     
-    *   $\min_x \quad f(x, 0) = 8x^2 - 25x - 29$
-    *   Derivando: $16x - 25 = 0 \implies x_1 = (1.5625, 0)^T$.
+    *   Sustituimos en la ecuación teórica:
+        $$ f(x, 0) = 8x^2 + 3x(0) + 7(0)^2 - 25x + 31(0) - 29 = 8x^2 - 25x - 29 $$
+    *   Derivamos respecto a $x$ e igualamos a cero:
+        $$ \frac{df(x,0)}{dx} = 16x - 25 = 0 \implies x = \frac{25}{16} = 1.5625 $$
+    *   El punto resultante es $x_1 = (1.5625, 0)^T$.
 *   **Paso 2**: Optimizamos respecto a $y$ con $x=1.5625$:
     
-    *   $\min_y \quad 7y^2 + 35.6875y + \text{ct}$
+    *   $\min_y \quad f(1.5625, y) = 7y^2 + 35.6875y + \text{ct}$
     *   Derivando: $14y + 35.6875 = 0 \implies y_2 \approx -2.5491$.
     *   Punto resultante: $x_2 = (1.5625, -2.5491)^T$.
 *   **Paso 3**: Optimizamos de nuevo respecto a $x$ con $y=-2.5491$:
@@ -450,17 +472,23 @@ La ortogonalidad obligada por la búsqueda exacta provoca un patrón de zigzag i
 
 Caso cuadrático acoplado $f(x, y)$ desde $x_0 = (0, 0)^T$:
 
-*   **Paso 1**: Gradiente en $x_0$:
+*   **Paso 1**: Calculamos el gradiente y la dirección de descenso:
     
-    *   $\nabla f(x_0) = (16x+3y-25, 3x+14y+31)^T_{(0,0)} = (-25, 31)^T$.
-    *   Dirección: $d_0 = (25, -31)^T$.
+    *   Gradiente teórico:
+        $$ \nabla f(x, y) = \begin{pmatrix} 16x+3y-25 \\ 3x+14y+31 \end{pmatrix} $$
+    *   Sustituimos $x_0 = (0, 0)^T$:
+        $$ \nabla f(x_0) = \begin{pmatrix} 16(0)+3(0)-25 \\ 3(0)+14(0)+31 \end{pmatrix} = \begin{pmatrix} -25 \\ 31 \end{pmatrix} $$
+    *   Dirección de búsqueda ($d_0 = -\nabla f(x_0)$):
+        $$ d_0 = \begin{pmatrix} 25 \\ -31 \end{pmatrix} $$
 *   **Paso 2**: Búsqueda lineal exacta:
     
-    *   $\phi(\alpha) = f(25\alpha, -31\alpha) = 9402\alpha^2 - 1586\alpha - 29$.
-    *   $\phi'(\alpha) = 18804\alpha - 1586 = 0 \implies \alpha_0 \approx 0.0843$.
+    *   Sustituimos $x_0 + \alpha d_0 = (25\alpha, -31\alpha)^T$ en $f(x, y)$ para obtener $\phi(\alpha)$:
+        $$ \phi(\alpha) = f(25\alpha, -31\alpha) = 9402\alpha^2 - 1586\alpha - 29 $$
+    *   Derivamos e igualamos a cero:
+        $$ \phi'(\alpha) = 18804\alpha - 1586 = 0 \implies \alpha_0 = \frac{1586}{18804} \approx 0.0843 $$
 *   **Paso 3**: Actualización:
     
-    *   $x_1 = x_0 + \alpha_0 d_0 = (2.109, -2.615)^T$.
+    *   $x_1 = x_0 + \alpha_0 d_0 = \begin{pmatrix} 2.109 \\ -2.615 \end{pmatrix} $.
 *   **Paso 4**: Verificación de la ortogonalidad en el nuevo punto:
     
     *   $\nabla f(x_1) \approx (0.8925, 0.7225)^T$.
@@ -480,6 +508,24 @@ $$ x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k) $$
     *   Coste computacional de resolver el sistema lineal es alto ($O(n^3)$).
     *   Exige que la Hessiana sea definida positiva ($H \succ 0$).
     *   Convergencia estrictamente local (puede divergir si se empieza lejos).
+
+---
+
+## Newton multivariable: paso a paso numérico
+
+Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ desde $x_0 = (0, 0)^T$.
+
+*   **Paso 1**: Calculamos el gradiente y la matriz hessiana en el punto actual:
+    
+    *   Ecuaciones del gradiente y de la hessiana:
+        $$ \nabla f(x, y) = \begin{pmatrix} 16x + 3y - 25 \\ 3x + 14y + 31 \end{pmatrix} \implies \nabla f(x_0) = \begin{pmatrix} -25 \\ 31 \end{pmatrix} $$
+        $$ H = \nabla^2 f(x, y) = \begin{pmatrix} 16 & 3 \\ 3 & 14 \end{pmatrix} \quad (\text{constante}) $$
+*   **Paso 2**: Calculamos la inversa de la hessiana (determinante $D = 16 \cdot 14 - 3^2 = 215$):
+    $$ H^{-1} = \frac{1}{215} \begin{pmatrix} 14 & -3 \\ -3 & 16 \end{pmatrix} $$
+*   **Paso 3**: Aplicamos la actualización teórica de Newton:
+    $$ x_1 = x_0 - H^{-1} \nabla f(x_0) = \begin{pmatrix} 0 \\ 0 \end{pmatrix} - \frac{1}{215} \begin{pmatrix} 14 & -3 \\ -3 & 16 \end{pmatrix} \begin{pmatrix} -25 \\ 31 \end{pmatrix} $$
+    $$ x_1 = - \frac{1}{215} \begin{pmatrix} 14(-25) - 3(31) \\ -3(-25) + 16(31) \end{pmatrix} = -\frac{1}{215} \begin{pmatrix} -443 \\ 571 \end{pmatrix} = \begin{pmatrix} 443/215 \\ -571/215 \end{pmatrix} \approx \begin{pmatrix} 2.0605 \\ -2.6558 \end{pmatrix} $$
+    ¡Al ser cuadrática, Newton converge al mínimo exacto en exactamente una iteración!
 
 ---
 
