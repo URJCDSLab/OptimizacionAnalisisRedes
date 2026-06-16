@@ -1,0 +1,74 @@
+---
+lang: es
+format:
+  pdf:
+    pdf-engine: weasyprint
+    paginate: false
+    css: ../estilos.css
+    header-includes: |
+      <style>
+      @page {
+        @bottom-center { content: none !important; }
+        @top-center { content: none !important; }
+        @bottom-left { content: none !important; }
+        @bottom-right { content: none !important; }
+      }
+      @page toc {
+        @bottom-center { content: none !important; }
+      }
+      nav#TOC a {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        text-decoration: none;
+        color: inherit;
+      }
+      nav#TOC li {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      .page-num {
+        font-weight: 500;
+        color: #6b7280;
+        margin-left: auto;
+      }
+      </style>
+---
+
+<nav id="TOC">
+<h2>Índice de Contenidos</h2>
+<ul>
+<li><a href="#guia-estudio"> Guía de Estudio</a><span class="page-num">{{GUIA_PAGE}}</span></li>
+<ul>
+<li> Presentación y planificación de la asignatura<span class="page-num"></span></li>
+</ul>
+<li><a href="#apuntes-teoricos"> Apuntes Teóricos</a><span class="page-num">{{APUNTES_PAGE}}</span></li>
+<ul>
+<li> Tema 1: Introducción a la investigación operativa<span class="page-num"></span></li>
+<li> Tema 2: Optimización no lineal y análisis convexo<span class="page-num"></span></li>
+<li> Tema 3: Condiciones de optimalidad en optimización no lineal<span class="page-num"></span></li>
+<li> Tema 4: Algoritmos de búsqueda unidimensional<span class="page-num"></span></li>
+<li> Tema 5: Métodos de búsqueda multivariante sin restricciones<span class="page-num"></span></li>
+<li> Tema 6: Métodos para optimización con restricciones de igualdad<span class="page-num"></span></li>
+<li> Tema 7: Métodos para optimización con restricciones de desigualdad (KKT)<span class="page-num"></span></li>
+<li> Tema 8: Introducción a la teoría de grafos y redes<span class="page-num"></span></li>
+<li> Tema 9: Problemas de camino mínimo en redes<span class="page-num"></span></li>
+<li> Tema 10: Modelos de flujo en redes<span class="page-num"></span></li>
+<li> Tema 11: Problemas de emparejamiento, transporte y rutas<span class="page-num"></span></li>
+</ul>
+<li><a href="#diapositivas"> Diapositivas de Clase</a><span class="page-num">{{DIAPOSITIVAS_PAGE}}</span></li>
+<ul>
+<li> Tema 1: Introducción a la investigación operativa<span class="page-num"></span></li>
+<li> Tema 2: Optimización no lineal y métodos numéricos<span class="page-num"></span></li>
+</ul>
+<li><a href="#ejercicios"> Ejercicios Prácticos</a><span class="page-num">{{EJERCICIOS_PAGE}}</span></li>
+<ul>
+<li> Ejercicios del Tema 2: Optimización No Lineal<span class="page-num"></span></li>
+</ul>
+<li><a href="#software"> Software Utilizado</a><span class="page-num">{{SOFTWARE_PAGE}}</span></li>
+<ul>
+<li> Programas de ordenador y entornos de laboratorio<span class="page-num"></span></li>
+</ul>
+</ul>
+</nav>

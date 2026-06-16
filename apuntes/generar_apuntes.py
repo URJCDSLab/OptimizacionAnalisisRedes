@@ -6,14 +6,18 @@ import sys
 def get_conda_env():
     env = os.environ.copy()
     python_dir = os.path.dirname(sys.executable)
+    paths_to_add = []
     if os.name == 'nt':
-        scripts_path = os.path.join(python_dir, 'Scripts')
+        paths_to_add.append(os.path.join(python_dir, 'Scripts'))
+        paths_to_add.append(os.path.join(python_dir, 'Library', 'bin'))
+        paths_to_add.append(os.path.join(python_dir, 'Library', 'usr', 'bin'))
+        paths_to_add.append(os.path.join(python_dir, 'Library', 'mingw-w64', 'bin'))
     else:
-        scripts_path = os.path.join(python_dir, 'bin')
-    if os.path.exists(scripts_path):
-        env['PATH'] = scripts_path + os.pathsep + env['PATH']
+        paths_to_add.append(os.path.join(python_dir, 'bin'))
+    for p in paths_to_add:
+        if os.path.exists(p):
+            env['PATH'] = p + os.pathsep + env['PATH']
     return env
-
 def check_env():
     print("=== VERIFICACION DEL ENTORNO ===")
     
@@ -95,19 +99,16 @@ def unir_pdfs(nombre_salida="ApuntesOptimizacionAnalisisRedes.pdf"):
     if not os.path.exists(portada_path):
         raise FileNotFoundError("No se encontro apuntes/portada.pdf")
         
-    # Buscar el PDF del libro generado
-    pdf_files = [f for f in os.listdir(output_dir) if f.endswith(".pdf")]
+    # Buscar el PDF del libro generado (excluyendo el PDF final si ya existiera de una ejecución anterior)
+    pdf_files = [f for f in os.listdir(output_dir) if f.endswith(".pdf") and f != nombre_salida]
     if not pdf_files:
         raise FileNotFoundError("No se encontro ningun PDF en apuntes/apuntes_pdf/")
         
     book_pdf_name = pdf_files[0]
     book_pdf_path = os.path.join(output_dir, book_pdf_name)
     
-    # El PDF global del libro debe ir en la carpeta 'libro' en la raiz del proyecto
-    libro_dir = os.path.join("..", "libro")
-    if not os.path.exists(libro_dir):
-        os.makedirs(libro_dir)
-    final_pdf_path = os.path.join(libro_dir, nombre_salida)
+    # El PDF de apuntes debe ir en la carpeta 'apuntes_pdf' local
+    final_pdf_path = os.path.join(output_dir, nombre_salida)
     
     try:
         from pypdf import PdfReader, PdfWriter

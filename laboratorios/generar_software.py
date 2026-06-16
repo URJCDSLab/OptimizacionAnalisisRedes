@@ -5,14 +5,18 @@ import sys
 def get_conda_env():
     env = os.environ.copy()
     python_dir = os.path.dirname(sys.executable)
+    paths_to_add = []
     if os.name == 'nt':
-        scripts_path = os.path.join(python_dir, 'Scripts')
+        paths_to_add.append(os.path.join(python_dir, 'Scripts'))
+        paths_to_add.append(os.path.join(python_dir, 'Library', 'bin'))
+        paths_to_add.append(os.path.join(python_dir, 'Library', 'usr', 'bin'))
+        paths_to_add.append(os.path.join(python_dir, 'Library', 'mingw-w64', 'bin'))
     else:
-        scripts_path = os.path.join(python_dir, 'bin')
-    if os.path.exists(scripts_path):
-        env['PATH'] = scripts_path + os.pathsep + env['PATH']
+        paths_to_add.append(os.path.join(python_dir, 'bin'))
+    for p in paths_to_add:
+        if os.path.exists(p):
+            env['PATH'] = p + os.pathsep + env['PATH']
     return env
-
 def check_env():
     print("=== VERIFICACIÓN DEL ENTORNO ===")
     if not os.path.exists("_quarto.yml"):
