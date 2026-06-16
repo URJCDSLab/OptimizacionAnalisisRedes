@@ -93,7 +93,7 @@ x_1, x_2 &\ge 0
 ### 3. Verificación computacional mediante Python
 Podemos resolver el modelo cuadrático utilizando `scipy.optimize` en Python:
 
-```python
+```{python}
 import numpy as np
 from scipy.optimize import minimize
 

@@ -88,7 +88,7 @@ Analizar la convexidad de las funciones de beneficio de cada empresa y discutir 
 2.  **Verificación del equilibrio en Python**:
     Podemos validar el cálculo y la concavidad de forma simbólica usando el siguiente script en Python:
 
-```python
+```{python}
 import sympy as sp
 
 Q1, Q2 = sp.symbols('Q1 Q2')
@@ -180,7 +180,7 @@ Analizar la convexidad de las siguientes funciones en sus respectivos dominios u
 
 4.  **Validación en Python (SymPy)**:
 
-```python
+```{python}
 import sympy as sp
 
 x, y = sp.symbols('x y', real=True)
@@ -522,7 +522,7 @@ Para calcular la inversa de la matriz de segundo orden:
 
 3.  **Verificación de Newton Multivariante en Python (SciPy)**:
 
-```python
+```{python}
 import numpy as np
 from scipy.optimize import minimize
 

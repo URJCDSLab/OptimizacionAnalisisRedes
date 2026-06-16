@@ -32,7 +32,7 @@ pip install autograd sympy numpy
 
 A continuación, importamos los módulos que utilizaremos:
 
-```python
+```{python}
 import numpy as np
 from autograd import grad, hessian
 import sympy as sp
@@ -53,7 +53,7 @@ Deseamos calcular su derivada (gradiente) en el punto de referencia $x_0 = 1.0$.
 ### Enfoque numérico con Autograd
 Autograd realiza diferenciación automática a partir de la definición estándar de la función en Python:
 
-```python
+```{python}
 def f_num(x):
     return 5*x + 10
 
@@ -67,7 +67,7 @@ print("El gradiente numérico en x0 es:", gradiente_num(x0))
 ### Enfoque simbólico con SymPy
 SymPy construye un árbol de expresión analítica sobre una variable simbólica para realizar derivación formal:
 
-```python
+```{python}
 # 1. Definir la variable simbólica
 x = sp.symbols('x', real=True)
 
@@ -95,7 +95,7 @@ Deseamos evaluar en el punto $\mathbf{x}_0 = (1, 2)^T$:
 
 ### Implementación con Autograd
 
-```python
+```{python}
 def plano_num(x): 
     return 5*x[0] + 10*x[1] + 4
 
@@ -111,7 +111,7 @@ print("Hessiana numérica en x0:\n", hess_plano(x0))
 
 ### Implementación con SymPy
 
-```python
+```{python}
 # 1. Definir variables simbólicas
 x1, x2 = sp.symbols('x1 x2', real=True)
 
@@ -135,7 +135,7 @@ print("Hessiana simbólica en x0:\n", hess_plano_sym.subs(eval_dict))
 Una gran ventaja del cálculo simbólico es la capacidad de trabajar con parámetros sin asignarles valores de antemano. Consideremos el plano con coeficientes genéricos $a$ y $b$:
 $$ f(x_1, x_2) = a x_1 + b x_2 + 4 $$
 
-```python
+```{python}
 # Definir variables y parámetros simbólicos
 x1, x2, a, b = sp.symbols('x1 x2 a b', real=True)
 
@@ -165,7 +165,7 @@ Para evaluar si una función es convexa, cóncava o indefinida en un dominio, se
 
 Podemos utilizar NumPy para hallar numéricamente los autovalores a partir del hessiano simbólico convertido:
 
-```python
+```{python}
 # Definir una función auxiliar para obtener autovalores numéricos
 def calcular_autovalores(matriz_sympy, punto_dict=None):
     if punto_dict:
@@ -190,7 +190,7 @@ Calcula su vector gradiente y su matriz hessiana en el punto de origen $\mathbf{
 
 2. Empleando **SymPy**.
 
-```python
+```{python}
 # Escribe tu solución aquí:
 # ...
 ```
@@ -200,7 +200,7 @@ Calcula su vector gradiente y su matriz hessiana en el punto de origen $\mathbf{
 
 ### 1. Enfoque con Autograd
 
-```python
+```{python}
 import numpy as np
 from autograd import grad, hessian
 
@@ -221,7 +221,7 @@ print("Hessiana (Autograd):\n", hess_f(x0))
 
 ### 2. Enfoque con SymPy
 
-```python
+```{python}
 import sympy as sp
 
 # Definimos variables simbólicas
@@ -260,7 +260,7 @@ Para ello:
 
 4. Con base en el signo de los autovalores, concluye si la función es convexa, cóncava o indefinida.
 
-```python
+```{python}
 # Escribe tu solución aquí:
 # ...
 ```
@@ -268,7 +268,7 @@ Para ello:
 <details>
 <summary>Pincha aquí para ver la solución</summary>
 
-```python
+```{python}
 import sympy as sp
 import numpy as np
 
@@ -303,7 +303,7 @@ $$ f(\mathbf{x}) = 10 - 2(x_2 - x_1^2)^2 $$
 
 3. Utiliza la función `sp.solve` para hallar la región correspondiente de la variable $x_2$ en función de $x_1$.
 
-```python
+```{python}
 # Escribe tu solución aquí:
 # ...
 ```
@@ -311,7 +311,7 @@ $$ f(\mathbf{x}) = 10 - 2(x_2 - x_1^2)^2 $$
 <details>
 <summary>Pincha aquí para ver la solución</summary>
 
-```python
+```{python}
 import sympy as sp
 
 # Definir variables simbólicas
@@ -354,7 +354,7 @@ Determina si la función:
 $$ f(\mathbf{x}) = x^2 + 3y^2 + z^2 + xy - 4z - 5x + 14 $$
 es estrictamente convexa en su dominio calculando los autovalores de su matriz hessiana con SymPy y NumPy.
 
-```python
+```{python}
 # Escribe tu solución aquí:
 # ...
 ```
@@ -362,7 +362,7 @@ es estrictamente convexa en su dominio calculando los autovalores de su matriz h
 <details>
 <summary>Pincha aquí para ver la solución</summary>
 
-```python
+```{python}
 import sympy as sp
 import numpy as np
 
