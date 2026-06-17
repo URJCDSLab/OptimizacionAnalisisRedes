@@ -11,7 +11,7 @@ os.makedirs(output_dir, exist_ok=True)
 
 # Theme Colors (Cerulean style)
 C_PRIMARY = '#0284c7'     # Cerulean
-C_BG = '#f0f9ff'          # Light sky blue
+C_BG = '#f8fafc'          # Neutral light grey/white
 C_TEXT = '#0f172a'        # Slate 900
 C_TEXT_MUTED = '#64748b'  # Slate 500
 C_ALERT = '#ef4444'       # Coral Red
