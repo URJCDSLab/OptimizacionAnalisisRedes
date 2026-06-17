@@ -25,7 +25,7 @@ ddf = lambda x: 3*x**2 - 26*x + 54
 
 def fig_to_pil(fig):
     buf = io.BytesIO()
-    fig.savefig(buf, format='png', bbox_inches='tight', dpi=150)
+    fig.savefig(buf, format='png', bbox_inches='tight', dpi=150, transparent=False, facecolor='white')
     buf.seek(0)
     img = Image.open(buf)
     # Load image data into memory before closing the buffer
