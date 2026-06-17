@@ -19,7 +19,7 @@ C_ACCENT = '#f59e0b'      # Amber
 def save_fig(name):
     plt.tight_layout()
     path = os.path.join(output_dir, name)
-    plt.savefig(path, bbox_inches='tight', dpi=300, transparent=True)
+    plt.savefig(path, bbox_inches='tight', dpi=300, transparent=False, facecolor='white')
     plt.close()
     print(f"Generated: {name}")
 
@@ -246,6 +246,111 @@ def gen_cournot_monopolio():
     
     save_fig('cournot_monopolio.png')
 
+def gen_hessian_plots():
+    from mpl_toolkits.mplot3d import Axes3D
+    
+    # 1. Circular Bowl: f(x, y) = (x-2)^2 + (y-1)^2
+    X1 = np.linspace(-1, 5, 100)
+    Y1 = np.linspace(-2, 4, 100)
+    X1, Y1 = np.meshgrid(X1, Y1)
+    Z1 = (X1 - 2)**2 + (Y1 - 1)**2
+
+    fig1 = plt.figure(figsize=(10, 4.5))
+    ax1_3d = fig1.add_subplot(121, projection='3d')
+    surf1 = ax1_3d.plot_surface(X1, Y1, Z1, cmap='coolwarm', edgecolor='none', alpha=0.85)
+    ax1_3d.set_xlabel('$x$', color=C_TEXT)
+    ax1_3d.set_ylabel('$y$', color=C_TEXT)
+    ax1_3d.set_zlabel('$f(x,y)$', color=C_TEXT)
+    ax1_3d.set_title('Superficie 3D (Mínimo Circular)', fontsize=10, fontweight='bold', color=C_TEXT)
+    ax1_3d.view_init(elev=25, azim=-60)
+    ax1_3d.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax1_3d.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax1_3d.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+
+    ax1_2d = fig1.add_subplot(122)
+    contours1 = ax1_2d.contour(X1, Y1, Z1, levels=12, cmap='coolwarm')
+    ax1_2d.clabel(contours1, inline=True, fontsize=8, fmt='%.1f')
+    ax1_2d.plot(2, 1, 'o', color=C_ALERT, markersize=8, label='Mínimo $(2, 1)$')
+    ax1_2d.set_xlabel('$x$', color=C_TEXT)
+    ax1_2d.set_ylabel('$y$', color=C_TEXT)
+    ax1_2d.set_title('Curvas de Nivel (Hessiana Def. Positiva)', fontsize=10, fontweight='bold', color=C_TEXT)
+    ax1_2d.grid(True, linestyle='--', alpha=0.5)
+    ax1_2d.legend(loc='upper right')
+    ax1_2d.set_aspect('equal')
+    
+    plt.tight_layout()
+    fig1.savefig(os.path.join(output_dir, "funcion_distancia_3d.png"), bbox_inches='tight', dpi=300, transparent=False, facecolor='white')
+    plt.close(fig1)
+    print("Generated: funcion_distancia_3d.png")
+
+    # 2. Elliptical Bowl: f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29
+    X2 = np.linspace(-10, 15, 100)
+    Y2 = np.linspace(-15, 10, 100)
+    X2, Y2 = np.meshgrid(X2, Y2)
+    Z2 = 8*X2**2 + 3*X2*Y2 + 7*Y2**2 - 25*X2 + 31*Y2 - 29
+
+    fig2 = plt.figure(figsize=(10, 4.5))
+    ax2_3d = fig2.add_subplot(121, projection='3d')
+    surf2 = ax2_3d.plot_surface(X2, Y2, Z2, cmap='coolwarm', edgecolor='none', alpha=0.85)
+    ax2_3d.set_xlabel('$x$', color=C_TEXT)
+    ax2_3d.set_ylabel('$y$', color=C_TEXT)
+    ax2_3d.set_zlabel('$f(x,y)$', color=C_TEXT)
+    ax2_3d.set_title('Superficie 3D (Mínimo Elíptico)', fontsize=10, fontweight='bold', color=C_TEXT)
+    ax2_3d.view_init(elev=25, azim=-60)
+    ax2_3d.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax2_3d.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax2_3d.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+
+    ax2_2d = fig2.add_subplot(122)
+    contours2 = ax2_2d.contour(X2, Y2, Z2, levels=[-400, -200, 0, 400, 800, 1400, 2000, 2800], cmap='coolwarm')
+    ax2_2d.clabel(contours2, inline=True, fontsize=8, fmt='%.0f')
+    ax2_2d.plot(2.060, -2.656, 'o', color=C_ALERT, markersize=8, label='Mínimo $(2.06, -2.66)$')
+    ax2_2d.set_xlabel('$x$', color=C_TEXT)
+    ax2_2d.set_ylabel('$y$', color=C_TEXT)
+    ax2_2d.set_title('Curvas de Nivel (Hessiana Def. Positiva)', fontsize=10, fontweight='bold', color=C_TEXT)
+    ax2_2d.grid(True, linestyle='--', alpha=0.5)
+    ax2_2d.legend(loc='upper right')
+    ax2_2d.set_aspect('equal')
+
+    plt.tight_layout()
+    fig2.savefig(os.path.join(output_dir, "funcion_cuadratica_3d.png"), bbox_inches='tight', dpi=300, transparent=False, facecolor='white')
+    plt.close(fig2)
+    print("Generated: funcion_cuadratica_3d.png")
+
+    # 3. Saddle Point: f(x, y) = 0.5*x^2 + 2*x*y + 0.5*y^2 - y + 9
+    X3 = np.linspace(-4, 4, 100)
+    Y3 = np.linspace(-4, 4, 100)
+    X3, Y3 = np.meshgrid(X3, Y3)
+    Z3 = 0.5*X3**2 + 2*X3*Y3 + 0.5*Y3**2 - Y3 + 9
+
+    fig3 = plt.figure(figsize=(10, 4.5))
+    ax3_3d = fig3.add_subplot(121, projection='3d')
+    surf3 = ax3_3d.plot_surface(X3, Y3, Z3, cmap='coolwarm', edgecolor='none', alpha=0.85)
+    ax3_3d.set_xlabel('$x$', color=C_TEXT)
+    ax3_3d.set_ylabel('$y$', color=C_TEXT)
+    ax3_3d.set_zlabel('$f(x,y)$', color=C_TEXT)
+    ax3_3d.set_title('Superficie 3D (Punto de Silla)', fontsize=10, fontweight='bold', color=C_TEXT)
+    ax3_3d.view_init(elev=25, azim=-60)
+    ax3_3d.xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax3_3d.yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+    ax3_3d.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
+
+    ax3_2d = fig3.add_subplot(122)
+    contours3 = ax3_2d.contour(X3, Y3, Z3, levels=[-2, 2, 6, 10, 14, 18, 22], cmap='coolwarm')
+    ax3_2d.clabel(contours3, inline=True, fontsize=8, fmt='%.1f')
+    ax3_2d.plot(2/3, -1/3, 'o', color=C_ALERT, markersize=8, label='Silla $(2/3, -1/3)$')
+    ax3_2d.set_xlabel('$x$', color=C_TEXT)
+    ax3_2d.set_ylabel('$y$', color=C_TEXT)
+    ax3_2d.set_title('Curvas de Nivel (Hessiana Indefinida)', fontsize=10, fontweight='bold', color=C_TEXT)
+    ax3_2d.grid(True, linestyle='--', alpha=0.5)
+    ax3_2d.legend(loc='upper right')
+    ax3_2d.set_aspect('equal')
+
+    plt.tight_layout()
+    fig3.savefig(os.path.join(output_dir, "punto_silla_3d.png"), bbox_inches='tight', dpi=300, transparent=False, facecolor='white')
+    plt.close(fig3)
+    print("Generated: punto_silla_3d.png")
+
 if __name__ == '__main__':
     print("Generating additional figures for Tema 2...")
     gen_opt_1d_ejemplo()
@@ -253,4 +358,5 @@ if __name__ == '__main__':
     gen_coordenadas_ciclicas_ej2()
     gen_steepest_descent_ej()
     gen_cournot_monopolio()
+    gen_hessian_plots()
     print("All additional figures generated successfully.")

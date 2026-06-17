@@ -131,7 +131,7 @@ def gen_seccion_aurea_animation():
     fig_pdf.suptitle("Evolución de la Búsqueda por Sección Áurea (Pasos 1 a 4)", fontsize=14, color=C_TEXT, weight='bold')
     plt.tight_layout()
     pdf_fig_path = os.path.join(output_dir, "seccion_aurea_pasos.png")
-    fig_pdf.savefig(pdf_fig_path, dpi=300, transparent=True)
+    fig_pdf.savefig(pdf_fig_path, dpi=300, transparent=False, facecolor='white')
     plt.close(fig_pdf)
     print(f"Saved: {pdf_fig_path}")
 
@@ -229,7 +229,7 @@ def gen_biseccion_animation():
     fig_pdf.suptitle("Evolución de la Búsqueda por Bisección (Pasos 1 a 4)", fontsize=14, color=C_TEXT, weight='bold')
     plt.tight_layout()
     pdf_fig_path = os.path.join(output_dir, "biseccion_pasos.png")
-    fig_pdf.savefig(pdf_fig_path, dpi=300, transparent=True)
+    fig_pdf.savefig(pdf_fig_path, dpi=300, transparent=False, facecolor='white')
     plt.close(fig_pdf)
     print(f"Saved: {pdf_fig_path}")
 
@@ -310,7 +310,7 @@ def gen_newton_1d_animation():
     fig_pdf.suptitle("Evolución del Método de Newton 1D (Pasos 1 a 4)", fontsize=14, color=C_TEXT, weight='bold')
     plt.tight_layout()
     pdf_fig_path = os.path.join(output_dir, "newton_1d_pasos.png")
-    fig_pdf.savefig(pdf_fig_path, dpi=300, transparent=True)
+    fig_pdf.savefig(pdf_fig_path, dpi=300, transparent=False, facecolor='white')
     plt.close(fig_pdf)
     print(f"Saved: {pdf_fig_path}")
 
@@ -360,7 +360,7 @@ def gen_tipos_optimos():
     ax2.spines['right'].set_visible(False)
     
     plt.tight_layout()
-    fig.savefig(os.path.join(output_dir, "tipos_optimos.png"), dpi=300, transparent=True)
+    fig.savefig(os.path.join(output_dir, "tipos_optimos.png"), dpi=300, transparent=False, facecolor='white')
     plt.close(fig)
     print("Saved tipos_optimos.png")
 
@@ -462,7 +462,7 @@ def gen_busqueda_uniforme_concepto():
         if step == 4:
             ax.set_title("Búsqueda Uniforme (Rejilla)", color=C_TEXT, fontsize=12, fontweight='bold')
             plt.tight_layout()
-            fig.savefig(os.path.join(output_dir, "busqueda_uniforme_concepto.png"), dpi=300, transparent=True)
+            fig.savefig(os.path.join(output_dir, "busqueda_uniforme_concepto.png"), dpi=300, transparent=False, facecolor='white')
             print("Saved busqueda_uniforme_concepto.png")
             
         plt.close(fig)
@@ -516,7 +516,7 @@ def gen_busqueda_dicotomica_insuficiente():
     
     fig.suptitle("Un solo punto medio $c$ no es suficiente para decidir el descarte\n(ambas funciones tienen idéntico valor $f(c)$)", color=C_TEXT, fontsize=13, fontweight='bold')
     plt.tight_layout()
-    fig.savefig(os.path.join(output_dir, "busqueda_dicotomica_insuficiente.png"), dpi=300, transparent=True)
+    fig.savefig(os.path.join(output_dir, "busqueda_dicotomica_insuficiente.png"), dpi=300, transparent=False, facecolor='white')
     plt.close(fig)
     print("Saved busqueda_dicotomica_insuficiente.png")
 
@@ -558,7 +558,7 @@ def gen_busqueda_dicotomica_concepto():
     ax.spines['right'].set_visible(False)
     
     plt.tight_layout()
-    fig.savefig(os.path.join(output_dir, "busqueda_dicotomica_concepto.png"), dpi=300, transparent=True)
+    fig.savefig(os.path.join(output_dir, "busqueda_dicotomica_concepto.png"), dpi=300, transparent=False, facecolor='white')
     plt.close(fig)
     print("Saved busqueda_dicotomica_concepto.png")
 
@@ -659,7 +659,7 @@ def gen_dicotomica_trace_animation():
     fig_pdf.suptitle("Evolución de la Búsqueda Dicotómica (Pasos 1 a 4)", fontsize=14, color=C_TEXT, weight='bold')
     plt.tight_layout()
     pdf_fig_path = os.path.join(output_dir, "dicotomica_pasos.png")
-    fig_pdf.savefig(pdf_fig_path, dpi=300, transparent=True)
+    fig_pdf.savefig(pdf_fig_path, dpi=300, transparent=False, facecolor='white')
     plt.close(fig_pdf)
     print(f"Saved: {pdf_fig_path}")
 

@@ -429,13 +429,13 @@ Figura&nbsp;2.2: Ilustración de los distintos tipos de óptimos locales y globa
 <li><strong>Semidefinida negativa (<span class="math inline">\(\nabla^2 f(x) \preceq 0\)</span>)</strong>: Si <span class="math inline">\(z^T \nabla^2 f(x) z \le 0\)</span> para todo vector <span class="math inline">\(z\)</span>. Todos sus autovalores son no positivos y todos sus menores principales alternan de signo de forma no estricta o son nulos.</li>
 <li><strong>Indefinida</strong>: Si existen autovalores estrictamente positivos y negativos. El punto crítico resultante constituye un <strong>punto de silla</strong> (con direcciones de subida y direcciones de bajada).</li>
 </ul>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplos: Clasificación de matrices">
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplos: Clasificación de matrices">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplos: Clasificación de matrices
+<span class="screen-reader-only">Tip</span>Ejemplos: Clasificación de matrices
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -486,13 +486,13 @@ Figura&nbsp;2.2: Ilustración de los distintos tipos de óptimos locales y globa
 <p>Es fundamental notar que en la condición suficiente (SOSC), la matriz hessiana debe ser <strong>estrictamente definida positiva</strong> (<span class="math inline">\(\nabla^2 f(x^*) \succ 0\)</span>) y no simplemente semidefinida positiva. Si la hessiana es semidefinida con algún autovalor nulo (por ejemplo, en la función <span class="math inline">\(f(x) = x^4\)</span> en el origen <span class="math inline">\(x^*=0\)</span>, donde <span class="math inline">\(f'(0)=0\)</span> y <span class="math inline">\(f''(0)=0 \succeq 0\)</span>), el análisis de segundo orden es insuficiente para garantizar analíticamente si el punto es un mínimo, un máximo o un punto de inflexión.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplos: Clasificación de puntos estacionarios">
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplos: Clasificación de puntos estacionarios">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplos: Clasificación de puntos estacionarios
+<span class="screen-reader-only">Tip</span>Ejemplos: Clasificación de puntos estacionarios
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -525,7 +525,8 @@ Figura&nbsp;2.3: Caso de prueba para métodos de búsqueda 1D: función de cuart
 <section id="métodos-sin-derivadas" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="métodos-sin-derivadas"><span class="header-section-number">2.4.1</span> Métodos sin derivadas</h3>
 <p>Estos métodos solo requieren evaluar el valor de la función objetivo. Exigen que la función sea <strong>unimodal</strong> en el intervalo <span class="math inline">\([a, b]\)</span>, es decir, que posea un único mínimo local en dicho intervalo, decreciendo de forma monótona a la izquierda del mínimo y creciendo a su derecha.</p>
-<p>La <strong>Búsqueda Uniforme (Rejilla)</strong> consiste en dividir el intervalo inicial <span class="math inline">\([a, b]\)</span> en <span class="math inline">\(n\)</span> subintervalos de igual anchura mediante una rejilla de puntos <span class="math inline">\(x_k = a + k \frac{b-a}{n}\)</span> para <span class="math inline">\(k = 0, \dots, n\)</span>. Se evalúa la función en todos los puntos de la rejilla, se identifica el punto mínimo <span class="math inline">\(x_{k^*}\)</span> y se define el nuevo intervalo reducido como <span class="math inline">\([x_{k^*-1}, x_{k^*+1}]\)</span>. Aunque es un método muy robusto, resulta poco eficiente debido a que no aprovecha la información de las evaluaciones previas (ver la <a href="#fig-busqueda-uniforme-concepto" class="quarto-xref">Figura&nbsp;<span>2.4</span></a>).</p>
+<p>La <strong>Búsqueda Uniforme (Rejilla)</strong> consiste en dividir el intervalo inicial <span class="math inline">\([a, b]\)</span> en <span class="math inline">\(n\)</span> subintervalos de igual anchura mediante una rejilla equidistante de puntos.</p>
+<p>Formalmente, los puntos se definen como: <span class="math display">\[x_k = a + k \cdot \frac{b-a}{n}, \quad k = 0, 1, \dots, n\]</span> Evaluamos la función en todos los puntos de la rejilla para identificar el punto mínimo: <span class="math display">\[k^* = \arg\min_{k \in \{0, \dots, n\}} f(x_k)\]</span> y reducimos el intervalo de incertidumbre al subintervalo adyacente que rodea al óptimo muestreado: <span class="math display">\[[a', b'] = [x_{k^*-1}, x_{k^*+1}]\]</span> Aunque es un método muy robusto, resulta poco eficiente debido a que no aprovecha la información de las evaluaciones previas (ver la <a href="#fig-busqueda-uniforme-concepto" class="quarto-xref">Figura&nbsp;<span>2.4</span></a>).</p>
 <div id="fig-busqueda-uniforme-concepto" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-busqueda-uniforme-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -536,7 +537,7 @@ Figura&nbsp;2.4: Concepto de la Búsqueda Uniforme en rejilla: subdivisión equi
 </figcaption>
 </figure>
 </div>
-<p>La <strong>Búsqueda Dicotómica</strong> evalúa la función en el entorno del punto medio del intervalo actual. Para ilustrar por qué es necesario evaluar al menos dos puntos internos en lugar de uno solo, consideremos la <a href="#fig-busqueda-dicotomica-insuficiente" class="quarto-xref">Figura&nbsp;<span>2.5</span></a>. Si únicamente evaluásemos la función en el punto medio exacto <span class="math inline">\(c\)</span>, obtendríamos la misma información en ambos casos, haciendo imposible deducir si el mínimo se localiza en la mitad izquierda o derecha.</p>
+<p>La <strong>Búsqueda Dicotómica</strong> evalúa la función en el entorno del punto medio del intervalo actual. Bajo la hipótesis de unimodalidad, si únicamente evaluásemos la función en el punto medio exacto <span class="math inline">\(c\)</span>, no tendríamos suficiente información para comparar y deducir si el mínimo está a la izquierda o a la derecha (ver <a href="#fig-busqueda-dicotomica-insuficiente" class="quarto-xref">Figura&nbsp;<span>2.5</span></a>).</p>
 <div id="fig-busqueda-dicotomica-insuficiente" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-busqueda-dicotomica-insuficiente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -547,7 +548,12 @@ Figura&nbsp;2.5: Insuficiencia de evaluar un único punto medio: dos funciones u
 </figcaption>
 </figure>
 </div>
-<p>Para resolver este inconveniente, la Búsqueda Dicotómica calcula en cada iteración <span class="math inline">\(k\)</span> dos puntos simétricos respecto al centro separados por una perturbación infinitesimal <span class="math inline">\(\delta &gt; 0\)</span>: <span class="math inline">\(\lambda_k = \frac{a_k + b_k}{2} - \delta\)</span> y <span class="math inline">\(\mu_k = \frac{a_k + b_k}{2} + \delta\)</span>. Si <span class="math inline">\(f(\lambda_k) &lt; f(\mu_k)\)</span>, el mínimo debe situarse en el intervalo izquierdo, actualizándose a <span class="math inline">\([a_k, \mu_k]\)</span>, mientras que si <span class="math inline">\(f(\lambda_k) &gt; f(\mu_k)\)</span>, se actualiza a <span class="math inline">\([\lambda_k, b_k]\)</span> (ver la <a href="#fig-busqueda-dicotomica-concepto" class="quarto-xref">Figura&nbsp;<span>2.6</span></a>). Cada paso requiere dos evaluaciones y reduce el intervalo a prácticamente la mitad (<span class="math inline">\(I_{k+1} \approx \frac{1}{2} I_k\)</span>).</p>
+<p>Para resolver esto, calculamos en cada iteración <span class="math inline">\(k\)</span> dos puntos simétricos respecto al punto medio, separados por una perturbación infinitesimal <span class="math inline">\(\delta &gt; 0\)</span>: <span class="math display">\[\lambda_k = \frac{a_k + b_k}{2} - \delta \qquad \mu_k = \frac{a_k + b_k}{2} + \delta\]</span> Comparamos sus valores para actualizar el intervalo:</p>
+<ul>
+<li>Si <span class="math inline">\(f(\lambda_k) &lt; f(\mu_k) \implies\)</span> descartamos <span class="math inline">\([\mu_k, b_k]\)</span>, y el nuevo intervalo es <span class="math inline">\([a_{k+1}, b_{k+1}] = [a_k, \mu_k]\)</span>.</li>
+<li>Si <span class="math inline">\(f(\lambda_k) &gt; f(\mu_k) \implies\)</span> descartamos <span class="math inline">\([a_k, \lambda_k]\)</span>, y el nuevo intervalo es <span class="math inline">\([a_{k+1}, b_{k+1}] = [\lambda_k, b_k]\)</span>.</li>
+</ul>
+<p>La amplitud del nuevo intervalo viene dada por la ecuación: <span class="math display">\[I_{k+1} = \frac{b_k - a_k}{2} + \delta\]</span> Cada paso reduce el intervalo de incertidumbre a la mitad más la perturbación (<span class="math inline">\(I_{k+1} \approx \frac{1}{2} I_k\)</span>).</p>
 <div id="fig-busqueda-dicotomica-concepto" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-busqueda-dicotomica-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -558,13 +564,13 @@ Figura&nbsp;2.6: Concepto de la Búsqueda Dicotómica: la comparación de <span 
 </figcaption>
 </figure>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Búsqueda Dicotómica">
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Búsqueda Dicotómica">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo: Búsqueda Dicotómica
+<span class="screen-reader-only">Tip</span>Ejemplo: Búsqueda Dicotómica
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -572,11 +578,25 @@ Figura&nbsp;2.6: Concepto de la Búsqueda Dicotómica: la comparación de <span 
 <div class="callout-body-container callout-body">
 <p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con perturbación <span class="math inline">\(\delta = 0.02\)</span> y tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>:</p>
 <ul>
-<li><strong>Iteración 1</strong>: <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. El punto medio es <span class="math inline">\(c = 2.5\)</span>. Evaluamos los puntos simétricos: <span class="math inline">\(\lambda_0 = 2.5 - 0.02 = 2.48 \implies f(2.48) = -68.397\)</span>, y <span class="math inline">\(\mu_0 = 2.5 + 0.02 = 2.52 \implies f(2.52) = -68.490\)</span>. Al cumplirse que <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la porción izquierda <span class="math inline">\([a_0, \lambda_0]\)</span>. El nuevo intervalo es <span class="math inline">\([a_1, b_1] = [2.48, 4]\)</span>.</li>
-<li><strong>Iteración 2</strong>: <span class="math inline">\([a_1, b_1] = [2.48, 4]\)</span>. El punto medio es <span class="math inline">\(c = 3.24\)</span>. Evaluamos <span class="math inline">\(\lambda_1 = 3.24 - 0.02 = 3.22 \implies f(3.22) = -68.730\)</span>, y <span class="math inline">\(\mu_1 = 3.24 + 0.02 = 3.26 \implies f(3.26) = -68.683\)</span>. Al cumplirse que <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la porción derecha <span class="math inline">\([\mu_1, b_1]\)</span>. El nuevo intervalo es <span class="math inline">\([a_2, b_2] = [2.48, 3.26]\)</span>.</li>
-<li><strong>Iteración 3</strong>: <span class="math inline">\([a_2, b_2] = [2.48, 3.26]\)</span>. El punto medio es <span class="math inline">\(c = 2.87\)</span>. Evaluamos <span class="math inline">\(\lambda_2 = 2.87 - 0.02 = 2.85 \implies f(2.85) = -68.711\)</span>, y <span class="math inline">\(\mu_2 = 2.87 + 0.02 = 2.89 \implies f(2.89) = -68.724\)</span>. Dado que <span class="math inline">\(f(\lambda_2) &gt; f(\mu_2)\)</span>, descartamos la izquierda. El nuevo intervalo es <span class="math inline">\([a_3, b_3] = [2.85, 3.26]\)</span>.</li>
-<li><strong>Iteración 4</strong>: <span class="math inline">\([a_3, b_3] = [2.85, 3.26]\)</span>. El punto medio es <span class="math inline">\(c = 3.055\)</span>. Evaluamos <span class="math inline">\(\lambda_3 = 3.055 - 0.02 = 3.035 \implies f(3.035) = -68.744\)</span>, y <span class="math inline">\(\mu_3 = 3.055 + 0.02 = 3.075 \implies f(3.075) = -68.718\)</span>. Dado que <span class="math inline">\(f(\lambda_3) &lt; f(\mu_3)\)</span>, descartamos la derecha. El nuevo intervalo es <span class="math inline">\([a_4, b_4] = [2.85, 3.075]\)</span>.</li>
-<li><strong>Iteración 5</strong>: <span class="math inline">\([a_4, b_4] = [2.85, 3.075]\)</span>. El punto medio es <span class="math inline">\(c = 2.9625\)</span>. Evaluamos <span class="math inline">\(\lambda_4 = 2.9625 - 0.02 = 2.9425 \implies f(2.9425) = -68.730\)</span>, y <span class="math inline">\(\mu_4 = 2.9625 + 0.02 = 2.9825 \implies f(2.9825) = -68.748\)</span>. Como <span class="math inline">\(f(\lambda_4) &gt; f(\mu_4)\)</span>, descartamos la izquierda. El nuevo intervalo es <span class="math inline">\([a_5, b_5] = [2.9425, 3.075]\)</span>. La amplitud resultante es de <span class="math inline">\(3.075 - 2.9425 = 0.1325 \le 0.15\)</span>, finalizando el algoritmo.</li>
+<li><strong>Paso 1</strong>: Intervalo <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Punto medio <span class="math inline">\(c = 2.5\)</span>.
+<ul>
+<li>Cálculo de puntos internos: <span class="math display">\[\lambda_0 = \frac{1 + 4}{2} - 0.02 = 2.48 \qquad \mu_0 = \frac{1 + 4}{2} + 0.02 = 2.52\]</span></li>
+<li>Evaluaciones correspondientes: <span class="math display">\[f(2.48) \approx -68.1386 \qquad f(2.52) \approx -68.2437\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la porción izquierda <span class="math inline">\([1, 2.48]\)</span>. Nuevo intervalo: <span class="math inline">\([a_1, b_1] = [2.48, 4]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 2</strong>: Intervalo <span class="math inline">\([a_1, b_1] = [2.48, 4]\)</span>. Punto medio <span class="math inline">\(c = 3.24\)</span>.
+<ul>
+<li>Cálculo de puntos internos: <span class="math display">\[\lambda_1 = \frac{2.48 + 4}{2} - 0.02 = 3.22 \qquad \mu_1 = \frac{2.48 + 4}{2} + 0.02 = 3.26\]</span></li>
+<li>Evaluaciones correspondientes: <span class="math display">\[f(3.22) \approx -68.6910 \qquad f(3.26) \approx -68.6709\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la porción derecha <span class="math inline">\([3.26, 4]\)</span>. Nuevo intervalo: <span class="math inline">\([a_2, b_2] = [2.48, 3.26]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 3</strong>: Intervalo <span class="math inline">\([a_2, b_2] = [2.48, 3.26]\)</span>. Punto medio <span class="math inline">\(c = 2.87\)</span>.
+<ul>
+<li>Cálculo de puntos internos: <span class="math display">\[\lambda_2 = \frac{2.48 + 3.26}{2} - 0.02 = 2.85 \qquad \mu_2 = \frac{2.48 + 3.26}{2} + 0.02 = 2.89\]</span></li>
+<li>Evaluaciones correspondientes: <span class="math display">\[f(2.85) \approx -68.7116 \qquad f(2.89) \approx -68.7300\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_2) &gt; f(\mu_2)\)</span>, descartamos la porción izquierda <span class="math inline">\([2.48, 2.85]\)</span>. Nuevo intervalo: <span class="math inline">\([a_3, b_3] = [2.85, 3.26]\)</span>.</li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: El proceso continúa evaluando de forma pareada. En el paso 5, el intervalo se reduce a <span class="math inline">\([2.9425, 3.075]\)</span> con amplitud <span class="math inline">\(0.1325 \le 0.15\)</span>, finalizando el algoritmo.</li>
 </ul>
 <div id="fig-dicotomica" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -591,24 +611,41 @@ Figura&nbsp;2.7: Animación de la Búsqueda Dicotómica (5 iteraciones)
 </div>
 </div>
 </div>
-<p>La <strong>Sección Áurea (Golden Section)</strong> optimiza la búsqueda dicotómica al colocar los puntos de evaluación de manera que uno de ellos pueda ser reutilizado en la iteración siguiente. Para que se mantenga esta relación de escala constante entre iteraciones, la anchura de los intervalos decrece según la razón áurea <span class="math inline">\(\alpha = (1 + \sqrt{5})/2 \approx 1.618\)</span>. Los puntos en cada paso <span class="math inline">\(k\)</span> sobre el intervalo <span class="math inline">\([a_k, b_k]\)</span> se definen como <span class="math inline">\(\lambda_k = b_k - (b_k - a_k)/\alpha\)</span> y <span class="math inline">\(\mu_k = a_k + (b_k - a_k)/\alpha\)</span>. Este método reduce el intervalo de incertidumbre en cada paso en un factor constante de <span class="math inline">\(1/\alpha \approx 0.618\)</span>. A partir de la segunda iteración, solo se requiere evaluar la función en un único punto nuevo. Dada una tolerancia <span class="math inline">\(\epsilon &gt; 0\)</span>, el número total de iteraciones necesarias se calcula mediante la expresión <span class="math inline">\(N = \lceil (\ln(b - a) - \ln(\epsilon)) / \ln(\alpha) \rceil\)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Sección Áurea">
+<p>La <strong>Sección Áurea (Golden Section)</strong> optimiza la búsqueda dicotómica reduciendo a la mitad el número de evaluaciones necesarias en cada paso. Esto se logra colocando los puntos internos <span class="math inline">\(\lambda_k\)</span> y <span class="math inline">\(\mu_k\)</span> de tal forma que uno de ellos coincida exactamente con un punto evaluado en la iteración anterior, requiriendo solo una nueva evaluación por iteración a partir de la segunda.</p>
+<p>Para deducir la razón áurea <span class="math inline">\(\alpha &gt; 1\)</span>, consideremos la proporción constante entre la amplitud de intervalos consecutivos: <span class="math display">\[I_k = \alpha \cdot I_{k+1} \qquad I_{k+1} = \alpha \cdot I_{k+2} \implies I_k = \alpha^2 \cdot I_{k+2}\]</span> Dado que los puntos se sitúan de manera simétrica, la longitud total del intervalo actual <span class="math inline">\(I_k\)</span> es la suma de los dos posibles subintervalos sucesivos <span class="math inline">\(I_{k+1}\)</span> y <span class="math inline">\(I_{k+2}\)</span>: <span class="math display">\[I_k = I_{k+1} + I_{k+2}\]</span> Sustituyendo las relaciones de escala constante obtenemos: <span class="math display">\[\alpha^2 \cdot I_{k+2} = \alpha \cdot I_{k+2} + I_{k+2} \iff \alpha^2 - \alpha - 1 = 0\]</span> Tomando la solución positiva de esta ecuación cuadrática obtenemos el <strong>número áureo</strong>: <span class="math display">\[\alpha = \frac{1 + \sqrt{5}}{2} \approx 1.618033988\]</span></p>
+<p>Los puntos de evaluación en cada iteración <span class="math inline">\(k\)</span> sobre el intervalo <span class="math inline">\([a_k, b_k]\)</span> se calculan como: <span class="math display">\[\lambda_k = b_k - \frac{b_k - a_k}{\alpha} \qquad \mu_k = a_k + \frac{b_k - a_k}{\alpha}\]</span> La amplitud decrece en cada paso por un factor de <span class="math inline">\(1/\alpha \approx 0.618\)</span>. Dada una tolerancia <span class="math inline">\(\epsilon &gt; 0\)</span> y amplitud inicial <span class="math inline">\(I_0 = b - a\)</span>, el número total de iteraciones <span class="math inline">\(N\)</span> viene dado por: <span class="math display">\[N = \left\lceil \frac{\ln(I_0) - \ln(\epsilon)}{\ln(\alpha)} \right\rceil\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Sección Áurea">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo: Sección Áurea
+<span class="screen-reader-only">Tip</span>Ejemplo: Sección Áurea
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. El número de iteraciones requeridas es <span class="math inline">\(N = \lceil (\ln(3.0) - \ln(0.15)) / \ln(1.618) \rceil = 7\)</span>.</p>
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. El número de iteraciones requerido es <span class="math inline">\(N = \lceil (\ln(3.0) - \ln(0.15)) / \ln(1.61803) \rceil = 7\)</span>.</p>
 <ul>
-<li><strong>Iteración 1</strong>: <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Amplitud <span class="math inline">\(I_1 = 3.0 / 1.618 = 1.8541\)</span>. Calculamos <span class="math inline">\(\lambda_0 = 4 - 1.8541 = 2.1459 \implies f(2.1459) = -66.692\)</span>, y <span class="math inline">\(\mu_0 = 1 + 1.8541 = 2.8541 \implies f(2.8541) = -68.714\)</span>. Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la izquierda. Nuevo intervalo: <span class="math inline">\([2.1459, 4]\)</span>.</li>
-<li><strong>Iteración 2</strong>: <span class="math inline">\([a_1, b_1] = [2.1459, 4]\)</span>. Amplitud <span class="math inline">\(I_2 = 1.8541 / 1.618 = 1.1459\)</span>. Reutilizamos <span class="math inline">\(\lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) = -68.714\)</span>. Calculamos el nuevo punto <span class="math inline">\(\mu_1 = 2.1459 + 1.1459 = 3.2918 \implies f(3.2918) = -68.654\)</span>. Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la derecha. Nuevo intervalo: <span class="math inline">\([2.1459, 3.2918]\)</span>.</li>
-<li><strong>Iteración 7 (Última)</strong>: El proceso continúa hasta que en la iteración <span class="math inline">\(k=7\)</span> la amplitud es <span class="math inline">\(I_7 = 0.1033 \le 0.15\)</span>, convergiendo en el intervalo final <span class="math inline">\([2.9574, 3.0608]\)</span>, que contiene el mínimo en <span class="math inline">\(x^* = 3.0\)</span>.</li>
+<li><strong>Paso 1</strong>: Intervalo inicial <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Amplitud teórica <span class="math inline">\(I_1 = 3.0 / 1.61803 \approx 1.8541\)</span>.
+<ul>
+<li>Cálculo de puntos y evaluaciones: <span class="math display">\[\lambda_0 = 4 - 1.8541 = 2.1459 \implies f(2.1459) \approx -66.692\]</span> <span class="math display">\[\mu_0 = 1 + 1.8541 = 2.8541 \implies f(2.8541) \approx -68.714\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la porción izquierda <span class="math inline">\([1, 2.1459]\)</span>. Nuevo intervalo: <span class="math inline">\([a_1, b_1] = [2.1459, 4]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 2</strong>: Intervalo <span class="math inline">\([a_1, b_1] = [2.1459, 4]\)</span>. Amplitud <span class="math inline">\(I_2 = 1.8541 / 1.61803 \approx 1.1459\)</span>.
+<ul>
+<li>Reutilizamos el punto interior evaluado previamente: <span class="math display">\[\lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) \approx -68.714\]</span></li>
+<li>Calculamos únicamente el nuevo punto y su evaluación: <span class="math display">\[\mu_1 = 2.1459 + 1.1459 = 3.2918 \implies f(3.2918) \approx -68.654\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la derecha <span class="math inline">\([3.2918, 4]\)</span>. Nuevo intervalo: <span class="math inline">\([a_2, b_2] = [2.1459, 3.2918]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 3</strong>: Intervalo <span class="math inline">\([a_2, b_2] = [2.1459, 3.2918]\)</span>. Amplitud <span class="math inline">\(I_3 = 1.1459 / 1.61803 \approx 0.7082\)</span>.
+<ul>
+<li>Reutilizamos el punto interior: <span class="math display">\[\mu_2 = \lambda_1 = 2.8541 \implies f(2.8541) \approx -68.714\]</span></li>
+<li>Calculamos el nuevo punto: <span class="math display">\[\lambda_2 = 3.2918 - 0.7082 = 2.5836 \implies f(2.5836) \approx -68.3861\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_2) &gt; f(\mu_2)\)</span>, descartamos la izquierda <span class="math inline">\([2.1459, 2.5836]\)</span>. Nuevo intervalo: <span class="math inline">\([a_3, b_3] = [2.5836, 3.2918]\)</span>.</li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: El algoritmo continúa reutilizando evaluaciones previas de forma simétrica. En el paso 7, la amplitud alcanza <span class="math inline">\(0.1033 \le 0.15\)</span> convergiendo al intervalo final <span class="math inline">\([2.9574, 3.0608]\)</span>, el cual contiene el mínimo analítico en <span class="math inline">\(x^* = 3.0\)</span>.</li>
 </ul>
 <div id="fig-seccion-aurea" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -623,24 +660,36 @@ Figura&nbsp;2.8: Animación de la búsqueda por Sección Áurea (7 iteraciones)
 </div>
 </div>
 </div>
-<p>La <strong>Búsqueda de Fibonacci</strong> fija de antemano el número total de evaluaciones de función <span class="math inline">\(N\)</span> y utiliza los términos de la sucesión de Fibonacci (<span class="math inline">\(F_k\)</span>, donde <span class="math inline">\(F_0=1, F_1=1, F_2=2, F_3=3, F_4=5, F_5=8, F_6=13, F_7=21, \dots\)</span>) para situar los puntos de evaluación. En la iteración <span class="math inline">\(k\)</span>, los puntos se colocan en <span class="math inline">\(\mu_k = a_k + \frac{F_{N-k}}{F_{N-k+1}} (b_k - a_k)\)</span> y <span class="math inline">\(\lambda_k = a_k + (1 - \frac{F_{N-k}}{F_{N-k+1}}) (b_k - a_k)\)</span>. Proporciona la máxima reducción teórica del intervalo de incertidumbre para un número de pasos preestablecido. Aunque Fibonacci ofrece una reducción ligeramente mayor, la Sección Áurea suele ser preferida en la práctica porque no exige predeterminar el número total de iteraciones <span class="math inline">\(N\)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Búsqueda de Fibonacci">
+<p>La <strong>Búsqueda de Fibonacci</strong> optimiza teóricamente la sección áurea si se fija de antemano el número total de evaluaciones de la función <span class="math inline">\(N\)</span>. Utiliza los términos de la sucesión de Fibonacci (<span class="math inline">\(F_i\)</span>, donde <span class="math inline">\(F_0=1, F_1=1, F_2=2, F_3=3, F_4=5, F_5=8, F_6=13, F_7=21, \dots\)</span> definidos por recurrencia <span class="math inline">\(F_i = F_{i-1} + F_{i-2}\)</span>) para calcular la amplitud del paso en cada iteración <span class="math inline">\(k\)</span>: <span class="math display">\[I_k = \frac{F_{N-k}}{F_{N-k+2}} (b_{k-1} - a_{k-1})\]</span></p>
+<p>A partir de estas amplitudes, los puntos de evaluación se definen en la iteración <span class="math inline">\(k\)</span> de la forma: <span class="math display">\[\mu_k = a_k + \frac{F_{N-k}}{F_{N-k+1}} (b_k - a_k) \qquad \lambda_k = a_k + \frac{F_{N-k-1}}{F_{N-k+1}} (b_k - a_k)\]</span> Al igual que en la Sección Áurea, las amplitudes de intervalos sucesivos guardan la relación de suma <span class="math inline">\(I_{k-1} = I_k + I_{k+1}\)</span>, lo que permite reutilizar un punto evaluado en cada iteración. En el paso final <span class="math inline">\(k=N-1\)</span>, ambos puntos coinciden en el centro del intervalo, requiriendo introducir una pequeña perturbación <span class="math inline">\(\epsilon_0 &gt; 0\)</span> para poder tomar la decisión de descarte definitiva. Aunque Fibonacci proporciona la máxima reducción matemática en un número de pasos fijo, la Sección Áurea es preferible habitualmente porque no requiere predeterminar <span class="math inline">\(N\)</span> ni almacenar o calcular la sucesión de Fibonacci.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Búsqueda de Fibonacci">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo: Búsqueda de Fibonacci
+<span class="screen-reader-only">Tip</span>Ejemplo: Búsqueda de Fibonacci
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. Fijamos <span class="math inline">\(N = 6\)</span> evaluaciones de la función (usando <span class="math inline">\(F_7 = 21\)</span>).</p>
+<p>Minimizamos la misma función en <span class="math inline">\([1, 4]\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span> fijando un número total de evaluaciones <span class="math inline">\(N = 6\)</span> (usando <span class="math inline">\(F_7 = 21\)</span>).</p>
 <ul>
-<li><strong>Iteración 1</strong>: <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Amplitud del paso 1: <span class="math inline">\(I_1 = \frac{13}{21} \cdot 3.0 \approx 1.8571\)</span>. Calculamos <span class="math inline">\(\lambda_0 = 4 - 1.8571 = 2.1429 \implies f(2.1429) = -66.673\)</span>, y <span class="math inline">\(\mu_0 = 1 + 1.8571 = 2.8571 \implies f(2.8571) = -68.715\)</span>. Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la izquierda. Nuevo intervalo: <span class="math inline">\([2.1429, 4]\)</span>.</li>
-<li><strong>Iteración 2</strong>: <span class="math inline">\([a_1, b_1] = [2.1429, 4]\)</span>. Amplitud <span class="math inline">\(I_2 = \frac{8}{21} \cdot 3.0 \approx 1.1429\)</span>. Reutilizamos <span class="math inline">\(\lambda_1 = \mu_0 = 2.8571\)</span>. Calculamos <span class="math inline">\(\mu_1 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) = -68.657\)</span>. Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la derecha. Nuevo intervalo: <span class="math inline">\([2.1429, 3.2857]\)</span>.</li>
-<li><strong>Iteración 6 (Última)</strong>: La amplitud se reduce a <span class="math inline">\(I_6 = 0.1429 \le 0.15\)</span>, logrando la convergencia en <span class="math inline">\([2.8541, 3.001]\)</span> con una iteración menos que la sección áurea gracias al uso de la serie de Fibonacci.</li>
+<li><strong>Paso 1</strong>: Intervalo inicial <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>.
+<ul>
+<li>Amplitud teórica del paso: <span class="math display">\[I_1 = \frac{F_6}{F_7}(b_0 - a_0) = \frac{13}{21} \cdot 3.0 \approx 1.8571\]</span></li>
+<li>Cálculo de puntos y evaluaciones: <span class="math display">\[\lambda_0 = 4 - 1.8571 = 2.1429 \implies f(2.1429) \approx -66.673\]</span> <span class="math display">\[\mu_0 = 1 + 1.8571 = 2.8571 \implies f(2.8571) \approx -68.715\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la porción izquierda <span class="math inline">\([1, 2.1429]\)</span>. Nuevo intervalo: <span class="math inline">\([a_1, b_1] = [2.1429, 4]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 2</strong>: Intervalo <span class="math inline">\([a_1, b_1] = [2.1429, 4]\)</span>.
+<ul>
+<li>Amplitud teórica: <span class="math display">\[I_2 = \frac{F_5}{F_7}(b_0 - a_0) = \frac{8}{21} \cdot 3.0 \approx 1.1429\]</span></li>
+<li>Reutilizamos el punto evaluado previamente: <span class="math display">\[\lambda_1 = \mu_0 = 2.8571 \implies f(2.8571) \approx -68.715\]</span></li>
+<li>Calculamos el nuevo punto y su evaluación: <span class="math display">\[\mu_1 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) \approx -68.657\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la derecha <span class="math inline">\([3.2857, 4]\)</span>. Nuevo intervalo: <span class="math inline">\([a_2, b_2] = [2.1429, 3.2857]\)</span>.</li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: Continuando con el proceso de reducción mediante los cocientes de Fibonacci, en la iteración 6 (última) la amplitud del intervalo alcanza <span class="math inline">\(I_6 = 0.1429 \le 0.15\)</span>, logrando converger en el intervalo final <span class="math inline">\([2.8541, 3.001]\)</span> con una iteración menos que en la sección áurea gracias a fijar <span class="math inline">\(N\)</span> de forma anticipada.</li>
 </ul>
 </div>
 </div>
@@ -649,27 +698,48 @@ Figura&nbsp;2.8: Animación de la búsqueda por Sección Áurea (7 iteraciones)
 </section>
 <section id="métodos-con-derivadas" class="level3" data-number="2.4.2">
 <h3 data-number="2.4.2" class="anchored" data-anchor-id="métodos-con-derivadas"><span class="header-section-number">2.4.2</span> Métodos con derivadas</h3>
-<p>Los métodos con derivadas incorporan información analítica del gradiente para acelerar la convergencia o resolver ecuaciones.</p>
-<p>El <strong>Método de Bisección (Bolzano)</strong> busca el cero de la derivada de primer orden (<span class="math inline">\(f'(x) = 0\)</span>). Requiere que los signos de la derivada en los extremos sean opuestos (<span class="math inline">\(f'(a) &lt; 0\)</span> y <span class="math inline">\(f'(b) &gt; 0\)</span>), lo que garantiza, por el teorema de Bolzano, la existencia de al menos un punto estacionario en el interior. En cada iteración, evalúa la derivada en el punto medio <span class="math inline">\(c = (a+b)/2\)</span>. Si <span class="math inline">\(f'(c) &lt; 0\)</span>, actualiza <span class="math inline">\(a = c\)</span>; si <span class="math inline">\(f'(c) &gt; 0\)</span>, actualiza <span class="math inline">\(b = c\)</span>. El algoritmo reduce el intervalo a la mitad en cada paso.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Método de Bisección">
+<p>Los métodos con derivadas incorporan información analítica de las pendientes locales para acelerar significativamente la convergencia.</p>
+<p>El <strong>Método de Bisección (Bolzano)</strong> se basa en buscar las raíces de la derivada de primer orden (<span class="math inline">\(f'(x) = 0\)</span>). Exige que los signos de la derivada en los extremos del intervalo inicial <span class="math inline">\([a_0, b_0]\)</span> sean opuestos (<span class="math inline">\(f'(a_0) &lt; 0\)</span> y <span class="math inline">\(f'(b_0) &gt; 0\)</span>), lo que por el Teorema de Bolzano asegura la existencia de al menos un punto estacionario en el interior.</p>
+<p>En cada iteración <span class="math inline">\(k\)</span>, calculamos el punto medio: <span class="math display">\[c_k = \frac{a_k + b_k}{2}\]</span> y evaluamos el signo de la derivada en dicho punto:</p>
+<ul>
+<li>Si <span class="math inline">\(f'(c_k) &lt; 0 \implies\)</span> actualizamos la cota izquierda: <span class="math inline">\([a_{k+1}, b_{k+1}] = [c_k, b_k]\)</span>.</li>
+<li>Si <span class="math inline">\(f'(c_k) &gt; 0 \implies\)</span> actualizamos la cota derecha: <span class="math inline">\([a_{k+1}, b_{k+1}] = [a_k, c_k]\)</span>.</li>
+<li>Si <span class="math inline">\(f'(c_k) = 0 \implies c_k\)</span> es el punto óptimo exacto.</li>
+</ul>
+<p>La amplitud del intervalo se reduce a la mitad exacta en cada paso: <span class="math display">\[I_{k+1} = \frac{b_k - a_k}{2}\]</span> El número de pasos <span class="math inline">\(n\)</span> requeridos para alcanzar una tolerancia <span class="math inline">\(\epsilon &gt; 0\)</span> es: <span class="math display">\[n = \left\lceil \frac{\ln(I_0) - \ln(\epsilon)}{\ln(2)} \right\rceil\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Método de Bisección">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo: Método de Bisección
+<span class="screen-reader-only">Tip</span>Ejemplo: Método de Bisección
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. Las derivadas son <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span> y <span class="math inline">\(f''(x) = 3x^2 - 26x + 54\)</span>.</p>
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. La primera derivada es <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span>.</p>
 <ul>
-<li><strong>Iteración 1</strong>: <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Punto medio <span class="math inline">\(c_0 = 2.5 \implies f'(2.5) = -2.6225 &lt; 0\)</span>. Descartamos la izquierda, nuevo intervalo <span class="math inline">\([2.5, 4]\)</span>.</li>
-<li><strong>Iteración 2</strong>: Punto medio <span class="math inline">\(c_1 = 3.25 \implies f'(3.25) = 0.5156 &gt; 0\)</span>. Descartamos la derecha, nuevo intervalo <span class="math inline">\([2.5, 3.25]\)</span>.</li>
-<li><strong>Iteración 3</strong>: <span class="math inline">\(c_2 = 2.875 \implies f'(2.875) = -0.4433 &lt; 0 \implies\)</span> nuevo intervalo <span class="math inline">\([2.875, 3.25]\)</span>.</li>
-<li><strong>Iteración 4</strong>: <span class="math inline">\(c_3 = 3.0625 \implies f'(3.0625) = 0.1760 &gt; 0 \implies\)</span> nuevo intervalo <span class="math inline">\([2.875, 3.0625]\)</span>.</li>
-<li><strong>Iteración 5</strong>: <span class="math inline">\(c_4 = 2.96875 \implies f'(2.96875) = -0.0964 &lt; 0 \implies\)</span> nuevo intervalo <span class="math inline">\([2.96875, 3.0625]\)</span>. La amplitud es de <span class="math inline">\(0.0938 \le 0.15\)</span>, finalizando el algoritmo.</li>
+<li><strong>Paso 1</strong>: Intervalo inicial <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>.
+<ul>
+<li>Calculamos el punto medio: <span class="math display">\[c_0 = \frac{1 + 4}{2} = 2.5\]</span></li>
+<li>Evaluamos la derivada en <span class="math inline">\(c_0\)</span>: <span class="math display">\[f'(2.5) = (2.5)^3 - 13(2.5)^2 + 54(2.5) - 72 = -2.6250 &lt; 0\]</span></li>
+<li>Como <span class="math inline">\(f'(2.5) &lt; 0\)</span>, descartamos la izquierda. Nuevo intervalo: <span class="math inline">\([a_1, b_1] = [2.5, 4]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 2</strong>: Intervalo <span class="math inline">\([a_1, b_1] = [2.5, 4]\)</span>.
+<ul>
+<li>Punto medio: <span class="math display">\[c_1 = \frac{2.5 + 4}{2} = 3.25\]</span></li>
+<li>Evaluamos la derivada en <span class="math inline">\(c_1\)</span>: <span class="math display">\[f'(3.25) = (3.25)^3 - 13(3.25)^2 + 54(3.25) - 72 = 0.5156 &gt; 0\]</span></li>
+<li>Como <span class="math inline">\(f'(3.25) &gt; 0\)</span>, descartamos la derecha. Nuevo intervalo: <span class="math inline">\([a_2, b_2] = [2.5, 3.25]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 3</strong>: Intervalo <span class="math inline">\([a_2, b_2] = [2.5, 3.25]\)</span>.
+<ul>
+<li>Punto medio: <span class="math display">\[c_2 = \frac{2.5 + 3.25}{2} = 2.875\]</span></li>
+<li>Evaluamos la derivada: <span class="math display">\[f'(2.875) \approx -0.4395 &lt; 0\]</span></li>
+<li>Descartamos la izquierda. Nuevo intervalo: <span class="math inline">\([a_3, b_3] = [2.875, 3.25]\)</span>.</li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: Continuando el proceso de subdivisión, en el paso 5 se obtiene el intervalo final <span class="math inline">\([2.96875, 3.0625]\)</span> con amplitud <span class="math inline">\(0.0938 \le 0.15\)</span>, finalizando el algoritmo.</li>
 </ul>
 <div id="fig-biseccion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -684,26 +754,37 @@ Figura&nbsp;2.9: Animación de la búsqueda por Bisección (Bolzano)
 </div>
 </div>
 </div>
-<p>El <strong>Método de Newton 1D</strong> aproxima la función objetivo en cada paso mediante un polinomio cuadrático de Taylor de segundo orden en el punto actual <span class="math inline">\(x_k\)</span> y salta directamente al vértice de la parábola: <span class="math display">\[x_{k+1} = x_k - \frac{f'(x_k)}{f''(x_k)}\]</span> Presenta una convergencia cuadrática local (orden 2), lo que significa que el número de dígitos significativos de precisión se duplica en cada iteración cerca del óptimo. Requiere calcular la segunda derivada <span class="math inline">\(f''(x)\)</span> en cada paso y exige que sea estrictamente positiva (<span class="math inline">\(f''(x_k) &gt; 0\)</span>).</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Método de Newton 1D">
+<p>El <strong>Método de Newton 1D</strong> aproxima localmente la función objetivo en cada paso <span class="math inline">\(x_k\)</span> mediante su polinomio cuadrático de Taylor de segundo orden: <span class="math display">\[q(x) = f(x_k) + f'(x_k)(x - x_k) + \frac{1}{2} f''(x_k)(x - x_k)^2\]</span> Para encontrar el mínimo de esta aproximación parabólica, igualamos su derivada a cero: <span class="math display">\[q'(x) = f'(x_k) + f''(x_k)(x - x_k) = 0 \implies x = x_k - \frac{f'(x_k)}{f''(x_k)}\]</span> Esto nos da la regla iterativa clásica de actualización del método: <span class="math display">\[x_{k+1} = x_k - \frac{f'(x_k)}{f''(x_k)}\]</span> Presenta una <strong>convergencia cuadrática local</strong> (orden 2), duplicando el número de dígitos significativos de precisión en cada paso cuando está cerca del óptimo. Exige calcular tanto <span class="math inline">\(f'(x)\)</span> como <span class="math inline">\(f''(x)\)</span> en cada paso, requiriendo que la función sea de clase <span class="math inline">\(\mathcal{C}^2\)</span> y que la curvatura sea estrictamente positiva (<span class="math inline">\(f''(x_k) &gt; 0\)</span>).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Método de Newton 1D">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo: Método de Newton 1D
+<span class="screen-reader-only">Tip</span>Ejemplo: Método de Newton 1D
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> partiendo del punto inicial <span class="math inline">\(x_0 = 1.0\)</span>. Las derivadas son <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span> y <span class="math inline">\(f''(x) = 3x^2 - 26x + 54\)</span>.</p>
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la misma función partiendo de <span class="math inline">\(x_0 = 1.0\)</span>. Las derivadas son <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span> y <span class="math inline">\(f''(x) = 3x^2 - 26x + 54\)</span>.</p>
 <ul>
-<li><strong>Iteración 1</strong>: Partimos de <span class="math inline">\(x_0 = 1.0\)</span>. <span class="math inline">\(f'(1.0) = -30.0\)</span>, <span class="math inline">\(f''(1.0) = 31.0 \implies x_1 = 1.0 - (-30.0 / 31.0) \approx 1.9677\)</span>.</li>
-<li><strong>Iteración 2</strong>: <span class="math inline">\(f'(1.9677) \approx -8.459\)</span>, <span class="math inline">\(f''(1.9677) \approx 14.450 \implies x_2 = 1.9677 - (-8.459 / 14.450) \approx 2.5529\)</span>.</li>
-<li><strong>Iteración 3</strong>: <span class="math inline">\(f'(2.5529) \approx -2.235\)</span>, <span class="math inline">\(f''(2.5529) \approx 7.177 \implies x_3 = 2.5529 - (-2.235 / 7.177) \approx 2.8637\)</span>.</li>
-<li><strong>Iteración 4</strong>: <span class="math inline">\(f'(2.8637) \approx -0.485\)</span>, <span class="math inline">\(f''(2.8637) \approx 4.146 \implies x_4 = 2.8637 - (-0.485 / 4.146) \approx 2.9808\)</span>.</li>
-<li><strong>Iteración 5</strong>: <span class="math inline">\(f'(2.9808) \approx -0.059\)</span>, <span class="math inline">\(f''(2.9808) \approx 3.154 \implies x_5 = 2.9808 - (-0.059 / 3.154) \approx 2.9995 \approx 3.0\)</span>. Convergencia en 5 iteraciones.</li>
+<li><strong>Paso 1</strong>: Partimos de <span class="math inline">\(x_0 = 1.0\)</span>.
+<ul>
+<li>Evaluamos derivadas: <span class="math display">\[f'(1.0) = 1^3 - 13(1)^2 + 54(1) - 72 = -30.0\]</span> <span class="math display">\[f''(1.0) = 3(1)^2 - 26(1) + 54 = 31.0\]</span></li>
+<li>Actualización: <span class="math display">\[x_1 = 1.0 - \frac{-30.0}{31.0} \approx 1.9677\]</span></li>
+</ul></li>
+<li><strong>Paso 2</strong>: Partimos del punto previo <span class="math inline">\(x_1 = 1.9677\)</span>.
+<ul>
+<li>Evaluamos derivadas: <span class="math display">\[f'(1.9677) \approx -8.4589 \qquad f''(1.9677) \approx 14.4547\]</span></li>
+<li>Actualización: <span class="math display">\[x_2 = 1.9677 - \frac{-8.4589}{14.4547} \approx 2.5529\]</span></li>
+</ul></li>
+<li><strong>Paso 3</strong>: Partimos de <span class="math inline">\(x_2 = 2.5529\)</span>.
+<ul>
+<li>Evaluamos derivadas: <span class="math display">\[f'(2.5529) \approx -2.2300 \qquad f''(2.5529) \approx 7.1760\]</span></li>
+<li>Actualización: <span class="math display">\[x_3 = 2.5529 - \frac{-2.2300}{7.1760} \approx 2.8637\]</span></li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: Aplicando de nuevo la fórmula se obtiene <span class="math inline">\(x_4 \approx 2.9808\)</span> y finalmente <span class="math inline">\(x_5 \approx 2.9995 \approx 3.0\)</span> logrando la convergencia óptima en solo 5 iteraciones.</li>
 </ul>
 <div id="fig-newton-1d" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -718,29 +799,98 @@ Figura&nbsp;2.10: Animación del método de Newton 1D
 </div>
 </div>
 </div>
-<p>El <strong>Método de la Secante</strong> evita el cálculo de la segunda derivada del método de Newton aproximándola numéricamente por diferencias finitas a partir de los dos últimos puntos evaluados: <span class="math inline">\(f''(x_k) \approx (f'(x_k) - f'(x_{k-1})) / (x_k - x_{k-1})\)</span>. Sustituyendo esta aproximación en la fórmula de Newton, el nuevo punto se calcula como <span class="math inline">\(x_{k+1} = x_k - f'(x_k) \frac{x_k - x_{k-1}}{f'(x_k) - f'(x_{k-1})}\)</span>. Presenta una convergencia superlineal de orden <span class="math inline">\(\approx 1.618\)</span>.</p>
-</section>
-</section>
-<section id="métodos-multivariantes-de-optimización-sin-restricciones" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="métodos-multivariantes-de-optimización-sin-restricciones"><span class="header-section-number">2.5</span> Métodos multivariantes de optimización sin restricciones</h2>
-<p>Para minimizar funciones multivariantes <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> sin restricciones, construimos una sucesión iterativa a partir de una dirección de búsqueda <span class="math inline">\(d_k\)</span> y un tamaño de paso <span class="math inline">\(\alpha_k &gt; 0\)</span>: <span class="math display">\[x_{k+1} = x_k + \alpha_k d_k\]</span> Para garantizar que el algoritmo avance reduciendo la función en cada paso, la dirección <span class="math inline">\(d_k\)</span> debe ser de descenso, lo que exige matemáticamente que forme un ángulo obtuso con el gradiente de la función en el punto actual: <span class="math display">\[\nabla f(x_k)^T d_k &lt; 0\]</span></p>
-<section id="método-de-las-coordenadas-cíclicas" class="level3" data-number="2.5.1">
-<h3 data-number="2.5.1" class="anchored" data-anchor-id="método-de-las-coordenadas-cíclicas"><span class="header-section-number">2.5.1</span> Método de las coordenadas cíclicas</h3>
-<p>Es uno de los algoritmos de optimización multivariante más sencillos. Evita por completo el cálculo de derivadas y gradientes. En su lugar, avanza secuencialmente minimizando la función respecto a una única variable de decisión a la vez, manteniendo constantes las restantes <span class="math inline">\(n-1\)</span> variables. Las direcciones de búsqueda coinciden cíclicamente con los vectores de la base canónica de <span class="math inline">\(\mathbb{R}^n\)</span>: <span class="math display">\[d_k = e_{(k \bmod n) + 1}\]</span> donde <span class="math inline">\(e_i\)</span> es el <span class="math inline">\(i\)</span>-ésimo vector unitario. En cada paso, se resuelve un subproblema de optimización lineal 1D.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Coordenadas Cíclicas">
+<p>El <strong>Método de la Secante</strong> evita el inconveniente de calcular analíticamente la segunda derivada <span class="math inline">\(f''(x)\)</span> aproximándola numéricamente por diferencias finitas a partir de las pendientes de los dos últimos puntos evaluados: <span class="math display">\[f''(x_k) \approx \frac{f'(x_k) - f'(x_{k-1})}{x_k - x_{k-1}}\]</span> Sustituyendo esta aproximación en la fórmula de Newton, la regla iterativa de la secante se calcula como: <span class="math display">\[x_{k+1} = x_k - f'(x_k) \cdot \frac{x_k - x_{k-1}}{f'(x_k) - f'(x_{k-1})}\]</span> Este método ofrece una convergencia superlineal de orden <span class="math inline">\(\approx 1.618\)</span> (la razón áurea) y requiere disponer de dos estimaciones iniciales para iniciar las iteraciones (<span class="math inline">\(x_0\)</span> y <span class="math inline">\(x_{-1}\)</span>).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Método de la Secante">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo: Coordenadas Cíclicas
+<span class="screen-reader-only">Tip</span>Ejemplo: Método de la Secante
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la misma función partiendo de <span class="math inline">\(x_{-1} = 1.0\)</span> y <span class="math inline">\(x_0 = 1.5\)</span>. La derivada es <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span>.</p>
 <ul>
-<li><p><strong>Variables Desacopladas</strong>: Minimizamos la función de distancia <span class="math inline">\(f(x, y) = (x-2)^2 + (y-1)^2\)</span> (ver <a href="#fig-coord-ciclicas-1" class="quarto-xref">Figura&nbsp;<span>2.11</span></a>) partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
+<li><strong>Paso 1</strong>: Puntos iniciales <span class="math inline">\(x_{-1} = 1.0\)</span> y <span class="math inline">\(x_0 = 1.5\)</span>.
+<ul>
+<li>Evaluamos la derivada en ambos puntos: <span class="math display">\[f'(1.0) = -30.0 \qquad f'(1.5) = -16.875\]</span></li>
+<li>Aplicamos la regla de la secante: <span class="math display">\[x_1 = 1.5 - (-16.875) \cdot \frac{1.5 - 1.0}{-16.875 - (-30.0)} = 1.5 + 16.875 \cdot \frac{0.5}{13.125} \approx 2.1429\]</span></li>
+</ul></li>
+<li><strong>Paso 2</strong>: Puntos <span class="math inline">\(x_0 = 1.5\)</span> y <span class="math inline">\(x_1 = 2.1429\)</span>.
+<ul>
+<li>Evaluamos la derivada en el nuevo punto <span class="math inline">\(x_1\)</span>: <span class="math display">\[f'(2.1429) \approx -6.1399\]</span></li>
+<li>Aplicamos la regla de la secante: <span class="math display">\[x_2 = 2.1429 - (-6.1399) \cdot \frac{2.1429 - 1.5}{-6.1399 - (-16.875)} = 2.1429 + 6.1399 \cdot \frac{0.6429}{10.7351} \approx 2.5106\]</span></li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: Aplicando iterativamente la secante obtenemos <span class="math inline">\(x_3 \approx 2.7707\)</span>, <span class="math inline">\(x_4 \approx 2.9157\)</span>, <span class="math inline">\(x_5 \approx 2.9807\)</span>, y finalmente <span class="math inline">\(x_7 \approx 2.9999 \approx 3.0\)</span>, convergiendo rápidamente al mínimo sin segundas derivadas.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="métodos-multivariantes-de-optimización-sin-restricciones" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="métodos-multivariantes-de-optimización-sin-restricciones"><span class="header-section-number">2.5</span> Métodos multivariantes de optimización sin restricciones</h2>
+<p>Para minimizar funciones multivariantes <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> sin restricciones, construimos una sucesión iterativa a partir de una dirección de búsqueda <span class="math inline">\(d_k\)</span> y un tamaño de paso <span class="math inline">\(\alpha_k &gt; 0\)</span>: <span class="math display">\[x_{k+1} = x_k + \alpha_k d_k\]</span> Para garantizar que el algoritmo avance reduciendo la función en cada paso, la dirección <span class="math inline">\(d_k\)</span> debe ser de descenso, lo que exige matemáticamente que forme un ángulo obtuso con el gradiente de la función en el punto actual: <span class="math display">\[\nabla f(x_k)^T d_k &lt; 0\]</span></p>
+<p>Para ilustrar el funcionamiento de los algoritmos multivariantes, utilizaremos a lo largo del capítulo dos funciones de prueba representativas en <span class="math inline">\(\mathbb{R}^2\)</span>:</p>
+<ol type="1">
+<li><strong>Función de distancia circular (desacoplada)</strong>: <span class="math display">\[f(x, y) = (x-2)^2 + (y-1)^2\]</span> Su forma geométrica es la de un cuenco circular (paraboloide de revolución) con curvas de nivel perfectamente redondas, lo que facilita el comportamiento de los métodos por no existir acoplamiento cruzado (ver <a href="#fig-funciones-3d-1" class="quarto-xref">Figura&nbsp;<span>2.11 (a)</span></a>).</li>
+<li><strong>Función cuadrática mal acondicionada (acoplada)</strong>: <span class="math display">\[f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\]</span> Presenta curvas de nivel elípticas muy alargadas y un término cruzado <span class="math inline">\(3xy\)</span> que acopla las variables, simulando un problema de optimización realista de curvatura desigual (ver <a href="#fig-funciones-3d-2" class="quarto-xref">Figura&nbsp;<span>2.11 (b)</span></a>).</li>
+</ol>
+<div id="fig-funciones-3d" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-funciones-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-funciones-3d" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-funciones-3d-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-funciones-3d-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/funcion_distancia_3d.png" class="lightbox" data-gallery="fig-funciones-3d" title="Figura&nbsp;2.11&nbsp;(a): Superficie 3D de la función de distancia circular desacoplada"><img src="images/funcion_distancia_3d.png" class="img-fluid figure-img" data-ref-parent="fig-funciones-3d"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-funciones-3d-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Superficie 3D de la función de distancia circular desacoplada
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-funciones-3d" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-funciones-3d-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-funciones-3d-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/funcion_cuadratica_3d.png" class="lightbox" data-gallery="fig-funciones-3d" title="Figura&nbsp;2.11&nbsp;(b): Superficie 3D de la función cuadrática acoplada"><img src="images/funcion_cuadratica_3d.png" class="img-fluid figure-img" data-ref-parent="fig-funciones-3d"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-funciones-3d-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Superficie 3D de la función cuadrática acoplada
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-funciones-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.11: Superficies tridimensionales de las funciones de prueba en varias variables
+</figcaption>
+</figure>
+</div>
+<section id="método-de-las-coordenadas-cíclicas" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="método-de-las-coordenadas-cíclicas"><span class="header-section-number">2.5.1</span> Método de las coordenadas cíclicas</h3>
+<p>Es uno de los algoritmos de optimización multivariante más sencillos. Evita por completo el cálculo de derivadas y gradientes. En su lugar, avanza secuencialmente minimizando la función respecto a una única variable de decisión a la vez, manteniendo constantes las restantes <span class="math inline">\(n-1\)</span> variables. Las direcciones de búsqueda coinciden cíclicamente con los vectores de la base canónica de <span class="math inline">\(\mathbb{R}^n\)</span>: <span class="math display">\[d_k = e_{(k \bmod n) + 1}\]</span> donde <span class="math inline">\(e_i\)</span> es el <span class="math inline">\(i\)</span>-ésimo vector unitario. En cada paso, se resuelve un subproblema de optimización lineal 1D.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Coordenadas Cíclicas">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Coordenadas Cíclicas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>Variables Desacopladas</strong>: Minimizamos la función de distancia <span class="math inline">\(f(x, y) = (x-2)^2 + (y-1)^2\)</span> (ver <a href="#fig-coord-ciclicas-1" class="quarto-xref">Figura&nbsp;<span>2.12</span></a>) partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
 <ul>
 <li><em>Paso 1</em>: Minimizamos respecto a <span class="math inline">\(x\)</span>: <span class="math display">\[ \min_{x} \quad f(x, 0) = (x-2)^2 + 1 \implies x_1 = (2, 0)^T \]</span></li>
 <li><em>Paso 2</em>: Minimizamos respecto a <span class="math inline">\(y\)</span>: <span class="math display">\[ \min_{y} \quad f(2, y) = (y-1)^2 \implies x_2 = (2, 1)^T \]</span></li>
@@ -750,15 +900,15 @@ Figura&nbsp;2.10: Animación del método de Newton 1D
 <div id="fig-coord-ciclicas-1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-coord-ciclicas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/coordenadas_ciclicas_ej1.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figura&nbsp;2.11: Descenso por coordenadas cíclicas: trayectoria paso a paso sobre curvas de nivel circulares (animación)"><img src="images/coordenadas_ciclicas_ej1.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a>
+<a href="images/coordenadas_ciclicas_ej1.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figura&nbsp;2.12: Descenso por coordenadas cíclicas: trayectoria paso a paso sobre curvas de nivel circulares (animación)"><img src="images/coordenadas_ciclicas_ej1.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coord-ciclicas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;2.11: Descenso por coordenadas cíclicas: trayectoria paso a paso sobre curvas de nivel circulares (animación)
+Figura&nbsp;2.12: Descenso por coordenadas cíclicas: trayectoria paso a paso sobre curvas de nivel circulares (animación)
 </figcaption>
 </figure>
 </div>
 <ul>
-<li><p><strong>Variables Acopladas</strong>: Minimizamos <span class="math inline">\(f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\)</span> (ver <a href="#fig-coord-ciclicas-2" class="quarto-xref">Figura&nbsp;<span>2.12</span></a>) partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
+<li><p><strong>Variables Acopladas</strong>: Minimizamos <span class="math inline">\(f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\)</span> (ver <a href="#fig-coord-ciclicas-2" class="quarto-xref">Figura&nbsp;<span>2.13</span></a>) partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
 <ul>
 <li><em>Paso 1</em>: Minimizamos respecto a <span class="math inline">\(x\)</span>: <span class="math display">\[ \min_{x} \quad f(x, 0) = 8x^2 - 25x - 29 \implies 16x - 25 = 0 \implies x_1 = (1.5625, 0)^T \]</span></li>
 <li><em>Paso 2</em>: Minimizamos respecto a <span class="math inline">\(y\)</span> manteniendo <span class="math inline">\(x = 1.5625\)</span>: <span class="math display">\[ \min_{y} \quad f(1.5625, y) = 7y^2 + 35.6875y + \text{ct} \implies 14y + 35.6875 = 0 \implies \]</span> <span class="math display">\[y = -\frac{571}{224} \approx -2.5491 \]</span> Lo que resulta en el punto <span class="math inline">\(x_2 = (1.5625, -2.5491)^T\)</span>.</li>
@@ -769,10 +919,10 @@ Figura&nbsp;2.11: Descenso por coordenadas cíclicas: trayectoria paso a paso so
 <div id="fig-coord-ciclicas-2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-coord-ciclicas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/coordenadas_ciclicas_ej2.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figura&nbsp;2.12: Trayectoria en escalera del descenso por coordenadas cíclicas sobre una función cuadrática acoplada (animación)"><img src="images/coordenadas_ciclicas_ej2.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a>
+<a href="images/coordenadas_ciclicas_ej2.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figura&nbsp;2.13: Trayectoria en escalera del descenso por coordenadas cíclicas sobre una función cuadrática acoplada (animación)"><img src="images/coordenadas_ciclicas_ej2.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coord-ciclicas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;2.12: Trayectoria en escalera del descenso por coordenadas cíclicas sobre una función cuadrática acoplada (animación)
+Figura&nbsp;2.13: Trayectoria en escalera del descenso por coordenadas cíclicas sobre una función cuadrática acoplada (animación)
 </figcaption>
 </figure>
 </div>
@@ -785,18 +935,18 @@ Figura&nbsp;2.12: Trayectoria en escalera del descenso por coordenadas cíclicas
 <p>La dirección de búsqueda en el método de máximo descenso se define como la dirección en la que la función decrece más rápidamente a nivel local, dada por el opuesto del vector gradiente: <span class="math display">\[d_k = -\nabla f(x_k)\]</span> El tamaño de paso óptimo <span class="math inline">\(\alpha_k\)</span> se calcula mediante búsqueda de línea exacta: <span class="math display">\[\alpha_k = \arg\min_{\alpha &gt; 0} f(x_k - \alpha \nabla f(x_k))\]</span></p>
 <p>Una propiedad matemática de la búsqueda lineal exacta en el método de máximo descenso es que las direcciones de búsqueda en iteraciones consecutivas son estrictamente ortogonales entre sí: <span class="math display">\[d_k^T d_{k+1} = 0\]</span></p>
 <p>Para demostrarlo, definimos la función unidimensional <span class="math inline">\(\phi(\alpha) = f(x_k + \alpha d_k)\)</span> que se minimiza para hallar <span class="math inline">\(\alpha_k\)</span>. La condición de óptimo exige que su derivada con respecto al tamaño de paso sea nula en <span class="math inline">\(\alpha_k\)</span>: <span class="math display">\[\phi'(\alpha_k) = \nabla f(x_k + \alpha_k d_k)^T d_k = 0\]</span> Dado que el nuevo punto es <span class="math inline">\(x_{k+1} = x_k + \alpha_k d_k\)</span>, se tiene que <span class="math inline">\(\nabla f(x_{k+1})^T d_k = 0\)</span>. Puesto que las direcciones consecutivas son proporcionales a los gradientes (<span class="math inline">\(d_{k+1} = -\nabla f(x_{k+1})\)</span> y <span class="math inline">\(d_k = -\nabla f(x_k)\)</span>), se concluye de forma directa la ortogonalidad: <span class="math display">\[d_{k+1}^T d_k = 0\]</span></p>
-<p>Esta ortogonalidad geométrica provoca que, si la función presenta curvas de nivel elípticas muy alargadas (problemas mal acondicionados), el algoritmo realice continuos giros de 90°, generando un patrón en <strong>zigzag</strong> que ralentiza la convergencia, tal y como se observa en la <a href="#fig-steepest-descent" class="quarto-xref">Figura&nbsp;<span>2.13</span></a>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Ejemplo: Máximo Descenso">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<p>Esta ortogonalidad geométrica provoca que, si la función presenta curvas de nivel elípticas muy alargadas (problemas mal acondicionados), el algoritmo realice continuos giros de 90°, generando un patrón en <strong>zigzag</strong> que ralentiza la convergencia, tal y como se observa en la <a href="#fig-steepest-descent" class="quarto-xref">Figura&nbsp;<span>2.14</span></a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Máximo Descenso">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Ejemplo: Máximo Descenso
+<span class="screen-reader-only">Tip</span>Ejemplo: Máximo Descenso
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Minimizamos <span class="math inline">\(f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\)</span> partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
 <ul>
@@ -807,10 +957,10 @@ Figura&nbsp;2.12: Trayectoria en escalera del descenso por coordenadas cíclicas
 <div id="fig-steepest-descent" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-steepest-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/steepest_descent.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figura&nbsp;2.13: Máximo descenso: trayectoria iterativa con gradiente y ortogonalidad entre pasos consecutivos (animación)"><img src="images/steepest_descent.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></a>
+<a href="images/steepest_descent.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figura&nbsp;2.14: Máximo descenso: trayectoria iterativa con gradiente y ortogonalidad entre pasos consecutivos (animación)"><img src="images/steepest_descent.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-steepest-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;2.13: Máximo descenso: trayectoria iterativa con gradiente y ortogonalidad entre pasos consecutivos (animación)
+Figura&nbsp;2.14: Máximo descenso: trayectoria iterativa con gradiente y ortogonalidad entre pasos consecutivos (animación)
 </figcaption>
 </figure>
 </div>

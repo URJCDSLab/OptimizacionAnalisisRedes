@@ -189,6 +189,30 @@ Clasificación de $H = \nabla^2 f(x)$ según la forma cuadrática $z^T H z$:
 
 ---
 
+## Geometría de la curvatura: Definida positiva
+
+::: {.columns}
+::: {.column width="50%"}
+**Mínimo Circular ($H \succ 0$)**
+![](../images/funcion_distancia_3d.png){width="100%"}
+:::
+
+::: {.column width="50%"}
+**Mínimo Elíptico ($H \succ 0$)**
+![](../images/funcion_cuadratica_3d.png){width="100%"}
+:::
+:::
+
+---
+
+## Geometría de la curvatura: Indefinida
+
+**Punto de Silla (Indefinida)**
+
+![](../images/punto_silla_3d.png){fig-align="center" width="75%"}
+
+---
+
 ## Condiciones de optimalidad en optimización libre
 
 Caracterización diferencial de extremos locales sin restricciones:
@@ -260,7 +284,7 @@ Minimizamos $f(x)$ en $[1, 4]$ con $\delta = 0.02$ y tolerancia $\epsilon = 0.15
         $$ \lambda_0 = \frac{a_0 + b_0}{2} - \delta = \frac{1 + 4}{2} - 0.02 = 2.48 $$
         $$ \mu_0 = \frac{a_0 + b_0}{2} + \delta = \frac{1 + 4}{2} + 0.02 = 2.52 $$
     *   Calculamos evaluaciones:
-        $$ f(2.48) \approx -68.397 \qquad f(2.52) \approx -68.490 $$
+        $$ f(2.48) \approx -68.1386 \qquad f(2.52) \approx -68.2437 $$
     *   Como $f(\lambda_0) > f(\mu_0) \implies$ descartamos $[a_0, \lambda_0]$. Nuevo intervalo: $[2.48, 4]$.
 
 ---
@@ -273,7 +297,7 @@ Minimizamos $f(x)$ en $[1, 4]$ con $\delta = 0.02$ y tolerancia $\epsilon = 0.15
         $$ \lambda_1 = \frac{a_1 + b_1}{2} - \delta = 3.22 $$
         $$ \mu_1 = \frac{a_1 + b_1}{2} + \delta = 3.26 $$
     *   Calculamos evaluaciones:
-        $$ f(3.22) \approx -68.730 \qquad f(3.26) \approx -68.683 $$
+        $$ f(3.22) \approx -68.6910 \qquad f(3.26) \approx -68.6709 $$
     *   Como $f(\lambda_1) < f(\mu_1) \implies$ descartamos $[\mu_1, b_1]$. Nuevo intervalo: $[2.48, 3.26]$.
 
 ---
@@ -285,7 +309,7 @@ Minimizamos $f(x)$ en $[1, 4]$ con $\delta = 0.02$ y tolerancia $\epsilon = 0.15
     *   Planteamos y sustituimos:
         $$ \lambda_2 = 2.85 \qquad \mu_2 = 2.89 $$
     *   Calculamos evaluaciones:
-        $$ f(2.85) \approx -68.711 \qquad f(2.89) \approx -68.724 $$
+        $$ f(2.85) \approx -68.7116 \qquad f(2.89) \approx -68.7300 $$
     *   Como $f(\lambda_2) > f(\mu_2) \implies$ descartamos $[a_2, \lambda_2]$. Nuevo intervalo final: $[2.85, 3.26]$.
 *   **Fin de la búsqueda**: El intervalo final es $[2.85, 3.26]$ con amplitud $0.41$. Para alcanzar la tolerancia $\epsilon = 0.15$ se requerirían iteraciones adicionales.
 
@@ -306,6 +330,24 @@ El proceso divide iterativamente el intervalo de búsqueda prácticamente a la m
     $$ I_k = \frac{b_k - a_k}{\alpha} \quad \text{con} \quad \alpha = \frac{1 + \sqrt{5}}{2} \approx 1.61803 $$
 *   Los puntos se localizan simétricamente en el intervalo:
     $$ \lambda_k = b_k - I_k \qquad \mu_k = a_k + I_k $$
+
+---
+
+## Sección áurea: deducción del ratio $\alpha$ (1)
+
+*   Queremos que la razón entre las amplitudes de iteraciones sucesivas sea constante:
+    $$ I_k = \alpha I_{k+1} \qquad I_{k+1} = \alpha I_{k+2} \implies I_k = \alpha^2 I_{k+2} $$
+*   Para poder reutilizar uno de los puntos internos del paso anterior, la suma de las amplitudes sucesivas debe satisfacer la relación de partición geométrica:
+    $$ I_k = I_{k+1} + I_{k+2} $$
+
+---
+
+## Sección áurea: deducción del ratio $\alpha$ (2)
+
+*   Sustituyendo las proporciones constantes de la escala en la partición geométrica:
+    $$ \alpha^2 I_{k+2} = \alpha I_{k+2} + I_{k+2} \implies \alpha^2 - \alpha - 1 = 0 $$
+*   Resolviendo esta ecuación cuadrática, la única raíz física posible ($\alpha > 1$) es la **razón áurea**:
+    $$ \alpha = \frac{1 + \sqrt{5}}{2} \approx 1.618033988 $$
 
 ---
 
@@ -343,7 +385,7 @@ Minimizamos $f(x)$ en $[1, 4]$ con tolerancia $\epsilon = 0.15$:
     *   Reutilizamos:
         $$ \mu_2 = \lambda_1 = 2.8541 \implies f(2.8541) \approx -68.714 $$
     *   Calculamos el nuevo punto:
-        $$ \lambda_2 = b_2 - I_3 = 3.2918 - 0.7082 = 2.5836 \implies f(2.5836) \approx -68.601 $$
+        $$ \lambda_2 = b_2 - I_3 = 3.2918 - 0.7082 = 2.5836 \implies f(2.5836) \approx -68.3861 $$
     *   Como $f(\lambda_2) > f(\mu_2) \implies$ descartamos $[a_2, \lambda_2]$. Nuevo intervalo: $[2.5836, 3.2918]$.
 *   **Convergencia**: El proceso continúa de forma análoga. En el **paso 7**, la amplitud de búsqueda se reduce a $0.1033 \le 0.15$ (tolerancia alcanzada), con el óptimo localizado en el intervalo final $[2.91, 3.01]$.
 
@@ -364,6 +406,26 @@ La amplitud del intervalo se contrae de forma secuencial manteniendo la proporci
     $$ F_0=1, F_1=1, F_2=2, F_3=3, F_4=5, F_5=8, F_6=13, F_7=21, \dots $$
 *   La amplitud del paso en cada iteración $k$ se calcula mediante:
     $$ I_k = \frac{F_{N-k}}{F_{N-k+2}} (b_{k-1} - a_{k-1}) $$
+
+---
+
+## Fibonacci: relación de amplitudes e intervalos (1)
+
+*   Se fija de antemano el número total de evaluaciones $N$.
+*   En la última iteración ($N-1$), queremos que los puntos coincidan prácticamente en el centro para poder descartar la mitad del espacio restante:
+    $$ I_{N-1} \approx 2 I_N $$
+*   Siguiendo la regla de adición para la reutilización de puntos, las amplitudes de intervalos sucesivos se van acumulando:
+    $$ I_{N-2} = I_{N-1} + I_N \approx 3 I_N $$
+    $$ I_{N-3} = I_{N-2} + I_{N-1} \approx 5 I_N $$
+
+---
+
+## Fibonacci: relación de amplitudes e intervalos (2)
+
+*   En general, las amplitudes sucesivas en la iteración $k$ se relacionan mediante los términos de Fibonacci:
+    $$ I_k = F_{N-k+1} I_N $$
+*   Esto nos permite deducir el paso en cada iteración en función del intervalo actual de incertidumbre:
+    $$ I_{k+1} = \frac{F_{N-k}}{F_{N-k+1}} (b_k - a_k) $$
 
 ---
 
@@ -435,7 +497,7 @@ Minimizamos $f(x)$ con $f'(x) = x^3 - 13x^2 + 54x - 72$ en $[1, 4]$, $\epsilon =
 *   **Paso 3**: $[a_2, b_2] = [2.5, 3.25]$. Punto medio $c_2 = 2.875$.
     
     *   Sustituimos y calculamos la derivada:
-        $$ f'(2.875) = (2.875)^3 - 13(2.875)^2 + 54(2.875) - 72 = -0.4433 < 0 $$
+        $$ f'(2.875) = (2.875)^3 - 13(2.875)^2 + 54(2.875) - 72 = -0.4395 < 0 $$
     *   Como $f'(c_2) < 0 \implies$ descartamos la mitad izquierda. Nuevo intervalo: $[2.875, 3.25]$.
 *   **Convergencia**: En el **paso 5**, el intervalo es $[2.9531, 3.0469]$ con una amplitud de $0.0938 \le 0.15$, alcanzando la tolerancia.
 
@@ -458,6 +520,17 @@ El método se basa en el teorema de Bolzano, acotando sucesivamente el valor don
 
 ---
 
+## Newton 1D: deducción de la fórmula
+
+*   El desarrollo de Taylor de segundo orden en $x_k$ es:
+    $$ q(x) = f(x_k) + f'(x_k)(x - x_k) + \frac{1}{2} f''(x_k)(x - x_k)^2 $$
+*   Para hallar el vértice de la aproximación parabólica, igualamos su derivada a cero:
+    $$ q'(x) = f'(x_k) + f''(x_k)(x - x_k) = 0 $$
+*   Despejando $x$, obtenemos el punto iterado $x_{k+1}$:
+    $$ x - x_k = -\frac{f'(x_k)}{f''(x_k)} \implies x_{k+1} = x_k - \frac{f'(x_k)}{f''(x_k)} $$
+
+---
+
 ## Newton 1D: paso a paso numérico (paso 1)
 
 Minimizamos la misma función partiendo de $x_0 = 1.0$:
@@ -477,9 +550,9 @@ Minimizamos la misma función partiendo de $x_0 = 1.0$:
 *   **Paso 2**: Partimos del punto anterior $x_1 = 1.9677$.
     
     *   Calculamos primera y segunda derivada:
-        $$ f'(1.9677) \approx -8.459 \qquad f''(1.9677) \approx 14.450 $$
+        $$ f'(1.9677) \approx -8.4589 \qquad f''(1.9677) \approx 14.4547 $$
     *   Sustituimos en la regla de Newton:
-        $$ x_2 = x_1 - \frac{f'(x_1)}{f''(x_1)} = 1.9677 - \frac{-8.459}{14.450} \approx 2.5529 $$
+        $$ x_2 = x_1 - \frac{f'(x_1)}{f''(x_1)} = 1.9677 - \frac{-8.4589}{14.4547} \approx 2.5529 $$
 
 ---
 
@@ -487,8 +560,8 @@ Minimizamos la misma función partiendo de $x_0 = 1.0$:
 
 *   **Paso 3**: Partimos de $x_2 = 2.5529$.
     
-    *   Calculamos derivadas: $f'(2.5529) \approx -2.235$, $f''(2.5529) \approx 7.177$.
-    *   Actualización: $x_3 = 2.5529 - \frac{-2.235}{7.177} \approx 2.8637$.
+    *   Calculamos derivadas: $f'(2.5529) \approx -2.2300$, $f''(2.5529) \approx 7.1760$.
+    *   Actualización: $x_3 = 2.5529 - \frac{-2.2300}{7.1760} \approx 2.8637$.
 *   **Paso 4**: $x_3 = 2.8637 \implies x_4 = 2.8637 - \frac{-0.485}{4.146} \approx 2.9808$.
 *   **Paso 5**: $x_4 = 2.9808 \implies x_5 = 2.9808 - \frac{-0.059}{3.154} \approx 2.9995 \approx 3.0$.
 
@@ -512,6 +585,33 @@ El algoritmo aproxima de manera local mediante parábolas sucesivas y converge m
     *   Convergencia superlineal con orden $\approx 1.618$.
     *   Exige disponer de dos puntos iniciales $x_0$ y $x_{-1}$.
 
+---
+
+## Secante: paso a paso numérico (pasos 1-2)
+
+Minimizamos $f(x)$ en $[1, 4]$ partiendo de $x_{-1} = 1.0$ y $x_0 = 1.5$:
+
+*   **Paso 1**: $x_{-1} = 1.0$, $x_0 = 1.5$.
+    *   Evaluamos derivadas: $f'(1.0) = -30.0 \qquad f'(1.5) = -16.875$.
+    *   Sustituimos en la regla:
+        $$ x_1 = 1.5 - (-16.875) \cdot \frac{1.5 - 1.0}{-16.875 - (-30.0)} \approx 2.1429 $$
+
+*   **Paso 2**: $x_0 = 1.5$, $x_1 = 2.1429$.
+    *   Derivada nueva: $f'(2.1429) \approx -6.1399$.
+    *   Actualización:
+        $$ x_2 = 2.1429 - (-6.1399) \cdot \frac{2.1429 - 1.5}{-6.1399 - (-16.875)} \approx 2.5106 $$
+
+---
+
+## Secante: paso a paso numérico (pasos siguientes)
+
+*   **Paso 3**: $x_1 = 2.1429$, $x_2 = 2.5106$.
+    *   Actualización: $x_3 \approx 2.7707$.
+*   **Paso 4**: $x_2 = 2.5106$, $x_3 = 2.7707$.
+    *   Actualización: $x_4 \approx 2.9157$.
+*   **Paso 5**: $x_3 = 2.7707$, $x_4 = 2.9157$.
+    *   Actualización: $x_5 \approx 2.9807$ (llegando a $x_7 \approx 2.9999 \approx 3.0$ en iteraciones posteriores sin calcular segundas derivadas).
+
 # Métodos multivariantes
 
 ## Métodos multivariantes de optimización sin restricciones
@@ -526,6 +626,26 @@ Donde:
     $$ \nabla f(x_k)^T d_k < 0 $$
 *   **Tamaño de paso ($\alpha_k$)**: Determina el avance óptimo a lo largo de la dirección. Se calcula resolviendo el problema unidimensional:
     $$ \alpha_k = \arg\min_{\alpha > 0} f(x_k + \alpha d_k) $$
+
+---
+
+## Funciones multivariantes de prueba (1)
+
+*   **Función de distancia circular (desacoplada)**:
+    $$f(x, y) = (x-2)^2 + (y-1)^2$$
+*   Presenta un paraboloide circular de revolución simétrico con curvas de nivel circulares concéntricas y mínimo global en $x^* = (2, 1)^T$.
+
+![](../images/funcion_distancia_3d.png){fig-align="center" width="55%"}
+
+---
+
+## Funciones multivariantes de prueba (2)
+
+*   **Función cuadrática mal acondicionada (acoplada)**:
+    $$f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$$
+*   Presenta un paraboloide elíptico alargado con curvas de nivel elípticas y mínimo global en $x^* \approx (2.060, -2.656)^T$.
+
+![](../images/funcion_cuadratica_3d.png){fig-align="center" width="55%"}
 
 ---
 
