@@ -1,0 +1,132 @@
+# Ejercicios del Tema 4: condiciones de optimalidad y KKT
+
+## Ejercicio 1: clasificación de puntos estacionarios sin restricciones
+
+Considerar la función real de dos variables:
+$$ f(x_1, x_2) = x_1^3 - 3x_1 x_2^2 + x_2^4 - 2x_2^2 $$
+
+Se pide:
+
+1. Encontrar todos los puntos estacionarios de la función aplicando las condiciones de primer orden (FONC), es decir, resolviendo el sistema $\nabla f(x_1, x_2) = 0$.
+2. Calcular la matriz hessiana $\nabla^2 f(x_1, x_2)$ y evaluar las condiciones de segundo orden (SONC y SOSC) en cada punto estacionario hallado. Clasificar cada punto como mínimo local, máximo local, punto de silla o indeterminado.
+3. Determinar razonadamente si la función posee algún mínimo global o máximo global sobre todo el dominio $\mathbb{R}^2$.
+
+---
+
+## Ejercicio 2: criterio de derivadas de orden superior (caso univariante)
+
+Considerar la función univariante:
+$$ f(x) = (x - 1)^2 (x + 1)^2 $$
+
+Se pide:
+
+1. Encontrar todos los puntos estacionarios de $f$ en $\mathbb{R}$.
+2. Aplicar el criterio de derivadas de orden superior para clasificar cada punto estacionario: si la primera derivada no nula $f^{(n)}(\bar{x})$ tiene orden $n$ par, $\bar{x}$ es un extremo local; si $n$ es impar, $\bar{x}$ es un punto de inflexión.
+3. Identificar los mínimos locales, máximos locales y puntos de inflexión de la función. Indicar si alguno de los extremos locales es también un extremo global.
+
+---
+
+## Ejercicio 3: conos de direcciones factibles y de descenso
+
+Considerar el problema de optimización:
+$$ \min f(x_1, x_2) = -x_1 - 2x_2 $$
+sujeto a las restricciones:
+$$ g_1(x_1, x_2) = x_1^2 + x_2^2 - 4 \le 0 \qquad g_2(x_1, x_2) = -x_1 \le 0 $$
+
+Se pide evaluar las condiciones de optimalidad basadas en conos de direcciones en los puntos $\bar{x}_A = (2, 0)^T$ y $\bar{x}_B = (0, 2)^T$:
+
+1. Identificar las restricciones activas en cada punto y calcular los gradientes de las restricciones activas $\nabla g_i(\bar{x})$.
+2. Determinar el cono analítico de descenso $\mathcal{D}_0(\bar{x}) = \{ d \mid \nabla f(\bar{x})^T d < 0 \}$ y el cono de restricciones activas $\mathcal{G}_0(\bar{x}) = \{ d \mid \nabla g_i(\bar{x})^T d < 0, \ \forall i \in \mathcal{I} \}$.
+3. Comprobar si se cumple la condición necesaria $\mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) = \emptyset$ en cada punto.
+4. Interpretar geométricamente el resultado: ¿cuál de los dos puntos puede ser un óptimo local y por qué?
+
+---
+
+## Ejercicio 4: condiciones de Fritz-John y fallo de LICQ
+
+Considerar el problema de optimización:
+$$ \min f(x_1, x_2) = x_1 + x_2 $$
+sujeto a las restricciones:
+$$ g_1(x_1, x_2) = (x_1 - 1)^3 - x_2 \le 0 \qquad g_2(x_1, x_2) = -x_2 \le 0 $$
+
+Se pide analizar el punto $\bar{x} = (1, 0)^T$:
+
+1. Verificar que $\bar{x}$ es un punto factible e identificar las restricciones activas.
+2. Plantear las condiciones de Fritz-John en $\bar{x}$: escribir el sistema $u_0 \nabla f(\bar{x}) + u_1 \nabla g_1(\bar{x}) + u_2 \nabla g_2(\bar{x}) = 0$ con $u_0, u_1, u_2 \ge 0$, $(u_0, u_1, u_2) \neq (0,0,0)$.
+3. Resolver el sistema y determinar los valores posibles de los multiplicadores $u_0, u_1, u_2$. ¿Es posible que $u_0 > 0$?
+4. Comprobar si se satisface la condición LICQ (independencia lineal de los gradientes de las restricciones activas) en $\bar{x}$. Interpretar el resultado y explicar por qué las condiciones de Fritz-John son insuficientes en este caso para discriminar candidatos a óptimo.
+
+---
+
+## Ejercicio 5: resolución KKT completa con análisis por casos
+
+Considerar el problema de optimización:
+$$ \min f(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 1)^2 $$
+sujeto a las restricciones de desigualdad:
+$$ g_1(x_1, x_2) = x_1^2 + x_2^2 - 4 \le 0 \qquad g_2(x_1, x_2) = x_1 + x_2 - 1 \le 0 $$
+
+Se pide:
+
+1. Construir la función lagrangiana $L(x, u) = f(x) + u_1 g_1(x) + u_2 g_2(x)$ y plantear el sistema de condiciones KKT completo (estacionariedad, factibilidad primal, holgura complementaria y factibilidad dual).
+2. Resolver el sistema KKT analizando exhaustivamente los cuatro casos combinatorios resultantes de la holgura complementaria: (a) ambas inactivas, (b) solo $g_1$ activa, (c) solo $g_2$ activa, (d) ambas activas.
+3. Para cada caso, verificar la factibilidad primal y la condición de signo de los multiplicadores ($u_i \ge 0$). Descartar los casos que violen alguna condición.
+4. Comparar los valores de la función objetivo en los candidatos válidos y determinar el mínimo global del problema.
+
+---
+
+## Ejercicio 6: KKT y condiciones de suficiencia bajo convexidad
+
+Considerar el problema de optimización:
+$$ \min f(x_1, x_2) = x_1^2 + x_2^2 $$
+sujeto a la restricción de desigualdad:
+$$ g_1(x_1, x_2) = -x_1 - x_2 + 1 \le 0 $$
+
+Se pide:
+
+1. Plantear y resolver las condiciones KKT del problema. Hallar el punto candidato $\bar{x}$ y el multiplicador $u_1$.
+2. Verificar que la función objetivo $f$ es estrictamente convexa en $\mathbb{R}^2$ analizando su hessiana.
+3. Verificar que la restricción $g_1$ es una función afín (y por tanto convexa y cuasiconvexa).
+4. Aplicar el teorema de suficiencia KKT: demostrar que, al ser $f$ convexa y $g_1$ cuasiconvexa, el candidato KKT hallado es el mínimo global del problema.
+
+---
+
+## Ejercicio 7: KKT con restricciones mixtas (igualdad y desigualdad)
+
+Considerar el problema de optimización:
+$$ \min f(x_1, x_2) = x_1^2 + 2x_2^2 $$
+sujeto a las restricciones:
+$$ h_1(x_1, x_2) = x_1 + x_2 - 2 = 0 \qquad g_1(x_1, x_2) = -x_1 \le 0 $$
+
+Se pide:
+
+1. Plantear las condiciones KKT generalizadas para el problema con restricciones mixtas: sistema de estacionariedad $\nabla f + u_1 \nabla g_1 + v_1 \nabla h_1 = 0$, factibilidad primal, holgura complementaria y factibilidad dual ($u_1 \ge 0$, $v_1$ libre).
+2. Resolver el sistema KKT analizando los dos casos: (a) $g_1$ inactiva ($x_1 > 0$, $u_1 = 0$) y (b) $g_1$ activa ($x_1 = 0$, $u_1 \ge 0$).
+3. Para cada caso, verificar la factibilidad de todas las restricciones y las condiciones de signo.
+4. Justificar por qué el multiplicador $v_1$ asociado a la restricción de igualdad puede tomar cualquier signo (positivo, negativo o nulo), a diferencia de los multiplicadores $u_i$ de las restricciones de desigualdad.
+
+---
+
+## Ejercicio 8: análisis combinatorio de Fritz-John en región mixta
+
+Considerar el problema de encontrar el punto de la región factible más cercano a la coordenada $(3,2)$, es decir:
+$$ \min_{x} \quad (x_1 - 3)^2 + (x_2 - 2)^2 $$
+bajo dos escenarios distintos para la frontera superior de la región.
+
+**Caso A: Frontera Simétrica**
+Sujeto a las restricciones:
+$$
+\begin{aligned}
+g_1(x) &= x_1^2 + x_2^2 - 5 \le 0 \\
+g_2(x) &= x_1 + x_2 - 3 \le 0 \\
+g_3(x) &= -x_1 \le 0 \\
+g_4(x) &= -x_2 \le 0
+\end{aligned}
+$$
+
+**Caso B: Frontera Asimétrica**
+Sujeto a las mismas restricciones, excepto la segunda que cambia a:
+$$ g_2(x) = x_1 + 2x_2 - 4 \le 0 $$
+
+Se pide:
+1. Para el **Caso A**, identificar las esquinas factibles formadas por la intersección de la frontera lineal $g_2(x) = 0$ y la circular $g_1(x) = 0$ en el primer cuadrante. Plantear las condiciones de Fritz-John en cada una y verificar si satisfacen KKT (con $u_0 = 1$ o si se descartan).
+2. Para el **Caso B**, calcular el punto de intersección de la frontera lineal $g_2(x) = 0$ y la circular $g_1(x) = 0$ en el primer cuadrante. Analizar dicho punto mediante las condiciones de Fritz-John y KKT. Analizar de igual forma la esquina del eje de ordenadas formada por $g_2(x) = 0$ y $g_3(x) = 0$.

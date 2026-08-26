@@ -1,0 +1,131 @@
+---
+title: "Laboratorio 7: problemas de camino mínimo en Python"
+subtitle: "Optimización y Análisis de Redes"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+jupyter: python3
+lang: es
+---
+
+# Introducción
+
+El cálculo computacional de caminos mínimos representa una de las aplicaciones más críticas y transversales de la optimización en redes. Desde la navegación GPS y el enrutamiento de paquetes en Internet hasta la planificación logística de flotas y los motores de búsqueda de vuelos comerciales, los algoritmos de caminos mínimos permiten encontrar itinerarios óptimos en tiempo real.
+
+En este laboratorio práctico aprenderás a:
+
+1. **Modelar redes dirigidas valoradas** en Python utilizando la librería especializada **`NetworkX`**.
+2. **Implementar desde cero en Python** los algoritmos fundamentales de **Dijkstra** y **Bellman-Ford**, analizando su comportamiento ante costes no negativos y arcos de peso negativo.
+3. **Programar la detección de circuitos de coste negativo** mediante la comprobación de divergencias en la iteración $n$-ésima de Bellman-Ford.
+4. **Formular y resolver el modelo de Programación Lineal primal-dual** del camino mínimo en **`CVXPY`**, extrayendo las variables duales `.dual_value` para validar la interpretación física de los potenciales nodales.
+5. **Calcular la matriz de distancias mínimas absolutas** entre todos los pares de nodos mediante el algoritmo de **Floyd-Warshall** en `NumPy` y `NetworkX`.
+
+---
+
+# Fundamentos teóricos y herramientas de Python
+
+## Análisis y resolución de caminos mínimos con NetworkX
+
+En Python, `NetworkX` proporciona funciones optimizadas para la resolución computacional de caminos mínimos sobre digrafos valorados (`nx.DiGraph`):
+
+```python
+import networkx as nx
+
+# 1. Crear el digrafo valorado con pesos no negativos para Dijkstra
+G = nx.DiGraph()
+edges = [
+    ("s", "1", 4), ("s", "2", 3), ("1", "2", 2), ("1", "3", 2),
+    ("2", "3", 3), ("2", "t", 6), ("3", "t", 2)
+]
+G.add_weighted_edges_from(edges)
+
+# 2. Algoritmo de Dijkstra (requiere pesos no negativos)
+ruta_dij = nx.dijkstra_path(G, "s", "t")
+dist_dij = nx.dijkstra_path_length(G, "s", "t")
+print(f"Dijkstra: Ruta = {ruta_dij}, Distancia = {dist_dij}")
+
+# 3. Algoritmo de Bellman-Ford (robusto ante costes negativos)
+ruta_bf = nx.bellman_ford_path(G, "s", "t")
+dist_bf = nx.bellman_ford_path_length(G, "s", "t")
+print(f"Bellman-Ford: Ruta = {ruta_bf}, Distancia = {dist_bf}")
+
+# 4. Comprobación de circuitos de coste negativo
+tiene_ciclo_neg = nx.negative_edge_cycle(G)
+print(f"¿Existe algún circuito de coste negativo?: {tiene_ciclo_neg}")
+
+# 5. Algoritmo de Floyd-Warshall (todos los pares de nodos)
+matriz_dist = dict(nx.floyd_warshall(G))
+print(f"Distancia s -> t (Floyd-Warshall): {matriz_dist['s']['t']}")
+```
+
+---
+
+# Ejercicios de laboratorio propuestos
+
+## Ejercicio 1: Implementación manual del Algoritmo de Dijkstra
+
+Formular y programar desde cero el Algoritmo de Dijkstra para redes dirigidas con costes no negativos.
+
+### Tareas
+1. Escribir una función en Python `dijkstra_manual(G, origen)` que reciba un digrafo `NetworkX` con pesos de arcos no negativos.
+2. Mantener explícitamente los conjuntos de vértices permanentes $\mathcal{P}$ y transitorios $\mathcal{T}$.
+3. Retornar los diccionarios `dist` ($u_j$) y `pred` ($\text{Pred}(j)$).
+4. Probar la función sobre el digrafo del ejemplo teórico de 5 nodos y verificar la óptima distancia $u_5 = 90$ con $\text{Pred}(5) = 3$.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 2: Implementación manual de Bellman-Ford y detección de ciclos negativos
+
+Formular y programar el algoritmo iterativo de relajación por número de arcos para redes con costes negativos.
+
+### Tareas
+1. Escribir una función en Python `bellman_ford_manual(G, origen)` que ejecute $n - 1$ iteraciones de relajación sobre todos los arcos.
+2. Ejecutar la iteración adicional $m = n$ para detectar si la etiqueta de algún nodo vuelve a abaratarse.
+3. Lanzar una excepción `ValueError("La red contiene un circuito de coste negativo")` en caso de detectar inestabilidad.
+4. Validar el funcionamiento sobre una red dirigida con costes negativos pero sin circuitos negativos.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 3: Formulación en Programación Lineal y variables duales en CVXPY
+
+Resolver el problema del camino mínimo formulado como un programa lineal continuo en `CVXPY`.
+
+### Tareas
+1. Definir la matriz de incidencia nodo-arco $\mathbf{A}$ y las variables primales $x_{ij} \ge 0$.
+2. Fijar las demandas nodales $b(s) = 1$, $b(t) = -1$ y $b(i) = 0$ para nodos intermedios.
+3. Resolver el problema de minimización $\min \mathbf{c}^T \mathbf{x}$ en `CVXPY`.
+4. Inspeccionar el atributo `.dual_value` de las restricciones de balance nodal para obtener los potenciales $u_j^*$.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 4: Algoritmo de Floyd-Warshall en NumPy
+
+Implementar la resolución de distancias mínimas entre todos los pares de nodos mediante álgebra matricial en `NumPy`.
+
+### Tareas
+1. Construir la matriz de distancias inicial $D^{(0)} \in \mathbb{R}^{n \times n}$ con la diagonal a 0 y los arcos no existentes a $\infty$.
+2. Programar el triple bucle anidado sobre $k, i, j$ aplicando la recurrencia $d_{ij}^{(k)} = \min \{ d_{ij}^{(k-1)}, d_{ik}^{(k-1)} + d_{kj}^{(k-1)} \}$.
+3. Imprimir la matriz final de distancias $D^{(n)}$.
+4. Construir la matriz de predecesores para reconstruir la ruta óptima entre el par de nodos $(4, 2)$.
+
+```{python}
+# Tu código aquí:
+```

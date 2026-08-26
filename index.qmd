@@ -1,0 +1,43 @@
+# Prefacio {.unnumbered}
+
+La optimización matemática y el análisis de redes constituyen dos de las ramas más dinámicas y aplicadas de las matemáticas modernas. En un mundo cada vez más interconectado y dependiente del análisis cuantitativo para la toma de decisiones, la capacidad de modelar sistemas complejos, optimizar recursos limitados y analizar la topología de flujos de información se ha convertido en una competencia fundamental para matemáticos, científicos de datos y profesionales de la investigación operativa. Este libro está diseñado para proporcionar una comprensión profunda, rigurosa y estructurada de estas técnicas, sirviendo de guía de estudio para la asignatura de **Optimización y Análisis de Redes** en el **Grado en Matemáticas**.
+
+A lo largo de diez capítulos organizados en dos bloques temáticos, exploraremos un recorrido metodológico completo. En el **Bloque I (Optimización no lineal)**, nos sumergiremos en la optimización continua, analizando algoritmos univariantes y multivariantes (descenso, Newton, BFGS), el formalismo teórico del análisis convexo, y las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) aplicadas a la Programación Lineal y Cuadrática (Símplex de Wolfe). En el **Bloque II (Optimización en redes)**, trasladaremos nuestro enfoque a las estructuras discretas de grafos, estudiando la propiedad de Total Unimodularidad (TUM), árboles soporte mínimos, caminos mínimos primal-duales con potenciales nodales, flujos en redes (Max-Flow Min-Cut), emparejamientos y asignación óptima (algoritmo Húngaro y Blossom de Edmonds), y problemas de rutas eulerianas, hamiltonianas, el problema del viajante (TSP) y la taxonomía del VRP.
+
+El objetivo de este texto es doble: por un lado, asentar los fundamentos algebraicos, analíticos y geométricos que justifican la existencia y propiedades de los óptimos y los flujos, y por otro, dotar al lector de las herramientas de modelización para estructurar y resolver de forma eficiente problemas del mundo real. Al finalizar esta obra, habrás adquirido un criterio sólido para analizar la complejidad de un problema de decisión, seleccionar el algoritmo idóneo para su resolución e interpretar los resultados con sentido crítico.
+
+
+## Filosofía pedagógica del volumen
+
+Siguiendo el enfoque de nuestra obra de referencia, la filosofía de este texto se sustenta en un método pedagógico riguroso y estructurado. Creemos firmemente que la labor matemática no debe reducirse a una mera aplicación ciega de fórmulas o algoritmos mecánicos. El verdadero potencial de un matemático reside en comprender el *porqué* detrás de cada paso algorítmico, el comportamiento de las restricciones en el plano geométrico y la estructura algebraica que garantiza la convergencia y la integridad de las soluciones [@hillier2010investigacion].
+
+Por ello, cada concepto se introduce motivando su necesidad histórica y práctica, se formaliza mediante teoremas y lemas demostrados con detalle, y se ilustra a través de ejemplos numéricos completos, representaciones geométricas y trazas algorítmicas paso a paso, promoviendo una comprensión profunda que une el rigor formal con la intuición analítica.
+
+### ¿Qué aprenderás con este libro?
+
+Al completar este volumen, habrás desarrollado habilidades clave para:
+
+*   **Modelar** problemas complejos de decisión y redes utilizando variables continuas, enteras y binarias.
+*   **Analizar** la convexidad de funciones y conjuntos mediante gradientes, matrices hessianas y conos para garantizar óptimos globales.
+*   **Formular y resolver** sistemas de optimalidad mediante las condiciones de Karush-Kuhn-Tucker (KKT), cualificación de restricciones (LICQ) y el método del Símplex de Wolfe para programación cuadrática.
+*   **Explotar** la propiedad de Total Unimodularidad (TUM) de las matrices de incidencia para resolver problemas discretos en redes mediante relajaciones continuas exactas.
+*   **Formular e interpretar** los problemas duales en redes (caminos mínimos, potenciales nodales y tensiones de arco).
+*   **Aplicar algoritmos exactos** en grafos para árboles soporte (Prim, Kruskal), caminos mínimos (Dijkstra, Bellman-Ford, Floyd-Warshall), flujos máximos (Ford-Fulkerson, Edmonds-Karp), emparejamientos (algoritmo Húngaro, Blossom) y circuitos eulerianos (Cartero Chino).
+*   **Diseñar y evaluar** formulaciones de programación lineal entera (modelos $x_{ijk}$, DFJ y MTZ), heurísticas de mejora local (2-Opt) y algoritmos de aproximación polinomial (Christofides con garantía 1.5) para problemas NP-duros.
+
+
+::: {.callout-important title="Grado en matemáticas"}
+Este libro presenta el material teórico y práctico de la asignatura de Optimización y Análisis de Redes del Grado en Matemáticas de la Universidad Rey Juan Carlos. Su contenido está estrechamente vinculado con las asignaturas de Álgebra Lineal, Matemática Discreta, Cálculo, Análisis Vectorial I, Métodos Estadísticos de Gestión e Investigación e Introducción a la Programación.
+:::
+
+::: {.callout-important title="Conocimientos previos"}
+Es altamente recomendable que los estudiantes dominen los conceptos básicos de espacios vectoriales, cálculo diferencial multivariante (gradientes, matrices jacobianas y hessianas) y los fundamentos de la programación lineal (método Símplex y dualidad clásica).
+:::
+
+::: {.callout-note title="Sobre los autores"}
+**Víctor Aceña Gil** es graduado en Matemáticas por la UNED, máster en Tratamiento Estadístico y Computacional de la Información por la UCM y la UPM, doctor en Tecnologías de la Información y las Comunicaciones por la URJC y profesor del departamento de Informática y Estadística de la URJC. Miembro del grupo de investigación de alto rendimiento en Fundamentos y Aplicaciones de la Ciencia de Datos, DSLAB, de la URJC.
+
+**Antonio Alonso Ayuso** es catedrático de Universidad en el área de Estadística e Investigación Operativa del departamento de Informática y Estadística de la Universidad Rey Juan Carlos. Es especialista en optimización matemática continua, entera y estocástica, con amplia experiencia en la resolución de problemas de redes, logística y toma de decisiones bajo incertidumbre.
+:::
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" alt="Licencia de Creative Commons" style="border-width:0"/></a><br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">licencia de Creative Commons Atribución-CompartirIgual 4.0 Internacional</a>.

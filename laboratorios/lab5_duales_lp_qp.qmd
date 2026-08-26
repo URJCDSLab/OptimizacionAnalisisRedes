@@ -1,0 +1,180 @@
+---
+title: "Laboratorio 5: dualidad KKT y programación cuadrática en Python"
+subtitle: "Optimización y Análisis de Redes"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+lang: es
+---
+
+# Introducción
+
+El paso de la teoría analítica de las condiciones Karush-Kuhn-Tucker (KKT) a su aplicación en la práctica profesional exige el dominio de herramientas numéricas y simbólicas para resolver problemas de programación lineal (LP) y cuadrática (QP), así como para interpretar los resultados en términos de dualidad y precios sombra. 
+
+En este laboratorio práctico se abordará la resolución computacional de la dualidad KKT mediante tres enfoques complementarios: el modelado numérico convexo con **`CVXPY`** (extrayendo explícitamente los multiplicadores duales), el análisis analítico de casos con **`SymPy`** y la implementación algorítmica del método de pivotaje de la **regla de entrada restringida de Wolfe**.
+
+En este laboratorio práctico aprenderás a:
+
+1. **Formular y resolver problemas de programación lineal (LP) en `CVXPY`**, recuperando las variables duales (precios sombra) de las restricciones mediante el atributo `.dual_value`.
+2. **Realizar análisis de sensibilidad numérica**, evaluando el efecto del cambio en la términos independientes sobre el valor de la función objetivo.
+3. **Modelar y resolver problemas de programación cuadrática (QP)** utilizando solucionadores convexos como `OSQP` o `ECOS` en `CVXPY`.
+4. **Implementar en Python el algoritmo del Símplex de Wolfe**, programando el control de la regla de entrada restringida para la complementariedad dual.
+5. **Visualizar la geometría de la trayectoria de convergencia del algoritmo de Wolfe** sobre la región factible poliédrica.
+
+---
+
+# Fundamentos teóricos y herramientas de Python
+
+## Recuperación de multiplicadores duales en CVXPY
+En `CVXPY`, cada restricción creada se almacena como un objeto que posee el atributo `.dual_value`. Tras ejecutar `problem.solve()`, este atributo contiene el valor numérico exacto de los multiplicadores KKT duales en el óptimo:
+
+```python
+import cvxpy as cp
+
+# 1. Definir variables primales
+x = cp.Variable(2, nonneg=True, name="x")
+
+# 2. Definir restricciones etiquetadas
+c1 = x[0] + x[1] <= 4
+c2 = -x[0] + x[1] <= 2
+constraints = [c1, c2]
+
+# 3. Definir función objetivo y resolver
+obj = cp.Minimize(-x[0] - 2*x[1])
+prob = cp.Problem(obj, constraints)
+prob.solve()
+
+# 4. Recuperar valores primales y duales KKT
+print(f"Solución primal x*: {x.value}")
+print(f"Multiplicador dual c1 (u1*): {c1.dual_value}")
+print(f"Multiplicador dual c2 (u2*): {c2.dual_value}")
+```
+
+---
+
+## Resolución de programación cuadrática (QP) en CVXPY
+Para problemas con función objetivo cuadrática $\frac{1}{2} x^T Q x + c^T x$, `CVXPY` exige que la matriz $Q$ sea expresada como una matriz simétrica semidefinida positiva. Se puede usar el operador `@` para el producto matricial `0.5 * cp.quad_form(x, Q) + c @ x`:
+
+```python
+import numpy as np
+import cvxpy as cp
+
+Q = np.array([[2.0, 0.0], [0.0, 2.0]])
+c = np.array([-8.0, -8.0])
+
+x = cp.Variable(2, nonneg=True)
+constraints = [
+    x[0] + x[1] <= 4,
+    -x[0] + x[1] <= 2
+]
+
+prob = cp.Problem(cp.Minimize(0.5 * cp.quad_form(x, Q) + c @ x + 32), constraints)
+prob.solve()
+
+print("Óptimo QP:", x.value)
+print("Valor mínimo f(x*):", prob.value)
+```
+
+---
+
+# Ejercicios de laboratorio propuestos
+
+## Ejercicio 1: análisis de dualidad y precios sombra en LP con CVXPY
+
+Considerar el problema de asignación de recursos industriales:
+
+$$
+\begin{aligned}
+\max_{x_1, x_2} \quad & 3x_1 + 5x_2 \\
+\text{sujeto a} \quad & x_1 \le 4 \quad (g_1) \\
+& 2x_2 \le 12 \quad (g_2) \\
+& 3x_1 + 2x_2 \le 18 \quad (g_3) \\
+& x_1, x_2 \ge 0
+\end{aligned}
+$$
+
+### Tareas
+1. Formular y resolver el problema primal de minimización equivalente en `CVXPY`.
+2. Imprimir la solución primal óptima $(x_1^*, x_2^*)$ y los valores óptimos de los multiplicadores duales KKT $(u_1^*, u_2^*, u_3^*)$ usando `.dual_value`.
+3. Modificar numéricamente la término independiente 3 de $b_3 = 18$ a $b_3 = 19$, volver a resolver y verificar que la variación en el valor óptimo coincide exactamente con el precio sombra $u_3^*$.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 2: degeneración primal y multiplicadores KKT no únicos en CVXPY
+
+Considerar el problema lineal con restricción redundante:
+
+$$
+\begin{aligned}
+\min_{x_1, x_2} \quad & -2x_1 - 4x_2 \\
+\text{sujeto a} \quad & x_1 + x_2 \le 4 \quad (g_1) \\
+& -x_1 + x_2 \le 2 \quad (g_2) \\
+& x_2 \le 3 \quad (g_3) \\
+& x_1, x_2 \ge 0
+\end{aligned}
+$$
+
+### Tareas
+1. Resolver el problema en `CVXPY` e inspeccionar los multiplicadores duales devueltos por el solver.
+2. Formular simbólicamente en `SymPy` el sistema de estacionariedad KKT en el punto $\bar{x} = (1,3)^T$ para obtener la expresión paramétrica de todos los multiplicadores $(u_1, u_2, u_3)$ válidos.
+3. Representar gráficamente el segmento de soluciones duales en el plano $(u_1, u_3)$ destacando la solución concreta seleccionada por el solucionador numérico de `CVXPY`.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 3: solución de programación cuadrática (QP) y verificación KKT
+
+Considerar el problema de programación cuadrática convexa:
+
+$$
+\begin{aligned}
+\min_{x_1, x_2} \quad & f(x_1, x_2) = \frac{1}{2} x_1^2 + x_2^2 - 4x_1 - 6x_2 \\
+\text{sujeto a} \quad & x_1 + x_2 \le 3 \quad (g_1) \\
+& x_1 + 2x_2 \le 4 \quad (g_2) \\
+& x_1, x_2 \ge 0
+\end{aligned}
+$$
+
+### Tareas
+1. Resolver el problema numéricamente con `CVXPY` extrayendo el punto óptimo $(\bar{x}_1, \bar{x}_2)$ y los multiplicadores KKT $(u_1^*, u_2^*)$.
+2. Graficar la región factible poliédrica, las curvas de nivel elípticas de la función objetivo y el vector del gradiente negativo $-\nabla f(\bar{x})$ junto con la combinación de gradientes $-\sum u_i^* \nabla g_i(\bar{x})$ para visualizar la tangencia KKT.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 4: implementación computacional del algoritmo del Símplex de Wolfe
+
+Implementar un script en Python que resuelva iterativamente el problema QP:
+
+$$
+\begin{aligned}
+\min_{x_1, x_2} \quad & x_1^2 + x_2^2 - 6x_1 - 4x_2 \\
+\text{sujeto a} \quad & x_1 + x_2 \le 2 \\
+& x_1, x_2 \ge 0
+\end{aligned}
+$$
+
+### Tareas
+1. Construir la matriz de coeficientes inicial de la tabla ampliada del Símplex de Wolfe.
+2. Programar una función en Python `wolfe_pivot(table, base)` que elija la columna pivote respetando la **regla de entrada restringida** de complementariedad dual.
+3. Ejecutar el bucle de pivotaje hasta que el coste de la suma de variables artificiales sea nulo ($\sum z_i = 0$). Imprimir la solución final y comparar con `CVXPY`.
+
+```{python}
+# Tu código aquí:
+```

@@ -1,0 +1,85 @@
+# Ejercicios del Tema 7: problema del camino mínimo
+
+## Ejercicio 1: Ecuaciones de Bellman y ordenación topológica en DAGs
+
+Considérese el digrafo acíclico $G = (V, A, \mathbf{c})$ de $n = 6$ vértices $V = \{1, 2, 3, 4, 5, 6\}$ con costes de arcos dados por:
+
+$$
+\begin{aligned}
+A = \{ &(1,2): 3, \, (1,3): 6, \, (2,3): 2, \, (2,4): 5, \\
+&(3,4): 1, \, (3,5): 4, \, (4,5): 2, \, (4,6): 7, \, (5,6): 3 \}
+\end{aligned}
+$$
+
+Se pide:
+
+1. Verificar que la numeración de los vértices satisface la propiedad de ordenación topológica $i < j$ para todo $(i, j) \in A$.
+2. Formular las ecuaciones de optimalidad de Bellman para el origen $s = 1$.
+3. Resolver el sistema en tiempo lineal $O(|V| + |A|)$ obteniendo el vector de distancias mínimas $\mathbf{u} = (u_1, \dots, u_6)$ y el vector de predecesores $\text{Pred}$.
+4. Trazar la arborescencia de caminos mínimos resultante desde el origen 1.
+
+---
+
+## Ejercicio 2: Algoritmo de Dijkstra paso a paso
+
+Dado el digrafo valorado con costes no negativos $G = (V, A, \mathbf{c})$ con $V = \{1, 2, 3, 4, 5\}$ y arcos:
+
+$$
+\begin{aligned}
+A = \{ &(1,2): 10, \, (1,4): 5, \, (2,3): 1, \, (2,4): 2, \\
+&(3,5): 4, \, (4,2): 3, \, (4,3): 9, \, (4,5): 2, \, (5,3): 6 \}
+\end{aligned}
+$$
+
+Se pide:
+
+1. Ejecutar el Algoritmo de Dijkstra paso a paso para hallar los caminos mínimos desde el nodo origen $1$ al resto de vértices.
+2. Completar en cada iteración la tabla con los conjuntos de nodos permanentes $\mathcal{P}$, nodos transitorios $\mathcal{T}$, las etiquetas provisionales y definitivas $u_j$ y el vector de predecesores $\text{Pred}(j)$.
+3. Dibujar la arborescencia óptima final identificando las rutas y sus costes.
+
+---
+
+## Ejercicio 3: Algoritmo de Bellman-Ford y detección de ciclos de coste negativo
+
+Considérese el digrafo $G = (V, A, \mathbf{c})$ de 4 vértices con los siguientes arcos, alguno de los cuales posee peso negativo:
+
+$$
+A = \{ (1,2): 4, \, (1,3): 5, \, (2,3): -3, \, (3,4): 4, \, (4,2): 1 \}
+$$
+
+Se pide:
+
+1. Desarrollar las iteraciones $m = 1, 2, 3, 4$ del Algoritmo de Bellman-Ford evaluando las etiquetas $u_j^m = \min \{ u_j^{m-1}, \min_k \{ u_k^{m-1} + c_{kj} \} \}$.
+2. Determinar si el algoritmo converge anticipadamente o si alcanza el límite $m = n - 1$.
+3. Evaluar la iteración $m = 4$ para comprobar si existen circuitos de coste negativo. Justificar analíticamente la respuesta.
+
+---
+
+## Ejercicio 4: Formulación en Programación Lineal Primal-Dual
+
+Dada una red dirigida $G = (V, A, \mathbf{c})$ donde deseamos hallar el camino mínimo del nodo $s$ al nodo $t$:
+
+1. Escribir el modelo primal de flujo de coste mínimo de 1 unidad.
+2. Demostrar formalmente por qué la matriz de incidencia nodo-arco $\mathbf{A}$ es totalmente unimodular (TUM) y qué implicación tiene esto sobre las soluciones del programa lineal continuo.
+3. Formular el problema dual de programación lineal e interpretar físicamente las variables duales $u_i$ como potenciales nodales.
+
+---
+
+## Ejercicio 5: Algoritmo de Floyd-Warshall entre todos los pares
+
+Dado el digrafo de 4 vértices $V = \{1, 2, 3, 4\}$ con matriz de distancias directas inicial $D^{(0)}$:
+
+$$
+D^{(0)} = \begin{pmatrix}
+0 & 3 & 8 & \infty \\
+\infty & 0 & \infty & 1.7 \\
+\infty & 4 & 0 & \infty \\
+2 & \infty & -5 & 0
+\end{pmatrix}
+$$
+
+Se pide:
+
+1. Aplicar el Algoritmo de Floyd-Warshall calculando secuencialmente las matrices $D^{(1)}, D^{(2)}, D^{(3)}, D^{(4)}$.
+2. Construir la matriz de reconstrucción de rutas $P^{(4)}$.
+3. Determinar la distancia mínima y el camino elemental óptimo para conectar el par de nodos $(3, 1)$.

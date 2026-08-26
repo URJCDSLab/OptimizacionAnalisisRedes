@@ -1,0 +1,306 @@
+/* ======================================================
+   Estilos Base para TODOS los Callouts
+   ====================================================== */
+
+.callout {
+  border-radius: 0.25rem; /* Bordes redondeados */
+  margin-bottom: 1.25rem; /* Espacio debajo de cada caja */
+  padding: 0.5rem; /* Relleno interior */
+  border-left-width: 0.5rem; /* Ancho del borde izquierdo de color */
+  border-left-style: solid;
+}
+
+/* ======================================================
+   Estilos Específicos por Tipo de Callout con texto coloreado
+   ====================================================== */
+
+/* --- Note (Propiedades / Corolarios) --- */
+.callout-note, .callout-note p, .callout-note li {
+  color: #172554; /* Azul marino extremadamente oscuro y legible (blue-950) */
+}
+.callout-note {
+  background-color: #f4f8fc;
+  border-left-color: #3b82f6; /* Borde azul un poco más vivo para contraste */
+}
+.callout-note .callout-title, .callout-note .callout-title * {
+  color: #0f172a !important; /* Gris pizarra oscuro casi negro */
+  font-weight: 700;
+}
+
+/* --- Tip (Definiciones) --- */
+.callout-tip, .callout-tip p, .callout-tip li {
+  color: #064e3b; /* Verde pino muy oscuro (emerald-950) */
+}
+.callout-tip {
+  background-color: #f2f9f2;
+  border-left-color: #10b981; /* Borde esmeralda */
+}
+.callout-tip .callout-title, .callout-tip .callout-title * {
+  color: #022c22 !important; /* Verde bosque profundo casi negro */
+  font-weight: 700;
+}
+
+/* --- Important (Teoremas) --- */
+.callout-important, .callout-important p, .callout-important li {
+  color: #450a0a; /* Rojo vino extremadamente oscuro (red-950) */
+}
+.callout-important {
+  background-color: #fdf5f6;
+  border-left-color: #ef4444; /* Borde rojo vivo */
+}
+.callout-important .callout-title, .callout-important .callout-title * {
+  color: #7f1d1d !important; /* Granate oscuro para el título */
+  font-weight: 700;
+}
+
+/* --- Caution (Advertencias) --- */
+.callout-caution, .callout-caution p, .callout-caution li {
+  color: #451a03; /* Marrón ámbar muy oscuro (amber-950) */
+}
+.callout-caution {
+  background-color: #fdf5f6;
+  border-left-color: #f59e0b; /* Borde ámbar */
+}
+.callout-caution .callout-title, .callout-caution .callout-title * {
+  color: #78350f !important;
+  font-weight: 700;
+}
+
+/* --- Warning (Advertencias) --- */
+.callout-warning, .callout-warning p, .callout-warning li {
+  color: #451a03; /* Marrón ámbar muy oscuro (amber-950) */
+}
+.callout-warning {
+  background-color: #fefaf7;
+  border-left-color: #f59e0b; /* Borde ámbar */
+}
+.callout-warning .callout-title, .callout-warning .callout-title * {
+  color: #78350f !important;
+  font-weight: 700;
+}
+
+
+/* Ocultar completamente el texto original y mostrar solo el nuevo */
+.quarto-title-meta .quarto-title-meta-heading {
+    position: relative;
+    text-indent: -9999px; /* Esconder texto original completamente */
+    overflow: hidden;
+}
+
+.quarto-title-meta .quarto-title-meta-heading::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-indent: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.075em;
+}
+
+/* Primer elemento - Autores */
+.quarto-title-meta > div:first-child .quarto-title-meta-heading::before {
+    content: "Autores";
+}
+
+/* Último elemento - Fecha */
+.quarto-title-meta > div:last-child .quarto-title-meta-heading::before {
+    content: "Fecha de publicación";
+}
+
+/* Alternativa si la estructura es diferente */
+.quarto-title-meta-heading:first-of-type::before {
+    content: "Autores";
+}
+
+.quarto-title-meta-heading:last-of-type::before {
+    content: "Fecha de publicación";
+}
+
+/* Asegurarse de que no hay espacios en blanco problemáticos */
+.quarto-title-meta .quarto-title-meta-heading {
+    white-space: nowrap;
+    height: auto;
+    line-height: normal;
+}
+
+/* Justificación de texto en el cuerpo principal de los apuntes HTML */
+main.content p, 
+main.content li {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* Eliminación de subrayados/líneas inferiores en títulos y subsecciones */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+main.content h1, main.content h2, main.content h3, main.content h4, main.content h5, main.content h6,
+section h1, section h2, section h3, section h4, section h5, section h6,
+div.level1 > h1, div.level2 > h2, div.level3 > h3, div.level4 > h4 {
+  border-bottom: none !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+/* Eliminación de líneas horizontales de separación entre secciones */
+hr, main.content hr, section hr, .hr {
+  display: none !important;
+  border: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+}
+
+/* ======================================================
+   Iconos Personalizados — Badge sigue el color de la clase del callout
+   ====================================================== */
+
+/* --- Colores de badge según la CLASE del callout (siempre coherente con el borde) --- */
+.callout-important .callout-icon-container {
+  background-color: #fee2e2 !important; /* rojo suave */
+}
+.callout-tip .callout-icon-container {
+  background-color: #d1fae5 !important; /* verde suave */
+}
+.callout-note .callout-icon-container {
+  background-color: #dbeafe !important; /* azul suave */
+}
+.callout-warning .callout-icon-container,
+.callout-caution .callout-icon-container {
+  background-color: #fef3c7 !important; /* ámbar suave */
+}
+
+.callout-header {
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 0.4rem !important;
+  padding: 0 !important;
+}
+
+.callout-title-container {
+  display: flex !important;
+  align-items: center !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+.callout-title {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1.02rem !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+}
+
+.callout-icon-container {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 1.65rem !important;
+  height: 1.65rem !important;
+  min-width: 1.65rem !important;
+  border-radius: 50% !important;
+  margin: 0 0.65rem 0 0 !important;
+  padding: 0 !important;
+  align-self: center !important;
+  flex-shrink: 0 !important;
+}
+
+.callout-icon {
+  width: 1.0rem !important;
+  height: 1.0rem !important;
+  display: inline-block !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+}
+
+.callout-icon::before {
+  content: "" !important;
+  display: none !important;
+}
+
+/* === ICONOS SVG por tipo de contenido (color SVG = color de su clase) === */
+
+/* 1. Objetivos (callout-important → rojo) — Birrete */
+.callout[data-kind="objetivos"] .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23dc2626"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 8.47L4.24 9 12 5.5 19.76 9 12 11.47zM5 13.18v4c0 2.5 3.13 4.5 7 4.5s7-2 7-4.5v-4l-7 3.82-7-3.82z"/></svg>') !important;
+}
+
+/* 2. Teoremas (callout-important → rojo oscuro) — Pergamino */
+.callout[data-kind="teorema"] .callout-icon,
+.callout-important:not([data-kind]) .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23b91c1c"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6V4h2v8l2.5-1.5L13 12V4h5v16z"/></svg>') !important;
+}
+
+/* 3. Lemas (callout-note → azul) — Pieza de puzle */
+.callout[data-kind="lema"] .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231d4ed8"><path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-1.99.9-1.99 2v3.8H3.5c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5H2v4c0 1.1.9 2 2 2h3.8v-1.5c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5V21H17c1.1 0 2-.9 2-2v-4h1.5c1.4 0 2.5-1.1 2.5-2.5s-1.1-2.5-2.5-2.5z"/></svg>') !important;
+}
+
+/* 4. Corolarios y Proposiciones (callout-note → azul) — Destello */
+.callout[data-kind="corolario"] .callout-icon,
+.callout[data-kind="proposicion"] .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232563eb"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2zm6 12l-1.25 3.75L13 19l3.75 1.25L18 24l1.25-3.75L23 19l-3.75-1.25L18 14z"/></svg>') !important;
+}
+
+/* 5. Definiciones (callout-note → azul) — Libro */
+.callout[data-kind="definicion"] .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231e40af"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>') !important;
+}
+
+/* 6. Ejemplos (pueden ser callout-tip verde o callout-note azul) — Lápiz */
+/* El color del badge ya lo fija la clase del callout, el icono usa un color neutro oscuro */
+.callout[data-kind="ejemplo"] .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23065f46"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>') !important;
+}
+/* Para ejemplos en callout-tip (verde): mismo icono en verde más oscuro */
+.callout-tip[data-kind="ejemplo"] .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23047857"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>') !important;
+}
+/* Fallback para callout-tip sin data-kind (código Python, etc.) */
+.callout-tip:not([data-kind]) .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23047857"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>') !important;
+}
+
+/* 7. Advertencias & Recíprocos (callout-warning/caution → ámbar) — Triángulo */
+.callout[data-kind="advertencia"] .callout-icon,
+.callout-warning:not([data-kind]) .callout-icon,
+.callout-caution:not([data-kind]) .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23b45309"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>') !important;
+}
+
+/* 8. Notas & Observaciones (callout-note → azul oscuro) — Info */
+.callout[data-kind="nota"] .callout-icon,
+.callout-note:not([data-kind]) .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231e40af"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>') !important;
+}
+
+/* 9. Esquemas & Propiedades (callout-note → azul) — Portapapeles con lista */
+.callout[data-kind="esquema"] .callout-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231e3a8a"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14H7v-2h3v2zm0-4H7v-2h3v2zm0-4H7V7h3v2zm7 8h-5v-2h5v2zm0-4h-5v-2h5v2zm0-4h-5V7h5v2z"/></svg>') !important;
+}
+
+/* ======================================================
+   Ajuste Global de Contenedores de Gráficos y Figuras
+   Eliminación de barras de desplazamiento horizontales en Plotly / HTML widgets
+   ====================================================== */
+
+.cell-output-display,
+.html-widget,
+.plotly-graph-div,
+.js-plotly-plot,
+div.cell-output-display {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+.cell-output-display .plotly,
+.plotly-graph-div {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+

@@ -1,0 +1,188 @@
+---
+title: "Laboratorio 6: grafos y árboles soporte de mínimo peso en Python"
+subtitle: "Optimización y Análisis de Redes"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+jupyter: python3
+lang: es
+---
+
+
+# Introducción
+
+El análisis computacional de redes constituye una de las herramientas más transversales de la matemática aplicada y la ciencia de datos contemporánea. Desde la optimización de infraestructuras físicas de logística, energía y telecomunicaciones hasta la minería de grafos en redes sociales y aprendizaje no supervisado, la representación abstracta mediante vértices y aristas permite resolver problemas complejos de conectividad y distribución eficiente.
+
+En este laboratorio práctico se abordará el modelado, análisis estructural y la resolución algorítmica de problemas de **árbol soporte de mínimo peso (MST)** en Python. Se empleará la librería especializada **`NetworkX`** junto con **`NumPy`** y **`Matplotlib`**, además de programar desde cero los algoritmos fundamentales de **Kruskal** (con la estructura de datos *Union-Find*) y **Prim**, aplicando finalmente el MST al **clustering jerárquico no supervisado** sobre conjuntos de datos con topología no convexa.
+
+En este laboratorio práctico aprenderás a:
+
+1. **Construir y manipular redes valoradas en Python** utilizando la librería `NetworkX`, extrayendo sus representaciones matriciales (matrices de adyacencia y de incidencia).
+2. **Analizar métricas y propiedades topológicas avanzadas** (grados, densidad, diámetro y distancias geodésicas), verificando analítica y numéricamente el *Handshaking Lemma*.
+3. **Implementar desde cero la estructura de datos *Union-Find*** con compresión de caminos y unión por rango en Python.
+4. **Programar los algoritmos de Kruskal y Prim** para la obtención de árboles soporte de mínimo peso (MST), analizando su complejidad computacional y su comportamiento ante empates de peso.
+5. **Aplicar el clustering basado en MST (Single-linkage)** para segmentar patrones de datos con geometría no convexa donde algoritmos tradicionales como $k$-medias fracasan.
+
+---
+
+# Fundamentos teóricos y herramientas de Python
+
+## Construcción y representación de grafos con NetworkX
+
+En Python, la librería `NetworkX` proporciona una API versátil para crear grafos no dirigidos (`nx.Graph`) y dirigidos (`nx.DiGraph`). Las aristas pueden contener atributos arbitrarios, como el peso o distancia `weight`:
+
+```python
+import networkx as nx
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. Crear un grafo no dirigido con pesos
+G = nx.Graph()
+G.add_edge(1, 2, weight=4)
+G.add_edge(1, 3, weight=2)
+G.add_edge(2, 3, weight=1)
+G.add_edge(2, 4, weight=5)
+G.add_edge(3, 4, weight=8)
+
+# 2. Extraer representaciones matriciales
+A = nx.adjacency_matrix(G).toarray()
+M = nx.incidence_matrix(G).toarray()
+
+print("Matriz de adyacencia A:\n", A)
+print("Matriz de incidencia M:\n", M)
+```
+
+---
+
+## Estructura de datos Union-Find (Disjoint-Set)
+
+El algoritmo de Kruskal requiere determinar de forma eficiente si dos vértices $u$ y $v$ pertenecen a la misma componente conexa antes de añadir la arista $\{u, v\}$, evitando la formación de ciclos. La estructura *Union-Find* resuelve esto en tiempo casi constante $O(\alpha(n))$ mediante dos técnicas:
+
+* **Compresión de caminos (*Path Compression*)**: En la operación `find`, se actualiza directamente el padre de cada nodo visitado apuntando a la raíz de la componente.
+* **Unión por rango (*Union by Rank*)**: En la operación `union`, el árbol de menor altura se conecta como hijo de la raíz del árbol de mayor altura.
+
+```python
+class UnionFind:
+    def __init__(self, elements):
+        self.parent = {x: x for x in elements}
+        self.rank = {x: 0 for x in elements}
+
+    def find(self, i):
+        if self.parent[i] == i:
+            return i
+        self.parent[i] = self.find(self.parent[i])  # Compresión de caminos
+        return self.parent[i]
+
+    def union(self, i, j):
+        root_i = self.find(i)
+        root_j = self.find(j)
+        if root_i != root_j:
+            if self.rank[root_i] < self.rank[root_j]:
+                root_i, root_j = root_j, root_i
+            self.parent[root_j] = root_i
+            if self.rank[root_i] == self.rank[root_j]:
+                self.rank[root_i] += 1
+            return True
+        return False  # Ya estaban en la misma componente (formaría ciclo)
+```
+
+---
+
+## Árbol soporte de mínimo peso con NetworkX
+
+`NetworkX` incluye funciones optimizadas para obtener el MST mediante Kruskal, Prim o Borůvka:
+
+```python
+# Obtener el MST usando el algoritmo de Kruskal
+mst_kruskal = nx.minimum_spanning_tree(G, algorithm='kruskal', weight='weight')
+
+# Calcular el peso total del árbol
+peso_total = sum(d['weight'] for u, v, d in mst_kruskal.edges(data=True))
+print(f"Peso total del MST: {peso_total}")
+```
+
+---
+
+# Ejercicios de laboratorio propuestos
+
+## Ejercicio 1: modelado y análisis estructural de redes con NetworkX y NumPy
+
+Una empresa de distribución logística diseña una red regional de transporte que conecta $7$ centros logísticos principales $V = \{1, 2, 3, 4, 5, 6, 7\}$ mediante $11$ conexiones de carretera directa. Las distancias (en kilómetros) entre los centros están dadas por el siguiente conjunto de aristas valoradas $E$:
+
+$$
+\begin{aligned}
+E = \{ &(1,2, 7), (1,3, 5), (2,3, 9), (2,4, 8), (2,5, 7), \\
+&(3,5, 15), (3,6, 6), (4,5, 5), (4,7, 9), (5,6, 8), (5,7, 11) \}
+\end{aligned}
+$$
+
+### Tareas
+
+1. Construir la red como un grafo no dirigido `nx.Graph` en `NetworkX` asignando el atributo `weight` a cada arista.
+2. Obtener y mostrar por pantalla la matriz de adyacencia $A$ y la matriz de incidencia $M$ de la red.
+3. Verificar numéricamente el *Handshaking Lemma* ($\sum_{v \in V} \deg(v) = 2m$), calculando además la densidad de la red, la distancia geodésica media entre todos los pares de nodos y el diámetro del grafo.
+4. Representar gráficamente la red con `Matplotlib` mostrando los nodos, las aristas y sus correspondientes pesos en etiquetas centradas.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 2: implementación completa del Algoritmo de Kruskal con Union-Find
+
+Para la misma red de distribución logística definida en el Ejercicio 1, la empresa desea instalar una red de fibra óptica de mínimo coste que interconecte todos los centros logísticos sin generar bucles innecesarios.
+
+### Tareas
+
+1. Definir la clase `UnionFind` en Python incorporando compresión de caminos y unión por rango.
+2. Programar una función `kruskal_mst_custom(G)` que ordene las aristas del grafo por peso en orden no decreciente y utilice la clase `UnionFind` para construir la lista de aristas seleccionadas $T$ del MST.
+3. Imprimir el listado ordenado de aristas evaluadas, indicando en cada paso si la arista fue **aceptada** o **descartada** por formar un ciclo, junto con el peso total final acumulado $d(T)$.
+4. Comparar el resultado con la solución generada por `nx.minimum_spanning_tree(G, algorithm='kruskal')` y representar gráficamente la red original destacando en azul cerúleo (`#0284c7`) las aristas pertenecientes al MST.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 3: implementación del Algoritmo de Prim y análisis de traza iterativa
+
+El Algoritmo de Prim construye el MST haciendo crecer una única componente conexa continua a partir de un nodo raíz inicial $v_1 \in V$.
+
+### Tareas
+
+1. Programar la función `prim_mst_custom(G, root)` que reciba el grafo `G` y el nodo raíz de inicio `root`. La función debe mantener el conjunto de nodos visitados $P$ y seleccionar en cada iteración la arista del corte $w(P)$ de peso estrictamente mínimo.
+2. Ejecutar la función partiendo del nodo raíz $v_1 = 1$, imprimiendo la traza detallada de cada iteración $i = 1, \dots, n-1$ indicando: el paso $i$, el nodo incorporado al conjunto $P$, la arista de corte seleccionada y su peso.
+3. Comprobar la invariancia del peso total del MST ejecutando la función desde los 7 nodos raíz posibles ($1, 2, \dots, 7$).
+4. Modificar ligeramente el peso de la arista $(3,6)$ a $weight = 15$ (introduciendo empates de peso en la red) y verificar si la elección de distintos nodos raíz produce árboles soporte alternativos pero con idéntico peso óptimo.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 4: aplicación en aprendizaje no supervisado: clustering basado en MST (Single-Linkage)
+
+El clustering basado en el MST elimina iterativamente las $k-1$ aristas de mayor peso del árbol soporte de mínimo peso para dividir un conjunto de datos $n$-dimensional en $k$ clústeres inconexos. A diferencia del algoritmo $k$-medias (que asume clústeres esféricos y convexos), el MST clustering es capaz de detectar estructuras con formas complejas no convexas (como anillos concéntricos o semicírculos entrelazados).
+
+Se dispone de un conjunto de datos sintetizado formado por dos lunas entrelazadas en $\mathbb{R}^2$ ($100$ puntos por luna, $N = 200$ en total).
+
+### Tareas
+
+1. Generar la distribución de puntos 2D utilizando `sklearn.datasets.make_moons(n_samples=200, noise=0.07, random_state=42)`.
+2. Construir la matriz de distancias euclídeas entre todos los pares de puntos y obtener el MST utilizando `scipy.sparse.csgraph.minimum_spanning_tree`.
+3. Convertir el MST a un grafo `NetworkX` con `nx.from_scipy_sparse_array` y dividirlo en $k=2$ clústeres eliminando la arista de mayor peso.
+4. Aplicar el algoritmo tradicional de $k$-medias (`sklearn.cluster.KMeans(n_clusters=2)`) sobre los mismos puntos.
+5. Representar en una figura de dos paneles dispuestas en dos filas (`figsize=(8, 8)`) la partición obtenida por el **MST Clustering** (panel superior) y la partición obtenida por **k-medias** (panel inferior), analizando teóricamente por qué el MST logra separar las dos lunas mientras $k$-medias fracasa.
+
+```{python}
+# Tu código aquí:
+```

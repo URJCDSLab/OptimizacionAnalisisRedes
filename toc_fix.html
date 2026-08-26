@@ -1,0 +1,87 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+
+  var links = Array.from(toc.querySelectorAll("a.nav-link"));
+  if (links.length === 0) return;
+
+  function getTargets() {
+    return links.map(function (link) {
+      var targetId = link.getAttribute("data-scroll-target") || link.getAttribute("href");
+      if (targetId && targetId.startsWith("#")) {
+        return document.getElementById(decodeURIComponent(targetId.substring(1)));
+      }
+      return null;
+    });
+  }
+
+  var targets = getTargets();
+
+  function updateTOC() {
+    var scrollPos = window.scrollY || document.documentElement.scrollTop || 0;
+    var windowHeight = window.innerHeight;
+    var docHeight = document.documentElement.scrollHeight;
+
+    var activeIdx = -1;
+
+    if (scrollPos + windowHeight >= docHeight - 20) {
+      activeIdx = targets.length - 1;
+    } else {
+      for (var i = targets.length - 1; i >= 0; i--) {
+        if (targets[i]) {
+          var top = targets[i].getBoundingClientRect().top + scrollPos;
+          if (scrollPos >= top - 140) {
+            activeIdx = i;
+            break;
+          }
+        }
+      }
+    }
+
+    if (activeIdx < 0) activeIdx = 0;
+
+    links.forEach(function (link, idx) {
+      if (idx === activeIdx) {
+        link.classList.add("active");
+        link.style.color = "#0284c7";
+        link.style.fontWeight = "bold";
+      } else {
+        link.classList.remove("active");
+        link.style.color = "";
+        link.style.fontWeight = "";
+      }
+    });
+
+    // Handle accordion collapse/expand
+    var collapses = toc.querySelectorAll("ul.collapse");
+    collapses.forEach(function (c) {
+      c.classList.remove("show");
+      c.style.display = "none";
+    });
+
+    var activeLink = links[activeIdx];
+    if (activeLink) {
+      // Show parent collapse if inside a subsection
+      var parentUl = activeLink.closest("ul.collapse");
+      if (parentUl) {
+        parentUl.classList.add("show");
+        parentUl.style.display = "block";
+      }
+      // Show child collapse if active link is a main section with sub-items
+      var parentLi = activeLink.closest("li");
+      if (parentLi) {
+        var childUl = parentLi.querySelector("ul.collapse");
+        if (childUl) {
+          childUl.classList.add("show");
+          childUl.style.display = "block";
+        }
+      }
+    }
+  }
+
+  window.addEventListener("scroll", updateTOC);
+  window.addEventListener("resize", updateTOC);
+  setTimeout(updateTOC, 100);
+});
+</script>

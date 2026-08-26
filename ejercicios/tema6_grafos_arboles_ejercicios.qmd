@@ -1,0 +1,116 @@
+# Ejercicios del Tema 6: grafos y árboles soporte de mínimo peso
+
+## Ejercicio 1: fundamentos de grafos, digrafos y lema de la suma de grados
+
+Considerar la red dirigida $G_D = (V, A)$ sobre el conjunto de $6$ vértices $V = \{1, 2, 3, 4, 5, 6\}$ con la siguiente colección de $10$ arcos orientados:
+
+$$ A = \{(1,2), (1,3), (2,3), (2,4), (3,4), (3,5), (4,5), (4,6), (5,6), (6,1)\} $$
+
+Se pide:
+
+1. Dibujar el esquema conceptual de la red dirigida y calcular para cada nodo $v \in V$ su grado de entrada $\deg^-(v)$, su grado de salida $\deg^+(v)$ y su grado total $\deg(v)$.
+2. Verificar numéricamente la versión para digrafos del *Handshaking Lemma*: $\sum_{v \in V} \deg^+(v) = \sum_{v \in V} \deg^-(v) = m$.
+3. Si el sentido de los arcos se ignora para construir el grafo no dirigido subyacente $G = (V, E)$, calcular el grado $\deg(v)$ de cada vértice en $G$ y comprobar que $\sum_{v \in V} \deg(v) = 2m$.
+4. Para el subconjunto de nodos $A = \{2, 3, 4\}$, evaluar analíticamente la incidencia exterior $w^+(A)$, la incidencia interior $w^-(A)$ y el corte total $w(A)$.
+
+---
+
+## Ejercicio 2: tipología de grafos, subgrafos y grafos complementarios
+
+Considérese el grafo simple no dirigido $G = (V, E)$ de $n = 6$ vértices con conjunto de aristas $E = \{\{1,2\}, \{1,3\}, \{2,3\}, \{3,4\}, \{4,5\}, \{4,6\}, \{5,6\}\}$.
+
+Se pide:
+
+1. Clasificar el grafo $G$: determinar si es simple, completo, regular o bipartito. Justificar analíticamente la respuesta utilizando el Teorema de caracterización de grafos bipartitos (ausencia de ciclos impares).
+2. Construir el subgrafo inducido por el subconjunto de vértices $S = \{1, 2, 3, 4\}$, denotado por $G[S]$. Indicar su número de aristas y si es un clan (*clique*).
+3. Obtener el grafo complementario $\bar{G} = (V, \bar{E})$ y verificar numéricamente que el número de aristas satisface la relación $m(G) + m(\bar{G}) = \binom{n}{2}$.
+4. Calcular el grado de cada vértice en $\bar{G}$ y comprobar que $\deg_{\bar{G}}(v) = n - 1 - \deg_G(v)$ para todo $v \in V$.
+
+---
+
+## Ejercicio 3: recorridos, cadenas, caminos y métricas de red
+
+En un grafo no dirigido $G = (V, E)$ sobre $7$ vértices $V = \{1, 2, 3, 4, 5, 6, 7\}$, se analizan diversas secuencias de vértices y aristas:
+
+1. Clasificar rigurosamente las siguientes secuencias como cadena o camino, indicando en cada caso si son **elementales** (sin repetición de vértices) o **simples** (sin repetición de aristas):
+   * $\mu_1 = (1, 2, 3, 5, 6)$ pasando por las aristas $\{\{1,2\}, \{2,3\}, \{3,5\}, \{5,6\}\}$.
+   * $\mu_2 = (1, 2, 4, 3, 2, 5)$ pasando por $\{\{1,2\}, \{2,4\}, \{4,3\}, \{3,2\}, \{2,5\}\}$.
+   * $\mu_3 = (1, 2, 3, 1, 2, 4)$ pasando por $\{\{1,2\}, \{2,3\}, \{3,1\}, \{1,2\}, \{2,4\}\}$.
+
+2. Supóngase que las distancias geodésicas mínimas (número de aristas del camino más corto) entre todos los pares de nodos del grafo vienen dadas por la matriz de distancias $D \in \mathbb{R}^{7 \times 7}$. Para un nodo $v$, se define su **excentricidad** como $e(v) = \max_{u \in V} d(u, v)$.
+   * Si las excentricidades de los nodos son $e(1)=3, e(2)=2, e(3)=2, e(4)=3, e(5)=3, e(6)=4, e(7)=4$, determinar el **radio** $R(G)$, el **diámetro** $\text{diam}(G)$ y el **centro** del grafo.
+
+---
+
+## Ejercicio 4: estructura de árboles, bosques y caracterizaciones equivalentes
+
+Considerar un grafo no dirigido $G = (V, E)$ con $n = 8$ vértices y $m = 12$ aristas.
+
+Se pide:
+
+1. Verificar si $G$ puede ser un árbol. Si no es un árbol, determinar cuántas aristas deben eliminarse como mínimo para obtener un árbol soporte $T$.
+2. Demostrar rigurosamente que en todo árbol con $n \ge 2$ vértices existen al menos dos vértices de grado 1 (nodos hoja).
+3. Probar analíticamente la equivalencia entre dos caracterizaciones fundamentales de un árbol: (a) $G$ es conexo y acíclico, y (b) entre todo par de vértices $u, v \in V$ existe un único camino simple.
+4. Para un árbol $T$ de $6$ nodos $V = \{1, 2, 3, 4, 5, 6\}$ con aristas $E_T = \{\{1,2\}, \{1,3\}, \{2,4\}, \{2,5\}, \{3,6\}\}$, escribir su representación por **vector de padres o predecesores** $\beta$ tomando como nodo raíz el vértice $r = 1$.
+
+---
+
+## Ejercicio 5: planaridad, fórmula de Euler y teorema de Kuratowski
+
+Análisis topológico de la propiedad de planaridad en grafos.
+
+Se pide:
+
+1. Enunciar la **Fórmula Planar de Euler** ($n - m + r = 2$) para un grafo conexo planar y demostrar analíticamente que en todo grafo planar simple con $n \ge 3$ vértices se cumple la desigualdad $m \le 3n - 6$.
+2. Demostrar que si un grafo planar simple no contiene triángulos (su cintura es $g \ge 4$), la cota de aristas se estrecha a $m \le 2n - 4$.
+3. Aplicar las desigualdades anteriores para demostrar analíticamente que:
+   * El grafo completo $K_5$ (5 vértices, 10 aristas) **no es planar**.
+   * El grafo bipartito completo $K_{3,3}$ (6 vértices, 9 aristas) **no es planar**.
+4. Enunciar el **Teorema de Kuratowski** y explicar cómo la presencia de un subgrafo homeomórfico a $K_5$ o $K_{3,3}$ demuestra la no planaridad del Grafo de Petersen.
+
+---
+
+## Ejercicio 6: Algoritmo de Kruskal, matroides y propiedad del corte
+
+Considérese una red no dirigida valorada de 6 vértices $V = \{A, B, C, D, E, F\}$ con las siguientes 10 aristas valoradas:
+
+$$
+\begin{aligned}
+E = \{ &(A,B, 3), (A,C, 1), (A,D, 4), (B,C, 2), (B,E, 5), \\
+&(C,D, 6), (C,E, 3), (C,F, 7), (D,F, 2), (E,F, 4) \}
+\end{aligned}
+$$
+
+Se pide:
+
+1. Formular matemáticamente el problema del Árbol Soporte de Mínimo Peso (MST) como un problema de optimización combinatoria.
+2. Aplicar paso a paso el Algoritmo de Kruskal, indicando el orden de evaluación de las aristas, las componentes conexas disjuntas (*Union-Find*) tras cada incorporación y las aristas descartadas por formar ciclo.
+3. Calcular el peso total del árbol soporte de mínimo peso $d(T)$.
+4. Utilizar la **Propiedad del Corte (*Cut Property*)** para justificar analíticamente por qué la arista $(A,C)$ pertenece obligatoriamente a todo MST de la red.
+5. Determinar si el MST hallado es único o si existen árboles soporte de mínimo peso alternativos.
+
+---
+
+## Ejercicio 7: Algoritmo de Prim, invariancia y comparativa con el problema del camino mínimo (Dijkstra)
+
+Para la misma red no dirigida valorada de 6 vértices $V = \{A, B, C, D, E, F\}$ del Ejercicio 6:
+
+Se pide:
+
+1. Ejecutar paso a paso el Algoritmo de Prim eligiendo como nodo raíz inicial $v_1 = A$. Detallar para cada iteración $i=1, \dots, 5$ el conjunto de vértices visitados $P$, las aristas del corte $w(P)$ y la arista de peso mínimo seleccionada.
+2. Verificar que el árbol resultante y su peso acumulado coinciden exactamente con la solución de Kruskal.
+3. Ejecutar nuevamente Prim cambiando el nodo raíz inicial a $v_1 = F$. Justificar la invariancia del peso total del MST.
+4. **Análisis Conceptual**: Explicar la diferencia fundamental entre un Árbol Soporte de Mínimo Peso (MST) y un Árbol de Caminos Mínimos (SPT, obtenido con Dijkstra desde un origen). Construir un contraejemplo numérico de 3 nodos donde el MST no coincida con el SPT.
+
+---
+
+## Ejercicio 8: aplicación en aprendizaje no supervisado: clustering basado en MST
+
+Análisis teórico y numérico del clustering jerárquico basado en la partición del MST.
+
+Se pide:
+
+1. Explicar el procedimiento algorítmico para segmentar un conjunto de $N$ observaciones en $\mathbb{R}^d$ en $k$ clústeres inconexos a partir del MST de la matriz de desemejanza.
+2. Analizar teóricamente la función de calidad $F(T \setminus E_k) = \min_{e \in E_k} w(e)$ basada en la maximización de la distancia inter-clúster (*Single-Linkage*).
+3. Comparar el comportamiento del clustering basado en MST frente al algoritmo $k$-medias ($WCSS$), argumentando por qué el MST es capaz de separar clústeres con geometrías no convexas (como anillos concéntricos o serpentinas).
+4. **Ejercicio Numérico**: Considérense 6 puntos en $\mathbb{R}^2$: $p_1=(0,0), p_2=(1,0), p_3=(0,1), p_4=(5,5), p_5=(6,5), p_6=(5,6)$. Construir el MST utilizando la distancia euclídea y obtener la partición en $k = 2$ clústeres eliminando la arista de mayor peso.

@@ -1,0 +1,36 @@
+project:
+  type: book
+  output-dir: ejercicios_pdf
+
+book:
+  title: "Ejercicios de Optimización y Análisis de Redes"
+  author: 
+    - "Víctor Aceña Gil"
+    - "Antonio Alonso Ayuso"
+  chapters:
+    - index.qmd
+    - tema1_intro_ejercicios.qmd
+    - tema2_opt_no_lineal_ejercicios.qmd
+    - tema3_analisis_convexo_ejercicios.qmd
+    - tema4_condiciones_optimalidad_ejercicios.qmd
+    - tema5_kkt_lp_qp_ejercicios.qmd
+    - tema6_grafos_arboles_ejercicios.qmd
+    - tema7_caminos_minimos_ejercicios.qmd
+    - tema8_flujos_redes_ejercicios.qmd
+    - tema9_emparejamiento_redes_ejercicios.qmd
+    - tema10_rutas_ejercicios.qmd
+
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: false
+    css: ../estilos_html.css
+    include-before-body: portada.html
+  pdf:
+    documentclass: scrreprt
+    title-block-banner: false 
+    toc: true
+    toc-title: "Índice de Ejercicios"
+    number-sections: false

@@ -1,0 +1,90 @@
+# Ejercicios del Tema 5: dualidad KKT en programación lineal y cuadrática
+
+## Ejercicio 1: formulación KKT, dualidad e interpretación de precios sombra en LP
+
+Considerar el problema de programación lineal de maximización de beneficio:
+
+$$
+\begin{aligned}
+\max_{x_1, x_2} \quad & z = 3x_1 + 5x_2 \\
+\text{sujeto a} \quad & x_1 \le 4 \quad (g_1) \\
+& 2x_2 \le 12 \quad (g_2) \\
+& 3x_1 + 2x_2 \le 18 \quad (g_3) \\
+& x_1, x_2 \ge 0
+\end{aligned}
+$$
+
+Se pide:
+
+1. Transformar el problema a la forma canónica de minimización $\min c^T x$ s.a. $A x \le b, x \ge 0$ y derivar analíticamente el sistema KKT completo (estacionariedad, factibilidad primal, factibilidad dual y holgura complementaria).
+2. Formular formalmente el problema dual de Lagrange asociado $(D)$.
+3. Sabiendo que la solución primal óptima es $\bar{x} = (2, 6)^T$, aplicar el teorema de holgura complementaria para calcular exactamente los multiplicadores de Lagrange KKT $u_1^*, u_2^*, u_3^*$ y verificar que constituyen una solución factible y óptima del problema dual.
+4. Interpretar económicamente los precios sombra hallados: ¿cuál es el coste marginal de oportunidad asociado a cada una de las tres restricciones? Si el término independiente de la tercera restricción aumenta de $b_3 = 18$ a $b_3 = 19$, ¿cuál será el nuevo beneficio óptimo esperado?
+
+---
+
+## Ejercicio 2: degeneración, sobredeterminación y relaciones de dualidad
+
+Considerar el problema de programación lineal:
+
+$$
+\begin{aligned}
+\min_{x_1, x_2} \quad & f(x_1, x_2) = -2x_1 - 4x_2 \\
+\text{sujeto a} \quad & x_1 + x_2 \le 4 \quad (g_1) \\
+& -x_1 + x_2 \le 2 \quad (g_2) \\
+& x_2 \le 3 \quad (g_3) \\
+& x_1, x_2 \ge 0
+\end{aligned}
+$$
+
+Se pide:
+
+1. Resolver gráficamente el problema primal y verificar que el óptimo se alcanza en el vértice $\bar{x} = (1,3)^T$.
+2. Identificar las restricciones activas en $\bar{x}$ y justificar por qué existe sobredeterminación geométrica ($m_{activas} > n$) y fallo de la cualificación de restricciones de independencia lineal (LICQ).
+3. Plantear el sistema KKT de estacionariedad en $\bar{x} = (1,3)^T$ y determinar la familia infinita de vectores de multiplicadores duales $(u_1, u_2, u_3)$ que satisfacen las condiciones KKT.
+4. Clasificar el par primal-dual dentro de las 6 relaciones fundamentales de dualidad estudiadas en la teoría.
+
+---
+
+## Ejercicio 3: derivación analítica del sistema KKT en programación cuadrática (QP)
+
+Considerar el problema de optimización cuadrática:
+
+$$
+\begin{aligned}
+\min_{x_1, x_2} \quad & f(x_1, x_2) = \frac{1}{2} x_1^2 + x_2^2 - 4x_1 - 6x_2 \\
+\text{sujeto a} \quad & x_1 + x_2 \le 3 \quad (g_1) \\
+& x_1 + 2x_2 \le 4 \quad (g_2) \\
+& x_1, x_2 \ge 0
+\end{aligned}
+$$
+
+Se pide:
+
+1. Identificar la matriz cuadrática $Q$ y el vector lineal $c$. Comprobar que $Q$ es strictly definida positiva ($Q \succ 0$), garantizando la convexidad estricta del problema y la existencia de un único mínimo global.
+2. Calcular el mínimo libre no restringido $x_0 = -Q^{-1} c$ y verificar si pertenece a la región factible.
+3. Formular la función de Lagrange KKT y escribir la ecuación de estacionariedad $Q x + A^T u - v = -c$.
+4. Introducir las variables de holgura primales $y_1, y_2 \ge 0$ y representar el sistema matricial KKT lineal completo de Wolfe.
+5. Resolver analíticamente el sistema KKT por el método de casos sobre las restricciones activas para obtener la solución óptima exacta $(\bar{x}_1, \bar{x}_2)$ y sus multiplicadores duales $(u_1^*, u_2^*)$.
+
+---
+
+## Ejercicio 4: aplicación iterativa del algoritmo del Símplex de Wolfe
+
+Considerar el problema cuadrático simple:
+
+$$
+\begin{aligned}
+\min_{x_1, x_2} \quad & f(x_1, x_2) = x_1^2 + x_2^2 - 6x_1 - 4x_2 \\
+\text{sujeto a} \quad & x_1 + x_2 \le 2 \\
+& x_1, x_2 \ge 0
+\end{aligned}
+$$
+
+Se pide:
+
+1. Escribir las ecuaciones de factibilidad primal con la variable de holgura $y_1 \ge 0$ y las ecuaciones de estacionariedad KKT introduciendo las variables artificiales $z_1, z_2 \ge 0$.
+2. Construir la tabla inicial del Símplex de Wolfe en el origen $(x_1=0, x_2=0)$.
+3. Aplicar rigurosamente la **regla de entrada restringida de Wolfe** en cada iteración: determinar qué variables duales están bloqueadas por la presencia de sus primales correspondientes en la base.
+4. Ejecutar las iteraciones del algoritmo de pivotaje del Símplex hasta conseguir que la suma de variables artificiales sea $z_1 + z_2 = 0$.
+5. Extraer la solución óptima primal $(\bar{x}_1, \bar{x}_2)$, el multiplicador dual $u_1^*$ y verificar el cumplimiento estricto de la condición KKT de tangencia.

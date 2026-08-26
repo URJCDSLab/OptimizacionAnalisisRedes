@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Rutas eulerianas, hamiltonianas y problemas de rutas – Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./conclusiones.html" rel="next">
+<link href="./tema9.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="estilos_html.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema6.html">Bloque II: Optimización en redes</a></li><li class="breadcrumb-item"><a href="./tema10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Rutas eulerianas, hamiltonianas y problemas de rutas</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la investigación operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bloque I: Optimización no lineal</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización no lineal y métodos numéricos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis convexo</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de optimalidad y KKT</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Programación lineal y cuadrática</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bloque II: Optimización en redes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Grafos y árboles soporte</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Caminos mínimos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Flujos en redes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Emparejamientos en redes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema10.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Rutas eulerianas, hamiltonianas y problemas de rutas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#grafos-eulerianos-y-el-problema-de-los-puentes-de-königsberg" id="toc-grafos-eulerianos-y-el-problema-de-los-puentes-de-königsberg" class="nav-link active" data-scroll-target="#grafos-eulerianos-y-el-problema-de-los-puentes-de-königsberg"><span class="header-section-number">10.1</span> Grafos eulerianos y el problema de los puentes de Königsberg</a>
+  <ul class="collapse">
+  <li><a href="#algoritmo-constructivo-para-la-determinación-de-cadenas-eulerianas" id="toc-algoritmo-constructivo-para-la-determinación-de-cadenas-eulerianas" class="nav-link" data-scroll-target="#algoritmo-constructivo-para-la-determinación-de-cadenas-eulerianas"><span class="header-section-number">10.1.1</span> Algoritmo constructivo para la determinación de cadenas eulerianas</a></li>
+  </ul></li>
+  <li><a href="#el-problema-del-cartero-chino-cpp" id="toc-el-problema-del-cartero-chino-cpp" class="nav-link" data-scroll-target="#el-problema-del-cartero-chino-cpp"><span class="header-section-number">10.2</span> El Problema del Cartero Chino (CPP)</a>
+  <ul class="collapse">
+  <li><a href="#caracterización-analítica-y-eulerización-óptima" id="toc-caracterización-analítica-y-eulerización-óptima" class="nav-link" data-scroll-target="#caracterización-analítica-y-eulerización-óptima"><span class="header-section-number">10.2.1</span> Caracterización analítica y eulerización óptima</a></li>
+  <li><a href="#variantes-del-problema-del-cartero-chino" id="toc-variantes-del-problema-del-cartero-chino" class="nav-link" data-scroll-target="#variantes-del-problema-del-cartero-chino"><span class="header-section-number">10.2.2</span> Variantes del Problema del Cartero Chino</a></li>
+  </ul></li>
+  <li><a href="#ciclos-hamiltonianos-y-condiciones-de-hamiltonianidad" id="toc-ciclos-hamiltonianos-y-condiciones-de-hamiltonianidad" class="nav-link" data-scroll-target="#ciclos-hamiltonianos-y-condiciones-de-hamiltonianidad"><span class="header-section-number">10.3</span> Ciclos hamiltonianos y condiciones de hamiltonianidad</a>
+  <ul class="collapse">
+  <li><a href="#condiciones-necesarias-2-conexidad-y-cortes-nodales" id="toc-condiciones-necesarias-2-conexidad-y-cortes-nodales" class="nav-link" data-scroll-target="#condiciones-necesarias-2-conexidad-y-cortes-nodales"><span class="header-section-number">10.3.1</span> Condiciones necesarias: 2-conexidad y cortes nodales</a></li>
+  <li><a href="#condiciones-suficientes-proposición-de-adyacencia-y-teorema-de-bondy-y-chvátal" id="toc-condiciones-suficientes-proposición-de-adyacencia-y-teorema-de-bondy-y-chvátal" class="nav-link" data-scroll-target="#condiciones-suficientes-proposición-de-adyacencia-y-teorema-de-bondy-y-chvátal"><span class="header-section-number">10.3.2</span> Condiciones suficientes: Proposición de adyacencia y Teorema de Bondy y Chvátal</a></li>
+  </ul></li>
+  <li><a href="#el-problema-del-viajante-de-comercio-tsp" id="toc-el-problema-del-viajante-de-comercio-tsp" class="nav-link" data-scroll-target="#el-problema-del-viajante-de-comercio-tsp"><span class="header-section-number">10.4</span> El Problema del Viajante de Comercio (TSP)</a>
+  <ul class="collapse">
+  <li><a href="#modelo-1-del-tsp-variables-de-posición-de-tramo-x_ijk" id="toc-modelo-1-del-tsp-variables-de-posición-de-tramo-x_ijk" class="nav-link" data-scroll-target="#modelo-1-del-tsp-variables-de-posición-de-tramo-x_ijk"><span class="header-section-number">10.4.1</span> Modelo 1 del TSP: Variables de posición de tramo (<span class="math inline">\(x_{ijk}\)</span>)</a></li>
+  <li><a href="#modelo-2-del-tsp-eliminación-exponencial-de-subciclos-dfj" id="toc-modelo-2-del-tsp-eliminación-exponencial-de-subciclos-dfj" class="nav-link" data-scroll-target="#modelo-2-del-tsp-eliminación-exponencial-de-subciclos-dfj"><span class="header-section-number">10.4.2</span> Modelo 2 del TSP: Eliminación exponencial de subciclos (DFJ)</a></li>
+  <li><a href="#modelo-3-del-tsp-formulación-compacta-mtz-miller-tucker-zemlin" id="toc-modelo-3-del-tsp-formulación-compacta-mtz-miller-tucker-zemlin" class="nav-link" data-scroll-target="#modelo-3-del-tsp-formulación-compacta-mtz-miller-tucker-zemlin"><span class="header-section-number">10.4.3</span> Modelo 3 del TSP: Formulación compacta MTZ (Miller-Tucker-Zemlin)</a></li>
+  <li><a href="#heurísticas-y-el-algoritmo-de-aproximación-de-christofides" id="toc-heurísticas-y-el-algoritmo-de-aproximación-de-christofides" class="nav-link" data-scroll-target="#heurísticas-y-el-algoritmo-de-aproximación-de-christofides"><span class="header-section-number">10.4.4</span> Heurísticas y el Algoritmo de Aproximación de Christofides</a></li>
+  </ul></li>
+  <li><a href="#taxonomía-y-características-de-los-problemas-de-rutas-de-vehículos-vrp" id="toc-taxonomía-y-características-de-los-problemas-de-rutas-de-vehículos-vrp" class="nav-link" data-scroll-target="#taxonomía-y-características-de-los-problemas-de-rutas-de-vehículos-vrp"><span class="header-section-number">10.5</span> Taxonomía y características de los Problemas de Rutas de Vehículos (VRP)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema6.html">Bloque II: Optimización en redes</a></li><li class="breadcrumb-item"><a href="./tema10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Rutas eulerianas, hamiltonianas y problemas de rutas</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Rutas eulerianas, hamiltonianas y problemas de rutas</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>El diseño y optimización de rutas sobre redes valoradas constituye uno de los pilares más fascinantes y de mayor repercusión industrial de la investigación operativa, la ciencia de la computación y la logística moderna <span class="citation" data-cites="papadimitriou1998combinatorial wolsey1998integer">(<a href="references.html#ref-papadimitriou1998combinatorial" role="doc-biblioref">Papadimitriou y Steiglitz 1998</a>; <a href="references.html#ref-wolsey1998integer" role="doc-biblioref">Wolsey 1998</a>)</span>. Desde una perspectiva teórica y algorítmica, los problemas de recorridos permiten estudiar la profunda frontera que separa los problemas resolubles en tiempo polinomial (clase <span class="math inline">\(\mathcal{P}\)</span>), como la determinación de trayectorias que inspeccionan la totalidad de las aristas o calles de una red (el <strong>Problema del Cartero Chino</strong>), frente a los problemas computacionalmente intratables de naturaleza <span class="math inline">\(\mathcal{NP}\)</span>-completa y <span class="math inline">\(\mathcal{NP}\)</span>-dura, como la secuenciación óptima de visitas a un conjunto de clientes o nodos sin repetición (el <strong>Problema del Viajante de Comercio</strong> o TSP, y sus extensiones multi-vehículo VRP).</p>
+<p>En este capítulo, desarrollaremos de forma rigurosa la teoría matemática y las técnicas algorítmicas que sustentan el análisis de recorridos en grafos. Comenzaremos explorando los orígenes históricos de la teoría de grafos en los puentes de Königsberg y la caracterización exacta de los <strong>grafos eulerianos</strong>, formalizando un algoritmo constructivo de cadenas eulerianas basado en estructuras de punteros. A continuación, estudiaremos el <strong>Problema del Cartero Chino (CPP)</strong> en redes no eulerianas, demostrando la descomposición de aristas duplicadas y resolviendo el modelo mediante emparejamientos perfectos de peso mínimo. Posteriormente, abordaremos los <strong>ciclos hamiltonianos</strong>, analizando la condición necesaria de 2-conexidad, la proposición fundamental de adyacencia y el Teorema de la <strong>Clausura de Bondy y Chvátal</strong>. Seguidamente, formularemos el <strong>Problema del Viajante (TSP)</strong> mediante tres modelos lineales enteros fundamentales (el modelo tridimensional por tramos, la formulación con eliminación exponencial de subciclos de Dantzig-Fulkerson-Johnson y el modelo polinomial compacto de Miller-Tucker-Zemlin), analizando además heurísticas locales (2-opt) y el algoritmo de aproximación métrica de <strong>Christofides</strong> con la demostración de su garantía de factor <span class="math inline">\(1.5\)</span>. Finalmente, estableceremos la taxonomía global de los <strong>Problemas de Rutas de Vehículos (VRP)</strong> y sus múltiples variantes operativas.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Objetivos de aprendizaje" data-kind="objetivos">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo, serás capaz de:</p>
+<ol type="1">
+<li><strong>Diferenciar</strong> formalmente entre grafos eulerianos (recorridos por aristas en tiempo polinomial) y grafos hamiltonianos (recorridos por vértices de complejidad <span class="math inline">\(\mathcal{NP}\)</span>-completa).</li>
+<li><strong>Aplicar</strong> el teorema fundamental de caracterización de Euler y ejecutar el algoritmo constructivo de punteros para determinar cadenas y ciclos eulerianos.</li>
+<li><strong>Formular y resolver</strong> el Problema del Cartero Chino (CPP) sobre grafos generales, modelando la eulerización óptima mediante emparejamientos perfectos de peso mínimo sobre el grafo auxiliar de nodos impares.</li>
+<li><strong>Demostrar</strong> la proposición fundamental de adyacencia hamiltoniana y evaluar la existencia de ciclos hamiltonianos mediante el operador de clausura de Bondy-Chvátal y los teoremas clásicos de Dirac y Ore.</li>
+<li><strong>Formular</strong> el Problema del Viajante (TSP) comparando las formulaciones de eliminación exponencial de subtours (DFJ) y la formulación polinomial compacta (MTZ), justificando el compromiso entre fortaleza poliédrica y dimensión.</li>
+<li><strong>Clasificar</strong> los problemas generales de rutas de vehículos (VRP/VSP, rutas por nodos frente a rutas por arcos) identificando sus dimensiones operativas (flotas, depósitos, demandas, ventanas de tiempo y funciones objetivo).</li>
+</ol>
+</div>
+</div>
+<hr>
+<section id="grafos-eulerianos-y-el-problema-de-los-puentes-de-königsberg" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="grafos-eulerianos-y-el-problema-de-los-puentes-de-königsberg"><span class="header-section-number">10.1</span> Grafos eulerianos y el problema de los puentes de Königsberg</h2>
+<p>El nacimiento formal de la teoría de grafos y de la topología matemática se sitúa en 1736, cuando el célebre matemático suizo <strong>Leonhard Euler</strong> presentó en la Academia de San Petersburgo su memoria titulada <em>Solutio Problematis ad Geometriam Situs Pertinentis</em> <span class="citation" data-cites="euler1741solutio">(<a href="references.html#ref-euler1741solutio" role="doc-biblioref">Euler 1741</a>)</span>. En dicho trabajo, Euler abordó el célebre enigma planteado por los ciudadanos de la ciudad prusiana de <strong>Königsberg</strong> (actual Kaliningrado), atravesada por el río Pregel, el cual dividía la urbe en cuatro masas terrestres conectadas entre sí mediante siete puentes. El problema consistía en determinar si era posible diseñar un paseo urbano que recorriera la ciudad cruzando <strong>cada uno de los siete puentes exactamente una vez y regresando al punto de partida</strong>.</p>
+<p>Euler demostró de forma analítica que tal recorrido cerrado era físicamente imposible. Su genialidad radicó en abstraer por completo los detalles geométricos (longitudes de calles, formas de las orillas o distancias reales) y modelar la topología del sistema mediante un <strong>multigrafo</strong>, donde las cuatro regiones terrestres se representaban como vértices (<span class="math inline">\(A, B, C, D\)</span>) y los siete puentes como aristas que conectaban dichas regiones, tal como se ilustra en la <a href="#fig-puentes-konigsberg-grafo" class="quarto-xref">Figura&nbsp;<span>10.1</span></a>.</p>
+<div id="fig-puentes-konigsberg-grafo" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-puentes-konigsberg-grafo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/puentes_konigsberg_grafo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figura&nbsp;10.1: El problema de los siete puentes de Königsberg: mapa fluvial sobre el río Pregel (izquierda) y multigrafo abstracto de Euler con los grados nodales asociados (derecha)"><img src="images/puentes_konigsberg_grafo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-puentes-konigsberg-grafo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.1: El problema de los siete puentes de Königsberg: mapa fluvial sobre el río Pregel (izquierda) y multigrafo abstracto de Euler con los grados nodales asociados (derecha)
+</figcaption>
+</figure>
+</div>
+<p>El análisis de Euler demostró que, para que un vértice cualquiera actúe como punto de paso intermedio de un recorrido continuo sin repetir puentes, cada vez que el caminante entra en dicho vértice por un puente debe existir necesariamente otro puente disponible sin cruzar para salir de él. En consecuencia, cada visita intermedia consume exactamente dos conexiones, lo que exige que el número de aristas incidentes en cada nodo intermedio (<strong>grado del vértice</strong>) sea obligatoriamente un <strong>número par</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Cadenas y ciclos eulerianos" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Cadenas y ciclos eulerianos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un multigrafo finito conexo no dirigido <span class="math inline">\(G = (V, E)\)</span>:</p>
+<ul>
+<li><strong>Cadena euleriana</strong>: Es una secuencia ordenada de vértices y aristas que recorre <strong>todas las aristas</strong> del conjunto <span class="math inline">\(E\)</span> pasando por cada una de ellas <strong>exactamente una vez</strong> (sin repetir ninguna arista).</li>
+<li><strong>Ciclo euleriano</strong>: Es una cadena euleriana <strong>cerrada</strong>, es decir, una cadena euleriana cuyo vértice inicial coincide con su vértice final.</li>
+<li><strong>Grafo euleriano</strong>: Un multigrafo <span class="math inline">\(G = (V, E)\)</span> se denomina <strong>euleriano</strong> si admite al menos un ciclo euleriano.</li>
+</ul>
+</div>
+</div>
+<p>La caracterización matemática completa de la existencia de tales trayectorias sobre redes conexas se formaliza en el teorema fundamental de Euler, extendido posteriormente por Carl Hierholzer en 1873.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Teorema de Euler de caracterización euleriana" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Teorema de Euler de caracterización euleriana
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (V, E)\)</span> un multigrafo finito y conexo. Entonces:</p>
+<ol type="1">
+<li><p><span class="math inline">\(G\)</span> contiene un <strong>ciclo euleriano</strong> si y solo si <strong>todos los vértices de <span class="math inline">\(V\)</span> tienen grado par</strong>: <span class="math display">\[
+d(i) \equiv 0 \pmod 2, \quad \forall i \in V
+\]</span></p></li>
+<li><p><span class="math inline">\(G\)</span> contiene una <strong>cadena euleriana abierta</strong> (no cerrada) si y solo si el número de vértices de grado impar es <strong>exactamente dos</strong>. En tal caso, los dos vértices de grado impar constituyen necesariamente los extremos inicial y final de la cadena.</p></li>
+</ol>
+<p><em>Demostración</em>: Demostremos en primer lugar la condición necesaria para la existencia de un ciclo euleriano. Supongamos que <span class="math inline">\(G\)</span> admite un ciclo euleriano <span class="math inline">\(C\)</span>. Al recorrer el ciclo arista por arista desde el origen hasta el retorno final, cada paso a través de un vértice intermedio <span class="math inline">\(i \in V\)</span> utiliza una arista entrante y otra arista saliente no explorada previamente. Por tanto, cada tránsito a través de <span class="math inline">\(i\)</span> incrementa su grado local en dos unidades. Como todas las aristas de <span class="math inline">\(E\)</span> son visitadas exactamente una vez, el grado total <span class="math inline">\(d(i)\)</span> de cada vértice es el doble del número de veces que el ciclo pasa por él, resultando un número estrictamente par. Si la cadena es abierta y une dos vértices distintos <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span>, el vértice inicial <span class="math inline">\(u\)</span> tiene una arista saliente neta adicional (grado impar), el vértice final <span class="math inline">\(v\)</span> tiene una arista entrante neta adicional (grado impar), y todos los demás vértices intermedios conservan balance par de entrada y salida.</p>
+<p>Para demostrar la suficiencia en el caso de que todos los vértices tengan grado par, seleccionamos un vértice cualquiera <span class="math inline">\(v_0\)</span> y construimos un camino simple avanzando por aristas no utilizadas. Dado que cada vértice tiene grado par, al entrar en cualquier vértice siempre existirá al menos una arista libre para salir, a menos que regresemos al vértice de partida <span class="math inline">\(v_0\)</span>. Así, se forma un ciclo inicial <span class="math inline">\(C_1\)</span>. Si <span class="math inline">\(C_1\)</span> contiene todas las aristas de <span class="math inline">\(E\)</span>, hemos terminado. Si no es así, al ser <span class="math inline">\(G\)</span> conexo, existe algún vértice <span class="math inline">\(v_k \in C_1\)</span> que incide en aristas no pertenecientes a <span class="math inline">\(C_1\)</span>. El subgrafo residual <span class="math inline">\(G \setminus E(C_1)\)</span> sigue teniendo todos sus vértices de grado par. Repitiendo el proceso desde <span class="math inline">\(v_k\)</span>, obtenemos un nuevo ciclo <span class="math inline">\(C_2\)</span> que puede empalmarse en <span class="math inline">\(v_k\)</span> dentro de <span class="math inline">\(C_1\)</span>. Reiterando esta descomposición sobre el número finito de aristas, se obtiene un ciclo euleriano que integra la totalidad de <span class="math inline">\(E\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<p>En el multigrafo de los puentes de Königsberg mostrado en la <a href="#fig-puentes-konigsberg-grafo" class="quarto-xref">Figura&nbsp;<span>10.1</span></a>, los grados de los cuatro vértices son <span class="math inline">\(d(A)=5\)</span>, <span class="math inline">\(d(B)=3\)</span>, <span class="math inline">\(d(C)=3\)</span> y <span class="math inline">\(d(D)=3\)</span>. Al existir cuatro vértices de grado impar (ninguno con grado par), el teorema de Euler certifica formalmente la imposibilidad de trazar ni un ciclo ni una cadena euleriana abierta.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Nota: Distinción entre cadenas y ciclos eulerianos según la paridad" data-kind="nota">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota: Distinción entre cadenas y ciclos eulerianos según la paridad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Es conveniente clarificar con precisión la relación entre la noción general de <strong>cadena euleriana</strong> y la de <strong>ciclo euleriano</strong>:</p>
+<ul>
+<li><strong>Existencia de cadena euleriana en general</strong>: Un grafo conexo admite una cadena euleriana (cerrada o abierta) si y solo si el número de vértices de grado impar pertenece al conjunto <span class="math inline">\(\{0, 2\}\)</span>.</li>
+<li><strong>Caso <span class="math inline">\(|V_{\text{impar}}| = 0\)</span> (Ciclo euleriano)</strong>: Si todos los vértices tienen grado par, la cadena es <strong>cerrada</strong> (un ciclo euleriano) y puede iniciarse y concluirse en cualquier vértice arbitrario de la red.</li>
+<li><strong>Caso <span class="math inline">\(|V_{\text{impar}}| = 2\)</span> (Cadena euleriana abierta)</strong>: La cadena es <strong>abierta</strong> (no puede cerrarse sobre sí misma sin duplicar aristas) y sus extremos inicial y final son obligatoriamente los dos únicos vértices con grado impar.</li>
+<li><strong>Caso <span class="math inline">\(|V_{\text{impar}}| \ge 4\)</span></strong>: No existe ninguna cadena euleriana, ni abierta ni cerrada (el caso de <span class="math inline">\(|V_{\text{impar}}| = 1\)</span> o cualquier número impar de vértices impares es topológicamente imposible en cualquier grafo por el Lema del apretón de manos).</li>
+</ul>
+</div>
+</div>
+<section id="algoritmo-constructivo-para-la-determinación-de-cadenas-eulerianas" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="algoritmo-constructivo-para-la-determinación-de-cadenas-eulerianas"><span class="header-section-number">10.1.1</span> Algoritmo constructivo para la determinación de cadenas eulerianas</h3>
+<p>Para determinar de forma computacional una cadena o ciclo euleriano en un multigrafo que cumple las condiciones de Euler, se requiere una estructura de datos algorítmica eficiente que permita extender un recorrido inicial e insertar recursivamente los ciclos secundarios que surjan en los vértices intermedios.</p>
+<p>Presentamos a continuación el algoritmo formal de construcción de cadenas eulerianas mediante un vector de punteros de aristas sucesoras <span class="math inline">\(\mathbf{\sigma} = (\sigma(1), \dots, \sigma(m), \sigma(m+1))\)</span>, donde <span class="math inline">\(m = |E|\)</span> denota el número total de aristas del grafo. En esta estructura, cada componente <span class="math inline">\(\sigma(e)\)</span> almacena el identificador de la arista que sigue a la arista <span class="math inline">\(e\)</span> en la secuencia del recorrido, y la posición auxiliar <span class="math inline">\(\sigma(m+1)\)</span> almacena el índice de la primera arista de la cadena.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de construcción de cadenas y ciclos eulerianos" data-kind="esquema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Esquema: Algoritmo de construcción de cadenas y ciclos eulerianos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo conexo <span class="math inline">\(G = (V, E)\)</span> con <span class="math inline">\(m = |E|\)</span> aristas numeradas <span class="math inline">\(\{1, 2, \dots, m\}\)</span>, sean las siguientes estructuras de datos y parámetros auxiliares:</p>
+<ul>
+<li><span class="math inline">\(d(i)\)</span>: Grado del vértice <span class="math inline">\(i \in V\)</span>.</li>
+<li><span class="math inline">\(w(i)\)</span>: Conjunto ordenado de aristas incidentes en el vértice <span class="math inline">\(i\)</span>.</li>
+<li><span class="math inline">\(\delta_i(e) = j\)</span>: Función de incidencia que devuelve el vértice opuesto al que conecta la arista <span class="math inline">\(e = \{i, j\}\)</span> desde el nodo <span class="math inline">\(i\)</span>.</li>
+<li><span class="math inline">\(\alpha(i)\)</span>: Contador dinámico del número de aristas incidentes en <span class="math inline">\(i\)</span> que aún <strong>no han sido exploradas</strong> (inicialmente <span class="math inline">\(\alpha(i) = d(i)\)</span>).</li>
+<li><span class="math inline">\(v\)</span>: Longitud acumulada del recorrido actual (número de aristas incorporadas).</li>
+<li><span class="math inline">\(\phi(i)\)</span>: Identificador de la arista utilizada para alcanzar por primera vez el vértice <span class="math inline">\(i\)</span> dentro de la cadena (para el vértice inicial <span class="math inline">\(a\)</span>, se define <span class="math inline">\(\phi(a) = m+1\)</span>).</li>
+</ul>
+<p>El procedimiento algorítmico se articula en cuatro pasos:</p>
+<ol type="1">
+<li><strong>Paso 1 (Inicialización)</strong>:
+<ul>
+<li>Si el grafo posee dos vértices de grado impar, se selecciona uno de ellos como vértice inicial <span class="math inline">\(a\)</span> y el otro como vértice terminal <span class="math inline">\(b\)</span> (fijando <span class="math inline">\(i = a\)</span> y <span class="math inline">\(t = b\)</span>). Si todos los vértices son pares, se escoge un vértice arbitrario fijando <span class="math inline">\(a = b\)</span> (<span class="math inline">\(i = a, t = a\)</span>).</li>
+<li>Inicializar <span class="math inline">\(\sigma(e) = 0\)</span> para todo <span class="math inline">\(e \in \{1, \dots, m, m+1\}\)</span>, <span class="math inline">\(\alpha(i) = d(i)\)</span> y <span class="math inline">\(\phi(j) = 0\)</span> para todo <span class="math inline">\(j \in V \setminus \{a\}\)</span>, fijando <span class="math inline">\(\phi(a) = m+1\)</span>, <span class="math inline">\(v = 0\)</span>, <span class="math inline">\(e_1 = m+1\)</span> y <span class="math inline">\(e_2 = -1\)</span>.</li>
+</ul></li>
+<li><strong>Paso 2 (Extensión secuencial del recorrido)</strong>:
+<ul>
+<li><p>Si <span class="math inline">\(\alpha(i) = 0\)</span>, ir al <strong>Paso 4</strong>.</p></li>
+<li><p>En caso contrario, sea <span class="math inline">\(e\)</span> la arista que ocupa la posición actual <span class="math inline">\(\alpha(i)\)</span> en la lista de incidencias <span class="math inline">\(w(i)\)</span>. Decrementar el contador: <span class="math inline">\(\alpha(i) \leftarrow \alpha(i) - 1\)</span>.</p></li>
+<li><p>Si <span class="math inline">\(e = e_1\)</span> o <span class="math inline">\(\sigma(e) \neq 0\)</span> (arista ya explorada en sentido inverso), repetir el <strong>Paso 2</strong>.</p></li>
+<li><p>En otro caso (arista nueva disponible): <span class="math display">\[
+\begin{aligned}
+j &amp;= \delta_i(e), \quad \phi(j) = e, \quad \sigma(e_1) = e, \\
+v &amp;\leftarrow v + 1, \quad \alpha(j) \leftarrow \alpha(j) - 1, \quad i \leftarrow j
+\end{aligned}
+\]</span></p></li>
+<li><p>Si el nuevo nodo alcanzado es el nodo objetivo (<span class="math inline">\(i = t\)</span>), ir al <strong>Paso 3</strong>. En caso contrario, actualizar la última arista incorporada <span class="math inline">\(e_1 \leftarrow e\)</span> y continuar en el <strong>Paso 2</strong>.</p></li>
+</ul></li>
+<li><strong>Paso 3 (Cierre de subcadena y verificación de parada)</strong>:
+<ul>
+<li>Enlazar la última arista con la continuación del ciclo: <span class="math inline">\(\sigma(e) = e_2\)</span>.</li>
+<li>Si la longitud total alcanza el número total de aristas (<span class="math inline">\(v = m\)</span>), el algoritmo <strong>FINALIZA con éxito</strong>: el vector <span class="math inline">\(\mathbf{\sigma}\)</span> describe la cadena euleriana completa.</li>
+<li>Si <span class="math inline">\(v &lt; m\)</span>, quedan aristas no exploradas, por lo que se avanza al <strong>Paso 4</strong>.</li>
+</ul></li>
+<li><strong>Paso 4 (Búsqueda y empalme de ciclos adyacentes)</strong>:
+<ul>
+<li><p>Buscar un vértice <span class="math inline">\(k \in V\)</span> que satisfaga simultáneamente:</p>
+<ol type="1">
+<li><span class="math inline">\(\alpha(k) \neq 0\)</span> (le restan aristas incidentes sin explorar).</li>
+<li><span class="math inline">\(\phi(k) \neq 0\)</span> (es un vértice perteneciente a la cadena ya construida).</li>
+</ol></li>
+<li><p>Configurar los punteros de inserción para abrir un ciclo secundario en dicho nodo: <span class="math display">\[
+i \leftarrow k, \quad t \leftarrow k, \quad e_1 \leftarrow \phi(k), \quad e_2 \leftarrow \sigma(e_1)
+\]</span></p></li>
+<li><p>Regresar al <strong>Paso 2</strong> para construir el ciclo euleriano adyacente que se intercalará en la posición de <span class="math inline">\(k\)</span>.</p></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<p>En el siguiente ejemplo, analizamos la ejecución detallada de este algoritmo sobre un grafo de 4 nodos.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Construcción paso a paso de una cadena euleriana" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Construcción paso a paso de una cadena euleriana
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideremos el grafo conexo <span class="math inline">\(G = (V, E)\)</span> de <span class="math inline">\(4\)</span> vértices <span class="math inline">\(V = \{a, b, c, d\}\)</span> y <span class="math inline">\(4\)</span> aristas <span class="math inline">\(E = \{1, 2, 3, 4\}\)</span> ilustrado en la <a href="#fig-euler-algoritmo-traza" class="quarto-xref">Figura&nbsp;<span>10.2</span></a> (panel izquierdo), cuyas aristas e incidencias son:</p>
+<ul>
+<li>Arista 1: <span class="math inline">\(\{a, b\} \implies \delta_a(1) = b, \delta_b(1) = a\)</span>.</li>
+<li>Arista 2: <span class="math inline">\(\{b, c\} \implies \delta_b(2) = c, \delta_c(2) = b\)</span>.</li>
+<li>Arista 3: <span class="math inline">\(\{c, d\} \implies \delta_c(3) = d, \delta_d(3) = c\)</span>.</li>
+<li>Arista 4: <span class="math inline">\(\{b, d\} \implies \delta_b(4) = d, \delta_d(4) = b\)</span>.</li>
+</ul>
+<p>Evaluando los grados nodales: <span class="math display">\[
+d(a) = 1, \quad d(b) = 3, \quad d(c) = 2, \quad d(d) = 2
+\]</span> Al existir exactamente dos vértices de grado impar (<span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span>), el teorema de Euler garantiza la existencia de una cadena euleriana abierta que comenzará en <span class="math inline">\(a\)</span> y finalizará en <span class="math inline">\(b\)</span>.</p>
+<ol type="1">
+<li><strong>Inicialización (Paso 1)</strong>:
+<ul>
+<li>Vértice inicial: <span class="math inline">\(i = a\)</span>, vértice final: <span class="math inline">\(t = b\)</span>.</li>
+<li>Arista ficticia de cabecera: <span class="math inline">\(m+1 = 5\)</span>. Punteros iniciales: <span class="math inline">\(e_1 = 5, e_2 = -1, v = 0\)</span>.</li>
+<li>Contadores: <span class="math inline">\(\alpha(a)=1, \alpha(b)=3, \alpha(c)=2, \alpha(d)=2\)</span>.</li>
+<li>Punteros de llegada: <span class="math inline">\(\phi(a) = 5, \phi(b)=0, \phi(c)=0, \phi(d)=0\)</span>.</li>
+</ul></li>
+<li><strong>Primera extensión (Paso 2)</strong>:
+<ul>
+<li><p>En <span class="math inline">\(i = a\)</span>, <span class="math inline">\(\alpha(a)=1\)</span>. Arista disponible <span class="math inline">\(e = 1\)</span>. Se actualiza <span class="math inline">\(\alpha(a) = 0\)</span>.</p></li>
+<li><p>Como <span class="math inline">\(e=1 \neq e_1=5\)</span>, se conecta la arista: <span class="math display">\[
+\begin{aligned}
+j &amp;= \delta_a(1) = b, \quad \phi(b) = 1, \quad \sigma(5) = 1, \\
+v &amp;= 1, \quad \alpha(b) = 3 - 1 = 2, \quad i = b
+\end{aligned}
+\]</span></p></li>
+<li><p>Como el nodo actual <span class="math inline">\(b\)</span> coincide con el destino <span class="math inline">\(t=b\)</span>, se deriva al <strong>Paso 3</strong>.</p></li>
+</ul></li>
+<li><strong>Cierre de tramo inicial (Paso 3)</strong>:
+<ul>
+<li>Se fija <span class="math inline">\(\sigma(1) = e_2 = -1\)</span>.</li>
+<li>Como la longitud acumulada <span class="math inline">\(v = 1 &lt; 4\)</span>, la cadena no está completa. Se pasa al <strong>Paso 4</strong>.</li>
+</ul></li>
+<li><strong>Búsqueda de vértice de bifurcación (Paso 4)</strong>:
+<ul>
+<li><p>Se evalúa el nodo <span class="math inline">\(k = b\)</span>: cumple <span class="math inline">\(\alpha(b) = 2 \neq 0\)</span> y <span class="math inline">\(\phi(b) = 1 \neq 0\)</span>.</p></li>
+<li><p>Se reconfiguran los punteros para intercalar un ciclo cerrado en <span class="math inline">\(b\)</span>: <span class="math display">\[
+i = b, \quad t = b, \quad e_1 = \phi(b) = 1, \quad e_2 = \sigma(1) = -1
+\]</span></p></li>
+<li><p>Se regresa al <strong>Paso 2</strong>.</p></li>
+</ul></li>
+<li><strong>Construcción del ciclo secundario (Pasos 2 y 3)</strong>:
+<ul>
+<li><p><em>Iteración desde <span class="math inline">\(b\)</span></em>: <span class="math inline">\(\alpha(b)=2\)</span>, arista <span class="math inline">\(e = w_2(b) = 4\)</span>. Se actualiza <span class="math inline">\(\alpha(b)=1\)</span>. <span class="math display">\[
+\begin{aligned}
+j &amp;= \delta_b(4) = d, \quad \phi(d) = 4, \quad \sigma(1) = 4, \\
+v &amp;= 2, \quad \alpha(d) = 2 - 1 = 1, \quad i = d, \quad e_1 = 4
+\end{aligned}
+\]</span></p></li>
+<li><p><em>Iteración desde <span class="math inline">\(d\)</span></em>: <span class="math inline">\(\alpha(d)=1\)</span>, arista <span class="math inline">\(e = w_1(d) = 3\)</span>. Se actualiza <span class="math inline">\(\alpha(d)=0\)</span>. <span class="math display">\[
+\begin{aligned}
+j &amp;= \delta_d(3) = c, \quad \phi(c) = 3, \quad \sigma(4) = 3, \\
+v &amp;= 3, \quad \alpha(c) = 2 - 1 = 1, \quad i = c, \quad e_1 = 3
+\end{aligned}
+\]</span></p></li>
+<li><p><em>Iteración desde <span class="math inline">\(c\)</span></em>: <span class="math inline">\(\alpha(c)=1\)</span>, arista <span class="math inline">\(e = w_1(c) = 2\)</span>. Se actualiza <span class="math inline">\(\alpha(c)=0\)</span>. <span class="math display">\[
+\begin{aligned}
+j &amp;= \delta_c(2) = b, \quad \phi(b) = 2, \quad \sigma(3) = 2, \\
+v &amp;= 4, \quad \alpha(b) = 1 - 1 = 0, \quad i = b
+\end{aligned}
+\]</span></p></li>
+<li><p>Al alcanzar de nuevo el destino intermedio <span class="math inline">\(i = t = b\)</span>, se pasa al <strong>Paso 3</strong>: <span class="math display">\[
+\sigma(2) = e_2 = -1
+\]</span></p></li>
+<li><p>Como la longitud acumulada <span class="math inline">\(v = 4 = m\)</span>, el algoritmo <strong>termina con éxito</strong>.</p></li>
+</ul></li>
+</ol>
+<p>El vector resultante de punteros <span class="math inline">\(\mathbf{\sigma}\)</span> es: <span class="math display">\[
+\mathbf{\sigma} = (\sigma(1), \sigma(2), \sigma(3), \sigma(4), \sigma(5)) = (4, -1, 2, 3, 1)
+\]</span> Siguiendo la cadena desde el puntero inicial <span class="math inline">\(\sigma(5)=1 \to \sigma(1)=4 \to \sigma(4)=3 \to \sigma(3)=2 \to \sigma(2)=-1\)</span>, la secuencia ordenada de aristas es <span class="math inline">\((1, 4, 3, 2)\)</span>, correspondiente a la cadena euleriana de vértices: <span class="math display">\[
+a \xrightarrow{e=1} b \xrightarrow{e=4} d \xrightarrow{e=3} c \xrightarrow{e=2} b
+\]</span></p>
+<div id="fig-euler-algoritmo-traza" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-euler-algoritmo-traza-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/euler_algoritmo_traza.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figura&nbsp;10.2: Grafo de 4 nodos y traza algorítmica de la cadena euleriana mediante el vector de punteros sigma"><img src="images/euler_algoritmo_traza.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-euler-algoritmo-traza-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.2: Grafo de 4 nodos y traza algorítmica de la cadena euleriana mediante el vector de punteros sigma
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="el-problema-del-cartero-chino-cpp" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="el-problema-del-cartero-chino-cpp"><span class="header-section-number">10.2</span> El Problema del Cartero Chino (CPP)</h2>
+<p>En la inmensa mayoría de las aplicaciones prácticas de transporte y servicios urbanos (tales como el reparto postal a domicilio, la recogida selectiva de residuos sólidos urbanos, la limpieza y barrido mecanizado de calles, el esparcimiento de sal en vías nevadas o la inspección de redes de tendido eléctrico y canalizaciones de agua), las redes viales reales no son eulerianas, ya que suelen contener múltiples intersecciones con un número impar de calles convergentes.</p>
+<p>El <strong>Problema del Cartero Chino</strong> (conocido en la literatura internacional como <em>Chinese Postman Problem</em>, CPP, o problema del circuito de inspección de aristas) plantea determinar el recorrido cerrado de <strong>longitud o coste total mínimo</strong> que visite <strong>cada arista de la red al menos una vez</strong>, regresando al punto de partida <span class="citation" data-cites="kwan1962programming">(<a href="references.html#ref-kwan1962programming" role="doc-biblioref">Kwan 1962</a>)</span>. El problema fue formulado originalmente en 1960 por el matemático chino <strong>Mei-Ko Kwan</strong>, y su denominación en lengua inglesa fue propuesta en 1962 por el investigador operativo Alan J. Goldman.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Problema del Cartero Chino (CPP)" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Problema del Cartero Chino (CPP)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dada una red valorada no dirigida <span class="math inline">\(G = (V, E, p)\)</span>, donde <span class="math inline">\(V\)</span> es el conjunto de vértices, <span class="math inline">\(E\)</span> es el conjunto de aristas y <span class="math inline">\(p: E \to \mathbb{R}^+\)</span> asigna un peso o longitud no negativa <span class="math inline">\(p(e)\)</span> a cada arista <span class="math inline">\(e \in E\)</span>:</p>
+<p>El <strong>Problema del Cartero Chino</strong> consiste en encontrar un circuito cerrado <span class="math inline">\(C\)</span> que recorra todas las aristas de <span class="math inline">\(E\)</span> al menos una vez de tal manera que la longitud total del circuito sea mínima: <span class="math display">\[
+\min_{C} \sum_{e \in C} p(e) \quad \text{sujeto a} \quad E \subseteq C
+\]</span></p>
+</div>
+</div>
+<p>Si la red original <span class="math inline">\(G\)</span> es euleriana (todos sus vértices tienen grado par), cualquier ciclo euleriano constituye una solución óptima exacta del problema, y la longitud de la ruta óptima coincide exactamente con la suma de las longitudes de todas las aristas de la red: <span class="math inline">\(\sum_{e \in E} p(e)\)</span>.</p>
+<p>Sin embargo, si <span class="math inline">\(G\)</span> contiene vértices de grado impar, resulta imposible recorrer la red pasando exactamente una sola vez por cada arista. Por tanto, el cartero se ve obligado a <strong>repetir (duplicar) ciertas aristas</strong> de la red. La resolución del CPP radica precisamente en determinar qué colección de aristas debe duplicarse para que el coste añadido sea el menor posible.</p>
+<p>Para ilustrar este principio de forma intuitiva, consideremos la red valorada de 9 nodos mostrada en la <a href="#fig-cartero-chino-grafo-original" class="quarto-xref">Figura&nbsp;<span>10.4</span></a>. Al evaluar los grados de sus vértices, se comprueba que cuatro de ellos (<span class="math inline">\(a, b, c, d\)</span>) tienen grado impar (<span class="math inline">\(d=3\)</span>), el nodo central <span class="math inline">\(e\)</span> tiene grado par (<span class="math inline">\(d=4\)</span>) y las cuatro esquinas (<span class="math inline">\(i, f, h, g\)</span>) tienen grado <span class="math inline">\(2\)</span>. Al contener 4 nodos impares, la red no es euleriana.</p>
+<p>Una solución directa para habilitar un ciclo cerrado consiste en añadir aristas duplicadas <span class="math inline">\(E'\)</span> (copias exactas de aristas originales de <span class="math inline">\(E\)</span>) hasta lograr que en el multigrafo resultante <span class="math inline">\(G' = (V, E \cup E')\)</span> todos los vértices tengan grado par. Por ejemplo, si duplicamos tentativamente las cuatro aristas que conectan los nodos impares con el nodo central <span class="math inline">\(e\)</span> (<span class="math inline">\(\{a, e\}, \{b, e\}, \{e, c\}, \{e, d\}\)</span>), como se ilustra en la <a href="#fig-cartero-chino-eulerizacion-conceptual" class="quarto-xref">Figura&nbsp;<span>10.3</span></a>, los grados en <span class="math inline">\(G'\)</span> pasan a ser: <span class="math display">\[
+\begin{aligned}
+&amp; d_{G'}(a)=4, \quad d_{G'}(b)=4, \quad d_{G'}(c)=4, \quad d_{G'}(d)=4, \quad d_{G'}(e)=8, \\
+&amp; d_{G'}(i)=d_{G'}(f)=d_{G'}(h)=d_{G'}(g)=2
+\end{aligned}
+\]</span></p>
+<div id="fig-cartero-chino-eulerizacion-conceptual" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cartero-chino-eulerizacion-conceptual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/cartero_chino_eulerizacion_conceptual.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figura&nbsp;10.3: Eulerización conceptual tentativa de la red de 9 nodos mediante la duplicación de aristas hacia el nodo central e"><img src="images/cartero_chino_eulerizacion_conceptual.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cartero-chino-eulerizacion-conceptual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.3: Eulerización conceptual tentativa de la red de 9 nodos mediante la duplicación de aristas hacia el nodo central <span class="math inline">\(e\)</span>
+</figcaption>
+</figure>
+</div>
+<p>En este multigrafo <span class="math inline">\(G'\)</span>, <strong>todos los vértices son pares</strong>, por lo que ya admite un ciclo euleriano continuo. El coste añadido por esta eulerización tentativa es: <span class="math display">\[
+\text{Coste}(E') = p(a, e) + p(b, e) + p(e, c) + p(e, d) = 3 + 3 + 3 + 6 = 15
+\]</span> Ahora bien, surge la cuestión central: <em>¿Es este conjunto <span class="math inline">\(E'\)</span> el de menor coste posible, o existe otra combinación de aristas que eulerice la red con un incremento de distancia inferior?</em> Para responder a esta pregunta de forma óptima, formalizaremos a continuación la estructura analítica del problema.</p>
+<section id="caracterización-analítica-y-eulerización-óptima" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="caracterización-analítica-y-eulerización-óptima"><span class="header-section-number">10.2.1</span> Caracterización analítica y eulerización óptima</h3>
+<p>Para duplicar aristas de manera óptima, debemos formalizar la estructura combinatoria de los vértices impares y de las aristas repetidas.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposición: Paridad del número de vértices de grado impar" data-kind="corolario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposición: Paridad del número de vértices de grado impar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En cualquier multigrafo finito <span class="math inline">\(G = (V, E)\)</span>, el número de vértices con grado impar es estrictamente un <strong>número par</strong>.</p>
+<p><em>Demostración</em>: Por el lema del apretón de manos (<em>Handshaking Lemma</em>), la suma de los grados de todos los vértices es igual al doble del número de aristas: <span class="math display">\[
+\sum_{i \in V} d(i) = 2 |E|
+\]</span> Dado que <span class="math inline">\(2|E|\)</span> es un número par, podemos descomponer la suma entre el conjunto de vértices de grado par <span class="math inline">\(V_{\text{par}}\)</span> y el conjunto de vértices de grado impar <span class="math inline">\(V_{\text{impar}}\)</span>: <span class="math display">\[
+\sum_{i \in V_{\text{impar}}} d(i) + \sum_{i \in V_{\text{par}}} d(i) = 2 |E|
+\]</span> Como la suma de términos pares <span class="math inline">\(\sum_{i \in V_{\text{par}}} d(i)\)</span> es par, la suma <span class="math inline">\(\sum_{i \in V_{\text{impar}}} d(i)\)</span> debe ser obligatoriamente un número par. Puesto que la suma de una colección de números impares es par si y solo si la cantidad de sumandos es par, se concluye que el cardinal <span class="math inline">\(|V_{\text{impar}}|\)</span> es necesariamente par. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<p>Sea <span class="math inline">\(V' = \{v \in V \mid d(v) \equiv 1 \pmod 2\}\)</span> el subconjunto de vértices de grado impar en <span class="math inline">\(G\)</span>, con <span class="math inline">\(|V'| = 2k\)</span>. Para transformar <span class="math inline">\(G\)</span> en un multigrafo euleriano <span class="math inline">\(G' = (V, E \cup E')\)</span>, debemos añadir un conjunto de aristas copia <span class="math inline">\(E'\)</span> (donde cada arista de <span class="math inline">\(E'\)</span> es un duplicado de una arista original de <span class="math inline">\(E\)</span>) de forma que en <span class="math inline">\(G'\)</span> todos los vértices tengan grado par.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposición: Estructura de caminos de las aristas duplicadas" data-kind="lema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposición: Estructura de caminos de las aristas duplicadas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (V, E)\)</span> un grafo no euleriano y sea <span class="math inline">\(E'\)</span> un conjunto minimal de aristas duplicadas que convierte a <span class="math inline">\(G' = (V, E \cup E')\)</span> en un grafo euleriano. Entonces, para todo vértice <span class="math inline">\(i_1 \in V'\)</span>, el conjunto <span class="math inline">\(E'\)</span> contiene una cadena que une <span class="math inline">\(i_1\)</span> con otro vértice <span class="math inline">\(i_2 \in V'\)</span>.</p>
+<p><em>Demostración</em>: Por construcción, en el multigrafo eulerizado <span class="math inline">\(G'\)</span> se cumple que <span class="math inline">\(d_{G'}(i) \ge d_G(i)\)</span> para todo <span class="math inline">\(i \in V\)</span>, y todos los vértices en <span class="math inline">\(G'\)</span> tienen grado par. Dado que <span class="math inline">\(i_1 \in V'\)</span> tenía grado impar en <span class="math inline">\(G\)</span>, en el grafo de aristas añadidas <span class="math inline">\(G_{E'} = (V, E')\)</span> el grado de <span class="math inline">\(i_1\)</span> debe ser impar (para que la suma <span class="math inline">\(d_G(i_1) + d_{E'}(i_1) = d_{G'}(i_1)\)</span> sea par). Por tanto, existe al menos una arista añadida en <span class="math inline">\(E'\)</span> que incide en <span class="math inline">\(i_1\)</span>, denotada por <span class="math inline">\(\{i_1, j\}\)</span>. Si el nodo <span class="math inline">\(j \in V'\)</span>, hemos encontrado una cadena directa que une dos nodos de <span class="math inline">\(V'\)</span> y el resultado queda demostrado. Si <span class="math inline">\(j \notin V'\)</span>, el nodo <span class="math inline">\(j\)</span> tenía grado par en <span class="math inline">\(G\)</span>. Al añadir la arista <span class="math inline">\(\{i_1, j\}\)</span>, su grado en <span class="math inline">\(G'\)</span> se volvería impar a menos que exista otra arista <span class="math inline">\(\{j, k\} \in E'\)</span> incidente en <span class="math inline">\(j\)</span>. Repitiendo este razonamiento de forma secuencial sobre los nodos intermedios, como el conjunto de vértices de la red es finito y no se pueden generar ramas infinitas, la cadena de aristas de <span class="math inline">\(E'\)</span> debe terminar obligatoriamente en otro vértice <span class="math inline">\(i_2 \in V'\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<p>Esta proposición demuestra algebraicamente que <strong>la eulerización óptima de una red equivale a encontrar un conjunto de caminos de longitud mínima en <span class="math inline">\(G\)</span> que emparejen los <span class="math inline">\(2k\)</span> vértices de grado impar de dos en dos</strong>. Para formalizar esta optimización combinatoria sobre el grafo auxiliar de distancias, recordamos las definiciones canónicas de la teoría de emparejamientos:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Emparejamientos y emparejamiento perfecto de peso mínimo" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Emparejamientos y emparejamiento perfecto de peso mínimo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo no dirigido <span class="math inline">\(G = (V, E)\)</span>:</p>
+<ul>
+<li><strong>Emparejamiento (<em>matching</em>)</strong>: Es un subconjunto de aristas <span class="math inline">\(M \subseteq E\)</span> tales que ningún par de aristas de <span class="math inline">\(M\)</span> comparte vértices en común (es decir, no existen aristas adyacentes en <span class="math inline">\(M\)</span>).</li>
+<li><strong>Vértice saturado</strong>: Un vértice <span class="math inline">\(v \in V\)</span> se dice saturado por <span class="math inline">\(M\)</span> si incide en alguna arista de <span class="math inline">\(M\)</span>.</li>
+<li><strong>Emparejamiento perfecto</strong>: Un emparejamiento <span class="math inline">\(M\)</span> es perfecto si <strong>satura a todos los vértices de <span class="math inline">\(V\)</span></strong> (cada nodo de <span class="math inline">\(V\)</span> es extremo de exactamente una arista de <span class="math inline">\(M\)</span>). Para que un grafo admita un emparejamiento perfecto, es condición necesaria que <span class="math inline">\(|V|\)</span> sea par.</li>
+<li><strong>Problema del emparejamiento perfecto de peso mínimo</strong>: En una red valorada <span class="math inline">\(G = (V, E, p)\)</span>, consiste en determinar un emparejamiento perfecto <span class="math inline">\(M^*\)</span> que minimice la suma de los pesos de sus aristas: <span class="math display">\[
+\begin{aligned}
+\min_{M \subseteq E} \quad &amp; \sum_{e \in M} p(e) \\
+\text{sujeto a} \quad &amp; M \text{ es emparejamiento perfecto}
+\end{aligned}
+\]</span></li>
+</ul>
+</div>
+</div>
+<p>Dado que el grafo auxiliar <span class="math inline">\(G'' = (V', E'')\)</span> construido sobre el conjunto de vértices impares es completo y posee un número estrictamente par de nodos (<span class="math inline">\(|V'| = 2k\)</span>), siempre admite al menos un emparejamiento perfecto. Por tanto, el procedimiento sistemático de resolución se articula en las siguientes etapas:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Procedimiento general de resolución del Problema del Cartero Chino" data-kind="esquema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Esquema: Procedimiento general de resolución del Problema del Cartero Chino
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo conexo valorado <span class="math inline">\(G = (V, E, p)\)</span>:</p>
+<ol type="1">
+<li><strong>Identificación de vértices impares</strong>: Determinar el grado <span class="math inline">\(d(i)\)</span> de cada vértice en <span class="math inline">\(G\)</span> e identificar el subconjunto de nodos impares <span class="math inline">\(V' = \{v \in V \mid d(v) \text{ es impar}\}\)</span>. Si <span class="math inline">\(V' = \emptyset\)</span>, el grafo es euleriano y se pasa directamente al paso 5.</li>
+<li><strong>Cálculo de distancias mínimas</strong>: Calcular las distancias del camino mínimo <span class="math inline">\(d_G(u, v)\)</span> entre todo par de vértices <span class="math inline">\(u, v \in V'\)</span> utilizando el algoritmo de Dijkstra o Floyd-Warshall.</li>
+<li><strong>Construcción del grafo auxiliar de emparejamiento</strong>: Construir un <strong>grafo auxiliar completo</strong> <span class="math inline">\(G'' = (V', E'')\)</span>, cuyos vértices son exclusivamente los elementos de <span class="math inline">\(V'\)</span> y donde cada arista <span class="math inline">\(\{u, v\} \in E''\)</span> tiene un peso igual a la distancia mínima <span class="math inline">\(d_G(u, v)\)</span> calculada en el paso anterior.</li>
+<li><strong>Resolución del emparejamiento perfecto de peso mínimo</strong>: Determinar en <span class="math inline">\(G''\)</span> un <strong>emparejamiento perfecto de peso mínimo</strong> (utilizando el algoritmo de la Flor de Edmonds o enumeración de combinaciones si <span class="math inline">\(|V'|\)</span> es pequeño).</li>
+<li><strong>Construcción del multigrafo euleriano y circuito final</strong>: Para cada pareja de nodos <span class="math inline">\(\{u, v\}\)</span> seleccionada en el emparejamiento óptimo, duplicar en <span class="math inline">\(G\)</span> las aristas que integran el camino mínimo entre <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span>. El multigrafo resultante <span class="math inline">\(G'\)</span> es euleriano. Aplicar el algoritmo de construcción euleriana para obtener la ruta final del cartero.</li>
+</ol>
+</div>
+</div>
+<p>A continuación, aplicamos este procedimiento a un caso práctico de 9 nodos.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Resolución completa del Problema del Cartero Chino en una red de 9 nodos" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Resolución completa del Problema del Cartero Chino en una red de 9 nodos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consideremos la red valorada de 9 nodos <span class="math inline">\(V = \{a, b, c, d, e, f, g, h, i\}\)</span> y 12 aristas mostrada en la <a href="#fig-cartero-chino-grafo-original" class="quarto-xref">Figura&nbsp;<span>10.4</span></a>, con los siguientes pesos de arista: <span class="math display">\[
+\begin{aligned}
+&amp; p(i, b) = 4, \quad p(b, f) = 4, \quad p(i, a) = 3, \quad p(b, e) = 3, \quad p(f, d) = 5, \\
+&amp; p(a, e) = 3, \quad p(e, d) = 6, \quad p(a, h) = 2, \quad p(e, c) = 3, \quad p(d, g) = 2, \\
+&amp; p(h, c) = 6, \quad p(c, g) = 4
+\end{aligned}
+\]</span> La suma del coste de todas las aristas originales del grafo es: <span class="math display">\[
+\sum_{e \in E} p(e) = 4 + 4 + 3 + 3 + 5 + 3 + 6 + 2 + 3 + 2 + 6 + 4 = 38
+\]</span></p>
+<div id="fig-cartero-chino-grafo-original" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cartero-chino-grafo-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/cartero_chino_grafo_original.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figura&nbsp;10.4: Red valorada original de 9 nodos para el Problema del Cartero Chino con los grados nodales y vértices impares destacados"><img src="images/cartero_chino_grafo_original.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cartero-chino-grafo-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.4: Red valorada original de 9 nodos para el Problema del Cartero Chino con los grados nodales y vértices impares destacados
+</figcaption>
+</figure>
+</div>
+<ol type="1">
+<li><p><strong>Identificación de nodos impares (<span class="math inline">\(V'\)</span>)</strong>: Calculando los grados de los 9 vértices: <span class="math display">\[
+d(i)=2, \ d(b)=3, \ d(f)=2, \ d(a)=3, \ d(e)=4, \ d(d)=3, \ d(h)=2, \ d(c)=3, \ d(g)=2
+\]</span> El subconjunto de vértices con grado impar contiene 4 nodos: <span class="math inline">\(V' = \{a, b, c, d\}\)</span>.</p></li>
+<li><p><strong>Cálculo de caminos mínimos entre vértices de <span class="math inline">\(V'\)</span></strong>:</p>
+<ul>
+<li>Camino <span class="math inline">\(a \leftrightarrow b\)</span>: Vía <span class="math inline">\(a - e - b\)</span>, coste <span class="math inline">\(d(a, b) = 3 + 3 = 6\)</span>.</li>
+<li>Camino <span class="math inline">\(a \leftrightarrow c\)</span>: Vía <span class="math inline">\(a - e - c\)</span>, coste <span class="math inline">\(d(a, c) = 3 + 3 = 6\)</span>.</li>
+<li>Camino <span class="math inline">\(a \leftrightarrow d\)</span>: Vía <span class="math inline">\(a - e - d\)</span>, coste <span class="math inline">\(d(a, d) = 3 + 6 = 9\)</span>.</li>
+<li>Camino <span class="math inline">\(b \leftrightarrow c\)</span>: Vía <span class="math inline">\(b - e - c\)</span>, coste <span class="math inline">\(d(b, c) = 3 + 3 = 6\)</span>.</li>
+<li>Camino <span class="math inline">\(b \leftrightarrow d\)</span>: Vía <span class="math inline">\(b - f - d\)</span>, coste <span class="math inline">\(d(b, d) = 4 + 5 = 9\)</span> (o vía <span class="math inline">\(b-e-d\)</span>: <span class="math inline">\(3+6=9\)</span>).</li>
+<li>Camino <span class="math inline">\(c \leftrightarrow d\)</span>: Vía <span class="math inline">\(c - g - d\)</span>, coste <span class="math inline">\(d(c, d) = 4 + 2 = 6\)</span>.</li>
+</ul></li>
+<li><p><strong>Construcción de <span class="math inline">\(G''\)</span> y evaluación de emparejamientos perfectos</strong>: El grafo auxiliar completo <span class="math inline">\(G'' = (V', E'')\)</span> sobre los 4 nodos <span class="math inline">\(\{a, b, c, d\}\)</span> admite exactamente tres emparejamientos perfectos posibles, ilustrados en la <a href="#fig-cartero-chino-grafo-auxiliar-matching" class="quarto-xref">Figura&nbsp;<span>10.5</span></a>:</p>
+<ul>
+<li><p><strong>Emparejamiento <span class="math inline">\(M_1 = \{ \{a, b\}, \{c, d\} \}\)</span></strong>: <span class="math display">\[
+\text{Coste}(M_1) = d(a, b) + d(c, d) = 6 + 6 = \mathbf{12} \quad \text{[ÓPTIMO]}
+\]</span></p></li>
+<li><p><strong>Emparejamiento <span class="math inline">\(M_2 = \{ \{a, c\}, \{b, d\} \}\)</span></strong>: <span class="math display">\[
+\text{Coste}(M_2) = d(a, c) + d(b, d) = 6 + 9 = 15
+\]</span></p></li>
+<li><p><strong>Emparejamiento <span class="math inline">\(M_3 = \{ \{a, d\}, \{b, c\} \}\)</span></strong>: <span class="math display">\[
+\text{Coste}(M_3) = d(a, d) + d(b, c) = 9 + 6 = 15
+\]</span></p></li>
+</ul></li>
+</ol>
+<div id="fig-cartero-chino-grafo-auxiliar-matching" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cartero-chino-grafo-auxiliar-matching-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/cartero_chino_grafo_auxiliar_matching.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figura&nbsp;10.5: Grafo auxiliar completo G'' (izquierda) y comparación de costes de los tres emparejamientos perfectos (derecha)"><img src="images/cartero_chino_grafo_auxiliar_matching.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cartero-chino-grafo-auxiliar-matching-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.5: Grafo auxiliar completo <span class="math inline">\(G''\)</span> (izquierda) y comparación de costes de los tres emparejamientos perfectos (derecha)
+</figcaption>
+</figure>
+</div>
+<ol start="4" type="1">
+<li><p><strong>Eulerización y longitud óptima del circuito</strong>: El emparejamiento óptimo <span class="math inline">\(M_1\)</span> prescribe duplicar las aristas que componen el camino entre <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span> (aristas <span class="math inline">\(\{a, e\}\)</span> y <span class="math inline">\(\{e, b\}\)</span>) y las que componen el camino entre <span class="math inline">\(c\)</span> y <span class="math inline">\(d\)</span> (aristas <span class="math inline">\(\{c, g\}\)</span> y <span class="math inline">\(\{g, d\}\)</span>), como se ilustra en la <a href="#fig-cartero-chino-solucion-optima" class="quarto-xref">Figura&nbsp;<span>10.6</span></a>.</p>
+<p>La longitud mínima de la ruta del cartero chino resulta: <span class="math display">\[
+\text{Longitud Óptima} = \sum_{e \in E} p(e) + \text{Coste}(M_1) = 38 + 12 = \mathbf{50}
+\]</span></p></li>
+</ol>
+<div id="fig-cartero-chino-solucion-optima" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cartero-chino-solucion-optima-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/cartero_chino_solucion_optima.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figura&nbsp;10.6: Multigrafo eulerizado con las aristas duplicadas destacadas en rojo y la solución óptima del cartero chino"><img src="images/cartero_chino_solucion_optima.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cartero-chino-solucion-optima-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.6: Multigrafo eulerizado con las aristas duplicadas destacadas en rojo y la solución óptima del cartero chino
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Veamos ahora un segundo ejemplo clásico de aplicación en ingeniería civil y delimitación de parcelas.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Problema de examen: Vallado perimetral continuo de parcelas" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Problema de examen: Vallado perimetral continuo de parcelas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Se desea cercar un terreno dividiéndolo en cuatro parcelas <span class="math inline">\(A, B, C\)</span> y <span class="math inline">\(D\)</span>, según se indica en la <a href="#fig-examen-parcelas-terreno" class="quarto-xref">Figura&nbsp;<span>10.7</span></a> (cada tramo de los bordes indica la longitud del mismo). Por motivos de seguridad, el cerramiento se hace mediante una cerca prefabricada que se extiende a lo largo de todos los bordes, que no se puede partir y debe terminar exactamente donde empieza.</p>
+<div id="fig-examen-parcelas-terreno" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-examen-parcelas-terreno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/examen_parcelas_terreno.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figura&nbsp;10.7: Plano geométrico del terreno con las cuatro parcelas A, B, C y D con sus cotas de longitud y los 6 vértices impares destacados"><img src="images/examen_parcelas_terreno.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-examen-parcelas-terreno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.7: Plano geométrico del terreno con las cuatro parcelas A, B, C y D con sus cotas de longitud y los 6 vértices impares destacados
+</figcaption>
+</figure>
+</div>
+<ol type="1">
+<li><p><strong>(0.5 puntos) ¿Qué problema de grafos se está planteando?</strong>: Se trata formalmente del <strong>Problema del Cartero Chino (CPP)</strong> (o problema de inspección de rutas). El objetivo es encontrar el circuito cerrado de longitud mínima que recorra todas las aristas de un grafo al menos una vez y regrese al punto de partida. Dado que se exige instalar una cerca continua que cubra todos los bordes, es necesario trazar un ciclo euleriano. Al contar el mapa con intersecciones donde confluyen tres bordes (<strong>vértices de grado impar</strong>), el grafo no es euleriano de origen. El problema consiste, por tanto, en determinar qué tramos deben duplicarse (para tender la cerca dos veces por el mismo borde) garantizando que la longitud extra sea la mínima posible.</p></li>
+<li><p><strong>(1.0 punto) Describir el procedimiento de solución</strong>: El procedimiento general de resolución se articula en las siguientes cinco etapas sistemáticas:</p>
+<ul>
+<li><strong>Paso 1 (Identificación de vértices impares)</strong>: Modelar la red topológica <span class="math inline">\(G = (V, E, p)\)</span>, determinar el grado <span class="math inline">\(d(v)\)</span> de cada vértice e identificar el subconjunto de nodos con grado impar <span class="math inline">\(V' = \{v \in V \mid d(v) \equiv 1 \pmod 2\}\)</span>.</li>
+<li><strong>Paso 2 (Cálculo de distancias mínimas)</strong>: Calcular las distancias del camino mínimo <span class="math inline">\(d_G(u, v)\)</span> entre todo par de vértices <span class="math inline">\(u, v \in V'\)</span> utilizando el algoritmo de Dijkstra.</li>
+<li><strong>Paso 3 (Construcción del grafo auxiliar de emparejamiento)</strong>: Construir el grafo auxiliar completo <span class="math inline">\(G'' = (V', E'')\)</span> sobre el conjunto de nodos impares <span class="math inline">\(V'\)</span>, asignando a cada arista <span class="math inline">\(\{u, v\} \in E''\)</span> un peso igual a la distancia mínima <span class="math inline">\(d_G(u, v)\)</span> calculada en el paso anterior.</li>
+<li><strong>Paso 4 (Resolución del emparejamiento perfecto de peso mínimo)</strong>: Determinar en <span class="math inline">\(G''\)</span> un <strong>emparejamiento perfecto de peso mínimo</strong> <span class="math inline">\(M^*\)</span>.</li>
+<li><strong>Paso 5 (Construcción del multigrafo euleriano y cálculo de la longitud final)</strong>: Duplicar en <span class="math inline">\(G\)</span> las aristas que integran los caminos mínimos asociados a cada pareja de <span class="math inline">\(M^*\)</span>. La longitud total de la valla continua será la suma de las longitudes de todos los tramos originales más el coste del emparejamiento óptimo: <span class="math display">\[
+L_{\text{total}} = \sum_{e \in E} p(e) + \text{Coste}(M^*)
+\]</span></li>
+</ul></li>
+<li><p><strong>(1.0 punto) ¿Cuál es la solución para el caso planteado?</strong>: Aplicamos de forma secuencial las 5 etapas del procedimiento descrito:</p>
+<ul>
+<li><p><strong>Paso 1 (Identificación de vértices impares <span class="math inline">\(V'\)</span>)</strong>: Se calculan las longitudes de los tramos que delimitan el terreno:</p>
+<ul>
+<li><em>Aristas internas (fronteras entre parcelas)</em>: Entre <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> (<span class="math inline">\(3\)</span>), entre <span class="math inline">\(A\)</span> y <span class="math inline">\(C\)</span> (<span class="math inline">\(4\)</span>), entre <span class="math inline">\(B\)</span> y <span class="math inline">\(C\)</span> (<span class="math inline">\(12\)</span>), entre <span class="math inline">\(A\)</span> y <span class="math inline">\(D\)</span> (<span class="math inline">\(6\)</span>), entre <span class="math inline">\(C\)</span> y <span class="math inline">\(D\)</span> (<span class="math inline">\(2 + 6 = 8\)</span>). Suma interna = <span class="math inline">\(33\text{ m}\)</span>.</li>
+<li><em>Aristas externas (perímetro exterior)</em>: Borde exterior de <span class="math inline">\(A\)</span> (<span class="math inline">\(2 + 9 + 1 + 2 + 4 + 2 + 4 + 5 = 29\)</span>), borde de <span class="math inline">\(B\)</span> (<span class="math inline">\(8 + 4 + 8 + 3 + 4 + 4 + 5 = 36\)</span>), borde de <span class="math inline">\(C\)</span> (<span class="math inline">\(6 + 2 + 4 + 12 = 24\)</span>), borde de <span class="math inline">\(D\)</span> (<span class="math inline">\(8 + 8 + 2 = 18\)</span>). Suma externa = <span class="math inline">\(107\text{ m}\)</span>.</li>
+<li><em>Longitud base de la red</em>: <span class="math inline">\(L_{\text{base}} = 33 + 107 = \mathbf{140} \text{ m}\)</span>.</li>
+</ul>
+<p>Analizando la topología, las esquinas exteriores tienen grado 2 (par), mientras que en los 6 puntos de intersección donde confluyen tres lindes (puntos rojos en la <a href="#fig-examen-parcelas-terreno" class="quarto-xref">Figura&nbsp;<span>10.7</span></a>), el grado es estrictamente <span class="math inline">\(3\)</span> (impar). Por tanto, el conjunto de vértices impares contiene <span class="math inline">\(6\)</span> nodos: <span class="math inline">\(|V'| = 6\)</span>.</p></li>
+<li><p><strong>Paso 2 (Cálculo de distancias mínimas entre vértices de <span class="math inline">\(V'\)</span>)</strong>:</p>
+<ul>
+<li>Camino entre el punto superior (<span class="math inline">\(A\)</span>-<span class="math inline">\(B\)</span>) y el central (<span class="math inline">\(A\)</span>-<span class="math inline">\(B\)</span>-<span class="math inline">\(C\)</span>): Arista interior directa con distancia <span class="math inline">\(d = \mathbf{3}\)</span>.</li>
+<li>Camino entre el punto inferior (<span class="math inline">\(A\)</span>-<span class="math inline">\(D\)</span>) y el central inferior (<span class="math inline">\(A\)</span>-<span class="math inline">\(C\)</span>-<span class="math inline">\(D\)</span>): Arista interior directa con distancia <span class="math inline">\(d = \mathbf{6}\)</span>.</li>
+<li>Camino entre los dos extremos de la derecha (extremo de <span class="math inline">\(B\)</span>-<span class="math inline">\(C\)</span> y extremo de <span class="math inline">\(C\)</span>-<span class="math inline">\(D\)</span>): Distancia mínima <span class="math inline">\(d = \mathbf{24}\)</span>, alcanzable tanto por el contorno exterior de <span class="math inline">\(C\)</span> (<span class="math inline">\(6 + 2 + 4 + 12 = 24\)</span>) como por el interior <span class="math inline">\((B\text{-}C) + (A\text{-}C) + (C\text{-}D) = 12 + 4 + 8 = 24\)</span>.</li>
+</ul></li>
+<li><p><strong>Paso 3 (Construcción del grafo auxiliar <span class="math inline">\(G''\)</span>)</strong>: Se construye el grafo auxiliar completo <span class="math inline">\(G'' = (V', E'')\)</span> sobre los 6 vértices impares ponderado con la matriz de distancias mínimas.</p></li>
+<li><p><strong>Paso 4 (Resolución del emparejamiento perfecto de peso mínimo <span class="math inline">\(M^*\)</span>)</strong>: Evaluando las combinaciones de emparejamientos perfectos posibles sobre los 6 vértices, el emparejamiento óptimo es aquel que selecciona las tres parejas mínimas identificadas: <span class="math display">\[
+\text{Coste}(M^*) = 3 + 6 + 24 = \mathbf{33} \text{ m}
+\]</span></p></li>
+<li><p><strong>Paso 5 (Construcción del multigrafo euleriano y longitud total óptima)</strong>: Duplicando las aristas de los caminos mínimos asociados a <span class="math inline">\(M^*\)</span>, todos los vértices pasan a tener grado par en el multigrafo resultante. La longitud mínima de la cerca prefabricada continua es: <span class="math display">\[
+\begin{aligned}
+L_{\text{total}} &amp;= L_{\text{base}} + \text{Coste}(M^*) \\
+&amp;= 140 \text{ (base)} + 33 \text{ (duplicados)} = \mathbf{173} \text{ m}
+\end{aligned}
+\]</span></p></li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="variantes-del-problema-del-cartero-chino" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="variantes-del-problema-del-cartero-chino"><span class="header-section-number">10.2.2</span> Variantes del Problema del Cartero Chino</h3>
+<p>El modelo clásico no dirigido del cartero chino admite diversas extensiones operativas de gran relevancia:</p>
+<ul>
+<li><p><strong>Cartero chino dirigido / motorizado (Directed CPP)</strong>: En cascos urbanos con calles de sentido único, la red se modela como un digrafo <span class="math inline">\(G = (V, U)\)</span>. El digrafo es euleriano si y solo si para todo vértice <span class="math inline">\(i \in V\)</span> el grado de entrada coincide con el de salida (<span class="math inline">\(d^-(i) = d^+(i)\)</span>). Si la red no es euleriana, la eulerización no se resuelve por emparejamiento, sino mediante un <strong>modelo de transbordo y flujo a coste mínimo</strong>, donde los nodos con exceso de salida (<span class="math inline">\(d^+(i) &gt; d^-(i)\)</span>) actúan como fuentes de oferta <span class="math inline">\(b_i = d^+(i) - d^-(i)\)</span> y los nodos con exceso de entrada (<span class="math inline">\(d^-(i) &gt; d^+(i)\)</span>) actúan como sumideros de demanda <span class="math inline">\(b_j = -(d^-(j) - d^+(j))\)</span>.</p></li>
+<li><p><strong>Cartero chino con costes asimétricos / viento (Windy Postman Problem)</strong>: El coste o tiempo de transitar por una calle depende de la dirección de avance debido a pendientes pronunciadas o corrientes de viento predominantes (<span class="math inline">\(c(i, j) \neq c(j, i)\)</span>). Este problema es <span class="math inline">\(\mathcal{NP}\)</span>-duro en el caso general.</p></li>
+<li><p><strong>Cartero rural y problemas con beneficios y pérdidas (Rural Postman Problem - RPP)</strong>: En muchas aplicaciones (como la lectura de contadores rurales o el mantenimiento de autopistas), solo un subconjunto de aristas prioritarias <span class="math inline">\(E_R \subseteq E\)</span> debe ser recorrido de forma obligatoria, mientras que las restantes aristas <span class="math inline">\(E \setminus E_R\)</span> pueden utilizarse libremente como vías de tránsito si abaratan el recorrido global. El RPP es un problema <span class="math inline">\(\mathcal{NP}\)</span>-completo.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="ciclos-hamiltonianos-y-condiciones-de-hamiltonianidad" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="ciclos-hamiltonianos-y-condiciones-de-hamiltonianidad"><span class="header-section-number">10.3</span> Ciclos hamiltonianos y condiciones de hamiltonianidad</h2>
+<p>A diferencia de los ciclos eulerianos, cuyo objetivo es recorrer todas las aristas de una red sin repetición, existen numerosos problemas donde el objetivo consiste en visitar <strong>todos los vértices</strong> de la red exactamente una vez.</p>
+<p>El concepto de <strong>ciclo hamiltoniano</strong> debe su nombre al matemático y astrónomo irlandés <strong>Sir William Rowan Hamilton</strong>, quien en 1857 patentó un juego didáctico denominado el <em>Juego Icosiano</em> (<em>Icosian Game</em>) <span class="citation" data-cites="hamilton1857icosian">(<a href="references.html#ref-hamilton1857icosian" role="doc-biblioref">Hamilton 1857</a>)</span>. El pasatiempo consistía en un tablero de madera que representaba la estructura de un dodecaedro regular de 20 vértices (identificados con nombres de ciudades del mundo), y el reto planteaba encontrar un recorrido a lo largo de las aristas del poliedro que visitara las 20 ciudades exactamente una vez sin repetir ninguna, regresando a la ciudad de origen.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Ciclos y caminos hamiltonianos" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Ciclos y caminos hamiltonianos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> con <span class="math inline">\(n = |V|\)</span> vértices:</p>
+<ul>
+<li><strong>Ciclo hamiltoniano</strong>: Es un ciclo simple en <span class="math inline">\(G\)</span> que contiene <strong>todos los vértices de <span class="math inline">\(V\)</span></strong> exactamente una vez (excepto el vértice de partida, al que regresa para cerrar el ciclo).</li>
+<li><strong>Camino hamiltoniano</strong>: Es una trayectoria o camino simple en <span class="math inline">\(G\)</span> que visita todos los vértices de <span class="math inline">\(V\)</span> exactamente una vez (sin regresar al origen).</li>
+<li><strong>Grafo hamiltoniano</strong>: Un grafo que admite al menos un ciclo hamiltoniano.</li>
+</ul>
+</div>
+</div>
+<p>A pesar de la aparente similitud conceptual entre el problema euleriano (visitar todas las aristas) y el problema hamiltoniano (visitar todos los vértices), existe un abismo infranqueable en su <strong>complejidad computacional</strong>:</p>
+<ul>
+<li>El problema de determinar si un grafo es euleriano se resuelve de forma instantánea en tiempo lineal <span class="math inline">\(\mathcal{O}(|V| + |E|)\)</span> comprobando la paridad de los grados. Pertenece a la clase <span class="math inline">\(\mathcal{P}\)</span>.</li>
+<li>El problema de determinar si un grafo general contiene un ciclo hamiltoniano (<strong>HAMILTONIAN-CYCLE</strong>) es uno de los 21 problemas clásicos demostrados como <strong><span class="math inline">\(\mathcal{NP}\)</span>-completos</strong> por Richard Karp en 1972 <span class="citation" data-cites="karp1972reducibility">(<a href="references.html#ref-karp1972reducibility" role="doc-biblioref">Karp 1972</a>)</span>.</li>
+</ul>
+<p>No se conocen condiciones necesarias y suficientes simultáneamente que puedan verificarse en tiempo polinomial. Por ello, el análisis formal se apoya en condiciones necesarias de corte y condiciones suficientes basadas en la densidad de grados.</p>
+<section id="condiciones-necesarias-2-conexidad-y-cortes-nodales" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="condiciones-necesarias-2-conexidad-y-cortes-nodales"><span class="header-section-number">10.3.1</span> Condiciones necesarias: 2-conexidad y cortes nodales</h3>
+<p>Para que un grafo admita un ciclo hamiltoniano, debe poseer una estructura de conectividad robusta que garantice la existencia de rutas alternativas.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Conjuntos de corte y k-conexidad" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Conjuntos de corte y k-conexidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo conexo <span class="math inline">\(G = (V, E)\)</span>:</p>
+<ul>
+<li><strong>Conjunto de corte de vértices</strong>: Un subconjunto de vértices <span class="math inline">\(A \subset V\)</span> es un conjunto de corte si el subgrafo inducido por los restantes vértices <span class="math inline">\(V \setminus A\)</span> es disconexo.</li>
+<li><strong>Grafo <span class="math inline">\(k\)</span>-conexo</strong>: Un grafo <span class="math inline">\(G\)</span> es <span class="math inline">\(k\)</span>-conexo si <span class="math inline">\(|V| \ge k+1\)</span> y no contiene ningún conjunto de corte de cardinal menor que <span class="math inline">\(k\)</span> (es decir, se requiere eliminar al menos <span class="math inline">\(k\)</span> vértices para desconectar el grafo). En particular, todo grafo <span class="math inline">\(k\)</span>-conexo satisface <span class="math inline">\(d_G(i) \ge k\)</span> para todo <span class="math inline">\(i \in V\)</span>.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposición: Condición necesaria de 2-conexidad" data-kind="corolario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposición: Condición necesaria de 2-conexidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si un grafo <span class="math inline">\(G = (V, E)\)</span> es hamiltoniano, entonces <span class="math inline">\(G\)</span> es obligatoriamente <strong>2-conexo</strong> (no posee vértices de corte o puntos de articulación).</p>
+<p><em>Demostración</em>: Demostremos el resultado por reducción al absurdo. Supongamos que <span class="math inline">\(G\)</span> es hamiltoniano pero no es 2-conexo. Entonces, existe un conjunto de corte <span class="math inline">\(A = \{v\}\)</span> formado por un único vértice (punto de articulación), cuya eliminación divide al grafo en al menos dos componentes conexas disyuntas <span class="math inline">\(G_1\)</span> y <span class="math inline">\(G_2\)</span>. Cualquier ciclo hamiltoniano <span class="math inline">\(C\)</span> debe visitar la totalidad de los vértices de <span class="math inline">\(G_1\)</span> y de <span class="math inline">\(G_2\)</span>. Para transitar desde los vértices de <span class="math inline">\(G_1\)</span> hacia los de <span class="math inline">\(G_2\)</span>, el ciclo debe pasar obligatoriamente por el único vértice conector <span class="math inline">\(v\)</span>. Asimismo, para regresar de <span class="math inline">\(G_2\)</span> a <span class="math inline">\(G_1\)</span> y poder cerrar el ciclo, el recorrido debe transitar una segunda vez por <span class="math inline">\(v\)</span>. Por tanto, el ciclo pasaría al menos dos veces por <span class="math inline">\(v\)</span>, contradiciendo la definición de ciclo simple hamiltoniano. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<p>La 2-conexidad es una condición estrictamente <strong>necesaria pero no suficiente</strong>. En la <a href="#fig-hamilton-2conexo-contraejemplo" class="quarto-xref">Figura&nbsp;<span>10.8</span></a> se muestra un contraejemplo clásico: un grafo de 5 nodos formado por tres caminos paralelos entre los nodos <span class="math inline">\(a\)</span> y <span class="math inline">\(e\)</span>. El grafo es 2-conexo (no se desconecta eliminando un solo nodo y todos sus vértices cumplen <span class="math inline">\(d(v) \ge 2\)</span>), pero no es hamiltoniano porque cualquier ciclo que visite <span class="math inline">\(b, c\)</span> y <span class="math inline">\(d\)</span> (que tienen grado 2) requeriría pasar tres veces por <span class="math inline">\(a\)</span> y por <span class="math inline">\(e\)</span>.</p>
+<div id="fig-hamilton-2conexo-contraejemplo" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hamilton-2conexo-contraejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/hamilton_2conexo_contraejemplo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figura&nbsp;10.8: Contraejemplo: grafo 2-conexo que no es hamiltoniano debido al estrangulamiento en los nodos conectores"><img src="images/hamilton_2conexo_contraejemplo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hamilton-2conexo-contraejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.8: Contraejemplo: grafo 2-conexo que no es hamiltoniano debido al estrangulamiento en los nodos conectores
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="condiciones-suficientes-proposición-de-adyacencia-y-teorema-de-bondy-y-chvátal" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="condiciones-suficientes-proposición-de-adyacencia-y-teorema-de-bondy-y-chvátal"><span class="header-section-number">10.3.2</span> Condiciones suficientes: Proposición de adyacencia y Teorema de Bondy y Chvátal</h3>
+<p>Para establecer condiciones suficientes de hamiltonianidad, se estudian los grafos completos y el efecto de añadir aristas entre vértices de grado elevado.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposición: Hamiltonianidad del grafo completo" data-kind="lema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposición: Hamiltonianidad del grafo completo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Todo grafo simple completo <span class="math inline">\(K_n\)</span> con <span class="math inline">\(n \ge 3\)</span> vértices es hamiltoniano y contiene exactamente: <span class="math display">\[
+\frac{(n-1)!}{2}
+\]</span> ciclos hamiltonianos distintos no orientados (<span class="math inline">\(n!\)</span> si se considera el orden y sentido de recorrido).</p>
+</div>
+</div>
+<p>El resultado teórico fundamental que sustenta las condiciones modernas de suficiencia establece que añadir una arista entre dos nodos cuya suma de grados supera el número total de vértices no altera la condición de hamiltonianidad del grafo.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Proposición fundamental de adyacencia de Bondy y Chvátal" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Proposición fundamental de adyacencia de Bondy y Chvátal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (V, E)\)</span> un grafo simple con <span class="math inline">\(n = |V| \ge 3\)</span> vértices y sean <span class="math inline">\(s, t \in V\)</span> dos vértices <strong>no adyacentes</strong> tales que la suma de sus grados cumple: <span class="math display">\[
+d_G(s) + d_G(t) \ge n
+\]</span> Se define el grafo ampliado <span class="math inline">\(G + \{s, t\} = (V, E \cup \{\{s, t\}\})\)</span>. Entonces: <span class="math display">\[
+G \text{ es hamiltoniano} \iff G + \{s, t\} \text{ es hamiltoniano}
+\]</span></p>
+<p><em>Demostración</em>: La implicación directa (<span class="math inline">\(\implies\)</span>) es trivial: si <span class="math inline">\(G\)</span> ya contiene un ciclo hamiltoniano, dicho ciclo existe igualmente en el supergrafo <span class="math inline">\(G + \{s, t\}\)</span>.</p>
+<p>Demostremos la implicación recíproca (<span class="math inline">\(\impliedby\)</span>). Supongamos que <span class="math inline">\(G + \{s, t\}\)</span> contiene un ciclo hamiltoniano <span class="math inline">\(C\)</span>. Si la arista añadida <span class="math inline">\(\{s, t\}\)</span> no forma parte de <span class="math inline">\(C\)</span>, entonces <span class="math inline">\(C\)</span> está contenido íntegramente en <span class="math inline">\(G\)</span> y el resultado queda demostrado. Supongamos ahora que <span class="math inline">\(\{s, t\} \in C\)</span>. Numeramos los vértices a lo largo del ciclo <span class="math inline">\(C\)</span> comenzando en <span class="math inline">\(s = x_1\)</span> y terminando en <span class="math inline">\(t = x_n\)</span>, de modo que el ciclo en <span class="math inline">\(G + \{s, t\}\)</span> es: <span class="math display">\[
+s = x_1 \to x_2 \to x_3 \to \dots \to x_{n-1} \to x_n = t \xrightarrow{\{s, t\}} s
+\]</span> Para reconstruir un ciclo hamiltoniano en el grafo original <span class="math inline">\(G\)</span> sin utilizar la arista <span class="math inline">\(\{s, t\}\)</span>, buscamos un índice intermedio <span class="math inline">\(i \in \{2, 3, \dots, n-2\}\)</span> tal que en <span class="math inline">\(G\)</span> existan simultáneamente la arista <span class="math inline">\(\{s, x_{i+1}\}\)</span> y la arista <span class="math inline">\(\{t, x_i\}\)</span>, como se ilustra en la <a href="#fig-hamilton-adyacencia-demostracion" class="quarto-xref">Figura&nbsp;<span>10.9</span></a>.</p>
+<p>Definimos los siguientes dos subconjuntos de vértices: <span class="math display">\[
+\begin{aligned}
+A &amp;= \{ x_i \in V \mid \{s, x_{i+1}\} \in E, \ i \in \{2, \dots, n-2\} \} \\
+B &amp;= \{ x_i \in V \mid \{t, x_i\} \in E, \ i \in \{2, \dots, n-2\} \}
+\end{aligned}
+\]</span> Evaluemos los cardinales de estos conjuntos:</p>
+<ul>
+<li>El vértice <span class="math inline">\(s\)</span> puede ser adyacente a lo sumo a los nodos <span class="math inline">\(\{x_2, \dots, x_{n-1}\}\)</span>. Dado que <span class="math inline">\(\{s, t\} \notin E\)</span> y descontando la arista <span class="math inline">\(\{s, x_2\}\)</span> (cuyo predecesor es <span class="math inline">\(x_1\)</span>), el número de vecinos de <span class="math inline">\(s\)</span> entre los nodos <span class="math inline">\(\{x_3, \dots, x_{n-1}\}\)</span> es <span class="math inline">\(|A| = d_G(s) - 1\)</span>.</li>
+<li>De igual forma, el vértice <span class="math inline">\(t\)</span> no está conectado a <span class="math inline">\(s\)</span>, y descontando su conexión con <span class="math inline">\(x_{n-1}\)</span>, se tiene <span class="math inline">\(|B| = d_G(t) - 1\)</span>.</li>
+</ul>
+<p>Sumando ambos cardinales: <span class="math display">\[
+|A| + |B| = (d_G(s) - 1) + (d_G(t) - 1) = d_G(s) + d_G(t) - 2 \ge n - 2
+\]</span> Por otra parte, ambos conjuntos están contenidos en el universo <span class="math inline">\(U = \{x_2, x_3, \dots, x_{n-2}\}\)</span>, cuyo cardinal es <span class="math inline">\(|U| = n - 3\)</span>. Por tanto, la unión satisface <span class="math inline">\(|A \cup B| \le n - 3\)</span>. Aplicando el principio de inclusión-exclusión: <span class="math display">\[
+|A \cap B| = |A| + |B| - |A \cup B| \ge (n - 2) - (n - 3) = 1
+\]</span> Como <span class="math inline">\(|A \cap B| \ge 1\)</span>, la intersección es <strong>no vacía</strong> (<span class="math inline">\(A \cap B \neq \emptyset\)</span>). Existe al menos un vértice <span class="math inline">\(x_i\)</span> tal que <span class="math inline">\(\{s, x_{i+1}\} \in E\)</span> y <span class="math inline">\(\{t, x_i\} \in E\)</span>.</p>
+<p>Eliminando del ciclo <span class="math inline">\(C\)</span> las aristas <span class="math inline">\(\{s, t\}\)</span> y <span class="math inline">\(\{x_i, x_{i+1}\}\)</span> e insertando las aristas <span class="math inline">\(\{s, x_{i+1}\}\)</span> y <span class="math inline">\(\{t, x_i\}\)</span>, se obtiene el ciclo: <span class="math display">\[
+s \to x_2 \to \dots \to x_i \to t \to x_{n-1} \to x_{n-2} \to \dots \to x_{i+1} \to s
+\]</span> Este ciclo recorre todos los vértices de <span class="math inline">\(V\)</span> una sola vez y está compuesto exclusivamente por aristas de <span class="math inline">\(E\)</span>. Por tanto, <span class="math inline">\(G\)</span> es hamiltoniano. <span class="math inline">\(\blacksquare\)</span></p>
+<div id="fig-hamilton-adyacencia-demostracion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hamilton-adyacencia-demostracion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/hamilton_adyacencia_demostracion.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figura&nbsp;10.9: Esquema demostrativo de la proposición de adyacencia: sustitución de aristas para reconstruir el ciclo hamiltoniano"><img src="images/hamilton_adyacencia_demostracion.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hamilton-adyacencia-demostracion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.9: Esquema demostrativo de la proposición de adyacencia: sustitución de aristas para reconstruir el ciclo hamiltoniano
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La aplicación iterativa de esta proposición conduce de forma natural al concepto de <strong>clausura</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Clausura de Bondy y Chvátal" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Clausura de Bondy y Chvátal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo simple <span class="math inline">\(G = (V, E)\)</span> con <span class="math inline">\(n\)</span> vértices, la <strong>clausura de <span class="math inline">\(G\)</span></strong>, denotada por <span class="math inline">\([G]\)</span>, es el grafo obtenido añadiendo recursivamente aristas entre parejas de vértices no adyacentes <span class="math inline">\(u, v\)</span> que satisfacen <span class="math inline">\(d(u) + d(v) \ge n\)</span>, hasta que no sea posible añadir ninguna arista adicional. La clausura <span class="math inline">\([G]\)</span> es única e independiente del orden en que se añadan las aristas.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Teorema de Bondy y Chvátal (1976)" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Teorema de Bondy y Chvátal (1976)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un grafo simple <span class="math inline">\(G\)</span> es <strong>hamiltoniano si y solo si su clausura <span class="math inline">\([G]\)</span> es hamiltoniana</strong>. En particular, si la clausura de <span class="math inline">\(G\)</span> es el grafo completo (<span class="math inline">\([G] = K_n\)</span>), entonces <span class="math inline">\(G\)</span> es <strong>hamiltoniano</strong> <span class="citation" data-cites="bondy1976graph">(<a href="references.html#ref-bondy1976graph" role="doc-biblioref">Bondy y Chvátal 1976</a>)</span>.</p>
+</div>
+</div>
+<p>La caracterización de Bondy y Chvátal establece una equivalencia lógica exacta (<span class="math inline">\(G\)</span> hamiltoniano <span class="math inline">\(\iff [G]\)</span> hamiltoniano). No obstante, cuando se utiliza la condición simplificada de clausura completa <span class="math inline">\([G] = K_n\)</span> como criterio práctico de verificación, debe tenerse en cuenta su naturaleza asimétrica:</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Advertencia: El criterio $[G] = K_n$ es condición suficiente, pero no necesaria" data-kind="advertencia">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Advertencia: El criterio <span class="math inline">\([G] = K_n\)</span> es condición suficiente, pero no necesaria
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Es crucial resaltar que la condición de que la clausura alcance el grafo completo (<span class="math inline">\([G] = K_n\)</span>) es una <strong>condición suficiente pero no necesaria</strong> para la existencia de ciclos hamiltonianos.</p>
+<p>Como contraejemplo fundamental, consideremos el <strong>grafo ciclo</strong> <span class="math inline">\(C_5 = (a, b, d, e, c, a)\)</span> de <span class="math inline">\(n=5\)</span> vértices ilustrado en la <a href="#fig-hamilton-clausura-contraejemplo-c5" class="quarto-xref">Figura&nbsp;<span>10.10</span></a>. Este grafo es <strong>evidentemente hamiltoniano</strong> (el propio ciclo recorre todos sus vértices una sola vez). Sin embargo, al ser un ciclo simple regular de grado 2, todos sus vértices satisfacen <span class="math inline">\(d(v) = 2\)</span>. Por tanto, para cualquier par de vértices no adyacentes <span class="math inline">\(u, v\)</span>, la suma de grados resulta: <span class="math display">\[
+d(u) + d(v) = 2 + 2 = 4 &lt; n = 5
+\]</span> Al no cumplirse la condición en ningún par, no es posible añadir ninguna arista, por lo que la clausura coincide con el grafo original: <span class="math inline">\([C_5] = C_5 \neq K_5\)</span>. Por consiguiente, si la clausura de un grafo no es completa (<span class="math inline">\([G] \neq K_n\)</span>), <strong>no se puede deducir que el grafo no sea hamiltoniano</strong> (el criterio de clausura completa resulta no concluyente).</p>
+<div id="fig-hamilton-clausura-contraejemplo-c5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hamilton-clausura-contraejemplo-c5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/hamilton_clausura_contraejemplo_c5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figura&nbsp;10.10: Contraejemplo de suficiencia: el grafo ciclo C_5 es hamiltoniano pero su clausura no es el grafo completo"><img src="images/hamilton_clausura_contraejemplo_c5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hamilton-clausura-contraejemplo-c5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.10: Contraejemplo de suficiencia: el grafo ciclo <span class="math inline">\(C_5\)</span> es hamiltoniano pero su clausura no es el grafo completo
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Como corolarios directos del teorema de Bondy y Chvátal se deducen de forma inmediata los teoremas clásicos de suficiencia más célebres de la literatura:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Corolario: Teoremas clásicos de Dirac (1952) y Ore (1960)" data-kind="corolario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Corolario: Teoremas clásicos de Dirac (1952) y Ore (1960)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (V, E)\)</span> un grafo simple con <span class="math inline">\(n \ge 3\)</span> vértices:</p>
+<ul>
+<li><strong>Teorema de Ore (1960)</strong>: Si para todo par de vértices no adyacentes <span class="math inline">\(u, v \in V\)</span> se cumple <span class="math inline">\(d(u) + d(v) \ge n\)</span>, entonces <span class="math inline">\(G\)</span> es hamiltoniano (su clausura es directamente el grafo completo <span class="math inline">\(K_n\)</span>).</li>
+<li><strong>Teorema de Dirac (1952)</strong>: Si el grado mínimo de todo vértice cumple <span class="math inline">\(d(v) \ge \frac{n}{2}\)</span> para todo <span class="math inline">\(v \in V\)</span>, entonces para cualquier par no adyacente <span class="math inline">\(d(u) + d(v) \ge \frac{n}{2} + \frac{n}{2} = n\)</span>, y por tanto <span class="math inline">\(G\)</span> es hamiltoniano <span class="citation" data-cites="dirac1952some ore1960note">(<a href="references.html#ref-dirac1952some" role="doc-biblioref">Dirac 1952</a>; <a href="references.html#ref-ore1960note" role="doc-biblioref">Ore 1960</a>)</span>.</li>
+</ul>
+</div>
+</div>
+<p>En el siguiente ejemplo, ilustramos el cálculo de la clausura en dos grafos distintos.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Cálculo y evaluación de la clausura de Bondy y Chvátal" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Cálculo y evaluación de la clausura de Bondy y Chvátal
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Analicemos los dos grafos representados en la <a href="#fig-bondy-chvatal-ejemplos" class="quarto-xref">Figura&nbsp;<span>10.11</span></a>:</p>
+<ol type="1">
+<li><strong>Ejemplo 1 (Grafo de 4 nodos, panel izquierdo)</strong>:
+<ul>
+<li>Vértices: <span class="math inline">\(V = \{a, b, c, d\}\)</span>, con <span class="math inline">\(n = 4\)</span>.</li>
+<li>Aristas originales: <span class="math inline">\(\{a, b\}, \{a, c\}, \{a, d\}, \{b, c\}, \{b, d\}\)</span>.</li>
+<li>Grados iniciales: <span class="math inline">\(d(a)=3, d(b)=3, d(c)=2, d(d)=2\)</span>.</li>
+<li>El único par de vértices no adyacentes es <span class="math inline">\(\{c, d\}\)</span>.</li>
+<li>Evaluando la condición: <span class="math inline">\(d(c) + d(d) = 2 + 2 = 4 \ge n = 4\)</span>.</li>
+<li>Se añade la arista <span class="math inline">\(\{c, d\}\)</span>. El grafo resultante es el grafo completo <span class="math inline">\(K_4\)</span>.</li>
+<li>Por el Teorema de Bondy y Chvátal, <span class="math inline">\([G] = K_4 \implies G\)</span> <strong>es hamiltoniano</strong>.</li>
+</ul></li>
+<li><strong>Ejemplo 2 (Grafo de 5 nodos, panel derecho)</strong>:
+<ul>
+<li>Vértices: <span class="math inline">\(V = \{a, b, c, d, e\}\)</span>, con <span class="math inline">\(n = 5\)</span>.</li>
+<li>Aristas iniciales: <span class="math inline">\(\{a, b\}, \{b, e\}, \{a, c\}, \{c, e\}, \{a, d\}, \{d, e\}\)</span>.</li>
+<li>Grados iniciales: <span class="math inline">\(d(a)=3, d(e)=3, d(b)=2, d(c)=2, d(d)=2\)</span>.</li>
+<li>Evaluando pares no adyacentes:
+<ul>
+<li>Para <span class="math inline">\(\{a, e\}\)</span>: <span class="math inline">\(d(a) + d(e) = 3 + 3 = 6 \ge 5\)</span>. Se añade la arista <span class="math inline">\(\{a, e\}\)</span>.</li>
+<li>Los grados se actualizan a <span class="math inline">\(d(a)=4, d(e)=4\)</span>.</li>
+<li>Evaluando los restantes pares no adyacentes <span class="math inline">\(\{b, c\}, \{c, d\}, \{b, d\}\)</span>: <span class="math inline">\(d(b) + d(c) = 2 + 2 = 4 &lt; 5\)</span>, <span class="math inline">\(d(c) + d(d) = 4 &lt; 5\)</span>, <span class="math inline">\(d(b) + d(d) = 4 &lt; 5\)</span>.</li>
+</ul></li>
+<li>No es posible añadir más aristas. La clausura <span class="math inline">\([G]\)</span> no es completa (<span class="math inline">\([G] \neq K_5\)</span>). La condición de suficiencia no permite certificar la hamiltonianidad (el grafo no es hamiltoniano).</li>
+</ul></li>
+</ol>
+<div id="fig-bondy-chvatal-ejemplos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bondy-chvatal-ejemplos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/bondy_chvatal_ejemplos.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figura&nbsp;10.11: Cálculo de la clausura de Bondy y Chvátal: clausura completa [G]=K_4 (izquierda) y clausura incompleta (derecha)"><img src="images/bondy_chvatal_ejemplos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bondy-chvatal-ejemplos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.11: Cálculo de la clausura de Bondy y Chvátal: clausura completa <span class="math inline">\([G]=K_4\)</span> (izquierda) y clausura incompleta (derecha)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="el-problema-del-viajante-de-comercio-tsp" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="el-problema-del-viajante-de-comercio-tsp"><span class="header-section-number">10.4</span> El Problema del Viajante de Comercio (TSP)</h2>
+<p>El <strong>Problema del Viajante de Comercio</strong> (conocido mundialmente como <em>Traveling Salesperson Problem</em>, TSP) es, sin lugar a dudas, el problema más emblemático, estudiado y emblemático de la optimización combinatoria y la programación entera <span class="citation" data-cites="dantzig1954solution applegate2006traveling">(<a href="references.html#ref-dantzig1954solution" role="doc-biblioref">G. Dantzig, Fulkerson, y Johnson 1954</a>; <a href="references.html#ref-applegate2006traveling" role="doc-biblioref">Applegate et&nbsp;al. 2006</a>)</span>.</p>
+<p>El problema modela la situación de un agente comercial que debe partir de una ciudad base, visitar un conjunto de <span class="math inline">\(n\)</span> ciudades exactamente una vez y regresar al punto de partida, de modo que la <strong>distancia, tiempo o coste económico total acumulado sea mínimo</strong>.</p>
+<p>Las aplicaciones reales del TSP trascienden con creces el ruteo físico de personas y vehículos. Entre sus aplicaciones industriales más destacadas figuran:</p>
+<ul>
+<li><strong>Fabricación de circuitos impresos (PCB drilling)</strong>: Optimización del orden de perforación de decenas de miles de orificios en placas electrónicas mediante brazos robóticos láser para minimizar el tiempo de desplazamiento del cabezal.</li>
+<li><strong>Secuenciación de tareas en máquinas (Sequence-dependent scheduling)</strong>: Programación de lotes de producción en una máquina industrial donde el tiempo de limpieza y ajuste entre tareas depende de la tarea inmediatamente precedente (tiempos de cambio de matriz en prensas o purga de color en pintura).</li>
+<li><strong>Astronomía y observación espacial</strong>: Secuenciación óptima de apuntado de telescopios orbitales (como el Hubble o James Webb) entre constelaciones celestes para minimizar el consumo de combustible en maniobras giroscópicas.</li>
+<li><strong>Biología computacional y genómica</strong>: Reconstrucción y alineamiento de secuencias de fragmentos de ADN en el ensamblaje de genomas.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Problema del Viajante de Comercio (TSP)" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Problema del Viajante de Comercio (TSP)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un conjunto de <span class="math inline">\(n\)</span> ciudades <span class="math inline">\(V = \{1, 2, \dots, n\}\)</span> y una matriz de costes o distancias <span class="math inline">\(D = (d_{ij})_{n \times n}\)</span>, donde <span class="math inline">\(d_{ij} \ge 0\)</span> representa el coste de desplazarse directamente desde la ciudad <span class="math inline">\(i\)</span> hasta la ciudad <span class="math inline">\(j\)</span>:</p>
+<p>El <strong>TSP</strong> consiste en encontrar una permutación <span class="math inline">\(\pi = (\pi(1), \pi(2), \dots, \pi(n))\)</span> de las <span class="math inline">\(n\)</span> ciudades que minimice el coste total del ciclo hamiltoniano: <span class="math display">\[
+\min_{\pi} \left( \sum_{k=1}^{n-1} d_{\pi(k), \pi(k+1)} + d_{\pi(n), \pi(1)} \right)
+\]</span></p>
+</div>
+</div>
+<p>Para abordar el TSP mediante optimizadores matemáticos (<em>solvers</em> de programación lineal entera), se han desarrollado diversas formulaciones con propiedades teóricas y computacionales muy dispares. Analizaremos las tres formulaciones fundamentales: el modelo por etapas o tramos (<span class="math inline">\(x_{ijk}\)</span>), el modelo clásico de eliminación exponencial de subciclos de Dantzig, Fulkerson y Johnson (DFJ), y la formulación compacta polinomial de Miller, Tucker y Zemlin (MTZ).</p>
+<section id="modelo-1-del-tsp-variables-de-posición-de-tramo-x_ijk" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="modelo-1-del-tsp-variables-de-posición-de-tramo-x_ijk"><span class="header-section-number">10.4.1</span> Modelo 1 del TSP: Variables de posición de tramo (<span class="math inline">\(x_{ijk}\)</span>)</h3>
+<p>Una primera aproximación intuitiva para modelar el TSP mediante Programación Lineal Entera consiste en concebir el itinerario del agente como una secuencia ordenada de <span class="math inline">\(n\)</span> etapas o tramos temporales sucesivos.</p>
+<p><strong>Variables de decisión</strong>: Para formular este modelo, se introducen las variables binarias con triple subíndice <span class="math inline">\(x_{ijk} \in \{0, 1\}\)</span>, definidas como: <span class="math display">\[
+x_{ijk} = \begin{cases}
+1 &amp; \text{si el agente se desplaza directamente de } i \text{ a } j \text{ en la etapa } k \\
+0 &amp; \text{en otro caso}
+\end{cases}
+\]</span> para todo <span class="math inline">\(i, j, k \in \{1, \dots, n\}\)</span>.</p>
+<p><strong>Construcción pedagógica de las restricciones</strong>: A partir de estas variables, la exigencia de que la solución forme un ciclo hamiltoniano válido y continuo se traduce en cinco condiciones estructurales fundamentales:</p>
+<ol type="1">
+<li><p><strong>Minimización de la distancia total (Función objetivo)</strong>: Cada desplazamiento entre <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span> devenga un coste <span class="math inline">\(d_{ij}\)</span> independientemente de la etapa <span class="math inline">\(k\)</span> en la que se realice. La distancia total acumulada a lo largo de las <span class="math inline">\(n\)</span> etapas del viaje es: <span class="math display">\[
+\min_{x} \sum_{i=1}^n \sum_{j=1}^n \sum_{k=1}^n d_{ij} x_{ijk}
+\]</span></p></li>
+<li><p><strong>Salida única de cada ciudad</strong>: El agente debe abandonar cada ciudad <span class="math inline">\(i\)</span> exactamente una vez a lo largo del viaje completo, dirigiéndose hacia alguna ciudad <span class="math inline">\(j\)</span> en alguna de las <span class="math inline">\(n\)</span> etapas <span class="math inline">\(k\)</span>: <span class="math display">\[
+\sum_{j=1}^n \sum_{k=1}^n x_{ijk} = 1, \quad \forall i = 1, \dots, n
+\]</span></p></li>
+<li><p><strong>Llegada única a cada ciudad</strong>: El agente debe acceder a cada ciudad <span class="math inline">\(j\)</span> exactamente una vez a lo largo del viaje completo, proviniendo de alguna ciudad <span class="math inline">\(i\)</span> en alguna etapa <span class="math inline">\(k\)</span>: <span class="math display">\[
+\sum_{i=1}^n \sum_{k=1}^n x_{ijk} = 1, \quad \forall j = 1, \dots, n
+\]</span></p></li>
+<li><p><strong>Ocupación exclusiva de cada etapa temporal</strong>: En cada etapa <span class="math inline">\(k \in \{1, \dots, n\}\)</span> del itinerario solo puede llevarse a cabo exactamente un trayecto entre un par de ciudades: <span class="math display">\[
+\sum_{i=1}^n \sum_{j=1}^n x_{ijk} = 1, \quad \forall k = 1, \dots, n
+\]</span></p></li>
+<li><p><strong>Continuidad espacial del recorrido entre etapas consecutivas</strong>: Si en la etapa <span class="math inline">\(k\)</span> el agente llega a la ciudad <span class="math inline">\(j\)</span> (sumando sobre todos los posibles orígenes <span class="math inline">\(i \neq j\)</span>), en la siguiente etapa <span class="math inline">\(k+1\)</span> debe partir obligatoriamente desde esa misma ciudad <span class="math inline">\(j\)</span> (sumando sobre todos los posibles destinos <span class="math inline">\(l \neq j\)</span>): <span class="math display">\[
+\sum_{i \neq j} x_{ijk} = \sum_{l \neq j} x_{j,l,k+1}, \quad \forall j = 1, \dots, n, \quad \forall k = 1, \dots, n
+\]</span> Para la última etapa <span class="math inline">\(k = n\)</span>, la etapa subsiguiente <span class="math inline">\(k+1\)</span> se identifica circularmente con la etapa inicial <span class="math inline">\(1\)</span>.</p></li>
+</ol>
+<p><strong>Formulación matemática consolidada del Modelo 1</strong>: Reuniendo todas las condiciones analizadas, el modelo completo de programación lineal entera queda formulado de la siguiente manera: <span class="math display">\[
+\begin{aligned}
+\min_{x} \quad &amp; \sum_{i=1}^n \sum_{j=1}^n \sum_{k=1}^n d_{ij} x_{ijk} \\
+\text{sujeto a} \quad &amp; \sum_{j=1}^n \sum_{k=1}^n x_{ijk} = 1, \quad \forall i = 1, \dots, n \\
+&amp; \sum_{i=1}^n \sum_{k=1}^n x_{ijk} = 1, \quad \forall j = 1, \dots, n \\
+&amp; \sum_{i=1}^n \sum_{j=1}^n x_{ijk} = 1, \quad \forall k = 1, \dots, n \\
+&amp; \sum_{i \neq j} x_{ijk} = \sum_{l \neq j} x_{j,l,k+1}, \quad \forall j = 1, \dots, n, \ k = 1, \dots, n \\
+&amp; x_{ijk} \in \{0, 1\}, \quad \forall i, j, k = 1, \dots, n
+\end{aligned}
+\]</span></p>
+<p>Desde el punto de vista computacional, este modelo requiere <span class="math inline">\(n^3\)</span> variables binarias y <span class="math inline">\(3n + n^2\)</span> restricciones para una red de <span class="math inline">\(n\)</span> ciudades. Aunque su planteamiento resulta transparente e intuitivo, el crecimiento cúbico de las variables limita su aplicación práctica a problemas de escala reducida.</p>
+</section>
+<section id="modelo-2-del-tsp-eliminación-exponencial-de-subciclos-dfj" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="modelo-2-del-tsp-eliminación-exponencial-de-subciclos-dfj"><span class="header-section-number">10.4.2</span> Modelo 2 del TSP: Eliminación exponencial de subciclos (DFJ)</h3>
+<p>Para reducir drásticamente el número de variables de decisión, George Dantzig, Delbert Fulkerson y Selmer Johnson propusieron en 1954 prescindir del subíndice temporal <span class="math inline">\(k\)</span> y trabajar exclusivamente con variables de arco <span class="citation" data-cites="dantzig1954solution">(<a href="references.html#ref-dantzig1954solution" role="doc-biblioref">G. Dantzig, Fulkerson, y Johnson 1954</a>)</span>.</p>
+<p><strong>Variables de decisión y grado de asignación</strong>: En este enfoque, la elección de las rutas se describe mediante variables binarias con doble subíndice: <span class="math display">\[
+x_{ij} = \begin{cases}
+1 &amp; \text{si el arco dirigido } (i, j) \text{ forma parte de la ruta} \\
+0 &amp; \text{en otro caso}
+\end{cases}
+\]</span> para todo <span class="math inline">\(i, j \in \{1, \dots, n\}\)</span> con <span class="math inline">\(i \neq j\)</span>.</p>
+<p>Si imponemos únicamente las restricciones clásicas del problema de asignación:</p>
+<ul>
+<li><strong>Conservación de salida (Grado exterior 1)</strong>: <span class="math inline">\(\sum_{j=1, j \neq i}^n x_{ij} = 1, \quad \forall i = 1, \dots, n\)</span></li>
+<li><strong>Conservación de entrada (Grado interior 1)</strong>: <span class="math inline">\(\sum_{i=1, i \neq j}^n x_{ij} = 1, \quad \forall j = 1, \dots, n\)</span></li>
+</ul>
+<p>cada ciudad tiene garantizado un único predecesor y un único sucesor. Sin embargo, estas dos condiciones no garantizan la conectividad global, permitiendo que la solución óptima se fracture en múltiples subciclos desconectados (<em>subtours</em>), como se ilustra en la <a href="#fig-tsp-subtours-asignacion" class="quarto-xref">Figura&nbsp;<span>10.12</span></a>.</p>
+<div id="fig-tsp-subtours-asignacion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tsp-subtours-asignacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/tsp_subtours_asignacion.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figura&nbsp;10.12: Fenómeno de subciclos desconectados generado por la relajación de asignación pura en una red de 7 nodos"><img src="images/tsp_subtours_asignacion.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tsp-subtours-asignacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.12: Fenómeno de subciclos desconectados generado por la relajación de asignación pura en una red de 7 nodos
+</figcaption>
+</figure>
+</div>
+<p><strong>Restricciones de eliminación de subciclos (SEC)</strong>: Para erradicar cualquier subciclo aislado, Dantzig, Fulkerson y Johnson establecieron que para todo subconjunto propio no vacío de ciudades <span class="math inline">\(S \subset V\)</span> con cardinal <span class="math inline">\(2 \le |S| \le n-1\)</span>, el número de arcos dirigidos cuyos dos extremos pertenezcan a <span class="math inline">\(S\)</span> no puede alcanzar el valor <span class="math inline">\(|S|\)</span>, ya que ello formaría un ciclo cerrado aislado dentro de <span class="math inline">\(S\)</span>. Esta condición da lugar a las <strong>restricciones de eliminación de subciclos</strong> (SEC): <span class="math display">\[
+\sum_{i \in S} \sum_{j \in S} x_{ij} \le |S| - 1, \quad \forall S \subset V, \ 2 \le |S| \le n-1
+\]</span></p>
+<p><strong>Formulación matemática consolidada del Modelo DFJ</strong>: Integrando la función objetivo, las restricciones de grado y las restricciones SEC, la formulación clásica DFJ se consolida como: <span class="math display">\[
+\begin{aligned}
+\min_{x} \quad &amp; \sum_{i=1}^n \sum_{j=1}^n d_{ij} x_{ij} \\
+\text{sujeto a} \quad &amp; \sum_{j=1, j \neq i}^n x_{ij} = 1, \quad \forall i = 1, \dots, n \\
+&amp; \sum_{i=1, i \neq j}^n x_{ij} = 1, \quad \forall j = 1, \dots, n \\
+&amp; \sum_{i \in S} \sum_{j \in S} x_{ij} \le |S| - 1, \quad \forall S \subset V, \ 2 \le |S| \le n-1 \\
+&amp; x_{ij} \in \{0, 1\}, \quad \forall i, j = 1, \dots, n, \ i \neq j
+\end{aligned}
+\]</span></p>
+<p>Aunque el modelo DFJ requiere únicamente <span class="math inline">\(n(n-1)\)</span> variables binarias, el número de restricciones SEC es de orden exponencial (<span class="math inline">\(2^n - 2\)</span>). No obstante, este modelo posee la relajación lineal continua más ajustada y fuerte conocida en optimización combinatoria. En la práctica, los algoritmos modernos de ramificación y corte (<em>Branch-and-Cut</em>) resuelven instancias de decenas de miles de ciudades incorporando las restricciones SEC de forma perezosa y dinámica (<em>lazy constraints</em>) únicamente cuando se detecta un subciclo violado.</p>
+</section>
+<section id="modelo-3-del-tsp-formulación-compacta-mtz-miller-tucker-zemlin" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="modelo-3-del-tsp-formulación-compacta-mtz-miller-tucker-zemlin"><span class="header-section-number">10.4.3</span> Modelo 3 del TSP: Formulación compacta MTZ (Miller-Tucker-Zemlin)</h3>
+<p>En 1960, Clair Miller, Albert Tucker y Richard Zemlin desarrollaron una formulación alternativa que elimina los subciclos utilizando un número estrictamente polinomial de restricciones (<span class="math inline">\(\mathcal{O}(n^2)\)</span>), permitiendo introducir el modelo completo directamente en cualquier optimizador lineal estándar sin necesidad de generadores de cortes dinámicos <span class="citation" data-cites="miller1960integer">(<a href="references.html#ref-miller1960integer" role="doc-biblioref">Miller, Tucker, y Zemlin 1960</a>)</span>.</p>
+<p><strong>Variables continuas de orden secuencial</strong>: El modelo MTZ toma una ciudad de referencia como depósito base (fijando habitualmente <span class="math inline">\(u_1 = 1\)</span>) y define variables continuas auxiliares <span class="math inline">\(u_i \ge 0\)</span> para <span class="math inline">\(i = 2, \dots, n\)</span>, las cuales representan la posición o número de orden en el que la ciudad <span class="math inline">\(i\)</span> es visitada a lo largo del recorrido (satisfaciendo <span class="math inline">\(2 \le u_i \le n\)</span>).</p>
+<p><strong>Mecánica algebraica de las restricciones MTZ</strong>: La eliminación de subciclos se consigue imponiendo la siguiente familia de inecuaciones cuadráticas en el número de nodos: <span class="math display">\[
+u_i - u_j + n x_{ij} \le n - 1, \quad \forall i, j \in \{2, \dots, n\}, \ i \neq j
+\]</span></p>
+<p>Para comprender el fundamento algebraico de esta inecuación, analizamos los dos valores posibles de la variable binaria <span class="math inline">\(x_{ij}\)</span>:</p>
+<ol type="1">
+<li><p><strong>Si el arco <span class="math inline">\((i, j)\)</span> forma parte de la ruta (<span class="math inline">\(x_{ij} = 1\)</span>)</strong>: Sustituyendo <span class="math inline">\(x_{ij} = 1\)</span> en la inecuación se obtiene <span class="math inline">\(u_i - u_j + n(1) \le n - 1 \iff u_j \ge u_i + 1\)</span>. La restricción fuerza de manera estricta a que el orden de visita de la ciudad <span class="math inline">\(j\)</span> sea al menos una unidad mayor que el orden de la ciudad <span class="math inline">\(i\)</span>. Como los índices deben crecer estrictamente a lo largo de cualquier subrecorrido, es imposible formar un subciclo cerrado que no contenga al depósito 1 (pues un subciclo <span class="math inline">\(i_1 \to i_2 \to \dots \to i_m \to i_1\)</span> exigiría <span class="math inline">\(u_{i_1} &lt; u_{i_2} &lt; \dots &lt; u_{i_m} &lt; u_{i_1}\)</span>, lo cual constituye una imposibilidad matemática).</p></li>
+<li><p><strong>Si el arco <span class="math inline">\((i, j)\)</span> no se utiliza (<span class="math inline">\(x_{ij} = 0\)</span>)</strong>: Sustituyendo <span class="math inline">\(x_{ij} = 0\)</span>, la inecuación queda <span class="math inline">\(u_i - u_j + 0 \le n - 1 \iff u_i - u_j \le n - 1\)</span>. Dado que las variables de orden satisfacen <span class="math inline">\(2 \le u_i \le n\)</span>, la máxima diferencia posible entre dos índices cualesquiera es <span class="math inline">\((n) - (2) = n - 2 \le n - 1\)</span>. Por consiguiente, la restricción queda completamente desactivada y resulta redundante, no imponiendo ninguna limitación artificial sobre nodos no conectados.</p></li>
+</ol>
+<p><strong>Formulación matemática consolidada del Modelo MTZ</strong>: El modelo compacto MTZ se consolida formalmente como: <span class="math display">\[
+\begin{aligned}
+\min_{x, u} \quad &amp; \sum_{i=1}^n \sum_{j=1}^n d_{ij} x_{ij} \\
+\text{sujeto a} \quad &amp; \sum_{j=1, j \neq i}^n x_{ij} = 1, \quad \forall i = 1, \dots, n \\
+&amp; \sum_{i=1, i \neq j}^n x_{ij} = 1, \quad \forall j = 1, \dots, n \\
+&amp; u_i - u_j + n x_{ij} \le n - 1, \quad \forall i, j \in \{2, \dots, n\}, \ i \neq j \\
+&amp; u_i \ge 0, \quad \forall i = 2, \dots, n \\
+&amp; x_{ij} \in \{0, 1\}, \quad \forall i, j = 1, \dots, n, \ i \neq j
+\end{aligned}
+\]</span></p>
+<p>En la comparativa entre MTZ y DFJ destacan dos factores determinantes:</p>
+<ul>
+<li><strong>Ventaja de MTZ</strong>: Es un modelo compacto con <span class="math inline">\(n^2 + n - 1\)</span> variables y <span class="math inline">\(n^2 - n + 2\)</span> restricciones, resoluble directamente por cualquier <em>solver</em> estándar sin rutinas auxiliares de separación de cortes.</li>
+<li><strong>Desventaja de MTZ</strong>: Su relajación lineal continua es significativamente más débil que la de DFJ, lo que provoca que los algoritmos de ramificación y acotación (<em>Branch-and-Bound</em>) requieran explorar un árbol de búsqueda mucho mayor para instancias medianas o grandes.</li>
+</ul>
+</section>
+<section id="heurísticas-y-el-algoritmo-de-aproximación-de-christofides" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="heurísticas-y-el-algoritmo-de-aproximación-de-christofides"><span class="header-section-number">10.4.4</span> Heurísticas y el Algoritmo de Aproximación de Christofides</h3>
+<p>Dada la complejidad <span class="math inline">\(\mathcal{NP}\)</span>-dura del TSP, en problemas de gran tamaño se recurre a heurísticas y algoritmos de aproximación con garantías teóricas:</p>
+<ul>
+<li><strong>Heurística constructiva del Vecino más Cercano (Nearest Neighbor)</strong>: Parte de un nodo inicial y en cada paso salta al nodo no visitado más cercano en tiempo <span class="math inline">\(\mathcal{O}(n^2)\)</span>. Aunque es muy rápida, suele dejar nodos aislados lejanos para el final, generando un retorno final de coste elevado.</li>
+<li><strong>Heurística de mejora local 2-Opt</strong>: Parte de una ruta inicial válida y evalúa parejas de aristas <span class="math inline">\(\{ (u, v), (x, y) \}\)</span>. Si sustituirlas por <span class="math inline">\(\{ (u, x), (v, y) \}\)</span> reduce la distancia total (lo que equivale a invertir el sentido de recorrido del subsegmento intermedio), se aplica el intercambio. Se itera hasta alcanzar un óptimo local 2-óptimo.</li>
+</ul>
+<p>Para el <strong>TSP métrico</strong> (donde las distancias satisfacen la desigualdad triangular <span class="math inline">\(d_{ij} \le d_{ik} + d_{kj}\)</span>), el matemático greco-británico <strong>Nicos Christofides</strong> desarrolló en 1976 un célebre algoritmo de aproximación polinomial <span class="citation" data-cites="christofides1976worst">(<a href="references.html#ref-christofides1976worst" role="doc-biblioref">Christofides 1976</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de aproximación de Christofides (1976)" data-kind="esquema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Esquema: Algoritmo de aproximación de Christofides (1976)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo completo con distancias no negativas que satisfacen la desigualdad triangular:</p>
+<ol type="1">
+<li><strong>Árbol Soporte de Mínimo Peso (MST)</strong>: Calcular un árbol generador de mínimo peso <span class="math inline">\(T\)</span> sobre el conjunto de nodos <span class="math inline">\(V\)</span> mediante el algoritmo de Kruskal o Prim.</li>
+<li><strong>Identificación de vértices impares</strong>: Identificar el subconjunto <span class="math inline">\(O \subset V\)</span> de vértices que tienen grado impar en el árbol <span class="math inline">\(T\)</span> (el número <span class="math inline">\(|O|\)</span> es necesariamente par).</li>
+<li><strong>Emparejamiento perfecto de peso mínimo</strong>: Calcular el emparejamiento perfecto de peso mínimo <span class="math inline">\(M\)</span> sobre el subgrafo inducido por los vértices de <span class="math inline">\(O\)</span> en el grafo original.</li>
+<li><strong>Construcción del multigrafo euleriano</strong>: Unir las aristas del árbol <span class="math inline">\(T\)</span> y las del emparejamiento <span class="math inline">\(M\)</span> para formar el multigrafo <span class="math inline">\(H = T \cup M\)</span>. En <span class="math inline">\(H\)</span>, todos los vértices tienen grado par.</li>
+<li><strong>Ciclo euleriano y atajos hamiltonianos</strong>: Hallar un ciclo euleriano en <span class="math inline">\(H\)</span> y transformarlo en un ciclo hamiltoniano recorriendo sus vértices y aplicando <strong>atajos</strong> (<em>shortcuts</em>), es decir, saltando directamente a nodos no visitados omitiendo nodos repetidos.</li>
+</ol>
+</div>
+</div>
+<div id="fig-christofides-pasos-esquema" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-christofides-pasos-esquema-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/christofides_pasos_esquema.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figura&nbsp;10.13: Las cuatro fases del Algoritmo de Christofides: (1) MST, (2) Emparejamiento en impares, (3) Multigrafo euleriano y (4) Atajos hamiltonianos"><img src="images/christofides_pasos_esquema.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-christofides-pasos-esquema-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.13: Las cuatro fases del Algoritmo de Christofides: (1) MST, (2) Emparejamiento en impares, (3) Multigrafo euleriano y (4) Atajos hamiltonianos
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Garantía de aproximación de factor 1.5 de Christofides" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Garantía de aproximación de factor 1.5 de Christofides
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En cualquier grafo métrico, el algoritmo de Christofides garantiza una solución cuyo coste no supera <strong>1.5 veces el coste de la solución óptima global</strong>: <span class="math display">\[
+\text{Coste}(C_{\text{Christofides}}) \le \frac{3}{2} \text{Coste}(C^*)
+\]</span></p>
+<p><em>Demostración</em>: Sea <span class="math inline">\(C^*\)</span> el ciclo hamiltoniano óptimo global del TSP.</p>
+<ol type="1">
+<li><p><strong>Cota del MST</strong>: Si eliminamos una arista arbitraria del ciclo óptimo <span class="math inline">\(C^*\)</span>, obtenemos un camino simple que conecta todos los vértices. Dado que cualquier camino generador es un árbol soporte, y el MST <span class="math inline">\(T\)</span> es por definición el árbol generador de menor peso: <span class="math display">\[
+\text{Coste}(T) \le \text{Coste}(\text{camino}) &lt; \text{Coste}(C^*)
+\]</span></p></li>
+<li><p><strong>Cota del Emparejamiento</strong>: Consideremos el ciclo óptimo <span class="math inline">\(C^*\)</span> proyectado únicamente sobre el subconjunto de nodos impares <span class="math inline">\(O\)</span>, omitiendo mediante atajos los nodos que no pertenecen a <span class="math inline">\(O\)</span>. Por la desigualdad triangular, el coste de este ciclo inducido <span class="math inline">\(C^*_O\)</span> cumple <span class="math inline">\(\text{Coste}(C^*_O) \le \text{Coste}(C^*)\)</span>. Al tener <span class="math inline">\(|O|\)</span> un número par de vértices, el ciclo <span class="math inline">\(C^*_O\)</span> puede descomponerse en dos emparejamientos perfectos disjuntos y alternos <span class="math inline">\(M_1\)</span> y <span class="math inline">\(M_2\)</span>. La suma de sus costes satisface: <span class="math display">\[
+\text{Coste}(M_1) + \text{Coste}(M_2) = \text{Coste}(C^*_O) \le \text{Coste}(C^*)
+\]</span> Como <span class="math inline">\(M\)</span> es el emparejamiento perfecto de peso mínimo sobre <span class="math inline">\(O\)</span>: <span class="math display">\[
+\text{Coste}(M) \le \min \{ \text{Coste}(M_1), \text{Coste}(M_2) \} \le \frac{1}{2} \text{Coste}(C^*)
+\]</span></p></li>
+<li><p><strong>Combinación y atajos</strong>: Sumando las aristas del multigrafo euleriano <span class="math inline">\(H = T \cup M\)</span>: <span class="math display">\[
+\begin{aligned}
+\text{Coste}(H) &amp;= \text{Coste}(T) + \text{Coste}(M) \\
+&amp;&lt; \text{Coste}(C^*) + \frac{1}{2} \text{Coste}(C^*) = \frac{3}{2} \text{Coste}(C^*)
+\end{aligned}
+\]</span> Al aplicar atajos para convertir el recorrido euleriano en el ciclo hamiltoniano <span class="math inline">\(C\)</span>, la desigualdad triangular garantiza que el coste no aumenta: <span class="math inline">\(\text{Coste}(C) \le \text{Coste}(H) \le 1.5 \text{Coste}(C^*)\)</span>. <span class="math inline">\(\blacksquare\)</span></p></li>
+</ol>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="taxonomía-y-características-de-los-problemas-de-rutas-de-vehículos-vrp" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="taxonomía-y-características-de-los-problemas-de-rutas-de-vehículos-vrp"><span class="header-section-number">10.5</span> Taxonomía y características de los Problemas de Rutas de Vehículos (VRP)</h2>
+<p>Tanto el Problema del Viajante de Comercio (TSP) como el Problema del Cartero Chino (CPP) constituyen los bloques fundacionales de una disciplina de extraordinaria amplitud en la ingeniería de sistemas, la investigación operativa y la logística de distribución: la familia de los <strong>Problemas de Rutas de Vehículos</strong> (<em>Vehicle Routing Problems</em>, VRP), introducidos formalmente por George Dantzig y John Ramser en 1959 <span class="citation" data-cites="dantzig1959truck">(<a href="references.html#ref-dantzig1959truck" role="doc-biblioref">G. B. Dantzig y Ramser 1959</a>)</span>.</p>
+<p>Mientras que el TSP tradicional asume un único agente con capacidad infinita que visita un conjunto cerrado de ciudades, los problemas de distribución industrial involucran flotas heterogéneas, restricciones de capacidad volumétrica o de tonelaje, ventanas temporales estrictas de entrega y múltiples centros logísticos de origen y destino.</p>
+<p>Desde la perspectiva topológica, la primera distinción conceptual básica radica en la localización espacial de las demandas que deben ser atendidas dentro de la infraestructura de transporte, dando lugar a dos grandes familias complementarias esquematizadas en la <a href="#fig-vrp-taxonomia-topologica" class="quarto-xref">Figura&nbsp;<span>10.14</span></a>:</p>
+<ul>
+<li><strong>Problemas de rutas por nodos (Node Routing)</strong>: Los puntos de demanda o clientes se sitúan exclusivamente en los <strong>vértices</strong> de la red, mientras que las aristas actúan únicamente como vías transitables de desplazamiento. Esta categoría engloba desde el TSP elemental hasta el <strong>Problema de Rutas de Vehículos con Capacidad</strong> (<em>Capacitated VRP</em>, CVRP) (donde una flota de vehículos con capacidad limitada <span class="math inline">\(Q\)</span> abastece a múltiples clientes partiendo de un depósito), el <strong>VRP con Ventanas de Tiempo</strong> (VRPTW) y los problemas de <strong>recogida y entrega simultánea</strong> (<em>Pickup and Delivery Problem</em>, PDP).</li>
+<li><strong>Problemas de rutas por arcos (Arc Routing)</strong>: Las demandas o servicios se encuentran distribuidos de manera continua a lo largo de las <strong>aristas o arcos</strong> de la red viaria. Mientras que el <strong>Problema del Cartero Chino (CPP)</strong> exige transitar por todas las aristas de la red (inspección de tuberías, líneas eléctricas o pavimentos), el <strong>Problema del Cartero Rural (RPP)</strong> atiende únicamente a un subconjunto prioritario de tramos. Cuando se consideran flotas con capacidad de carga finita, se formula el <strong>Problema de Rutas por Arcos con Capacidad</strong> (CARP), estándar en la recogida municipal de residuos sólidos urbanos y el esparcimiento de sal en vialidad invernal.</li>
+<li><strong>Problemas de rutas mixtos (General Routing Problems - GRP)</strong>: Combinan servicios puntuales concentrados en ciertos vértices con demandas continuas distribuidas a lo largo de aristas específicas de la red.</li>
+</ul>
+<div id="fig-vrp-taxonomia-topologica" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vrp-taxonomia-topologica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/vrp_taxonomia_topologica.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figura&nbsp;10.14: Taxonomía topológica de problemas de rutas: bifurcación entre rutas por arcos (Arc Routing) y rutas por nodos (Node Routing)"><img src="images/vrp_taxonomia_topologica.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vrp-taxonomia-topologica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.14: Taxonomía topológica de problemas de rutas: bifurcación entre rutas por arcos (Arc Routing) y rutas por nodos (Node Routing)
+</figcaption>
+</figure>
+</div>
+<p>Por otra parte, la traslación de estos problemas a modelos matemáticos computables y aplicables a la logística real requiere caracterizar con precisión seis dimensiones operativas fundamentales, ilustradas en la <a href="#fig-vrp-dimensiones-operativas" class="quarto-xref">Figura&nbsp;<span>10.15</span></a>:</p>
+<ul>
+<li><strong>Composición y capacidad de la flota</strong>: Se distingue entre <em>flotas homogéneas</em>, donde todos los vehículos son idénticos en capacidad de carga, autonomía y costes operativos, y <em>flotas heterogéneas</em>, donde coexisten vehículos de diversas tipologías con posibles restricciones de gálibo o acceso físico a cascos urbanos históricos.</li>
+<li><strong>Topología de las instalaciones y depósitos</strong>: En los esquemas <em>monodepósito</em>, todos los vehículos inician y concluyen su recorrido en una base central única. En los esquemas <em>multidepósito</em> (<em>Multi-Depot VRP</em>), la distribución se coordina desde múltiples centros territoriales, pudiendo los vehículos pernoctar en su base de origen o admitir reubicación libre entre depósitos.</li>
+<li><strong>Certidumbre y dinamismo de la demanda</strong>: Frente a los modelos <em>deterministas</em>, donde las cantidades requeridas por cada cliente se conocen con exactitud antes de iniciar las expediciones, los entornos <em>estocásticos o dinámicos</em> modelan la demanda como variables aleatorias o procesan solicitudes de última hora recibidas telemáticamente durante la ejecución en curso de la ruta.</li>
+<li><strong>Modalidad de las operaciones de transporte</strong>: Comprende desde la <em>entrega pura</em> (el vehículo parte cargado y se vacía progresivamente) y la <em>recogida pura</em> (el vehículo parte vacío y va acumulando mercancía o residuos) hasta las <em>operaciones combinadas de recogida y entrega simultánea</em>, que exigen monitorizar la capacidad residual disponible en cada tramo intermedio de la ruta.</li>
+<li><strong>Restricciones temporales y ventanas de servicio</strong>: Varían desde horizontes abiertos sin limitaciones horarias hasta <em>ventanas de tiempo rígidas</em> (<em>Hard Time Windows</em>), donde el servicio fuera del intervalo <span class="math inline">\([a_i, b_i]\)</span> está estrictamente prohibido, o <em>ventanas flexibles</em> (<em>Soft Time Windows</em>), donde los adelantos o retrasos se penalizan económicamente en la función objetivo.</li>
+<li><strong>Estructura de costes y objetivos de optimización</strong>: Aunque el objetivo clásico consiste en minimizar la distancia total recorrida, el tiempo de conducción o el consumo de combustible, los modelos avanzados integran la minimización del número total de vehículos activos, la reducción de emisiones de <span class="math inline">\(\text{CO}_2\)</span> y el <em>equilibrio de las cargas de trabajo</em> (<em>fair workload balancing</em>) entre los conductores.</li>
+</ul>
+<div id="fig-vrp-dimensiones-operativas" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vrp-dimensiones-operativas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/vrp_dimensiones_operativas.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figura&nbsp;10.15: Ejes y dimensiones fundamentales de clasificación operativa en la logística de rutas de vehículos"><img src="images/vrp_dimensiones_operativas.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vrp-dimensiones-operativas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.15: Ejes y dimensiones fundamentales de clasificación operativa en la logística de rutas de vehículos
+</figcaption>
+</figure>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-applegate2006traveling" class="csl-entry" role="listitem">
+Applegate, David L, Robert E Bixby, Vasek Chvatal, y William J Cook. 2006. <em>The Traveling Salesman Problem: A Computational Study</em>. Princeton University Press.
+</div>
+<div id="ref-bondy1976graph" class="csl-entry" role="listitem">
+Bondy, John Adrian, y Václav Chvátal. 1976. <span>«A method in graph theory»</span>. <em>Discrete Mathematics</em> 15 (2): 111-35.
+</div>
+<div id="ref-christofides1976worst" class="csl-entry" role="listitem">
+Christofides, Nicos. 1976. <span>«Worst-case analysis of a new heuristic for the travelling salesman problem»</span>. 388. Graduate School of Industrial Administration, Carnegie-Mellon University.
+</div>
+<div id="ref-dantzig1959truck" class="csl-entry" role="listitem">
+Dantzig, George B, y John H Ramser. 1959. <span>«The truck dispatching problem»</span>. <em>Management Science</em> 6 (1): 80-91.
+</div>
+<div id="ref-dantzig1954solution" class="csl-entry" role="listitem">
+Dantzig, George, Ray Fulkerson, y Selmer Johnson. 1954. <span>«Solution of a large-scale traveling-salesman problem»</span>. <em>Journal of the Operations Research Society of America</em> 2 (4): 393-410.
+</div>
+<div id="ref-dirac1952some" class="csl-entry" role="listitem">
+Dirac, Gabriel Andrew. 1952. <span>«Some theorems on abstract graphs»</span>. <em>Proceedings of the London Mathematical Society</em> 3 (1): 69-81.
+</div>
+<div id="ref-euler1741solutio" class="csl-entry" role="listitem">
+Euler, Leonhard. 1741. <span>«Solutio problematis ad geometriam situs pertinentis»</span>. <em>Commentarii Academiae Scientiarum Petropolitanae</em> 8: 128-40.
+</div>
+<div id="ref-hamilton1857icosian" class="csl-entry" role="listitem">
+Hamilton, William Rowan. 1857. <span>«Memorandum respecting a new system of roots of unity (Icosian Game)»</span>. <em>Philosophical Magazine</em> 14 (96): 496.
+</div>
+<div id="ref-karp1972reducibility" class="csl-entry" role="listitem">
+Karp, Richard M. 1972. <span>«Reducibility among combinatorial problems»</span>. En <em>Complexity of Computer Computations</em>, 85-103. Springer.
+</div>
+<div id="ref-kwan1962programming" class="csl-entry" role="listitem">
+Kwan, Mei-Ko. 1962. <span>«Graphic programming using odd or even points»</span>. <em>Chinese Mathematics</em> 1: 273-77.
+</div>
+<div id="ref-miller1960integer" class="csl-entry" role="listitem">
+Miller, Clair E, Albert W Tucker, y Richard A Zemlin. 1960. <span>«Integer programming formulation of traveling salesman problems»</span>. <em>Journal of the ACM (JACM)</em> 7 (4): 326-29.
+</div>
+<div id="ref-ore1960note" class="csl-entry" role="listitem">
+Ore, Øystein. 1960. <span>«Note on Hamilton circuits»</span>. <em>The American Mathematical Monthly</em> 67 (1): 55-55.
+</div>
+<div id="ref-papadimitriou1998combinatorial" class="csl-entry" role="listitem">
+Papadimitriou, Christos H, y Kenneth Steiglitz. 1998. <em>Combinatorial Optimization: Algorithms and Complexity</em>. Courier Corporation.
+</div>
+<div id="ref-wolsey1998integer" class="csl-entry" role="listitem">
+Wolsey, Laurence A. 1998. <em>Integer Programming</em>. John Wiley &amp; Sons.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tema9.html" class="pagination-link" aria-label="Emparejamientos en redes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Emparejamientos en redes</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./conclusiones.html" class="pagination-link" aria-label="Conclusiones">
+        <span class="nav-page-text">Conclusiones</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Categorize callouts: Quarto puts the title in the `title` attribute of the .callout div
+  document.querySelectorAll(".callout[title]").forEach(function (callout) {
+    var text = callout.getAttribute("title").trim().toLowerCase();
+
+    // Si ya es warning o caution, siempre es advertencia (sin importar el título)
+    if (callout.classList.contains("callout-warning") || callout.classList.contains("callout-caution")) {
+      callout.setAttribute("data-kind", "advertencia");
+    } else if (text.includes("objetivo") && (text.includes("aprendizaje") || text.startsWith("objetivo"))) {
+      callout.setAttribute("data-kind", "objetivos");
+    } else if (/^\s*(teorema|demostración|demostracion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "teorema");
+    } else if (/^\s*lema\b/.test(text)) {
+      callout.setAttribute("data-kind", "lema");
+    } else if (/^\s*corolario\b/.test(text)) {
+      callout.setAttribute("data-kind", "corolario");
+    } else if (/^\s*(definición|definicion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "definicion");
+    } else if (/^\s*(ejemplo|ejemplos)\b/.test(text)) {
+      callout.setAttribute("data-kind", "ejemplo");
+    } else if (/^\s*(esquema|propiedades)\b/.test(text)) {
+      callout.setAttribute("data-kind", "esquema");
+    } else if (/^\s*(advertencia|precaución|precaucion|importancia|limitación|limitacion)\b/.test(text) || text.includes("recíproco") || text.includes("no es cierto")) {
+      callout.setAttribute("data-kind", "advertencia");
+    } else if (/^\s*(nota|observación|observacion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "nota");
+    }
+  });
+
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+
+  var links = Array.from(toc.querySelectorAll("a.nav-link"));
+  if (links.length === 0) return;
+
+  function getTargets() {
+    return links.map(function (link) {
+      var targetId = link.getAttribute("data-scroll-target") || link.getAttribute("href");
+      if (targetId && targetId.startsWith("#")) {
+        return document.getElementById(decodeURIComponent(targetId.substring(1)));
+      }
+      return null;
+    });
+  }
+
+  var targets = getTargets();
+
+  function updateTOC() {
+    var scrollPos = window.scrollY || document.documentElement.scrollTop || 0;
+    var windowHeight = window.innerHeight;
+    var docHeight = document.documentElement.scrollHeight;
+
+    var activeIdx = -1;
+
+    if (scrollPos + windowHeight >= docHeight - 20) {
+      activeIdx = targets.length - 1;
+    } else {
+      for (var i = targets.length - 1; i >= 0; i--) {
+        if (targets[i]) {
+          var top = targets[i].getBoundingClientRect().top + scrollPos;
+          if (scrollPos >= top - 140) {
+            activeIdx = i;
+            break;
+          }
+        }
+      }
+    }
+
+    if (activeIdx < 0) activeIdx = 0;
+
+    links.forEach(function (link, idx) {
+      if (idx === activeIdx) {
+        link.classList.add("active");
+        link.style.color = "#0284c7";
+        link.style.fontWeight = "bold";
+      } else {
+        link.classList.remove("active");
+        link.style.color = "";
+        link.style.fontWeight = "";
+      }
+    });
+
+    // Handle accordion collapse/expand
+    var collapses = toc.querySelectorAll("ul.collapse");
+    collapses.forEach(function (c) {
+      c.classList.remove("show");
+      c.style.display = "none";
+    });
+
+    var activeLink = links[activeIdx];
+    if (activeLink) {
+      // Show parent collapse if inside a subsection
+      var parentUl = activeLink.closest("ul.collapse");
+      if (parentUl) {
+        parentUl.classList.add("show");
+        parentUl.style.display = "block";
+      }
+      // Show child collapse if active link is a main section with sub-items
+      var parentLi = activeLink.closest("li");
+      if (parentLi) {
+        var childUl = parentLi.querySelector("ul.collapse");
+        if (childUl) {
+          childUl.classList.add("show");
+          childUl.style.display = "block";
+        }
+      }
+    }
+  }
+
+  window.addEventListener("scroll", updateTOC);
+  window.addEventListener("resize", updateTOC);
+  setTimeout(updateTOC, 100);
+});
+</script>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

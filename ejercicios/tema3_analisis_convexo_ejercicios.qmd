@@ -1,0 +1,84 @@
+# Ejercicios del Tema 3: análisis convexo
+
+## Ejercicio 1: combinaciones convexas y conjuntos convexos
+
+En la teoría de la optimización convexa, la intersección de conjuntos convexos juega un papel fundamental al definir regiones factibles que combinan múltiples restricciones.
+
+Se pide:
+
+1. Demostrar analíticamente que la intersección de una familia arbitraria (posiblemente infinita) de conjuntos convexos $\mathcal{S}_i \subseteq \mathbb{R}^n$, denotada por $\mathcal{S} = \bigcap_{i \in I} \mathcal{S}_i$, es a su vez un conjunto convexo.
+2. Mostrar mediante un contraejemplo gráfico o analítico en $\mathbb{R}^2$ que la unión de dos conjuntos convexos $\mathcal{S}_1 \cup \mathcal{S}_2$ no es necesariamente un conjunto convexo.
+
+---
+
+## Ejercicio 2: operaciones algebraicas que preservan la convexidad
+
+Demostrar las siguientes propiedades relativas a la preservación de la convexidad de conjuntos bajo operaciones afines y algebraicas:
+
+1. Sean $\mathcal{S}_1, \mathcal{S}_2 \subseteq \mathbb{R}^n$ dos conjuntos convexos. Demostrar que su **suma de Minkowski**, definida como:
+   $$ \mathcal{S}_1 + \mathcal{S}_2 = \{ x_1 + x_2 \mid x_1 \in \mathcal{S}_1, \ x_2 \in \mathcal{S}_2 \} $$
+   es un conjunto convexo.
+2. Sea $\mathcal{S} \subseteq \mathbb{R}^n$ un conjunto convexo, y sea $f: \mathbb{R}^n \to \mathbb{R}^m$ una transformación afín dada por $f(x) = Ax + b$, donde $A \in \mathbb{R}^{m \times n}$ y $b \in \mathbb{R}^m$. Demostrar que la imagen del conjunto, $f(\mathcal{S}) = \{ Ax + b \mid x \in \mathcal{S} \}$, es un conjunto convexo en $\mathbb{R}^m$.
+
+---
+
+## Ejercicio 3: puntos extremos y teorema de Minkowski-Weyl
+
+Considerar el conjunto de puntos $\mathcal{S} \subseteq \mathbb{R}^2$ definido por la inecuación de la norma $L_1$:
+$$ \mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid |x| + |y| \le 1 \} $$
+
+Se pide:
+
+1. Dibujar o describir geométricamente el conjunto $\mathcal{S}$ en el plano real $\mathbb{R}^2$, determinando si es un conjunto convexo y acotado (un politopo).
+2. Identificar todos los **puntos extremos** (o vértices) del conjunto $\mathcal{S}$ aplicando la definición formal de punto extremo (aquellos puntos que no pueden expresarse como combinación convexa propia de otros dos puntos distintos del conjunto).
+3. Demostrar que cualquier punto interior o de la frontera de $\mathcal{S}$ (por ejemplo, el punto $(0.2, 0.5)^T$) se puede expresar como una combinación convexa de sus puntos extremos, de acuerdo con el Teorema de Representación de Minkowski.
+
+---
+
+## Ejercicio 4: caracterización de primer orden de funciones convexas
+
+Sea $f: \mathcal{S} \to \mathbb{R}$ una función continuamente diferenciable sobre un conjunto abierto y convexo $\mathcal{S} \subseteq \mathbb{R}^n$.
+
+Se pide:
+
+1. Demostrar analíticamente el teorema de caracterización de primer orden, el cual establece que $f$ es convexa en $\mathcal{S}$ si y solo si:
+   $$ f(y) \ge f(x) + \nabla f(x)^T(y - x), \quad \forall x, y \in \mathcal{S} $$
+   *Ayuda:* Para la implicación directa, utiliza el límite de la definición de convexidad cuando el parámetro de combinación $\lambda \to 0^+$.
+2. Utilizando la desigualdad anterior, demostrar que si $f$ es convexa en $\mathcal{S}$ y existe un punto $x^* \in \mathcal{S}$ tal que el gradiente se anula ($\nabla f(x^*) = 0$), entonces $x^*$ es un **mínimo global** de la función en $\mathcal{S}$.
+
+---
+
+## Ejercicio 5: caracterización de segundo orden de la curvatura
+
+Estudiar analíticamente la convexidad o concavidad local y global de las siguientes funciones mediante el cálculo de sus matrices hessianas y el análisis de sus menores principales o autovalores:
+
+1. $f(x, y) = x^2 y^2 - x - y$ definida sobre el dominio global $\mathbb{R}^2$.
+2. $f(x, y) = -\ln(4 - x^2 - y^2)$ definida sobre el disco abierto $\mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid x^2 + y^2 < 4 \}$.
+3. $f(x, y, z) = x^2 + 2y^2 + 5z^2 + 2xy - 4yz - 2x + 6$ definida sobre $\mathbb{R}^3$.
+
+---
+
+## Ejercicio 6: epígrafe, subgradientes y subdiferencial
+
+Sea la función real no diferenciable $f: \mathbb{R} \to \mathbb{R}$ definida por:
+$$ f(x) = |x| + |x - 1| $$
+
+Se pide:
+
+1. Trazar la gráfica de la función $f(x)$ en el intervalo $[-1, 2]$ y describir analíticamente su **epígrafe** $\text{epi}(f)$.
+2. Aplicar la definición de subgradiente para calcular el conjunto **subdiferencial** $\partial f(x)$ en los puntos $x_0 = 0$, $x_0 = 0.5$ y $x_0 = 1$.
+3. Explicar la relación entre el conjunto subdiferencial y la optimización no diferenciable. Comprobar si se cumple la condición de optimalidad global ($0 \in \partial f(x^*)$) en el intervalo de puntos de mínimo de la función.
+
+---
+
+## Ejercicio 7: convexidad generalizada: funciones cuasiconvexas y pseudoconvexas
+
+El análisis de la convexidad generalizada nos permite estudiar la unicidad del óptimo en funciones que no cumplen con la definición estricta de convexidad pero que conservan propiedades equivalentes para algoritmos de optimización.
+
+Se pide:
+
+1. Considerar la función cúbica $f(x) = x^3 - 3x$ en $\mathbb{R}$. Identificar las regiones o intervalos donde la función es convexa, cóncava, cuasiconvexa y pseudoconvexa.
+2. Considerar la función de campana inversa $g(x) = \frac{-1}{x^2 + 1}$ definida en $\mathbb{R}$.
+   * Demostrar que $g(x)$ **no** es una función convexa sobre $\mathbb{R}$ analizando su segunda derivada.
+   * Demostrar que $g(x)$ es **cuasiconvexa** y **pseudoconvexa** en todo $\mathbb{R}$.
+   * Analizar qué consecuencias tiene este hecho para la convergencia de algoritmos de búsqueda local (como el método del descenso de gradiente) aplicados a esta función.

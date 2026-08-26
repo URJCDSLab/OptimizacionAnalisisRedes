@@ -1,0 +1,724 @@
+# Programación lineal y cuadrática
+
+Las condiciones de Karush-Kuhn-Tucker (KKT) adquieren una relevancia excepcional al aplicarse sobre problemas con estructuras matemáticas específicas, como la **Programación Lineal (LP)** y la **Programación Cuadrática (QP)**. En ambos casos, las restricciones son afines, lo que garantiza que las cualificaciones de restricciones (como LICQ) se verifiquen de forma natural en cualquier punto factible. Además, cuando la función objetivo es convexa, las condiciones necesarias de KKT se convierten también en suficientes, proporcionando un marco algebraico cerrado para hallar y certificar el óptimo global.
+
+En este capítulo, analizaremos la relación profunda entre las condiciones KKT y la dualidad lineal, explicaremos la interpretación económica de las variables duales como precios sombra, clasificaremos la correspondencia de los distintos tipos de óptimos lineales mediante ilustraciones geométricas paso a paso, describiremos la estructura matricial de la programación cuadrática y detallaremos el método del Símplex de Wolfe para resolver problemas cuadráticos convexos.
+
+::: {.callout-important title="Objetivos de aprendizaje"}
+Al finalizar este capítulo, serás capaz de:
+
+1. **Deducir y justificar** la equivalencia entre los multiplicadores KKT de un problema de programación lineal y las variables óptimas de su problema dual asociado.
+2. **Demostrar formalmente** el teorema de dualidad débil en programación lineal y deducir sus consecuencias sobre el salto dual y la no acotación.
+3. **Interpretar económicamente** las variables duales como precios sombra (*shadow prices*) de los términos independientes.
+4. **Clasificar los tipos de óptimos** en programación lineal atendiendo a la unicidad, degeneración y acotación tanto del problema primal como del dual.
+5. **Formular el sistema KKT** para problemas de programación cuadrática (QP) en forma matricial.
+6. **Aplicar el algoritmo del Símplex de Wolfe** (regla de entrada restringida) para resolver de forma exacta problemas cuadráticos convexos.
+:::
+
+
+## Programación lineal (LP)
+
+La **Programación Lineal (LP)** representa la piedra angular de la optimización matemática moderna y de la investigación operativa [@hillier2010investigacion; @bazaraa2011linear; @luenberger2015linear]. Consiste en la optimización (minimización o maximización) de un criterio de rendimiento lineal expresado por un vector de costes $c \in \mathbb{R}^n$, sobre un conjunto de soluciones factibles delimitado exclusivamente por hiperplanos y semiespacios afines dados por restricciones de igualdad o desigualdad lineal.
+
+Desde una perspectiva geométrica, el conjunto factible de un problema de programación lineal constituye un **poliedro convexo** (un politopo si está acotado). Como consecuencia directa de la convexidad del conjunto y de la linealidad de la función objetivo, la programación lineal posee dos propiedades geométricas fundamentales:
+
+1. **Ausencia de óptimos locales strictly disjuntos**: Todo mínimo local es automáticamente un mínimo global.
+2. **Teorema Fundamental de la Programación Lineal**: Si el problema admite solución óptima finita y la región factible posee al menos un punto extremo (vértice), existe al menos un **vértice extremo** del poliedro donde se alcanza dicho óptimo global.
+
+Como se ilustra en la @fig-region-factible-lp, la geometría de la programación lineal se caracteriza por una región factible poliédrica cuyos bordes son las restricciones afines activas, sobre la cual la función objetivo desplaza sus curvas de nivel hiperplánicas en la dirección de máximo descenso dictada por el vector gradiente del coste $c$.
+
+![Región factible y dirección de optimización en un problema de programación lineal](images/region_factible_lp.png){#fig-region-factible-lp fig-align="center" width="70%"}
+
+### Dualidad en programación lineal
+
+El concepto de dualidad constituye uno de los pilares más profundos e insustituibles de la optimización lineal. A todo problema de programación lineal, denominado **problema primal**, se le asocia de forma simétrica e involutiva otro problema lineal estrechamente vinculado denominado **problema dual**. La teoría de la dualidad establece que ambos problemas observan la misma situación de optimización desde dos perspectivas complementarias: mientras que el problema primal busca asignar niveles de actividad para minimizar un coste total (o maximizar un beneficio) sujeto a restricciones afines generales, el problema dual busca determinar la valoración económica óptima de dichos términos independientes.
+
+Analíticamente, el problema primal original (P) se formula en su forma canónica de minimización como:
+
+$$
+\begin{aligned}
+\min_{x \in \mathbb{R}^n} \quad & c^T x \\
+\text{sujeto a} \quad & A x \ge b \\
+& x \ge 0
+\end{aligned}
+$$
+
+donde $x \in \mathbb{R}^n$ representa el vector de variables primales, $c \in \mathbb{R}^n$ el vector de costes, $A \in \mathbb{R}^{m \times n}$ la matriz de coeficientes de las restricciones y $b \in \mathbb{R}^m$ la términos independientes. 
+
+Asociando un vector de multiplicadores o variables duales $w \in \mathbb{R}^m$ ($w \ge 0$) a las $m$ restricciones afines generales $A x \ge b$, se construye de forma natural el **problema dual (D)** equivalente en forma canónica de maximización:
+
+$$
+\begin{aligned}
+\max_{w \in \mathbb{R}^m} \quad & b^T w \\
+\text{sujeto a} \quad & A^T w \le c \\
+& w \ge 0
+\end{aligned}
+$$
+
+Esta relación dual posee la propiedad simétrica fundamental de involución: el problema dual del problema dual es exactamente el problema primal original.
+
+La relación entre los valores objetivos de ambos problemas queda establecida fundamentalmente por el teorema de dualidad débil:
+
+::: {.callout-important title="Teorema: Teorema de dualidad débil en LP"}
+Para cualquier solución factible $x$ del problema primal (P) y cualquier solución factible $w$ del problema dual (D), el valor de la función objetivo dual es una cota inferior del valor de la función objetivo primal:
+$$ b^T w \le c^T x $$
+
+*Demostración*:
+
+1. **Factibilidad primal**: Sea $x$ una solución factible en (P), lo que implica que $A x \ge b$. Multiplicando por la izquierda por el vector dual no negativo $w^T \ge 0$ ($w$ factible dual), se preserva el sentido de la desigualdad:
+   $$ w^T b \le w^T A x $$
+2. **Factibilidad dual**: Sea $w$ una solución factible en (D), lo que implica que $A^T w \le c \iff w^T A \le c^T$. Multiplicando por la derecha por el vector primal no negativo $x \ge 0$, se preserva el sentido de la desigualdad:
+   $$ w^T A x \le c^T x $$
+3. **Encadenamiento de cotas**: Unificando ambas desigualdades vectoriales:
+   $$ b^T w \le w^T A x \le c^T x \implies b^T w \le c^T x. \quad \blacksquare $$
+:::
+
+La interpretación geométrica y algebraica del Teorema de Dualidad Débil establece que el valor óptimo del problema primal está acotado inferiormente por el valor de cualquier solución factible del problema dual y viceversa. De este principio fundamental se derivan dos consecuencias directas para el análisis de optimalidad:
+
+::: {.callout-note title="Consecuencias fundamentales de la dualidad débil"}
+Como consecuencia directa de la desigualdad de dualidad débil $b^T w \le c^T x$:
+
+1. **Criterio de Certificación de Optimalidad (Salto Dual Nulo)**: Si para algún par de soluciones factibles $x^*$ (primal) y $w^*$ (dual) el valor de las respectivas funciones objetivo coincide:
+   $$ b^T w^* = c^T x^* $$
+   entonces $x^*$ es de forma garantizada una **solución óptima del problema primal (P)** y $w^*$ es una **solución óptima del problema dual (D)**.
+2. **Relación de No Acotación e Infactibilidad Recíproca**: Si uno de los dos problemas posee una solución **NO acotada** (por ejemplo, el primal de minimización tiende a $-\infty$ o el dual de maximización tiende a $+\infty$), el otro problema **no tiene solución** (es decir, su región factible es vacía).
+:::
+
+### Condiciones KKT en programación lineal
+
+Aunque los problemas de optimización lineal se resuelven habitualmente en la práctica mediante algoritmos de pivote (como el método del Símplex) o métodos de punto interior, las condiciones de Karush-Kuhn-Tucker (KKT) constituyen la piedra angular teórica del área. En el ámbito lineal, el marco de KKT conecta de manera natural el problema primal con su dual, proporciona la fundamentación analítica de los precios sombra y permite certificar formalmente la optimalidad global de una solución.
+
+Para estudiar estas condiciones con el máximo rigor y claridad, expresamos en primer lugar el problema primal (P) en su formato estándar de minimización, con todas las restricciones de desigualdad afines reordenadas en la forma canónica $g_i(x) \le 0$:
+
+$$
+\begin{aligned}
+\min_{x \in \mathbb{R}^n} \quad & c^T x && (1) \\
+\text{sujeto a} \quad & b - A x \le 0 && (2) \\
+& -x \le 0 && (3)
+\end{aligned}
+$$
+
+En esta formulación matricial, identificamos claramente los cuatro elementos fundamentales del modelo: el vector $x = (x_1, \dots, x_n)^T \in \mathbb{R}^n$ representa las $n$ **variables de decisión**, $c = (c_1, \dots, c_n)^T \in \mathbb{R}^n$ denota el vector de **costes o coeficientes objetivos**, $A \in \mathbb{R}^{m \times n}$ es la **matriz de coeficientes de las restricciones** (cuya $i$-ésima fila se denota como vector fila por $a^i$) y $b = (b_1, \dots, b_m)^T \in \mathbb{R}^m$ especifica la **vector de términos independientes**. Cabe recordar que cualquier problema lineal arbitrario (con maximizaciones, igualdades o variables libres) se puede transformar algebraicamente a este formato canónico de minimización.
+
+Antes de construir la función Lagrangiana y derivar las ecuaciones del sistema, conviene analizar las propiedades analíticas y topológicas que justifican la validez y suficiencia de este marco en la programación lineal.
+
+::: {.callout-note title="Propiedades analíticas y suficiencia de KKT en LP" data-kind="nota"}
+La estructura afín de la programación lineal le otorga propiedades topológicas excepcionales que simplifican notablemente el análisis:
+
+1. **Convexidad del dominio y la función**: La región factible $S = \{x \in \mathbb{R}^n \mid A x \ge b, x \ge 0\}$ está definida como la intersección de $m + n$ semiespacios afines cerrados y, por tanto, constituye un poliedro convexo. Asimismo, la función objetivo $f(x) = c^T x$ es afín (simultáneamente convexa y cóncava), lo que garantiza que cualquier mínimo local sea automáticamente un óptimo global.
+2. **Suficiencia de las condiciones KKT**: Dado que las restricciones son afines, las cualificaciones de restricciones (como LICQ o la condición de Slater) se satisfacen de forma trivial en todo el espacio. En consecuencia, en programación lineal las condiciones de Karush-Kuhn-Tucker son **necesarias y suficientes** para la optimización global.
+:::
+
+Una vez fundamentada la suficiencia teórica del sistema KKT, procedemos a derivar explícitamente sus ecuaciones. Para ello, calculamos en primer lugar los gradientes individuales de la función objetivo y de cada conjunto de restricciones de desigualdad involucrados en (1)–(3):
+
+- **Gradiente de la función objetivo**: La función afín $f(x) = c^T x$ presenta un gradiente constante respecto al vector de variables primales, dado directamente por el vector de costes:
+  $$ \nabla f(x) = c $$
+
+- **Gradientes de las $m$ restricciones generales de desigualdad**: Reescribiendo las desigualdades generales (2) como $g_i(x) = b_i - a^i x \le 0$ para $i = 1, \dots, m$, sus gradientes vienen dados por la traspuesta negativa de cada fila de la matriz $A$:
+  $$ \nabla g_i(x) = -(a^i)^T, \quad i = 1, \dots, m $$
+  donde el vector fila $a^i$ representa la $i$-ésima fila de la matriz de coeficientes $A$.
+
+- **Gradientes de las $n$ restricciones de no negatividad**: Reescritas las desigualdades (3) como $g_{m+j}(x) = -x_j \le 0$ para $j = 1, \dots, n$, sus gradientes equivalen al opuesto de los vectores de la base canónica:
+  $$ \nabla g_{m+j}(x) = -e^j, \quad j = 1, \dots, n $$
+  donde $e^j$ denota el $j$-ésimo vector unitario de la base canónica de $\mathbb{R}^n$.
+
+Con estos gradientes calculados, construimos la función Lagrangiana del problema asociando un vector de multiplicadores duales $u = (u_1, \dots, u_m)^T \ge 0$ a las restricciones generales de desigualdad (2), y un vector de multiplicadores $v = (v_1, \dots, v_n)^T \ge 0$ a las restricciones de no negatividad (3):
+$$
+L(x, u, v) = c^T x + \sum_{i=1}^m u_i (b_i - a^i x) + \sum_{j=1}^n v_j (-x_j) = c^T x + u^T (b - A x) - v^T x
+$$
+
+Al imponer la condición de estacionariedad anulando el gradiente de la Lagrangiana respecto a $x$, tenemos $\nabla_x L(x, u, v) = c - A^T u - v = 0$. Juntando esta relación con la factibilidad de las soluciones y el principio de holgura complementaria, un triplete de vectores $(x, u, v)$ satisface las **condiciones necesarias y suficientes de Karush-Kuhn-Tucker** si y solo si verifica de forma simultánea:
+
+1. **Factibilidad primal**: Exige que el vector $x$ sea una solución factible que cumpla todas las restricciones afines generales y de no negatividad del problema original:
+   $$ A x \ge b, \qquad x \ge 0 $$
+2. **Factibilidad dual y estacionariedad**: Requiere el equilibrio entre el gradiente del coste y los gradientes de las restricciones ponderados por los multiplicadores nonegativos:
+   $$ c - A^T u - v = 0 \quad \text{con } u \ge 0 \text{ y } v \ge 0 $$
+   donde $u$ y $v$ representan los multiplicadores de Lagrange asociados a las restricciones afines generales (2) y de no negatividad (3), respectivamente.
+3. **Holgura complementaria**: Obliga a que el producto de cada multiplicador dual por la holgura de su correspondiente restricción primal sea nulo:
+   $$
+   \begin{aligned}
+   u_i (b_i - a^i x) = 0, \quad & \forall i = 1, \dots, m \\
+   v_i x_i = 0, \quad & \forall i = 1, \dots, n
+   \end{aligned}
+   $$
+
+::: {.callout-note title="Estructura matricial y equivalencia dual del sistema KKT" data-kind="esquema"}
+El sistema KKT en programación lineal establece una equivalencia directa entre el espacio primal y el espacio dual a través de tres componentes clave:
+
+- **Factibilidad primal**: $A x \ge b, \quad x \ge 0 \implies$ Garantiza la pertenencia de $x$ al poliedro factible del problema primal (P).
+- **Factibilidad dual (estacionariedad)**: $c - A^T u - v = 0 \quad \text{con } u \ge 0, v \ge 0 \implies$ Al despejar $v = c - A^T u \ge 0$, exige la factibilidad del multiplicador $u$ en el problema dual (D), esto es, $A^T u \le c$ con $u \ge 0$.
+- **Holgura complementaria**: $u_i (b_i - a^i x) = 0 \quad (\forall i)$ y $v_i x_i = 0 \quad (\forall i) \implies$ Vincula el holgura de las restricciones con la valoración económica marginal de las restricciones.
+:::
+
+La verdadera potencia analítica del sistema KKT radica en que funciona como un puente matemático directo entre el problema primal y su problema dual. Para evidenciar esta conexión fundamental, situamos en paralelo la formulación canónica del problema primal (P) y la de su problema dual asociado (D):
+
+$$
+\text{Primal (P):} \quad \begin{aligned} \min_{x \in \mathbb{R}^n} \quad & c^T x \\ \text{sujeto a} \quad & A x \ge b \\ & x \ge 0 \end{aligned}
+\qquad \qquad
+\text{Dual (D):} \quad \begin{aligned} \max_{w \in \mathbb{R}^m} \quad & b^T w \\ \text{sujeto a} \quad & A^T w \le c \\ & w \ge 0 \end{aligned}
+$$
+
+A continuación, analizamos las propiedades de cualquier triplete de vectores $(x, u, v)$ que satisfaga el sistema de condiciones KKT expresado anteriormente. Al examinar cada condición, descubrimos dos resultados de enorme calado:
+
+En primer lugar, la **factibilidad primal** del sistema KKT ($A x \ge b, x \ge 0$) asegura directamente que el vector $x$ es una solución factible para el problema primal (P).
+
+En segundo lugar, despejando el vector de multiplicadores $v$ de la condición de estacionariedad obtenemos $v = c - A^T u$. Como las condiciones KKT exigen la no negatividad $v \ge 0$, la sustitución directa produce la siguiente cadena formal de implicaciones equivalentes:
+
+$$
+\left. \begin{aligned} c - A^T u - v &= 0 \\ u, v &\ge 0 \end{aligned} \right\} \implies \left. \begin{aligned} v &= c - A^T u \\ u, v &\ge 0 \end{aligned} \right\} \implies \begin{aligned} c - A^T u &\ge 0 \\ u &\ge 0 \end{aligned} \iff \begin{aligned} A^T u &\le c \\ u &\ge 0 \end{aligned}
+$$
+
+Este desarrollo demuestra formalmente que el vector de multiplicadores KKT $u \in \mathbb{R}^m$ verifica las restricciones generales de desigualdad y de signo del problema dual, lo que significa que **$u$ es automáticamente una solución factible para el problema dual (D)**.
+
+Una vez demostrada la factibilidad simultánea de $x$ en (P) y de $u$ en (D), el siguiente paso decisivo consiste en comparar los valores de sus respectivas funciones objetivo, $c^T x$ y $b^T u$. Para ello, relacionamos la ecuación de estacionariedad con la holgura complementaria mediante dos operaciones algebraicas clave:
+
+Primero, premultiplicamos la ecuación de estacionariedad $c - A^T u - v = 0$ por la izquierda por el vector fila de variables primales no negativas $x^T \ge 0$:
+
+$$
+c - A^T u - v = 0 \implies x^T (c - A^T u - v) = 0 \implies c^T x - u^T A x - v^T x = 0 \qquad (4)
+$$
+
+Segundo, sumamos las condiciones de holgura complementaria sobre todas sus componentes $i = 1, \dots, m$ y $j = 1, \dots, n$, lo que nos permite agregar las ecuaciones individuales en expresiones matriciales compactas:
+
+$$
+\left. \begin{aligned} u_i (b_i - a^i x) = 0 \quad \forall i \\ v_i x_i = 0 \quad \forall i \end{aligned} \right\} \implies \left. \begin{aligned} \sum_{i=1}^m u_i (b_i - a^i x) = 0 \\ \sum_{i=1}^n v_i x_i = 0 \end{aligned} \right\} \implies \begin{aligned} b^T u = u^T A x \\ v^T x = 0 \end{aligned}
+$$
+
+Tercero, sustituimos las identidades resultantes $u^T A x = b^T u$ y $v^T x = 0$ directamente en la relación de estacionariedad premultiplicada (4). El término de acoplamiento $u^T A x$ se reemplaza por el coste dual $b^T u$ y el término $v^T x$ se anula, conduciendo a la igualdad exacta de valores objetivos:
+
+$$
+c^T x - b^T u = 0 \iff c^T x = b^T u
+$$
+
+Esta coincidencia prueba de forma categórica que en cualquier punto que satisfaga el sistema KKT, el salto dual (la diferencia entre el coste primal $c^T x$ y el beneficio dual $b^T u$) es exactamente cero.
+
+Sintetizando estos tres hallazgos analíticos (factibilidad primal de $x$, factibilidad dual de $u$ y salto dual nulo), llegamos al teorema central que permite certificar formalmente la optimalidad global:
+
+::: {.callout-important title="Teorema: Certificación de optimalidad mediante condiciones KKT" data-kind="teorema"}
+Dada una solución $(x, u, v)$ que satisface las condiciones de Karush-Kuhn-Tucker de un problema de programación lineal:
+
+1. **Factibilidad primal**: El vector de decisiones $x$ es una solución factible para el problema primal (P).
+2. **Factibilidad dual**: El vector de multiplicadores KKT $u$ es una solución factible para el problema dual (D).
+3. **Salto dual nulo**: El valor de la función objetivo primal coincide exactamente con el de la función objetivo dual ($c^T x = b^T u$).
+
+**Conclusión**: En virtud del Teorema de Dualidad Débil, al coincidir el valor de la función objetivo primal $c^T x$ con el de una solución factible dual $b^T u$, queda demostrado formalmente que **$x$ es una solución óptima global del problema primal (P)** y **$u$ es una solución óptima global del problema dual (D)**.
+:::
+
+### Interpretación económica y precios sombra
+
+En el ámbito de la economía y la investigación operativa aplicadas a la gestión empresarial, la programación lineal se utiliza habitualmente para modelar problemas de planificación de la producción sujetos a restricciones de capacidad o presupuesto. En este marco, las variables primales $x_j$ representan los niveles de actividad (cantidades a producir de cada bien o servicio), mientras que los términos independientes $b_i$ cuantifican la disponibilidad máxima de los términos independientes.
+
+Los multiplicadores duales $u_i^*$ asociados a las restricciones generales de desigualdad en las condiciones KKT admiten una interpretación económica fundamental: representan los **precios sombra** (*shadow prices*) o valores marginales de los términos independientes. Matemáticamente, el precio sombra $u_i^*$ mide la tasa instantánea de variación del valor óptimo de la función objetivo ante un incremento marginal unitario en la término independiente $b_i$:
+
+$$ u_i^* = \frac{\partial (c^T x^*)}{\partial b_i} $$
+
+Bajo esta perspectiva económica, la condición de holgura complementaria del sistema KKT, $u_i^* (b_i - a^i x^*) = 0$, formaliza una regla de asignación de términos independientes sumamente intuitiva:
+
+- **Restricción inactiva o excedentaria**: Si en la solución óptima la restricción no se satura ($a^i x^* < b_i \implies b_i - a^i x^* > 0$), existe una holgura en la restricción $i$. Incrementar el término independiente de una restricción inactiva no genera beneficio adicional ni reduce el coste óptimo. Por tanto, su valor marginal o precio sombra es nulo ($u_i^* = 0$).
+- **Restricción activa o limitante**: Si una restricción posee un precio sombra estrictamente positivo ($u_i^* > 0$), significa que dicha restricción limita la región factible y restringe la capacidad de optimización del sistema. Por consiguiente, la holgura debe anularse necesariamente en el óptimo ($b_i - a^i x^* = 0$).
+
+
+### Clasificación de óptimos y relaciones de dualidad
+
+La geometría del poliedro factible $S$ y la independencia lineal de los gradientes de las restricciones activas en el punto óptimo determinan la estructura de las soluciones tanto del problema primal como de su problema dual asociado. Para analizar de forma rigurosa la caracterización de las soluciones mediante las condiciones KKT, conviene clasificar en primer lugar las propiedades analíticas de la solución:
+
+1. **Finitud y existencialidad de la solución**:
+   - **Solución óptima finita**: El valor óptimo de la función objetivo se alcanza en un valor real acotado. Ocurre siempre que el problema es factible y la función objetivo está acotada inferiormente en la región factible.
+   - **Problema no acotado**: El valor objetivo decrece hacia $-\infty$ (en minimización) a lo largo de un rayo o dirección de recesión no acotada del poliedro.
+   - **Problema no factible**: La región factible es vacía debido a la incompatibilidad de las restricciones.
+
+2. **Unicidad frente a multiplicidad de óptimos**:
+   - **Solución única**: El mínimo global se alcanza exclusivamente en un único vértice o punto del poliedro.
+   - **Múltiples soluciones óptimas**: El vector de costes es ortogonal a una arista o cara de dimensión $d \ge 1$ del poliedro. El conjunto de óptimos es el casco convexo de los vértices extremos óptimos más, en su caso, una combinación lineal positiva de direcciones extremas óptimas.
+
+3. **Degeneración primal y dual**:
+   - **Degeneración primal**: En un espacio de dimensión $n$, una solución es **no degenerada** si en ella se cortan exactamente $n$ restricciones activas linealmente independientes (verificando la cualificación LICQ). Es **degenerada** si convergen más de $n$ restricciones activas (sobredeterminación geométrica), rompiendo la independencia lineal de los gradientes activos. En tal escenario, el punto satisface las condiciones generales de Fritz John (FJ) y admite infinitos vectores de multiplicadores KKT válidos.
+   - **Degeneración dual**: Una solución del problema dual es **degenerada** si presenta al menos un multiplicador dual nulo ($u_i^* = 0$) asociado a una restricción primal estrictamente activa ($b_i - a^i x^* = 0$). Analíticamente, esto indica que la restricción activa es "prescindible" para equilibrar la dirección de descenso $-\nabla f$, lo que en la geometría dual corresponde a una solución básica dual con componentes nulas adicionales.
+
+::: {.callout-tip title="Ejemplo: Análisis por casos de las condiciones KKT en programación lineal" data-kind="ejemplo" collapse="true"}
+A continuación se ilustra la relación entre la geometría del primal y del dual analizando seis escenarios representativos.
+
+**Caso 1: El problema tiene solución óptima finita única y no degenerada**
+
+Consideremos el problema de minimización con tres restricciones generales de desigualdad:
+$$
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad & -x - 2y \\
+\text{sujeto a} \quad & x + y - 4 \le 0 \quad (g_1) \\
+& -x + y - 2 \le 0 \quad (g_2) \\
+& 2x + y - 7 \le 0 \quad (g_3) \\
+& x, y \ge 0
+\end{aligned}
+$$
+
+Como se ilustra en la @fig-lp-caso1, el vector de descenso $-\nabla f = (1,2)^T$ desplaza el óptimo al vértice extremo $\bar{x} = (1,3)$, donde se alcanza un coste mínimo finito de $f(1,3) = -7$. En el punto $(1,3)$, las únicas restricciones activas son $g_1(1,3) = 0$ y $g_2(1,3) = 0$. Al ser $n=2$ la dimensión del espacio y cortarse exactamente $n=2$ restricciones activas cuyos gradientes $\nabla g_1 = (1,1)^T$ y $\nabla g_2 = (-1,1)^T$ forman una base linealmente independiente en $\mathbb{R}^2$, la solución primal es **finita, única y no degenerada**. 
+
+Al plantear la condición de estacionariedad KKT $-\nabla f(1,3) = u_1 \nabla g_1 + u_2 \nabla g_2$:
+$$
+\begin{pmatrix} 1 \\ 2 \end{pmatrix} = u_1 \begin{pmatrix} 1 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} -1 \\ 1 \end{pmatrix} \implies u_1^* = \frac{3}{2} > 0, \quad u_2^* = \frac{1}{2} > 0, \quad u_3^* = 0
+$$
+Dado que los gradientes de las restricciones activas forman base y ambos multiplicadores son estrictamente positivos, el vector dual $w^* = (3/2, 1/2, 0)^T$ es único. Por consiguiente, **el problema dual tiene solución óptima finita única no degenerada**.
+
+![Caso 1: Solución óptima finita única no degenerada](images/lp_caso1_unica_no_deg.png){#fig-lp-caso1 fig-align="center" width="75%"}
+
+**Caso 2: El problema tiene solución óptima finita única degenerada**
+
+Se añade al problema anterior la restricción redundante $g_4(x, y) = y - 3 \le 0$:
+$$
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad & -x - 2y \\
+\text{sujeto a} \quad & x + y - 4 \le 0 \quad (g_1) \\
+& -x + y - 2 \le 0 \quad (g_2) \\
+& 2x + y - 7 \le 0 \quad (g_3) \\
+& y - 3 \le 0 \quad (g_4 \text{ redundante}) \\
+& x, y \ge 0
+\end{aligned}
+$$
+
+La solución óptima primal sigue siendo el vértice $(1,3)$ con valor finito $f(1,3) = -7$. Sin embargo, como muestra la @fig-lp-caso2, en dicho punto coinciden tres restricciones activas: $g_1, g_2$ y $g_4$. Al haber $m = 3$ restricciones activas para $n = 2$ variables, el punto presenta sobredeterminación geométrica. Los gradientes $\nabla g_1 = (1,1)^T$, $\nabla g_2 = (-1,1)^T$ y $\nabla g_4 = (0,1)^T$ no son linealmente independientes (se rompe LICQ).
+
+Aunque el punto satisface la condición de Fritz John (FJ), existen múltiples combinaciones de multiplicadores para expresar $-\nabla f$ como combinación lineal no negativa de los gradientes activos. Cumplen KKT tanto $u = (u_1, u_2, u_4) = (3/2, 1/2, 0)$ como $u' = (u_1, u_2, u_4) = (1, 0, 1)$. Cualquier combinación convexa $\lambda u + (1-\lambda) u'$ ($\forall \lambda \in [0,1]$) es también solución del dual. Por tanto, **el problema dual tiene múltiples soluciones óptimas**.
+
+![Caso 2: Solución óptima finita única degenerada](images/lp_caso2_unica_deg.png){#fig-lp-caso2 fig-align="center" width="75%"}
+
+**Caso 3: El problema tiene múltiples soluciones no degeneradas**
+
+Se modifica la función objetivo a $f(x, y) = -x - y$, manteniendo las tres restricciones originales:
+$$
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad & -x - y \\
+\text{sujeto a} \quad & x + y - 4 \le 0 \quad (g_1) \\
+& -x + y - 2 \le 0 \quad (g_2) \\
+& 2x + y - 7 \le 0 \quad (g_3) \\
+& x, y \ge 0
+\end{aligned}
+$$
+
+El vector opuesto de gradiente es $-\nabla f = (1,1)^T$, paralelo al gradiente de la restricción $\nabla g_1 = (1,1)^T$. Como muestra la @fig-lp-caso3, el conjunto de soluciones óptimas primales es el segmento continuo entre $(1,3)$ y $(3,1)$. El problema primal admite **múltiples soluciones óptimas finitas**.
+
+En los puntos interiores de la arista óptima, la única restricción activa es $g_1$, siendo $u_1^* = 1$ y el resto nulos. Al analizar los vértices extremos:
+- En $(1,3)$: convergen $g_1$ y $g_2$, pero el multiplicador asociado a $g_2$ es nulo ($u_2^* = 0$).
+- En $(3,1)$: convergen $g_1$ y $g_3$, pero el multiplicador asociado a $g_3$ es nulo ($u_3^* = 0$).
+
+Por tanto, la solución del dual tendrá a lo sumo una variable no nula ($u_1 = 1$), demostrando que **el problema dual tiene al menos una solución degenerada**.
+
+![Caso 3: Múltiples soluciones no degeneradas](images/lp_caso3_multiples_no_deg.png){#fig-lp-caso3 fig-align="center" width="75%"}
+
+**Caso 4: El problema tiene múltiples soluciones y al menos una es degenerada**
+
+Se minimiza $f(x, y) = -x - y$ incluyendo la restricción redundante $g_4(x, y) = y - 3 \le 0$:
+$$
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad & -x - y \\
+\text{sujeto a} \quad & x + y - 4 \le 0 \quad (g_1) \\
+& -x + y - 2 \le 0 \quad (g_2) \\
+& 2x + y - 7 \le 0 \quad (g_3) \\
+& y - 3 \le 0 \quad (g_4 \text{ redundante}) \\
+& x, y \ge 0
+\end{aligned}
+$$
+
+Como se ilustra geométricamente en la @fig-lp-caso4a, la totalidad del segmento continuo entre los vértices $(1,3)$ y $(3,1)$ constituye el conjunto de soluciones óptimas primales (todas las combinaciones convexas de ambos vértices).
+
+![Caso 4 (Geometría): Región factible con arista óptima entre (1,3) y (3,1)](images/lp_caso4a_geometria.png){#fig-lp-caso4a fig-align="center" width="75%"}
+
+Sin embargo, al analizar la estructura dual en la @fig-lp-caso4b:
+- La solución del dual asociada al vértice $(1,3)$ es **degenerada**, ya que en él convergen tres restricciones activas ($g_1, g_2, g_4$), lo que genera sobredeterminación geométrica y requiere dos multiplicadores nulos ($u_2 = 0$ y $u_4 = 0$).
+- Las soluciones asociadas a los puntos interiores del segmento óptimo no son degeneradas, pues por hipótesis la matriz de restricciones activas en el interior mantiene rango máximo.
+
+Por tanto, como en el caso anterior, **el problema dual tiene solución degenerada**, con la particularidad de que en el vértice $(1,3)$ existen dos multiplicadores nulos ($u_2$ y $u_4$).
+
+![Caso 4 (Gradientes): Sobredeterminación en (1,3) y multiplicadores nulos duales](images/lp_caso4b_gradientes.png){#fig-lp-caso4b fig-align="center" width="75%"}
+
+**Caso 5: El problema tiene solución no acotada**
+
+Se elimina la restricción superior $g_1$:
+$$
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad & -x - y \\
+\text{sujeto a} \quad & -x + y - 2 \le 0 \quad (g_2) \\
+& 2x + y - 7 \le 0 \quad (g_3) \\
+& x, y \ge 0
+\end{aligned}
+$$
+
+El valor objetivo decrece hacia $-\infty$ sobre un rayo de recesión. Ningún punto verifica las condiciones KKT. Por tanto, como muestra la @fig-lp-caso5, **el problema dual no tiene solución (es no factible)**.
+
+![Caso 5: Primal no acotado](images/lp_caso5_no_acotado.png){#fig-lp-caso5 fig-align="center" width="75%"}
+
+**Caso 6: El problema es no factible**
+
+Se definen restricciones contradictorias que generan una región vacía:
+$$
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad & -x - 2y \\
+\text{sujeto a} \quad & x + y - 1 \le 0 \\
+& -x - y + 3.5 \le 0 \\
+& x, y \ge 0
+\end{aligned}
+$$
+
+La región factible primal es vacía (@fig-lp-caso6). Aplicando KKT al dual, este no puede poseer solución óptima finita, concluyendo que **el problema dual es no factible o tiene solución no acotada**.
+
+![Caso 6: Primal no factible](images/lp_caso6_no_factible.png){#fig-lp-caso6 fig-align="center" width="75%"}
+:::
+
+En síntesis, el análisis geométrico y analítico por casos permite establecer las siguientes relaciones de equivalencia fundamentales entre las propiedades del problema primal y de su correspondiente problema dual:
+
+- Si el problema primal posee una solución óptima finita **única y degenerada**, entonces el problema dual posee **múltiples soluciones óptimas**.
+- Si el problema primal posee **múltiples soluciones óptimas**, entonces el problema dual posee una solución óptima **degenerada**.
+
+Dado que la dualidad en programación lineal constituye una propiedad involutiva (el problema dual del dual coincide algebraicamente con el primal original), se obtiene el resultado recíproco de caracterización global:
+
+::: {.callout-note title="Proposición: Equivalencia de dualidad entre degeneración y múltiples óptimos" data-kind="corolario"}
+Dado un problema de optimización lineal y su correspondiente problema dual asociado, uno de los dos problemas posee una solución óptima finita **degenerada** si y solo si el otro problema posee **múltiples puntos óptimos**.
+:::
+
+La siguiente tabla sintetiza la matriz de correspondencia completa entre los escenarios de optimalidad y existencialidad del problema primal y del problema dual:
+
+| Estado del Problema Primal | Estado del Problema Dual Asociado |
+| :--- | :--- |
+| **Óptimo Único No Degenerado** | Óptimo Único No Degenerado |
+| **Óptimo Único Degenerado** | Múltiples Soluciones Óptimas |
+| **Múltiples Soluciones Óptimas** | Óptimo Único Degenerado |
+| **No Acotado ($f \to -\infty$)** | No Factible (Región Dual Vacía) |
+| **No Factible (Región Primal Vacía)** | No Factible o No Acotado |
+
+
+## Programación cuadrática (QP)
+
+La **Programación Cuadrática** (QP, por sus siglas en inglés, *Quadratic Programming*) constituye una clase fundamental de optimización no lineal donde la función objetivo es una expresión de segundo grado (cuadrática) y las restricciones que delimitan la región factible son estrictamente afines o lineales de igualdad y desigualdad.
+
+Consideremos el modelo estándar general de optimización cuadrática, habitualmente denotado por (C):
+
+$$
+\begin{aligned}
+\min_{x \in \mathbb{R}^n} \quad & f(x) = c^T x + \frac{1}{2} x^T Q x \\
+\text{sujeto a} \quad & A x \ge b \\
+& x \ge 0
+\end{aligned}
+\tag{C}
+$$
+
+donde $x \in \mathbb{R}^n$ es el vector de variables de decisión, $c \in \mathbb{R}^n$ representa el vector de costes lineales, $Q \in \mathbb{R}^{n \times n}$ es una matriz cuadrada simétrica ($Q = Q^T$) que recoge los coeficientes cuadráticos y las interacciones cruzadas entre variables, $A \in \mathbb{R}^{m \times n}$ es la matriz de coeficientes de las $m$ restricciones, y $b \in \mathbb{R}^m$ es el vector de términos independientes o términos independientes. La región factible $S = \{x \in \mathbb{R}^n : A x \ge b, \ x \ge 0\}$ viene dada por la intersección finita de semiespacios cerrados, constituyendo por tanto un conjunto **convexo y poliédrico**.
+
+::: {.callout-note title="Observación: Interpretación geométrica de la función objetivo cuadrática" data-kind="nota"}
+Cuando la matriz $Q$ es definida positiva ($Q \succ 0$), la función cuadrática $f(x)$ posee un único mínimo libre no restringido en $x^0 = -Q^{-1} c$. Sus curvas de nivel $f(x) = k$ forman elipsoides concéntricos centrados en $x^0$. Desde una perspectiva geométrica, resolver el problema (C) equivale a encontrar el punto del poliedro factible $S$ más cercano a $x^0$ según la métrica inducida por la matriz $Q$.
+:::
+
+### Derivación formal del sistema KKT
+
+Para obtener las condiciones KKT del modelo (C), reescribimos en primer lugar las restricciones en la forma canónica $\le 0$:
+$$
+b - A x \le 0, \quad -x \le 0
+$$
+
+Asociamos a las $m$ restricciones generales de desigualdad $A x \ge b$ un vector de multiplicadores duales $u = (u_1, \dots, u_m)^T \ge 0$, y a las $n$ restricciones de no negatividad de las variables $x \ge 0$ un vector de multiplicadores de holgura duales $v = (v_1, \dots, v_n)^T \ge 0$. La función Lagrangiana extendida del problema adopta la forma:
+
+$$
+L(x, u, v) = c^T x + \frac{1}{2} x^T Q x + u^T (b - A x) - v^T x
+$$
+
+Derivando parcialmente la Lagrangiana con respecto al vector primal $x$ e imponiendo el sistema completo de estacionariedad, factibilidad y holgura complementaria, se obtiene el sistema KKT formal estructurado en tres bloques fundamentales:
+
+1. **Condiciones de factibilidad primal**:
+   - **Factibilidad de las restricciones afines generales ($b - A x \le 0$)**: Exige que la solución $x$ satisfaga simultáneamente la totalidad de las $m$ restricciones generales de desigualdad $A x \ge b$.
+   - **Factibilidad de no negatividad de las variables ($x \ge 0$)**: Garantiza que el vector de variables de decisión $x \in \mathbb{R}^n$ pertenezca al ortante no negativo.
+
+2. **Condiciones de factibilidad dual y estacionariedad**:
+   - **Estacionariedad de la función Lagrangiana ($\nabla_x L(x, u, v) = c + Q x - A^T u - v = 0$)**: Representa el equilibrio vectorial en el punto óptimo. Esta ecuación de factibilidad dual establece que el gradiente de la función objetivo cuadrática, $\nabla f(x) = c + Q x$, debe poder expresarse como combinación lineal no negativa de los gradientes de las restricciones activas, $A^T u + v$.
+   - **No negatividad de los multiplicadores duales ($u \ge 0, v \ge 0$)**: Asegura que los multiplicadores duales $u \in \mathbb{R}^m$ asociados a las restricciones generales de desigualdad y $v \in \mathbb{R}^n$ asociados a las barreras de no negatividad orienten los vectores normales en sentido opuesto a las direcciones de descenso.
+
+3. **Condiciones de holgura complementaria**:
+   - **Complementariedad de las restricciones generales ($u_i (b_i - a^i x) = 0, \forall i = 1, \dots, m$)**: Establece que si una restricción general es inactiva ($b_i - a^i x < 0$), su multiplicador dual o precio sombra asociado debe ser nulo ($u_i = 0$). Recíprocamente, si el multiplicador es estrictamente positivo ($u_i > 0$), la restricción debe verificarse como igualdad estricta ($a^i x = b_i$).
+   - **Complementariedad de no negatividad ($v_i x_i = 0, \forall i = 1, \dots, n$)**: Garantiza que si una variable de decisión es positiva ($x_i > 0$), su holgura dual asociada debe anularse ($v_i = 0$), mientras que si la variable se ubica en su límite inferior ($x_i = 0$), la holgura dual $v_i \ge 0$ puede tomar valores positivos.
+
+donde $a^i$ denota la fila $i$-ésima de la matriz de coeficientes $A$.
+
+Cuando la función objetivo $f(x)$ es convexa (propiedad que se verifica si y solo si la matriz $Q$ es **semidefinida positiva**, $Q \succeq 0$, es decir, $x^T Q x \ge 0$ para todo $x \in \mathbb{R}^n$), las condiciones necesarias de Karush-Kuhn-Tucker resultan también **suficientes** para certificar la optimalidad global.
+
+::: {.callout-note title="Proposición: Suficiencia de las condiciones KKT en QP convexa" data-kind="corolario"}
+Si la matriz de términos cuadráticos $Q$ es semidefinida positiva ($Q \succeq 0$), el problema de programación cuadrática (C) es convexo. En consecuencia, **cualquier solución que satisfaga el sistema de condiciones KKT es una solución óptima global del problema (C)**.
+:::
+
+Sin embargo, si la convexidad no se satisface, el panorama analítico cambia sustancialmente:
+
+::: {.callout-warning title="Advertencia: Importancia crítica de la convexidad ($Q \succeq 0$)" data-kind="advertencia"}
+Si la matriz $Q$ no es semidefinida positiva (posee autovalores estrictamente negativos), el problema cuadrático deja de ser convexo. En tal escenario, las condiciones KKT son únicamente necesarias pero no suficientes, pudiendo caracterizar máximos locales o puntos de silla, y los algoritmos basados en pivotes lineales como el de Wolfe no garantizan la convergencia al óptimo global.
+:::
+
+### Transformación mediante variables de holgura y linealidad del sistema
+
+Para transformar las desigualdades primales $b - A x \le 0$ en ecuaciones lineales manejables algebraicamente por algoritmos de pivote, introducimos un vector de **variables primales de holgura** no negativas $y = (y_1, \dots, y_m)^T \ge 0$. De este modo:
+
+$$
+b - A x \le 0 \iff b - A x + y = 0, \quad \text{con } y \ge 0
+$$
+
+Analíticamente, se verifica la equivalencia directa entre el exceso de la restricción y el valor de la variable de holgura:
+
+$$
+b_i - a^i x < 0 \iff y_i > 0, \quad \forall i = 1, \dots, m
+$$
+
+Sustituyendo esta relación en la primera condición de holgura complementaria, el producto escalar $u_i (b_i - a^i x) = 0$ equivale a la condición de ortogonalidad escalar:
+
+$$
+u_i y_i = 0, \quad \forall i = 1, \dots, m
+$$
+
+Dado que todas las variables del sistema son estrictamente no negativas ($u, v, x, y \ge 0$), la anulación de cada producto individual $u_i y_i = 0$ y $v_i x_i = 0$ para todo $i$ equivale a exigir que la suma de sus productos escalares se anule globalmente:
+
+$$
+\begin{cases}
+u_i y_i = 0, & \forall i = 1, \dots, m \\
+v_i x_i = 0, & \forall i = 1, \dots, n
+\end{cases}
+\iff \sum_{i=1}^m u_i y_i + \sum_{i=1}^n v_i x_i = 0 \iff u^T y + v^T x = 0
+$$
+
+Agrupando el conjunto de relaciones obtenidas, el sistema KKT de la programación cuadrática convexa (C) se expresa inicialmente en la siguiente forma algebraica estandarizada:
+
+$$
+\begin{aligned}
+b - A x + y &= 0 \\
+c + Q x - A^T u - v &= 0 \\
+x, y, u, v &\ge 0 \\
+u^T y + v^T x &= 0
+\end{aligned}
+$$
+
+Este planteamiento formal revela una propiedad matemática fundamental para la resolución computacional: excepto por el último conjunto de restricciones no lineal de holgura complementaria ($u^T y + v^T x = 0$), todo el resto del sistema de ecuaciones (factibilidad primal $b - A x + y = 0$ y estacionariedad $c + Q x - A^T u - v = 0$) es **estrictamente lineal**.
+
+### Algoritmo del Símplex de Wolfe con regla de entrada restringida
+
+Como consecuencia de esta estructura parcialmente lineal, es posible resolver el sistema KKT (y, por tanto, hallar la solución óptima del problema cuadrático convexo C) adaptando las operaciones matriciales de pivote del algoritmo del Símplex lineal.
+
+Para lograr este objetivo, se siguen los siguientes tres pasos:
+
+1. **Se relaja la restricción de holgura complementaria** $u^T y + v^T x = 0$.
+2. **Se añaden variables artificiales** no negativas $z = (z_1, \dots, z_n)^T \ge 0$ al conjunto de ecuaciones de estacionariedad (Factibilidad dual 1), obteniendo $c + Q x - A^T u - v + z = 0$ con $z \ge 0$.
+3. **Se intenta que estas variables artificiales tomen el valor cero** resolviendo el siguiente problema de programación lineal auxiliar:
+
+$$
+\begin{aligned}
+\min \quad & \sum_{i=1}^n z_i \\
+\text{sujeto a} \quad & b - A x + y = 0 \\
+& c + Q x - A^T u - v + z = 0 \\
+& x, y, u, v, z \ge 0
+\end{aligned}
+$$
+
+Para garantizar que la solución del problema de programación lineal auxiliar sea una solución válida y exacta del problema cuadrático original (C), hay que modificar el criterio de selección de la variable candidata a entrar en la base del Símplex aplicando la **regla de entrada restringida** (*restricted entry rule*) de Wolfe:
+
+- **Regla de complementariedad primal-dual ($u_i, y_i$)**: La variable multiplicadora dual $u_i$ **no es candidata** a entrar en la base Símplex si su correspondiente variable de holgura primal $y_i$ es básica ($y_i \in \text{Base}$), y viceversa.
+- **Regla de complementariedad de no negatividad ($v_j, x_j$)**: La variable de holgura dual $v_j$ **no es candidata** a entrar en la base Símplex si la correspondiente variable primal $x_j$ es básica ($x_j \in \text{Base}$), y viceversa.
+
+Al resolver el problema de programación lineal auxiliar bajo la regla de entrada restringida, se obtienen los siguientes dos criterios de caracterización global:
+
+- **Si el valor óptimo de este problema es 0** ($\min \sum z_i = 0$), todas las variables artificiales han abandonado la base ($z^* = 0$). Como la regla de pivote restringido impide que variables complementarias formen parte de la base simultáneamente, la solución básica resultante satisface la complementariedad $u^{*T} y^* + v^{*T} x^* = 0$, por lo que el vector $x^*$ **es la solución óptima para (C)**.
+- **Por el contrario, si es estrictamente positivo** ($\min \sum z_i > 0$), resulta imposible reducir las variables artificiales a cero respetando la regla de entrada restringida. En tal caso, la condición de complementariedad no puede satisfacerse de forma simultánea con la factibilidad, por lo que **el problema (C) NO tiene solución** (es no factible).
+
+::: {.callout-note title="Nota: Garantía de convergencia finita del algoritmo de Wolfe" data-kind="nota"}
+Puesto que el algoritmo del Símplex modificado por Wolfe opera sobre el conjunto de soluciones básicas factibles del sistema de ecuaciones lineales ampliado (el cual consta de un número finito de bases posibles) y la función objetivo auxiliar $\sum z_i$ decrece de manera monótona a cada paso de pivote, se garantiza que el algoritmo finaliza en un número finito de iteraciones.
+:::
+
+Para fijar los conceptos teóricos presentados y comprender de forma intuitiva el funcionamiento algebraico y geométrico del algoritmo del Símplex de Wolfe, a continuación se resuelve detalladamente un problema completo de programación cuadrática convexa en dos dimensiones.
+
+::: {.callout-tip title="Ejemplo: Resolución completa mediante el algoritmo del símplex de Wolfe" collapse="true"}
+**Enunciado del problema**:
+Consideremos el problema de optimización cuadrática en el que se busca minimizar la distancia euclídea al cuadrado desde las variables $(x_1, x_2)$ al punto objetivo $(4,4)$, sobre una región factible poliédrica $S \subset \mathbb{R}^2$:
+
+$$
+\begin{aligned}
+\min_{x_1, x_2 \in \mathbb{R}} \quad & (x_1 - 4)^2 + (x_2 - 4)^2 \\
+\text{sujeto a} \quad & x_1 + x_2 \le 4 \\
+& -x_1 + x_2 \le 2 \\
+& 2x_1 + x_2 \le 7 \\
+& x_1, x_2 \ge 0
+\end{aligned}
+\qquad \equiv \qquad
+\begin{aligned}
+\min_{x_1, x_2 \in \mathbb{R}} \quad & (x_1 - 4)^2 + (x_2 - 4)^2 \\
+\text{sujeto a} \quad & -4 + x_1 + x_2 \le 0 \\
+& -2 - x_1 + x_2 \le 0 \\
+& -7 + 2x_1 + x_2 \le 0 \\
+& x_1, x_2 \ge 0
+\end{aligned}
+$$
+
+**Formulación del problema auxiliar del Símplex de Wolfe**:
+Identificamos la matriz cuadrática $Q = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}$ (estrictamente definida positiva, garantizando la convexidad del problema), el vector lineal $c = (-8, -8)^T$, la matriz de coeficientes $A = \begin{pmatrix} -1 & -1 \\ 1 & -1 \\ -2 & -1 \end{pmatrix}$ y el vector de términos independientes $b = (-4, 2, -7)^T$.
+
+Al introducir las variables primales de holgura $y_1, y_2, y_3 \ge 0$, los multiplicadores duales $u_1, u_2, u_3 \ge 0$, las holguras duales $v_1, v_2 \ge 0$ y las variables artificiales $z_1, z_2 \ge 0$, el problema de programación lineal auxiliar a minimizar resulta:
+
+$$
+\begin{aligned}
+\min \quad & z_1 + z_2 \\
+\text{sujeto a} \quad & -4 + x_1 + x_2 + y_1 = 0 \\
+& -2 - x_1 + x_2 + y_2 = 0 \\
+& -7 + 2x_1 + x_2 + y_3 = 0 \\
+& 2(x_1 - 4) + u_1 - u_2 + 2u_3 - v_1 + z_1 = 0 \\
+& 2(x_2 - 4) + u_1 + u_2 + u_3 - v_2 + z_2 = 0 \\
+& x_1, x_2, y_1, y_2, y_3, u_1, u_2, u_3, v_1, v_2, z_1, z_2 \ge 0
+\end{aligned}
+$$
+
+reescribiendo las ecuaciones de estacionariedad como $2x_1 + u_1 - u_2 + 2u_3 - v_1 + z_1 = 8$ y $2x_2 + u_1 + u_2 + u_3 - v_2 + z_2 = 8$.
+
+**Representación gráfica de la solución**:
+Como se ilustra geométricamente en la @fig-qp-ejemplo-geometria, las curvas de nivel de la función objetivo representan círculos concéntricos centrados en el mínimo libre no restringido $(4,4)$. La solución óptima del problema corresponde al punto de la región factible $S$ más próximo a $(4,4)$, alcanzándose la tangencia en el punto $\bar{x} = (2,2)$ con un valor objetivo de $f(2,2) = 8$.
+
+![Geometría de la región factible y tangencia de la función objetivo cuadrática en el óptimo](images/qp_ejemplo_geometria.png){#fig-qp-ejemplo-geometria fig-align="center" width="75%"}
+
+**Solución matemática del sistema KKT**:
+Al resolver el sistema KKT, la solución exacta resultante para todas las variables primales, duales, de holgura y artificiales es:
+
+$$
+\begin{aligned}
+x_1^* &= 2, \quad x_2^* = 2 \\
+u_1^* &= 4, \quad u_2^* = 0, \quad u_3^* = 0 \\
+y_1^* &= 0, \quad y_2^* = 2, \quad y_3^* = 1 \\
+v_1^* &= 0, \quad v_2^* = 0 \\
+z_1^* &= 0, \quad z_2^* = 0
+\end{aligned}
+$$
+
+**Resolución mediante el Algoritmo del Símplex de Wolfe (Tablas e Interpretación Geométrica)**:
+
+A continuación se detalla la progresión iterativa de las tablas del Símplex y su correspondiente traslación geométrica sobre la región factible a cada paso.
+
+**Iteración 1 (Paso 1: Inicio en el Origen)**  
+En la primera iteración, la solución básica inicial parte con las variables primales en el origen $x_1=0, x_2=0$. Las variables primales de holgura absorben los términos independientes ($y_1=4, y_2=2, y_3=7$) y las variables artificiales toman el valor $z_1=8, z_2=8$, dando un coste artificial inicial de $\sum z_i = 16$ y un valor de la función objetivo de distancia $f(0,0)=32$.
+
+- **Base inicial**: $\{y_1, y_2, y_3, z_1, z_2\}$, **Objetivo artificial**: $z_1 + z_2 = 8 + 8 = 16$.
+- **Criterio de entrada**: Los costes reducidos negativos son $x_1 (-2)$, $x_2 (-2)$, $u_1 (-2)$ y $u_3 (-3)$.
+- **Regla de complementariedad dual**: Las variables $u_1$ y $u_3$ <span style="color:#2563eb; font-weight:bold;">están bloqueadas</span> porque sus variables primales asociadas $y_1, y_3$ forman parte de la base actual.
+- **Pivote**: Seleccionamos la variable candidata <span style="color:#16a34a; font-weight:bold;">$x_2 \downarrow$</span>. Por el criterio del cociente mínimo, abandona la base <span style="color:#dc2626; font-weight:bold;">$y_2 \uparrow$</span> con elemento pivote **<span style="color:#2563eb; font-weight:bold;">1</span>**.
+
+| Base | Sol. | $x_1$ | $x_2$ | $y_1$ | $y_2$ | $y_3$ | $u_1$ | $u_2$ | $u_3$ | $v_1$ | $v_2$ | $z_1$ | $z_2$ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **$y_1$** | $4$ | $1$ | $1$ | $1$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **<span style="color:#dc2626; font-weight:bold;">$y_2$</span>** | $2$ | $-1$ | **<span style="color:#2563eb; font-weight:bold;">1</span>** | $0$ | $1$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$y_3$** | $7$ | $2$ | $1$ | $0$ | $0$ | $1$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$z_1$** | $8$ | $2$ | $0$ | $0$ | $0$ | $0$ | $1$ | $-1$ | $2$ | $-1$ | $0$ | $1$ | $0$ |
+| **$z_2$** | $8$ | $0$ | $2$ | $0$ | $0$ | $0$ | $1$ | $1$ | $1$ | $0$ | $-1$ | $0$ | $1$ |
+| **Coste** | $16$ | <span style="color:#dc2626; font-weight:bold;">$-2$</span> | <span style="color:#16a34a; font-weight:bold;">$-2$</span> | $0$ | $0$ | $0$ | <span style="color:#2563eb; font-weight:bold;">$-2$</span> | $0$ | <span style="color:#2563eb; font-weight:bold;">$-3$</span> | $1$ | $1$ | $0$ | $0$ |
+
+Geométricamente, el algoritmo se encuentra en el origen $\bar{x} = (0,0)$ con un coste artificial de $\sum z_i = 16$ y valor $f(0,0) = 32$.
+
+![Interpretación geométrica de la Iteración 1 en el origen (0,0)](images/wolfe_iter1.png){#fig-wolfe-iter1 fig-align="center" width="70%"}
+
+**Iteración 2 (Paso 2: Avance sobre el eje $X_2$)**  
+En la segunda iteración, la entrada de $x_2$ en la base desplaza la solución a lo largo del eje vertical hasta alcanzar el vértice $\bar{x} = (0,2)$. En esta posición, la segunda restricción $-x_1 + x_2 \le 2$ se vuelve activa ($y_2 = 0$), reduciendo el valor de la función objetivo a $f(0,2) = 20$ y la suma artificial a $\sum z_i = 12$.
+
+- **Base**: $\{y_1, x_2, y_3, z_1, z_2\}$, **Objetivo artificial**: $12$.
+- **Criterio de entrada**: Entra la variable primal <span style="color:#16a34a; font-weight:bold;">$x_1 \downarrow$</span> (coste reducidos $-4$). Las variables duales $u_1, u_3$ <span style="color:#2563eb; font-weight:bold;">continúan bloqueadas</span> por $y_1, y_3 \in \text{Base}$.
+- **Pivote**: Abandona la base <span style="color:#dc2626; font-weight:bold;">$y_1 \uparrow$</span> en la fila 1 con pivote **<span style="color:#2563eb; font-weight:bold;">2</span>**.
+
+| Base | Sol. | $x_1$ | $x_2$ | $y_1$ | $y_2$ | $y_3$ | $u_1$ | $u_2$ | $u_3$ | $v_1$ | $v_2$ | $z_1$ | $z_2$ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **<span style="color:#dc2626; font-weight:bold;">$y_1$</span>** | $2$ | **<span style="color:#2563eb; font-weight:bold;">2</span>** | $0$ | $1$ | $-1$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$x_2$** | $2$ | $-1$ | $1$ | $0$ | $1$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$y_3$** | $5$ | $3$ | $0$ | $-1$ | $-1$ | $1$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$z_1$** | $8$ | $2$ | $0$ | $0$ | $0$ | $0$ | $1$ | $-1$ | $2$ | $-1$ | $0$ | $1$ | $0$ |
+| **$z_2$** | $4$ | $2$ | $0$ | $0$ | $-2$ | $0$ | $1$ | $1$ | $1$ | $0$ | $-1$ | $0$ | $1$ |
+| **Coste** | $12$ | <span style="color:#16a34a; font-weight:bold;">$-4$</span> | $0$ | $0$ | $2$ | $0$ | <span style="color:#2563eb; font-weight:bold;">$-2$</span> | $0$ | <span style="color:#2563eb; font-weight:bold;">$-3$</span> | $1$ | $1$ | $0$ | $0$ |
+
+Geométricamente, el punto se desplaza sobre el eje $X_2$ hasta el vértice $\bar{x} = (0,2)$, donde se activa la restricción $-x_1 + x_2 \le 2$ ($y_2 = 0$).
+
+![Interpretación geométrica de la Iteración 2 en el vértice (0,2)](images/wolfe_iter2.png){#fig-wolfe-iter2 fig-align="center" width="70%"}
+
+**Iteración 3 (Paso 3: Desplazamiento al vértice (1,3) y desbloqueo dual)**  
+En la tercera iteración, al haber salido $y_1$ de la base en la iteración anterior, se desactiva el bloqueo de holgura complementaria sobre la variable dual $u_1$, permitiendo su entrada. El punto candidato se desplaza sobre la arista del poliedro $-x_1 + x_2 = 2$ hasta situarse en el vértice $\bar{x} = (1,3)$, activando simultáneamente la restricción $x_1 + x_2 \le 4$ ($y_1 = 0$), con $f(1,3) = 10$ y una suma artificial de $\sum z_i = 8$.
+
+- **Base**: $\{x_1, x_2, y_3, z_1, z_2\}$, **Objetivo artificial**: $8$.
+- **Criterio de entrada**: Al salir $y_1$ de la base en la iteración anterior, la variable dual <span style="color:#16a34a; font-weight:bold;">$u_1 \downarrow$</span> <span style="color:#16a34a; font-weight:bold;">queda libre y entra</span> en la base (coste reducido $-2$). La variable $u_3$ sigue bloqueada por $y_3 \in \text{Base}$.
+- **Pivote**: Abandona la base la variable artificial <span style="color:#dc2626; font-weight:bold;">$z_2 \uparrow$</span> en la fila 5 con elemento pivote **<span style="color:#2563eb; font-weight:bold;">1</span>**.
+
+| Base | Sol. | $x_1$ | $x_2$ | $y_1$ | $y_2$ | $y_3$ | $u_1$ | $u_2$ | $u_3$ | $v_1$ | $v_2$ | $z_1$ | $z_2$ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **$x_1$** | $1$ | $1$ | $0$ | $1/2$ | $-1/2$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$x_2$** | $3$ | $0$ | $1$ | $1/2$ | $1/2$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$y_3$** | $2$ | $0$ | $0$ | $-5/2$ | $1/2$ | $1$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$z_1$** | $6$ | $0$ | $0$ | $-1$ | $1$ | $0$ | $1$ | $-1$ | $2$ | $-1$ | $0$ | $1$ | $0$ |
+| **<span style="color:#dc2626; font-weight:bold;">$z_2$</span>** | $2$ | $0$ | $0$ | $-1$ | $-1$ | $0$ | **<span style="color:#2563eb; font-weight:bold;">1</span>** | $1$ | $1$ | $0$ | $-1$ | $0$ | $1$ |
+| **Coste** | $8$ | $0$ | $0$ | $2$ | $0$ | $0$ | <span style="color:#16a34a; font-weight:bold;">$-2$</span> | $0$ | <span style="color:#2563eb; font-weight:bold;">$-3$</span> | $1$ | $1$ | $0$ | $0$ |
+
+Geométricamente, el candidato avanza sobre el borde $-x_1 + x_2 = 2$ hasta alcanzar el vértice $\bar{x} = (1,3)$, donde se activa adicionalmente $x_1 + x_2 \le 4$ ($y_1 = 0$).
+
+![Interpretación geométrica de la Iteración 3 en el vértice (1,3)](images/wolfe_iter3.png){#fig-wolfe-iter3 fig-align="center" width="70%"}
+
+**Iteración 4 (Paso 4: Ajuste de tensión dual en (1,3))**  
+En la cuarta iteración, la solución primal se mantiene estática en el vértice $\bar{x} = (1,3)$, pero se produce un reajuste algebraico en las variables duales. La variable $u_1$ entra formalmente en la base con valor $u_1 = 2$, eliminando la primera variable artificial $z_2$ y reduciendo la función objetivo auxiliar a $\sum z_i = 4$.
+
+- **Base**: $\{x_1, x_2, y_3, z_1, u_1\}$, **Objetivo artificial**: $4$.
+- **Criterio de entrada**: Entra la variable de holgura <span style="color:#16a34a; font-weight:bold;">$y_2 \downarrow$</span> (coste reducido $-2$).
+- **Pivote**: Sale de la base la última variable artificial <span style="color:#dc2626; font-weight:bold;">$z_1 \uparrow$</span> en la fila 4 con pivote **<span style="color:#2563eb; font-weight:bold;">2</span>**.
+
+| Base | Sol. | $x_1$ | $x_2$ | $y_1$ | $y_2$ | $y_3$ | $u_1$ | $u_2$ | $u_3$ | $v_1$ | $v_2$ | $z_1$ | $z_2$ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **$x_1$** | $1$ | $1$ | $0$ | $1/2$ | $-1/2$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$x_2$** | $3$ | $0$ | $1$ | $1/2$ | $1/2$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **$y_3$** | $2$ | $0$ | $0$ | $-5/2$ | $1/2$ | $1$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ |
+| **<span style="color:#dc2626; font-weight:bold;">$z_1$</span>** | $4$ | $0$ | $0$ | $0$ | **<span style="color:#2563eb; font-weight:bold;">2</span>** | $0$ | $0$ | $-2$ | $1$ | $-1$ | $-1$ | $1$ | $-1$ |
+| **$u_1$** | $2$ | $0$ | $0$ | $-1$ | $-1$ | $0$ | $1$ | $1$ | $1$ | $0$ | $-1$ | $0$ | $1$ |
+| **Coste** | $4$ | $0$ | $0$ | $0$ | <span style="color:#16a34a; font-weight:bold;">$-2$</span> | $0$ | $0$ | $2$ | <span style="color:#2563eb; font-weight:bold;">$-1$</span> | $1$ | <span style="color:#2563eb; font-weight:bold;">$-1$</span> | $0$ | $2$ |
+
+Geométricamente, el punto en el espacio primal permanece en el vértice $\bar{x} = (1,3)$ mientras se ajusta la tensión del multiplicador dual ($u_1 = 2$).
+
+![Interpretación geométrica de la Iteración 4 (Ajuste Dual en (1,3))](images/wolfe_iter4.png){#fig-wolfe-iter4 fig-align="center" width="70%"}
+
+**Iteración 5 (Paso 5: Consecución del Óptimo Global y Tangencia en (2,2))**  
+En la quinta iteración, la entrada de la holgura $y_2$ permite que el punto abandone el vértice $(1,3)$ y se deslice a lo largo del segmento de la restricción activa $x_1 + x_2 = 4$ hasta el punto $\bar{x} = (2,2)$. En este punto se alcanza la tangencia con la superficie cuadrática de nivel de la función objetivo, anulando por completo las variables artificiales ($\sum z_i = 0$), fijando el multiplicador dual activo $u_1^* = 4$ y alcanzando el coste mínimo de $f(2,2) = 8$.
+
+- **Base óptima**: $\{x_1, x_2, y_3, y_2, u_1\}$, **Objetivo artificial**: $0$.
+- **Criterio de parada**: Todas las variables artificiales han salido de la base ($z_1^* = 0, z_2^* = 0$) y no existen costes reducidos negativos viables bajo la regla de entrada restringida.
+
+| Base | Sol. | $x_1$ | $x_2$ | $y_1$ | $y_2$ | $y_3$ | $u_1$ | $u_2$ | $u_3$ | $v_1$ | $v_2$ | $z_1$ | $z_2$ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **$x_1$** | $2$ | $1$ | $0$ | $1/2$ | $0$ | $0$ | $0$ | $-1/2$ | $1/4$ | $-1/4$ | $1/4$ | $1/4$ | $-1/4$ |
+| **$x_2$** | $2$ | $0$ | $1$ | $1/2$ | $0$ | $0$ | $0$ | $1/2$ | $-1/4$ | $1/4$ | $-1/4$ | $-1/4$ | $1/4$ |
+| **$y_3$** | $1$ | $0$ | $0$ | $-5/2$ | $0$ | $1$ | $0$ | $1/2$ | $-1/4$ | $1/4$ | $-1/4$ | $-1/4$ | $1/4$ |
+| **$y_2$** | $2$ | $0$ | $0$ | $0$ | $1$ | $0$ | $0$ | $-1$ | $1/2$ | $-1/2$ | $1/2$ | $1/2$ | $-1/2$ |
+| **$u_1$** | $4$ | $0$ | $0$ | $-1$ | $0$ | $0$ | $1$ | $0$ | $3/2$ | $-1/2$ | $-1/2$ | $1/2$ | $1/2$ |
+| **Coste** | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $0$ | $1$ | $1$ |
+
+**Resultado final**: El punto se desliza sobre la restricción activa $x_1 + x_2 = 4$ ($y_1=0$) hasta alcanzar el punto óptimo global $\bar{x} = (2,2)$ con $u_1^* = 4$ y valor mínimo de la función objetivo $f(2,2) = 8$.
+
+![Interpretación geométrica de la Iteración 5 Óptima en (2,2)](images/wolfe_iter5.png){#fig-wolfe-iter5 fig-align="center" width="70%"}
+
+**Análisis Geométrico de la Trayectoria Completa del Símplex de Wolfe**  
+La secuencia de pivotes del algoritmo del Símplex de Wolfe dibuja una trayectoria geométrica precisa sobre el plano $\mathbb{R}^2$:
+
+1. **Iteración 1**: Arranca en el origen $(0,0)$.
+2. **Iteración 2**: La variable $x_2$ entra en la base, desplazando el punto sobre el eje $Y$ hasta el vértice $(0,2)$, donde se activa la restricción $-x_1 + x_2 \le 2$ ($y_2 = 0$).
+3. **Iteración 3**: La variable $x_1$ entra en la base, avanzando por el borde de la restricción $-x_1 + x_2 = 2$ hasta el vértice $(1,3)$, donde se activa además $x_1 + x_2 \le 4$ ($y_1 = 0$).
+4. **Iteración 4**: Al anularse $y_1$, se desbloquea la entrada del multiplicador dual $u_1$. El punto geométrico permanece en $(1,3)$ mientras se ajusta la tensión dual ($u_1 = 2$).
+5. **Iteración 5**: Entra la holgura $y_2$ (desactivando la restricción $-x_1 + x_2 \le 2$). El punto se desliza sobre el segmento activo $x_1 + x_2 = 4$ hasta alcanzar el punto más próximo al objetivo $(4,4)$, situándose en $(2,2)$ con $u_1^* = 4$.
+
+La trayectoria geométrica global completa sobre el politopo factible se ilustra en la @fig-wolfe-trayectoria.
+
+![Trayectoria del algoritmo del Símplex de Wolfe sobre el politopo factible](images/wolfe_trayectoria.png){#fig-wolfe-trayectoria fig-align="center" width="75%"}
+
+:::
+
+
+## Consideraciones finales
+
+En este tema se ha analizado en profundidad la interconexión matemática existente entre las condiciones de Karush-Kuhn-Tucker (KKT), la teoría de la dualidad en programación lineal y la resolución computacional de problemas de programación cuadrática (QP). Los pilares teóricos y metodológicos fundamentales derivados de este estudio se estructuran a continuación:
+
+1. **Equivalencia entre multiplicadores KKT y variables duales**:
+   La caracterización de optimalidad KKT para problemas de optimización lineal demuestra formalmente que los multiplicadores de Lagrange $u_i^*$ asociados a las restricciones de desigualdad no son meros constructos algebraicos, sino que equivalen exactamente a las variables óptimas del problema dual. Esta correspondencia biunívoca vincula directamente la geometría del politopo primal con el espacio de soluciones del dual.
+
+2. **Interpretación económica y precios sombra**:
+   Los multiplicadores KKT $u_i^*$ representan los precios sombra o costes marginales de oportunidad asociados a las restricciones del sistema. Formalmente, $u_i^*$ cuantifica la tasa de variación marginal en el beneficio o coste óptimo ante un incremento unitario en la término independiente $b_i$. Las condiciones de holgura complementaria ($u_i^* g_i(x^*) = 0$) aseguran que solo aquellos restricciones activas (restricciones activas con $g_i(x^*)=0$) presentan un valor marginal positivo ($u_i^* > 0$), mientras que los restricciones inactivas ($g_i(x^*) < 0$) poseen un precio sombra nulo ($u_i^* = 0$).
+
+3. **Estructura matricial y convexidad en programación cuadrática**:
+   Al incorporar términos cuadráticos en la función objetivo mediante una matriz simétrica semidefinida positiva $Q \succeq 0$, el problema mantiene la convexidad, lo que garantiza que cualquier punto que satisfaga las condiciones KKT sea un óptimo global absoluto. Las condiciones KKT de un problema QP adoptan la forma de un sistema de ecuaciones lineales sobre las variables primales $x$, de holgura $y$, duales $u$ y de gradiente $v$, sujeto únicamente a la restricción bilineal de complementariedad.
+
+4. **Fundamento algorítmico del Símplex de Wolfe**:
+   El algoritmo del Símplex de Wolfe adapta el mecanismo de pivotaje de la programación lineal para resolver el sistema KKT de un problema QP convexo imponiendo una regla de entrada restringida. Esta regla prohíbe explícitamente que una variable dual $u_i$ (o $v_j$) entre en la base si su variable primal complementaria $y_i$ (o $x_j$) pertenece actualmente a la misma, garantizando el cumplimiento estricto de la holgura complementaria en cada iteración del algoritmo.
+
+5. **Dinámica geométrica primal-dual**:
+   A diferencia del Símplex lineal clásico —que se desplaza de vértice en vértice sobre las esquinas del politopo—, el Símplex de Wolfe recorre la frontera y las caras del conjunto factible $S$. A lo largo de esta trayectoria, el algoritmo combina desplazamientos en el dominio de las variables primales con ajustes de tensión en el espacio dual hasta situar la solución en el punto exacto de tangencia entre las superficies cuadráticas de nivel y el borde activo de las restricciones.

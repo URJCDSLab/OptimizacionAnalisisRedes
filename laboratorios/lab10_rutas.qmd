@@ -1,0 +1,177 @@
+---
+title: "Laboratorio 10: Rutas eulerianas, hamiltonianas, TSP y VRP en Python"
+subtitle: "Optimización y Análisis de Redes"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+jupyter: python3
+lang: es
+---
+
+# Introducción
+
+El diseño y optimización de rutas en redes de transporte y comunicaciones constituye uno de los pilares más relevantes de la Investigación Operativa moderna. Desde la inspección de infraestructuras lineales y la recogida de residuos urbanos hasta la distribución de paquetería de comercio electrónico y la logística de última milla, la capacidad de encontrar recorridos óptimos que minimicen la distancia, el tiempo y los costes de flota es crítica en ingeniería y ciencia de datos.
+
+En este laboratorio práctico aprenderás a:
+
+1. **Modelar y resolver el Problema del Cartero Chino (CPP)** en **`NetworkX`**, detectando nodos de grado impar, formulando el emparejamiento perfecto de peso mínimo (`nx.min_weight_matching`), eulerizando el multigrafo y extrayendo el circuito euleriano con `nx.eulerian_circuit`.
+2. **Formular y resolver el Problema del Viajante de Comercio (TSP)** como un programa lineal entero (PLE) en **`CVXPY`** utilizando el modelo compacto de eliminación de subciclos de **Miller-Tucker-Zemlin (MTZ)**.
+3. **Implementar heurísticas constructivas (Vecino más Cercano)** y **algoritmos de búsqueda local (2-Opt)** desde cero en Python, analizando la mejora iterativa y el tiempo de cómputo frente al óptimo global.
+4. **Aplicar el Algoritmo de Aproximación de Christofides** con **`NetworkX`** (`nx.approximation.christofides`), verificando la garantía teórica de la cota $1.5 \times \text{MST}$ sobre instancias métricas.
+5. **Formular y resolver el Problema de Rutas de Vehículos con Capacidad (CVRP)** con flota homogénea en **`CVXPY`**, extrayendo y representando gráficamente las rutas coordinadas de múltiples vehículos desde un depósito central.
+
+---
+
+# Fundamentos teóricos y herramientas de Python
+
+## Modelado de rutas con NetworkX y CVXPY
+
+Python permite abordar problemas de rutas combinando algoritmos de grafos puros y programación matemática:
+
+```python
+import networkx as nx
+import numpy as np
+import cvxpy as cp
+import matplotlib.pyplot as plt
+
+# 1. Comprobación y extracción de circuitos eulerianos en NetworkX
+G_eul = nx.cycle_graph(4)
+print("¿Es euleriano?:", nx.is_eulerian(G_eul))
+circuito = list(nx.eulerian_circuit(G_eul, source=0))
+print("Circuito euleriano:", circuito)
+
+# 2. Algoritmos de aproximación para TSP en NetworkX
+G_tsp = nx.complete_graph(5)
+# Asignar pesos a las aristas...
+tour = nx.approximation.christofides(G_tsp, weight='weight')
+print("Tour aproximado de Christofides:", tour)
+```
+
+---
+
+# Ejercicios de laboratorio propuestos
+
+## Ejercicio 1: Problema del Cartero Chino (CPP) y eulerización con NetworkX
+
+Una brigada municipal de mantenimiento debe inspeccionar todas las calles de un distrito urbano representado por un grafo no dirigido $G = (V, E)$ de $n = 8$ intersecciones y 12 calles con los siguientes costes de longitud:
+
+$$
+\begin{aligned}
+& c(1,2) = 4, \quad c(1,3) = 6, \quad c(2,3) = 3, \quad c(2,4) = 5, \\
+& c(2,5) = 7, \quad c(3,5) = 8, \quad c(4,6) = 4, \quad c(4,7) = 6, \\
+& c(5,6) = 5, \quad c(5,7) = 3, \quad c(6,8) = 7, \quad c(7,8) = 4
+\end{aligned}
+$$
+
+El vehículo parte del depósito central ubicado en el nodo $1$.
+
+### Tareas
+
+1. Construir el grafo ponderado en `NetworkX` y verificar mediante `nx.is_eulerian(G)` si admite un recorrido euleriano directo sin duplicar aristas.
+2. Identificar el conjunto de vértices de grado impar $V_{odd} \subset V$.
+3. Construir el grafo auxiliar completo sobre $V_{odd}$ asignando como pesos las distancias más cortas obtenidas mediante `nx.shortest_path_length(G, u, v, weight='weight')`.
+4. Calcular el emparejamiento perfecto de peso mínimo sobre el grafo auxiliar utilizando `nx.min_weight_matching`.
+5. Construir el multigrafo eulerizado `nx.MultiGraph`, añadir las aristas duplicadas correspondientes a los caminos mínimos del matching y extraer la ruta euleriana óptima con `nx.eulerian_circuit`.
+6. Representar gráficamente el grafo original y resaltar las calles duplicadas en la eulerización.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 2: Formulación y resolución del TSP con CVXPY (Modelo MTZ)
+
+Se desea planificar la ruta óptima de un agente comercial que debe visitar $6$ ciudades con las siguientes coordenadas espaciales $(x, y)$ en el plano:
+
+* Ciudad 0 (Base): $(0.0, 0.0)$
+* Ciudad 1: $(1.0, 5.0)$
+* Ciudad 2: $(5.0, 6.0)$
+* Ciudad 3: $(6.0, 1.0)$
+* Ciudad 4: $(3.0, 2.0)$
+* Ciudad 5: $(2.0, 4.0)$
+
+La matriz de costes corresponde a la distancia euclídea bidimensional $D_{ij} = \| \mathbf{p}_i - \mathbf{p}_j \|_2$.
+
+### Tareas
+
+1. Calcular la matriz de distancias euclídeas $\mathbf{D} \in \mathbb{R}^{6 \times 6}$ mediante `NumPy`.
+2. Formular en `CVXPY` el modelo de Programación Lineal Entera de Miller-Tucker-Zemlin (MTZ) con variables binarias de selección de arco $x_{ij} \in \{0, 1\}$ y variables continuas de orden de visita $u_i \in [1, n-1]$ para $i \in \{1, \dots, 5\}$.
+3. Resolver el problema de optimización entera y comprobar que el estado de resolución es óptimo.
+4. Reconstruir la secuencia ordenada de ciudades del tour óptimo a partir de la matriz de soluciones $x_{ij}^*$ y calcular la distancia total recorrida.
+5. Visualizar en `Matplotlib` las ciudades y el tour hamiltoniano óptimo trazado con flechas de dirección.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 3: Heurística del Vecino más Cercano y Búsqueda Local 2-Opt
+
+Las heurísticas constructivas y de mejora local permiten obtener soluciones de muy alta calidad para el TSP en tiempos de cómputo despreciables, siendo fundamentales para instancias de gran escala.
+
+### Tareas
+
+1. Implementar en Python una función `nearest_neighbor_tsp(dist_matrix, start=0)` que construya un tour inicial seleccionando iterativamente la ciudad no visitada más cercana.
+2. Implementar una función `two_opt(tour, dist_matrix)` que aplique el operador de intercambio 2-Opt de forma iterativa:
+   * Para cada par de aristas no adyacentes $(i, i+1)$ y $(j, j+1)$, evaluar la variación de coste $\Delta c = (D_{i, j} + D_{i+1, j+1}) - (D_{i, i+1} + D_{j, j+1})$.
+   * Si $\Delta c < -\varepsilon$, invertir el segmento intermedio `tour[i+1 : j+1] = tour[i+1 : j+1][::-1]` y reiniciar la exploración hasta alcanzar un óptimo local (donde ningún intercambio 2-Opt mejore la solución).
+3. Evaluar el rendimiento sobre las 6 ciudades del Ejercicio 2, comparando la longitud del tour obtenido por el Vecino más Cercano, el tour mejorado tras 2-Opt y el óptimo global exacto obtenido mediante el modelo MTZ.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 4: Algoritmo de Aproximación de Christofides con NetworkX
+
+El algoritmo de Christofides (1976) es un algoritmo de aproximación polinomial para el TSP métrico que garantiza una solución cuyo coste nunca supera $\frac{3}{2}$ veces el coste del tour óptimo.
+
+### Tareas
+
+1. Construir el grafo completo ponderado de las 6 ciudades en `NetworkX`.
+2. Ejecutar el algoritmo de Christofides utilizando la función `nx.approximation.christofides(G, weight='weight')`.
+3. Calcular la longitud del tour aproximado y compararla con la cota teórica obtenida a partir del Árbol Soporte de Mínimo Peso ($T_{MST}$) calculado mediante `nx.minimum_spanning_tree`.
+4. Verificar computacionalmente que se cumple la relación $c(T_{Christofides}) \le 1.5 \times c(T^*)$.
+
+```{python}
+# Tu código aquí:
+```
+
+---
+
+## Ejercicio 5: Modelado y resolución del Capacitated VRP (CVRP) en CVXPY
+
+Una empresa de paquetería dispone de un depósito central (nodo 0) y debe abastecer a $5$ clientes (nodos $1, 2, 3, 4, 5$) utilizando una flota de $K = 2$ vehículos idénticos, cada uno con una capacidad máxima de carga $Q = 10$ paquetes. Las demandas de los clientes son:
+
+* Cliente 1: $q_1 = 4$ paquetes
+* Cliente 2: $q_2 = 3$ paquetes
+* Cliente 3: $q_3 = 5$ paquetes
+* Cliente 4: $q_4 = 2$ paquetes
+* Cliente 5: $q_5 = 4$ paquetes
+
+Las coordenadas espaciales son las mismas que las del Ejercicio 2 (con depósito en $(0, 0)$).
+
+### Tareas
+
+1. Formular el modelo de Programación Lineal Entera del CVRP en `CVXPY`:
+   * Variables binarias de tránsito $x_{ij} \in \{0, 1\}$.
+   * Variables continuas de carga acumulada $u_i \in [q_i, Q]$ para cada cliente $i \in \{1, \dots, 5\}$.
+   * Restricciones de grado del depósito: $\sum_{j=1}^5 x_{0j} = K$ y $\sum_{i=1}^5 x_{i0} = K$.
+   * Restricciones de grado de clientes: exactamente una entrada y una salida por cliente.
+   * Restricciones de capacidad y eliminación de subciclos: $u_i - u_j + Q x_{ij} \le Q - q_j$ para todo $i \ne j \ge 1$.
+2. Resolver el problema de optimización y verificar la obtención del óptimo global.
+3. Extraer las $K = 2$ rutas independientes asignadas a cada vehículo.
+4. Representar gráficamente en `Matplotlib` las rutas de los vehículos utilizando colores diferenciados y anotando la demanda de cada cliente sobre el plano.
+
+```{python}
+# Tu código aquí:
+```

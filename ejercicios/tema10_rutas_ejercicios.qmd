@@ -1,0 +1,143 @@
+# Ejercicios del Tema 10: rutas eulerianas, hamiltonianas y problemas de rutas
+
+## Ejercicio 1: Grafos Eulerianos, Teorema de Euler y Algoritmo Constructivo de Cadenas
+
+Considérese el grafo simple no dirigido y conexo $G = (V, E)$ de $n = 7$ vértices $V = \{1, 2, 3, 4, 5, 6, 7\}$ con el siguiente conjunto de 12 aristas:
+
+$$
+\begin{aligned}
+E = \bigl\{ & \{1, 2\}, \, \{1, 3\}, \, \{2, 3\}, \, \{2, 4\}, \, \{2, 5\}, \, \{3, 4\}, \\
+& \{3, 5\}, \, \{4, 6\}, \, \{4, 7\}, \, \{5, 6\}, \, \{5, 7\}, \, \{6, 7\} \bigr\}
+\end{aligned}
+$$
+
+cuya secuencia de grados nodales es:
+
+$$
+d(1) = 2, \quad d(2) = 4, \quad d(3) = 4, \quad d(4) = 4, \quad d(5) = 4, \quad d(6) = 4, \quad d(7) = 2
+$$
+
+Se pide:
+
+1. **Demostración de paridad**: Demostrar formalmente que en cualquier grafo euleriano no dirigido conexo, todos sus vértices deben tener obligatoriamente grado par, analizando el comportamiento de las aristas incidentes en cada paso de un circuito cerrado.
+2. **Caracterización de Euler**: Aplicar el Teorema de Euler para certificar si el grafo $G$ admite un circuito euleriano cerrado.
+3. **Traza del algoritmo constructivo**: Desarrollar paso a paso el algoritmo constructivo de cadenas eulerianas:
+   * Extraer un primer ciclo simple $C_1$ que comience y termine en el vértice $1$.
+   * Identificar las aristas residuales $E \setminus E(C_1)$ y localizar un vértice de contacto con aristas no visitadas.
+   * Extraer un segundo ciclo $C_2$ en el grafo residual y realizar la fusión intercalada $C_1 \oplus C_2$.
+   * Repetir el proceso hasta incorporar la totalidad de aristas de $E$, proporcionando la secuencia ordenada completa de vértices y aristas del recorrido euleriano final.
+4. **Generalización a digrafos y caminos abiertos**:
+   * Enunciar la condición necesaria y suficiente para que un digrafo conexo admita un circuito euleriano dirigido en términos de sus grados de entrada $d^-(v)$ y de salida $d^+(v)$.
+   * Indicar qué condición de paridad debe cumplirse para que un grafo no dirigido admita una trayectoria euleriana abierta (recorrido que pasa por todas las aristas pero con extremos inicial y final distintos).
+
+---
+
+## Ejercicio 2: Problema del Cartero Chino (CPP) y Matching de Nodos Impares
+
+Considérese la red vial no dirigida y ponderada $G = (V, E, \mathbf{c})$ de $n = 8$ vértices $V = \{1, 2, 3, 4, 5, 6, 7, 8\}$ con las 12 aristas y costes asociados siguientes:
+
+$$
+\begin{aligned}
+& c(1,2) = 4, \quad c(1,3) = 6, \quad c(2,3) = 3, \quad c(2,4) = 5, \\
+& c(2,5) = 7, \quad c(3,5) = 8, \quad c(4,6) = 4, \quad c(4,7) = 6, \\
+& c(5,6) = 5, \quad c(5,7) = 3, \quad c(6,8) = 7, \quad c(7,8) = 4
+\end{aligned}
+$$
+
+Un vehículo de inspección municipal debe partir del depósito situado en el nodo $1$, recorrer cada calle de la red al menos una vez y regresar al depósito minimizando la distancia total recorrida.
+
+Se pide:
+
+1. **Identificación de paridades y vértices impares**: Calcular el grado de cada vértice $d(v)$ y determinar el conjunto de vértices con grado impar $V_{odd} \subset V$. Justificar analíticamente por qué $|V_{odd}|$ es siempre un número par.
+2. **Matriz de distancias mínimas en $V_{odd}$**: Calcular la distancia más corta $d_G(u, v)$ para cada par de vértices en $V_{odd}$ especificando el camino mínimo correspondiente.
+3. **Emparejamiento perfecto de peso mínimo**: Construir el grafo completo auxiliar $K_{|V_{odd}|}$, enumerar todos los emparejamientos perfectos posibles, calcular el coste total de cada uno y seleccionar el emparejamiento óptimo $M^*$.
+4. **Eulerización y coste óptimo del CPP**:
+   * Construir el multigrafo euleriano $G^*$ duplicando las aristas de los caminos mínimos asociados a $M^*$.
+   * Calcular la longitud total de la ruta óptima del cartero chino $c(CPP) = \sum_{e \in E} c(e) + c(M^*)$.
+   * Escribir una secuencia ordenada explícita de vértices que constituya un recorrido óptimo cerrado del cartero chino comenzando y terminando en el depósito $1$.
+
+---
+
+## Ejercicio 3: Grafos Hamiltonianos, Condiciones de Dirac, Ore y Clausura de Bondy-Chvátal
+
+Considérese el grafo simple no dirigido $G = (V, E)$ de $n = 6$ vértices $V = \{1, 2, 3, 4, 5, 6\}$ con el siguiente conjunto de aristas:
+
+$$
+E = \bigl\{ \{1, 2\}, \, \{1, 3\}, \, \{1, 4\}, \, \{2, 3\}, \, \{2, 5\}, \, \{3, 4\}, \, \{3, 6\}, \, \{4, 5\}, \, \{5, 6\} \bigr\}
+$$
+
+Se pide:
+
+1. **Condición de Dirac (1952)**:
+   * Calcular los grados de todos los vértices de $G$ y comprobar si se cumple la condición suficiente de Dirac: $d(v) \ge \frac{n}{2}, \quad \forall v \in V$.
+   * ¿Permite el Teorema de Dirac asegurar que $G$ es hamiltoniano? Justificar la respuesta.
+2. **Condición de Ore (1960)**:
+   * Identificar todos los pares de vértices no adyacentes $\{u, v\} \notin E$ y calcular la suma de sus grados $d(u) + d(v)$.
+   * Comprobar si se satisface la condición suficiente de Ore: $d(u) + d(v) \ge n, \quad \forall \{u, v\} \notin E$.
+3. **Clausura de Bondy-Chvátal (1976)**:
+   * Describir el algoritmo determinista para obtener la clausura $[G]$.
+   * Aplicar iterativamente el proceso sobre $G$, detallando las aristas que se añaden en cada paso en función de la suma de grados actualizados hasta alcanzar el punto fijo $[G]$.
+   * Enunciar el Teorema de Bondy-Chvátal y concluir rigurosamente si $G$ es un grafo hamiltoniano.
+4. **Discusión sobre necesidad vs. suficiencia**:
+   * Explicar por qué las condiciones de Dirac, Ore y Bondy-Chvátal son condiciones suficientes pero no necesarias.
+   * Proporcionar un ejemplo de grafo que sea hamiltoniano pero cuya clausura $[G]$ no sea el grafo completo $K_n$ (por ejemplo, el ciclo simple $C_n$ con $n \ge 5$).
+
+---
+
+## Ejercicio 4: Modelos de Programación Lineal Entera (PLE) para el Problema del Viajante de Comercio (TSP)
+
+Considérese el Problema del Viajante de Comercio (TSP) definido sobre una red dirigida completa $G = (V, A)$ con conjunto de vértices $V = \{1, 2, \dots, n\}$ y matriz de costes de desplazamiento $C = (c_{ij})$.
+
+Se pide:
+
+1. **Modelo 1 por etapas**:
+   * Formular el modelo de asignación por etapas definiendo variables binarias $x_{ijk} \in \{0, 1\}$ (indicando si el arco $(i, j)$ se recorre en la etapa $k \in \{1, \dots, n\}$).
+   * Escribir formalmente la función objetivo y los tres bloques de restricciones (asignación espacial, asignación temporal y continuidad secuencial).
+   * Evaluar el número total de variables y restricciones del modelo en función de $n$.
+2. **Modelo 2 de Dantzig-Fulkerson-Johnson (DFJ)**:
+   * Formular el modelo clásico de 2 índices con variables $x_{ij} \in \{0, 1\}$.
+   * Escribir las restricciones de grado nodal (conservación) y las restricciones de eliminación de subciclos (SEC, *Subtour Elimination Constraints*) en su formulación de corte conjuntista:
+     $$
+     \sum_{i \in S} \sum_{j \in S, j \ne i} x_{ij} \le |S| - 1, \quad \forall S \subset V, \, 2 \le |S| \le n-1
+     $$
+   * Demostrar que el número total de restricciones SEC es $2^n - 2$ y explicar por qué este modelo se resuelve en la práctica mediante algoritmos de planos de corte y generación perezosa de restricciones (*lazy constraints*).
+3. **Modelo 3 de Miller-Tucker-Zemlin (MTZ)**:
+   * Formular el modelo compacto MTZ introduciendo variables continuas auxiliares de orden $u_i \in \mathbb{R}$ para $i \in \{2, \dots, n\}$.
+   * Demostrar analíticamente que la desigualdad:
+     $$
+     u_i - u_j + n x_{ij} \le n - 1, \quad \forall i, j \in \{2, \dots, n\}, \, i \ne j
+     $$
+     impide la existencia de cualquier subciclo cerrado que no pase por el depósito central $1$.
+   * Comparar la complejidad en número de restricciones del modelo MTZ frente al modelo DFJ.
+
+---
+
+## Ejercicio 5: Algoritmo de Aproximación de Christofides, Heurística 2-Opt y Taxonomía del VRP
+
+Considérese un problema del Viajante de Comercio métrico simétrico definido sobre $n = 5$ vértices $V = \{1, 2, 3, 4, 5\}$ con matriz de distancias euclídeas:
+
+$$
+\mathbf{D} = \begin{pmatrix}
+0 & 2 & 4 & 5 & 3 \\
+2 & 0 & 3 & 4 & 4 \\
+4 & 3 & 0 & 2 & 3 \\
+5 & 4 & 2 & 0 & 2 \\
+3 & 4 & 3 & 2 & 0
+\end{pmatrix}
+$$
+
+Se pide:
+
+1. **Algoritmo de aproximación de Christofides**:
+   * Calcular el Árbol Soporte de Mínimo Peso ($T_{MST}$) sobre el grafo completo mediante el algoritmo de Kruskal o Prim, indicando su coste total.
+   * Identificar el subconjunto de vértices $V_{odd} \subset V$ que tienen grado impar en $T_{MST}$.
+   * Calcular el emparejamiento perfecto de peso mínimo $M^*$ inducido sobre $V_{odd}$.
+   * Construir el multigrafo euleriano $H = T_{MST} \cup M^*$, determinar un circuito euleriano cerrado sobre $H$ y aplicar atajos (*shortcuts*) para obtener un tour hamiltoniano $T_{Christofides}$.
+   * Demostrar teóricamente por qué el algoritmo de Christofides garantiza un factor de aproximación $\frac{3}{2}$ respecto al coste del tour óptimo $T^*$, analizando las cotas $c(T_{MST}) < c(T^*)$ y $c(M^*) \le \frac{1}{2} c(T^*)$.
+2. **Heurística de mejora local 2-Opt**:
+   * Partiendo del tour inicial no óptimo $T_0 = (1, 3, 2, 4, 5, 1)$, calcular su coste total.
+   * Evaluar el movimiento 2-Opt que sustituye el par de aristas no adyacentes $(\{1, 3\}, \{2, 4\})$ por el par $(\{1, 2\}, \{3, 4\})$, calculando la variación neta de distancia $\Delta c$.
+   * Describir cómo invierte este operador la orientación del subcamino intermedio para generar el nuevo tour admisible.
+3. **Taxonomía del Problema de Rutas de Vehículos (VRP)**:
+   * Explicar la diferencia fundamental entre problemas de rutas por arcos (*Arc Routing*) y rutas por nodos (*Node Routing*), citando ejemplos prácticos de aplicación en ingeniería logística.
+   * Describir las 6 dimensiones operativas que caracterizan un problema de rutas de vehículos en la industria: composición de flota, configuración de depósitos, tipo de demanda, modalidad de transporte, ventanas de tiempo y criterios de optimización.

@@ -1,0 +1,309 @@
+/*-- scss:defaults --*/
+
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+$font-family-sans-serif: "Plus Jakarta Sans", sans-serif;
+$presentation-heading-font: "Outfit", sans-serif;
+
+// Colors matching Cerulean/Light Blue Madrid theme
+$body-bg: #f8fafc; // Light, soft gray-blue background
+$body-color: #1e293b; // Slate dark gray text
+$link-color: #0284c7; // Cerulean sky blue
+$heading-color: #0f172a; // Deep slate dark blue
+
+// Heading styles
+$presentation-heading-font-weight: 700;
+$presentation-title-slide-text-align: center;
+
+// Code block styles
+$code-block-bg: #0f172a;
+$code-block-color: #f8fafc;
+
+/*-- scss:rules --*/
+
+.reveal {
+  .slides {
+    font-size: 1.8rem;
+    
+    section {
+      padding: 40px 60px;
+      box-sizing: border-box;
+    }
+  }
+  
+  // Cover slide (id="title-slide") styling: clean, flat, centered, light theme matching regular slides
+  #title-slide {
+    background: #f8fafc !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100% !important;
+    padding: 0 40px !important;
+    box-sizing: border-box !important;
+    
+    h1.title {
+      font-size: 2.2em !important;
+      color: #ffffff !important;
+      background-color: #0284c7 !important; // Cerulean blue title box
+      padding: 25px 40px !important;
+      border-radius: 0px !important; // Rectangular corners
+      margin-top: 0 !important;
+      margin-bottom: 25px !important;
+      box-shadow: none !important;
+      width: 90% !important;
+      text-align: center !important;
+      line-height: 1.2 !important;
+      font-weight: 700 !important;
+    }
+    
+    p.subtitle {
+      font-size: 1.3em !important;
+      color: #64748b !important; // Flat slate gray
+      margin-top: 10px !important;
+      margin-bottom: 40px !important;
+      text-align: center !important;
+      width: 100% !important;
+      font-weight: 500 !important;
+    }
+    
+    .quarto-title-authors {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      text-align: center !important;
+      width: 100% !important;
+      margin-bottom: 15px !important;
+    }
+    
+    .quarto-title-author {
+      text-align: center !important;
+      width: 100% !important;
+    }
+    
+    .quarto-title-author-name {
+      font-size: 1.1em !important;
+      color: #0f172a !important; // Dark slate text
+      font-weight: 600 !important;
+      text-align: center !important;
+    }
+    
+    p.date {
+      font-size: 0.9em !important;
+      color: #64748b !important;
+      text-align: center !important;
+      width: 100% !important;
+      margin-top: 15px !important;
+    }
+  }
+
+  // Section divider slides (level-1 header sections) styling: matches cover style
+  .title-slide {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100% !important;
+    background: #f8fafc !important;
+    
+    h1 {
+      font-size: 2.2em !important;
+      color: #ffffff !important;
+      background-color: #0284c7 !important; // Cerulean blue title box
+      padding: 25px 40px !important;
+      border-radius: 0px !important; // Rectangular corners
+      margin-bottom: 0 !important;
+      width: 90% !important;
+      text-align: center !important;
+      line-height: 1.2 !important;
+      box-shadow: none !important;
+      font-weight: 700 !important;
+      text-shadow: none !important;
+    }
+  }
+
+  // Slide headings for regular slides (modernized Beamer top bar)
+  section:not(.title-slide) h2 {
+    font-size: 1.6em;
+    color: #ffffff; // White text for header bar
+    background-color: #0284c7; // Cerulean blue background band
+    margin-top: -40px; // Pull to the top edge of the slide padding
+    margin-left: -60px; // Pull to the left edge
+    margin-right: -60px; // Pull to the right edge
+    padding: 15px 60px;
+    font-weight: 700;
+    text-shadow: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
+    text-align: left;
+  }
+
+  // Lists
+  ul, ol {
+    margin-left: 1.5em;
+    li {
+      margin-bottom: 12px;
+      line-height: 1.4;
+      &::marker {
+        color: #0284c7; // Blue bullet points
+      }
+    }
+  }
+
+  // Callouts/Blocks — Estilos idénticos al Libro con SVG Icons
+  .callout {
+    border-radius: 4px !important;
+    margin: 20px 0;
+    padding: 12px 18px;
+    border-left: 6px solid #e2e8f0;
+    background-color: #f1f5f9;
+    font-size: 1.05em !important;
+    line-height: 1.5 !important;
+    
+    .callout-header {
+      display: flex !important;
+      align-items: center !important;
+      margin-bottom: 6px !important;
+      padding: 0 !important;
+    }
+
+    .callout-title-container {
+      display: flex !important;
+      align-items: center !important;
+      line-height: 1.25 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      flex: 1 1 auto !important;
+    }
+    
+    .callout-title {
+      font-size: 1.05em !important;
+      font-weight: 700 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .callout-icon-container {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 1.8rem !important;
+      height: 1.8rem !important;
+      min-width: 1.8rem !important;
+      border-radius: 50% !important;
+      margin: 0 0.75rem 0 0 !important;
+      padding: 0 !important;
+      align-self: center !important;
+      flex-shrink: 0 !important;
+    }
+
+    .callout-icon {
+      width: 1.1rem !important;
+      height: 1.1rem !important;
+      display: inline-block !important;
+      background-repeat: no-repeat !important;
+      background-position: center !important;
+      background-size: contain !important;
+    }
+
+    .callout-icon::before {
+      content: "" !important;
+      display: none !important;
+    }
+    
+    &.callout-note {
+      background-color: #f0f9ff;
+      border-left-color: #0284c7;
+      color: #0369a1;
+
+      .callout-icon-container {
+        background-color: #dbeafe !important;
+      }
+      .callout-icon {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231e40af"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>') !important;
+      }
+    }
+    
+    &.callout-important {
+      background-color: #fef2f2;
+      border-left-color: #ef4444;
+      color: #991b1b;
+
+      .callout-icon-container {
+        background-color: #fee2e2 !important;
+      }
+      .callout-icon {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23b91c1c"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6V4h2v8l2.5-1.5L13 12V4h5v16z"/></svg>') !important;
+      }
+    }
+    
+    &.callout-warning {
+      background-color: #fffbeb;
+      border-left-color: #f59e0b;
+      color: #92400e;
+
+      .callout-icon-container {
+        background-color: #fef3c7 !important;
+      }
+      .callout-icon {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23b45309"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>') !important;
+      }
+    }
+
+    &.callout-tip {
+      background-color: #f0fdf4;
+      border-left-color: #10b981;
+      color: #065f46;
+
+      .callout-icon-container {
+        background-color: #d1fae5 !important;
+      }
+      .callout-icon {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23047857"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>') !important;
+      }
+    }
+  }
+
+  // Hide the footer completely to free up vertical space
+  .footer {
+    display: none !important;
+  }
+
+  // Reposition and style the Reveal.js page number discretely in the corner
+  .slide-number {
+    position: absolute !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    font-size: 0.55em !important;
+    color: #64748b !important;
+    background-color: transparent !important;
+    z-index: 11 !important;
+    font-family: "Outfit", sans-serif !important;
+    font-weight: 600 !important;
+  }
+
+  // ── Imágenes: maximizar tamaño en diapositivas ────────────────────────────
+  // Imágenes autónomas (directamente en el slide, no en columnas .column)
+  // → ancho forzado al 92%, altura proporcional con tope para no desbordar
+  section:not(.title-slide) {
+    > p > img,
+    > figure > img {
+      width: 92% !important;
+      height: auto !important;
+      max-height: 60vh !important;
+      object-fit: contain !important;
+      display: block !important;
+      margin: 0 auto !important;
+    }
+  }
+
+  // Imágenes dentro de columnas (.column) — respetar su width original
+  // solo limitamos max-height para que no desborden
+  .column img {
+    max-height: 60vh !important;
+    object-fit: contain !important;
+  }
+}

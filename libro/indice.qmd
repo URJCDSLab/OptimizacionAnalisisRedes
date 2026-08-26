@@ -1,0 +1,138 @@
+---
+lang: es
+format:
+  pdf:
+    pdf-engine: weasyprint
+    paginate: false
+    css: ../estilos.css
+    header-includes: |
+      <style>
+      @page {
+        @bottom-center { content: none !important; }
+        @top-center { content: none !important; }
+        @bottom-left { content: none !important; }
+        @bottom-right { content: none !important; }
+        margin: 2.0cm 2.0cm;
+      }
+      @page toc {
+        @bottom-center { content: none !important; }
+      }
+      nav#TOC a {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        text-decoration: none;
+        color: inherit;
+      }
+      nav#TOC li {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 2.5px;
+      }
+      nav#TOC > ul > li {
+        margin-top: 10px;
+        font-weight: 700;
+        color: #0f172a;
+      }
+      nav#TOC > ul > ul > li {
+        font-weight: 400;
+        color: #334155;
+        font-size: 0.92em;
+      }
+      .page-num {
+        font-weight: 600;
+        color: #0284c7;
+        margin-left: auto;
+      }
+      .sec-page-num {
+        font-weight: 700;
+        color: #0f172a;
+        margin-left: auto;
+      }
+      </style>
+---
+
+<nav id="TOC">
+<h2>Índice General de Contenidos</h2>
+<ul>
+<li><a href="#guia-estudio">Guía de Estudio</a><span class="sec-page-num">{{GUIA_PAGE}}</span></li>
+<ul>
+<li>Presentación, competencias y metodología docente<span class="page-num">{{GUIA_P1}}</span></li>
+<li>Cronograma semanal (Bloques I y II)<span class="page-num">{{GUIA_P2}}</span></li>
+<li>Sistema de evaluación y bibliografía de referencia<span class="page-num">{{GUIA_P3}}</span></li>
+</ul>
+
+<li><a href="#apuntes-teoricos">Apuntes Teóricos</a><span class="sec-page-num">{{APUNTES_PAGE}}</span></li>
+<ul>
+<li>Tema 1: Introducción a la investigación operativa<span class="page-num">{{APUNTES_T1}}</span></li>
+<li>Tema 2: Optimización no lineal sin restricciones<span class="page-num">{{APUNTES_T2}}</span></li>
+<li>Tema 3: Análisis convexo<span class="page-num">{{APUNTES_T3}}</span></li>
+<li>Tema 4: Condiciones de optimalidad y KKT<span class="page-num">{{APUNTES_T4}}</span></li>
+<li>Tema 5: Dualidad KKT en programación lineal y cuadrática<span class="page-num">{{APUNTES_T5}}</span></li>
+<li>Tema 6: Grafos y árboles soporte<span class="page-num">{{APUNTES_T6}}</span></li>
+<li>Tema 7: Problema del camino mínimo<span class="page-num">{{APUNTES_T7}}</span></li>
+<li>Tema 8: Flujos en redes<span class="page-num">{{APUNTES_T8}}</span></li>
+<li>Tema 9: Emparejamientos en redes<span class="page-num">{{APUNTES_T9}}</span></li>
+<li>Tema 10: Rutas eulerianas, hamiltonianas, TSP y VRP<span class="page-num">{{APUNTES_T10}}</span></li>
+<li>Conclusiones de la obra<span class="page-num">{{APUNTES_CONCL}}</span></li>
+<li>Referencias bibliográficas<span class="page-num">{{APUNTES_REF}}</span></li>
+</ul>
+
+<li><a href="#diapositivas">Diapositivas de Clase</a><span class="sec-page-num">{{DIAPOSITIVAS_PAGE}}</span></li>
+<ul>
+<li>Tema 1: Introducción a la investigación operativa<span class="page-num">{{DIAPO_T1}}</span></li>
+<li>Tema 2: Optimización no lineal<span class="page-num">{{DIAPO_T2}}</span></li>
+<li>Tema 3: Análisis convexo<span class="page-num">{{DIAPO_T3}}</span></li>
+<li>Tema 4: Condiciones de optimalidad y KKT<span class="page-num">{{DIAPO_T4}}</span></li>
+<li>Tema 5: Programación lineal y cuadrática<span class="page-num">{{DIAPO_T5}}</span></li>
+<li>Tema 6: Grafos y árboles soporte<span class="page-num">{{DIAPO_T6}}</span></li>
+<li>Tema 7: Problema del camino mínimo<span class="page-num">{{DIAPO_T7}}</span></li>
+<li>Tema 8: Flujos en redes<span class="page-num">{{DIAPO_T8}}</span></li>
+<li>Tema 9: Emparejamientos en redes<span class="page-num">{{DIAPO_T9}}</span></li>
+<li>Tema 10: Rutas eulerianas, hamiltonianas, TSP y VRP<span class="page-num">{{DIAPO_T10}}</span></li>
+</ul>
+
+<li><a href="#ejercicios">Ejercicios Prácticos</a><span class="sec-page-num">{{EJERCICIOS_PAGE}}</span></li>
+<ul>
+<li>Ejercicios del Tema 1: Introducción a la investigación operativa<span class="page-num">{{EJ_T1}}</span></li>
+<li>Ejercicios del Tema 2: Optimización no lineal y métodos numéricos<span class="page-num">{{EJ_T2}}</span></li>
+<li>Ejercicios del Tema 3: Análisis convexo<span class="page-num">{{EJ_T3}}</span></li>
+<li>Ejercicios del Tema 4: Condiciones de optimalidad y KKT<span class="page-num">{{EJ_T4}}</span></li>
+<li>Ejercicios del Tema 5: Dualidad KKT en programación lineal y cuadrática<span class="page-num">{{EJ_T5}}</span></li>
+<li>Ejercicios del Tema 6: Grafos y árboles soporte de mínimo peso<span class="page-num">{{EJ_T6}}</span></li>
+<li>Ejercicios del Tema 7: Problema del camino mínimo<span class="page-num">{{EJ_T7}}</span></li>
+<li>Ejercicios del Tema 8: Flujos en redes<span class="page-num">{{EJ_T8}}</span></li>
+<li>Ejercicios del Tema 9: Emparejamientos en redes<span class="page-num">{{EJ_T9}}</span></li>
+<li>Ejercicios del Tema 10: Rutas eulerianas, hamiltonianas, TSP y VRP<span class="page-num">{{EJ_T10}}</span></li>
+</ul>
+
+<li><a href="#soluciones">Problemas Resueltos</a><span class="sec-page-num">{{SOLUCIONES_PAGE}}</span></li>
+<ul>
+<li>Soluciones del Tema 1: Introducción a la investigación operativa<span class="page-num">{{SOL_T1}}</span></li>
+<li>Soluciones del Tema 2: Optimización no lineal y métodos numéricos<span class="page-num">{{SOL_T2}}</span></li>
+<li>Soluciones del Tema 3: Análisis convexo<span class="page-num">{{SOL_T3}}</span></li>
+<li>Soluciones del Tema 4: Condiciones de optimalidad y KKT<span class="page-num">{{SOL_T4}}</span></li>
+<li>Soluciones del Tema 5: Dualidad KKT en programación lineal y cuadrática<span class="page-num">{{SOL_T5}}</span></li>
+<li>Soluciones del Tema 6: Grafos y árboles soporte de mínimo peso<span class="page-num">{{SOL_T6}}</span></li>
+<li>Soluciones del Tema 7: Problema del camino mínimo<span class="page-num">{{SOL_T7}}</span></li>
+<li>Soluciones del Tema 8: Flujos en redes<span class="page-num">{{SOL_T8}}</span></li>
+<li>Soluciones del Tema 9: Emparejamientos en redes<span class="page-num">{{SOL_T9}}</span></li>
+<li>Soluciones del Tema 10: Rutas eulerianas, hamiltonianas, TSP y VRP<span class="page-num">{{SOL_T10}}</span></li>
+</ul>
+
+<li><a href="#software">Software y Laboratorios</a><span class="sec-page-num">{{SOFTWARE_PAGE}}</span></li>
+<ul>
+<li>Laboratorio 1: Introducción al modelado y cálculo simbólico con SymPy<span class="page-num">{{LAB_1}}</span></li>
+<li>Laboratorio 2: Optimización no lineal con Python<span class="page-num">{{LAB_2}}</span></li>
+<li>Laboratorio 3: Análisis de convexidad y modelado con CVXPY<span class="page-num">{{LAB_3}}</span></li>
+<li>Laboratorio 4: Condiciones de optimalidad y KKT en Python<span class="page-num">{{LAB_4}}</span></li>
+<li>Laboratorio 5: Dualidad KKT y programación cuadrática en Python<span class="page-num">{{LAB_5}}</span></li>
+<li>Laboratorio 6: Grafos y árboles soporte de mínimo peso en Python<span class="page-num">{{LAB_6}}</span></li>
+<li>Laboratorio 7: Problemas de camino mínimo en Python<span class="page-num">{{LAB_7}}</span></li>
+<li>Laboratorio 8: Flujos en redes en Python<span class="page-num">{{LAB_8}}</span></li>
+<li>Laboratorio 9: Emparejamientos en redes en Python<span class="page-num">{{LAB_9}}</span></li>
+<li>Laboratorio 10: Rutas eulerianas, hamiltonianas, TSP y VRP en Python<span class="page-num">{{LAB_10}}</span></li>
+</ul>
+</ul>
+</nav>

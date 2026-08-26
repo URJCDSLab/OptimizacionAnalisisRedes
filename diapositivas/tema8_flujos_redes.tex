@@ -1,0 +1,4052 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+]{beamer}
+\newif\ifbibliography
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% remove section numbering
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{section title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{subsection title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+\usepackage{caption}
+% Make caption package work with longtable
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Tema 8: Flujos en redes},
+  pdfauthor={Víctor Aceña Gil - Antonio Alonso Ayuso},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Tema 8: Flujos en redes}
+\subtitle{Optimización y Análisis de Redes}
+\author{Víctor Aceña Gil - Antonio Alonso Ayuso}
+\date{2026-08-18}
+
+\begin{document}
+\frame{\titlepage}
+
+
+\begin{frame}{Objetivos de aprendizaje}
+\phantomsection\label{objetivos-de-aprendizaje}
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Formular} algebraicamente el concepto de flujo y circulación
+  en digrafos mediante las ecuaciones de conservación y balance en los
+  nodos.
+\item
+  \textbf{Caracterizar} la estructura vectorial de los flujos,
+  calculando las bases fundamentales de ciclos y el número ciclomático
+  \(\nu(G)\).
+\item
+  \textbf{Demostrar} y \textbf{aplicar} el Lema de Coloración de Arcos
+  de Minty mediante su algoritmo constructivo de etiquetado de vértices.
+\item
+  \textbf{Demostrar} y \textbf{analizar} el Teorema de Flujo Máximo -
+  Corte Mínimo de Ford-Fulkerson y la relación de dualidad en
+  optimización lineal.
+\item
+  \textbf{Ejecutar} y \textbf{caracterizar} el algoritmo de
+  Ford-Fulkerson en redes residuales mediante el método de etiquetado
+  directo y la cota de Edmonds-Karp.
+\item
+  \textbf{Formular} y \textbf{resolver} los problemas de flujo a coste
+  mínimo y el problema general del transbordo.
+\end{enumerate}
+\end{frame}
+
+\section{Estructura algebraica de flujos, ciclos y
+cociclos}\label{estructura-algebraica-de-flujos-ciclos-y-cociclos}
+
+\begin{frame}{Introducción y contexto físico}
+\phantomsection\label{introducciuxf3n-y-contexto-fuxedsico}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Representación de redes de flujo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Digrafo conexo \(G = (V, U)\) con \(n = |V|\) vértices y \(m = |U|\)
+    arcos dirigidos.
+  \item
+    Modela la circulación de bienes (tráfico vehicular, fluidos,
+    información, electricidad, capitales).
+  \end{itemize}
+\item
+  \textbf{Leyes físicas y topológicas}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Los flujos responden a leyes de conservación local en los vértices
+    (análogas a las leyes de Kirchhoff en circuitos o continuidad en
+    fluidos).
+  \end{itemize}
+\item
+  \textbf{Estructura matemática del problema}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Álgebra lineal aplicada sobre la topología del digrafo.
+  \item
+    Dualidad estricta entre circulaciones cerradas (ciclos) y barreras
+    de corte (cociclos).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Flujo en un digrafo y conservación}
+\phantomsection\label{definiciuxf3n-flujo-en-un-digrafo-y-conservaciuxf3n}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Flujo en un digrafo y conservación}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dado un digrafo conexo \(G = (V, U)\) con \(m\) arcos dirigidos, un
+\textbf{flujo} es un vector
+\(\mathbf{f} = (f_{u_1}, f_{u_2}, \dots, f_{u_m})^T \in \mathbb{R}^m\)
+cuyas componentes representan el caudal \(f_u\) que transita por cada
+arco \(u \in U\), satisfaciendo la \textbf{ley de conservación de flujo}
+en todos los vértices:
+
+\[
+\sum_{u \in w^+(i)} f_u = \sum_{u \in w^-(i)} f_u, \quad \forall i \in V
+\]
+
+donde \(w^+(i)\) son los arcos salientes del nodo \(i\) y \(w^-(i)\) los
+arcos entrantes al nodo \(i\).
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Nota de notación: Arcos, vectores y componentes}
+\phantomsection\label{nota-de-notaciuxf3n-arcos-vectores-y-componentes}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Distinción entre arcos, vectores y componentes}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Para evitar cualquier confusión entre los nombres de los arcos y los
+valores numéricos del flujo:
+
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Identificador del Arco}: Los \(m\) arcos del digrafo se
+  etiquetan como \(u_1, u_2, \dots, u_m \in U\) (o por pares ordenados
+  \(u = (i, j)\)).
+\item
+  \textbf{Identificador de Vectores (Superíndices)}: Los distintos
+  vectores de flujo o de ciclo se denotan en negrita mediante
+  \textbf{superíndices} (\(\mathbf{f}^1, \mathbf{f}^2, \mathbf{f}^3\);
+  \(\mathbf{\mu}^1, \mathbf{\mu}^2\)).
+\item
+  \textbf{Componentes Escalares de Arco (Subíndices)}: El caudal por el
+  arco \(u_k\) se denota mediante el \textbf{subíndice} \(f_{u_k}\) (o
+  \(f_{ij}\)). En los gráficos, se especifica el arco y su valor
+  (\(u_k: f_{u_k}\)).
+\end{enumerate}
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Balances nodales y tipos de nodos}
+\phantomsection\label{balances-nodales-y-tipos-de-nodos}
+\begin{itemize}
+\item
+  \textbf{Escalar de balance \(b_i \in \mathbb{R}\) en cada nodo
+  \(i \in V\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Nodo fuente (\(b_i > 0\))}: Inyecta \(b_i\) unidades netas
+    de flujo a la red.
+  \item
+    \textbf{Nodo sumidero (\(b_i < 0\))}: Extrae \(|b_i|\) unidades
+    netas de flujo de la red.
+  \item
+    \textbf{Nodo de transbordo (\(b_i = 0\))}: La suma entrante iguala a
+    la saliente (nodo de paso).
+  \end{itemize}
+\item
+  \textbf{Condición de equilibrio global}: \[\sum_{i \in V} b_i = 0\]
+\item
+  \textbf{Concepto de Circulación}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Cuando \(b_i = 0\) para todo \(i \in V\), la red no posee entradas
+    ni salidas externas.
+  \item
+    El vector de flujo \(\mathbf{f}\) se denomina estrictamente
+    \textbf{circulación}.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Representación gráfica de los tres vectores}
+\phantomsection\label{ejemplo-representaciuxf3n-gruxe1fica-de-los-tres-vectores}
+\begin{itemize}
+\tightlist
+\item
+  Representación visual de los vectores de flujo \(\mathbf{f}^1\),
+  \(\mathbf{f}^2\) y \(\mathbf{f}^3\) evaluados sobre la red de 5 nodos.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Evaluación del vector de flujo f1}
+\phantomsection\label{ejemplo-evaluaciuxf3n-del-vector-de-flujo-f1}
+Considérese el digrafo de 5 nodos y 7 arcos para evaluar el primer
+vector de flujo \(\mathbf{f}^1 \in \mathbb{R}^7\):
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Vector
+  \(\mathbf{f}^1 = (2.7;\, 2;\, 2;\, 2;\, 2.7;\, -0.7;\, 0)^T\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Nodo \(a\): Salen \(f_1 = 2.7\), entran
+    \(f_5 = 2.7 \implies 2.7 = 2.7\).
+  \item
+    Nodo \(b\): Salen \(f_2 = 2\), entran
+    \(f_1 + f_6 = 2.7 + (-0.7) = 2 \implies 2 = 2\).
+  \item
+    Nodo \(e\): Salen \(f_5 + f_6 + f_7 = 2.7 - 0.7 + 0 = 2\), entra
+    \(f_4 = 2 \implies 2 = 2\).
+  \item
+    \emph{Conclusión}: Cumple la ley de conservación en todos los nodos
+    \(\implies\) \textbf{Flujo válido}.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Evaluación de los vectores f2 y f3}
+\phantomsection\label{ejemplo-evaluaciuxf3n-de-los-vectores-f2-y-f3}
+Evaluación de los siguientes dos vectores de flujo en la misma red:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Vector
+  \(\mathbf{f}^2 = (0;\, 1;\, 1;\, 1;\, 0;\, 1;\, 0)^T\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Flujo circulante por el ciclo formado por los arcos
+    \(u_2, u_3, u_4, u_6\).
+  \item
+    Satisface la conservación en todos los vértices.
+  \end{itemize}
+\item
+  \textbf{Vector
+  \(\mathbf{f}^3 = (1;\, 0;\, -1;\, -1;\, 1;\, -1;\, -1)^T\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Satisface las ecuaciones de conservación en los 5 nodos.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Lema: Flujo nulo en árboles}
+\phantomsection\label{lema-flujo-nulo-en-uxe1rboles}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Flujo nulo en árboles}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Un flujo definido sobre un árbol (digrafo conexo acíclico) es
+necesariamente el \textbf{flujo nulo} (\(\mathbf{f} = \mathbf{0}\)).
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Demostración inductiva}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Todo árbol de \(n\) vértices posee \(n - 1\) arcos y contiene al
+    menos una hoja \(x_1\) de grado 1.
+  \item
+    Sea \(u\) el único arco incidente en \(x_1\). Por conservación,
+    \(f_u = 0\).
+  \item
+    Retirando inductivamente la hoja \(x_1\), se deduce que todas las
+    componentes son nulas: \(f_u = 0, \forall u \in U\).
+  \end{itemize}
+\item
+  \textbf{Conclusión fundamental}: La presencia de \textbf{ciclos
+  cerrados es estrictamente necesaria} para sostener circulaciones no
+  nulas en una red.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Lema: Estructura vectorial del espacio de flujos}
+\phantomsection\label{lema-estructura-vectorial-del-espacio-de-flujos}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Estructura vectorial del espacio de flujos}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Cualquier combinación lineal de flujos es un flujo. En consecuencia, el
+conjunto de flujos definidos sobre un digrafo \(G = (V, U)\) forma un
+espacio vectorial.
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Clausura algebraica}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Si \(\mathbf{f}^1\) y \(\mathbf{f}^2\) son flujos y
+    \(\alpha, \beta \in \mathbb{R}\), entonces
+    \(\alpha \mathbf{f}^1 + \beta \mathbf{f}^2\) es un flujo factible.
+  \item
+    La suma y el escalado de circulaciones preservan exactamente la
+    conservación nodal.
+  \end{itemize}
+\item
+  \textbf{Objetivo de caracterización}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Identificar la dimensión de este espacio vectorial y construir una
+    \textbf{base de flujos}.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Representación del flujo resultante}
+\phantomsection\label{ejemplo-representaciuxf3n-del-flujo-resultante}
+\begin{itemize}
+\tightlist
+\item
+  El flujo resultante
+  \(\mathbf{f} = (2.4;\, 5;\, 8;\, 8;\, 2.4;\, 2.6;\, 3)^T\) satisface
+  la conservación en todos los nodos y constituye un flujo factible bien
+  definido.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Combinación lineal de vectores de flujo}
+\phantomsection\label{ejemplo-combinaciuxf3n-lineal-de-vectores-de-flujo}
+Considérense los tres vectores de flujo
+\(\mathbf{f}^1, \mathbf{f}^2, \mathbf{f}^3 \in \mathbb{R}^7\). Evaluamos
+la combinación lineal:
+
+\[\mathbf{f} = 2\mathbf{f}^1 + \mathbf{f}^2 - 3\mathbf{f}^3\]
+
+\[
+\begin{aligned}
+\mathbf{f} &= 2(2.7;\, 2;\, 2;\, 2;\, 2.7;\, -0.7;\, 0)^T + (0;\, 1;\, 1;\, 1;\, 0;\, 1;\, 0)^T - 3(1;\, 0;\, -1;\, -1;\, 1;\, -1;\, -1)^T \\
+&= (2.4;\, 5;\, 8;\, 8;\, 2.4;\, 2.6;\, 3)^T
+\end{aligned}
+\]
+\end{frame}
+
+\begin{frame}{Ejemplo: Verificación de conservación en los vértices}
+\phantomsection\label{ejemplo-verificaciuxf3n-de-conservaciuxf3n-en-los-vuxe9rtices}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Verificación nodo a nodo del flujo
+  \(\mathbf{f} = (2.4;\, 5;\, 8;\, 8;\, 2.4;\, 2.6;\, 3)^T\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Nodo \(a\)}: Salen \(f_1 = 2.4\), entran
+    \(f_5 = 2.4 \implies 2.4 = 2.4\).
+  \item
+    \textbf{Nodo \(b\)}: Salen \(f_2 = 5\), entran
+    \(f_1 + f_6 = 2.4 + 2.6 = 5 \implies 5 = 5\).
+  \item
+    \textbf{Nodo \(c\)}: Salen \(f_3 = 8\), entran
+    \(f_2 + f_7 = 5 + 3 = 8 \implies 8 = 8\).
+  \item
+    \textbf{Nodo \(d\)}: Salen \(f_4 = 8\), entran
+    \(f_3 = 8 \implies 8 = 8\).
+  \item
+    \textbf{Nodo \(e\)}: Salen \(f_5 + f_6 + f_7 = 2.4 + 2.6 + 3 = 8\),
+    entra \(f_4 = 8 \implies 8 = 8\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición de ciclo y clasificación de arcos}
+\phantomsection\label{definiciuxf3n-de-ciclo-y-clasificaciuxf3n-de-arcos}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concepto de Ciclo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Cadena simple \(\mu\) (sin repetir arcos) cuyo nodo inicial y final
+    coinciden.
+  \item
+    Al fijar un sentido de giro de referencia, los arcos del digrafo se
+    clasifican en:
+  \end{itemize}
+\item
+  \textbf{Clasificación de arcos}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Arcos positivos (\(u \in \mu^+\))}: Su orientación en el
+    digrafo coincide con el sentido del ciclo.
+  \item
+    \textbf{Arcos negativos (\(u \in \mu^-\))}: Su orientación en el
+    digrafo es opuesta al sentido del ciclo.
+  \item
+    \textbf{Arcos neutros (\(u \notin \mu\))}: Arcos fuera de la cadena
+    del ciclo.
+  \end{itemize}
+\item
+  \textbf{Inversión de giro}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Invertir la orientación de referencia intercambia los arcos
+    positivos y negativos (\(\mu^+ \leftrightarrow \mu^-\)).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Clasificación visual de arcos en un ciclo}
+\phantomsection\label{clasificaciuxf3n-visual-de-arcos-en-un-ciclo}
+\begin{itemize}
+\tightlist
+\item
+  Al recorrer la red según el sentido de giro elegido:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arcos directos o positivos (\(\mu^+\)): \(1, 4, 3\).
+  \item
+    Arcos opuestos o negativos (\(\mu^-\)): \(6, 7\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Vector característico de un ciclo}
+\phantomsection\label{definiciuxf3n-vector-caracteruxedstico-de-un-ciclo}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Vector característico de un ciclo}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Un ciclo \(\mu\) se representa algebraicamente mediante un vector
+característico
+\(\mathbf{\mu} = (\mu_1, \mu_2, \dots, \mu_m)^T \in \mathbb{R}^m\),
+donde la componente asociada a cada arco \(u \in U\) se define como:
+
+\[
+\mu_u = \begin{cases}
++1 & \text{si } u \in \mu^+ \\
+-1 & \text{si } u \in \mu^- \\
+0 & \text{si } u \notin \mu
+\end{cases}
+\]
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Traduce la estructura combinatoria de un ciclo a un vector de entradas
+  \(\{-1, 0, 1\}\) en \(\mathbb{R}^m\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Digrafo de referencia para vectores de ciclos}
+\phantomsection\label{ejemplo-digrafo-de-referencia-para-vectores-de-ciclos}
+\begin{itemize}
+\tightlist
+\item
+  Digrafo de 5 nodos y 7 arcos utilizado para la evaluación de los
+  vectores característicos de ciclos
+  \(\mathbf{\mu}_1 \dots \mathbf{\mu}_5\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Vectores característicos de ciclos}
+\phantomsection\label{ejemplo-vectores-caracteruxedsticos-de-ciclos}
+Considérese el digrafo de referencia de 5 nodos \(s, b, c, d, t\) y 7
+arcos. Se identifican los siguientes ciclos
+\(\mathbf{\mu}_k \in \mathbb{R}^7\):
+
+\begin{itemize}
+\item
+  \(\mathbf{\mu}_1 = (1, 1, 1, 0, 0, 0, 0)^T\): Ciclo orientado
+  \(s \to b \to c \to s\) (arcos \(1, 2, 3\)).
+\item
+  \(\mathbf{\mu}_2 = (0, -1, 0, 1, 1, 0, 0)^T\): Ciclo
+  \(b \to d \to c \to b\) (arcos \(4, 5\) y opuesto de \(2\)).
+\item
+  \(\mathbf{\mu}_3 = (1, 0, 1, 1, 1, 0, 0)^T\): Ciclo exterior
+  \(s \to b \to d \to c \to s\).
+\item
+  \(\mathbf{\mu}_5 = (-1, -1, -1, 0, 0, 0, 0)^T\): Ciclo inverso al
+  ciclo \(\mathbf{\mu}_1\).
+\item
+  \textbf{Relaciones lineales}:
+  \[\mathbf{\mu}_1 = -\mathbf{\mu}_5, \qquad \mathbf{\mu}_3 = \mathbf{\mu}_1 + \mathbf{\mu}_2\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Representación gráfica: Ciclos como flujos}
+\phantomsection\label{representaciuxf3n-gruxe1fica-ciclos-como-flujos}
+\begin{itemize}
+\tightlist
+\item
+  Los vectores \(\mathbf{f}^2 = (0;\, 1;\, 1;\, 1;\, 0;\, 1;\, 0)^T\) y
+  \(\mathbf{f}^3 = (1;\, 0;\, -1;\, -1;\, 1;\, -1;\, -1)^T\) son flujos
+  válidos generados por ciclos que satisfacen la conservación en todos
+  los nodos.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Proposición: Los ciclos son flujos}
+\phantomsection\label{proposiciuxf3n-los-ciclos-son-flujos}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Los ciclos son flujos}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+El vector característico \(\mathbf{\mu}\) asociado a cualquier ciclo en
+un digrafo es un flujo.
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Verificación de la conservación nodal}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Para \(i \notin \mu\): Ningún arco incidente pertenece al ciclo
+    \(\implies 0 = 0\).
+  \item
+    Para \(i \in \mu\): El ciclo entra por un arco \(u_{in}\) y sale por
+    \(u_{out}\).
+  \item
+    Analizando la orientación respecto al giro (positivo o negativo), la
+    contribución al balance entrante \(\sum f_{in}\) es igual a la del
+    saliente \(\sum f_{out}\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Corolario: Variación de flujo mediante ciclos}
+\phantomsection\label{corolario-variaciuxf3n-de-flujo-mediante-ciclos}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Variación de flujo mediante ciclos}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dado un flujo \(\mathbf{f}\) en un digrafo \(G\) y un ciclo
+\(\mathbf{\mu}\), el vector resultante de sumar a \(\mathbf{f}\) el
+vector asociado al ciclo multiplicado por una constante
+\(\alpha \in \mathbb{R}\)
+(\(\mathbf{f}' = \mathbf{f} + \alpha \mathbf{\mu}\)) es también un flujo
+en \(G\).
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Permite modificar localmente el caudal de una red sin alterar el
+  equilibrio de los nodos.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Independencia de flujos}
+\phantomsection\label{definiciuxf3n-independencia-de-flujos}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Independencia de flujos}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dado un digrafo \(G = (V, U)\), un conjunto de flujos
+\(\{\mathbf{f}^1, \mathbf{f}^2, \dots, \mathbf{f}^k\}\) es linealmente
+independiente si sus correspondientes vectores en \(\mathbb{R}^m\) son
+linealmente independientes.
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  La independencia lineal garantiza que ninguno de los flujos de la base
+  pueda construirse combinando los restantes.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teorema: Base fundamental de ciclos}
+\phantomsection\label{teorema-base-fundamental-de-ciclos}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Base fundamental de ciclos}, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame]
+
+Sea \(G = (V, U)\) un digrafo conexo con \(n\) vértices y \(m\) arcos, y
+sea \(H = (V, T)\) un árbol soporte de \(G\) (formado por \(n - 1\)
+arcos).
+
+Al añadir a \(T\) cualquier arco fuera del árbol
+\(u \in U \setminus T\), se forma un único ciclo elemental \(\mu^u\) en
+\(G\) tal que \(\mu^u_u = 1\). El conjunto de ciclos
+\(H = \{\mu^u \mid u \in U \setminus T\}\) constituye una \textbf{base
+del espacio vectorial de flujos} del digrafo \(G\).
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Aclaración teórica}: El número de vectores de ciclo necesarios
+  para generar cualquier circulación en el digrafo queda determinado
+  exclusivamente por la cantidad de arcos fuera del árbol soporte
+  (\(\nu(G) = m - n + 1\)).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Número ciclomático}
+\phantomsection\label{definiciuxf3n-nuxfamero-ciclomuxe1tico}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Número ciclomático}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Se define el \textbf{número ciclomático} \(\nu(G)\) de un digrafo conexo
+\(G = (V, U)\) como la dimensión del espacio vectorial de sus flujos:
+
+\[
+\nu(G) = m - n + 1
+\]
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Basta con identificar \(m - n + 1\) cuerdas fuera del árbol soporte
+  para caracterizar unívocamente todo el espacio de circulaciones.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Base de ciclos - Planteamiento y Pasos}
+\phantomsection\label{ejemplo-base-de-ciclos---planteamiento-y-pasos}
+Considérese el digrafo de \(n = 5\) nodos y \(m = 7\) arcos. Su número
+ciclomático es \(\nu(G) = 7 - 5 + 1 = 3\).
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Paso 1: Selección del Árbol Soporte y Cuerdas}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Árbol soporte \(T = \{u_1, u_4, u_5, u_7\}\) (4 arcos en
+    \textbf{azul}).
+  \item
+    Cuerdas o arcos no básicos \(U \setminus T = \{u_2, u_3, u_6\}\) (3
+    arcos en \textbf{gris}).
+  \end{itemize}
+\item
+  \textbf{Paso 2: Generación de los 3 Ciclos Fundamentales}
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    Añadir
+    \(u_2 = (b, c) \implies \mathbf{\mu}^2 = (1, 1, 0, 0, 1, 0, -1)^T\).
+  \item
+    Añadir
+    \(u_3 = (c, d) \implies \mathbf{\mu}^3 = (0, 0, 1, 1, 0, 0, 1)^T\).
+  \item
+    Añadir
+    \(u_6 = (e, b) \implies \mathbf{\mu}^6 = (-1, 0, 0, 0, -1, 1, 0)^T\).
+  \end{enumerate}
+\item
+  \textbf{Paso 3: Descomposición Unívoca de un Flujo} Dado el flujo
+  \(\mathbf{f} = (3, 4, 6, 6, 3, 1, 2)^T\), sus coordenadas en la base
+  son \(f_{u_2} = 4, f_{u_3} = 6, f_{u_6} = 1\):
+  \[\mathbf{f} = 4 \mathbf{\mu}^2 + 6 \mathbf{\mu}^3 + 1 \mathbf{\mu}^6\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Animación interactiva con controles}
+\phantomsection\label{ejemplo-animaciuxf3n-interactiva-con-controles}
+\end{frame}
+
+\begin{frame}{Definición: Cociclo (Corte)}
+\phantomsection\label{definiciuxf3n-cociclo-corte}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Cociclo (Corte)}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dado un digrafo conexo \(G = (V, U)\) y un subconjunto propio no vacío
+de vértices \(A \subset V\), se define el \textbf{cociclo} \(w(A)\) como
+el subconjunto de arcos que tienen un extremo en \(A\) y el otro en
+\(V \setminus A\):
+
+\[
+w(A) = w^+(A) \cup w^-(A)
+\]
+
+donde \(w^+(A)\) son los arcos salientes de \(A\) y \(w^-(A)\) los arcos
+entrantes a \(A\).
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Definición: Vector característico de un cociclo}
+\phantomsection\label{definiciuxf3n-vector-caracteruxedstico-de-un-cociclo}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Vector característico de un cociclo}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Un cociclo \(w(A)\) se representa algebraicamente mediante un vector
+característico
+\(\mathbf{\theta} = (\theta_1, \theta_2, \dots, \theta_m)^T \in \mathbb{R}^m\),
+cuyas componentes se definen como:
+
+\[
+\theta_u = \begin{cases}
++1 & \text{si } u \in w^+(A) \\
+-1 & \text{si } u \in w^-(A) \\
+0 & \text{si } u \notin w(A)
+\end{cases}
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Representación gráfica de un cociclo}
+\phantomsection\label{representaciuxf3n-gruxe1fica-de-un-cociclo}
+\begin{itemize}
+\tightlist
+\item
+  Para el conjunto de nodos \(A = \{s, b, c\}\) (en \textbf{azul}), los
+  arcos del cociclo \(w(A)\) (en \textbf{rojo teja}) son
+  \(u_4, u_7 \in w^+(A)\) (\(\theta = +1\)) y \(u_5 \in w^-(A)\)
+  (\(\theta = -1\)), resultando
+  \(\mathbf{\theta} = (0, 0, 0, 1, -1, 0, 1)^T\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Representación gráfica de los dos cociclos}
+\phantomsection\label{ejemplo-representaciuxf3n-gruxe1fica-de-los-dos-cociclos}
+\begin{itemize}
+\tightlist
+\item
+  Comparativa visual de las particiones \(A_1 = \{a, b, e\}\)
+  (izquierda) y \(A_2 = \{b, d\}\) (derecha) con sus respectivos
+  vectores característicos \(\mathbf{\theta}^1\) y
+  \(\mathbf{\theta}^2\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Evaluación de vectores de cociclo (Parte 1)}
+\phantomsection\label{ejemplo-evaluaciuxf3n-de-vectores-de-cociclo-parte-1}
+Evaluación de dos particiones sobre la red de 5 nodos y 7 arcos:
+
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Subconjunto \(A_1 = \{a, b, e\}\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Nodos \(a, b, e\) en la región izquierda (\(A_1\)) y \(c, d\) en la
+    derecha (\(V \setminus A_1\)).
+  \item
+    Arcos internos a \(A_1\): \(u_1, u_5, u_6 \implies \theta = 0\).
+  \item
+    Arcos salientes \(w^+(A_1)\): \(u_2=(b,c)\) y
+    \(u_7=(e,c) \implies \theta_{u_2} = 1, \theta_{u_7} = 1\).
+  \item
+    Arcos entrantes \(w^-(A_1)\):
+    \(u_4=(d,e) \implies \theta_{u_4} = -1\).
+  \item
+    Arcos externos a \(A_1\): \(u_3=(c,d) \implies \theta_{u_3} = 0\).
+  \item
+    Vector característico de \(w(A_1)\):
+    \[\mathbf{\theta}^1 = (0;\, 1;\, 0;\, -1;\, 0;\, 0;\, 1)^T\]
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Ejemplo: Evaluación de vectores de cociclo (Parte 2)}
+\phantomsection\label{ejemplo-evaluaciuxf3n-de-vectores-de-cociclo-parte-2}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \textbf{Subconjunto \(A_2 = \{b, d\}\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Nodos \(b, d\) en la región superior (\(A_2\)) y \(a, c, e\) en la
+    inferior (\(V \setminus A_2\)).
+  \item
+    Arcos salientes \(w^+(A_2)\): \(u_2=(b,c)\) y
+    \(u_4=(d,e) \implies \theta_{u_2} = 1, \theta_{u_4} = 1\).
+  \item
+    Arcos entrantes \(w^-(A_2)\): \(u_1=(a,b)\), \(u_3=(c,d)\) y
+    \(u_6=(e,b) \implies \theta_{u_1} = -1, \theta_{u_3} = -1, \theta_{u_6} = -1\).
+  \item
+    Arcos no incidentes: \(u_5, u_7 \implies \theta = 0\).
+  \item
+    Vector característico de \(w(A_2)\):
+    \[\mathbf{\theta}^2 = (-1;\, 1;\, -1;\, 1;\, 0;\, -1;\, 0)^T\]
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Ortogonalidad fundamental entre ciclos y cociclos}
+\phantomsection\label{ortogonalidad-fundamental-entre-ciclos-y-cociclos}
+\begin{itemize}
+\item
+  \textbf{Producto Escalar Nulo}: Para cualquier ciclo \(\mathbf{\mu}\)
+  y cualquier cociclo \(\mathbf{\theta}\) sobre el mismo digrafo
+  \(G = (V, U)\):
+
+  \[
+  \mathbf{\mu}^T \mathbf{\theta} = \sum_{u \in U} \mu_u \theta_u = 0
+  \]
+\item
+  \textbf{Significado Físico}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El caudal neto transportado por cualquier circulación cerrada a
+    través de un corte topológico es idénticamente nulo.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Subespacios ortogonales complementarios}
+\phantomsection\label{subespacios-ortogonales-complementarios}
+\begin{itemize}
+\item
+  \textbf{Subespacios Ortogonales en \(\mathbb{R}^m\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Espacio de Flujos \(\mathcal{C}\) (\(\dim = m - n + 1\)).
+  \item
+    Espacio de Cociclos \(\mathcal{C}^*\) (\(\dim = n - 1\)).
+  \end{itemize}
+\item
+  \textbf{Suma directa ortogonal}:
+  \[\mathbb{R}^m = \mathcal{C} \oplus \mathcal{C}^*\]
+\item
+  \textbf{Complementariedad dimensional}: \[(m - n + 1) + (n - 1) = m\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Lema: Coloración de arcos de Minty}
+\phantomsection\label{lema-coloraciuxf3n-de-arcos-de-minty}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Coloración de arcos de Minty}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Sea \(G = (V, U)\) un digrafo conexo cuyos arcos se encuentran
+coloreados con cuatro opciones: \textbf{negro} (\(N\)), \textbf{verde}
+(\(V\)), \textbf{rojo} (\(R\)) o \textbf{sin color} (\(0\)), existiendo
+al menos un arco negro \(u_0 \in U\).
+
+Entonces se cumple \textbf{una y solo una} de las dos aseveraciones:
+
+\begin{enumerate}
+\tightlist
+\item
+  El arco negro \(u_0\) pertenece a un \textbf{ciclo elemental}
+  coloreado (arcos negros positivos, verdes negativos y rojos
+  arbitrarios).
+\item
+  El arco negro \(u_0\) pertenece a un \textbf{cociclo elemental}
+  coloreado (arcos negros en \(w^+(A)\), verdes en \(w^-(A)\) y sin
+  color arbitrarios).
+\end{enumerate}
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Demostración constructiva de Minty (Algoritmo)}
+\phantomsection\label{demostraciuxf3n-constructiva-de-minty-algoritmo}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Sea el arco negro \(u_0 = (t, s)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Paso 1: Etiquetado inicial}: Asignar \(p(s) = s\). El resto
+    \(p(j) = 0\).
+  \item
+    \textbf{Paso 2: Propagación de etiquetas}: Dado \(i \in A\)
+    (\(p(i) \neq 0\)) y \(j \notin A\) (\(p(j) = 0\)), asignar
+    \(p(j) = i\) si:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Existe el arco saliente \((i, j)\) coloreado de \textbf{negro} o
+      \textbf{rojo}.
+    \item
+      Existe el arco entrante \((j, i)\) coloreado de \textbf{verde} o
+      \textbf{rojo}.
+    \end{itemize}
+  \item
+    \textbf{Paso 3: Criterio de parada}:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \textbf{Caso A (\(p(t) \neq 0\))}: Se alcanza \(t \implies\)
+      \textbf{Ciclo elemental} de \(t\) a \(s\) con \(u_0\).
+    \item
+      \textbf{Caso B (\(p(t) = 0\))}: No se alcanza \(t \implies\)
+      \textbf{Cociclo elemental} sobre \(A = \{i \mid p(i) \neq 0\}\).
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Minty: Representación gráfica}
+\phantomsection\label{ejemplo-minty-representaciuxf3n-gruxe1fica}
+\begin{itemize}
+\tightlist
+\item
+  Izquierda: Propagación de marcas hasta alcanzar el nodo origen \(b\)
+  (Caso A - Ciclo).
+\item
+  Derecha: Propagación detenida sin alcanzar \(b\) (Caso B - Cociclo).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Minty - Caso A y Caso B}
+\phantomsection\label{ejemplo-minty---caso-a-y-caso-b}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Caso A: Generación de un Ciclo} (Gráfico Izquierdo)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arco negro \(u_0 = (b, c)\). Arco \((e, b)\) en \textbf{rojo};
+    \((e, c), (d, c), (d, e), (a, e)\) en \textbf{verde}.
+  \item
+    Propagación: \(p(c)=c \to p(e)=c \to p(d)=c \to p(b)=e\).
+  \item
+    Se alcanza \(b \implies\) Ciclo
+    \(\mu = \{(e, b), (e, c), (b, c)\}\).
+  \end{itemize}
+\item
+  \textbf{Caso B: Generación de un Cociclo} (Gráfico Derecho)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arco negro \(u_0 = (b, c)\). Arcos \((e, b), (e, c), (c, d)\) en
+    \textbf{verde}; \((d, e), (a, b)\) en \textbf{negro}.
+  \item
+    Propagación: \(p(c)=c \to p(e)=c\). Los arcos salientes verdes no
+    admiten marca \(\implies p(b)=0\).
+  \item
+    Cociclo \(w(A)\) sobre \(A = \{c, e\}\) con \(u_0 \in w^-(A)\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Observación: Elementalidad de los ciclos y cociclos}
+\phantomsection\label{observaciuxf3n-elementalidad-de-los-ciclos-y-cociclos}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Elementalidad de los ciclos y cociclos de Minty}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+\begin{enumerate}
+\item
+  \textbf{Elementalidad del Ciclo}: Al alcanzar el origen \(t\), la
+  asignación de antecesores \(p(j)\) asigna un único padre a cada nodo,
+  impidiendo vértices duplicados en la trayectoria de retorno.
+\item
+  \textbf{Elementalidad del Cociclo}: La partición \(A\) (etiquetados) y
+  \(V \setminus A\) (no etiquetados) genera subgrafos inducidos \(G[A]\)
+  y \(G[V \setminus A]\) conexos por construcción inductiva del
+  etiquetado.
+\end{enumerate}
+
+\end{tcolorbox}
+\end{frame}
+
+\section{El problema del flujo
+máximo}\label{el-problema-del-flujo-muxe1ximo}
+
+\begin{frame}{Introducción al problema del flujo máximo}
+\phantomsection\label{introducciuxf3n-al-problema-del-flujo-muxe1ximo}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Motivación estratégica}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Determinar el volumen máximo de mercancía, datos o fluidos que puede
+    enviarse desde un nodo fuente \(s\) a un nodo sumidero \(t\).
+  \item
+    Respetar la capacidad física máxima \(c_u\) de cada conexión.
+  \end{itemize}
+\item
+  \textbf{Relevancia práctica}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Logística de distribución y transporte.
+  \item
+    Capacidad de tráfico en redes de comunicaciones e infraestructuras.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Red de transporte}
+\phantomsection\label{definiciuxf3n-red-de-transporte}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Red de transporte}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Una \textbf{red de transporte} es un par \((G = (V, U), \mathbf{c})\),
+donde \(G = (V, U)\) es un digrafo conexo sin bucles y
+\(\mathbf{c} = \{c_u \mid u \in U\}\) representa el conjunto de
+\textbf{capacidades} superiores no negativas asociadas a cada arco
+\(u \in U\) (\(c_u \ge 0\)).
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  La capacidad \(c_u\) fija la cota física máxima de caudal por el arco
+  \(u\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Flujo compatible (preliminar)}
+\phantomsection\label{definiciuxf3n-flujo-compatible-preliminar}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Flujo compatible (versión preliminar)}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dada una red de transporte \((G, \mathbf{c})\), se define un
+\textbf{flujo compatible} como un vector \(\mathbf{f} \in \mathbb{R}^m\)
+que satisface:
+
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Ley de conservación pura}:
+  \(\sum_{u \in w^+(i)} f_u = \sum_{u \in w^-(i)} f_u, \quad \forall i \in V\).
+\item
+  \textbf{Compatibilidad con capacidades}:
+  \(0 \le f_u \le c_u, \quad \forall u \in U\).
+\end{enumerate}
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Paradoja de la conservación nula en s y t}
+\phantomsection\label{paradoja-de-la-conservaciuxf3n-nula-en-s-y-t}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Conflicto en la fuente \(s\) y el sumidero \(t\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    De la fuente \(s\) solo salen arcos (\(w^-(s) = \emptyset\)). Si
+    exigimos conservación pura,
+    \(\sum_{entrantes} f_u = 0 \implies \sum_{salientes} f_u = 0 \implies f_u = 0, \forall u \in w^+(s)\).
+  \item
+    Al sumidero \(t\) solo entran arcos (\(w^+(t) = \emptyset\)). Exigir
+    conservación pura impone \(\sum_{entrantes} f_u = 0\).
+  \end{itemize}
+\item
+  \textbf{Efecto de bloqueo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Exigir conservación estricta en todos los nodos sin excepción fuerza
+    a que el \textbf{único flujo compatible sea el flujo nulo}
+    (\(\mathbf{f} = \mathbf{0}\)).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ilustración: Paradoja del flujo nulo}
+\phantomsection\label{ilustraciuxf3n-paradoja-del-flujo-nulo}
+\begin{itemize}
+\tightlist
+\item
+  Si se impone la ley de conservación pura en \(s\) y \(t\), la única
+  solución admisible es \(\mathbf{f} = \mathbf{0}\), impidiendo el envío
+  de flujo útil.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Concepto: Arco ficticio de retorno}
+\phantomsection\label{concepto-arco-ficticio-de-retorno}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Construcción del arco ficticio de retorno \(u_0 = (t, s)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Se conecta el sumidero \(t\) de regreso a la fuente \(s\) mediante
+    \(u_0 = (t, s)\) con capacidad ilimitada (\(c_0 = \infty\)).
+  \item
+    Todo el flujo que llega a \(t\) recircula de vuelta a \(s\),
+    convirtiendo el transporte en una \textbf{circulación cerrada}.
+  \end{itemize}
+\item
+  \textbf{Valor del flujo \(v(\mathbf{f})\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El caudal por el arco ficticio representa el flujo neto
+    transportado:
+    \[f_0 = v(\mathbf{f}) = \sum_{j \in \Gamma^+(s)} f_{sj} = \sum_{j \in \Gamma^-(t)} f_{jt}\]
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: (s,t)-Flujo compatible}
+\phantomsection\label{definiciuxf3n-st-flujo-compatible}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{(s, t)-Flujo compatible}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dada una red de transporte \((G = (V, U), \mathbf{c})\) y dos vértices
+\(s, t \in V\), un \textbf{\((s, t)\)-flujo compatible} es una
+circulación factible sobre la red ampliada
+\(G' = (V, U \cup \{u_0=(t,s)\})\) con \(c_0 = \infty\), tal que
+\(0 \le f_u \le c_u, \forall u \in U\).
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Permite formular la conservación en \textbf{todos} los nodos
+  incluyendo \(s\) y \(t\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ilustración: Red ampliada con retorno ficticio}
+\phantomsection\label{ilustraciuxf3n-red-ampliada-con-retorno-ficticio}
+\begin{itemize}
+\tightlist
+\item
+  El arco ficticio \(u_0 = (t, s)\) lleva un valor de flujo \(f_0 = 8\),
+  permitiendo cerrar la red y definir \(v(\mathbf{f}) = 8\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Formulación del problema del flujo máximo}
+\phantomsection\label{formulaciuxf3n-del-problema-del-flujo-muxe1ximo}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Problema del flujo máximo}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dada una red de transporte \((G = (V, U), \mathbf{c})\) y dos vértices
+\(s, t \in V\), el \textbf{problema del flujo máximo} consiste en
+determinar un \((s, t)\)-flujo compatible
+\(\mathbf{f}^* \in \mathbb{R}^m\) que maximice el valor \(f_0\) del arco
+de retorno \(u_0 = (t, s)\):
+
+\[
+\begin{aligned}
+\max_{\mathbf{f} \in \mathbb{R}^m} \quad & f_0 = \sum_{j \in \Gamma^+(s)} f_{sj} = \sum_{j \in \Gamma^-(t)} f_{jt} \\
+\text{s.a.} \quad & \sum_{u \in w^+(i)} f_u - \sum_{u \in w^-(i)} f_u = 0, \quad \forall i \in V \\
+& 0 \le f_u \le c_u, \quad \forall u \in U
+\end{aligned}
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Ejemplo: Evaluación gráfica de compatibilidad}
+\phantomsection\label{ejemplo-evaluaciuxf3n-gruxe1fica-de-compatibilidad}
+\begin{itemize}
+\tightlist
+\item
+  Evaluación de la compatibilidad de caudales sobre una red de 6 nodos
+  con un valor de flujo \(f_0 = 8\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Compatibilidad y saturación (Análisis)}
+\phantomsection\label{ejemplo-compatibilidad-y-saturaciuxf3n-anuxe1lisis}
+Considérese la red de 6 nodos \(V = \{s, b, c, d, e, t\}\) con flujo de
+retorno \(f_0 = 8\):
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Flujo compatible base}: Todos los arcos satisfacen
+  \(0 \le f_u \le c_u\).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arco \((s, b)\): \(f_{sb} = 5 \le c_{sb} = 5 \implies\) \textbf{Arco
+    saturado}.
+  \item
+    Arco \((b, c)\): \(f_{bc} = 2 \le c_{bc} = 3 \implies\) \textbf{Arco
+    no saturado}.
+  \end{itemize}
+\item
+  \textbf{Intento de modificación por ciclo}: Añadir 2 unidades por el
+  ciclo \(c \to d \to e \to c\):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arco \((c, d)\): \(f_{cd} = 1 + 2 = 3 > c_{cd} = 1 \implies\)
+    \textbf{Violación de capacidad}.
+  \item
+    Arco \((d, e)\): \(f_{de} = 4 + 2 = 6 > c_{de} = 3 \implies\)
+    \textbf{Violación de capacidad}.
+  \end{itemize}
+\item
+  \textbf{Conclusión}: El incremento por este ciclo destruye la
+  compatibilidad del flujo.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Red de tráfico urbano}
+\phantomsection\label{ejemplo-red-de-truxe1fico-urbano}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Planteamiento}: Red vial con intersecciones
+  \(V = \{s, a, b, t\}\) y capacidades \(c_u\) (vehículos por minuto):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(c_{sa} = 100\), \(c_{sb} = 100\), \(c_{ab} = 50\),
+    \(c_{at} = 75\), \(c_{bt} = 100\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Resolución del tráfico urbano}
+\phantomsection\label{ejemplo-resoluciuxf3n-del-truxe1fico-urbano}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Análisis de cuellos de botella}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Inyección desde la fuente \(s\):
+    \(c_{sa} + c_{sb} = 100 + 100 = 200\) veh/min.
+  \item
+    Capacidad de llegada al sumidero \(t\):
+    \(c_{at} + c_{bt} = 75 + 100 = 175\) veh/min.
+  \end{itemize}
+\item
+  \textbf{Conclusión}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Aunque \(s\) puede emitir 200 veh/min, las vías de acceso a \(t\)
+    restringen el paso a un máximo de 175 veh/min.
+  \item
+    Valor del flujo máximo: \(v(\mathbf{f}^*) = 175\) veh/min.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Asignación de tareas a empleados}
+\phantomsection\label{ejemplo-asignaciuxf3n-de-tareas-a-empleados}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Planteamiento}: 3 empleados (\(E_1, E_2, E_3\)) y 3 tareas
+  (\(T_1, T_2, T_3\)) con arcos de compatibilidad.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Asignación de tareas (Transformación)}
+\phantomsection\label{ejemplo-asignaciuxf3n-de-tareas-transformaciuxf3n}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Transformación a Red de Transporte}:
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    Nodo fuente \(s\) conectado a cada empleado \(E_i\) con
+    \(c_{s E_i} = 1\) (1 tarea por empleado).
+  \item
+    Arcos de compatibilidad \((E_i, T_j)\) con capacidad
+    \(c_{E_i T_j} = 1\).
+  \item
+    Nodo sumidero \(t\) conectado desde cada tarea \(T_j\) con
+    \(c_{T_j t} = 1\) (1 empleado por tarea).
+  \item
+    Arco ficticio de retorno \(u_0 = (t, s)\) con \(c_0 = \infty\).
+  \end{enumerate}
+\item
+  Resolver el flujo máximo sobre la red equivale a hallar el número
+  máximo de tareas ejecutables.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Esquema iterativo de aumento de flujo}
+\phantomsection\label{esquema-iterativo-de-aumento-de-flujo}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Procedimiento iterativo general}:
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    \textbf{Flujo Inicial}: Comenzar con un flujo compatible válido
+    \(\mathbf{f}^0\) sobre la red (típicamente el flujo trivial nulo
+    \(\mathbf{f}^0 = \mathbf{0}\)).
+  \item
+    \textbf{Búsqueda de Aumento}: Buscar un nuevo flujo compatible
+    \(\mathbf{f}^{k+1}\) que incremente el valor circulante por el arco
+    de retorno \(f_0\).
+  \item
+    \textbf{Iteración y Criterio de Parada}: Repetir el procedimiento a
+    partir del nuevo flujo hasta que no sea posible realizar ningún
+    incremento adicional.
+  \end{enumerate}
+\item
+  \textbf{Justificación algebraica}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Toda diferencia entre flujos \(\mathbf{f}^2 - \mathbf{f}^1\) es una
+    \textbf{combinación lineal de ciclos}.
+  \item
+    Para aumentar \(f_0\), el algoritmo busca un ciclo que incluya al
+    arco ficticio \(u_0 = (t, s)\) y admita un incremento de caudal.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Cadena incremental y ciclo incremental}
+\phantomsection\label{definiciuxf3n-cadena-incremental-y-ciclo-incremental}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Cadena incremental}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dado un flujo compatible \(\mathbf{f}\) en la red \((G, \mathbf{c})\),
+una cadena \(\mu[a, b]\) entre \(a\) y \(b\) es una \textbf{cadena
+incremental} (o camino aumentante) si satisface:
+
+\[
+f_u < c_u, \quad \forall u \in \mu^+ \qquad \text{y} \qquad f_u > 0, \quad \forall u \in \mu^-
+\]
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Ciclo incremental}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Un \textbf{ciclo incremental} es una cadena incremental cerrada. En el
+flujo máximo, se busca una cadena incremental entre \(s\) y \(t\) que
+complete con \(u_0 = (t, s)\) un ciclo incremental.
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Definición: Capacidad residual}
+\phantomsection\label{definiciuxf3n-capacidad-residual}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Capacidad residual de una cadena}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+La \textbf{capacidad residual} \(c(\mu)\) de una cadena incremental
+\(\mu[s, t]\) es el máximo flujo adicional que puede enviarse a través
+de ella:
+
+\[
+c(\mu) = \min \left\{ \min_{u \in \mu^+} (c_u - f_u), \, \min_{u \in \mu^-} f_u \right\}
+\]
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Aumentando el flujo en \(+c(\mu)\) en arcos directos \(u \in \mu^+\) y
+  reduciéndolo en \(-c(\mu)\) en arcos inversos \(u \in \mu^-\), el
+  valor total \(f_0\) aumenta exactamente en \(c(\mu)\) unidades
+  manteniendo la compatibilidad estricta.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Flujo máximo en grafos no dirigidos: Planteamiento}
+\phantomsection\label{flujo-muxe1ximo-en-grafos-no-dirigidos-planteamiento}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tránsito bidireccional en aristas no dirigidas}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    En redes sobre un grafo no dirigido \(G = (V, E)\), cada arista
+    \(e = \{a, b\}\) con capacidad \(c_e\) admite flujo en ambas
+    direcciones: \((a, b)\) y \((b, a)\).
+  \item
+    \textbf{Restricción de capacidad global}:
+    \[f_{(a,b)} + f_{(b,a)} \le c_e, \qquad f_{(a,b)} \ge 0, \quad f_{(b,a)} \ge 0\]
+  \end{itemize}
+\item
+  \textbf{Necesidad de transformación}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Para aplicar algoritmos de flujo sobre digrafos, se debe reemplazar
+    cada arista no dirigida por un \textbf{gadget dirigido} que impida
+    el tránsito simultáneo en ambos sentidos.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Gadget de 5 arcos dirigidos}
+\phantomsection\label{definiciuxf3n-gadget-de-5-arcos-dirigidos}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Transformación de aristas no dirigidas (Gadget de 5 arcos)}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Cada arista no dirigida \(e = \{a, b\}\) con capacidad \(c_e = c\) se
+sustituye por un conjunto de \textbf{cinco arcos dirigidos} y dos
+vértices auxiliares \(a', b'\):
+
+\[
+U_e = \{ (a, a'), \, (b, a'), \, (a', b'), \, (b', a), \, (b', b) \}
+\]
+
+asignando capacidad \(c\) a todos los arcos del conjunto \(U_e\).
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Ilustración: Gadget de 5 arcos}
+\phantomsection\label{ilustraciuxf3n-gadget-de-5-arcos}
+\begin{itemize}
+\tightlist
+\item
+  Transformación de una arista no dirigida \(\{a, b\}\) de capacidad
+  \(c\) (izquierda) en un gadget equivalente de 5 arcos dirigidos con
+  nodos auxiliares \(a', b'\) (derecha).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Funcionamiento y equivalencia del gadget}
+\phantomsection\label{funcionamiento-y-equivalencia-del-gadget}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tránsito de \(a\) hacia \(b\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El flujo sigue el camino \(a \to a' \to b' \to b\), atravesando el
+    arco central \((a', b')\) con capacidad \(c\).
+  \end{itemize}
+\item
+  \textbf{Tránsito de \(b\) hacia \(a\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El flujo sigue el camino \(b \to a' \to b' \to a\), atravesando el
+    \textbf{mismo} arco central \((a', b')\).
+  \end{itemize}
+\item
+  \textbf{Garantía de compatibilidad}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Como ambas direcciones deben atravesar obligatoriamente el arco
+    central \((a', b')\), se satisface de forma automática
+    \(f_{(a,b)} + f_{(b,a)} \le c\), impidiendo la circulación
+    simultánea contrapuesta.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Flujo máximo y corte mínimo: Planteamiento}
+\phantomsection\label{flujo-muxe1ximo-y-corte-muxednimo-planteamiento}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Conexión entre flujo y barreras topológicas}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El flujo máximo entre \(s\) y \(t\) no está restringido solo por
+    capacidades individuales, sino por barreras que separan el origen
+    del destino.
+  \end{itemize}
+\item
+  \textbf{Concepto de corte}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Partición de los nodos en dos conjuntos que aísla la fuente \(s\) en
+    un lado y el sumidero \(t\) en el otro.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: (s,t)-Corte}
+\phantomsection\label{definiciuxf3n-st-corte}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{(s, t)-Corte}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dada la red de transporte \((G = (V, U), \mathbf{c})\), un \textbf{corte
+que separa \(s\) y \(t\)} o \textbf{\((s, t)\)-corte} es el conjunto de
+arcos salientes \(w^+(N)\) asociado a un subconjunto de vértices
+\(N \subset V\) tal que \(s \in N\) y \(t \notin N\).
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Definición: Capacidad de un corte}
+\phantomsection\label{definiciuxf3n-capacidad-de-un-corte}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Capacidad de un corte}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dada la red de transporte \((G = (V, U), \mathbf{c})\), se define la
+\textbf{capacidad de un \((s, t)\)-corte} como la suma de las
+capacidades de los arcos salientes que lo componen:
+
+\[
+c(w^+(N)) = \sum_{u \in w^+(N)} c_u
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Definición: Problema de corte de mínima capacidad}
+\phantomsection\label{definiciuxf3n-problema-de-corte-de-muxednima-capacidad}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Problema de corte de mínima capacidad}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+El \textbf{problema de corte de mínima capacidad} consiste en determinar
+la partición \(N \subset V\) (\(s \in N, t \notin N\)) que minimice la
+capacidad del corte:
+
+\[
+\min_{\substack{N \subset V \\ s \in N, \, t \notin N}} c(w^+(N)) = \sum_{u \in w^+(N)} c_u
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Proposición: Acotación del flujo por la capacidad del
+corte}
+\phantomsection\label{proposiciuxf3n-acotaciuxf3n-del-flujo-por-la-capacidad-del-corte}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Acotación del flujo por la capacidad del corte}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Para cualquier \((s, t)\)-flujo compatible \(\mathbf{f}\) y cualquier
+\((s, t)\)-corte \(w^+(N)\), el valor del flujo está acotado
+superiormente por la capacidad del corte:
+
+\[
+f_0 \le c(w^+(N)) = \sum_{u \in w^+(N)} c_u, \qquad \forall N \subset V \, (s \in N, t \notin N)
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Interpretación: Acotación por cuellos de botella}
+\phantomsection\label{interpretaciuxf3n-acotaciuxf3n-por-cuellos-de-botella}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Interpretación física de la cota}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Todo el flujo que se desplaza de \(s\) a \(t\) debe cruzar de forma
+    obligatoria cualquier \((s, t)\)-corte.
+  \item
+    Ningún \((s, t)\)-flujo puede superar la capacidad del corte más
+    estrecho:
+    \[\max f_0 \le \min_{\substack{N \subset V \\ s \in N, \, t \notin N}} c(w^+(N))\]
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Evaluación gráfica de cortes}
+\phantomsection\label{ejemplo-evaluaciuxf3n-gruxe1fica-de-cortes}
+\begin{itemize}
+\tightlist
+\item
+  Evaluación de tres \((s, t)\)-cortes sobre la red de 6 nodos con un
+  flujo circulante de valor \(f_0 = 8\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Evaluación de 3 cortes y capacidades}
+\phantomsection\label{ejemplo-evaluaciuxf3n-de-3-cortes-y-capacidades}
+Evaluación de los tres cortes sobre la red de 6 nodos:
+
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Corte 1 (\(N_1 = \{s\}\))} (línea roja teja):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(w^+(N_1) = \{(s, b), (s, c)\} \implies c(w^+(N_1)) = 5 + 3 = 8\).
+  \end{itemize}
+\item
+  \textbf{Corte 2 (\(N_2 = \{s, b, c\}\))} (línea azul cerúleo):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(w^+(N_2) = \{(b, d), (c, d), (c, e)\} \implies c(w^+(N_2)) = 4 + 4 + 3 = 11\).
+  \end{itemize}
+\item
+  \textbf{Corte 3 (\(N_3 = \{s, b, c, d, e\}\))} (línea magenta):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(w^+(N_3) = \{(d, t), (e, t)\} \implies c(w^+(N_3)) = 5 + 5 = 10\).
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Ejemplo: Criterio de optimalidad}
+\phantomsection\label{ejemplo-criterio-de-optimalidad}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Comparación entre flujo y capacidad de corte}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El flujo de \(s\) a \(t\) transita con \(f_0 = 8\).
+  \item
+    La capacidad del Corte 1 es \(c(w^+(N_1)) = 8\).
+  \end{itemize}
+\item
+  \textbf{Conclusión de optimalidad}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Como \(f_0 = 8 = c(w^+(N_1))\), por la Proposición de Acotación:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      El flujo \(\mathbf{f}\) es un \textbf{flujo máximo global}.
+    \item
+      El corte \(w^+(N_1)\) es un \textbf{corte de capacidad mínima}.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Corolario: Criterio de optimalidad simultánea}
+\phantomsection\label{corolario-criterio-de-optimalidad-simultuxe1nea}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Criterio de optimalidad de flujo máximo y corte mínimo}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Si un flujo compatible \(\mathbf{f}\) y un \((s, t)\)-corte \(w^+(N)\)
+satisfacen \(f_0 = c(w^+(N))\), entonces \(\mathbf{f}\) es el
+\textbf{flujo máximo} de \(s\) a \(t\) y \(w^+(N)\) es el \textbf{corte
+de mínima capacidad}.
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Ningún otro flujo puede superar \(c(w^+(N)) = f_0\), y ningún otro
+  corte puede tener capacidad inferior a \(f_0\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Corolario: Existencia y acotación de solución}
+\phantomsection\label{corolario-existencia-y-acotaciuxf3n-de-soluciuxf3n}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Existencia de solución finita}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+El problema del flujo máximo de \(s\) a \(t\) tiene solución finita si y
+sólo si no existe un camino orientado de \(s\) a \(t\) formado
+íntegramente por arcos de capacidad infinita
+(\(c_u = \infty, \forall u \in \mu\)).
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  Si no existe tal camino, el conjunto \(N\) de alcanzables desde \(s\)
+  en \(G'=(V, U_\infty)\) forma un corte \(w^+(N)\) con
+  \(c(w^+(N)) < \infty \implies f_0 \le c(w^+(N)) < \infty\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teorema: Flujo máximo - corte mínimo}
+\phantomsection\label{teorema-flujo-muxe1ximo---corte-muxednimo}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Flujo máximo - corte mínimo (Ford-Fulkerson, 1956)}, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame]
+
+Dada una red de transporte \((G = (V, U), \mathbf{c})\) y dos vértices
+\(s, t \in V\), el \((s, t)\)-flujo máximo coincide exactamente con la
+mínima capacidad de los \((s, t)\)-cortes:
+
+\[
+\max_{\mathbf{f}} f_0 = \min_{\substack{N \subset V \\ s \in N, \, t \notin N}} c(w^+(N))
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Interpretación combinatoria de Ford-Fulkerson}
+\phantomsection\label{interpretaciuxf3n-combinatoria-de-ford-fulkerson}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Dualidad Min-Max en redes}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Establece la igualdad estricta entre la máxima cantidad de flujo
+    transmisible y la mínima capacidad que puede bloquear la red.
+  \item
+    Garantiza la existencia de una barrera saturada cuando el flujo
+    alcanza su valor óptimo global.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Minty: Planteamiento y Coloración de Arcos}
+\phantomsection\label{ejemplo-minty-planteamiento-y-coloraciuxf3n-de-arcos}
+\begin{itemize}
+\tightlist
+\item
+  Considérese la red de 6 nodos \(V = \{s, 1, 2, 3, 4, t\}\) con flujo
+  \(f_0 = 10\) y retorno \(u_0 = (t, s)\):
+\item
+  \textbf{Reglas de coloración según caudales actuales}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arco de retorno \(u_0 = (t, s)\) (\(f_0 = 10, c_0 = \infty\)):
+    \textbf{Negro} (admite aumento).
+  \item
+    Arco \((3, 1)\) (\(f_{31} = 0, c_{31} = 5\)): \textbf{Negro}
+    (\(0 = f_{31} < c_{31}\)).
+  \item
+    Arcos a capacidad máxima: \((1,2)\), \((1,4)\), \((3,4)\),
+    \((4,2)\): \textbf{Verdes} (\(0 < f_u = c_u\)).
+  \item
+    Arcos a capacidad intermedia: \((s,1)\), \((s,3)\), \((2,t)\),
+    \((4,t)\): \textbf{Rojos} (\(0 < f_u < c_u\)).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Minty: Gráfico y Marcado de Vértices}
+\phantomsection\label{ejemplo-minty-gruxe1fico-y-marcado-de-vuxe9rtices}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Propagación del marcado desde la fuente}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Inicio: \(S = \{s\}\).
+  \item
+    Vía arcos rojos salientes \((s,1)\) y
+    \((s,3) \implies S = \{s, 1, 3\}\).
+  \item
+    Arcos salientes de \(1\) y \(3\) son verdes (bloqueados); entrantes
+    son negros \(\implies\) Marcado final \(S = \{s, 1, 3\}\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Minty: Verificación de Optimalidad}
+\phantomsection\label{ejemplo-minty-verificaciuxf3n-de-optimalidad}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Análisis de la partición \(S = \{s, 1, 3\}\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El sumidero \(t \notin S \implies\) No existe cadena incremental de
+    \(s\) a \(t\).
+  \item
+    La partición \(N = \{s, 1, 3\}\) define un \((s, t)\)-corte válido.
+  \end{itemize}
+\item
+  \textbf{Capacidad del corte \(w^+(N)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arcos salientes \(w^+(N) = \{(1,2), (1,4), (3,4)\}\) (todos verdes).
+  \item
+    \(c(w^+(N)) = c_{12} + c_{14} + c_{34} = 4 + 1 + 5 = 10\).
+  \end{itemize}
+\item
+  \textbf{Conclusión}: \(f_0 = 10 = c(w^+(N)) \implies\) El flujo
+  \(\mathbf{f}\) es \textbf{óptimo global} y \(w^+(N)\) es \textbf{corte
+  de capacidad mínima}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Minty: Análisis de Sensibilidad (Red62)}
+\phantomsection\label{ejemplo-minty-anuxe1lisis-de-sensibilidad-red62}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Modificación de capacidad}: Al elevar \(c_{14} = 6\)
+  manteniéndose \(f_{14} = 1\):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El arco \((1,4)\) pasa de verde a \textbf{rojo} (\(0 < 1 < 6\)).
+  \item
+    Desde \(1 \in S\), el arco rojo \((1,4)\) marca el nodo \(4\), y el
+    rojo \((4,t)\) marca finalmente el sumidero \(t \implies\) ¡Se
+    habilita el incremento de flujo vía \(s \to 1 \to 4 \to t\)!
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo de Ford-Fulkerson: Introducción}
+\phantomsection\label{algoritmo-de-ford-fulkerson-introducciuxf3n}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Orígenes y fundamento}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Publicado en 1956 por L. R. Ford (1927--2017) y D. R. Fulkerson
+    (1924--1976).
+  \item
+    Denominado también \textbf{algoritmo del camino de aumento}.
+  \end{itemize}
+\item
+  \textbf{Idea central}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Incrementar progresivamente el caudal de la red a lo largo de
+    trayectorias orientadas no saturadas (cadenas incrementales) desde
+    la fuente \(s\) hasta el sumidero \(t\).
+  \end{itemize}
+\item
+  \textbf{Criterio de parada y optimalidad}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El algoritmo finaliza cuando no es posible hallar ninguna
+    trayectoria adicional de aumento.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Red residual (Grafo incremental)}
+\phantomsection\label{definiciuxf3n-red-residual-grafo-incremental}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Red residual G(f)}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dado un flujo compatible \(\mathbf{f}\) en la red de transporte
+\((G = (V, U), \mathbf{c})\), se define el \textbf{grafo incremental} (o
+\textbf{red residual}) \(G(\mathbf{f}) = (V, U(\mathbf{f}))\) como el
+digrafo donde \(U(\mathbf{f})\) contiene:
+
+\[
+\begin{cases}
+u^+ = (i, j) \in U(\mathbf{f}) \text{ con peso } \ell_{u^+} = c_u - f_u, & \text{si } f_u < c_u \\
+u^- = (j, i) \in U(\mathbf{f}) \text{ con peso } \ell_{u^-} = f_u, & \text{si } f_u > 0
+\end{cases}
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Propiedades del grafo incremental G(f)}
+\phantomsection\label{propiedades-del-grafo-incremental-gf}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Doble arco simultáneo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Si un arco satisface \(0 < f_u < c_u\), genera tanto un arco directo
+    \(u^+\) como un arco inverso \(u^-\) en \(G(\mathbf{f})\).
+  \end{itemize}
+\item
+  \textbf{Arco ficticio de retorno}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El arco de retorno \(u_0 = (t, s)\) \textbf{no} forma parte del
+    grafo incremental.
+  \end{itemize}
+\item
+  \textbf{Teorema de caracterización}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Un flujo compatible \(\mathbf{f}\) es \textbf{óptimo} \(\iff\)
+    \textbf{no existe} ningún camino orientado de \(s\) a \(t\) en la
+    red residual \(G(\mathbf{f})\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Construcción del Grafo Incremental (Reglas)}
+\phantomsection\label{ejemplo-construcciuxf3n-del-grafo-incremental-reglas}
+\begin{itemize}
+\item
+  Red de 6 nodos \(V = \{s, 2, 3, 4, 5, t\}\) con flujo de valor
+  \(f_0 = 3\):
+\item
+  \textbf{Arcos no saturados (\(f_u < c_u\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Para el arco \((s,2)\) con \(f=1, c=3 \implies\) genera arco directo
+    \((s,2)\) con peso residual \(\ell = 3 - 1 = 2\).
+  \end{itemize}
+\item
+  \textbf{Arcos con flujo positivo (\(f_u > 0\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Para el mismo arco \((s,2)\) con \(f=1 \implies\) genera arco
+    inverso \((2,s)\) con peso residual \(\ell = 1\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Grafo Incremental (Saturados y Nulos)}
+\phantomsection\label{ejemplo-grafo-incremental-saturados-y-nulos}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Arcos a capacidad máxima (\(f_u = c_u\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Para el arco \((s,3)\) con \(f=2, c=2 \implies\) no admite
+    incremento (\(u^+\) no existe). Genera únicamente el arco inverso
+    \((3,s)\) con peso \(\ell = 2\).
+  \end{itemize}
+\item
+  \textbf{Arcos con flujo nulo (\(f_u = 0\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Para el arco \((3,2)\) con \(f=0, c=1 \implies\) no admite reducción
+    (\(u^-\) no existe). Genera únicamente el arco directo \((3,2)\) con
+    peso \(\ell = 1\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: Gráfico de la Red Residual}
+\phantomsection\label{ejemplo-gruxe1fico-de-la-red-residual}
+\begin{itemize}
+\tightlist
+\item
+  Transformación de una red de transporte con flujo \(\mathbf{f}\)
+  (izquierda) a su grafo incremental \(G(\mathbf{f})\) con pesos
+  residuales \(\ell_u\) (derecha).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Esquema: Algoritmo por Red Residual (Pasos 1 y 2)}
+\phantomsection\label{esquema-algoritmo-por-red-residual-pasos-1-y-2}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Paso 1 (Inicialización)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Hacer \(k = 0\). Determinar un flujo inicial compatible
+    \(\mathbf{f}^0 = \mathbf{0}\) (\(f_0^0 = 0\)).
+  \end{itemize}
+\item
+  \textbf{Paso 2 (Construcción y Búsqueda)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Construir el grafo incremental \(G(\mathbf{f}^k)\). Buscar un camino
+    orientado \(\mu^k\) desde \(s\) hasta \(t\) en \(G(\mathbf{f}^k)\).
+  \item
+    \textbf{Si no existe camino}: \textbf{PARAR}. El flujo actual
+    \(\mathbf{f}^k\) es \textbf{óptimo} (y el conjunto de alcanzables
+    desde \(s\) define el \textbf{corte mínimo}).
+  \item
+    \textbf{Si existe camino}: Ir al Paso 3.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Esquema: Algoritmo por Red Residual (Paso 3)}
+\phantomsection\label{esquema-algoritmo-por-red-residual-paso-3}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Paso 3 (Aumento de Flujo y Actualización)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Cuello de botella en la cadena incremental:
+    \[\epsilon^k = \min \{\ell_u \mid u \in \mu^k\}\]
+  \item
+    Actualización de flujos sobre cada arco \(u \in U\):
+    \[f_u^{k+1} = \begin{cases} f_u^k + \epsilon^k, & \text{si } u \in \mu^k(+) \text{ (directo en la red)} \\ f_u^k - \epsilon^k, & \text{si } u \in \mu^k(-) \text{ (inverso en la red)} \\ f_u^k, & \text{si } u \notin \mu^k \end{cases}\]
+  \item
+    Incrementar flujo de retorno \(f_0^{k+1} = f_0^k + \epsilon^k\),
+    hacer \(k \leftarrow k+1\) y volver al Paso 2.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Ford-Fulkerson: Planteamiento y Red Inicial}
+\phantomsection\label{ejemplo-ford-fulkerson-planteamiento-y-red-inicial}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Red de 6 nodos} \(V = \{s, 2, 3, 4, 5, t\}\) con fuente \(s\),
+  sumidero \(t\) y capacidades:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(c_{s2}=3, \quad c_{s3}=2, \quad c_{32}=1, \quad c_{24}=2\)
+  \item
+    \(c_{43}=1, \quad c_{35}=2, \quad c_{54}=1, \quad c_{4t}=3, \quad c_{5t}=2\)
+  \end{itemize}
+\item
+  \textbf{Estado Inicial (\(k=0\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Partimos del flujo trivial nulo \(\mathbf{f}^0 = \mathbf{0}\)
+    (\(f_0^0 = 0\)). Todos los arcos se encuentran a flujo 0.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Ford-Fulkerson: Iteración 1 (Búsqueda)}
+\phantomsection\label{ejemplo-ford-fulkerson-iteraciuxf3n-1-buxfasqueda}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Construcción de la Red Residual \(G(\mathbf{f}^0)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Al ser \(\mathbf{f}^0 = \mathbf{0}\), \(G(\mathbf{f}^0)\) contiene
+    únicamente los arcos directos \(u^+\) con capacidades residuales
+    \(\ell_{u^+} = c_u\).
+  \end{itemize}
+\item
+  \textbf{Búsqueda de Camino Aumentante}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Se selecciona la trayectoria orientada
+    \(\mu_1 = (s \to 2 \to 4 \to t)\).
+  \end{itemize}
+\item
+  \textbf{Cálculo del Cuello de Botella}:
+  \[\epsilon_1 = \min \{\ell_{s2}, \ell_{24}, \ell_{4t}\} = \min \{3, 2, 3\} = 2\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Ford-Fulkerson: Iteración 1 (Actualización)}
+\phantomsection\label{ejemplo-ford-fulkerson-iteraciuxf3n-1-actualizaciuxf3n}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Actualización del vector de flujo \(\mathbf{f}^1\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(f_{s2}^1 = 0 + 2 = 2\)
+  \item
+    \(f_{24}^1 = 0 + 2 = 2 \implies\) Arco \((2,4)\) \textbf{saturado}
+    (pasa a verde)
+  \item
+    \(f_{4t}^1 = 0 + 2 = 2\)
+  \end{itemize}
+\item
+  \textbf{Caudal de retorno y estado de la red}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Flujo circulante de retorno: \(f_0^1 = 0 + 2 = 2\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Ford-Fulkerson: Iteración 2 (Búsqueda)}
+\phantomsection\label{ejemplo-ford-fulkerson-iteraciuxf3n-2-buxfasqueda}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Construcción de la Red Residual \(G(\mathbf{f}^1)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Al estar saturado el arco \((2,4)\), solo genera en
+    \(G(\mathbf{f}^1)\) el arco inverso \((4,2)\) con peso \(\ell = 2\).
+  \item
+    Arco \((s,2)\) admite incremento \(\ell = 3 - 2 = 1\) e inverso
+    \((2,s)\) con peso \(\ell = 2\).
+  \end{itemize}
+\item
+  \textbf{Búsqueda de Camino Aumentante}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Se selecciona la trayectoria orientada
+    \(\mu_2 = (s \to 3 \to 5 \to t)\).
+  \end{itemize}
+\item
+  \textbf{Cálculo del Cuello de Botella}:
+  \[\epsilon_2 = \min \{\ell_{s3}, \ell_{35}, \ell_{5t}\} = \min \{2, 2, 2\} = 2\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Ford-Fulkerson: Iteración 2 (Actualización)}
+\phantomsection\label{ejemplo-ford-fulkerson-iteraciuxf3n-2-actualizaciuxf3n}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Actualización del vector de flujo \(\mathbf{f}^2\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(f_{s3}^2 = 0 + 2 = 2 \implies\) Arco \((s,3)\) \textbf{saturado}
+    (verde)
+  \item
+    \(f_{35}^2 = 0 + 2 = 2 \implies\) Arco \((3,5)\) \textbf{saturado}
+    (verde)
+  \item
+    \(f_{5t}^2 = 0 + 2 = 2 \implies\) Arco \((5,t)\) \textbf{saturado}
+    (verde)
+  \end{itemize}
+\item
+  \textbf{Caudal total de retorno}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Flujo circulante de retorno: \(f_0^2 = 2 + 2 = 4\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Ford-Fulkerson: Iteración 3 (Criterio de Parada)}
+\phantomsection\label{ejemplo-ford-fulkerson-iteraciuxf3n-3-criterio-de-parada}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Evaluación de la Red Residual \(G(\mathbf{f}^2)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Todos los arcos salientes desde la fuente \(s\) a través de \(3\)
+    están saturados.
+  \item
+    El único nodo alcanzable desde \(s\) mediante caminos orientados en
+    \(G(\mathbf{f}^2)\) es el nodo \(2\).
+  \end{itemize}
+\item
+  \textbf{Conclusión de Parada}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ¡No existe ningún camino orientado desde \(s\) hasta \(t\) en
+    \(G(\mathbf{f}^2)\)!
+  \item
+    El flujo \(\mathbf{f}^2\) es el \textbf{flujo máximo global} con
+    valor \(f_0^* = 4\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Ford-Fulkerson: Corte de Capacidad Mínima}
+\phantomsection\label{ejemplo-ford-fulkerson-corte-de-capacidad-muxednima}
+\begin{itemize}
+\item
+  \textbf{Nodos alcanzables desde la fuente \(s\) en
+  \(G(\mathbf{f}^2)\)}: \[N = \{s, 2\}\]
+\item
+  \textbf{Corte de capacidad mínima resultante}:
+  \[w^+(N) = \{(s,3), (2,4)\}\]
+\item
+  \textbf{Capacidad del corte de mínima capacidad}:
+  \[C(w^+(N)) = c_{s3} + c_{24} = 2 + 2 = 4 = f_0^*\]
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Verifica de forma exacta el Teorema de Ford-Fulkerson
+    (\(f_0^* = C(w^+(N))\)).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Ford-Fulkerson: Reproductor Interactivo}
+\phantomsection\label{ejemplo-ford-fulkerson-reproductor-interactivo}
+\end{frame}
+
+\begin{frame}{Ejemplo Ford-Fulkerson: Código de Colores}
+\phantomsection\label{ejemplo-ford-fulkerson-cuxf3digo-de-colores}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Significado visual de la simbología en los gráficos}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Arcos en naranja (\(\color{#f97316}{\rightarrow}\))}: Camino
+    aumentante seleccionado en la iteración actual.
+  \item
+    \textbf{Arcos en verde (\(\color{#16a34a}{\rightarrow}\))}: Arcos
+    saturados a capacidad máxima (\(f_u = c_u\)).
+  \item
+    \textbf{Arcos en rojo (\(\color{firebrick}{\rightarrow}\))}: Flujo
+    parcial no nulo (\(0 < f_u < c_u\)).
+  \item
+    \textbf{Arcos en negro (\(\rightarrow\))}: Flujo nulo (\(f_u = 0\)).
+  \item
+    \textbf{Arcos/Nodos en azul (\(\color{#2563eb}{\rightarrow}\))}:
+    Destacan los nodos alcanzables \(N = \{s, 2\}\) y el \textbf{corte
+    mínimo} \(w^+(N)\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo por Etiquetado de Vértices: Motivación}
+\phantomsection\label{algoritmo-por-etiquetado-de-vuxe9rtices-motivaciuxf3n}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Operación directa sobre la red original}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Evita la necesidad de construir e ilustrar explícitamente la red
+    residual \(G(\mathbf{f})\) en cada iteración.
+  \item
+    Emplea una \textbf{regla de etiquetado dinámico} que opera asignando
+    marcas directamente sobre los vértices de la red.
+  \end{itemize}
+\item
+  \textbf{Marca de la fuente}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Se asigna inicialmente
+    \(\text{Etiqueta}(s) = (\text{–}, \, \color{#0284c7}{\delta_s = +\infty})\)
+    y se propaga la información de cuello de botella a los nodos vecinos
+    no explorados.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Definición: Estructura de las etiquetas de vértices}
+\phantomsection\label{definiciuxf3n-estructura-de-las-etiquetas-de-vuxe9rtices}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Estructura de las etiquetas de vértices}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+La etiqueta asignada a un nodo \(j\) presenta dos componentes
+diferenciadas:
+
+\[
+\text{Etiqueta}(j) = (\color{#0f172a}{\pm i}, \, \color{#0284c7}{\delta_j})
+\]
+
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Procedencia (\(\color{#0f172a}{\pm i}\))}: Nodo antecedente
+  \(i\) (ya etiquetado). Marca \textbf{\(\color{#16a34a}{+i}\)} indica
+  arco directo saliente \((i, j)\) con \(f_{ij} < c_{ij}\); marca
+  \textbf{\(\color{firebrick}{-i}\)} indica arco inverso entrante
+  \((j, i)\) con \(f_{ji} > 0\).
+\item
+  \textbf{Capacidad disponible (\(\color{#0284c7}{\delta_j}\))}: Caudal
+  máximo incremental transmisible desde \(s\) hasta \(j\).
+\end{enumerate}
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Definición: Reglas formales de etiquetado}
+\phantomsection\label{definiciuxf3n-reglas-formales-de-etiquetado}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Reglas formales de etiquetado}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Sea \(i \in V\) etiquetado con \((\cdot, \, \color{#0284c7}{\delta_i})\)
+y sea \(j \in V\) adyacente aún \textbf{no etiquetado}:
+
+\begin{enumerate}
+\item
+  \textbf{Regla 1 (Arco Directo \((i, j)\))}: Si \(f_{ij} < c_{ij}\),
+  etiquetar \(j\) como
+  \((\color{#16a34a}{+i}, \, \color{#0284c7}{\delta_j})\) con:
+  \[ \color{#0284c7}{\delta_j} = \min \left\{ \color{#0284c7}{\delta_i}, \, c_{ij} - f_{ij} \right\} \]
+\item
+  \textbf{Regla 2 (Arco Inverso \((j, i)\))}: Si \(f_{ji} > 0\),
+  etiquetar \(j\) como
+  \((\color{firebrick}{-i}, \, \color{#0284c7}{\delta_j})\) con:
+  \[ \color{#0284c7}{\delta_j} = \min \left\{ \color{#0284c7}{\delta_i}, \, f_{ji} \right\} \]
+\end{enumerate}
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Ilustración: Reglas formales de etiquetado}
+\phantomsection\label{ilustraciuxf3n-reglas-formales-de-etiquetado}
+\begin{itemize}
+\tightlist
+\item
+  Asignación de marcas directas \((+i, \delta_j)\) en arcos salientes
+  (izquierda) y marcas inversas \((-i, \delta_j)\) en arcos entrantes
+  (derecha).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Esquema: Algoritmo por Etiquetado (Pasos 1 a 4)}
+\phantomsection\label{esquema-algoritmo-por-etiquetado-pasos-1-a-4}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Paso 1 (Inicialización)}: Asignar flujo inicial
+  \(\mathbf{f} = \mathbf{0}\). Etiquetar fuente \(s\) como
+  \((\text{–}, \, \color{#0284c7}{+\infty})\).
+\item
+  \textbf{Paso 2 (Evaluación)}: Comprobar si todos los nodos etiquetados
+  han sido explorados.
+\item
+  \textbf{Paso 3 (Propagación)}: Etiquetar nodos adyacentes posibles
+  mediante la \textbf{Regla 1} (directos) y \textbf{Regla 2} (inversos).
+\item
+  \textbf{Paso 4 (Verificación del Sumidero)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Si \(t\) resulta etiquetado \(\implies\) Fijar la cantidad de
+    aumento \(\Delta = \color{#0284c7}{\delta_t}\) e ir al Paso 5.
+  \item
+    Si \(t\) no resulta etiquetado \(\implies\) Ir al Paso 6.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Esquema: Algoritmo por Etiquetado (Pasos 5 y 6)}
+\phantomsection\label{esquema-algoritmo-por-etiquetado-pasos-5-y-6}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Paso 5 (Modificación del Flujo)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Rastrear desde \(t\) hacia atrás mediante los antecedentes:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Si la marca es \(+i \implies f_{ik} \leftarrow f_{ik} + \Delta\).
+    \item
+      Si la marca es \(-i \implies f_{ki} \leftarrow f_{ki} - \Delta\).
+    \end{itemize}
+  \item
+    Al llegar a \(s\): hacer \(f_0 \leftarrow f_0 + \Delta\), borrar
+    marcas de los nodos (salvo \(s\)) y regresar al Paso 2.
+  \end{itemize}
+\item
+  \textbf{Paso 6 (Optimalidad y Parada)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{PARAR}. El flujo actual es \textbf{óptimo} (\(f_0^*\)). El
+    conjunto de nodos etiquetados \(N = S\) define el \textbf{corte de
+    capacidad mínima} \(w^+(N)\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Relación entre Etiquetado de Vértices y BFS}
+\phantomsection\label{relaciuxf3n-entre-etiquetado-de-vuxe9rtices-y-bfs}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Búsqueda en Anchura (BFS)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    La propagación de marcas por niveles explora la red en anchura desde
+    la fuente \(s\).
+  \item
+    Garantiza que el camino de aumento seleccionado en cada iteración
+    sea el de \textbf{menor longitud en número de arcos}.
+  \end{itemize}
+\item
+  \textbf{Ventaja Algorítmica}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Evita la exploración de trayectorias largas e ineficientes que
+    ralentizan la convergencia.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Planteamiento y Capacidades}
+\phantomsection\label{ejemplo-etiquetado-planteamiento-y-capacidades}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Red de 8 nodos} \(V = \{s, 1, 2, 3, 4, 5, 6, t\}\) con
+  capacidades entre paréntesis:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(c_{s1} = 7\), \(c_{s2} = 2\), \(c_{12} = 1\), \(c_{13} = 5\),
+    \(c_{32} = 3\), \(c_{34} = 2\)
+  \item
+    \(c_{35} = 4\), \(c_{24} = 4\), \(c_{46} = 5\), \(c_{56} = 3\),
+    \(c_{5t} = 3\), \(c_{6t} = 6\)
+  \end{itemize}
+\item
+  \textbf{Estado Inicial}: Flujo nulo \(\mathbf{f}^0 = \mathbf{0}\)
+  (\(f_0^0 = 0\)).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Iteración 1 (Marcado de Nodos)}
+\phantomsection\label{ejemplo-etiquetado-iteraciuxf3n-1-marcado-de-nodos}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Propagación de marcas desde la fuente \(s\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Etiqueta inicial:
+    \(\text{Etiqueta}(s) = (\text{–}, \, \color{#0284c7}{\delta_s = +\infty})\).
+  \item
+    Desde \(s\): etiquetar \(1\) con
+    \((\color{#16a34a}{+s}, \, \color{#0284c7}{7})\) y \(2\) con
+    \((\color{#16a34a}{+s}, \, \color{#0284c7}{2})\).
+  \item
+    Desde \(2\): etiquetar \(4\) con
+    \((\color{#16a34a}{+2}, \, \color{#0284c7}{\min\{2, 4\} = 2})\).
+  \item
+    Desde \(4\): etiquetar \(6\) con
+    \((\color{#16a34a}{+4}, \, \color{#0284c7}{\min\{2, 5\} = 2})\).
+  \item
+    Desde \(6\): etiquetar sumidero \(t\) con
+    \((\color{#16a34a}{+6}, \, \color{#0284c7}{\min\{2, 6\} = 2})\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Iteración 1 (Aumento y Actualización)}
+\phantomsection\label{ejemplo-etiquetado-iteraciuxf3n-1-aumento-y-actualizaciuxf3n}
+\begin{itemize}
+\item
+  \textbf{Camino de aumento detectado}:
+  \[\mu_1 = (s \to 2 \to 4 \to 6 \to t) \quad \text{con } \Delta_1 = \color{#0284c7}{\delta_t = 2}\]
+\item
+  \textbf{Actualización de caudales (\(\mathbf{f}^1\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(f_{s2} \leftarrow 0 + 2 = 2 \implies\) Arco \((s,2)\)
+    \textbf{saturado} (verde).
+  \item
+    \(f_{24} \leftarrow 0 + 2 = 2\), \(f_{46} \leftarrow 0 + 2 = 2\),
+    \(f_{6t} \leftarrow 0 + 2 = 2\).
+  \item
+    Flujo de retorno circulante: \(f_0^1 = 2\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Iteración 2 (Marcado de Nodos)}
+\phantomsection\label{ejemplo-etiquetado-iteraciuxf3n-2-marcado-de-nodos}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Propagación de marcas (Arco \((s,2)\) saturado, no permite
+  etiquetar \(2\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Etiqueta en \(s\): \((\text{–}, \, \color{#0284c7}{+\infty})\).
+  \item
+    Desde \(s\): etiquetar \(1\) con
+    \((\color{#16a34a}{+s}, \, \color{#0284c7}{7})\).
+  \item
+    Desde \(1\): etiquetar \(3\) con
+    \((\color{#16a34a}{+1}, \, \color{#0284c7}{\min\{7, 5\} = 5})\) y
+    \(2\) con
+    \((\color{#16a34a}{+1}, \, \color{#0284c7}{\min\{7, 1\} = 1})\).
+  \item
+    Desde \(3\): etiquetar \(5\) con
+    \((\color{#16a34a}{+3}, \, \color{#0284c7}{\min\{5, 4\} = 4})\) y
+    \(4\) con
+    \((\color{#16a34a}{+3}, \, \color{#0284c7}{\min\{5, 2\} = 2})\).
+  \item
+    Desde \(5\): etiquetar sumidero \(t\) con
+    \((\color{#16a34a}{+5}, \, \color{#0284c7}{\min\{4, 3\} = 3})\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Iteración 2 (Aumento y Actualización)}
+\phantomsection\label{ejemplo-etiquetado-iteraciuxf3n-2-aumento-y-actualizaciuxf3n}
+\begin{itemize}
+\item
+  \textbf{Camino de aumento detectado}:
+  \[\mu_2 = (s \to 1 \to 3 \to 5 \to t) \quad \text{con } \Delta_2 = \color{#0284c7}{\delta_t = 3}\]
+\item
+  \textbf{Actualización de caudales (\(\mathbf{f}^2\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(f_{s1} \leftarrow 0 + 3 = 3\), \(f_{13} \leftarrow 0 + 3 = 3\),
+    \(f_{35} \leftarrow 0 + 3 = 3\).
+  \item
+    \(f_{5t} \leftarrow 0 + 3 = 3 \implies\) Arco \((5,t)\)
+    \textbf{saturado} (verde).
+  \item
+    Flujo de retorno circulante: \(f_0^2 = 2 + 3 = 5\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Iteraciones 3 y 4 (Resumen)}
+\phantomsection\label{ejemplo-etiquetado-iteraciones-3-y-4-resumen}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Iteración 3}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Camino de aumento: \(s \to 1 \to 3 \to 4 \to 6 \to t\) con
+    \(\Delta_3 = 2\).
+  \item
+    \(f_0^3 = 5 + 2 = 7\). Arcos \((3,4)\) y \((1,3)\) quedan saturados.
+  \end{itemize}
+\item
+  \textbf{Iteración 4}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Búsqueda por vías alternativas y actualización de caudales
+    residuales.
+  \item
+    Flujo circulante total acumulado: \(f_0^4 = 7\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Iteración 5 (Marcado de Nodos)}
+\phantomsection\label{ejemplo-etiquetado-iteraciuxf3n-5-marcado-de-nodos}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Propagación de marcas
+  (\(f_{s1} = 5, f_{s2} = 2, f_{13} = 5\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Etiqueta en \(s\): \((\text{–}, \, \color{#0284c7}{+\infty})\).
+  \item
+    Desde \(s\): etiquetar \(1\) con
+    \((\color{#16a34a}{+s}, \, \color{#0284c7}{7 - 5 = 2})\).
+  \item
+    Desde \(1\): mediante \((1,2)\) etiquetamos \(2\) con
+    \((\color{#16a34a}{+1}, \, \color{#0284c7}{\min\{2, 1\} = 1})\).
+  \item
+    Desde \(2\): mediante \((2,4)\) etiquetamos \(4\) con
+    \((\color{#16a34a}{+2}, \, \color{#0284c7}{\min\{1, 4 - 2\} = 1})\).
+  \item
+    Desde \(4\): etiquetar \(6\) con
+    \((\color{#16a34a}{+4}, \, \color{#0284c7}{\min\{1, 5 - 3\} = 1})\).
+  \item
+    Desde \(6\): etiquetar sumidero \(t\) con
+    \((\color{#16a34a}{+6}, \, \color{#0284c7}{\min\{1, 6 - 4\} = 1})\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Iteración 5 (Aumento y Actualización)}
+\phantomsection\label{ejemplo-etiquetado-iteraciuxf3n-5-aumento-y-actualizaciuxf3n}
+\begin{itemize}
+\item
+  \textbf{Camino de aumento detectado}:
+  \[\mu_5 = (s \to 1 \to 2 \to 4 \to 6 \to t) \quad \text{con } \Delta_5 = \color{#0284c7}{\delta_t = 1}\]
+\item
+  \textbf{Actualización de caudales (\(\mathbf{f}^5\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(f_{s1} \leftarrow 5 + 1 = 6\).
+  \item
+    \(f_{12} \leftarrow 0 + 1 = 1 \implies\) Arco \((1,2)\)
+    \textbf{saturado} (verde).
+  \item
+    \(f_{24} \leftarrow 2 + 1 = 3\), \(f_{46} \leftarrow 3 + 1 = 4\),
+    \(f_{6t} \leftarrow 4 + 1 = 5\).
+  \item
+    Flujo de retorno circulante: \(f_0^5 = 7 + 1 = 8\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Iteración 6 (Criterio de Parada)}
+\phantomsection\label{ejemplo-etiquetado-iteraciuxf3n-6-criterio-de-parada}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Propagación de marcas}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Etiqueta en \(s\): \((\text{–}, \, \color{#0284c7}{+\infty})\).
+  \item
+    Desde \(s\): el arco \((s,2)\) está saturado (\(f_{s2} = 2\)).
+    Etiquetar \(1\) con
+    \((\color{#16a34a}{+s}, \, \color{#0284c7}{7 - 6 = 1})\).
+  \item
+    Desde \(1\): el arco \((1,3)\) está saturado (\(f_{13} = 5\)) y el
+    arco \((1,2)\) está saturado (\(f_{12} = 1\)). No es posible
+    etiquetar ningún nodo adicional desde \(1\).
+  \end{itemize}
+\item
+  \textbf{Conclusión}: El sumidero \(t\) \textbf{no resulta etiquetado}
+  (\(t \notin S\)) \(\implies\) \textbf{PARAR}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Corte Mínimo Resultante}
+\phantomsection\label{ejemplo-etiquetado-corte-muxednimo-resultante}
+\begin{itemize}
+\item
+  \textbf{Solución Óptima}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Valor del flujo máximo: \(f_0^* = 8\).
+  \end{itemize}
+\item
+  \textbf{Subconjunto de vértices etiquetados}: \[N = S = \{s, 1\}\]
+\item
+  \textbf{Corte de capacidad mínima asociado}:
+  \[w^+(N) = \{(s, 2), (1, 3), (1, 2)\}\]
+\item
+  \textbf{Capacidad del corte de mínima capacidad}:
+  \[C(w^+(N)) = c_{s2} + c_{13} + c_{12} = 2 + 5 + 1 = 8 = f_0^*\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Reproductor Interactivo}
+\phantomsection\label{ejemplo-etiquetado-reproductor-interactivo}
+\end{frame}
+
+\begin{frame}{Ejemplo Etiquetado: Simbología y Código de Colores}
+\phantomsection\label{ejemplo-etiquetado-simbologuxeda-y-cuxf3digo-de-colores}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Significado visual de la simbología en los gráficos}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Arcos en naranja (\(\color{#f97316}{\rightarrow}\))}: Camino
+    de aumento seleccionado en la iteración actual.
+  \item
+    \textbf{Arcos en verde (\(\color{#16a34a}{\rightarrow}\))}: Arcos
+    saturados a su capacidad máxima (\(f_u = c_u\)).
+  \item
+    \textbf{Arcos en rojo (\(\color{firebrick}{\rightarrow}\))}: Flujo
+    parcial no nulo (\(0 < f_u < c_u\)).
+  \item
+    \textbf{Arcos en negro (\(\rightarrow\))}: Flujo nulo (\(f_u = 0\))
+    o no transitado.
+  \item
+    \textbf{Nodos en naranja (\(\color{#f97316}{\bigcirc}\))}:
+    Subconjunto de nodos etiquetados \(N = S\) que contienen a \(s\).
+  \item
+    \textbf{Nodos en verde (\(\color{#16a34a}{\bigcirc}\))}: Subconjunto
+    de nodos no alcanzables \(V \setminus N\) que contienen a \(t\).
+  \item
+    \textbf{Arcos en azul (\(\color{#2563eb}{\rightarrow}\))}: Arcos
+    salientes del \textbf{corte de capacidad mínima} \(w^+(N)\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teorema: Cota y Complejidad de Edmonds-Karp (1972)}
+\phantomsection\label{teorema-cota-y-complejidad-de-edmonds-karp-1972}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Cota y complejidad de Edmonds-Karp y Dinitz (1970 / 1972)}, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame]
+
+Si en el algoritmo de Ford-Fulkerson cada incremento de flujo se realiza
+seleccionando sistemáticamente la cadena de aumento que posea el
+\textbf{menor número de arcos} en el grafo residual \(G(\mathbf{f})\)
+(garantizado mediante BFS), el flujo máximo se alcanza en no más de:
+
+\[
+\frac{1}{2} m n
+\]
+
+incrementos de flujo.
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Importancia Teórica de Edmonds-Karp}
+\phantomsection\label{importancia-teuxf3rica-de-edmonds-karp}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Garantía de Convergencia Polinomial}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    La propagación de marcas por niveles BFS en cada iteración requiere
+    \(O(m)\) operaciones.
+  \item
+    La variante de Edmonds-Karp garantiza una complejidad temporal de
+    \(O(m^2 n)\).
+  \end{itemize}
+\item
+  \textbf{Independencia de Capacidades}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Es totalmente independiente del valor numérico de las capacidades
+    \(c_u\).
+  \item
+    Evita secuencias de iteraciones infinitas o no convergentes que
+    pueden producirse en redes con capacidades irracionales si se eligen
+    caminos arbitrarios (por ejemplo, mediante DFS).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Formulación Primal del Flujo Máximo}
+\phantomsection\label{formulaciuxf3n-primal-del-flujo-muxe1ximo}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{El problema del flujo máximo como programa lineal}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sea \((G = (V, U), \mathbf{c})\) una red de transporte con fuente
+    \(s\) y sumidero \(t\).
+  \item
+    Variables: \(f_{ij} \ge 0\) para cada arco \((i,j) \in U\) y caudal
+    de retorno \(f_0\).
+  \end{itemize}
+\item
+  \textbf{Formulación del Modelo Primal}: \[
+  \begin{aligned}
+  \max_{f, f_0} \quad & f_0 \\
+  \text{s.a.} \quad & \sum_{j \mid (j, i) \in U} f_{ji} - \sum_{j \mid (i, j) \in U} f_{ij} = \begin{cases} -f_0 & \text{si } i = s \\ 0 & \text{si } i \neq s, t \\ f_0 & \text{si } i = t \end{cases} \quad \forall i \in V \\
+  & 0 \le f_{ij} \le c_{ij}, \quad \forall (i, j) \in U
+  \end{aligned}
+  \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Construcción del Modelo Dual}
+\phantomsection\label{construcciuxf3n-del-modelo-dual}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Asignación de variables duales}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Variable \(u_i \in \mathbb{R}\) por la conservación nodal en
+    \(i \in V\) (potencial nodal).
+  \item
+    Variable \(w_{ij} \ge 0\) por la cota de capacidad
+    \(f_{ij} \le c_{ij}\) en \((i, j) \in U\).
+  \end{itemize}
+\item
+  \textbf{Objetivo dual}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Minimizar el coste ponderado de las capacidades fijas de los arcos:
+    \[\min_{u, w} \sum_{(i,j) \in U} c_{ij} w_{ij}\]
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fijación del Potencial de Referencia}
+\phantomsection\label{fijaciuxf3n-del-potencial-de-referencia}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Fijación de potencial de referencia}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Como la suma global de ecuaciones de conservación nodal es idénticamente
+nula (\(\sum_{i \in V} b_i = 0\)), el sistema primal contiene 1 ecuación
+redundante.
+
+Fijando el potencial del sumidero en \(u_t = 0\), la condición de
+dualidad sobre \(f_0\) impone: \[u_s - u_t = 1 \implies u_s = 1\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Formulación Dual del Flujo Máximo}
+\phantomsection\label{formulaciuxf3n-dual-del-flujo-muxe1ximo}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Modelo lineal dual}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Teniendo en cuenta la normalización de potenciales \(u_s = 1, u_t = 0\),
+el problema dual de programación lineal se formula como:
+
+\[
+\begin{aligned}
+\min_{u, w} \quad & \sum_{(i,j) \in U} c_{ij} w_{ij} \\
+\text{s.a.} \quad & u_j - u_i + w_{ij} \ge 0, \quad \forall (i, j) \in U \\
+& u_s = 1, \quad u_t = 0 \\
+& w_{ij} \ge 0, \quad \forall (i, j) \in U, \quad u_i \text{ libre}, \, \forall i \in V
+\end{aligned}
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Interpretación Combinatoria del Modelo Dual}
+\phantomsection\label{interpretaciuxf3n-combinatoria-del-modelo-dual}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Discretización binaria en vértices óptimos}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    En las soluciones básicas óptimas del dual, \(u_i \in \{0, 1\}\) y
+    \(w_{ij} \in \{0, 1\}\).
+  \end{itemize}
+\item
+  \textbf{Partición de los vértices (Corte)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(u_i = 1\) define \(N = \{i \in V \mid u_i = 1\}\). Como
+    \(u_s = 1\) y \(u_t = 0\), \((N, V \setminus N)\) es un
+    \((s,t)\)-corte.
+  \end{itemize}
+\item
+  \textbf{Identificación de arcos del corte}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(w_{ij} \ge u_i - u_j \implies w_{ij} = 1 \iff u_i = 1\) y
+    \(u_j = 0\) (arcos salientes de \(N\)). Para los demás arcos,
+    \(w_{ij} = 0\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Interpretación de Dualidad Fuerte}
+\phantomsection\label{interpretaciuxf3n-de-dualidad-fuerte}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Interpretación combinatoria y dualidad fuerte}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Por el \textbf{Teorema de Dualidad Fuerte de la Programación Lineal}, el
+valor óptimo del modelo primal \(\max f_0^*\) coincide exactamente con
+el valor óptimo del modelo dual \(\min \sum c_{ij} w_{ij} = C(w^+(N))\).
+
+Esto demuestra algebraicamente que \textbf{el Teorema de Flujo Máximo -
+Corte Mínimo es la manifestación directa de la dualidad fuerte en
+optimización lineal}.
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Ejemplo Dualidad: Red de 3 Nodos}
+\phantomsection\label{ejemplo-dualidad-red-de-3-nodos}
+\begin{itemize}
+\tightlist
+\item
+  Considérese la red de 3 nodos \(V = \{s, 1, t\}\) con arcos y
+  capacidades:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(c_{s1} = 3, \quad c_{st} = 2, \quad c_{1t} = 4\)
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Dualidad: Planteamiento Primal y Dual}
+\phantomsection\label{ejemplo-dualidad-planteamiento-primal-y-dual}
+\begin{itemize}
+\item
+  \textbf{Modelo Primal}:
+  \[\begin{aligned} \max_{x, f_0} \quad & f_0 \\ \text{s.a.} \quad & -x_{s1} - x_{st} = -f_0, \quad x_{s1} - x_{1t} = 0, \quad x_{st} + x_{1t} = f_0 \\ & 0 \le x_{s1} \le 3, \quad 0 \le x_{st} \le 2, \quad 0 \le x_{1t} \le 4 \end{aligned}\]
+\item
+  \textbf{Modelo Dual} (\(u_s = 1, u_t = 0\)):
+  \[\begin{aligned} \min_{u, w} \quad & 3 w_{s1} + 2 w_{st} + 4 w_{1t} \\ \text{s.a.} \quad & u_1 + w_{s1} \ge 1, \quad w_{st} \ge 1, \quad -u_1 + w_{1t} \ge 0, \quad w_{ij} \ge 0 \end{aligned}\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Dualidad: Solución Óptima Primal y Dual}
+\phantomsection\label{ejemplo-dualidad-soluciuxf3n-uxf3ptima-primal-y-dual}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Solución Primal Óptima}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Flujo máximo \(f_0^* = 5\) con \(x_{s1}^* = 3\), \(x_{st}^* = 2\),
+    \(x_{1t}^* = 3\).
+  \end{itemize}
+\item
+  \textbf{Solución Dual Óptima}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Potenciales \(u_s = 1, u_1 = 0, u_t = 0\).
+  \item
+    Multiplicadores \(w_{s1} = 1, w_{st} = 1, w_{1t} = 0\).
+  \item
+    Valor dual óptimo: \(3(1) + 2(1) + 4(0) = 5 = f_0^*\).
+  \item
+    Identifica el corte mínimo \(N = \{s\}\) con arcos salientes
+    \(w^+(N) = \{(s,1), (s,t)\}\) de capacidad \(3 + 2 = 5\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Dualidad: Representación de la Solución}
+\phantomsection\label{ejemplo-dualidad-representaciuxf3n-de-la-soluciuxf3n}
+\begin{itemize}
+\tightlist
+\item
+  Visualización del flujo máximo de \(f_0^* = 5\) y la barrera del corte
+  de capacidad mínima \(N = \{s\}\).
+\end{itemize}
+\end{frame}
+
+\section{Problema de flujo a coste
+mínimo}\label{problema-de-flujo-a-coste-muxednimo}
+
+\begin{frame}{Introducción al Flujo a Coste Mínimo}
+\phantomsection\label{introducciuxf3n-al-flujo-a-coste-muxednimo}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Más allá del flujo máximo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    En logística y transporte no solo importa enviar la máxima cantidad,
+    sino el \textbf{coste unitario de transporte}
+    \(p_{ij} \in \mathbb{R}\) por cada unidad circulante.
+  \end{itemize}
+\item
+  \textbf{Objetivo de optimización}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Minimizar el coste económico total del envío manteniendo un volumen
+    de transporte requerido \(\nu\) y respetando la capacidad física de
+    los arcos:
+  \end{itemize}
+\end{itemize}
+
+\[\min_{f} \sum_{(i,j) \in U} p_{ij} f_{ij}\]
+\end{frame}
+
+\begin{frame}{Planteamiento: Asignación de Tareas con Costes}
+\phantomsection\label{planteamiento-asignaciuxf3n-de-tareas-con-costes}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Escenario industrial}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(n\) máquinas \(m_1 \dots m_n\) y \(n\) tareas \(t_1 \dots t_n\).
+  \end{itemize}
+\item
+  \textbf{Limitación del enfoque de flujo máximo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Determina cuántas tareas pueden ejecutarse simultáneamente, pero
+    ignora los distintos costes de procesamiento \(p_{ij}\) de cada
+    máquina al realizar cada tarea.
+  \end{itemize}
+\item
+  \textbf{Necesidad de la optimización a coste mínimo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Seleccionar la asignación completa que minimice el coste total
+    invertido.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Asignación Bipartita en Red}
+\phantomsection\label{asignaciuxf3n-bipartita-en-red}
+\begin{itemize}
+\tightlist
+\item
+  Representación en red bipartita con capacidades unitarias y costes de
+  procesamiento \(p_{ij}\).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Formulación del Flujo a Coste Mínimo}
+\phantomsection\label{formulaciuxf3n-del-flujo-a-coste-muxednimo}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Modelo PL del Flujo a Coste Mínimo}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dada una red \((G = (V, U), \mathbf{c})\), costes unitarios
+\(p_{ij} \in \mathbb{R}\) y un caudal total requerido \(f_0 = \nu\):
+
+\[
+\begin{aligned}
+\min_{f} \quad & \sum_{(i,j) \in U} p_{ij} f_{ij} \\
+\text{sujeto a} \quad & \sum_{j \mid (j, i) \in U} f_{ji} - \sum_{j \mid (i, j) \in U} f_{ij} = \begin{cases} -\nu & \text{si } i = s \\ 0 & \text{si } i \neq s, t \\ \nu & \text{si } i = t \end{cases} \quad \forall i \in V \\
+& 0 \le f_{ij} \le c_{ij}, \quad \forall (i, j) \in U
+\end{aligned}
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Ejemplo Coste Mínimo: Red de 5 Nodos}
+\phantomsection\label{ejemplo-coste-muxednimo-red-de-5-nodos}
+\begin{itemize}
+\tightlist
+\item
+  Red de 5 nodos \(V = \{s, a, b, c, t\}\) con caudal requerido
+  \(\nu = 4\).
+\item
+  Capacidades en azul \((c_{ij})\) y costes unitarios en rojo
+  \([p_{ij}]\):
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Coste Mínimo: Comparación de Soluciones Factibles}
+\phantomsection\label{ejemplo-coste-muxednimo-comparaciuxf3n-de-soluciones-factibles}
+\begin{itemize}
+\tightlist
+\item
+  Comparativa visual entre dos flujos compatibles de caudal 4:
+  \(\mathbf{f}^A\) (coste 19) y \(\mathbf{f}^B\) (coste 18).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Coste Mínimo: Evaluación de Flujos fA y fB}
+\phantomsection\label{ejemplo-coste-muxednimo-evaluaciuxf3n-de-flujos-fa-y-fb}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Flujo Compatible \(\mathbf{f}^A\)} (en rojo):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Asignación:
+    \(f_{sa}^A=1, f_{sb}^A=3, f_{ac}^A=1, f_{bc}^A=1, f_{bt}^A=2, f_{ct}^A=2\).
+  \item
+    Coste Total: \(c_A = 1(3) + 3(1) + 1(2) + 1(5) + 2(2) + 2(1) = 19\).
+  \end{itemize}
+\item
+  \textbf{Flujo Compatible \(\mathbf{f}^B\)} (en azul):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Asignación:
+    \(f_{sa}^B=2, f_{sb}^B=2, f_{ac}^B=2, f_{bc}^B=0, f_{bt}^B=2, f_{ct}^B=2\).
+  \item
+    Coste Total: \(c_B = 2(3) + 2(1) + 2(2) + 0(5) + 2(2) + 2(1) = 18\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Coste Mínimo: Análisis del Ciclo de Diferencia}
+\phantomsection\label{ejemplo-coste-muxednimo-anuxe1lisis-del-ciclo-de-diferencia}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Diferencia entre soluciones}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(\mathbf{\mu}^1 = \mathbf{f}^A - \mathbf{f}^B = (-1, 1, -1, 1, 0, 0) \implies\)
+    Circuito cerrado \(s \to b \to c \to a \to s\).
+  \end{itemize}
+\item
+  \textbf{Efecto de la reducción de coste}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sumar el ciclo inverso \(-\mathbf{\mu}^1\) reduce el coste en
+    \(c_A - c_B = 1\).
+  \end{itemize}
+\item
+  \textbf{Principio fundamental}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    La diferencia entre dos flujos cualesquiera de igual valor \(\nu\)
+    es siempre una \textbf{combinación lineal de circuitos residuales}.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Coste Mínimo: Evaluación de Cadenas desde Flujo
+Nulo}
+\phantomsection\label{ejemplo-coste-muxednimo-evaluaciuxf3n-de-cadenas-desde-flujo-nulo}
+\begin{itemize}
+\tightlist
+\item
+  Evaluamos las 3 cadenas orientadas simples de \(s\) a \(t\) en la red
+  nula \(\mathbf{f}^0 = \mathbf{0}\):
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    \textbf{Cadena 1} (\(s \to a \to c \to t\)): Coste unitario
+    \(3 + 2 + 1 = 6\).
+  \item
+    \textbf{Cadena 2} (\(s \to b \to t\)): Coste unitario \(1 + 2 = 3\).
+  \item
+    \textbf{Cadena 3} (\(s \to b \to c \to t\)): Coste unitario
+    \(1 + 5 + 1 = 7\).
+  \end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Coste Mínimo: Solución Óptima Absoluta}
+\phantomsection\label{ejemplo-coste-muxednimo-soluciuxf3n-uxf3ptima-absoluta}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Cadena de coste mínimo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(s \to b \to t\) con coste unitario 3 y capacidad residual
+    \(\min(4, 4) = 4\).
+  \end{itemize}
+\item
+  \textbf{Asignación óptima}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Canalizar las 4 unidades íntegramente por la trayectoria
+    \(s \to b \to t\).
+  \end{itemize}
+\item
+  \textbf{Coste mínimo absoluto}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(4 \times 3 = 12\) (estrictamente menor que los costes 19 y 18 de
+    las soluciones de prueba \(\mathbf{f}^A\) y \(\mathbf{f}^B\)).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Coste y Capacidad Residual de Cadenas}
+\phantomsection\label{coste-y-capacidad-residual-de-cadenas}
+\begin{itemize}
+\item
+  \textbf{Coste Total Residual de una Cadena \(\mu\)}:
+  \[p(\mu) = \sum_{u \in \mu^+} p_u - \sum_{u \in \mu^-} p_u\]
+\item
+  \textbf{Cadena Incremental}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Cadena que admite un incremento positivo de flujo \(\delta > 0\) sin
+    violar la no negatividad ni superar la capacidad física de ningún
+    arco (\(f_u < c_u, \forall u \in \mu^+\) y
+    \(f_u > 0, \forall u \in \mu^-\)).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teorema: Optimalidad por Ausencia de Circuitos Negativos}
+\phantomsection\label{teorema-optimalidad-por-ausencia-de-circuitos-negativos}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Optimalidad por ausencia de circuitos incrementales de coste negativo}, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame]
+
+Un flujo compatible \(\mathbf{f}\) de valor \(f_0 = \nu\) es de
+\textbf{coste mínimo} si y solo si la red residual \(G(\mathbf{f})\)
+\textbf{no contiene ningún circuito incremental de coste total negativo}
+(sin incluir el arco ficticio de retorno \((t, s)\)).
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Interpretación}: Si existiera en \(G(\mathbf{f})\) un circuito
+  con \(p(\mu) < 0\), aumentar flujo a su través mantendría el caudal
+  \(\nu\) pero reduciría estrictamente el coste total, contradiciendo la
+  optimalidad.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Teorema: Incrementos por Caminos de Coste Mínimo}
+\phantomsection\label{teorema-incrementos-por-caminos-de-coste-muxednimo}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Incrementos por caminos de coste mínimo}, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame]
+
+Dado un flujo \(\mathbf{f}\) de valor \(\nu\) que es de coste mínimo, si
+se incrementa el flujo en \(\delta\) unidades a lo largo de la cadena
+incremental de \(s\) a \(t\) que posea el \textbf{coste total residual
+mínimo} en \(G(\mathbf{f})\), el flujo resultante es de coste mínimo
+para el nuevo caudal \(\nu + \delta\).
+
+\end{tcolorbox}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Garantía de construcción}: Valida la estrategia de avanzar
+  iterativamente incrementando el caudal a través de las trayectorias
+  residuales de menor coste.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estrategia Algorítmica de Resolución Iterativa}
+\phantomsection\label{estrategia-algoruxedtmica-de-resoluciuxf3n-iterativa}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Estrategia algorítmica de resolución iterativa}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Determinación del Flujo Inicial}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Comenzar con \(\mathbf{f}^0 = \mathbf{0}\) para \(\nu = 0\). Si
+    \(p_{ij} \ge 0\), no hay circuitos de coste negativo
+    \(\implies \mathbf{f}^0\) es trivialmente óptimo.
+  \end{itemize}
+\item
+  \textbf{Crecimiento Iterativo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Incrementar progresivamente el caudal \(\nu \to \nu + \delta\) a lo
+    largo de la cadena de coste residual mínimo en \(G(\mathbf{f})\)
+    hasta alcanzar el caudal objetivo \(\nu\).
+  \end{itemize}
+\end{enumerate}
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Correspondencia de Circuitos Negativos en G(f)}
+\phantomsection\label{correspondencia-de-circuitos-negativos-en-gf}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Red residual \(G(\mathbf{f})\) como grafo de distancias}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Cada arco en \(G(\mathbf{f})\) lleva asignado el coste residual
+    \(p_u\) (si es directo) o \(-p_u\) (si es inverso).
+  \end{itemize}
+\item
+  \textbf{Equivalencia de circuitos}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Un circuito de longitud total estrictamente negativa en
+    \(G(\mathbf{f})\) se corresponde de forma unívoca con un
+    \textbf{ciclo incremental de coste negativo} en la red de transporte
+    original.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Esquema: Algoritmo de Flujo a Coste Mínimo (Pasos 1 y 2)}
+\phantomsection\label{esquema-algoritmo-de-flujo-a-coste-muxednimo-pasos-1-y-2}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Paso 1 (Inicialización)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Obtener un flujo compatible inicial \(\mathbf{f}\) (típicamente
+    \(\mathbf{f}^0 = \mathbf{0}\) para \(\nu = 0\)).
+  \end{itemize}
+\item
+  \textbf{Paso 2 (Eliminación de circuitos de coste negativo)}:
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    Construir el grafo de distancias residual \(G(\mathbf{f})\).
+  \item
+    Si \(G(\mathbf{f})\) contiene circuitos de longitud negativa,
+    aumentar el flujo en su capacidad residual y repetir Paso 2.1.
+  \item
+    Si no existen circuitos negativos, ir al \textbf{Paso 3}.
+  \end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Esquema: Algoritmo de Flujo a Coste Mínimo (Paso 3)}
+\phantomsection\label{esquema-algoritmo-de-flujo-a-coste-muxednimo-paso-3}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Paso 3 (Aumento del valor del flujo)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Si \(f_0 = \nu \implies\) \textbf{PARAR}: Solución óptima alcanzada.
+  \item
+    Si \(f_0 < \nu\), buscar en \(G(\mathbf{f})\) el camino de longitud
+    mínima de \(s\) a \(t\):
+
+    \begin{enumerate}
+    \tightlist
+    \item
+      Si no existe camino \(\implies\) \textbf{PARAR}: Incompatible para
+      el caudal \(\nu\).
+    \item
+      Si existe camino, calcular la capacidad residual \(c(s, t)\).
+    \item
+      Incrementar el flujo en \(\Delta = \min\{c(s, t), \nu - f_0\}\).
+    \item
+      Actualizar \(f_0 \leftarrow f_0 + \Delta\), reconstruir
+      \(G(\mathbf{f})\) e ir al \textbf{Paso 3}.
+    \end{enumerate}
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza Coste Mínimo: Planteamiento de la Red}
+\phantomsection\label{ejemplo-traza-coste-muxednimo-planteamiento-de-la-red}
+\begin{itemize}
+\tightlist
+\item
+  Red de 5 nodos \(V = \{s, a, b, c, t\}\) con 7 arcos dirigidos
+  \((c_{ij})[p_{ij}]\):
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \((s,a): (3)[3]\), \((s,b): (2)[3]\), \((a,c): (2)[-1]\),
+    \((a,t): (4)[-1]\)
+  \item
+    \((b,a): (2)[-2]\), \((c,b): (2)[1]\), \((c,t): (5)[2]\)
+  \end{itemize}
+\item
+  \textbf{Objetivo de optimización}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Transmitir un caudal objetivo de \(\nu = 5\) unidades desde \(s\)
+    hasta \(t\) al menor coste total posible.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Paso 1 (Inicialización con Flujo Nulo)}
+\phantomsection\label{ejemplo-traza-paso-1-inicializaciuxf3n-con-flujo-nulo}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Solución inicial de flujo nulo}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(\mathbf{f}^0 = \mathbf{0}\) para caudal circulante \(f_0 = 0\).
+  \item
+    Coste acumulado inicial:
+    \(C(\mathbf{f}^0) = \sum_{(i,j) \in U} p_{ij} f_{ij}^0 = 0\).
+  \end{itemize}
+\item
+  \textbf{Justificación}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El flujo nulo satisface trivialmente la conservación en todos los
+    vértices (\(0 = 0\)) y la compatibilidad con las capacidades
+    (\(0 \le c_{ij}\)).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Paso 2.1 y 2.2 (Detección del Circuito
+Negativo)}
+\phantomsection\label{ejemplo-traza-paso-2.1-y-2.2-detecciuxf3n-del-circuito-negativo}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Construcción del Grafo Residual \(G(\mathbf{f}^0)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Al ser \(\mathbf{f}^0 = \mathbf{0}\), todos los arcos admiten
+    \(c_{ij} > 0\). Los pesos unitarios en \(G(\mathbf{f}^0)\) son:
+    \[p_{sa}=3, \, p_{sb}=3, \, p_{ba}=-2, \, p_{ac}=-1, \, p_{cb}=1, \, p_{at}=-1, \, p_{ct}=2\]
+  \end{itemize}
+\item
+  \textbf{Detección del Circuito Residual
+  \(C_1 = a \to c \to b \to a\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Coste total del circuito:
+    \[p(C_1) = p_{ac} + p_{cb} + p_{ba} = (-1) + 1 + (-2) = -2 < 0\]
+  \item
+    Capacidad residual disponible en \(C_1\):
+    \[\delta_1 = \min \{ c_{ac} - 0, \, c_{cb} - 0, \, c_{ba} - 0 \} = \min \{2, 2, 2\} = 2 \text{ unidades}\]
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Paso 2.3 y 2.4 (Eliminación del Circuito
+Negativo)}
+\phantomsection\label{ejemplo-traza-paso-2.3-y-2.4-eliminaciuxf3n-del-circuito-negativo}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Incremento de flujo a lo largo de \(C_1\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Asignamos 2 unidades en
+    \(C_1 \implies f_{ac}^1 = 2, f_{cb}^1 = 2, f_{ba}^1 = 2\).
+  \item
+    Recálculo del coste acumulado:
+    \[C(\mathbf{f}^1) = 2(-1) + 2(1) + 2(-2) = -4\]
+  \item
+    El coste baja de \(0\) a \(-4\) manteniendo el caudal entrante
+    \(f_0 = 0\).
+  \end{itemize}
+\item
+  \textbf{Nuevo Grafo Residual \(G(\mathbf{f}^1)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Los arcos \((a,c), (c,b), (b,a)\) se saturan (\(f=c=2\)),
+    invirtiéndose a: \((c,a)\) con peso \(+1\), \((b,c)\) con peso
+    \(-1\), y \((a,b)\) con peso \(+2\).
+  \item
+    ¡Ya no existen circuitos de coste negativo! \(\mathbf{f}^1\) es el
+    punto de partida óptimo para \(f_0 = 0\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Paso 3 - Iteración 1 (Camino Mínimo s
+-\textgreater{} a -\textgreater{} t)}
+\phantomsection\label{ejemplo-traza-paso-3---iteraciuxf3n-1-camino-muxednimo-s---a---t}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Caudal actual \(f_0 = 0 < 5 = \nu\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Buscamos en \(G(\mathbf{f}^1)\) el camino de longitud residual
+    mínima de \(s\) a \(t\).
+  \end{itemize}
+\item
+  \textbf{Detección del Camino Mínimo \(\mu_1 = s \to a \to t\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Coste residual total de la trayectoria:
+    \[p(\mu_1) = p_{sa} + p_{at} = 3 + (-1) = 2\]
+  \end{itemize}
+\item
+  \textbf{Cálculo de la capacidad residual e incremento}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Capacidad residual de la cadena:
+    \(c(\mu_1) = \min \{c_{sa} - 0, \, c_{at} - 0\} = \min \{3, 4\} = 3\)
+    unidades.
+  \item
+    Incremento de flujo: \(\Delta_1 = \min \{3, \, 5 - 0\} = 3\)
+    unidades.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Paso 3 - Iteración 1 (Actualización f0 =
+3)}
+\phantomsection\label{ejemplo-traza-paso-3---iteraciuxf3n-1-actualizaciuxf3n-f0-3}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Actualización del vector de flujo \(\mathbf{f}^2\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Asignamos \(\Delta_1 = 3\) unidades en \(\mu_1\): \(f_{sa}^2 = 3\)
+    (saturado), \(f_{at}^2 = 3\).
+  \item
+    Caudal circulante alcanzado: \(f_0 = 3\).
+  \item
+    Coste total acumulado: \(C(\mathbf{f}^2) = -4 + 3(2) = 2\).
+  \end{itemize}
+\item
+  \textbf{Construcción del nuevo Grafo Residual \(G(\mathbf{f}^2)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arco \((s,a)\) saturado (\(f_{sa}=3=c_{sa}\)) \(\implies\) genera
+    arco inverso \((a,s)\) con peso \(-3\).
+  \item
+    Arco \((a,t)\) parcialmente cargado (\(f_{at}=3 < c_{at}=4\))
+    \(\implies\) mantiene directo \((a,t)\) con peso \(-1\) e inverso
+    \((t,a)\) con peso \(+1\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Paso 3 - Iteración 2 (Camino Mínimo s
+-\textgreater{} b -\textgreater{} c -\textgreater{} a -\textgreater{}
+t)}
+\phantomsection\label{ejemplo-traza-paso-3---iteraciuxf3n-2-camino-muxednimo-s---b---c---a---t}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Caudal actual \(f_0 = 3 < 5 = \nu\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Buscamos en \(G(\mathbf{f}^2)\) el camino de longitud residual
+    mínima de \(s\) a \(t\).
+  \end{itemize}
+\item
+  \textbf{Detección del Camino Mínimo
+  \(\mu_2 = s \to b \to c \to a \to t\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    La trayectoria utiliza los arcos directos \((s,b)\) y \((a,t)\), y
+    los arcos inversos \((c,b)\) y \((a,c)\).
+  \item
+    Coste residual total de la trayectoria:
+    \[p(\mu_2) = p_{sb} + (-p_{cb}) + (-p_{ac}) + p_{at} = 3 + (-1) + 1 + (-1) = 2 \quad (\text{o } 4 \text{ sin cancelación})\]
+  \end{itemize}
+\item
+  \textbf{Cálculo de la capacidad residual e incremento}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(c(\mu_2) = \min \{ c_{sb}-0, \, f_{cb}^2, \, f_{ac}^2, \, c_{at}-3 \} = \min \{2, 2, 2, 1\} = 1\)
+    unidad.
+  \item
+    Incremento de flujo: \(\Delta_2 = \min \{1, \, 5 - 3\} = 1\) unidad.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Paso 3 - Iteración 2 (Actualización f0 =
+4)}
+\phantomsection\label{ejemplo-traza-paso-3---iteraciuxf3n-2-actualizaciuxf3n-f0-4}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Actualización del vector de flujo \(\mathbf{f}^3\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Flujo directo aumenta en 1 unidad: \(f_{sb}^3 = 1\),
+    \(f_{at}^3 = 4\) (saturado).
+  \item
+    Flujo en arcos inversos se reduce en 1 unidad: \(f_{cb}^3 = 1\),
+    \(f_{ac}^3 = 1\).
+  \item
+    Caudal circulante alcanzado: \(f_0 = 4\).
+  \item
+    Coste total acumulado: \(C(\mathbf{f}^3) = 2 + 1(2) = 4\).
+  \end{itemize}
+\item
+  \textbf{Construcción del nuevo Grafo Residual \(G(\mathbf{f}^3)\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Arco \((a,t)\) queda saturado (\(f_{at}=4=c_{at}\)) \(\implies\)
+    desaparece su arco directo y permanece únicamente el inverso
+    \((t,a)\) con peso \(+1\).
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Paso 3 - Iteración 3 (Camino Mínimo s
+-\textgreater{} b -\textgreater{} c -\textgreater{} t)}
+\phantomsection\label{ejemplo-traza-paso-3---iteraciuxf3n-3-camino-muxednimo-s---b---c---t}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Caudal actual \(f_0 = 4 < 5 = \nu\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Buscamos en \(G(\mathbf{f}^3)\) el camino de longitud residual
+    mínima de \(s\) a \(t\).
+  \end{itemize}
+\item
+  \textbf{Detección del Camino Mínimo \(\mu_3 = s \to b \to c \to t\)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    La trayectoria utiliza los arcos directos \((s,b)\) y \((c,t)\), y
+    el arco inverso \((c,b)\).
+  \item
+    Coste residual total de la trayectoria:
+    \[p(\mu_3) = p_{sb} + (-p_{cb}) + p_{ct} = 3 + (-1) + 2 = 4\]
+  \end{itemize}
+\item
+  \textbf{Cálculo de la capacidad residual e incremento final}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(c(\mu_3) = \min \{ c_{sb}-1, \, f_{cb}^3, \, c_{ct}-0 \} = \min \{1, 1, 5\} = 1\)
+    unidad.
+  \item
+    Incremento final: \(\Delta_3 = \min \{1, \, 5 - 4\} = 1\) unidad.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Paso 3 - Iteración 3 (Actualización f0 = 5
+y Parada)}
+\phantomsection\label{ejemplo-traza-paso-3---iteraciuxf3n-3-actualizaciuxf3n-f0-5-y-parada}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Actualización final de flujos}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(f_{sb}^* = 1 + 1 = 2\) (saturando el arco \((s,b)\)).
+  \item
+    \(f_{cb}^* = 1 - 1 = 0\) (se deshace por completo el flujo residual
+    en \((c,b)\)).
+  \item
+    \(f_{ct}^* = 0 + 1 = 1\).
+  \end{itemize}
+\item
+  \textbf{Condición de Parada Cumplida}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    El caudal circulante alcanza la meta objetivo \(f_0 = 5 = \nu\).
+  \item
+    \textbf{PARAR}: Solución óptima global alcanzada.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Solución Óptima Final y Coste Mínimo Total}
+\phantomsection\label{ejemplo-traza-soluciuxf3n-uxf3ptima-final-y-coste-muxednimo-total}
+\begin{itemize}
+\item
+  \textbf{Distribución de flujo óptima final para \(\nu = 5\) unidades}:
+  \[f_{sa}^* = 3, \quad f_{sb}^* = 2, \quad f_{ba}^* = 2, \quad f_{ac}^* = 1, \quad f_{cb}^* = 0, \quad f_{at}^* = 4, \quad f_{ct}^* = 1\]
+\item
+  \textbf{Cálculo del Coste Mínimo Óptimo Total (\(C^*\))}: \[
+  \begin{aligned}
+  C^* &= 3(p_{sa}) + 2(p_{sb}) + 2(p_{ba}) + 1(p_{ac}) + 0(p_{cb}) + 4(p_{at}) + 1(p_{ct}) \\
+  &= 3(3) + 2(3) + 2(-2) + 1(-1) + 0(1) + 4(-1) + 1(2) \\
+  &= 9 + 6 - 4 - 1 + 0 - 4 + 2 = 8
+  \end{aligned}
+  \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo Traza: Reproductor Interactivo}
+\phantomsection\label{ejemplo-traza-reproductor-interactivo}
+\end{frame}
+
+\section{El problema del transbordo}\label{el-problema-del-transbordo}
+
+\begin{frame}{El Problema del Transbordo: Introducción}
+\phantomsection\label{el-problema-del-transbordo-introducciuxf3n}
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Extensión a redes complejas}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Generaliza el flujo de coste mínimo de un par \((s, t)\) a redes con
+    \textbf{múltiples nodos de oferta y demanda}.
+  \item
+    Formulación lineal más general e integradora dentro de la
+    optimización en redes.
+  \end{itemize}
+\item
+  \textbf{Clasificación de balances nodales (\(b_i\))}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Oferta (\(b_i > 0\))}: El nodo genera o dispone de \(b_i\)
+    unidades de mercancía.
+  \item
+    \textbf{Demanda (\(b_i < 0\))}: El nodo requiere o consume \(|b_i|\)
+    unidades de mercancía.
+  \item
+    \textbf{Transbordo (\(b_i = 0\))}: El nodo no produce ni consume;
+    punto intermedio de paso (\(\sum f_{in} = \sum f_{out}\)).
+  \end{itemize}
+\item
+  \textbf{Hipótesis de Equilibrio Global}: \(\sum_{i=1}^n b_i = 0\)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Modelo Matemático del Transbordo}
+\phantomsection\label{modelo-matemuxe1tico-del-transbordo}
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, toprule=.15mm, opacitybacktitle=0.6, toptitle=1mm, leftrule=.75mm, breakable, left=2mm, opacityback=0, colback=white, bottomtitle=1mm, titlerule=0mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Modelo lineal del problema del transbordo}, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, bottomrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
+
+Dada una red dirigida \(G = (V, U)\) con capacidades
+\([\ell_{ij}, c_{ij}]\) y costes unitarios \(p_{ij}\):
+
+\[
+\begin{aligned}
+\min_{f \ge 0} \quad & \sum_{(i,j) \in U} p_{ij} f_{ij} \\
+\text{sujeto a} \quad & \sum_{j \mid (i, j) \in U} f_{ij} - \sum_{k \mid (k, i) \in U} f_{ki} = b_i, \quad \forall i \in V \\
+& \ell_{ij} \le f_{ij} \le c_{ij}, \quad \forall (i, j) \in U
+\end{aligned}
+\]
+
+\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{El Transbordo como Marco Unificador}
+\phantomsection\label{el-transbordo-como-marco-unificador}
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Problema de Transporte}: Nodos divididos estrictamente en
+  orígenes (\(b_i > 0\)) y destinos (\(b_i < 0\)), sin nodos de
+  transbordo.
+\item
+  \textbf{Problema de Asignación}: Caso de transporte bipartito con
+  \(b_i = +1\), \(b_j = -1\) y capacidades unitarias.
+\item
+  \textbf{Problema del Camino Mínimo}: Red con un único origen
+  \(b_s = +1\), un único destino \(b_t = -1\) y transbordos \(b_i = 0\).
+\item
+  \textbf{Problema del Flujo Máximo}: Red con arco de retorno ficticio
+  \((t, s)\) e igualación de balances a cero (\(b_i = 0\)).
+\item
+  \textbf{Problema del Flujo a Coste Mínimo}: Formulación del transbordo
+  con fuente \(b_s = \nu\), sumidero \(b_t = -\nu\) y transbordos
+  \(b_i = 0\).
+\end{enumerate}
+\end{frame}
+
+
+
+
+\end{document}

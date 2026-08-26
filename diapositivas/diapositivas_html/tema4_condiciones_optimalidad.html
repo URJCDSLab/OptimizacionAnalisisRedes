@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/clipboard/clipboard.min.js"></script>
+<script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/quarto-html/tabby.min.js"></script>
+<script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/quarto-html/popper.min.js"></script>
+<script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.27">
+
+  <meta name="author" content="Víctor Aceña Gil - Antonio Alonso Ayuso">
+  <meta name="dcterms.date" content="2026-07-14">
+  <title>Tema 4: condiciones de optimalidad y KKT</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/dist/theme/quarto-ad64822a1364e84adeff1f664849e90b.css">
+  <link href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Tema 4: condiciones de optimalidad y KKT</h1>
+  <p class="subtitle">Optimización y Análisis de Redes</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Víctor Aceña Gil - Antonio Alonso Ayuso 
+</div>
+</div>
+</div>
+
+  <p class="date">2026-07-14</p>
+</section>
+<section id="objetivos-de-aprendizaje" class="slide level2">
+<h2>Objetivos de aprendizaje</h2>
+<p>Al finalizar este capítulo, serás capaz de:</p>
+<ol type="1">
+<li><strong>Diferenciar</strong> las condiciones necesarias y suficientes de primer y segundo orden (FONC, SONC y SOSC) para optimización sin restricciones.</li>
+<li><strong>Caracterizar geométricamente</strong> las direcciones de descenso y factibles a través de conos de direcciones algebraicos.</li>
+<li><strong>Analizar las condiciones de Fritz-John</strong>, interpretando su significado geométrico y su sensibilidad ante restricciones redundantes.</li>
+<li><strong>Deducir y aplicar las condiciones de Karush-Kuhn-Tucker (KKT)</strong> como fundamento analítico de la optimización restringida.</li>
+<li><strong>Resolver analíticamente</strong> problemas con restricciones de igualdad y desigualdad por medio de la cualificación de restricciones (LICQ) y el análisis sistemático por casos.</li>
+</ol>
+</section>
+<section>
+<section id="optimización-sin-restricciones" class="title-slide slide level1 center">
+<h1>Optimización sin restricciones</h1>
+
+</section>
+<section id="por-qué-estudiar-problemas-sin-restricciones" class="slide level2">
+<h2>¿Por qué estudiar problemas sin restricciones?</h2>
+<ul>
+<li><strong>Base diferencial</strong>: Los conceptos de aproximación local, gradiente, Hessiana y curvatura se extienden directamente al caso restringido.</li>
+<li><strong>Algoritmos indirectos</strong>: Muchos métodos numéricos resuelven problemas con restricciones mediante una secuencia de subproblemas sin restricciones (ej. penalización, barrera).</li>
+<li><strong>Comportamiento local</strong>: Permite comprender cómo se comporta una función localmente basándonos únicamente en la información de sus derivadas.</li>
+</ul>
+</section>
+<section id="qué-es-una-dirección-de-descenso" class="slide level2">
+<h2>¿Qué es una dirección de descenso?</h2>
+<p>Una dirección <span class="math inline">\(d \in \mathbb{R}^n\)</span> es de <strong>descenso</strong> en <span class="math inline">\(\bar{x}\)</span> si existe un paso <span class="math inline">\(\delta &gt; 0\)</span> tal que la función disminuye estrictamente: <span class="math display">\[ f(\bar{x} + \lambda d) &lt; f(\bar{x}), \quad \forall \lambda \in (0, \delta) \]</span></p>
+<p><strong>Propiedad diferencial</strong>:</p>
+<ul>
+<li>Si <span class="math inline">\(f\)</span> es diferenciable en <span class="math inline">\(\bar{x}\)</span> y existe <span class="math inline">\(d\)</span> tal que <span class="math inline">\(\nabla f(\bar{x})^T d &lt; 0\)</span>, entonces <span class="math inline">\(d\)</span> es una dirección de descenso.</li>
+<li>El producto escalar negativo indica que el ángulo entre el gradiente <span class="math inline">\(\nabla f(\bar{x})\)</span> y la dirección <span class="math inline">\(d\)</span> es obtuso.</li>
+<li><strong>Cono de direcciones de descenso</strong>: <span class="math display">\[ \mathcal{D}_0(\bar{x}) = \{ d \in \mathbb{R}^n \mid \nabla f(\bar{x})^T d &lt; 0 \} \]</span></li>
+</ul>
+</section>
+<section id="condiciones-de-optimalidad-sin-restricciones-fonc-y-sonc" class="slide level2">
+<h2>Condiciones de optimalidad sin restricciones (FONC y SONC)</h2>
+<p>Caracterización diferencial de extremos locales sin restricciones:</p>
+<ul>
+<li><p><strong>Condición necesaria de primer orden (FONC)</strong>: Si <span class="math inline">\(\bar{x}\)</span> es un mínimo local de <span class="math inline">\(f\)</span> (diferenciable en <span class="math inline">\(\bar{x}\)</span>), entonces el gradiente se anula: <span class="math display">\[ \nabla f(\bar{x}) = 0 \]</span> <em>(El punto <span class="math inline">\(\bar{x}\)</span> es un <strong>punto crítico</strong> o estacionario, lo que vacía el cono de descenso: <span class="math inline">\(\mathcal{D}_0(\bar{x}) = \emptyset\)</span>)</em>.</p></li>
+<li><p><strong>Condición necesaria de segundo orden (SONC)</strong>: Si <span class="math inline">\(\bar{x}\)</span> es un mínimo local de <span class="math inline">\(f\)</span> (dos veces diferenciable en <span class="math inline">\(\bar{x}\)</span>), entonces la matriz Hessiana es semidefinida positiva: <span class="math display">\[ \nabla^2 f(\bar{x}) \succeq 0 \]</span></p></li>
+</ul>
+</section>
+<section id="condiciones-suficientes-de-segundo-orden-sosc" class="slide level2">
+<h2>Condiciones suficientes de segundo orden (SOSC)</h2>
+<div title="Condición Suficiente de Segundo Orden (SOSC)">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Condición Suficiente de Segundo Orden (SOSC)</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea <span class="math inline">\(f\)</span> dos veces diferenciable en un punto crítico <span class="math inline">\(\bar{x}\)</span> (donde <span class="math inline">\(\nabla f(\bar{x}) = 0\)</span>).</p>
+<ul>
+<li>Si <span class="math inline">\(\nabla^2 f(\bar{x}) \succ 0\)</span> (definida positiva), entonces <span class="math inline">\(\bar{x}\)</span> es un <strong>mínimo local estricto</strong>.</li>
+<li>Si <span class="math inline">\(\nabla^2 f(\bar{x}) \prec 0\)</span> (definida negativa), entonces <span class="math inline">\(\bar{x}\)</span> es un <strong>máximo local estricto</strong>.</li>
+<li>Si <span class="math inline">\(\nabla^2 f(\bar{x})\)</span> es indefinida (autovalores positivos y negativos), entonces <span class="math inline">\(\bar{x}\)</span> es un <strong>punto de silla</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<p><em>Si es únicamente semidefinida, la condición de segundo orden no es suficiente y existe ambigüedad.</em></p>
+</section>
+<section id="suficiencia-de-optimalidad-global" class="slide level2">
+<h2>Suficiencia de optimalidad global</h2>
+<p>Las condiciones SOSC son locales. Para certificar optimalidad global (garantizar que no existe ningún otro punto mejor en todo el dominio), necesitamos imponer convexidad:</p>
+<div title="Suficiencia de Optimalidad bajo Pseudo-convexidad">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Suficiencia de Optimalidad bajo Pseudo-convexidad</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> una función pseudo-convexa definida sobre un conjunto convexo <span class="math inline">\(\mathcal{S}\)</span>.</p>
+<p>Un punto <span class="math inline">\(\bar{x} \in \mathcal{S}\)</span> es un <strong>mínimo global</strong> de <span class="math inline">\(f\)</span> si y solo si es un punto estacionario: <span class="math display">\[ \nabla f(\bar{x}) = 0 \]</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="derivadas-de-orden-superior-una-variable" class="slide level2">
+<h2>Derivadas de orden superior (una variable)</h2>
+<div title="Extremos univariantes de orden superior">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Extremos univariantes de orden superior</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea <span class="math inline">\(f: \mathbb{R} \to \mathbb{R}\)</span> una función infinitamente diferenciable en un punto crítico <span class="math inline">\(\bar{x}\)</span>. Supongamos que la primera derivada no nula en <span class="math inline">\(\bar{x}\)</span> es de orden <span class="math inline">\(n \ge 2\)</span>, es decir, <span class="math inline">\(f^{(j)}(\bar{x}) = 0\)</span> para todo <span class="math inline">\(j = 1, \dots, n-1\)</span>, y <span class="math inline">\(f^{(n)}(\bar{x}) \neq 0\)</span>:</p>
+<ol type="1">
+<li>Si <span class="math inline">\(n\)</span> es <strong>impar</strong>, entonces <span class="math inline">\(\bar{x}\)</span> es un <strong>punto de inflexión</strong> (no es un extremo local).</li>
+<li>Si <span class="math inline">\(n\)</span> es <strong>par</strong>:
+<ul>
+<li>Si <span class="math inline">\(f^{(n)}(\bar{x}) &gt; 0\)</span>, entonces <span class="math inline">\(\bar{x}\)</span> es un <strong>mínimo local estricto</strong>.</li>
+<li>Si <span class="math inline">\(f^{(n)}(\bar{x}) &lt; 0\)</span>, entonces <span class="math inline">\(\bar{x}\)</span> es un <strong>máximo local estricto</strong>.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="derivadas-de-orden-superior-ejemplo" class="slide level2">
+<h2>Derivadas de orden superior: ejemplo</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Consideremos la función <span class="math inline">\(f(x) = (x^2 - 1)^3\)</span>. Puntos críticos en <span class="math inline">\(x^* \in \{0, 1, -1\}\)</span>:</p>
+<ul>
+<li><strong>En <span class="math inline">\(x^* = 0\)</span></strong>:
+<ul>
+<li><span class="math inline">\(f''(0) = 6 &gt; 0 \implies\)</span> mínimo local por SOSC.</li>
+</ul></li>
+<li><strong>En <span class="math inline">\(x^* = \pm 1\)</span></strong>:
+<ul>
+<li><span class="math inline">\(f''(\pm 1) = 0 \implies\)</span> orden superior.</li>
+<li><span class="math inline">\(f'''(\pm 1) = \pm 48 \neq 0 \implies\)</span> primera derivada no nula es <strong>impar</strong> (<span class="math inline">\(n=3\)</span>).</li>
+<li>Son <strong>puntos de inflexión</strong>.</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/opt_sin_rest_inflexion.png" class="quarto-figure quarto-figure-center" style="width:95.0%"></p>
+</figure>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="optimización-con-restricciones" class="title-slide slide level1 center">
+<h1>Optimización con restricciones</h1>
+
+</section>
+<section id="introducción-a-la-optimización-con-restricciones" class="slide level2">
+<h2>Introducción a la optimización con restricciones</h2>
+<p>En la práctica, la optimización matemática adquiere su verdadera complejidad al introducir restricciones sobre las variables de decisión.</p>
+<p><strong>Dos marcos de análisis</strong>:</p>
+<ol type="1">
+<li><strong>Marco general geométrico</strong>: Conjunto factible <span class="math inline">\(\mathcal{S} \subseteq \mathbb{R}^n\)</span> genérico: <span class="math display">\[ \min \{ f(x) \mid x \in \mathcal{S} \} \]</span></li>
+<li><strong>Problema con restricciones explícitas</strong>: Definidas mediante desigualdades: <span class="math display">\[ \min \{ f(x) \mid x \in \mathcal{X}, \ g_i(x) \le 0, \ i = 1, \dots, m \} \]</span> donde el dominio de partida <span class="math inline">\(\mathcal{X}\)</span> es un abierto no vacío de <span class="math inline">\(\mathbb{R}^n\)</span>, y tanto <span class="math inline">\(f\)</span> como <span class="math inline">\(g_i\)</span> son diferenciables.</li>
+</ol>
+</section>
+<section id="análisis-local-en-la-frontera" class="slide level2">
+<h2>Análisis local en la frontera</h2>
+<p>Para caracterizar si un punto frontera <span class="math inline">\(\bar{x} \in \mathcal{S}\)</span> es un mínimo local, analizamos movimientos infinitesimales a partir de él.</p>
+<p><strong>Requisitos del movimiento infinitesimal</strong>:</p>
+<ol type="1">
+<li><strong>Factibilidad</strong>: Permanecer dentro de la región factible <span class="math inline">\(\mathcal{S}\)</span> para un paso suficientemente pequeño.</li>
+<li><strong>Descenso</strong>: Disminuir estrictamente el valor de la función objetivo <span class="math inline">\(f(x)\)</span>.</li>
+</ol>
+<ul>
+<li>Ambas condiciones se formalizan geométricamente a través de los <strong>conos de direcciones</strong> (factibles y de descenso).</li>
+</ul>
+</section>
+<section id="conos-de-direcciones-factibilidad-y-descenso" class="slide level2">
+<h2>Conos de direcciones: factibilidad y descenso</h2>
+<p>Caracterización geométrica de los movimientos infinitesimales admisibles en <span class="math inline">\(\bar{x} \in \mathcal{S}\)</span>:</p>
+<ul>
+<li><strong>Cono de Direcciones Factibles (<span class="math inline">\(\mathcal{F}(\bar{x})\)</span>)</strong>: Direcciones a lo largo de las cuales un paso infinitesimal no abandona la región factible: <span class="math display">\[ \mathcal{F}(\bar{x}) = \{ d \in \mathbb{R}^n \mid d \neq 0, \ \exists \delta_d &gt; 0 \text{ t.q. } \bar{x} + \lambda d \in \mathcal{S}, \ \forall \lambda \in (0, \delta_d) \} \]</span></li>
+<li><strong>Cono de Direcciones de Mejora/Descenso (<span class="math inline">\(\mathcal{D}(\bar{x})\)</span>)</strong>: Direcciones a lo largo de las cuales el valor de la función objetivo disminuye localmente: <span class="math display">\[ \mathcal{D}(\bar{x}) = \{ d \in \mathbb{R}^n \mid d \neq 0, \ \exists \delta_d &gt; 0 \text{ t.q. } f(\bar{x} + \lambda d) &lt; f(\bar{x}), \ \forall \lambda \in (0, \delta_d) \} \]</span></li>
+<li><strong>Condición necesaria geométrica de optimalidad</strong>: <span class="math display">\[ \bar{x} \text{ es mínimo local} \implies \mathcal{F}(\bar{x}) \cap \mathcal{D}(\bar{x}) = \emptyset \]</span></li>
+</ul>
+</section>
+<section id="el-cono-de-descenso-analítico" class="slide level2">
+<h2>El cono de descenso analítico</h2>
+<p>Si <span class="math inline">\(f\)</span> es diferenciable, aproximamos el cono de descenso real <span class="math inline">\(\mathcal{D}(\bar{x})\)</span> localmente:</p>
+<ul>
+<li><strong>Definición</strong>: El cono analítico <span class="math inline">\(\mathcal{D}_0(\bar{x})\)</span> son las direcciones con ángulo obtuso respecto al gradiente: <span class="math display">\[ \mathcal{D}_0(\bar{x}) = \{ d \in \mathbb{R}^n \mid \nabla f(\bar{x})^T d &lt; 0 \} \]</span></li>
+<li><strong>Inclusión</strong>: Se cumple que <span class="math inline">\(\mathcal{D}_0(\bar{x}) \subseteq \mathcal{D}(\bar{x})\)</span>.</li>
+<li><strong>Significado geométrico</strong>: Cualquier dirección <span class="math inline">\(d \in \mathcal{D}_0(\bar{x})\)</span> garantiza el descenso local de la función en <span class="math inline">\(\bar{x}\)</span>.</li>
+</ul>
+</section>
+<section id="exclusión-de-direcciones-de-descenso-y-factibilidad" class="slide level2">
+<h2>Exclusión de Direcciones de Descenso y Factibilidad</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<div title="Exclusión de Direcciones de Descenso y Factibilidad">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Exclusión de Direcciones de Descenso y Factibilidad</strong></p>
+</div>
+<div class="callout-content">
+<p>Si <span class="math inline">\(\bar{x} \in \mathcal{S}\)</span> es un mínimo local de una función diferenciable <span class="math inline">\(f\)</span>, entonces el cono factible y el semiespacio de descenso analítico son disjuntos: <span class="math display">\[ \mathcal{D}_0(\bar{x}) \cap \mathcal{F}(\bar{x}) = \emptyset \]</span></p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/cono_direcciones.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="suficiencia-geométrica-bajo-pseudo-convexidad" class="slide level2">
+<h2>Suficiencia geométrica bajo Pseudo-convexidad</h2>
+<p>La condición de exclusión <span class="math inline">\(\mathcal{D}_0(\bar{x}) \cap \mathcal{F}(\bar{x}) = \emptyset\)</span> es necesaria. Bajo propiedades de convexidad, se convierte también en suficiente:</p>
+<div title="Suficiencia geométrica bajo Pseudo-convexidad">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Suficiencia geométrica bajo Pseudo-convexidad</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea el problema de optimización <span class="math inline">\(\min\{f(x) \mid x \in \mathcal{S}\}\)</span>, con <span class="math inline">\(f\)</span> diferenciable y pseudo-convexa en <span class="math inline">\(\bar{x} \in \mathcal{S}\)</span>. Si:</p>
+<ol type="1">
+<li>Se cumple la condición de exclusión geométrica: <span class="math inline">\(\mathcal{D}_0(\bar{x}) \cap \mathcal{F}(\bar{x}) = \emptyset\)</span>.</li>
+<li>Existe un entorno <span class="math inline">\(N_\epsilon(\bar{x})\)</span> de radio <span class="math inline">\(\epsilon &gt; 0\)</span> tal que el vector <span class="math inline">\(d = (x - \bar{x}) \in \mathcal{F}(\bar{x})\)</span> para cualquier <span class="math inline">\(x \in \mathcal{S} \cap N_\epsilon(\bar{x})\)</span>.</li>
+</ol>
+<p>Entonces, <span class="math inline">\(\bar{x}\)</span> es un <strong>mínimo local</strong> de <span class="math inline">\(f\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="limitación-del-cono-de-direcciones-factibles" class="slide level2">
+<h2>Limitación del Cono de Direcciones Factibles</h2>
+<div title="Limitación del Cono Factible Geométrico">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Limitación del Cono Factible Geométrico</strong></p>
+</div>
+<div class="callout-content">
+<p>El cono de direcciones factibles <span class="math inline">\(\mathcal{F}(\bar{x})\)</span> se define de forma puramente geométrica y depende del comportamiento infinitesimal de la frontera del conjunto <span class="math inline">\(\mathcal{S}\)</span>.</p>
+<ul>
+<li>Determinar analíticamente si una dirección <span class="math inline">\(d \in \mathcal{F}(\bar{x})\)</span> requiere analizar la existencia de un paso <span class="math inline">\(\delta &gt; 0\)</span> tal que <span class="math inline">\(\bar{x} + \lambda d \in \mathcal{S}\)</span> para todo <span class="math inline">\(\lambda \in (0, \delta)\)</span>.</li>
+<li>Esta verificación es extremadamente compleja en la práctica para restricciones no lineales.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Solución</strong>: Si el conjunto factible está definido por restricciones analíticas de desigualdad diferenciables, aproximamos localmente el cono factible mediante el <strong>cono de restricciones activas</strong> <span class="math inline">\(\mathcal{G}_0(\bar{x})\)</span>, el cual se calcula algebraicamente.</p>
+</section></section>
+<section>
+<section id="restricciones-de-desigualdad-y-cono-de-restricciones-activas" class="title-slide slide level1 center">
+<h1>Restricciones de desigualdad y cono de restricciones activas</h1>
+
+</section>
+<section id="restricciones-de-desigualdad-y-conjunto-activo" class="slide level2">
+<h2>Restricciones de desigualdad y conjunto activo</h2>
+<p>La región factible <span class="math inline">\(\mathcal{S}\)</span> se define explícitamente mediante una serie de desigualdades analíticas: <span class="math display">\[ \mathcal{S} = \{ x \in \mathcal{X} \mid g_i(x) \le 0, \ i = 1, \dots, m \} \]</span></p>
+<ul>
+<li><p><strong>Región factible y dominio</strong>: El dominio de partida <span class="math inline">\(\mathcal{X} \subseteq \mathbb{R}^n\)</span> es un abierto no vacío, y tanto <span class="math inline">\(f\)</span> como las restricciones <span class="math inline">\(g_i\)</span> son funciones diferenciables.</p></li>
+<li><p><strong>Restricciones inactivas</strong>: Si <span class="math inline">\(g_i(\bar{x}) &lt; 0\)</span>, la restricción está <strong>inactiva</strong> y no limita localmente los movimientos admisibles en un entorno lo suficientemente pequeño de <span class="math inline">\(\bar{x}\)</span>.</p></li>
+<li><p><strong>Conjunto activo</strong>: El <strong>conjunto activo</strong> <span class="math inline">\(\mathcal{I}\)</span> está formado por los índices de las restricciones que se cumplen estrictamente como igualdad en <span class="math inline">\(\bar{x}\)</span>: <span class="math display">\[ \mathcal{I} = \{ i \in \{1, \dots, m\} \mid g_i(\bar{x}) = 0 \} \]</span></p></li>
+</ul>
+</section>
+<section id="gradientes-y-movimiento-admisible" class="slide level2">
+<h2>Gradientes y movimiento admisible</h2>
+<p>Para analizar qué movimientos infinitesimales nos mantienen dentro de la región factible, estudiamos la geometría de las restricciones activas en <span class="math inline">\(\bar{x}\)</span>:</p>
+<ul>
+<li><p><strong>Gradiente como dirección de crecimiento</strong>: Si <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) es diferenciable, el gradiente <span class="math inline">\(\nabla g_i(\bar{x})\)</span> señala la dirección de máximo crecimiento local de la restricción.</p></li>
+<li><p><strong>Orientación hacia el exterior</strong>: Dado que las restricciones son de tipo “menor o igual que” (<span class="math inline">\(g_i(x) \le 0\)</span>), el gradiente <span class="math inline">\(\nabla g_i(\bar{x})\)</span> apunta estrictamente hacia el exterior de la región factible <span class="math inline">\(\mathcal{S}\)</span>.</p></li>
+<li><p><strong>Movimiento hacia el interior</strong>: Si una dirección <span class="math inline">\(d \in \mathbb{R}^n\)</span> forma un ángulo obtuso con el gradiente de una restricción activa: <span class="math display">\[ \nabla g_i(\bar{x})^T d &lt; 0 \]</span> entonces nos moveremos localmente hacia el interior factible de dicha restricción.</p></li>
+</ul>
+</section>
+<section id="ejemplo-identificación-planteamiento" class="slide level2">
+<h2>Ejemplo: Identificación – Planteamiento</h2>
+<p>Consideremos el siguiente problema bidimensional con restricciones lineales y circulares: <span class="math display">\[
+\begin{aligned}
+\min \quad &amp; f(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 2)^2 \\
+\text{s.a.} \quad &amp; g_1(x_1, x_2) = x_1^2 + x_2^2 - 5 \le 0 \\
+&amp; g_2(x_1, x_2) = -x_1 \le 0 \\
+&amp; g_3(x_1, x_2) = -x_2 \le 0 \\
+&amp; g_4(x_1, x_2) = x_1 + x_2 - 3 \le 0
+\end{aligned}
+\]</span></p>
+<ul>
+<li><p><strong>Función objetivo</strong>: Minimizar la distancia euclídea al cuadrado con respecto al centro <span class="math inline">\((3, 2)\)</span>.</p></li>
+<li><p><strong>Región factible <span class="math inline">\(\mathcal{S}\)</span></strong>: Delimitada por la circunferencia <span class="math inline">\(g_1\)</span>, los ejes de coordenadas <span class="math inline">\(g_2, g_3\)</span> y la recta oblicua <span class="math inline">\(g_4\)</span>.</p></li>
+</ul>
+</section>
+<section id="ejemplo-identificación-conjuntos-activos" class="slide level2">
+<h2>Ejemplo: Identificación – Conjuntos activos</h2>
+<p>Dependiendo de la ubicación del punto factible evaluado, el conjunto de restricciones activas <span class="math inline">\(\mathcal{I}\)</span> varía considerablemente:</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Punto <span class="math inline">\((1,1)\)</span></strong>: El punto es estrictamente interior, por lo que ninguna restricción se cumple con igualdad y <span class="math inline">\(\mathcal{I} = \emptyset\)</span>.</p></li>
+<li><p><strong>Punto <span class="math inline">\((0,0)\)</span></strong>: El punto está en el origen, lo que activa las fronteras de no negatividad, resultando <span class="math inline">\(\mathcal{I} = \{2, 3\}\)</span>.</p></li>
+<li><p><strong>Punto <span class="math inline">\((2,1)\)</span></strong>: Situado en la intersección de la circunferencia y la recta, activando ambas simultáneamente: <span class="math inline">\(\mathcal{I} = \{1, 4\}\)</span>.</p></li>
+<li><p><strong>Punto <span class="math inline">\((0,1)\)</span></strong>: Situado sobre el eje vertical, lo que activa únicamente la restricción de <span class="math inline">\(x_1 \ge 0\)</span>, resultando <span class="math inline">\(\mathcal{I} = \{2\}\)</span>.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/active_constraints_intro.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-identificación-gradientes-en-la-frontera" class="slide level2">
+<h2>Ejemplo: Identificación – Gradientes en la frontera</h2>
+<p>Analicemos los gradientes de las restricciones activas en los puntos situados sobre la frontera de la región factible:</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Punto <span class="math inline">\((1,2)\)</span></strong>: Las restricciones activas son la circunferencia <span class="math inline">\(g_1\)</span> y la recta oblicua <span class="math inline">\(g_4\)</span> (<span class="math inline">\(\mathcal{I} = \{1, 4\}\)</span>).</p></li>
+<li><p><strong>Cálculo de gradientes</strong>: <span class="math display">\[ \nabla g_1(1,2) = \begin{pmatrix} 2 \\ 4 \end{pmatrix}, \qquad \nabla g_4(1,2) = \begin{pmatrix} 1 \\ 1 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Orientación</strong>: Ambos vectores señalan hacia fuera de la región factible, confirmando que el crecimiento de <span class="math inline">\(g_i\)</span> nos aleja del conjunto factible <span class="math inline">\(\mathcal{S}\)</span>.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/active_constraints_gradients.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-identificación-direcciones-ortogonales" class="slide level2">
+<h2>Ejemplo: Identificación – Direcciones ortogonales</h2>
+<p>Analicemos qué ocurre con direcciones <span class="math inline">\(d\)</span> ortogonales a los gradientes de restricciones activas (<span class="math inline">\(\nabla g_i(\bar{x})^T d = 0\)</span>):</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Punto <span class="math inline">\((0,1)\)</span></strong>: La restricción <span class="math inline">\(g_2(x) = -x_1 \le 0\)</span> está activa, con <span class="math inline">\(\nabla g_2 = (-1,0)^T\)</span>. La dirección vertical <span class="math inline">\(d = (0,1)^T\)</span> es ortogonal al gradiente (<span class="math inline">\(\nabla g_2^T d = 0\)</span>) y resulta factible, ya que mantiene al punto sobre la frontera.</p></li>
+<li><p><strong>Punto <span class="math inline">\((1,2)\)</span></strong>: La restricción <span class="math inline">\(g_4(x) = x_1+x_2-3 \le 0\)</span> está activa, con <span class="math inline">\(\nabla g_4 = (1,1)^T\)</span>. La dirección tangencial <span class="math inline">\(d = (1,-1)^T\)</span> es ortogonal (<span class="math inline">\(\nabla g_4^T d = 0\)</span>) y es factible por tratarse de una frontera lineal.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/active_constraints_orthogonality.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="el-cono-analítico-de-restricciones-activas" class="slide level2">
+<h2>El cono analítico de restricciones activas</h2>
+<p>El cono de direcciones factibles geométricas <span class="math inline">\(\mathcal{F}(\bar{x})\)</span> requiere analizar la existencia de un paso admisible, lo que resulta muy complejo en la frontera. Lo aproximamos localmente de forma algebraica:</p>
+<ul>
+<li><p><strong>Definición</strong>: El <strong>cono analítico de restricciones activas</strong> <span class="math inline">\(\mathcal{G}_0(\bar{x})\)</span> es el conjunto de direcciones que apuntan estrictamente hacia el interior de todas las restricciones activas en <span class="math inline">\(\bar{x}\)</span>: <span class="math display">\[ \mathcal{G}_0(\bar{x}) = \{ d \in \mathbb{R}^n \mid \nabla g_i(\bar{x})^T d &lt; 0, \ \forall i \in \mathcal{I} \} \]</span></p></li>
+<li><p><strong>Ventaja algebraica</strong>: Se calcula directamente a partir de los gradientes de las restricciones activas en el punto de evaluación, sin necesidad de estimar la longitud de pasos infinitesimales.</p></li>
+</ul>
+</section>
+<section id="relación-de-inclusión-de-conos" class="slide level2">
+<h2>Relación de inclusión de conos</h2>
+<p>La relación entre el cono algebraico <span class="math inline">\(\mathcal{G}_0(\bar{x})\)</span> y el cono factible geométrico <span class="math inline">\(\mathcal{F}(\bar{x})\)</span> es estrecha, pero presenta matices:</p>
+<ul>
+<li><p><strong>Inclusión fundamental</strong>: Cualquier dirección que apunte estrictamente al interior de las restricciones activas es geométricamente factible: <span class="math display">\[ \mathcal{G}_0(\bar{x}) \subseteq \mathcal{F}(\bar{x}) \]</span></p></li>
+<li><p><strong>Inclusión estricta</strong>: En general, no se cumple la igualdad (<span class="math inline">\(\mathcal{G}_0(\bar{x}) \neq \mathcal{F}(\bar{x})\)</span>).</p></li>
+<li><p><strong>Causa de discrepancia</strong>: Las direcciones <span class="math inline">\(d\)</span> ortogonales a algún gradiente activo de frontera lineal (<span class="math inline">\(\nabla g_i(\bar{x})^T d = 0\)</span>) pueden mantener al punto sobre la frontera y ser factibles geométricamente, pero no pertenecen al cono abierto algebraico <span class="math inline">\(\mathcal{G}_0(\bar{x})\)</span>.</p></li>
+</ul>
+</section>
+<section id="intersección-vacía-con-el-cono-activo" class="slide level2">
+<h2>Intersección vacía con el cono activo</h2>
+<div title="Intersección vacía con el cono activo">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Intersección vacía con el cono activo</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea el problema de optimización bajo restricciones de desigualdad, con <span class="math inline">\(f\)</span> y <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) diferenciables en el punto factible <span class="math inline">\(\bar{x}\)</span>. Si <span class="math inline">\(\bar{x}\)</span> es un mínimo local, entonces el cono de descenso analítico y el cono analítico de restricciones activas son disjuntos: <span class="math display">\[ \mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) = \emptyset \]</span></p>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Dado que <span class="math inline">\(\mathcal{G}_0(\bar{x}) \subseteq \mathcal{F}(\bar{x})\)</span>, de la exclusión geométrica necesaria (<span class="math inline">\(\mathcal{D}_0(\bar{x}) \cap \mathcal{F}(\bar{x}) = \emptyset\)</span>) se deduce de forma inmediata que la intersección con el cono analítico más restrictivo también debe ser vacía.</li>
+</ul>
+</section>
+<section id="suficiencia-geométrica-sin-kkt" class="slide level2">
+<h2>Suficiencia geométrica sin KKT</h2>
+<div title="Suficiencia geométrica sin KKT">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Suficiencia geométrica sin KKT</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea el problema de optimización con restricciones de desigualdad, con <span class="math inline">\(f\)</span> y <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) diferenciables en <span class="math inline">\(\bar{x}\)</span>. Si se cumple:</p>
+<ol type="1">
+<li>La función objetivo <span class="math inline">\(f\)</span> es <strong>pseudo-convexa</strong> en <span class="math inline">\(\bar{x}\)</span>.</li>
+<li>Las restricciones activas <span class="math inline">\(g_i\)</span> son <strong>estrictamente pseudo-convexas</strong> en <span class="math inline">\(\bar{x}\)</span>.</li>
+<li>Se cumple que: <span class="math inline">\(\mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) = \emptyset\)</span>.</li>
+</ol>
+<p>Entonces, <span class="math inline">\(\bar{x}\)</span> es un <strong>mínimo local</strong> del problema.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-1-planteamiento-y-candidatos" class="slide level2">
+<h2>Ejemplo 1: Planteamiento y candidatos</h2>
+<p>Consideremos el problema de optimización restringido: <span class="math display">\[
+\begin{aligned}
+\min \quad &amp; f(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 2)^2 \\
+\text{s.a.} \quad &amp; g_1(x_1, x_2) = x_1^2 + x_2^2 - 5 \le 0 \\
+&amp; g_2(x_1, x_2) = -x_1 \le 0 \\
+&amp; g_3(x_1, x_2) = -x_2 \le 0 \\
+&amp; g_4(x_1, x_2) = x_1 + x_2 - 3 \le 0
+\end{aligned}
+\]</span></p>
+<ul>
+<li><p><strong>Objetivo</strong>: Minimizar la distancia al cuadrado con respecto al centro <span class="math inline">\((3, 2)\)</span>.</p></li>
+<li><p><strong>Candidatos de frontera</strong>: Analizaremos el comportamiento de los conos de direcciones en dos puntos candidatos situados sobre la frontera de la región factible:</p>
+<ol type="1">
+<li>El punto candidato <strong><span class="math inline">\(A(9/5, 6/5)\)</span></strong>.</li>
+<li>El punto candidato <strong><span class="math inline">\(B(2, 1)\)</span></strong>.</li>
+</ol></li>
+</ul>
+</section>
+<section id="ejemplo-1-candidato-a95-65-conos" class="slide level2">
+<h2>Ejemplo 1: Candidato <span class="math inline">\(A(9/5, 6/5)\)</span> – Conos</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Restricciones activas</strong>: <span class="math display">\[ g_1(A) &lt; 0, \quad g_4(A) = 0 \implies \mathcal{I} = \{4\} \]</span></p></li>
+<li><p><strong>Gradientes relevantes</strong>: <span class="math display">\[ \nabla g_4(A) = \begin{pmatrix} 1 \\ 1 \end{pmatrix}, \quad \nabla f(A) = \begin{pmatrix} -12/5 \\ -8/5 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Conos analíticos</strong>: <span class="math display">\[ \mathcal{G}_0(A) = \{ d \in \mathbb{R}^2 \mid d_1 + d_2 &lt; 0 \} \]</span> <span class="math display">\[ \mathcal{D}_0(A) = \{ d \in \mathbb{R}^2 \mid 3d_1 + 2d_2 &gt; 0 \} \]</span></p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/cono_interseccion_no_optimo.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-candidato-a95-65-no-optimalidad" class="slide level2">
+<h2>Ejemplo 1: Candidato <span class="math inline">\(A(9/5, 6/5)\)</span> – No optimalidad</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Intersección de conos</strong>: <span class="math display">\[ \mathcal{G}_0(A) \cap \mathcal{D}_0(A) \neq \emptyset \]</span></p></li>
+<li><p><strong>Dirección de descenso factible</strong>: La dirección <span class="math inline">\(d = (1, -1.3)^T\)</span> cumple:</p>
+<ul>
+<li><span class="math inline">\(d_1 + d_2 = -0.3 &lt; 0 \implies d \in \mathcal{G}_0(A)\)</span></li>
+<li><span class="math inline">\(3d_1 + 2d_2 = 0.4 &gt; 0 \implies d \in \mathcal{D}_0(A)\)</span></li>
+</ul></li>
+<li><p><strong>Conclusión</strong>: Al existir direcciones factibles que a la vez son de descenso, el punto <strong>no es un mínimo local</strong>.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/cono_interseccion_no_optimo.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-candidato-b2-1-conos" class="slide level2">
+<h2>Ejemplo 1: Candidato <span class="math inline">\(B(2, 1)\)</span> – Conos</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Restricciones activas</strong>: <span class="math display">\[ g_1(B) = 0, \quad g_4(B) = 0 \implies \mathcal{I} = \{1, 4\} \]</span></p></li>
+<li><p><strong>Gradientes relevantes</strong>: <span class="math display">\[ \nabla g_1(B) = \begin{pmatrix} 4 \\ 2 \end{pmatrix}, \quad \nabla g_4(B) = \begin{pmatrix} 1 \\ 1 \end{pmatrix} \]</span> <span class="math display">\[ \nabla f(B) = \begin{pmatrix} -2 \\ -2 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Conos analíticos</strong>: <span class="math display">\[ \mathcal{G}_0(B) = \{ d \mid 2d_1+d_2 &lt; 0 \text{ y } d_1+d_2 &lt; 0 \} \]</span> <span class="math display">\[ \mathcal{D}_0(B) = \{ d \mid d_1 + d_2 &gt; 0 \} \]</span></p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/cono_interseccion_optimo.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-candidato-b2-1-optimalidad" class="slide level2">
+<h2>Ejemplo 1: Candidato <span class="math inline">\(B(2, 1)\)</span> – Optimalidad</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Intersección vacía</strong>:
+<ul>
+<li>Cualquier <span class="math inline">\(d \in \mathcal{G}_0(B)\)</span> exige <span class="math inline">\(d_1+d_2 &lt; 0\)</span>.</li>
+<li>Esto es incompatible con <span class="math inline">\(d \in \mathcal{D}_0(B) \implies d_1+d_2 &gt; 0\)</span>.</li>
+<li>Por lo tanto: <span class="math display">\[ \mathcal{G}_0(B) \cap \mathcal{D}_0(B) = \emptyset \]</span></li>
+</ul></li>
+<li><strong>Conclusión</strong>: Al ser un problema convexo (región factible y función objetivo convexas), <strong><span class="math inline">\(B(2,1)\)</span> es el mínimo global único</strong>.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/cono_interseccion_optimo.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-2-tangencia-cúbica-planteamiento" class="slide level2">
+<h2>Ejemplo 2: Tangencia cúbica (Planteamiento)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Consideremos el siguiente problema singular de optimización: <span class="math display">\[
+\begin{aligned}
+\min \quad &amp; f(x_1, x_2) = (x_1 - 1)^2 + (x_2 - 1)^2 \\
+\text{s.a.} \quad &amp; g_1(x_1, x_2) = (x_1 + x_2 - 1)^3 \le 0 \\
+&amp; g_2(x_1, x_2) = -x_1 \le 0 \\
+&amp; g_3(x_1, x_2) = -x_2 \le 0
+\end{aligned}
+\]</span></p>
+<ul>
+<li><strong>Geometría</strong>:
+<ul>
+<li>Región factible <span class="math inline">\(\mathcal{S}\)</span>: Triángulo.</li>
+<li>Óptimo no restringido en el centro <span class="math inline">\((1, 1)\)</span>.</li>
+<li>Mínimo global real en el punto medio de la hipotenusa: <span class="math inline">\(\bar{x} = (1/2, 1/2)\)</span>.</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/tangencia_cubica_region.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-2-análisis-analítico-en-barx-12-12" class="slide level2">
+<h2>Ejemplo 2: Análisis analítico en <span class="math inline">\(\bar{x} = (1/2, 1/2)\)</span></h2>
+<ul>
+<li><p><strong>Restricciones activas</strong>: En <span class="math inline">\(\bar{x} = (1/2, 1/2)\)</span>, la restricción <span class="math inline">\(g_1\)</span> está activa (<span class="math inline">\(g_1(\bar{x}) = 0\)</span>).</p></li>
+<li><p><strong>Cálculo de gradiente</strong>: <span class="math display">\[ \nabla g_1(x) = \begin{pmatrix} 3(x_1+x_2-1)^2 \\ 3(x_1+x_2-1)^2 \end{pmatrix} \implies \nabla g_1(\bar{x}) = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Cono analítico activo</strong>: <span class="math display">\[ \mathcal{G}_0(\bar{x}) = \{ d \in \mathbb{R}^2 \mid \nabla g_1(\bar{x})^T d &lt; 0 \} = \emptyset \]</span></p></li>
+<li><p><strong>Intersección vacía</strong>: Al ser <span class="math inline">\(\mathcal{G}_0(\bar{x}) = \emptyset\)</span>, se cumple trivialmente que: <span class="math display">\[ \mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) = \emptyset \]</span> La condición necesaria geométrica se satisface y el punto es, de hecho, el mínimo global.</p></li>
+</ul>
+</section>
+<section id="ejemplo-2-limitación-del-caso-singular" class="slide level2">
+<h2>Ejemplo 2: Limitación del caso singular</h2>
+<p>El hecho de que el gradiente de la restricción activa se anule en el óptimo genera una limitación teórica importante:</p>
+<ul>
+<li><p><strong>Falsos positivos</strong>: Para cualquier punto sobre la hipotenusa <span class="math inline">\(x_1+x_2=1\)</span> (por ejemplo, el punto <span class="math inline">\((1,0)\)</span>), el gradiente <span class="math inline">\(\nabla g_1(x)\)</span> también es nulo.</p></li>
+<li><p><strong>Anulación del cono analítico</strong>: Esto implica que <span class="math inline">\(\mathcal{G}_0(x) = \emptyset\)</span> y <span class="math inline">\(\mathcal{D}_0(x) \cap \mathcal{G}_0(x) = \emptyset\)</span> para <strong>toda la recta</strong>, incluso para puntos que no son mínimos locales.</p></li>
+<li><p><strong>Conclusión</strong>: Cuando los gradientes de las restricciones activas se anulan o son linealmente dependientes, el cono analítico <span class="math inline">\(\mathcal{G}_0(\bar{x})\)</span> pierde su capacidad para representar el comportamiento geométrico real.</p></li>
+<li><p><strong>Necesidad</strong>: Surge la necesidad de definir <strong>condiciones de regularidad</strong> de restricciones (cualificación de restricciones).</p></li>
+</ul>
+</section>
+<section id="ejemplo-2-reformulación-y-regularización" class="slide level2">
+<h2>Ejemplo 2: Reformulación y regularización</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Reescribimos la región factible con una restricción equivalente de primer orden: <span class="math display">\[ g_1(x_1, x_2) = x_1 + x_2 - 1 \le 0 \]</span></p>
+<ul>
+<li><p><strong>Gradiente regularizado</strong>: <span class="math display">\[ \nabla g_1(x) = \begin{pmatrix} 1 \\ 1 \end{pmatrix} \neq \begin{pmatrix} 0 \\ 0 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Conos resultantes</strong>: <span class="math display">\[ \mathcal{G}_0(\bar{x}) = \{ d \in \mathbb{R}^2 \mid d_1 + d_2 &lt; 0 \} \]</span></p></li>
+<li><p><strong>Intersección vacía</strong>: La condición <span class="math inline">\(\mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) = \emptyset\)</span> ahora se verifica <strong>únicamente</strong> en el mínimo real <span class="math inline">\(\bar{x} = (1/2, 1/2)\)</span>.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/tangencia_cubica_optimo.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="condiciones-de-fritz-john-fj" class="title-slide slide level1 center">
+<h1>Condiciones de Fritz-John (FJ)</h1>
+
+</section>
+<section id="introducción-a-las-condiciones-de-fritz-john" class="slide level2">
+<h2>Introducción a las Condiciones de Fritz-John</h2>
+<ul>
+<li><p><strong>De la geometría al álgebra</strong>: Comprobar la optimalidad mediante la exclusión geométrica de conos (<span class="math inline">\(\mathcal{D}_0 \cap \mathcal{G}_0 = \emptyset\)</span>) en el espacio de direcciones requiere evaluar infinitos vectores (inviable en la práctica).</p></li>
+<li><p><strong>Formulación dual</strong>: Traducimos la exclusión geométrica en un sistema de ecuaciones algebraicas sobre los gradientes de las funciones en el punto de evaluación.</p></li>
+<li><p><strong>Lemas de alternativas</strong>: Resultados del álgebra lineal y convexidad que asocian coeficientes (multiplicadores) a las restricciones a partir de la ausencia de direcciones comunes.</p></li>
+</ul>
+</section>
+<section id="lema-alternativa-de-farkas" class="slide level2">
+<h2>Lema: Alternativa de Farkas</h2>
+<div title="Alternativa de Farkas">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Alternativa de Farkas</strong></p>
+</div>
+<div class="callout-content">
+<p>Sean <span class="math inline">\(A\)</span> una matriz de dimensiones <span class="math inline">\(m \times n\)</span> y <span class="math inline">\(c \in \mathbb{R}^n\)</span>. Uno y solo uno de los siguientes sistemas de restricciones tiene solución:</p>
+<ol type="1">
+<li>Existe <span class="math inline">\(x \in \mathbb{R}^n\)</span> tal que <span class="math inline">\(A x \le 0\)</span> y <span class="math inline">\(c^T x &gt; 0\)</span>.</li>
+<li>Existe <span class="math inline">\(y \in \mathbb{R}^m\)</span> tal que <span class="math inline">\(A^T y = c\)</span> e <span class="math inline">\(y \ge 0\)</span>.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Significado</strong>: Nos permite caracterizar cuándo un vector <span class="math inline">\(c\)</span> no puede formar un ángulo agudo con ninguna dirección factible, traduciéndolo en una combinación lineal cónica de las restricciones.</li>
+</ul>
+</section>
+<section id="lema-alternativa-de-gordan" class="slide level2">
+<h2>Lema: Alternativa de Gordan</h2>
+<div title="Alternativa de Gordan">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Alternativa de Gordan</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea <span class="math inline">\(A\)</span> una matriz de dimensiones <span class="math inline">\(m \times n\)</span>. Uno y solo uno de los siguientes sistemas de restricciones tiene solución:</p>
+<ol type="1">
+<li>Existe <span class="math inline">\(x \in \mathbb{R}^n\)</span> tal que <span class="math inline">\(A x &lt; 0\)</span>.</li>
+<li>Existe <span class="math inline">\(y \in \mathbb{R}^m\)</span> tal que <span class="math inline">\(A^T y = 0\)</span>, <span class="math inline">\(y \ge 0\)</span> e <span class="math inline">\(y \neq 0\)</span>.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Significado</strong>: Garantiza que si no hay ninguna dirección que sea estrictamente interior a un conjunto de semiespacios, entonces existe una combinación lineal no trivial no negativa de sus vectores normales que se anula.</li>
+</ul>
+</section>
+<section id="el-equilibrio-de-fuerzas-gordan" class="slide level2">
+<h2>El equilibrio de fuerzas (Gordan)</h2>
+<p>La exclusión de direcciones de descenso factibles exige que no exista <span class="math inline">\(d\)</span> tal que: <span class="math display">\[ \nabla f(\bar{x})^T d &lt; 0 \qquad \text{y} \qquad \nabla g_i(\bar{x})^T d &lt; 0, \quad \forall i \in \mathcal{I} \]</span></p>
+<ul>
+<li><p><strong>Matriz de gradientes</strong>: Definimos la matriz <span class="math inline">\(A\)</span> cuyas filas son los gradientes <span class="math inline">\(\nabla f(\bar{x})^T\)</span> y <span class="math inline">\(\nabla g_i(\bar{x})^T\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>).</p></li>
+<li><p><strong>Ausencia de solución</strong>: La optimalidad geométrica equivale a que el sistema lineal <span class="math inline">\(Ad &lt; 0\)</span> no tenga solución.</p></li>
+<li><p><strong>Aplicación dual</strong>: Por el Lema de Gordan, existe un vector de coeficientes no negativos <span class="math inline">\(p = (u_0, u_{\mathcal{I}})^T \ge 0\)</span> no nulo tal que: <span class="math display">\[ u_0 \nabla f(\bar{x}) + \sum_{i \in \mathcal{I}} u_i \nabla g_i(\bar{x}) = 0 \]</span></p></li>
+</ul>
+</section>
+<section id="condiciones-necesarias-de-fritz-john" class="slide level2">
+<h2>Condiciones necesarias de Fritz-John</h2>
+<div title="Condiciones necesarias de Fritz-John">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Condiciones necesarias de Fritz-John</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea <span class="math inline">\(\bar{x}\)</span> un mínimo local del problema. Si <span class="math inline">\(f\)</span> y <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) son diferenciables en <span class="math inline">\(\bar{x}\)</span>, existen multiplicadores <span class="math inline">\(u_0, u_1, \dots, u_m\)</span> tales que:</p>
+<ol type="1">
+<li><strong>Factibilidad dual</strong>: <span class="math inline">\(u_0 \nabla f(\bar{x}) + \sum_{i=1}^m u_i \nabla g_i(\bar{x}) = 0\)</span></li>
+<li><strong>Holgura complementaria</strong>: <span class="math inline">\(u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m\)</span></li>
+<li><strong>No negatividad</strong>: <span class="math inline">\(u_0, u_i \ge 0, \quad \forall i = 1, \dots, m\)</span></li>
+<li><strong>No trivialidad</strong>: <span class="math inline">\((u_0, u_1, \dots, u_m) \neq (0, 0, \dots, 0)\)</span></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="el-papel-del-multiplicador-u_0" class="slide level2">
+<h2>El papel del multiplicador <span class="math inline">\(u_0\)</span></h2>
+<p>El multiplicador <span class="math inline">\(u_0\)</span> corresponde a la función objetivo:</p>
+<ul>
+<li><p><strong>Caso regular (<span class="math inline">\(u_0 &gt; 0\)</span>)</strong>: Podemos dividir toda la ecuación por <span class="math inline">\(u_0\)</span>. Esto recupera de forma natural las <strong>condiciones de KKT</strong>, donde la función objetivo influye activamente en la optimalidad.</p></li>
+<li><p><strong>Caso singular (<span class="math inline">\(u_0 = 0\)</span>)</strong>: La función objetivo desaparece de la ecuación dual. Las condiciones se satisfacen de forma puramente geométrica por la disposición de las restricciones en la frontera, perdiendo su utilidad para discriminar mínimos.</p></li>
+</ul>
+</section>
+<section id="ejemplo-interpretación-en-cuatro-casos" class="slide level2">
+<h2>Ejemplo: Interpretación en cuatro casos</h2>
+<p>Consideremos el punto de intersección <span class="math inline">\(\bar{x} = (7/3, 4/3)\)</span> bajo restricciones lineales activas: <span class="math display">\[ g_1(x) = 2x+y-6 \le 0 \implies \nabla g_1 = (2, 1)^T \]</span> <span class="math display">\[ g_2(x) = x-y-1 \le 0 \implies \nabla g_2 = (1, -1)^T \]</span></p>
+<ul>
+<li><p><strong>Propósito</strong>: Analizaremos la relación entre el gradiente opuesto del objetivo <span class="math inline">\(-\nabla f(\bar{x})\)</span> y los gradientes de las restricciones en cuatro escenarios distintos.</p></li>
+<li><p><strong>Equilibrio dual</strong>: Estudiaremos cómo los signos y la dependencia lineal de los vectores determinan el tipo de punto y el valor de los multiplicadores.</p></li>
+</ul>
+</section>
+<section id="caso-1-mínimo-local-regular" class="slide level2">
+<h2>Caso 1: Mínimo local regular</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Problema</strong>: Minimizar <span class="math inline">\(f(x, y) = (x-5)^2+(y-1)^2\)</span> sujeto a <span class="math inline">\(g_1\)</span> y <span class="math inline">\(g_2\)</span>.</p></li>
+<li><p><strong>Gradiente</strong>: <span class="math inline">\(-\nabla f(\bar{x}) = (16/3, -2/3)^T\)</span>, situado dentro del cono generado por los gradientes activos.</p></li>
+<li><p><strong>Ecuación dual</strong>: <span class="math display">\[ u_0 \begin{pmatrix} 16/3 \\ -2/3 \end{pmatrix} = u_1 \begin{pmatrix} 2 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} 1 \\ -1 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Solución</strong>: <span class="math inline">\(u_1 = \frac{14}{9}u_0 &gt; 0\)</span>, <span class="math inline">\(u_2 = \frac{20}{9}u_0 &gt; 0\)</span>. Punto regular con <span class="math inline">\(u_0 = 1\)</span>.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/fj_caso1_li.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="caso-2-restricción-redundante" class="slide level2">
+<h2>Caso 2: Restricción redundante</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Problema</strong>: Añadimos la restricción redundante <span class="math inline">\(g_3(x, y) = x \le 7/3\)</span> con gradiente <span class="math inline">\(\nabla g_3 = (1,0)^T\)</span>.</p></li>
+<li><p><strong>Gradientes activos</strong>: Son linealmente dependientes.</p></li>
+<li><p><strong>Ecuación dual</strong>: Admite infinitas combinaciones para <span class="math inline">\(-\nabla f(\bar{x})\)</span>. Con <span class="math inline">\(u_0 = 1\)</span>: <span class="math display">\[
+\begin{aligned}
+u_1 \in [0, 14/9], \quad &amp; u_2 = u_1 + 2/3 \\
+&amp; u_3 = 14/3 - 3u_1
+\end{aligned}
+\]</span> Se pierde la unicidad de multiplicadores.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/fj_caso2_redundante.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="caso-3-singularidad-u_0-0" class="slide level2">
+<h2>Caso 3: Singularidad (<span class="math inline">\(u_0 = 0\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Problema</strong>: Añadimos la restricción opuesta <span class="math inline">\(g_3(x, y) = -x \le -7/3\)</span> con <span class="math inline">\(\nabla g_3 = (-1,0)^T\)</span>.</p></li>
+<li><p><strong>Geometría</strong>: Los tres gradientes activos impiden direcciones factibles (<span class="math inline">\(\mathcal{G}_0 = \emptyset\)</span>).</p></li>
+<li><p><strong>Ecuación dual</strong>: Se anula sin intervención de la función objetivo: <span class="math display">\[ u_1 \begin{pmatrix} 2 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} 1 \\ -1 \end{pmatrix} + u_3 \begin{pmatrix} -1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Solución</strong>: <span class="math inline">\(u_0 = 0\)</span>, <span class="math inline">\(u_1 = 1\)</span>, <span class="math inline">\(u_2 = 1\)</span>, <span class="math inline">\(u_3 = 3\)</span>. Las condiciones se cumplen de forma trivial.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/fj_caso3_contradictorio.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="caso-4-máximo-local" class="slide level2">
+<h2>Caso 4: Máximo local</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Problema</strong>: Minimizar <span class="math inline">\(f(x, y) = -(x-5)^2-(y-1)^2\)</span> (maximizar la distancia).</p></li>
+<li><p><strong>Gradiente</strong>: <span class="math inline">\(-\nabla f(\bar{x}) = (-16/3, 2/3)^T\)</span>, apunta hacia fuera del cono factible.</p></li>
+<li><p><strong>Ecuación dual</strong>: Al intentar resolver para <span class="math inline">\(u_0 &gt; 0\)</span>, los multiplicadores resultan negativos: <span class="math display">\[ u_1 = -\frac{14}{9}u_0 &lt; 0 \]</span></p></li>
+<li><p><strong>Conclusión</strong>: Las condiciones FJ descartan correctamente este candidato a mínimo local.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/fj_caso4_maximo.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="clasificación-de-candidatos-duales" class="slide level2">
+<h2>Clasificación de candidatos duales</h2>
+<p>El formalismo de Fritz-John permite clasificar los puntos candidatos en tres familias según su geometría:</p>
+<ul>
+<li><p><strong>Puntos de tangencia regular</strong>: El gradiente de la función objetivo <span class="math inline">\(\nabla f(\bar{x})\)</span> y el de la restricción activa <span class="math inline">\(\nabla g_i(\bar{x})\)</span> son colineales y opuestos (<span class="math inline">\(u_0 &gt; 0\)</span>). El objetivo determina la optimalidad.</p></li>
+<li><p><strong>Vértices o puntos de esquina</strong>: Varias restricciones activas linealmente independientes bloquean cualquier dirección factible.</p></li>
+<li><p><strong>Puntos singulares o de cúspide</strong>: La frontera es tan restrictiva que la cualificación de restricciones falla (los gradientes activos son linealmente dependientes), permitiendo <span class="math inline">\(u_0 = 0\)</span>.</p></li>
+</ul>
+</section>
+<section id="vulnerabilidad-y-redundancia-en-fj" class="slide level2">
+<h2>Vulnerabilidad y redundancia en FJ</h2>
+<p>El hecho de que las singularidades permitan <span class="math inline">\(u_0 = 0\)</span> limita la utilidad del teorema en ciertos problemas. En puntos singulares, el gradiente de la función que deseamos minimizar no influye en las ecuaciones de optimalidad (insensibilidad).</p>
+<div title="Vulnerabilidad por redundancia trivial">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Vulnerabilidad por redundancia trivial</strong></p>
+</div>
+<div class="callout-content">
+<p>Siempre se puede transformar artificialmente cualquier punto factible en un candidato Fritz-John con <span class="math inline">\(u_0 = 0\)</span> añadiendo una restricción redundante inútil como <span class="math inline">\(\|x - \bar{x}\| \ge 0\)</span>, cuyo gradiente nulo anula el cono algebraico <span class="math inline">\(\mathcal{G}_0\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-fallo-de-fj-planteamiento" class="slide level2">
+<h2>Ejemplo: Fallo de FJ (Planteamiento)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Consideremos el problema singular: <span class="math display">\[
+\begin{aligned}
+\min_{x} \quad &amp; -x_1 \\
+\text{sujeto a} \quad &amp; g_1(x_1, x_2) = x_2 - (1 - x_1)^3 \le 0 \\
+&amp; g_2(x_1, x_2) = -x_2 \le 0
+\end{aligned}
+\]</span></p>
+<ul>
+<li><p><strong>Óptimo</strong>: <span class="math inline">\(\bar{x} = (1, 0)\)</span>, ambas restricciones activas (<span class="math inline">\(\mathcal{I} = \{1, 2\}\)</span>).</p></li>
+<li><p><strong>Gradientes</strong>: <span class="math display">\[ \nabla f(\bar{x}) = \begin{pmatrix} -1 \\ 0 \end{pmatrix}, \quad \nabla g_1(\bar{x}) = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \]</span> <span class="math display">\[ \nabla g_2(\bar{x}) = \begin{pmatrix} 0 \\ -1 \end{pmatrix} \]</span></p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/fj_ejemplo_cuba.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-fallo-de-fj-análisis-dual" class="slide level2">
+<h2>Ejemplo: Fallo de FJ (Análisis Dual)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Ecuación de Fritz-John</strong>: <span class="math display">\[ u_0 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + u_1 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Sistema de ecuaciones</strong>: <span class="math display">\[ -u_0 = 0 \implies u_0 = 0 \]</span> <span class="math display">\[ u_1 - u_2 = 0 \implies u_1 = u_2 = \alpha &gt; 0 \]</span></p></li>
+<li><p><strong>Resultado</strong>: El multiplicador del objetivo se anula obligatoriamente (<span class="math inline">\(u_0 = 0\)</span>). El objetivo no influye en las ecuaciones debido a la tangencia cúbica.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/fj_ejemplo_cuba.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-fj-regular-planteamiento" class="slide level2">
+<h2>Ejemplo: FJ Regular (Planteamiento)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Sustituimos la restricción cúbica singular por una restricción lineal equivalente: <span class="math display">\[
+\begin{aligned}
+\min \quad &amp; -x_1 \\
+\text{s.a.} \quad &amp; g_1(x_1, x_2) = x_1 + x_2 - 1 \le 0 \\
+&amp; g_2(x_1, x_2) = -x_2 \le 0
+\end{aligned}
+\]</span></p>
+<ul>
+<li><p><strong>Óptimo</strong>: <span class="math inline">\(\bar{x} = (1, 0)\)</span>, ambas activas (<span class="math inline">\(\mathcal{I} = \{1, 2\}\)</span>).</p></li>
+<li><p><strong>Gradientes</strong>: <span class="math display">\[ \nabla f(\bar{x}) = \begin{pmatrix} -1 \\ 0 \end{pmatrix}, \quad \nabla g_1(\bar{x}) = \begin{pmatrix} 1 \\ 1 \end{pmatrix} \]</span> <span class="math display">\[ \nabla g_2(\bar{x}) = \begin{pmatrix} 0 \\ -1 \end{pmatrix} \]</span></p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/fj_ejemplo_lineal.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-fj-regular-análisis-dual" class="slide level2">
+<h2>Ejemplo: FJ Regular (Análisis Dual)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><p><strong>Ecuación de Fritz-John</strong>: <span class="math display">\[ u_0 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + u_1 \begin{pmatrix} 1 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Sistema de ecuaciones</strong>: <span class="math display">\[ -u_0 + u_1 = 0 \implies u_1 = u_0 \]</span> <span class="math display">\[ u_1 - u_2 = 0 \implies u_2 = u_1 \]</span></p></li>
+<li><p><strong>Resultado</strong>: Obtenemos <span class="math inline">\(u_1 = u_2 = u_0\)</span>. Fijando <span class="math inline">\(u_0 = 1\)</span>, la solución es <span class="math inline">\(u_1 = u_2 = 1 &gt; 0\)</span>. El objetivo influye activamente.</p></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/fj_ejemplo_lineal.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="condiciones-de-karush-kuhn-tucker-kkt" class="title-slide slide level1 center">
+<h1>Condiciones de Karush-Kuhn-Tucker (KKT)</h1>
+
+</section>
+<section id="introducción-a-las-condiciones-kkt" class="slide level2">
+<h2>Introducción a las Condiciones KKT</h2>
+<ul>
+<li><strong>Limitación de Fritz-John</strong>: Cuando el multiplicador del objetivo es nulo (<span class="math inline">\(u_0 = 0\)</span>), el gradiente de la función objetivo no influye en las ecuaciones duales de optimalidad.</li>
+<li><strong>Cualificación de restricciones</strong>: Para garantizar que <span class="math inline">\(u_0 &gt; 0\)</span> y poder omitir dicho coeficiente, Kuhn, Tucker (1951) y Karush (1939) introdujeron hipótesis de regularidad en el punto candidato.</li>
+<li><strong>Independencia Lineal (LICQ)</strong>: La cualificación de restricciones más importante, que exige que los gradientes de las restricciones activas en el óptimo sean linealmente independientes.</li>
+</ul>
+</section>
+<section id="cualificación-de-restricciones-licq" class="slide level2">
+<h2>Cualificación de restricciones: LICQ</h2>
+<div title="Independencia Lineal de Restricciones Activas (LICQ)">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Independencia Lineal de Restricciones Activas (LICQ)</strong></p>
+</div>
+<div class="callout-content">
+<p>Un punto factible <span class="math inline">\(\bar{x}\)</span> satisface la condición de regularidad LICQ si el conjunto de vectores gradiente de las restricciones activas en dicho punto: <span class="math display">\[ \{\nabla g_i(\bar{x}), \quad i \in \mathcal{I}(\bar{x})\} \]</span> es linealmente independiente.</p>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Efecto dual</strong>: Garantiza que no hay contradicciones ni redundancias críticas en la frontera factible, permitiendo la existencia y unicidad de los multiplicadores de Lagrange ordinarios.</li>
+</ul>
+</section>
+<section id="condiciones-necesarias-de-kkt" class="slide level2">
+<h2>Condiciones necesarias de KKT</h2>
+<div title="Condiciones necesarias de Karush-Kuhn-Tucker (KKT)">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Condiciones necesarias de Karush-Kuhn-Tucker (KKT)</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea <span class="math inline">\(\bar{x}\)</span> un mínimo local del problema. Si <span class="math inline">\(f\)</span> y <span class="math inline">\(g_i\)</span> son diferenciables, las inactivas continuas en <span class="math inline">\(\bar{x}\)</span>, y se satisface la condición de regularidad <strong>LICQ</strong> en <span class="math inline">\(\bar{x}\)</span>:</p>
+<p>Entonces, existen multiplicadores únicos <span class="math inline">\(u_1, u_2, \dots, u_m\)</span> tales que:</p>
+<ol type="1">
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_i(\bar{x}) \le 0, \quad \forall i = 1, \dots, m\)</span></li>
+<li><strong>Estacionariedad</strong>: <span class="math inline">\(\nabla f(\bar{x}) + \sum_{i=1}^m u_i \nabla g_i(\bar{x}) = 0\)</span></li>
+<li><strong>Holgura complementaria</strong>: <span class="math inline">\(u_i g_i(\bar{x}) = 0, \quad \forall i = 1, \dots, m\)</span></li>
+<li><strong>No negatividad</strong>: <span class="math inline">\(u_i \ge 0, \quad \forall i = 1, \dots, m\)</span></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretación-geométrica-de-kkt" class="slide level2">
+<h2>Interpretación geométrica de KKT</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Equilibrio de fuerzas</strong>: El gradiente opuesto de la función objetivo <span class="math inline">\(-\nabla f(\bar{x})\)</span> debe ser una combinación lineal no negativa de los gradientes de las restricciones activas.</li>
+<li><strong>Exclusión de descenso</strong>: Esto equivale a decir que el gradiente opuesto pertenece al cono dual de restricciones activas <span class="math inline">\(\mathcal{G}_0^*(\bar{x})\)</span>.</li>
+<li><strong>Cierre del cono</strong>: Garantiza que no existe ninguna dirección factible que sea a la vez de descenso.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/condiciones_kkt.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="advertencia-condiciones-únicamente-necesarias" class="slide level2">
+<h2>Advertencia: Condiciones únicamente necesarias</h2>
+<div title="Las condiciones KKT son únicamente necesarias">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Las condiciones KKT son únicamente necesarias</strong></p>
+</div>
+<div class="callout-content">
+<p>Las condiciones KKT son únicamente <strong>necesarias</strong> en problemas generales. No se aplican a todos los puntos, sino que excluyen a aquellos que violan la cualificación de restricciones (LICQ).</p>
+<p>Existe la posibilidad de que el óptimo global del problema se encuentre precisamente entre los puntos excluidos (por ejemplo, en un punto singular de la frontera donde los gradientes de las restricciones activas sean linealmente dependientes). En cualquier resolución analítica, estos puntos singulares deben analizarse de manera independiente.</p>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Para <strong>problemas lineales</strong>, las condiciones KKT sí resultan ser necesarias y suficientes.</li>
+</ul>
+</section>
+<section id="observación-extensión-a-máximos-locales" class="slide level2">
+<h2>Observación: Extensión a máximos locales</h2>
+<div title="Observación: Extensión a máximos locales">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Observación: Extensión a máximos locales</strong></p>
+</div>
+<div class="callout-content">
+<p>Si el punto <span class="math inline">\(\bar{x}\)</span> es un máximo local, entonces las condiciones necesarias de KKT siguen siendo válidas sin más que exigir que los multiplicadores de Lagrange sean no positivos: <span class="math display">\[ u_i \le 0, \quad \forall i = 1, \dots, m \]</span></p>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>El gradiente del objetivo <span class="math inline">\(-\nabla f(\bar{x})\)</span> apuntará en la dirección de la normal exterior de la frontera en lugar de hacia dentro de la región factible.</li>
+</ul>
+</section>
+<section id="condiciones-suficientes-kkt-bajo-convexidad" class="slide level2">
+<h2>Condiciones suficientes KKT bajo Convexidad</h2>
+<div title="Condiciones suficientes de KKT bajo convexidad">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Condiciones suficientes de KKT bajo convexidad</strong></p>
+</div>
+<div class="callout-content">
+<p>Sea <span class="math inline">\(\bar{x}\)</span> un punto factible que satisface las condiciones necesarias de KKT con multiplicadores <span class="math inline">\(u_i\)</span>. Si se verifica que:</p>
+<ol type="1">
+<li>La función objetivo <span class="math inline">\(f(x)\)</span> es <strong>pseudo-convexa</strong> en <span class="math inline">\(\bar{x}\)</span>.</li>
+<li>Las restricciones activas <span class="math inline">\(g_i(x)\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) son <strong>cuasi-convexas</strong> y diferenciables en <span class="math inline">\(\bar{x}\)</span>.</li>
+</ol>
+<p>Entonces, <span class="math inline">\(\bar{x}\)</span> es un <strong>mínimo global</strong> del problema.</p>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Unicidad</strong>: Si <span class="math inline">\(f\)</span> es estrictamente pseudo-convexa, el mínimo global <span class="math inline">\(\bar{x}\)</span> es único.</li>
+</ul>
+</section>
+<section id="observación-sobre-suficiencia-local-y-unicidad" class="slide level2">
+<h2>Observación sobre suficiencia local y unicidad</h2>
+<div title="Observación sobre suficiencia local y unicidad">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Observación sobre suficiencia local y unicidad</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>Suficiencia local</strong>: Si las condiciones de pseudo-convexidad, cuasi-convexidad y diferenciabilidad se verifican sólo localmente en un entorno de <span class="math inline">\(\bar{x}\)</span>, entonces el candidato será un mínimo local.</li>
+<li><strong>Máximos globales</strong>: Si el punto es un máximo local, para garantizar que sea máximo global hay que exigir que la función objetivo <span class="math inline">\(f\)</span> sea <strong>pseudo-cóncava</strong> (o <span class="math inline">\(-f\)</span> sea pseudo-convexa).</li>
+<li><strong>Unicidad</strong>: Si la función objetivo es estrictamente pseudo-convexa, el punto mínimo global <span class="math inline">\(\bar{x}\)</span> es único.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-1-caso-de-kkt-con-círculo-y-parábola-planteamiento" class="slide level2">
+<h2>Ejemplo 1: Caso de KKT con círculo y parábola (Planteamiento)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Problema de estudio</strong>: <span class="math display">\[ \min/\max \quad f(x_1, x_2) = x_1 + x_2 \]</span> <span class="math display">\[ \text{s.a.} \quad g_1(x) = x_1^2 + x_2^2 - 4 \le 0 \]</span> <span class="math display">\[ g_2(x) = -x_1^2 + x_2 \le 0 \]</span></li>
+<li><strong>Gradientes</strong>: <span class="math inline">\(\nabla f = (1, 1)^T\)</span> <span class="math inline">\(\nabla g_1 = (2x_1, 2x_2)^T\)</span> <span class="math inline">\(\nabla g_2 = (-2x_1, 1)^T\)</span></li>
+<li><strong>Dominio</strong>: Región sombreada acotada por el círculo y la parábola.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-caso-de-kkt-con-círculo-y-parábola-sistema-kkt" class="slide level2">
+<h2>Ejemplo 1: Caso de KKT con círculo y parábola (Sistema KKT)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Función Lagrangiana</strong>: <span class="math display">\[ L(x, u) = x_1+x_2 + u_1(x_1^2+x_2^2-4) + u_2(-x_1^2+x_2) \]</span></li>
+<li><strong>Condiciones algebraicas</strong>:
+<ol type="1">
+<li><strong>Estacionariedad</strong>: <span class="math display">\[ 1 + 2x_1(u_1 - u_2) = 0 \]</span> <span class="math display">\[ 1 + 2x_2 u_1 + u_2 = 0 \]</span></li>
+<li><strong>Holgura</strong>: <span class="math inline">\(u_1 g_1(x) = 0\)</span>, <span class="math inline">\(u_2 g_2(x) = 0\)</span>.</li>
+<li><strong>Signo</strong>: <span class="math inline">\(u_i \ge 0\)</span> (mínimos), <span class="math inline">\(u_i \le 0\)</span> (máximos).</li>
+</ol></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-caso-1-círculo-inactivo-u_1-0" class="slide level2">
+<h2>Ejemplo 1: Caso 1 – Círculo inactivo (<span class="math inline">\(u_1 = 0\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Condición</strong>: <span class="math inline">\(u_1 = 0 \implies u_2 \neq 0\)</span> (<span class="math inline">\(g_2\)</span> es activa, <span class="math inline">\(x_2 = x_1^2\)</span>).</li>
+<li><strong>Estacionariedad</strong>: <span class="math inline">\(1 - 2u_2 x_1 = 0\)</span> y <span class="math inline">\(1 + u_2 = 0 \implies u_2 = -1\)</span>.</li>
+<li><strong>Coordenadas</strong>: <span class="math inline">\(1 - 2(-1)x_1 = 0 \implies x_1 = -1/2\)</span>. <span class="math inline">\(x_2 = x_1^2 = 1/4\)</span>.</li>
+<li><strong>Candidato</strong>: <span class="math inline">\(A(-1/2, 1/4)^T\)</span> con <span class="math inline">\(u = (0, -1)^T\)</span>.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab_caso_a_general.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-caso-1-análisis-de-a-12-14t" class="slide level2">
+<h2>Ejemplo 1: Caso 1 – Análisis de <span class="math inline">\(A(-1/2, 1/4)^T\)</span></h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Multiplicador</strong>: <span class="math inline">\(u_2 = -1 &lt; 0\)</span>.
+<ul>
+<li>Para mínimos (<span class="math inline">\(u_i \ge 0\)</span>), se descarta.</li>
+<li>Para máximos (<span class="math inline">\(u_i \le 0\)</span>), es candidato a máximo local.</li>
+</ul></li>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_1(A) = 1/4 + 1/16 - 4 = -59/16 &lt; 0\)</span> (factible).</li>
+<li><strong>Segundo orden</strong>: Sobre la parábola activa, la función es <span class="math inline">\(f(t, t^2) = t+t^2\)</span>, que presenta un mínimo local en <span class="math inline">\(t = -0.5\)</span>.</li>
+<li><strong>Conclusión</strong>: El punto <span class="math inline">\(A\)</span> <strong>no es un máximo local</strong> (punto de ensilladura restringida).</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab_caso_a.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-caso-2-parábola-inactiva-u_2-0" class="slide level2">
+<h2>Ejemplo 1: Caso 2 – Parábola inactiva (<span class="math inline">\(u_2 = 0\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Condición</strong>: <span class="math inline">\(u_2 = 0 \implies u_1 \neq 0\)</span> (<span class="math inline">\(g_1\)</span> es activa, <span class="math inline">\(x_1^2+x_2^2=4\)</span>).</li>
+<li><strong>Estacionariedad</strong>: <span class="math inline">\(1 + 2u_1 x_1 = 0\)</span> y <span class="math inline">\(1 + 2u_1 x_2 = 0 \implies x_1 = x_2 = -1/(2u_1)\)</span>.</li>
+<li><strong>Coordenadas</strong>: <span class="math inline">\(2x_1^2 = 4 \implies x_1 = \pm\sqrt{2}\)</span>.</li>
+<li><strong>Puntos de estudio</strong>: <span class="math inline">\(B(-\sqrt{2}, -\sqrt{2})^T\)</span> y <span class="math inline">\(C(\sqrt{2}, \sqrt{2})^T\)</span>.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab_caso_b_general.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-caso-2-análisis-de-b-sqrt2--sqrt2t" class="slide level2">
+<h2>Ejemplo 1: Caso 2 – Análisis de <span class="math inline">\(B(-\sqrt{2}, -\sqrt{2})^T\)</span></h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Multiplicador</strong>: <span class="math inline">\(u_1 = \frac{1}{2\sqrt{2}} &gt; 0 \implies\)</span> candidato a <strong>mínimo</strong>.</li>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_2(B) = -(-\sqrt{2})^2 - \sqrt{2} = -2 - \sqrt{2} &lt; 0\)</span> (factible).</li>
+<li><strong>Resultado</strong>: El punto <span class="math inline">\(B(-\sqrt{2}, -\sqrt{2})^T\)</span> es un candidato KKT válido para mínimo global.</li>
+<li><strong>Interpretación</strong>: Los gradientes se oponen perfectamente con multiplicador positivo.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab_caso_b_detalle_b.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-caso-2-análisis-de-csqrt2-sqrt2t" class="slide level2">
+<h2>Ejemplo 1: Caso 2 – Análisis de <span class="math inline">\(C(\sqrt{2}, \sqrt{2})^T\)</span></h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Multiplicador</strong>: <span class="math inline">\(u_1 = -\frac{1}{2\sqrt{2}} &lt; 0 \implies\)</span> candidato a <strong>máximo</strong>.</li>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_2(C) = -2 + \sqrt{2} \approx -0.59 &lt; 0\)</span> (factible).</li>
+<li><strong>Resultado</strong>: El punto <span class="math inline">\(C(\sqrt{2}, \sqrt{2})^T\)</span> es un candidato KKT válido para máximo global.</li>
+<li><strong>Interpretación</strong>: Los gradientes apuntan en el mismo sentido con multiplicador negativo.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab_caso_b_detalle_c.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-caso-3-ambas-restricciones-activas" class="slide level2">
+<h2>Ejemplo 1: Caso 3 – Ambas restricciones activas</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Condición</strong>: <span class="math inline">\(g_1(x) = 0\)</span> y <span class="math inline">\(g_2(x) = 0\)</span>.</li>
+<li><strong>Intersección</strong>: <span class="math inline">\(x_1^2 + x_2^2 = 4\)</span> y <span class="math inline">\(x_2 = x_1^2 \implies x_1^4 + x_1^2 - 4 = 0\)</span>. <span class="math inline">\(x_1^2 = \frac{-1 + \sqrt{17}}{2} \approx 1.56 \implies x_1 \approx \pm 1.25\)</span>. <span class="math inline">\(x_2 \approx 1.56\)</span>.</li>
+<li><strong>Puntos de cruce</strong>: <span class="math inline">\(E(1.25, 1.56)^T\)</span> y <span class="math inline">\(D(-1.25, 1.56)^T\)</span>.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab_caso_c_general.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-caso-3-análisis-de-e-y-d" class="slide level2">
+<h2>Ejemplo 1: Caso 3 – Análisis de <span class="math inline">\(E\)</span> y <span class="math inline">\(D\)</span></h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Punto <span class="math inline">\(E(1.25, 1.56)^T\)</span></strong>: <span class="math inline">\(u_1 \approx -0.34 &lt; 0\)</span> y <span class="math inline">\(u_2 \approx 0.06 &gt; 0\)</span>.
+<ul>
+<li>Signos opuestos: se descarta.</li>
+</ul></li>
+<li><strong>Punto <span class="math inline">\(D(-1.25, 1.56)^T\)</span></strong>: <span class="math inline">\(u_1 \approx -0.15 &lt; 0\)</span> y <span class="math inline">\(u_2 \approx -0.55 &lt; 0\)</span>.
+<ul>
+<li>Ambos negativos: candidato a <strong>máximo local</strong>.</li>
+</ul></li>
+<li><strong>Comparación</strong>: <span class="math inline">\(f(D) \approx 0.31\)</span>, menor que <span class="math inline">\(f(C) \approx 2.83\)</span> (máximo global).</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab_caso_c_detalle_d.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-1-caracterización-y-conclusión" class="slide level2">
+<h2>Ejemplo 1: Caracterización y Conclusión</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Mínimo global</strong>: <span class="math inline">\(B(-\sqrt{2}, -\sqrt{2})^T\)</span> con <span class="math inline">\(f(B) \approx -2.83\)</span>.</li>
+<li><strong>Máximo global</strong>: <span class="math inline">\(C(\sqrt{2}, \sqrt{2})^T\)</span> con <span class="math inline">\(f(C) \approx 2.83\)</span>.</li>
+<li><strong>Máximo local</strong>: <span class="math inline">\(D(-1.25, 1.56)^T\)</span> con <span class="math inline">\(f(D) \approx 0.31\)</span>.</li>
+<li><strong>Verificación suficiente</strong>:
+<ul>
+<li><span class="math inline">\(f\)</span> es lineal (convexa/cóncava).</li>
+<li><span class="math inline">\(g_1\)</span> es estrictamente convexa (<span class="math inline">\(H_1 &gt; 0\)</span>).</li>
+<li><span class="math inline">\(g_2\)</span> es cóncava (<span class="math inline">\(H_2 \le 0\)</span>). Falla suficiencia en <span class="math inline">\(D\)</span> (pero es máximo gráfico).</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_parab_conclusiones.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="esquema-general-de-resolución-kkt-pasos-1-2" class="slide level2">
+<h2>Esquema general de resolución KKT (Pasos 1-2)</h2>
+<div title="Esquema general de resolución KKT">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Esquema general de resolución KKT</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li><strong>Lagrangiana</strong>: <span class="math inline">\(L(x, u) = f(x) + \sum_{i=1}^m u_i g_i(x)\)</span></li>
+<li><strong>Sistema KKT</strong> a resolver (estacionariedad y condiciones de optimalidad):
+<ul>
+<li><strong>Estacionariedad</strong>: <span class="math inline">\(\nabla_x L(x, u) = 0 \implies \frac{\partial L}{\partial x_j} = 0, \forall j = 1, \dots, n\)</span></li>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_i(x) \le 0, \forall i = 1, \dots, m\)</span></li>
+<li><strong>Holgura complementaria</strong>: <span class="math inline">\(u_i g_i(x) = 0, \forall i = 1, \dots, m\)</span></li>
+<li><strong>No negatividad</strong>: <span class="math inline">\(u_i \ge 0, \forall i = 1, \dots, m\)</span> (para mínimos)</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="esquema-general-de-resolución-kkt-paso-3" class="slide level2">
+<h2>Esquema general de resolución KKT (Paso 3)</h2>
+<div title="Esquema general de resolución KKT (Análisis de casos)">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Esquema general de resolución KKT (Análisis de casos)</strong></p>
+</div>
+<div class="callout-content">
+<ol start="3" type="1">
+<li><strong>Análisis por casos combinatorios</strong>: Para resolver el sistema, para cada restricción <span class="math inline">\(i\)</span> se evalúan las dos ramas posibles de la holgura complementaria:
+<ul>
+<li><strong>Caso A (Restricción inactiva)</strong>: <span class="math inline">\(g_i(x) &lt; 0 \implies u_i = 0\)</span>.</li>
+<li><strong>Caso B (Restricción activa)</strong>: <span class="math inline">\(g_i(x) = 0 \implies u_i \ge 0\)</span>.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Esto da lugar a <span class="math inline">\(2^m\)</span> posibles combinaciones de restricciones activas e inactivas que deben analizarse algebraicamente de forma independiente.</li>
+</ul>
+</section>
+<section id="esquema-general-de-resolución-kkt-pasos-4-5" class="slide level2">
+<h2>Esquema general de resolución KKT (Pasos 4-5)</h2>
+<div title="Esquema general de resolución KKT (Filtrado y suficiencia)">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Esquema general de resolución KKT (Filtrado y suficiencia)</strong></p>
+</div>
+<div class="callout-content">
+<ol start="4" type="1">
+<li><strong>Descartar candidatos</strong> que violen la factibilidad primal o que resulten en multiplicadores con signo incorrecto.</li>
+<li><strong>Comprobar la cualificación de restricciones (LICQ)</strong> en los candidatos y aplicar las <strong>condiciones suficientes por convexidad</strong>.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Maximización</strong>: Exigir que los multiplicadores sean no positivos (<span class="math inline">\(u_i \le 0\)</span>, <span class="math inline">\(\forall i = 1, \dots, m\)</span>).</li>
+<li><strong>Fritz-John</strong>: Distinguir los casos en los que <span class="math inline">\(u_0 &gt; 0\)</span> (KKT ordinarios) y aquellos en los que <span class="math inline">\(u_0 = 0\)</span> (puntos Fritz-John singulares).</li>
+</ul>
+</section>
+<section id="ejemplo-2-múltiples-restricciones-planteamiento" class="slide level2">
+<h2>Ejemplo 2: Múltiples restricciones (Planteamiento)</h2>
+<ul>
+<li><strong>Problema de estudio</strong>: <span class="math display">\[
+\begin{aligned}
+\min/\max \quad &amp; f(x, y) = \left(x - \frac{9}{4}\right)^2 + (y - 2)^2 \\
+\text{s.a.} \quad &amp; g_1(x, y) = -x + y^2 \le 0 \\
+&amp; g_2(x, y) = x + y - 6 \le 0 \\
+&amp; g_3(x, y) = -x \le 0, \quad g_4(x, y) = -y \le 0
+\end{aligned}
+\]</span></li>
+<li><strong>Geometría</strong>: Minimización o maximización de la distancia al punto <span class="math inline">\((2.25, 2)^T\)</span> sobre un dominio delimitado por una parábola, una recta y los ejes de coordenadas.</li>
+</ul>
+</section>
+<section id="ejemplo-2-caso-1-todas-las-restricciones-inactivas" class="slide level2">
+<h2>Ejemplo 2: Caso 1 – Todas las restricciones inactivas</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Condición</strong>: <span class="math inline">\(u_1 = u_2 = u_3 = u_4 = 0\)</span>.</li>
+<li><strong>Estacionariedad</strong>: <span class="math display">\[ 2(x - 2.25) = 0 \implies x = 2.25 \]</span> <span class="math display">\[ 2(y - 2) = 0 \implies y = 2 \]</span></li>
+<li><strong>Punto libre</strong>: <span class="math inline">\((2.25, 2)^T\)</span>.</li>
+<li><strong>Factibilidad primal</strong>: <span class="math display">\[ g_1(2.25, 2) = -2.25 + 4 = 1.75 &gt; 0 \quad (\text{no factible}) \]</span></li>
+<li><strong>Resultado</strong>: Se descarta el punto.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_multiple_desigualdad.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-2-caso-2-una-única-restricción-activa-g_1" class="slide level2">
+<h2>Ejemplo 2: Caso 2 – Una única restricción activa (<span class="math inline">\(g_1\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Condición</strong>: <span class="math inline">\(u_1 &gt; 0\)</span>, <span class="math inline">\(u_2 = u_3 = u_4 = 0\)</span> (<span class="math inline">\(g_1 = 0 \implies x = y^2\)</span>).</li>
+<li><strong>Estacionariedad</strong>: <span class="math inline">\(u_1 = 2x - 4.5\)</span> y <span class="math inline">\(2y - 4 + 2y u_1 = 0 \implies 4y^3 - 7y - 4 = 0\)</span>.</li>
+<li><strong>Coordenadas</strong>: <span class="math inline">\(y \approx 1.55 \implies x \approx 2.40\)</span>.</li>
+<li><strong>Multiplicador</strong>: <span class="math inline">\(u_1 \approx 0.30 &gt; 0\)</span> (candidato a mínimo).</li>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_2(2.40, 1.55) = 2.40+1.55-6 = -2.05 \le 0\)</span> (factible).</li>
+<li><strong>Candidato</strong>: <span class="math inline">\((2.40, 1.55)^T\)</span>.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_multiple_zoom_d.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-2-caso-2-una-única-restricción-activa-g_2-y-g_3" class="slide level2">
+<h2>Ejemplo 2: Caso 2 – Una única restricción activa (<span class="math inline">\(g_2\)</span> y <span class="math inline">\(g_3\)</span>)</h2>
+<ul>
+<li><strong>Subcaso <span class="math inline">\(g_2\)</span> activa (<span class="math inline">\(u_2 \neq 0, \ u_1=u_3=u_4=0\)</span>)</strong>:
+<ul>
+<li>Estacionariedad: <span class="math inline">\(x = y + 0.25\)</span> con <span class="math inline">\(x+y=6 \implies y = 2.875, \ x = 3.125\)</span>.</li>
+<li>Multiplicador: <span class="math inline">\(u_2 = -1.75 &lt; 0\)</span> (candidato a máximo).</li>
+<li>Factibilidad: <span class="math inline">\(g_1(3.125, 2.875) \approx 5.14 &gt; 0\)</span> (<strong>no factible</strong>). Se descarta.</li>
+</ul></li>
+<li><strong>Subcaso <span class="math inline">\(g_3\)</span> activa (<span class="math inline">\(u_3 \neq 0, \ u_1=u_2=u_4=0\)</span>)</strong>:
+<ul>
+<li>Estacionariedad: <span class="math inline">\(x = 0, \ y = 2\)</span>.</li>
+<li>Multiplicador: <span class="math inline">\(u_3 = -4.50 &lt; 0\)</span> (candidato a máximo).</li>
+<li>Factibilidad: <span class="math inline">\(g_1(0, 2) = 4 &gt; 0\)</span> (<strong>no factible</strong>). Se descarta.</li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo-2-caso-2-una-única-restricción-activa-g_4" class="slide level2">
+<h2>Ejemplo 2: Caso 2 – Una única restricción activa (<span class="math inline">\(g_4\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Condición</strong>: <span class="math inline">\(u_4 &gt; 0\)</span>, <span class="math inline">\(u_1 = u_2 = u_3 = 0\)</span> (<span class="math inline">\(g_4 = -y = 0\)</span>).</li>
+<li><strong>Coordenadas</strong>: <span class="math inline">\(y = 0 \implies x = 2.25\)</span>.</li>
+<li><strong>Multiplicador</strong>: <span class="math inline">\(u_4 = -4 &lt; 0\)</span> (candidato a máximo).</li>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_1(2.25, 0) = -2.25 \le 0\)</span> (factible). <span class="math inline">\(g_2(2.25, 0) = 2.25 - 6 = -3.75 \le 0\)</span> (factible).</li>
+<li><strong>Candidato</strong>: <span class="math inline">\((2.25, 0)^T\)</span>.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_multiple_zoom_a.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-2-caso-3-dos-restricciones-activas-g_1-g_2" class="slide level2">
+<h2>Ejemplo 2: Caso 3 – Dos restricciones activas (<span class="math inline">\(g_1, g_2\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Condición</strong>: <span class="math inline">\(u_1, u_2 \neq 0, \ u_3=u_4=0\)</span>.</li>
+<li><strong>Intersección</strong>: <span class="math inline">\(x = y^2\)</span> y <span class="math inline">\(x+y=6 \implies y^2+y-6=0 \implies y=2, \ x=4\)</span>.</li>
+<li><strong>Multiplicadores</strong>: <span class="math display">\[ 3.5 - u_1 + u_2 = 0 \]</span> <span class="math display">\[ 4u_1 + u_2 = 0 \implies u_1 = 0.70 &gt; 0, \ u_2 = -2.80 &lt; 0 \]</span></li>
+<li><strong>Resultado</strong>: Signos opuestos <span class="math inline">\(\implies\)</span> <strong>se descarta</strong> (no es candidato a mínimo ni a máximo).</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_multiple_zoom_e.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-2-caso-3-dos-restricciones-activas-g_2-g_4" class="slide level2">
+<h2>Ejemplo 2: Caso 3 – Dos restricciones activas (<span class="math inline">\(g_2, g_4\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Condición</strong>: <span class="math inline">\(u_2, u_4 &gt; 0\)</span>, <span class="math inline">\(u_1 = u_3 = 0\)</span> (<span class="math inline">\(x+y=6, \ y=0 \implies x=6\)</span>).</li>
+<li><strong>Multiplicadores</strong>: <span class="math inline">\(u_2 = -7.50 &lt; 0\)</span> y <span class="math inline">\(u_4 = -11.50 &lt; 0\)</span> (candidato a máximo).</li>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_1(6,0) = -6 \le 0\)</span> (factible).</li>
+<li><strong>Candidato</strong>: <span class="math inline">\((6, 0)^T\)</span>.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_multiple_zoom_c.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-2-caso-3-dos-restricciones-activas-g_3-g_4" class="slide level2">
+<h2>Ejemplo 2: Caso 3 – Dos restricciones activas (<span class="math inline">\(g_3, g_4\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Condición</strong>: <span class="math inline">\(u_3, u_4 \neq 0, \ u_1=u_2=0 \implies x = 0, \ y = 0\)</span>.</li>
+<li><strong>Multiplicadores</strong>: <span class="math inline">\(u_3 = -4.50 &lt; 0\)</span> y <span class="math inline">\(u_4 = -4.00 &lt; 0\)</span> (candidato a máximo).</li>
+<li><strong>Fallo de LICQ</strong>: En <span class="math inline">\((0,0)^T\)</span> la restricción <span class="math inline">\(g_1(0,0)=0\)</span> también es activa. Los gradientes son dependientes.</li>
+<li><strong>Resultado</strong>: Punto singular Fritz-John con <span class="math inline">\(u_0 = 0\)</span>, candidato a máximo local.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_multiple_zoom_b.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-2-conclusión-y-comparación" class="slide level2">
+<h2>Ejemplo 2: Conclusión y Comparación</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Mínimos</strong>: El único candidato KKT es <strong><span class="math inline">\((2.40, 1.55)^T\)</span></strong> con <span class="math inline">\(f(2.40, 1.55) \approx 0.22\)</span>. Al ser el objetivo estrictamente convexo, es el <strong>mínimo global</strong>.</li>
+<li><strong>Máximos</strong>: Evaluamos candidatos (<span class="math inline">\(u_i \le 0\)</span>):
+<ul>
+<li><span class="math inline">\((2.25, 0)^T \implies f(2.25, 0) = 4.00\)</span></li>
+<li><span class="math inline">\((6, 0)^T \implies f(6, 0) = 18.06\)</span> (<strong>Máximo global</strong>)</li>
+<li><span class="math inline">\((0, 0)^T \implies f(0, 0) = 9.06\)</span> (Singular, máximo local)</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_multiple_desigualdad_conclusiones.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-3-restricción-circular-y-lineal-planteamiento" class="slide level2">
+<h2>Ejemplo 3: Restricción circular y lineal (Planteamiento)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Problema de estudio</strong>: <span class="math display">\[ \min/\max \quad f(x, y) = 3x - y \]</span> <span class="math display">\[ \text{s.a.} \quad g_1(x, y) = x^2 + y^2 - 1 \le 0 \]</span> <span class="math display">\[ g_2(x, y) = -4x - y + 1 \le 0 \]</span></li>
+<li><strong>Gradientes</strong>: <span class="math inline">\(\nabla f = (3, -1)^T\)</span> <span class="math inline">\(\nabla g_1 = (2x, 2y)^T\)</span> <span class="math inline">\(\nabla g_2 = (-4, -1)^T\)</span></li>
+<li><strong>Lagrangiana</strong>: <span class="math display">\[ L = 3x - y + u_1(x^2 + y^2 - 1) + u_2(-4x - y + 1) \]</span></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_lineal_general.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-3-caso-1-inactivas-y-caso-2-g_1-activa-con-u_1-0" class="slide level2">
+<h2>Ejemplo 3: Caso 1 – Inactivas y Caso 2 (<span class="math inline">\(g_1\)</span> activa con <span class="math inline">\(u_1 &gt; 0\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Caso 1 (Inactivas)</strong>: Contradicción <span class="math inline">\(3=0\)</span> y <span class="math inline">\(-1=0\)</span>.</li>
+<li><strong>Caso 2 (<span class="math inline">\(g_1\)</span> activa, <span class="math inline">\(u_2=0\)</span>)</strong>: <span class="math inline">\(x = -3/(2u_1)\)</span>, <span class="math inline">\(y = 1/(2u_1)\)</span> con <span class="math inline">\(x^2+y^2=1\)</span>. <span class="math display">\[ \implies u_1 = \pm\sqrt{10}/2 \approx \pm 1.58 \]</span></li>
+<li><strong>Si <span class="math inline">\(u_1 \approx 1.58 &gt; 0\)</span> (mínimo)</strong>: <span class="math inline">\(x \approx -0.95\)</span>, <span class="math inline">\(y \approx 0.32\)</span>.</li>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_2(x, y) \approx 4.48 &gt; 0\)</span> (no factible). Se descarta.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_lineal_zoom_a.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-3-caso-2-solo-g_1-activa-con-u_1-0" class="slide level2">
+<h2>Ejemplo 3: Caso 2 – Solo <span class="math inline">\(g_1\)</span> activa con <span class="math inline">\(u_1 &lt; 0\)</span></h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Si <span class="math inline">\(u_1 \approx -1.58 &lt; 0\)</span> (máximo)</strong>: <span class="math display">\[ x = \frac{3}{\sqrt{10}} \approx 0.95, \quad y = -\frac{1}{\sqrt{10}} \approx -0.32 \]</span></li>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(g_2(x, y) \approx -2.48 \le 0\)</span> (factible).</li>
+<li><strong>Candidato a máximo</strong>: <span class="math inline">\(\left(\frac{3}{\sqrt{10}}, -\frac{1}{\sqrt{10}}\right)^T\)</span> con <span class="math inline">\(u = (-\sqrt{10}/2, 0)^T\)</span>.</li>
+<li><em>Subcaso <span class="math inline">\(g_2\)</span> activa, <span class="math inline">\(u_1=0\)</span></em>: Contradicción <span class="math inline">\(u_2 = 0.75\)</span> y <span class="math inline">\(u_2 = -1\)</span>.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_lineal_zoom_b.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-3-caso-3-ambas-restricciones-activas-intersección" class="slide level2">
+<h2>Ejemplo 3: Caso 3 – Ambas restricciones activas (Intersección)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Intersección</strong>: <span class="math inline">\(x^2+y^2=1\)</span> y <span class="math inline">\(-4x-y+1=0 \implies y=1-4x\)</span>. <span class="math display">\[ \implies 17x^2-8x=0 \implies x=0 \ \text{ó} \ x=8/17 \]</span></li>
+<li><strong>Punto <span class="math inline">\(P_1(0,1)^T\)</span></strong>: <span class="math inline">\(3 - 4u_2 = 0 \implies u_2 = 3/4 \ge 0\)</span>. <span class="math inline">\(-1 + 2u_1 - u_2 = 0 \implies u_1 = 7/8 \ge 0\)</span>.</li>
+<li><strong>Candidato a mínimo</strong>: <span class="math inline">\(P_1(0,1)^T\)</span> con <span class="math inline">\(u = (7/8, 3/4)^T\)</span>.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_lineal_zoom_c.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-3-caso-3-intersección-punto-817--1517t" class="slide level2">
+<h2>Ejemplo 3: Caso 3 – Intersección (Punto <span class="math inline">\((8/17, -15/17)^T\)</span>)</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Punto <span class="math inline">\(P_2(8/17, -15/17)^T\)</span></strong>: <span class="math inline">\(3 + \frac{16}{17}u_1 - 4u_2 = 0\)</span>. <span class="math inline">\(-1 - \frac{30}{17}u_1 - u_2 = 0\)</span>.</li>
+<li><strong>Solución</strong>: <span class="math inline">\(u_1 = -7/8 &lt; 0\)</span> y <span class="math inline">\(u_2 = 37/68 &gt; 0\)</span>.</li>
+<li><strong>Conclusión</strong>: Signos opuestos <span class="math inline">\(\implies\)</span> se descarta. No es punto KKT de primer orden.</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_lineal_zoom_d.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-3-conclusión-y-caracterización" class="slide level2">
+<h2>Ejemplo 3: Conclusión y Caracterización</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><strong>Mínimo global</strong>: <span class="math inline">\((0, 1)^T\)</span> con <span class="math inline">\(f(0,1) = -1\)</span>.
+<ul>
+<li><span class="math inline">\(f\)</span> es lineal (pseudo-convexa).</li>
+<li><span class="math inline">\(g_1\)</span> es estrictamente convexa y <span class="math inline">\(g_2\)</span> es lineal (convexa).</li>
+<li>Al tener <span class="math inline">\(u_i \ge 0\)</span>, se satisfacen las condiciones suficientes.</li>
+</ul></li>
+<li><strong>Máximo global</strong>: <span class="math inline">\(\left(\frac{3}{\sqrt{10}}, -\frac{1}{\sqrt{10}}\right)^T\)</span> con <span class="math inline">\(f(x) \approx 3.16\)</span>.
+<ul>
+<li><span class="math inline">\(f\)</span> es lineal (pseudo-cóncava) y <span class="math inline">\(u_1 &lt; 0\)</span>.</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_ejemplo_circ_lineal_conclusiones.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="restricciones-de-igualdad-y-desigualdad" class="title-slide slide level1 center">
+<h1>Restricciones de igualdad y desigualdad</h1>
+
+</section>
+<section id="introducción-a-las-restricciones-de-igualdad" class="slide level2">
+<h2>Introducción a las restricciones de igualdad</h2>
+<ul>
+<li><strong>Restricciones de igualdad</strong>: Formulación del problema general de optimización con restricciones de igualdad <span class="math inline">\(h_j(x) = 0\)</span>, para <span class="math inline">\(j=1,\dots,\ell\)</span>: <span class="math display">\[ \min_{x} \{ f(x) \mid x \in \mathcal{X}, \ g_i(x) \le 0, \ i=1,\dots,m, \ h_j(x) = 0, \ j=1,\dots,\ell \} \]</span></li>
+<li><strong>Movimiento admisible</strong>: A diferencia de las desigualdades que permiten movimientos hacia el interior de la región factible, las restricciones de igualdad obligan a que cualquier dirección admisible permanezca tangente a la hipersuperficie definida por <span class="math inline">\(h_j(x) = 0\)</span>.</li>
+<li><strong>Aproximación lineal</strong>: Localmente, el movimiento admisible debe ser ortogonal a los gradientes de las igualdades.</li>
+</ul>
+</section>
+<section id="cono-de-direcciones-tangentes-para-igualdades" class="slide level2">
+<h2>Cono de direcciones tangentes para igualdades</h2>
+<ul>
+<li><strong>Definición</strong>: Se define el cono de direcciones tangentes al espacio de igualdad en un punto factible <span class="math inline">\(\bar{x}\)</span> como: <span class="math display">\[ \mathcal{H}_0(\bar{x}) = \{ d \in \mathbb{R}^n \mid \nabla h_j(\bar{x})^T d = 0, \ j = 1, \dots, \ell \} \]</span></li>
+<li><strong>Interpretación geométrica</strong>: El cono tangente representa el subespacio vectorial ortogonal a los gradientes de todas las restricciones de igualdad.</li>
+<li><strong>Intersección con desigualdades</strong>: En problemas con restricciones mixtas, una dirección factible debe pertenecer tanto al cono de restricciones de desigualdad como al cono tangente de igualdades.</li>
+</ul>
+</section>
+<section id="exclusión-geométrica-generalizada" class="slide level2">
+<h2>Exclusión geométrica generalizada</h2>
+<div title="Exclusión geométrica generalizada">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Exclusión geométrica generalizada</strong></p>
+</div>
+<div class="callout-content">
+<div style="text-align: justify;">
+<p>Sea <span class="math inline">\(\bar{x}\)</span> un mínimo local factible de <span class="math inline">\(\min \{f(x) \mid g_i(x) \le 0, \ i=1,\dots,m, \ h_j(x) = 0, \ j=1,\dots,\ell\}\)</span> e <span class="math inline">\(\mathcal{I}\)</span> el conjunto activo en <span class="math inline">\(\bar{x}\)</span>. Si <span class="math inline">\(f, g_i\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) son diferenciables en <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i \notin \mathcal{I}\)</span>) son continuas en <span class="math inline">\(\bar{x}\)</span>, y <span class="math inline">\(h_j\)</span> son continuamente diferenciables en <span class="math inline">\(\bar{x}\)</span> con gradientes <span class="math inline">\(\nabla h_j(\bar{x})\)</span> linealmente independientes, entonces la intersección de conos es vacía:</p>
+</div>
+<span class="math display">\[ \mathcal{D}_0(\bar{x}) \cap \mathcal{G}_0(\bar{x}) \cap \mathcal{H}_0(\bar{x}) = \emptyset \]</span>
+<div style="text-align: justify;">
+<p>con <span class="math inline">\(\mathcal{G}_0(\bar{x}) = \{ d \mid \nabla g_i(\bar{x})^T d &lt; 0, i \in \mathcal{I} \}\)</span> y <span class="math inline">\(\mathcal{H}_0(\bar{x}) = \{ d \mid \nabla h_j(\bar{x})^T d = 0, \forall j \}\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="condiciones-kkt-generales-licq" class="slide level2">
+<h2>Condiciones KKT Generales (LICQ)</h2>
+<div title="Condiciones necesarias de KKT generales">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Condiciones necesarias de KKT generales</strong></p>
+</div>
+<div class="callout-content">
+<div style="text-align: justify;">
+<p>Sea <span class="math inline">\(\bar{x}\)</span> un mínimo local con conjunto activo <span class="math inline">\(\mathcal{I}\)</span> que satisface <strong>LICQ</strong> (los gradientes activos <span class="math inline">\(\{\nabla g_i(\bar{x})\}_{i\in\mathcal{I}}\)</span> y <span class="math inline">\(\{\nabla h_j(\bar{x})\}\)</span> son linealmente independientes). Si <span class="math inline">\(f, g_i\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) son diferenciables en <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(g_i\)</span> (<span class="math inline">\(i \notin \mathcal{I}\)</span>) son continuas en <span class="math inline">\(\bar{x}\)</span>, y <span class="math inline">\(h_j\)</span> son continuamente diferenciables en <span class="math inline">\(\bar{x}\)</span>, existen multiplicadores únicos <span class="math inline">\(u_i \ge 0\)</span> (<span class="math inline">\(i \in \mathcal{I}\)</span>) y <span class="math inline">\(v_j \in \mathbb{R}\)</span> (sin restricción de signo) tales que:</p>
+</div>
+<p><span class="math display">\[ \nabla f(\bar{x}) + \sum_{i \in \mathcal{I}} u_i \nabla g_i(\bar{x}) + \sum_{j=1}^\ell v_j \nabla h_j(\bar{x}) = 0 \]</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-4-restricciones-mixtas-planteamiento" class="slide level2">
+<h2>Ejemplo 4: Restricciones mixtas (Planteamiento)</h2>
+<ul>
+<li><strong>Problema de estudio</strong>: <span class="math display">\[ \min \quad f(x_1, x_2) \]</span> <span class="math display">\[ \text{s.a.} \quad g_1(x) = x_1^2 + x_2^2 - 5 \le 0 \]</span> <span class="math display">\[ g_2(x) = -x_1 \le 0, \quad g_3(x) = -x_2 \le 0 \]</span> <span class="math display">\[ h_1(x) = x_1 + x_2 - 3 = 0 \]</span></li>
+<li><strong>Geometría</strong>: El dominio factible es el segmento de recta comprendido entre los extremos <strong><span class="math inline">\((1,2)^T\)</span></strong> y <strong><span class="math inline">\((2,1)^T\)</span></strong> en el primer cuadrante.</li>
+<li><strong>Lagrangiana</strong>: <span class="math display">\[ L(x, u, v) = f(x) + u_1(x_1^2 + x_2^2 - 5) - u_2 x_1 - u_3 x_2 + v_1(x_1 + x_2 - 3) \]</span></li>
+</ul>
+</section>
+<section id="ejemplo-4-caso-a-distancia-al-origen-f_1-x_12-x_22" class="slide level2">
+<h2>Ejemplo 4: Caso A – Distancia al origen (<span class="math inline">\(f_1 = x_1^2 + x_2^2\)</span>)</h2>
+<ul>
+<li><strong>Caso A.1 (Interior del segmento, <span class="math inline">\(x_1 \in (1, 2)\)</span>)</strong>: Con <span class="math inline">\(u_i = 0\)</span>, la estacionariedad requiere: <span class="math display">\[ 2x_1 + v_1 = 0, \ 2x_2 + v_1 = 0 \implies x_1 = x_2 \]</span> Sustituyendo en <span class="math inline">\(h_1\)</span>: <span class="math inline">\(x_1 + x_2 = 3 \implies \mathbf{x}^* = (1.5, 1.5)^T, \ v_1 = -3\)</span> (mínimo KKT, <span class="math inline">\(f_1 = 4.5\)</span>).</li>
+<li><strong>Caso A.2 (Extremos del segmento)</strong>:
+<ul>
+<li>En <span class="math inline">\((1,2)^T\)</span> (activas <span class="math inline">\(g_1, h_1\)</span>): <span class="math inline">\(2 + 2u_1 + v_1 = 0, \ 4 + 4u_1 + v_1 = 0 \implies u_1 = -1 &lt; 0\)</span> (descartado).</li>
+<li>En <span class="math inline">\((2,1)^T\)</span> (activas <span class="math inline">\(g_1, h_1\)</span>): Por simetría, <span class="math inline">\(u_1 = -1 &lt; 0\)</span> (descartado).</li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo-4-caso-b-distancia-a-32-f_2-x_1-32-x_2-22" class="slide level2">
+<h2>Ejemplo 4: Caso B – Distancia a <span class="math inline">\((3,2)\)</span> (<span class="math inline">\(f_2 = (x_1-3)^2 + (x_2-2)^2\)</span>)</h2>
+<ul>
+<li><strong>Caso B.1 (Interior del segmento, <span class="math inline">\(x_1 \in (1, 2)\)</span>)</strong>: <span class="math inline">\(u_i = 0\)</span>. Estacionariedad: <span class="math inline">\(2(x_1-3)+v_1 = 0\)</span>, <span class="math inline">\(2(x_2-2)+v_1 = 0 \implies x_1 = x_2+1\)</span>. <span class="math display">\[ (x_2+1)+x_2 = 3 \implies x = (2, 1)^T \quad (\text{extremo, se descarta por interior}) \]</span></li>
+<li><strong>Caso B.2 (Extremos del segmento)</strong>:
+<ul>
+<li>En <span class="math inline">\((1,2)^T\)</span>: <span class="math inline">\(u_2=u_3=0 \implies u_1 = -2 &lt; 0\)</span> (descartado).</li>
+<li>En <span class="math inline">\((2,1)^T\)</span>: Activa <span class="math inline">\(g_1, h_1\)</span>. Estacionariedad: <span class="math display">\[ \left. \begin{aligned} -2 + 4u_1 + v_1 = 0 \\ -2 + 2u_1 + v_1 = 0 \end{aligned} \right\} \implies u_1 = 0 \ge 0, \ v_1 = 2 \]</span></li>
+<li><strong><span class="math inline">\((2,1)^T\)</span></strong> es el candidato a <strong>mínimo local</strong> (<span class="math inline">\(f_2 = 2.0\)</span>).</li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo-4-resumen-y-representación-gráfica" class="slide level2">
+<h2>Ejemplo 4: Resumen y Representación Gráfica</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>Función <span class="math inline">\(f_1\)</span> (Distancia al origen)</strong>:
+<ul>
+<li>Mínimo KKT e interior en <strong><span class="math inline">\((1.5, 1.5)^T\)</span></strong> con <span class="math inline">\(f_1 = 4.5\)</span>.</li>
+<li>Los extremos de la frontera circular están descartados (<span class="math inline">\(u_1 = -1 &lt; 0\)</span>).</li>
+</ul></li>
+<li><strong>Función <span class="math inline">\(f_2\)</span> (Distancia a <span class="math inline">\((3,2)\)</span>)</strong>:
+<ul>
+<li>No hay estacionarios interiores.</li>
+<li>Mínimo KKT y global en el extremo circular <strong><span class="math inline">\((2, 1)^T\)</span></strong> con <span class="math inline">\(f_2 = 2.0\)</span> (<span class="math inline">\(u_1 = 0 \ge 0\)</span>).</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_mixtas_ejemplo1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-5-modificación-de-frontera-planteamiento" class="slide level2">
+<h2>Ejemplo 5: Modificación de frontera (Planteamiento)</h2>
+<ul>
+<li><strong>Recta frontera asimétrica</strong>: <span class="math display">\[ h_1(x) = x_1 + 2x_2 - 4 = 0 \]</span></li>
+<li><strong>Dominio factible</strong>: Sustituyendo <span class="math inline">\(x_1 = 4-2x_2\)</span> en la circunferencia: <span class="math display">\[ (4-2x_2)^2 + x_2^2 \le 5 \implies 5x_2^2 - 16x_2 + 11 \le 0 \implies x_2 \in [1, 2.2] \]</span></li>
+<li><strong>Primer cuadrante</strong>: Exigiendo <span class="math inline">\(x_1 \ge 0 \implies 4 - 2x_2 \ge 0 \implies x_2 \le 2\)</span>.</li>
+<li><strong>Extremos</strong>: El segmento factible real queda delimitado por los extremos <strong><span class="math inline">\((2,1)^T\)</span></strong> y <strong><span class="math inline">\((0,2)^T\)</span></strong>.</li>
+</ul>
+</section>
+<section id="ejemplo-5-caso-a-distancia-al-origen-f_1-x_12-x_22" class="slide level2">
+<h2>Ejemplo 5: Caso A – Distancia al origen (<span class="math inline">\(f_1 = x_1^2 + x_2^2\)</span>)</h2>
+<ul>
+<li><strong>Caso A.1 (Interior del segmento, <span class="math inline">\(x_2 \in (1, 2)\)</span>)</strong>: <span class="math inline">\(u_i = 0\)</span>. Estacionariedad: <span class="math display">\[ 2x_1 + v_1 = 0, \quad 2x_2 + 2v_1 = 0 \implies x_2 = 2x_1 \]</span> Sustituyendo en <span class="math inline">\(h_1\)</span>: <span class="math display">\[ x_1 + 2(2x_1) = 4 \implies x^* = (0.8, 1.6)^T, \ v_1 = -1.6 \]</span> Satisface KKT y es el candidato a <strong>mínimo local</strong> (<span class="math inline">\(f_1 = 3.2\)</span>).</li>
+<li><strong>Caso A.2 (Extremos del segmento)</strong>:
+<ul>
+<li>En <span class="math inline">\((2,1)^T\)</span>: Activa <span class="math inline">\(g_1, h_1 \implies u_1 = -1 &lt; 0\)</span> (descartado).</li>
+<li>En <span class="math inline">\((0,2)^T\)</span>: Activa <span class="math inline">\(g_2, h_1\)</span> (<span class="math inline">\(x_1=0\)</span>). Estacionariedad: <span class="math display">\[ 0 - u_2 + v_1 = 0 \ \text{y} \ 4 + 2v_1 = 0 \implies v_1 = -2 \implies u_2 = -2 &lt; 0 \quad (\text{descartado}) \]</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo-5-caso-b-distancia-a-32-f_2-x_1-32-x_2-22" class="slide level2">
+<h2>Ejemplo 5: Caso B – Distancia a <span class="math inline">\((3,2)\)</span> (<span class="math inline">\(f_2 = (x_1-3)^2 + (x_2-2)^2\)</span>)</h2>
+<ul>
+<li><strong>Caso B.1 (Interior del segmento, <span class="math inline">\(x_2 \in (1, 2)\)</span>)</strong>: <span class="math inline">\(u_i = 0\)</span>. Estacionariedad: <span class="math inline">\(2(x_1-3)+v_1 = 0\)</span>, <span class="math inline">\(2(x_2-2)+2v_1 = 0 \implies x_2 = 2x_1-4\)</span>. <span class="math display">\[ x_1+2(2x_1-4) = 4 \implies x_1 = 2.4, \ x_2 = 0.8 &lt; 1 \quad (\text{no factible, descartado}) \]</span></li>
+<li><strong>Caso B.2 (Extremos del segmento)</strong>:
+<ul>
+<li>En <span class="math inline">\((2,1)^T\)</span>: Activa <span class="math inline">\(g_1, h_1\)</span>. Estacionariedad: <span class="math display">\[ \left. \begin{aligned} -2 + 4u_1 + v_1 = 0 \\ -2 + 2u_1 + 2v_1 = 0 \end{aligned} \right\} \implies u_1 = 1/3 \ge 0, \ v_1 = 2/3 \]</span> Satisface KKT y es el candidato a <strong>mínimo local</strong> (<span class="math inline">\(f_2 = 2.0\)</span>).</li>
+<li>En <span class="math inline">\((0,2)^T\)</span>: Activa <span class="math inline">\(g_2, h_1 \implies u_2 = -6 &lt; 0\)</span> (descartado).</li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo-5-resumen-y-representación-gráfica" class="slide level2">
+<h2>Ejemplo 5: Resumen y Representación Gráfica</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>Función <span class="math inline">\(f_1\)</span> (Distancia al origen)</strong>:
+<ul>
+<li>Mínimo KKT e interior en <strong><span class="math inline">\((0.8, 1.6)^T\)</span></strong> con <span class="math inline">\(f_1 = 3.2\)</span>.</li>
+<li>Los extremos de la frontera están descartados (<span class="math inline">\(u_1 &lt; 0\)</span> y <span class="math inline">\(u_2 &lt; 0\)</span>).</li>
+</ul></li>
+<li><strong>Función <span class="math inline">\(f_2\)</span> (Distancia a <span class="math inline">\((3,2)\)</span>)</strong>:
+<ul>
+<li>No hay estacionarios interiores factibles.</li>
+<li>Mínimo KKT y global en el extremo circular <strong><span class="math inline">\((2, 1)^T\)</span></strong> con <span class="math inline">\(f_2 = 2.0\)</span> (<span class="math inline">\(u_1 = 1/3 \ge 0, \ v_1 = 2/3\)</span>).</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/kkt_mixtas_ejemplo2.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="_tmp_clase_tema4_condiciones_optimalidad_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 5.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

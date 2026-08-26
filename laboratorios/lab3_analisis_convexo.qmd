@@ -1,0 +1,179 @@
+---
+title: "Laboratorio 3: análisis de convexidad y modelado con CVXPY"
+subtitle: "Optimización y Análisis de Redes"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+lang: es
+---
+
+# Introducción
+
+El análisis convexo constituye el fundamento matemático que garantiza la existencia y la unicidad del óptimo global en problemas de optimización. En la optimización computacional aplicada, la formulación correcta de modelos convexos y su resolución eficiente requiere dominar dos enfoques metodológicos:
+
+1. **La validación algebraico-numérica de la curvatura**: Consiste en calcular de forma simbólica la matriz hessiana $\nabla^2 f(\mathbf{x})$ y analizar el signo de sus autovalores o de sus menores principales de forma exacta o numérica.
+2. **El modelado de problemas bajo reglas de convexidad**: Consiste en formular problemas mediante lenguajes de modelado algebraico profesional como **`CVXPY`**, los cuales validan la estructura del problema bajo las reglas de la **Programación Convexa Disciplinada (DCP)** de forma automática antes de invocar a los resolvedores (*solvers*).
+
+En este laboratorio práctico aprenderás a:
+
+* Calcular y evaluar simbólicamente matrices hessianas y determinar autovalores usando `SymPy` y `NumPy`.
+* Modelar problemas de optimización con restricciones en `CVXPY`.
+* Identificar y depurar el error `DCPError` provocado por formulaciones que violan las reglas de convexidad de CVXPY.
+* Reformular expresiones algebraicas complejas utilizando funciones atómicas convexas (como la media geométrica `cp.geo_mean`).
+* Extraer y analizar físicamente los **multiplicadores de Lagrange (valores duales)** de las restricciones de un problema.
+
+---
+
+# Fundamentos y herramientas de Python
+
+## Verificación de convexidad mediante autovalores de la Hessiana
+
+De acuerdo con los teoremas de segundo orden del Tema 3, una función dos veces diferenciable $f: \mathcal{S} \to \mathbb{R}$ es convexa en un conjunto abierto convexo $\mathcal{S}$ si y solo si su matriz hessiana es semidefinida positiva en dicho dominio:
+$$ \nabla^2 f(\mathbf{x}) \succeq 0, \quad \forall \mathbf{x} \in \mathcal{S} $$
+
+En el caso de funciones con hessiana constante (como las funciones cuadráticas), esta propiedad se verifica comprobando si todos los autovalores de la matriz $\nabla^2 f(\mathbf{x})$ son no negativos ($\lambda_i \ge 0$). En Python, esto se implementa combinando el motor simbólico `SymPy` con las funciones numéricas de `NumPy`:
+
+```python
+import sympy as sp
+import numpy as np
+
+# 1. Definir variables simbólicas
+x1, x2, x3 = sp.symbols('x1 x2 x3')
+
+# 2. Definir la función de forma simbólica
+f_sympy = x1**2 + 3*x2**2 + x3**2 + x1*x2 - 4*x3
+
+# 3. Calcular la matriz Hessiana simbólica
+H_sympy = sp.hessian(f_sympy, (x1, x2, x3))
+
+# 4. Convertir a matriz numérica de NumPy
+H_numpy = np.array(H_sympy).astype(np.float64)
+
+# 5. Calcular autovalores
+autovalores = np.linalg.eigvals(H_numpy)
+print("Autovalores calculados:", autovalores)
+```
+
+::: {.callout-note}
+Si todos los autovalores son no negativos ($\lambda_i \ge 0$), la matriz es semidefinida positiva y la función es **convexa**. Si todos son estrictamente positivos ($\lambda_i > 0$), la matriz es definida positiva y la función es **estrictamente convexa**. Si hay autovalores de diferente signo, la función es **indefinida** (puntos de ensilladura).
+:::
+
+---
+
+## Programación Convexa Disciplinada (DCP) en CVXPY
+
+**CVXPY** es un lenguaje de modelado para optimización convexa. A diferencia de resolvedores de caja negra, CVXPY analiza la estructura algebraica de las expresiones creadas y comprueba si cumplen el conjunto de reglas **DCP**.
+
+DCP impone restricciones en cómo se combinan las variables. Por ejemplo:
+
+* **Multiplicación de variables**: Expresiones como `x * y` o `x[0] * x[1]` están **prohibidas** en DCP. Aunque la función sea matemáticamente convexa en una determinada región, la multiplicación general no se puede clasificar como convexa bajo las reglas algebraicas locales de DCP.
+* **Composiciones convexas**: CVXPY proporciona *átomos* o funciones predefinidas que sí cumplen con DCP. Por ejemplo, para el producto y la raíz $\sqrt{xy}$, la formulación directa `cp.sqrt(x * y)` no es aceptada, pero se puede modelar de forma equivalente como la media geométrica mediante la función atómica `cp.geo_mean(cp.hstack([x, y]))`.
+
+Cada expresión en CVXPY expone los métodos `.is_convex()` e `.is_concave()` para verificar su estado bajo DCP:
+
+```{python}
+import cvxpy as cp
+
+x = cp.Variable(nonneg=True)
+y = cp.Variable(nonneg=True)
+
+# Intento directo de raíz del producto
+try:
+    expr_directa = cp.sqrt(x * y)
+except Exception as e:
+    print("Error directo:", e)
+
+# Reformulación válida bajo DCP
+expr_dcp = cp.geo_mean(cp.hstack([x, y]))
+print("¿Es la reformulación cóncava?:", expr_dcp.is_concave())
+```
+
+---
+
+# Ejercicios de laboratorio propuestos
+
+## Ejercicio 1: verificación analítica y numérica de la curvatura
+
+Estudia simbólica y numéricamente la convexidad global de la función cuadrática:
+$$ f(\mathbf{x}) = x_1 x_2 + 2x_1^2 + x_2^2 - 6x_1 x_3 $$
+
+### Tareas
+1. Define las variables simbólicas $x_1, x_2, x_3$ en `SymPy`.
+2. Calcula de forma exacta la matriz hessiana $\nabla^2 f(\mathbf{x})$ utilizando `sp.hessian`.
+3. Convierte la matriz hessiana resultante en una matriz numérica de `NumPy` y calcula sus autovalores utilizando `np.linalg.eigvals`.
+4. Concluye razonadamente: ¿Es la función convexa, cóncava o indefinida sobre $\mathbb{R}^3$?
+
+```{python}
+# Tu código aquí:
+# ...
+```
+
+---
+
+## Ejercicio 2: convexidad localizada mediante inecuaciones simbólicas
+
+Consideremos la función multivariable:
+$$ f(x_1, x_2) = 10 - 2(x_2 - x_1^2)^2 $$
+
+Esta función no es convexa ni cóncava de manera global en todo el espacio $\mathbb{R}^2$. Sin embargo, posee regiones específicas del dominio donde sí se comporta de manera cóncava.
+
+### Tareas
+1. Calcula simbólicamente la matriz hessiana de $f(x_1, x_2)$ en `SymPy`.
+2. Para que la función sea **cóncava**, se requiere que la matriz $- \nabla^2 f(x_1, x_2)$ sea semidefinida positiva.
+   * Plantea las inecuaciones de los menores principales (Criterio de Sylvester) para la matriz $- \nabla^2 f(\mathbf{x})$.
+3. Utiliza el resolvedor simbólico de inecuaciones de SymPy (`sp.solve`) para encontrar la región en el plano $(x_1, x_2)$ donde la función es localmente cóncava.
+4. Razona: ¿Qué forma geométrica tiene el conjunto de puntos en el que la función es cóncava? ¿Es este conjunto a su vez convexo?
+
+```{python}
+# Tu código aquí:
+# ...
+```
+
+---
+
+## Ejercicio 3: modelado y análisis de sensibilidad en CVXPY
+
+Resuelve computacionalmente el problema de minimización de distancia cuadrática analizado teóricamente en el Tema 3 del libro:
+$$ \min_{\mathbf{x} \in \mathcal{S}} \ f(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 2)^2 $$
+sujeto al conjunto factible convexo $\mathcal{S}$:
+$$ \mathcal{S} = \{ (x_1, x_2) \in \mathbb{R}^2 \mid x_1^2 + x_2^2 \le 5, \ x_1 + 2x_2 \le 4, \ x_1 \ge 0, \ x_2 \ge 0 \} $$
+
+### Tareas
+1. Modela el problema de optimización en `CVXPY`.
+   * **Ayuda**: Define variables no negativas con `cp.Variable(nonneg=True)`.
+   * Expresa la función objetivo como la suma de cuadrados de la desviación respecto al punto objetivo $(3, 2)^T$.
+2. Resuelve el problema invocando a `prob.solve()`.
+3. Imprime el punto óptimo encontrado $(x_1^*, x_2^*)$ y el valor óptimo de la función objetivo. Verifica si coincide con el resultado teórico del libro, $x^* = (2, 1)^T$.
+4. Recupera y analiza las variables duales asociadas a la restricción circular ($x_1^2 + x_2^2 \le 5$) y a la restricción lineal ($x_1 + 2x_2 \le 4$) mediante la propiedad `.dual_value`.
+   * Explica detalladamente el significado físico y matemático de estos valores en términos de sensibilidad del óptimo (precios sombra). ¿Cuál de las dos restricciones es la más activa o crítica para alejar la solución del objetivo deseado $(3,2)^T$?
+
+```{python}
+# Tu código aquí:
+# ...
+```
+
+---
+
+## Ejercicio 4: depuración de errores DCP y reformulación de modelos
+
+Intenta resolver mediante CVXPY el siguiente problema de optimización no lineal:
+$$ \min_{x, y \ge 0} \frac{1}{x} + \frac{1}{y} $$
+sujeto a:
+$$ \sqrt{xy} \ge 2 $$
+
+### Tareas
+1. Escribe el código directo en CVXPY planteando la restricción como `cp.sqrt(x * y) >= 2`. Ejecútalo y observa la excepción `DCPError` arrojada por la biblioteca.
+2. Explica brevemente por qué CVXPY rechaza la expresión anterior a pesar de que el conjunto factible $\{ (x, y) \mid \sqrt{xy} \ge 2 \}$ es convexo en el primer cuadrante.
+3. Reformula la restricción utilizando el átomo cóncavo de la media geométrica `cp.geo_mean` y resuelve el problema con éxito.
+4. Imprime el punto óptimo y el valor mínimo global alcanzados.
+
+```{python}
+# Tu código aquí:
+# ...
+```

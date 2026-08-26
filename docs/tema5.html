@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Programación lineal y cuadrática – Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema6.html" rel="next">
+<link href="./tema4.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="estilos_html.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema2.html">Bloque I: Optimización no lineal</a></li><li class="breadcrumb-item"><a href="./tema5.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Programación lineal y cuadrática</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la investigación operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bloque I: Optimización no lineal</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización no lineal y métodos numéricos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis convexo</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de optimalidad y KKT</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema5.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Programación lineal y cuadrática</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bloque II: Optimización en redes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Grafos y árboles soporte</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Caminos mínimos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Flujos en redes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Emparejamientos en redes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Rutas eulerianas, hamiltonianas y problemas de rutas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#programación-lineal-lp" id="toc-programación-lineal-lp" class="nav-link active" data-scroll-target="#programación-lineal-lp"><span class="header-section-number">5.1</span> Programación lineal (LP)</a>
+  <ul class="collapse">
+  <li><a href="#dualidad-en-programación-lineal" id="toc-dualidad-en-programación-lineal" class="nav-link" data-scroll-target="#dualidad-en-programación-lineal"><span class="header-section-number">5.1.1</span> Dualidad en programación lineal</a></li>
+  <li><a href="#condiciones-kkt-en-programación-lineal" id="toc-condiciones-kkt-en-programación-lineal" class="nav-link" data-scroll-target="#condiciones-kkt-en-programación-lineal"><span class="header-section-number">5.1.2</span> Condiciones KKT en programación lineal</a></li>
+  <li><a href="#interpretación-económica-y-precios-sombra" id="toc-interpretación-económica-y-precios-sombra" class="nav-link" data-scroll-target="#interpretación-económica-y-precios-sombra"><span class="header-section-number">5.1.3</span> Interpretación económica y precios sombra</a></li>
+  <li><a href="#clasificación-de-óptimos-y-relaciones-de-dualidad" id="toc-clasificación-de-óptimos-y-relaciones-de-dualidad" class="nav-link" data-scroll-target="#clasificación-de-óptimos-y-relaciones-de-dualidad"><span class="header-section-number">5.1.4</span> Clasificación de óptimos y relaciones de dualidad</a></li>
+  </ul></li>
+  <li><a href="#programación-cuadrática-qp" id="toc-programación-cuadrática-qp" class="nav-link" data-scroll-target="#programación-cuadrática-qp"><span class="header-section-number">5.2</span> Programación cuadrática (QP)</a>
+  <ul class="collapse">
+  <li><a href="#derivación-formal-del-sistema-kkt" id="toc-derivación-formal-del-sistema-kkt" class="nav-link" data-scroll-target="#derivación-formal-del-sistema-kkt"><span class="header-section-number">5.2.1</span> Derivación formal del sistema KKT</a></li>
+  <li><a href="#transformación-mediante-variables-de-holgura-y-linealidad-del-sistema" id="toc-transformación-mediante-variables-de-holgura-y-linealidad-del-sistema" class="nav-link" data-scroll-target="#transformación-mediante-variables-de-holgura-y-linealidad-del-sistema"><span class="header-section-number">5.2.2</span> Transformación mediante variables de holgura y linealidad del sistema</a></li>
+  <li><a href="#algoritmo-del-símplex-de-wolfe-con-regla-de-entrada-restringida" id="toc-algoritmo-del-símplex-de-wolfe-con-regla-de-entrada-restringida" class="nav-link" data-scroll-target="#algoritmo-del-símplex-de-wolfe-con-regla-de-entrada-restringida"><span class="header-section-number">5.2.3</span> Algoritmo del Símplex de Wolfe con regla de entrada restringida</a></li>
+  </ul></li>
+  <li><a href="#consideraciones-finales" id="toc-consideraciones-finales" class="nav-link" data-scroll-target="#consideraciones-finales"><span class="header-section-number">5.3</span> Consideraciones finales</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema2.html">Bloque I: Optimización no lineal</a></li><li class="breadcrumb-item"><a href="./tema5.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Programación lineal y cuadrática</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Programación lineal y cuadrática</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Las condiciones de Karush-Kuhn-Tucker (KKT) adquieren una relevancia excepcional al aplicarse sobre problemas con estructuras matemáticas específicas, como la <strong>Programación Lineal (LP)</strong> y la <strong>Programación Cuadrática (QP)</strong>. En ambos casos, las restricciones son afines, lo que garantiza que las cualificaciones de restricciones (como LICQ) se verifiquen de forma natural en cualquier punto factible. Además, cuando la función objetivo es convexa, las condiciones necesarias de KKT se convierten también en suficientes, proporcionando un marco algebraico cerrado para hallar y certificar el óptimo global.</p>
+<p>En este capítulo, analizaremos la relación profunda entre las condiciones KKT y la dualidad lineal, explicaremos la interpretación económica de las variables duales como precios sombra, clasificaremos la correspondencia de los distintos tipos de óptimos lineales mediante ilustraciones geométricas paso a paso, describiremos la estructura matricial de la programación cuadrática y detallaremos el método del Símplex de Wolfe para resolver problemas cuadráticos convexos.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Objetivos de aprendizaje">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo, serás capaz de:</p>
+<ol type="1">
+<li><strong>Deducir y justificar</strong> la equivalencia entre los multiplicadores KKT de un problema de programación lineal y las variables óptimas de su problema dual asociado.</li>
+<li><strong>Demostrar formalmente</strong> el teorema de dualidad débil en programación lineal y deducir sus consecuencias sobre el salto dual y la no acotación.</li>
+<li><strong>Interpretar económicamente</strong> las variables duales como precios sombra (<em>shadow prices</em>) de los términos independientes.</li>
+<li><strong>Clasificar los tipos de óptimos</strong> en programación lineal atendiendo a la unicidad, degeneración y acotación tanto del problema primal como del dual.</li>
+<li><strong>Formular el sistema KKT</strong> para problemas de programación cuadrática (QP) en forma matricial.</li>
+<li><strong>Aplicar el algoritmo del Símplex de Wolfe</strong> (regla de entrada restringida) para resolver de forma exacta problemas cuadráticos convexos.</li>
+</ol>
+</div>
+</div>
+<section id="programación-lineal-lp" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="programación-lineal-lp"><span class="header-section-number">5.1</span> Programación lineal (LP)</h2>
+<p>La <strong>Programación Lineal (LP)</strong> representa la piedra angular de la optimización matemática moderna y de la investigación operativa <span class="citation" data-cites="hillier2010investigacion bazaraa2011linear luenberger2015linear">(<a href="references.html#ref-hillier2010investigacion" role="doc-biblioref">Hillier y Lieberman 2010</a>; <a href="references.html#ref-bazaraa2011linear" role="doc-biblioref">Bazaraa, Jarvis, y Sherali 2011</a>; <a href="references.html#ref-luenberger2015linear" role="doc-biblioref">Luenberger y Ye 2015</a>)</span>. Consiste en la optimización (minimización o maximización) de un criterio de rendimiento lineal expresado por un vector de costes <span class="math inline">\(c \in \mathbb{R}^n\)</span>, sobre un conjunto de soluciones factibles delimitado exclusivamente por hiperplanos y semiespacios afines dados por restricciones de igualdad o desigualdad lineal.</p>
+<p>Desde una perspectiva geométrica, el conjunto factible de un problema de programación lineal constituye un <strong>poliedro convexo</strong> (un politopo si está acotado). Como consecuencia directa de la convexidad del conjunto y de la linealidad de la función objetivo, la programación lineal posee dos propiedades geométricas fundamentales:</p>
+<ol type="1">
+<li><strong>Ausencia de óptimos locales strictly disjuntos</strong>: Todo mínimo local es automáticamente un mínimo global.</li>
+<li><strong>Teorema Fundamental de la Programación Lineal</strong>: Si el problema admite solución óptima finita y la región factible posee al menos un punto extremo (vértice), existe al menos un <strong>vértice extremo</strong> del poliedro donde se alcanza dicho óptimo global.</li>
+</ol>
+<p>Como se ilustra en la <a href="#fig-region-factible-lp" class="quarto-xref">Figura&nbsp;<span>5.1</span></a>, la geometría de la programación lineal se caracteriza por una región factible poliédrica cuyos bordes son las restricciones afines activas, sobre la cual la función objetivo desplaza sus curvas de nivel hiperplánicas en la dirección de máximo descenso dictada por el vector gradiente del coste <span class="math inline">\(c\)</span>.</p>
+<div id="fig-region-factible-lp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-region-factible-lp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/region_factible_lp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figura&nbsp;5.1: Región factible y dirección de optimización en un problema de programación lineal"><img src="images/region_factible_lp.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-region-factible-lp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.1: Región factible y dirección de optimización en un problema de programación lineal
+</figcaption>
+</figure>
+</div>
+<section id="dualidad-en-programación-lineal" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="dualidad-en-programación-lineal"><span class="header-section-number">5.1.1</span> Dualidad en programación lineal</h3>
+<p>El concepto de dualidad constituye uno de los pilares más profundos e insustituibles de la optimización lineal. A todo problema de programación lineal, denominado <strong>problema primal</strong>, se le asocia de forma simétrica e involutiva otro problema lineal estrechamente vinculado denominado <strong>problema dual</strong>. La teoría de la dualidad establece que ambos problemas observan la misma situación de optimización desde dos perspectivas complementarias: mientras que el problema primal busca asignar niveles de actividad para minimizar un coste total (o maximizar un beneficio) sujeto a restricciones afines generales, el problema dual busca determinar la valoración económica óptima de dichos términos independientes.</p>
+<p>Analíticamente, el problema primal original (P) se formula en su forma canónica de minimización como:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min_{x \in \mathbb{R}^n} \quad &amp; c^T x \\
+\text{sujeto a} \quad &amp; A x \ge b \\
+&amp; x \ge 0
+\end{aligned}
+\]</span></p>
+<p>donde <span class="math inline">\(x \in \mathbb{R}^n\)</span> representa el vector de variables primales, <span class="math inline">\(c \in \mathbb{R}^n\)</span> el vector de costes, <span class="math inline">\(A \in \mathbb{R}^{m \times n}\)</span> la matriz de coeficientes de las restricciones y <span class="math inline">\(b \in \mathbb{R}^m\)</span> la términos independientes.</p>
+<p>Asociando un vector de multiplicadores o variables duales <span class="math inline">\(w \in \mathbb{R}^m\)</span> (<span class="math inline">\(w \ge 0\)</span>) a las <span class="math inline">\(m\)</span> restricciones afines generales <span class="math inline">\(A x \ge b\)</span>, se construye de forma natural el <strong>problema dual (D)</strong> equivalente en forma canónica de maximización:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\max_{w \in \mathbb{R}^m} \quad &amp; b^T w \\
+\text{sujeto a} \quad &amp; A^T w \le c \\
+&amp; w \ge 0
+\end{aligned}
+\]</span></p>
+<p>Esta relación dual posee la propiedad simétrica fundamental de involución: el problema dual del problema dual es exactamente el problema primal original.</p>
+<p>La relación entre los valores objetivos de ambos problemas queda establecida fundamentalmente por el teorema de dualidad débil:</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Teorema de dualidad débil en LP">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Teorema de dualidad débil en LP
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para cualquier solución factible <span class="math inline">\(x\)</span> del problema primal (P) y cualquier solución factible <span class="math inline">\(w\)</span> del problema dual (D), el valor de la función objetivo dual es una cota inferior del valor de la función objetivo primal: <span class="math display">\[ b^T w \le c^T x \]</span></p>
+<p><em>Demostración</em>:</p>
+<ol type="1">
+<li><strong>Factibilidad primal</strong>: Sea <span class="math inline">\(x\)</span> una solución factible en (P), lo que implica que <span class="math inline">\(A x \ge b\)</span>. Multiplicando por la izquierda por el vector dual no negativo <span class="math inline">\(w^T \ge 0\)</span> (<span class="math inline">\(w\)</span> factible dual), se preserva el sentido de la desigualdad: <span class="math display">\[ w^T b \le w^T A x \]</span></li>
+<li><strong>Factibilidad dual</strong>: Sea <span class="math inline">\(w\)</span> una solución factible en (D), lo que implica que <span class="math inline">\(A^T w \le c \iff w^T A \le c^T\)</span>. Multiplicando por la derecha por el vector primal no negativo <span class="math inline">\(x \ge 0\)</span>, se preserva el sentido de la desigualdad: <span class="math display">\[ w^T A x \le c^T x \]</span></li>
+<li><strong>Encadenamiento de cotas</strong>: Unificando ambas desigualdades vectoriales: <span class="math display">\[ b^T w \le w^T A x \le c^T x \implies b^T w \le c^T x. \quad \blacksquare \]</span></li>
+</ol>
+</div>
+</div>
+<p>La interpretación geométrica y algebraica del Teorema de Dualidad Débil establece que el valor óptimo del problema primal está acotado inferiormente por el valor de cualquier solución factible del problema dual y viceversa. De este principio fundamental se derivan dos consecuencias directas para el análisis de optimalidad:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Consecuencias fundamentales de la dualidad débil">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Consecuencias fundamentales de la dualidad débil
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Como consecuencia directa de la desigualdad de dualidad débil <span class="math inline">\(b^T w \le c^T x\)</span>:</p>
+<ol type="1">
+<li><strong>Criterio de Certificación de Optimalidad (Salto Dual Nulo)</strong>: Si para algún par de soluciones factibles <span class="math inline">\(x^*\)</span> (primal) y <span class="math inline">\(w^*\)</span> (dual) el valor de las respectivas funciones objetivo coincide: <span class="math display">\[ b^T w^* = c^T x^* \]</span> entonces <span class="math inline">\(x^*\)</span> es de forma garantizada una <strong>solución óptima del problema primal (P)</strong> y <span class="math inline">\(w^*\)</span> es una <strong>solución óptima del problema dual (D)</strong>.</li>
+<li><strong>Relación de No Acotación e Infactibilidad Recíproca</strong>: Si uno de los dos problemas posee una solución <strong>NO acotada</strong> (por ejemplo, el primal de minimización tiende a <span class="math inline">\(-\infty\)</span> o el dual de maximización tiende a <span class="math inline">\(+\infty\)</span>), el otro problema <strong>no tiene solución</strong> (es decir, su región factible es vacía).</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="condiciones-kkt-en-programación-lineal" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="condiciones-kkt-en-programación-lineal"><span class="header-section-number">5.1.2</span> Condiciones KKT en programación lineal</h3>
+<p>Aunque los problemas de optimización lineal se resuelven habitualmente en la práctica mediante algoritmos de pivote (como el método del Símplex) o métodos de punto interior, las condiciones de Karush-Kuhn-Tucker (KKT) constituyen la piedra angular teórica del área. En el ámbito lineal, el marco de KKT conecta de manera natural el problema primal con su dual, proporciona la fundamentación analítica de los precios sombra y permite certificar formalmente la optimalidad global de una solución.</p>
+<p>Para estudiar estas condiciones con el máximo rigor y claridad, expresamos en primer lugar el problema primal (P) en su formato estándar de minimización, con todas las restricciones de desigualdad afines reordenadas en la forma canónica <span class="math inline">\(g_i(x) \le 0\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min_{x \in \mathbb{R}^n} \quad &amp; c^T x &amp;&amp; (1) \\
+\text{sujeto a} \quad &amp; b - A x \le 0 &amp;&amp; (2) \\
+&amp; -x \le 0 &amp;&amp; (3)
+\end{aligned}
+\]</span></p>
+<p>En esta formulación matricial, identificamos claramente los cuatro elementos fundamentales del modelo: el vector <span class="math inline">\(x = (x_1, \dots, x_n)^T \in \mathbb{R}^n\)</span> representa las <span class="math inline">\(n\)</span> <strong>variables de decisión</strong>, <span class="math inline">\(c = (c_1, \dots, c_n)^T \in \mathbb{R}^n\)</span> denota el vector de <strong>costes o coeficientes objetivos</strong>, <span class="math inline">\(A \in \mathbb{R}^{m \times n}\)</span> es la <strong>matriz de coeficientes de las restricciones</strong> (cuya <span class="math inline">\(i\)</span>-ésima fila se denota como vector fila por <span class="math inline">\(a^i\)</span>) y <span class="math inline">\(b = (b_1, \dots, b_m)^T \in \mathbb{R}^m\)</span> especifica la <strong>vector de términos independientes</strong>. Cabe recordar que cualquier problema lineal arbitrario (con maximizaciones, igualdades o variables libres) se puede transformar algebraicamente a este formato canónico de minimización.</p>
+<p>Antes de construir la función Lagrangiana y derivar las ecuaciones del sistema, conviene analizar las propiedades analíticas y topológicas que justifican la validez y suficiencia de este marco en la programación lineal.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Propiedades analíticas y suficiencia de KKT en LP" data-kind="nota">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Propiedades analíticas y suficiencia de KKT en LP
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La estructura afín de la programación lineal le otorga propiedades topológicas excepcionales que simplifican notablemente el análisis:</p>
+<ol type="1">
+<li><strong>Convexidad del dominio y la función</strong>: La región factible <span class="math inline">\(S = \{x \in \mathbb{R}^n \mid A x \ge b, x \ge 0\}\)</span> está definida como la intersección de <span class="math inline">\(m + n\)</span> semiespacios afines cerrados y, por tanto, constituye un poliedro convexo. Asimismo, la función objetivo <span class="math inline">\(f(x) = c^T x\)</span> es afín (simultáneamente convexa y cóncava), lo que garantiza que cualquier mínimo local sea automáticamente un óptimo global.</li>
+<li><strong>Suficiencia de las condiciones KKT</strong>: Dado que las restricciones son afines, las cualificaciones de restricciones (como LICQ o la condición de Slater) se satisfacen de forma trivial en todo el espacio. En consecuencia, en programación lineal las condiciones de Karush-Kuhn-Tucker son <strong>necesarias y suficientes</strong> para la optimización global.</li>
+</ol>
+</div>
+</div>
+<p>Una vez fundamentada la suficiencia teórica del sistema KKT, procedemos a derivar explícitamente sus ecuaciones. Para ello, calculamos en primer lugar los gradientes individuales de la función objetivo y de cada conjunto de restricciones de desigualdad involucrados en (1)–(3):</p>
+<ul>
+<li><p><strong>Gradiente de la función objetivo</strong>: La función afín <span class="math inline">\(f(x) = c^T x\)</span> presenta un gradiente constante respecto al vector de variables primales, dado directamente por el vector de costes: <span class="math display">\[ \nabla f(x) = c \]</span></p></li>
+<li><p><strong>Gradientes de las <span class="math inline">\(m\)</span> restricciones generales de desigualdad</strong>: Reescribiendo las desigualdades generales (2) como <span class="math inline">\(g_i(x) = b_i - a^i x \le 0\)</span> para <span class="math inline">\(i = 1, \dots, m\)</span>, sus gradientes vienen dados por la traspuesta negativa de cada fila de la matriz <span class="math inline">\(A\)</span>: <span class="math display">\[ \nabla g_i(x) = -(a^i)^T, \quad i = 1, \dots, m \]</span> donde el vector fila <span class="math inline">\(a^i\)</span> representa la <span class="math inline">\(i\)</span>-ésima fila de la matriz de coeficientes <span class="math inline">\(A\)</span>.</p></li>
+<li><p><strong>Gradientes de las <span class="math inline">\(n\)</span> restricciones de no negatividad</strong>: Reescritas las desigualdades (3) como <span class="math inline">\(g_{m+j}(x) = -x_j \le 0\)</span> para <span class="math inline">\(j = 1, \dots, n\)</span>, sus gradientes equivalen al opuesto de los vectores de la base canónica: <span class="math display">\[ \nabla g_{m+j}(x) = -e^j, \quad j = 1, \dots, n \]</span> donde <span class="math inline">\(e^j\)</span> denota el <span class="math inline">\(j\)</span>-ésimo vector unitario de la base canónica de <span class="math inline">\(\mathbb{R}^n\)</span>.</p></li>
+</ul>
+<p>Con estos gradientes calculados, construimos la función Lagrangiana del problema asociando un vector de multiplicadores duales <span class="math inline">\(u = (u_1, \dots, u_m)^T \ge 0\)</span> a las restricciones generales de desigualdad (2), y un vector de multiplicadores <span class="math inline">\(v = (v_1, \dots, v_n)^T \ge 0\)</span> a las restricciones de no negatividad (3): <span class="math display">\[
+L(x, u, v) = c^T x + \sum_{i=1}^m u_i (b_i - a^i x) + \sum_{j=1}^n v_j (-x_j) = c^T x + u^T (b - A x) - v^T x
+\]</span></p>
+<p>Al imponer la condición de estacionariedad anulando el gradiente de la Lagrangiana respecto a <span class="math inline">\(x\)</span>, tenemos <span class="math inline">\(\nabla_x L(x, u, v) = c - A^T u - v = 0\)</span>. Juntando esta relación con la factibilidad de las soluciones y el principio de holgura complementaria, un triplete de vectores <span class="math inline">\((x, u, v)\)</span> satisface las <strong>condiciones necesarias y suficientes de Karush-Kuhn-Tucker</strong> si y solo si verifica de forma simultánea:</p>
+<ol type="1">
+<li><strong>Factibilidad primal</strong>: Exige que el vector <span class="math inline">\(x\)</span> sea una solución factible que cumpla todas las restricciones afines generales y de no negatividad del problema original: <span class="math display">\[ A x \ge b, \qquad x \ge 0 \]</span></li>
+<li><strong>Factibilidad dual y estacionariedad</strong>: Requiere el equilibrio entre el gradiente del coste y los gradientes de las restricciones ponderados por los multiplicadores nonegativos: <span class="math display">\[ c - A^T u - v = 0 \quad \text{con } u \ge 0 \text{ y } v \ge 0 \]</span> donde <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span> representan los multiplicadores de Lagrange asociados a las restricciones afines generales (2) y de no negatividad (3), respectivamente.</li>
+<li><strong>Holgura complementaria</strong>: Obliga a que el producto de cada multiplicador dual por la holgura de su correspondiente restricción primal sea nulo: <span class="math display">\[
+\begin{aligned}
+u_i (b_i - a^i x) = 0, \quad &amp; \forall i = 1, \dots, m \\
+v_i x_i = 0, \quad &amp; \forall i = 1, \dots, n
+\end{aligned}
+\]</span></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Estructura matricial y equivalencia dual del sistema KKT" data-kind="esquema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Estructura matricial y equivalencia dual del sistema KKT
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El sistema KKT en programación lineal establece una equivalencia directa entre el espacio primal y el espacio dual a través de tres componentes clave:</p>
+<ul>
+<li><strong>Factibilidad primal</strong>: <span class="math inline">\(A x \ge b, \quad x \ge 0 \implies\)</span> Garantiza la pertenencia de <span class="math inline">\(x\)</span> al poliedro factible del problema primal (P).</li>
+<li><strong>Factibilidad dual (estacionariedad)</strong>: <span class="math inline">\(c - A^T u - v = 0 \quad \text{con } u \ge 0, v \ge 0 \implies\)</span> Al despejar <span class="math inline">\(v = c - A^T u \ge 0\)</span>, exige la factibilidad del multiplicador <span class="math inline">\(u\)</span> en el problema dual (D), esto es, <span class="math inline">\(A^T u \le c\)</span> con <span class="math inline">\(u \ge 0\)</span>.</li>
+<li><strong>Holgura complementaria</strong>: <span class="math inline">\(u_i (b_i - a^i x) = 0 \quad (\forall i)\)</span> y <span class="math inline">\(v_i x_i = 0 \quad (\forall i) \implies\)</span> Vincula el holgura de las restricciones con la valoración económica marginal de las restricciones.</li>
+</ul>
+</div>
+</div>
+<p>La verdadera potencia analítica del sistema KKT radica en que funciona como un puente matemático directo entre el problema primal y su problema dual. Para evidenciar esta conexión fundamental, situamos en paralelo la formulación canónica del problema primal (P) y la de su problema dual asociado (D):</p>
+<p><span class="math display">\[
+\text{Primal (P):} \quad \begin{aligned} \min_{x \in \mathbb{R}^n} \quad &amp; c^T x \\ \text{sujeto a} \quad &amp; A x \ge b \\ &amp; x \ge 0 \end{aligned}
+\qquad \qquad
+\text{Dual (D):} \quad \begin{aligned} \max_{w \in \mathbb{R}^m} \quad &amp; b^T w \\ \text{sujeto a} \quad &amp; A^T w \le c \\ &amp; w \ge 0 \end{aligned}
+\]</span></p>
+<p>A continuación, analizamos las propiedades de cualquier triplete de vectores <span class="math inline">\((x, u, v)\)</span> que satisfaga el sistema de condiciones KKT expresado anteriormente. Al examinar cada condición, descubrimos dos resultados de enorme calado:</p>
+<p>En primer lugar, la <strong>factibilidad primal</strong> del sistema KKT (<span class="math inline">\(A x \ge b, x \ge 0\)</span>) asegura directamente que el vector <span class="math inline">\(x\)</span> es una solución factible para el problema primal (P).</p>
+<p>En segundo lugar, despejando el vector de multiplicadores <span class="math inline">\(v\)</span> de la condición de estacionariedad obtenemos <span class="math inline">\(v = c - A^T u\)</span>. Como las condiciones KKT exigen la no negatividad <span class="math inline">\(v \ge 0\)</span>, la sustitución directa produce la siguiente cadena formal de implicaciones equivalentes:</p>
+<p><span class="math display">\[
+\left. \begin{aligned} c - A^T u - v &amp;= 0 \\ u, v &amp;\ge 0 \end{aligned} \right\} \implies \left. \begin{aligned} v &amp;= c - A^T u \\ u, v &amp;\ge 0 \end{aligned} \right\} \implies \begin{aligned} c - A^T u &amp;\ge 0 \\ u &amp;\ge 0 \end{aligned} \iff \begin{aligned} A^T u &amp;\le c \\ u &amp;\ge 0 \end{aligned}
+\]</span></p>
+<p>Este desarrollo demuestra formalmente que el vector de multiplicadores KKT <span class="math inline">\(u \in \mathbb{R}^m\)</span> verifica las restricciones generales de desigualdad y de signo del problema dual, lo que significa que <strong><span class="math inline">\(u\)</span> es automáticamente una solución factible para el problema dual (D)</strong>.</p>
+<p>Una vez demostrada la factibilidad simultánea de <span class="math inline">\(x\)</span> en (P) y de <span class="math inline">\(u\)</span> en (D), el siguiente paso decisivo consiste en comparar los valores de sus respectivas funciones objetivo, <span class="math inline">\(c^T x\)</span> y <span class="math inline">\(b^T u\)</span>. Para ello, relacionamos la ecuación de estacionariedad con la holgura complementaria mediante dos operaciones algebraicas clave:</p>
+<p>Primero, premultiplicamos la ecuación de estacionariedad <span class="math inline">\(c - A^T u - v = 0\)</span> por la izquierda por el vector fila de variables primales no negativas <span class="math inline">\(x^T \ge 0\)</span>:</p>
+<p><span class="math display">\[
+c - A^T u - v = 0 \implies x^T (c - A^T u - v) = 0 \implies c^T x - u^T A x - v^T x = 0 \qquad (4)
+\]</span></p>
+<p>Segundo, sumamos las condiciones de holgura complementaria sobre todas sus componentes <span class="math inline">\(i = 1, \dots, m\)</span> y <span class="math inline">\(j = 1, \dots, n\)</span>, lo que nos permite agregar las ecuaciones individuales en expresiones matriciales compactas:</p>
+<p><span class="math display">\[
+\left. \begin{aligned} u_i (b_i - a^i x) = 0 \quad \forall i \\ v_i x_i = 0 \quad \forall i \end{aligned} \right\} \implies \left. \begin{aligned} \sum_{i=1}^m u_i (b_i - a^i x) = 0 \\ \sum_{i=1}^n v_i x_i = 0 \end{aligned} \right\} \implies \begin{aligned} b^T u = u^T A x \\ v^T x = 0 \end{aligned}
+\]</span></p>
+<p>Tercero, sustituimos las identidades resultantes <span class="math inline">\(u^T A x = b^T u\)</span> y <span class="math inline">\(v^T x = 0\)</span> directamente en la relación de estacionariedad premultiplicada (4). El término de acoplamiento <span class="math inline">\(u^T A x\)</span> se reemplaza por el coste dual <span class="math inline">\(b^T u\)</span> y el término <span class="math inline">\(v^T x\)</span> se anula, conduciendo a la igualdad exacta de valores objetivos:</p>
+<p><span class="math display">\[
+c^T x - b^T u = 0 \iff c^T x = b^T u
+\]</span></p>
+<p>Esta coincidencia prueba de forma categórica que en cualquier punto que satisfaga el sistema KKT, el salto dual (la diferencia entre el coste primal <span class="math inline">\(c^T x\)</span> y el beneficio dual <span class="math inline">\(b^T u\)</span>) es exactamente cero.</p>
+<p>Sintetizando estos tres hallazgos analíticos (factibilidad primal de <span class="math inline">\(x\)</span>, factibilidad dual de <span class="math inline">\(u\)</span> y salto dual nulo), llegamos al teorema central que permite certificar formalmente la optimalidad global:</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Certificación de optimalidad mediante condiciones KKT" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Certificación de optimalidad mediante condiciones KKT
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dada una solución <span class="math inline">\((x, u, v)\)</span> que satisface las condiciones de Karush-Kuhn-Tucker de un problema de programación lineal:</p>
+<ol type="1">
+<li><strong>Factibilidad primal</strong>: El vector de decisiones <span class="math inline">\(x\)</span> es una solución factible para el problema primal (P).</li>
+<li><strong>Factibilidad dual</strong>: El vector de multiplicadores KKT <span class="math inline">\(u\)</span> es una solución factible para el problema dual (D).</li>
+<li><strong>Salto dual nulo</strong>: El valor de la función objetivo primal coincide exactamente con el de la función objetivo dual (<span class="math inline">\(c^T x = b^T u\)</span>).</li>
+</ol>
+<p><strong>Conclusión</strong>: En virtud del Teorema de Dualidad Débil, al coincidir el valor de la función objetivo primal <span class="math inline">\(c^T x\)</span> con el de una solución factible dual <span class="math inline">\(b^T u\)</span>, queda demostrado formalmente que <strong><span class="math inline">\(x\)</span> es una solución óptima global del problema primal (P)</strong> y <strong><span class="math inline">\(u\)</span> es una solución óptima global del problema dual (D)</strong>.</p>
+</div>
+</div>
+</section>
+<section id="interpretación-económica-y-precios-sombra" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="interpretación-económica-y-precios-sombra"><span class="header-section-number">5.1.3</span> Interpretación económica y precios sombra</h3>
+<p>En el ámbito de la economía y la investigación operativa aplicadas a la gestión empresarial, la programación lineal se utiliza habitualmente para modelar problemas de planificación de la producción sujetos a restricciones de capacidad o presupuesto. En este marco, las variables primales <span class="math inline">\(x_j\)</span> representan los niveles de actividad (cantidades a producir de cada bien o servicio), mientras que los términos independientes <span class="math inline">\(b_i\)</span> cuantifican la disponibilidad máxima de los términos independientes.</p>
+<p>Los multiplicadores duales <span class="math inline">\(u_i^*\)</span> asociados a las restricciones generales de desigualdad en las condiciones KKT admiten una interpretación económica fundamental: representan los <strong>precios sombra</strong> (<em>shadow prices</em>) o valores marginales de los términos independientes. Matemáticamente, el precio sombra <span class="math inline">\(u_i^*\)</span> mide la tasa instantánea de variación del valor óptimo de la función objetivo ante un incremento marginal unitario en la término independiente <span class="math inline">\(b_i\)</span>:</p>
+<p><span class="math display">\[ u_i^* = \frac{\partial (c^T x^*)}{\partial b_i} \]</span></p>
+<p>Bajo esta perspectiva económica, la condición de holgura complementaria del sistema KKT, <span class="math inline">\(u_i^* (b_i - a^i x^*) = 0\)</span>, formaliza una regla de asignación de términos independientes sumamente intuitiva:</p>
+<ul>
+<li><strong>Restricción inactiva o excedentaria</strong>: Si en la solución óptima la restricción no se satura (<span class="math inline">\(a^i x^* &lt; b_i \implies b_i - a^i x^* &gt; 0\)</span>), existe una holgura en la restricción <span class="math inline">\(i\)</span>. Incrementar el término independiente de una restricción inactiva no genera beneficio adicional ni reduce el coste óptimo. Por tanto, su valor marginal o precio sombra es nulo (<span class="math inline">\(u_i^* = 0\)</span>).</li>
+<li><strong>Restricción activa o limitante</strong>: Si una restricción posee un precio sombra estrictamente positivo (<span class="math inline">\(u_i^* &gt; 0\)</span>), significa que dicha restricción limita la región factible y restringe la capacidad de optimización del sistema. Por consiguiente, la holgura debe anularse necesariamente en el óptimo (<span class="math inline">\(b_i - a^i x^* = 0\)</span>).</li>
+</ul>
+</section>
+<section id="clasificación-de-óptimos-y-relaciones-de-dualidad" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="clasificación-de-óptimos-y-relaciones-de-dualidad"><span class="header-section-number">5.1.4</span> Clasificación de óptimos y relaciones de dualidad</h3>
+<p>La geometría del poliedro factible <span class="math inline">\(S\)</span> y la independencia lineal de los gradientes de las restricciones activas en el punto óptimo determinan la estructura de las soluciones tanto del problema primal como de su problema dual asociado. Para analizar de forma rigurosa la caracterización de las soluciones mediante las condiciones KKT, conviene clasificar en primer lugar las propiedades analíticas de la solución:</p>
+<ol type="1">
+<li><strong>Finitud y existencialidad de la solución</strong>:
+<ul>
+<li><strong>Solución óptima finita</strong>: El valor óptimo de la función objetivo se alcanza en un valor real acotado. Ocurre siempre que el problema es factible y la función objetivo está acotada inferiormente en la región factible.</li>
+<li><strong>Problema no acotado</strong>: El valor objetivo decrece hacia <span class="math inline">\(-\infty\)</span> (en minimización) a lo largo de un rayo o dirección de recesión no acotada del poliedro.</li>
+<li><strong>Problema no factible</strong>: La región factible es vacía debido a la incompatibilidad de las restricciones.</li>
+</ul></li>
+<li><strong>Unicidad frente a multiplicidad de óptimos</strong>:
+<ul>
+<li><strong>Solución única</strong>: El mínimo global se alcanza exclusivamente en un único vértice o punto del poliedro.</li>
+<li><strong>Múltiples soluciones óptimas</strong>: El vector de costes es ortogonal a una arista o cara de dimensión <span class="math inline">\(d \ge 1\)</span> del poliedro. El conjunto de óptimos es el casco convexo de los vértices extremos óptimos más, en su caso, una combinación lineal positiva de direcciones extremas óptimas.</li>
+</ul></li>
+<li><strong>Degeneración primal y dual</strong>:
+<ul>
+<li><strong>Degeneración primal</strong>: En un espacio de dimensión <span class="math inline">\(n\)</span>, una solución es <strong>no degenerada</strong> si en ella se cortan exactamente <span class="math inline">\(n\)</span> restricciones activas linealmente independientes (verificando la cualificación LICQ). Es <strong>degenerada</strong> si convergen más de <span class="math inline">\(n\)</span> restricciones activas (sobredeterminación geométrica), rompiendo la independencia lineal de los gradientes activos. En tal escenario, el punto satisface las condiciones generales de Fritz John (FJ) y admite infinitos vectores de multiplicadores KKT válidos.</li>
+<li><strong>Degeneración dual</strong>: Una solución del problema dual es <strong>degenerada</strong> si presenta al menos un multiplicador dual nulo (<span class="math inline">\(u_i^* = 0\)</span>) asociado a una restricción primal estrictamente activa (<span class="math inline">\(b_i - a^i x^* = 0\)</span>). Analíticamente, esto indica que la restricción activa es “prescindible” para equilibrar la dirección de descenso <span class="math inline">\(-\nabla f\)</span>, lo que en la geometría dual corresponde a una solución básica dual con componentes nulas adicionales.</li>
+</ul></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Análisis por casos de las condiciones KKT en programación lineal" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Análisis por casos de las condiciones KKT en programación lineal
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A continuación se ilustra la relación entre la geometría del primal y del dual analizando seis escenarios representativos.</p>
+<p><strong>Caso 1: El problema tiene solución óptima finita única y no degenerada</strong></p>
+<p>Consideremos el problema de minimización con tres restricciones generales de desigualdad: <span class="math display">\[
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad &amp; -x - 2y \\
+\text{sujeto a} \quad &amp; x + y - 4 \le 0 \quad (g_1) \\
+&amp; -x + y - 2 \le 0 \quad (g_2) \\
+&amp; 2x + y - 7 \le 0 \quad (g_3) \\
+&amp; x, y \ge 0
+\end{aligned}
+\]</span></p>
+<p>Como se ilustra en la <a href="#fig-lp-caso1" class="quarto-xref">Figura&nbsp;<span>5.2</span></a>, el vector de descenso <span class="math inline">\(-\nabla f = (1,2)^T\)</span> desplaza el óptimo al vértice extremo <span class="math inline">\(\bar{x} = (1,3)\)</span>, donde se alcanza un coste mínimo finito de <span class="math inline">\(f(1,3) = -7\)</span>. En el punto <span class="math inline">\((1,3)\)</span>, las únicas restricciones activas son <span class="math inline">\(g_1(1,3) = 0\)</span> y <span class="math inline">\(g_2(1,3) = 0\)</span>. Al ser <span class="math inline">\(n=2\)</span> la dimensión del espacio y cortarse exactamente <span class="math inline">\(n=2\)</span> restricciones activas cuyos gradientes <span class="math inline">\(\nabla g_1 = (1,1)^T\)</span> y <span class="math inline">\(\nabla g_2 = (-1,1)^T\)</span> forman una base linealmente independiente en <span class="math inline">\(\mathbb{R}^2\)</span>, la solución primal es <strong>finita, única y no degenerada</strong>.</p>
+<p>Al plantear la condición de estacionariedad KKT <span class="math inline">\(-\nabla f(1,3) = u_1 \nabla g_1 + u_2 \nabla g_2\)</span>: <span class="math display">\[
+\begin{pmatrix} 1 \\ 2 \end{pmatrix} = u_1 \begin{pmatrix} 1 \\ 1 \end{pmatrix} + u_2 \begin{pmatrix} -1 \\ 1 \end{pmatrix} \implies u_1^* = \frac{3}{2} &gt; 0, \quad u_2^* = \frac{1}{2} &gt; 0, \quad u_3^* = 0
+\]</span> Dado que los gradientes de las restricciones activas forman base y ambos multiplicadores son estrictamente positivos, el vector dual <span class="math inline">\(w^* = (3/2, 1/2, 0)^T\)</span> es único. Por consiguiente, <strong>el problema dual tiene solución óptima finita única no degenerada</strong>.</p>
+<div id="fig-lp-caso1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lp-caso1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lp_caso1_unica_no_deg.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figura&nbsp;5.2: Caso 1: Solución óptima finita única no degenerada"><img src="images/lp_caso1_unica_no_deg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lp-caso1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.2: Caso 1: Solución óptima finita única no degenerada
+</figcaption>
+</figure>
+</div>
+<p><strong>Caso 2: El problema tiene solución óptima finita única degenerada</strong></p>
+<p>Se añade al problema anterior la restricción redundante <span class="math inline">\(g_4(x, y) = y - 3 \le 0\)</span>: <span class="math display">\[
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad &amp; -x - 2y \\
+\text{sujeto a} \quad &amp; x + y - 4 \le 0 \quad (g_1) \\
+&amp; -x + y - 2 \le 0 \quad (g_2) \\
+&amp; 2x + y - 7 \le 0 \quad (g_3) \\
+&amp; y - 3 \le 0 \quad (g_4 \text{ redundante}) \\
+&amp; x, y \ge 0
+\end{aligned}
+\]</span></p>
+<p>La solución óptima primal sigue siendo el vértice <span class="math inline">\((1,3)\)</span> con valor finito <span class="math inline">\(f(1,3) = -7\)</span>. Sin embargo, como muestra la <a href="#fig-lp-caso2" class="quarto-xref">Figura&nbsp;<span>5.3</span></a>, en dicho punto coinciden tres restricciones activas: <span class="math inline">\(g_1, g_2\)</span> y <span class="math inline">\(g_4\)</span>. Al haber <span class="math inline">\(m = 3\)</span> restricciones activas para <span class="math inline">\(n = 2\)</span> variables, el punto presenta sobredeterminación geométrica. Los gradientes <span class="math inline">\(\nabla g_1 = (1,1)^T\)</span>, <span class="math inline">\(\nabla g_2 = (-1,1)^T\)</span> y <span class="math inline">\(\nabla g_4 = (0,1)^T\)</span> no son linealmente independientes (se rompe LICQ).</p>
+<p>Aunque el punto satisface la condición de Fritz John (FJ), existen múltiples combinaciones de multiplicadores para expresar <span class="math inline">\(-\nabla f\)</span> como combinación lineal no negativa de los gradientes activos. Cumplen KKT tanto <span class="math inline">\(u = (u_1, u_2, u_4) = (3/2, 1/2, 0)\)</span> como <span class="math inline">\(u' = (u_1, u_2, u_4) = (1, 0, 1)\)</span>. Cualquier combinación convexa <span class="math inline">\(\lambda u + (1-\lambda) u'\)</span> (<span class="math inline">\(\forall \lambda \in [0,1]\)</span>) es también solución del dual. Por tanto, <strong>el problema dual tiene múltiples soluciones óptimas</strong>.</p>
+<div id="fig-lp-caso2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lp-caso2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lp_caso2_unica_deg.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figura&nbsp;5.3: Caso 2: Solución óptima finita única degenerada"><img src="images/lp_caso2_unica_deg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lp-caso2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.3: Caso 2: Solución óptima finita única degenerada
+</figcaption>
+</figure>
+</div>
+<p><strong>Caso 3: El problema tiene múltiples soluciones no degeneradas</strong></p>
+<p>Se modifica la función objetivo a <span class="math inline">\(f(x, y) = -x - y\)</span>, manteniendo las tres restricciones originales: <span class="math display">\[
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad &amp; -x - y \\
+\text{sujeto a} \quad &amp; x + y - 4 \le 0 \quad (g_1) \\
+&amp; -x + y - 2 \le 0 \quad (g_2) \\
+&amp; 2x + y - 7 \le 0 \quad (g_3) \\
+&amp; x, y \ge 0
+\end{aligned}
+\]</span></p>
+<p>El vector opuesto de gradiente es <span class="math inline">\(-\nabla f = (1,1)^T\)</span>, paralelo al gradiente de la restricción <span class="math inline">\(\nabla g_1 = (1,1)^T\)</span>. Como muestra la <a href="#fig-lp-caso3" class="quarto-xref">Figura&nbsp;<span>5.4</span></a>, el conjunto de soluciones óptimas primales es el segmento continuo entre <span class="math inline">\((1,3)\)</span> y <span class="math inline">\((3,1)\)</span>. El problema primal admite <strong>múltiples soluciones óptimas finitas</strong>.</p>
+<p>En los puntos interiores de la arista óptima, la única restricción activa es <span class="math inline">\(g_1\)</span>, siendo <span class="math inline">\(u_1^* = 1\)</span> y el resto nulos. Al analizar los vértices extremos: - En <span class="math inline">\((1,3)\)</span>: convergen <span class="math inline">\(g_1\)</span> y <span class="math inline">\(g_2\)</span>, pero el multiplicador asociado a <span class="math inline">\(g_2\)</span> es nulo (<span class="math inline">\(u_2^* = 0\)</span>). - En <span class="math inline">\((3,1)\)</span>: convergen <span class="math inline">\(g_1\)</span> y <span class="math inline">\(g_3\)</span>, pero el multiplicador asociado a <span class="math inline">\(g_3\)</span> es nulo (<span class="math inline">\(u_3^* = 0\)</span>).</p>
+<p>Por tanto, la solución del dual tendrá a lo sumo una variable no nula (<span class="math inline">\(u_1 = 1\)</span>), demostrando que <strong>el problema dual tiene al menos una solución degenerada</strong>.</p>
+<div id="fig-lp-caso3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lp-caso3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lp_caso3_multiples_no_deg.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figura&nbsp;5.4: Caso 3: Múltiples soluciones no degeneradas"><img src="images/lp_caso3_multiples_no_deg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lp-caso3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.4: Caso 3: Múltiples soluciones no degeneradas
+</figcaption>
+</figure>
+</div>
+<p><strong>Caso 4: El problema tiene múltiples soluciones y al menos una es degenerada</strong></p>
+<p>Se minimiza <span class="math inline">\(f(x, y) = -x - y\)</span> incluyendo la restricción redundante <span class="math inline">\(g_4(x, y) = y - 3 \le 0\)</span>: <span class="math display">\[
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad &amp; -x - y \\
+\text{sujeto a} \quad &amp; x + y - 4 \le 0 \quad (g_1) \\
+&amp; -x + y - 2 \le 0 \quad (g_2) \\
+&amp; 2x + y - 7 \le 0 \quad (g_3) \\
+&amp; y - 3 \le 0 \quad (g_4 \text{ redundante}) \\
+&amp; x, y \ge 0
+\end{aligned}
+\]</span></p>
+<p>Como se ilustra geométricamente en la <a href="#fig-lp-caso4a" class="quarto-xref">Figura&nbsp;<span>5.5</span></a>, la totalidad del segmento continuo entre los vértices <span class="math inline">\((1,3)\)</span> y <span class="math inline">\((3,1)\)</span> constituye el conjunto de soluciones óptimas primales (todas las combinaciones convexas de ambos vértices).</p>
+<div id="fig-lp-caso4a" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lp-caso4a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lp_caso4a_geometria.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figura&nbsp;5.5: Caso 4 (Geometría): Región factible con arista óptima entre (1,3) y (3,1)"><img src="images/lp_caso4a_geometria.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lp-caso4a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.5: Caso 4 (Geometría): Región factible con arista óptima entre (1,3) y (3,1)
+</figcaption>
+</figure>
+</div>
+<p>Sin embargo, al analizar la estructura dual en la <a href="#fig-lp-caso4b" class="quarto-xref">Figura&nbsp;<span>5.6</span></a>: - La solución del dual asociada al vértice <span class="math inline">\((1,3)\)</span> es <strong>degenerada</strong>, ya que en él convergen tres restricciones activas (<span class="math inline">\(g_1, g_2, g_4\)</span>), lo que genera sobredeterminación geométrica y requiere dos multiplicadores nulos (<span class="math inline">\(u_2 = 0\)</span> y <span class="math inline">\(u_4 = 0\)</span>). - Las soluciones asociadas a los puntos interiores del segmento óptimo no son degeneradas, pues por hipótesis la matriz de restricciones activas en el interior mantiene rango máximo.</p>
+<p>Por tanto, como en el caso anterior, <strong>el problema dual tiene solución degenerada</strong>, con la particularidad de que en el vértice <span class="math inline">\((1,3)\)</span> existen dos multiplicadores nulos (<span class="math inline">\(u_2\)</span> y <span class="math inline">\(u_4\)</span>).</p>
+<div id="fig-lp-caso4b" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lp-caso4b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lp_caso4b_gradientes.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figura&nbsp;5.6: Caso 4 (Gradientes): Sobredeterminación en (1,3) y multiplicadores nulos duales"><img src="images/lp_caso4b_gradientes.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lp-caso4b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.6: Caso 4 (Gradientes): Sobredeterminación en (1,3) y multiplicadores nulos duales
+</figcaption>
+</figure>
+</div>
+<p><strong>Caso 5: El problema tiene solución no acotada</strong></p>
+<p>Se elimina la restricción superior <span class="math inline">\(g_1\)</span>: <span class="math display">\[
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad &amp; -x - y \\
+\text{sujeto a} \quad &amp; -x + y - 2 \le 0 \quad (g_2) \\
+&amp; 2x + y - 7 \le 0 \quad (g_3) \\
+&amp; x, y \ge 0
+\end{aligned}
+\]</span></p>
+<p>El valor objetivo decrece hacia <span class="math inline">\(-\infty\)</span> sobre un rayo de recesión. Ningún punto verifica las condiciones KKT. Por tanto, como muestra la <a href="#fig-lp-caso5" class="quarto-xref">Figura&nbsp;<span>5.7</span></a>, <strong>el problema dual no tiene solución (es no factible)</strong>.</p>
+<div id="fig-lp-caso5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lp-caso5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lp_caso5_no_acotado.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figura&nbsp;5.7: Caso 5: Primal no acotado"><img src="images/lp_caso5_no_acotado.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lp-caso5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.7: Caso 5: Primal no acotado
+</figcaption>
+</figure>
+</div>
+<p><strong>Caso 6: El problema es no factible</strong></p>
+<p>Se definen restricciones contradictorias que generan una región vacía: <span class="math display">\[
+\begin{aligned}
+\min_{x, y \in \mathbb{R}} \quad &amp; -x - 2y \\
+\text{sujeto a} \quad &amp; x + y - 1 \le 0 \\
+&amp; -x - y + 3.5 \le 0 \\
+&amp; x, y \ge 0
+\end{aligned}
+\]</span></p>
+<p>La región factible primal es vacía (<a href="#fig-lp-caso6" class="quarto-xref">Figura&nbsp;<span>5.8</span></a>). Aplicando KKT al dual, este no puede poseer solución óptima finita, concluyendo que <strong>el problema dual es no factible o tiene solución no acotada</strong>.</p>
+<div id="fig-lp-caso6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lp-caso6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lp_caso6_no_factible.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figura&nbsp;5.8: Caso 6: Primal no factible"><img src="images/lp_caso6_no_factible.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lp-caso6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.8: Caso 6: Primal no factible
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>En síntesis, el análisis geométrico y analítico por casos permite establecer las siguientes relaciones de equivalencia fundamentales entre las propiedades del problema primal y de su correspondiente problema dual:</p>
+<ul>
+<li>Si el problema primal posee una solución óptima finita <strong>única y degenerada</strong>, entonces el problema dual posee <strong>múltiples soluciones óptimas</strong>.</li>
+<li>Si el problema primal posee <strong>múltiples soluciones óptimas</strong>, entonces el problema dual posee una solución óptima <strong>degenerada</strong>.</li>
+</ul>
+<p>Dado que la dualidad en programación lineal constituye una propiedad involutiva (el problema dual del dual coincide algebraicamente con el primal original), se obtiene el resultado recíproco de caracterización global:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposición: Equivalencia de dualidad entre degeneración y múltiples óptimos" data-kind="corolario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposición: Equivalencia de dualidad entre degeneración y múltiples óptimos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un problema de optimización lineal y su correspondiente problema dual asociado, uno de los dos problemas posee una solución óptima finita <strong>degenerada</strong> si y solo si el otro problema posee <strong>múltiples puntos óptimos</strong>.</p>
+</div>
+</div>
+<p>La siguiente tabla sintetiza la matriz de correspondencia completa entre los escenarios de optimalidad y existencialidad del problema primal y del problema dual:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estado del Problema Primal</th>
+<th style="text-align: left;">Estado del Problema Dual Asociado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Óptimo Único No Degenerado</strong></td>
+<td style="text-align: left;">Óptimo Único No Degenerado</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Óptimo Único Degenerado</strong></td>
+<td style="text-align: left;">Múltiples Soluciones Óptimas</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Múltiples Soluciones Óptimas</strong></td>
+<td style="text-align: left;">Óptimo Único Degenerado</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>No Acotado (<span class="math inline">\(f \to -\infty\)</span>)</strong></td>
+<td style="text-align: left;">No Factible (Región Dual Vacía)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>No Factible (Región Primal Vacía)</strong></td>
+<td style="text-align: left;">No Factible o No Acotado</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="programación-cuadrática-qp" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="programación-cuadrática-qp"><span class="header-section-number">5.2</span> Programación cuadrática (QP)</h2>
+<p>La <strong>Programación Cuadrática</strong> (QP, por sus siglas en inglés, <em>Quadratic Programming</em>) constituye una clase fundamental de optimización no lineal donde la función objetivo es una expresión de segundo grado (cuadrática) y las restricciones que delimitan la región factible son estrictamente afines o lineales de igualdad y desigualdad.</p>
+<p>Consideremos el modelo estándar general de optimización cuadrática, habitualmente denotado por (C):</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min_{x \in \mathbb{R}^n} \quad &amp; f(x) = c^T x + \frac{1}{2} x^T Q x \\
+\text{sujeto a} \quad &amp; A x \ge b \\
+&amp; x \ge 0
+\end{aligned}
+\tag{C}
+\]</span></p>
+<p>donde <span class="math inline">\(x \in \mathbb{R}^n\)</span> es el vector de variables de decisión, <span class="math inline">\(c \in \mathbb{R}^n\)</span> representa el vector de costes lineales, <span class="math inline">\(Q \in \mathbb{R}^{n \times n}\)</span> es una matriz cuadrada simétrica (<span class="math inline">\(Q = Q^T\)</span>) que recoge los coeficientes cuadráticos y las interacciones cruzadas entre variables, <span class="math inline">\(A \in \mathbb{R}^{m \times n}\)</span> es la matriz de coeficientes de las <span class="math inline">\(m\)</span> restricciones, y <span class="math inline">\(b \in \mathbb{R}^m\)</span> es el vector de términos independientes o términos independientes. La región factible <span class="math inline">\(S = \{x \in \mathbb{R}^n : A x \ge b, \ x \ge 0\}\)</span> viene dada por la intersección finita de semiespacios cerrados, constituyendo por tanto un conjunto <strong>convexo y poliédrico</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Observación: Interpretación geométrica de la función objetivo cuadrática" data-kind="nota">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Observación: Interpretación geométrica de la función objetivo cuadrática
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cuando la matriz <span class="math inline">\(Q\)</span> es definida positiva (<span class="math inline">\(Q \succ 0\)</span>), la función cuadrática <span class="math inline">\(f(x)\)</span> posee un único mínimo libre no restringido en <span class="math inline">\(x^0 = -Q^{-1} c\)</span>. Sus curvas de nivel <span class="math inline">\(f(x) = k\)</span> forman elipsoides concéntricos centrados en <span class="math inline">\(x^0\)</span>. Desde una perspectiva geométrica, resolver el problema (C) equivale a encontrar el punto del poliedro factible <span class="math inline">\(S\)</span> más cercano a <span class="math inline">\(x^0\)</span> según la métrica inducida por la matriz <span class="math inline">\(Q\)</span>.</p>
+</div>
+</div>
+<section id="derivación-formal-del-sistema-kkt" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="derivación-formal-del-sistema-kkt"><span class="header-section-number">5.2.1</span> Derivación formal del sistema KKT</h3>
+<p>Para obtener las condiciones KKT del modelo (C), reescribimos en primer lugar las restricciones en la forma canónica <span class="math inline">\(\le 0\)</span>: <span class="math display">\[
+b - A x \le 0, \quad -x \le 0
+\]</span></p>
+<p>Asociamos a las <span class="math inline">\(m\)</span> restricciones generales de desigualdad <span class="math inline">\(A x \ge b\)</span> un vector de multiplicadores duales <span class="math inline">\(u = (u_1, \dots, u_m)^T \ge 0\)</span>, y a las <span class="math inline">\(n\)</span> restricciones de no negatividad de las variables <span class="math inline">\(x \ge 0\)</span> un vector de multiplicadores de holgura duales <span class="math inline">\(v = (v_1, \dots, v_n)^T \ge 0\)</span>. La función Lagrangiana extendida del problema adopta la forma:</p>
+<p><span class="math display">\[
+L(x, u, v) = c^T x + \frac{1}{2} x^T Q x + u^T (b - A x) - v^T x
+\]</span></p>
+<p>Derivando parcialmente la Lagrangiana con respecto al vector primal <span class="math inline">\(x\)</span> e imponiendo el sistema completo de estacionariedad, factibilidad y holgura complementaria, se obtiene el sistema KKT formal estructurado en tres bloques fundamentales:</p>
+<ol type="1">
+<li><strong>Condiciones de factibilidad primal</strong>:
+<ul>
+<li><strong>Factibilidad de las restricciones afines generales (<span class="math inline">\(b - A x \le 0\)</span>)</strong>: Exige que la solución <span class="math inline">\(x\)</span> satisfaga simultáneamente la totalidad de las <span class="math inline">\(m\)</span> restricciones generales de desigualdad <span class="math inline">\(A x \ge b\)</span>.</li>
+<li><strong>Factibilidad de no negatividad de las variables (<span class="math inline">\(x \ge 0\)</span>)</strong>: Garantiza que el vector de variables de decisión <span class="math inline">\(x \in \mathbb{R}^n\)</span> pertenezca al ortante no negativo.</li>
+</ul></li>
+<li><strong>Condiciones de factibilidad dual y estacionariedad</strong>:
+<ul>
+<li><strong>Estacionariedad de la función Lagrangiana (<span class="math inline">\(\nabla_x L(x, u, v) = c + Q x - A^T u - v = 0\)</span>)</strong>: Representa el equilibrio vectorial en el punto óptimo. Esta ecuación de factibilidad dual establece que el gradiente de la función objetivo cuadrática, <span class="math inline">\(\nabla f(x) = c + Q x\)</span>, debe poder expresarse como combinación lineal no negativa de los gradientes de las restricciones activas, <span class="math inline">\(A^T u + v\)</span>.</li>
+<li><strong>No negatividad de los multiplicadores duales (<span class="math inline">\(u \ge 0, v \ge 0\)</span>)</strong>: Asegura que los multiplicadores duales <span class="math inline">\(u \in \mathbb{R}^m\)</span> asociados a las restricciones generales de desigualdad y <span class="math inline">\(v \in \mathbb{R}^n\)</span> asociados a las barreras de no negatividad orienten los vectores normales en sentido opuesto a las direcciones de descenso.</li>
+</ul></li>
+<li><strong>Condiciones de holgura complementaria</strong>:
+<ul>
+<li><strong>Complementariedad de las restricciones generales (<span class="math inline">\(u_i (b_i - a^i x) = 0, \forall i = 1, \dots, m\)</span>)</strong>: Establece que si una restricción general es inactiva (<span class="math inline">\(b_i - a^i x &lt; 0\)</span>), su multiplicador dual o precio sombra asociado debe ser nulo (<span class="math inline">\(u_i = 0\)</span>). Recíprocamente, si el multiplicador es estrictamente positivo (<span class="math inline">\(u_i &gt; 0\)</span>), la restricción debe verificarse como igualdad estricta (<span class="math inline">\(a^i x = b_i\)</span>).</li>
+<li><strong>Complementariedad de no negatividad (<span class="math inline">\(v_i x_i = 0, \forall i = 1, \dots, n\)</span>)</strong>: Garantiza que si una variable de decisión es positiva (<span class="math inline">\(x_i &gt; 0\)</span>), su holgura dual asociada debe anularse (<span class="math inline">\(v_i = 0\)</span>), mientras que si la variable se ubica en su límite inferior (<span class="math inline">\(x_i = 0\)</span>), la holgura dual <span class="math inline">\(v_i \ge 0\)</span> puede tomar valores positivos.</li>
+</ul></li>
+</ol>
+<p>donde <span class="math inline">\(a^i\)</span> denota la fila <span class="math inline">\(i\)</span>-ésima de la matriz de coeficientes <span class="math inline">\(A\)</span>.</p>
+<p>Cuando la función objetivo <span class="math inline">\(f(x)\)</span> es convexa (propiedad que se verifica si y solo si la matriz <span class="math inline">\(Q\)</span> es <strong>semidefinida positiva</strong>, <span class="math inline">\(Q \succeq 0\)</span>, es decir, <span class="math inline">\(x^T Q x \ge 0\)</span> para todo <span class="math inline">\(x \in \mathbb{R}^n\)</span>), las condiciones necesarias de Karush-Kuhn-Tucker resultan también <strong>suficientes</strong> para certificar la optimalidad global.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposición: Suficiencia de las condiciones KKT en QP convexa" data-kind="corolario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposición: Suficiencia de las condiciones KKT en QP convexa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si la matriz de términos cuadráticos <span class="math inline">\(Q\)</span> es semidefinida positiva (<span class="math inline">\(Q \succeq 0\)</span>), el problema de programación cuadrática (C) es convexo. En consecuencia, <strong>cualquier solución que satisfaga el sistema de condiciones KKT es una solución óptima global del problema (C)</strong>.</p>
+</div>
+</div>
+<p>Sin embargo, si la convexidad no se satisface, el panorama analítico cambia sustancialmente:</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Advertencia: Importancia crítica de la convexidad ($Q \succeq 0$)" data-kind="advertencia">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Advertencia: Importancia crítica de la convexidad (<span class="math inline">\(Q \succeq 0\)</span>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si la matriz <span class="math inline">\(Q\)</span> no es semidefinida positiva (posee autovalores estrictamente negativos), el problema cuadrático deja de ser convexo. En tal escenario, las condiciones KKT son únicamente necesarias pero no suficientes, pudiendo caracterizar máximos locales o puntos de silla, y los algoritmos basados en pivotes lineales como el de Wolfe no garantizan la convergencia al óptimo global.</p>
+</div>
+</div>
+</section>
+<section id="transformación-mediante-variables-de-holgura-y-linealidad-del-sistema" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="transformación-mediante-variables-de-holgura-y-linealidad-del-sistema"><span class="header-section-number">5.2.2</span> Transformación mediante variables de holgura y linealidad del sistema</h3>
+<p>Para transformar las desigualdades primales <span class="math inline">\(b - A x \le 0\)</span> en ecuaciones lineales manejables algebraicamente por algoritmos de pivote, introducimos un vector de <strong>variables primales de holgura</strong> no negativas <span class="math inline">\(y = (y_1, \dots, y_m)^T \ge 0\)</span>. De este modo:</p>
+<p><span class="math display">\[
+b - A x \le 0 \iff b - A x + y = 0, \quad \text{con } y \ge 0
+\]</span></p>
+<p>Analíticamente, se verifica la equivalencia directa entre el exceso de la restricción y el valor de la variable de holgura:</p>
+<p><span class="math display">\[
+b_i - a^i x &lt; 0 \iff y_i &gt; 0, \quad \forall i = 1, \dots, m
+\]</span></p>
+<p>Sustituyendo esta relación en la primera condición de holgura complementaria, el producto escalar <span class="math inline">\(u_i (b_i - a^i x) = 0\)</span> equivale a la condición de ortogonalidad escalar:</p>
+<p><span class="math display">\[
+u_i y_i = 0, \quad \forall i = 1, \dots, m
+\]</span></p>
+<p>Dado que todas las variables del sistema son estrictamente no negativas (<span class="math inline">\(u, v, x, y \ge 0\)</span>), la anulación de cada producto individual <span class="math inline">\(u_i y_i = 0\)</span> y <span class="math inline">\(v_i x_i = 0\)</span> para todo <span class="math inline">\(i\)</span> equivale a exigir que la suma de sus productos escalares se anule globalmente:</p>
+<p><span class="math display">\[
+\begin{cases}
+u_i y_i = 0, &amp; \forall i = 1, \dots, m \\
+v_i x_i = 0, &amp; \forall i = 1, \dots, n
+\end{cases}
+\iff \sum_{i=1}^m u_i y_i + \sum_{i=1}^n v_i x_i = 0 \iff u^T y + v^T x = 0
+\]</span></p>
+<p>Agrupando el conjunto de relaciones obtenidas, el sistema KKT de la programación cuadrática convexa (C) se expresa inicialmente en la siguiente forma algebraica estandarizada:</p>
+<p><span class="math display">\[
+\begin{aligned}
+b - A x + y &amp;= 0 \\
+c + Q x - A^T u - v &amp;= 0 \\
+x, y, u, v &amp;\ge 0 \\
+u^T y + v^T x &amp;= 0
+\end{aligned}
+\]</span></p>
+<p>Este planteamiento formal revela una propiedad matemática fundamental para la resolución computacional: excepto por el último conjunto de restricciones no lineal de holgura complementaria (<span class="math inline">\(u^T y + v^T x = 0\)</span>), todo el resto del sistema de ecuaciones (factibilidad primal <span class="math inline">\(b - A x + y = 0\)</span> y estacionariedad <span class="math inline">\(c + Q x - A^T u - v = 0\)</span>) es <strong>estrictamente lineal</strong>.</p>
+</section>
+<section id="algoritmo-del-símplex-de-wolfe-con-regla-de-entrada-restringida" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="algoritmo-del-símplex-de-wolfe-con-regla-de-entrada-restringida"><span class="header-section-number">5.2.3</span> Algoritmo del Símplex de Wolfe con regla de entrada restringida</h3>
+<p>Como consecuencia de esta estructura parcialmente lineal, es posible resolver el sistema KKT (y, por tanto, hallar la solución óptima del problema cuadrático convexo C) adaptando las operaciones matriciales de pivote del algoritmo del Símplex lineal.</p>
+<p>Para lograr este objetivo, se siguen los siguientes tres pasos:</p>
+<ol type="1">
+<li><strong>Se relaja la restricción de holgura complementaria</strong> <span class="math inline">\(u^T y + v^T x = 0\)</span>.</li>
+<li><strong>Se añaden variables artificiales</strong> no negativas <span class="math inline">\(z = (z_1, \dots, z_n)^T \ge 0\)</span> al conjunto de ecuaciones de estacionariedad (Factibilidad dual 1), obteniendo <span class="math inline">\(c + Q x - A^T u - v + z = 0\)</span> con <span class="math inline">\(z \ge 0\)</span>.</li>
+<li><strong>Se intenta que estas variables artificiales tomen el valor cero</strong> resolviendo el siguiente problema de programación lineal auxiliar:</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+\min \quad &amp; \sum_{i=1}^n z_i \\
+\text{sujeto a} \quad &amp; b - A x + y = 0 \\
+&amp; c + Q x - A^T u - v + z = 0 \\
+&amp; x, y, u, v, z \ge 0
+\end{aligned}
+\]</span></p>
+<p>Para garantizar que la solución del problema de programación lineal auxiliar sea una solución válida y exacta del problema cuadrático original (C), hay que modificar el criterio de selección de la variable candidata a entrar en la base del Símplex aplicando la <strong>regla de entrada restringida</strong> (<em>restricted entry rule</em>) de Wolfe:</p>
+<ul>
+<li><strong>Regla de complementariedad primal-dual (<span class="math inline">\(u_i, y_i\)</span>)</strong>: La variable multiplicadora dual <span class="math inline">\(u_i\)</span> <strong>no es candidata</strong> a entrar en la base Símplex si su correspondiente variable de holgura primal <span class="math inline">\(y_i\)</span> es básica (<span class="math inline">\(y_i \in \text{Base}\)</span>), y viceversa.</li>
+<li><strong>Regla de complementariedad de no negatividad (<span class="math inline">\(v_j, x_j\)</span>)</strong>: La variable de holgura dual <span class="math inline">\(v_j\)</span> <strong>no es candidata</strong> a entrar en la base Símplex si la correspondiente variable primal <span class="math inline">\(x_j\)</span> es básica (<span class="math inline">\(x_j \in \text{Base}\)</span>), y viceversa.</li>
+</ul>
+<p>Al resolver el problema de programación lineal auxiliar bajo la regla de entrada restringida, se obtienen los siguientes dos criterios de caracterización global:</p>
+<ul>
+<li><strong>Si el valor óptimo de este problema es 0</strong> (<span class="math inline">\(\min \sum z_i = 0\)</span>), todas las variables artificiales han abandonado la base (<span class="math inline">\(z^* = 0\)</span>). Como la regla de pivote restringido impide que variables complementarias formen parte de la base simultáneamente, la solución básica resultante satisface la complementariedad <span class="math inline">\(u^{*T} y^* + v^{*T} x^* = 0\)</span>, por lo que el vector <span class="math inline">\(x^*\)</span> <strong>es la solución óptima para (C)</strong>.</li>
+<li><strong>Por el contrario, si es estrictamente positivo</strong> (<span class="math inline">\(\min \sum z_i &gt; 0\)</span>), resulta imposible reducir las variables artificiales a cero respetando la regla de entrada restringida. En tal caso, la condición de complementariedad no puede satisfacerse de forma simultánea con la factibilidad, por lo que <strong>el problema (C) NO tiene solución</strong> (es no factible).</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Nota: Garantía de convergencia finita del algoritmo de Wolfe" data-kind="nota">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota: Garantía de convergencia finita del algoritmo de Wolfe
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Puesto que el algoritmo del Símplex modificado por Wolfe opera sobre el conjunto de soluciones básicas factibles del sistema de ecuaciones lineales ampliado (el cual consta de un número finito de bases posibles) y la función objetivo auxiliar <span class="math inline">\(\sum z_i\)</span> decrece de manera monótona a cada paso de pivote, se garantiza que el algoritmo finaliza en un número finito de iteraciones.</p>
+</div>
+</div>
+<p>Para fijar los conceptos teóricos presentados y comprender de forma intuitiva el funcionamiento algebraico y geométrico del algoritmo del Símplex de Wolfe, a continuación se resuelve detalladamente un problema completo de programación cuadrática convexa en dos dimensiones.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Resolución completa mediante el algoritmo del símplex de Wolfe">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Resolución completa mediante el algoritmo del símplex de Wolfe
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Enunciado del problema</strong>: Consideremos el problema de optimización cuadrática en el que se busca minimizar la distancia euclídea al cuadrado desde las variables <span class="math inline">\((x_1, x_2)\)</span> al punto objetivo <span class="math inline">\((4,4)\)</span>, sobre una región factible poliédrica <span class="math inline">\(S \subset \mathbb{R}^2\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min_{x_1, x_2 \in \mathbb{R}} \quad &amp; (x_1 - 4)^2 + (x_2 - 4)^2 \\
+\text{sujeto a} \quad &amp; x_1 + x_2 \le 4 \\
+&amp; -x_1 + x_2 \le 2 \\
+&amp; 2x_1 + x_2 \le 7 \\
+&amp; x_1, x_2 \ge 0
+\end{aligned}
+\qquad \equiv \qquad
+\begin{aligned}
+\min_{x_1, x_2 \in \mathbb{R}} \quad &amp; (x_1 - 4)^2 + (x_2 - 4)^2 \\
+\text{sujeto a} \quad &amp; -4 + x_1 + x_2 \le 0 \\
+&amp; -2 - x_1 + x_2 \le 0 \\
+&amp; -7 + 2x_1 + x_2 \le 0 \\
+&amp; x_1, x_2 \ge 0
+\end{aligned}
+\]</span></p>
+<p><strong>Formulación del problema auxiliar del Símplex de Wolfe</strong>: Identificamos la matriz cuadrática <span class="math inline">\(Q = \begin{pmatrix} 2 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}\)</span> (estrictamente definida positiva, garantizando la convexidad del problema), el vector lineal <span class="math inline">\(c = (-8, -8)^T\)</span>, la matriz de coeficientes <span class="math inline">\(A = \begin{pmatrix} -1 &amp; -1 \\ 1 &amp; -1 \\ -2 &amp; -1 \end{pmatrix}\)</span> y el vector de términos independientes <span class="math inline">\(b = (-4, 2, -7)^T\)</span>.</p>
+<p>Al introducir las variables primales de holgura <span class="math inline">\(y_1, y_2, y_3 \ge 0\)</span>, los multiplicadores duales <span class="math inline">\(u_1, u_2, u_3 \ge 0\)</span>, las holguras duales <span class="math inline">\(v_1, v_2 \ge 0\)</span> y las variables artificiales <span class="math inline">\(z_1, z_2 \ge 0\)</span>, el problema de programación lineal auxiliar a minimizar resulta:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min \quad &amp; z_1 + z_2 \\
+\text{sujeto a} \quad &amp; -4 + x_1 + x_2 + y_1 = 0 \\
+&amp; -2 - x_1 + x_2 + y_2 = 0 \\
+&amp; -7 + 2x_1 + x_2 + y_3 = 0 \\
+&amp; 2(x_1 - 4) + u_1 - u_2 + 2u_3 - v_1 + z_1 = 0 \\
+&amp; 2(x_2 - 4) + u_1 + u_2 + u_3 - v_2 + z_2 = 0 \\
+&amp; x_1, x_2, y_1, y_2, y_3, u_1, u_2, u_3, v_1, v_2, z_1, z_2 \ge 0
+\end{aligned}
+\]</span></p>
+<p>reescribiendo las ecuaciones de estacionariedad como <span class="math inline">\(2x_1 + u_1 - u_2 + 2u_3 - v_1 + z_1 = 8\)</span> y <span class="math inline">\(2x_2 + u_1 + u_2 + u_3 - v_2 + z_2 = 8\)</span>.</p>
+<p><strong>Representación gráfica de la solución</strong>: Como se ilustra geométricamente en la <a href="#fig-qp-ejemplo-geometria" class="quarto-xref">Figura&nbsp;<span>5.9</span></a>, las curvas de nivel de la función objetivo representan círculos concéntricos centrados en el mínimo libre no restringido <span class="math inline">\((4,4)\)</span>. La solución óptima del problema corresponde al punto de la región factible <span class="math inline">\(S\)</span> más próximo a <span class="math inline">\((4,4)\)</span>, alcanzándose la tangencia en el punto <span class="math inline">\(\bar{x} = (2,2)\)</span> con un valor objetivo de <span class="math inline">\(f(2,2) = 8\)</span>.</p>
+<div id="fig-qp-ejemplo-geometria" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qp-ejemplo-geometria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/qp_ejemplo_geometria.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figura&nbsp;5.9: Geometría de la región factible y tangencia de la función objetivo cuadrática en el óptimo"><img src="images/qp_ejemplo_geometria.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qp-ejemplo-geometria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.9: Geometría de la región factible y tangencia de la función objetivo cuadrática en el óptimo
+</figcaption>
+</figure>
+</div>
+<p><strong>Solución matemática del sistema KKT</strong>: Al resolver el sistema KKT, la solución exacta resultante para todas las variables primales, duales, de holgura y artificiales es:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_1^* &amp;= 2, \quad x_2^* = 2 \\
+u_1^* &amp;= 4, \quad u_2^* = 0, \quad u_3^* = 0 \\
+y_1^* &amp;= 0, \quad y_2^* = 2, \quad y_3^* = 1 \\
+v_1^* &amp;= 0, \quad v_2^* = 0 \\
+z_1^* &amp;= 0, \quad z_2^* = 0
+\end{aligned}
+\]</span></p>
+<p><strong>Resolución mediante el Algoritmo del Símplex de Wolfe (Tablas e Interpretación Geométrica)</strong>:</p>
+<p>A continuación se detalla la progresión iterativa de las tablas del Símplex y su correspondiente traslación geométrica sobre la región factible a cada paso.</p>
+<p><strong>Iteración 1 (Paso 1: Inicio en el Origen)</strong><br>
+En la primera iteración, la solución básica inicial parte con las variables primales en el origen <span class="math inline">\(x_1=0, x_2=0\)</span>. Las variables primales de holgura absorben los términos independientes (<span class="math inline">\(y_1=4, y_2=2, y_3=7\)</span>) y las variables artificiales toman el valor <span class="math inline">\(z_1=8, z_2=8\)</span>, dando un coste artificial inicial de <span class="math inline">\(\sum z_i = 16\)</span> y un valor de la función objetivo de distancia <span class="math inline">\(f(0,0)=32\)</span>.</p>
+<ul>
+<li><strong>Base inicial</strong>: <span class="math inline">\(\{y_1, y_2, y_3, z_1, z_2\}\)</span>, <strong>Objetivo artificial</strong>: <span class="math inline">\(z_1 + z_2 = 8 + 8 = 16\)</span>.</li>
+<li><strong>Criterio de entrada</strong>: Los costes reducidos negativos son <span class="math inline">\(x_1 (-2)\)</span>, <span class="math inline">\(x_2 (-2)\)</span>, <span class="math inline">\(u_1 (-2)\)</span> y <span class="math inline">\(u_3 (-3)\)</span>.</li>
+<li><strong>Regla de complementariedad dual</strong>: Las variables <span class="math inline">\(u_1\)</span> y <span class="math inline">\(u_3\)</span> <span style="color:#2563eb; font-weight:bold;">están bloqueadas</span> porque sus variables primales asociadas <span class="math inline">\(y_1, y_3\)</span> forman parte de la base actual.</li>
+<li><strong>Pivote</strong>: Seleccionamos la variable candidata <span style="color:#16a34a; font-weight:bold;"><span class="math inline">\(x_2 \downarrow\)</span></span>. Por el criterio del cociente mínimo, abandona la base <span style="color:#dc2626; font-weight:bold;"><span class="math inline">\(y_2 \uparrow\)</span></span> con elemento pivote <strong><span style="color:#2563eb; font-weight:bold;">1</span></strong>.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Base</th>
+<th>Sol.</th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(y_1\)</span></th>
+<th><span class="math inline">\(y_2\)</span></th>
+<th><span class="math inline">\(y_3\)</span></th>
+<th><span class="math inline">\(u_1\)</span></th>
+<th><span class="math inline">\(u_2\)</span></th>
+<th><span class="math inline">\(u_3\)</span></th>
+<th><span class="math inline">\(v_1\)</span></th>
+<th><span class="math inline">\(v_2\)</span></th>
+<th><span class="math inline">\(z_1\)</span></th>
+<th><span class="math inline">\(z_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><span class="math inline">\(y_1\)</span></strong></td>
+<td><span class="math inline">\(4\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span style="color:#dc2626; font-weight:bold;"><span class="math inline">\(y_2\)</span></span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><strong><span style="color:#2563eb; font-weight:bold;">1</span></strong></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(y_3\)</span></strong></td>
+<td><span class="math inline">\(7\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(z_1\)</span></strong></td>
+<td><span class="math inline">\(8\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(z_2\)</span></strong></td>
+<td><span class="math inline">\(8\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Coste</strong></td>
+<td><span class="math inline">\(16\)</span></td>
+<td><span style="color:#dc2626; font-weight:bold;"><span class="math inline">\(-2\)</span></span></td>
+<td><span style="color:#16a34a; font-weight:bold;"><span class="math inline">\(-2\)</span></span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span style="color:#2563eb; font-weight:bold;"><span class="math inline">\(-2\)</span></span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span style="color:#2563eb; font-weight:bold;"><span class="math inline">\(-3\)</span></span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Geométricamente, el algoritmo se encuentra en el origen <span class="math inline">\(\bar{x} = (0,0)\)</span> con un coste artificial de <span class="math inline">\(\sum z_i = 16\)</span> y valor <span class="math inline">\(f(0,0) = 32\)</span>.</p>
+<div id="fig-wolfe-iter1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wolfe-iter1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/wolfe_iter1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figura&nbsp;5.10: Interpretación geométrica de la Iteración 1 en el origen (0,0)"><img src="images/wolfe_iter1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wolfe-iter1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.10: Interpretación geométrica de la Iteración 1 en el origen (0,0)
+</figcaption>
+</figure>
+</div>
+<p><strong>Iteración 2 (Paso 2: Avance sobre el eje <span class="math inline">\(X_2\)</span>)</strong><br>
+En la segunda iteración, la entrada de <span class="math inline">\(x_2\)</span> en la base desplaza la solución a lo largo del eje vertical hasta alcanzar el vértice <span class="math inline">\(\bar{x} = (0,2)\)</span>. En esta posición, la segunda restricción <span class="math inline">\(-x_1 + x_2 \le 2\)</span> se vuelve activa (<span class="math inline">\(y_2 = 0\)</span>), reduciendo el valor de la función objetivo a <span class="math inline">\(f(0,2) = 20\)</span> y la suma artificial a <span class="math inline">\(\sum z_i = 12\)</span>.</p>
+<ul>
+<li><strong>Base</strong>: <span class="math inline">\(\{y_1, x_2, y_3, z_1, z_2\}\)</span>, <strong>Objetivo artificial</strong>: <span class="math inline">\(12\)</span>.</li>
+<li><strong>Criterio de entrada</strong>: Entra la variable primal <span style="color:#16a34a; font-weight:bold;"><span class="math inline">\(x_1 \downarrow\)</span></span> (coste reducidos <span class="math inline">\(-4\)</span>). Las variables duales <span class="math inline">\(u_1, u_3\)</span> <span style="color:#2563eb; font-weight:bold;">continúan bloqueadas</span> por <span class="math inline">\(y_1, y_3 \in \text{Base}\)</span>.</li>
+<li><strong>Pivote</strong>: Abandona la base <span style="color:#dc2626; font-weight:bold;"><span class="math inline">\(y_1 \uparrow\)</span></span> en la fila 1 con pivote <strong><span style="color:#2563eb; font-weight:bold;">2</span></strong>.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Base</th>
+<th>Sol.</th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(y_1\)</span></th>
+<th><span class="math inline">\(y_2\)</span></th>
+<th><span class="math inline">\(y_3\)</span></th>
+<th><span class="math inline">\(u_1\)</span></th>
+<th><span class="math inline">\(u_2\)</span></th>
+<th><span class="math inline">\(u_3\)</span></th>
+<th><span class="math inline">\(v_1\)</span></th>
+<th><span class="math inline">\(v_2\)</span></th>
+<th><span class="math inline">\(z_1\)</span></th>
+<th><span class="math inline">\(z_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><span style="color:#dc2626; font-weight:bold;"><span class="math inline">\(y_1\)</span></span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><strong><span style="color:#2563eb; font-weight:bold;">2</span></strong></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(x_2\)</span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(y_3\)</span></strong></td>
+<td><span class="math inline">\(5\)</span></td>
+<td><span class="math inline">\(3\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(z_1\)</span></strong></td>
+<td><span class="math inline">\(8\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(z_2\)</span></strong></td>
+<td><span class="math inline">\(4\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Coste</strong></td>
+<td><span class="math inline">\(12\)</span></td>
+<td><span style="color:#16a34a; font-weight:bold;"><span class="math inline">\(-4\)</span></span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span style="color:#2563eb; font-weight:bold;"><span class="math inline">\(-2\)</span></span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span style="color:#2563eb; font-weight:bold;"><span class="math inline">\(-3\)</span></span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Geométricamente, el punto se desplaza sobre el eje <span class="math inline">\(X_2\)</span> hasta el vértice <span class="math inline">\(\bar{x} = (0,2)\)</span>, donde se activa la restricción <span class="math inline">\(-x_1 + x_2 \le 2\)</span> (<span class="math inline">\(y_2 = 0\)</span>).</p>
+<div id="fig-wolfe-iter2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wolfe-iter2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/wolfe_iter2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figura&nbsp;5.11: Interpretación geométrica de la Iteración 2 en el vértice (0,2)"><img src="images/wolfe_iter2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wolfe-iter2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.11: Interpretación geométrica de la Iteración 2 en el vértice (0,2)
+</figcaption>
+</figure>
+</div>
+<p><strong>Iteración 3 (Paso 3: Desplazamiento al vértice (1,3) y desbloqueo dual)</strong><br>
+En la tercera iteración, al haber salido <span class="math inline">\(y_1\)</span> de la base en la iteración anterior, se desactiva el bloqueo de holgura complementaria sobre la variable dual <span class="math inline">\(u_1\)</span>, permitiendo su entrada. El punto candidato se desplaza sobre la arista del poliedro <span class="math inline">\(-x_1 + x_2 = 2\)</span> hasta situarse en el vértice <span class="math inline">\(\bar{x} = (1,3)\)</span>, activando simultáneamente la restricción <span class="math inline">\(x_1 + x_2 \le 4\)</span> (<span class="math inline">\(y_1 = 0\)</span>), con <span class="math inline">\(f(1,3) = 10\)</span> y una suma artificial de <span class="math inline">\(\sum z_i = 8\)</span>.</p>
+<ul>
+<li><strong>Base</strong>: <span class="math inline">\(\{x_1, x_2, y_3, z_1, z_2\}\)</span>, <strong>Objetivo artificial</strong>: <span class="math inline">\(8\)</span>.</li>
+<li><strong>Criterio de entrada</strong>: Al salir <span class="math inline">\(y_1\)</span> de la base en la iteración anterior, la variable dual <span style="color:#16a34a; font-weight:bold;"><span class="math inline">\(u_1 \downarrow\)</span></span> <span style="color:#16a34a; font-weight:bold;">queda libre y entra</span> en la base (coste reducido <span class="math inline">\(-2\)</span>). La variable <span class="math inline">\(u_3\)</span> sigue bloqueada por <span class="math inline">\(y_3 \in \text{Base}\)</span>.</li>
+<li><strong>Pivote</strong>: Abandona la base la variable artificial <span style="color:#dc2626; font-weight:bold;"><span class="math inline">\(z_2 \uparrow\)</span></span> en la fila 5 con elemento pivote <strong><span style="color:#2563eb; font-weight:bold;">1</span></strong>.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Base</th>
+<th>Sol.</th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(y_1\)</span></th>
+<th><span class="math inline">\(y_2\)</span></th>
+<th><span class="math inline">\(y_3\)</span></th>
+<th><span class="math inline">\(u_1\)</span></th>
+<th><span class="math inline">\(u_2\)</span></th>
+<th><span class="math inline">\(u_3\)</span></th>
+<th><span class="math inline">\(v_1\)</span></th>
+<th><span class="math inline">\(v_2\)</span></th>
+<th><span class="math inline">\(z_1\)</span></th>
+<th><span class="math inline">\(z_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><span class="math inline">\(x_1\)</span></strong></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(-1/2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(x_2\)</span></strong></td>
+<td><span class="math inline">\(3\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(y_3\)</span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-5/2\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(z_1\)</span></strong></td>
+<td><span class="math inline">\(6\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span style="color:#dc2626; font-weight:bold;"><span class="math inline">\(z_2\)</span></span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><strong><span style="color:#2563eb; font-weight:bold;">1</span></strong></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Coste</strong></td>
+<td><span class="math inline">\(8\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span style="color:#16a34a; font-weight:bold;"><span class="math inline">\(-2\)</span></span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span style="color:#2563eb; font-weight:bold;"><span class="math inline">\(-3\)</span></span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Geométricamente, el candidato avanza sobre el borde <span class="math inline">\(-x_1 + x_2 = 2\)</span> hasta alcanzar el vértice <span class="math inline">\(\bar{x} = (1,3)\)</span>, donde se activa adicionalmente <span class="math inline">\(x_1 + x_2 \le 4\)</span> (<span class="math inline">\(y_1 = 0\)</span>).</p>
+<div id="fig-wolfe-iter3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wolfe-iter3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/wolfe_iter3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figura&nbsp;5.12: Interpretación geométrica de la Iteración 3 en el vértice (1,3)"><img src="images/wolfe_iter3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wolfe-iter3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.12: Interpretación geométrica de la Iteración 3 en el vértice (1,3)
+</figcaption>
+</figure>
+</div>
+<p><strong>Iteración 4 (Paso 4: Ajuste de tensión dual en (1,3))</strong><br>
+En la cuarta iteración, la solución primal se mantiene estática en el vértice <span class="math inline">\(\bar{x} = (1,3)\)</span>, pero se produce un reajuste algebraico en las variables duales. La variable <span class="math inline">\(u_1\)</span> entra formalmente en la base con valor <span class="math inline">\(u_1 = 2\)</span>, eliminando la primera variable artificial <span class="math inline">\(z_2\)</span> y reduciendo la función objetivo auxiliar a <span class="math inline">\(\sum z_i = 4\)</span>.</p>
+<ul>
+<li><strong>Base</strong>: <span class="math inline">\(\{x_1, x_2, y_3, z_1, u_1\}\)</span>, <strong>Objetivo artificial</strong>: <span class="math inline">\(4\)</span>.</li>
+<li><strong>Criterio de entrada</strong>: Entra la variable de holgura <span style="color:#16a34a; font-weight:bold;"><span class="math inline">\(y_2 \downarrow\)</span></span> (coste reducido <span class="math inline">\(-2\)</span>).</li>
+<li><strong>Pivote</strong>: Sale de la base la última variable artificial <span style="color:#dc2626; font-weight:bold;"><span class="math inline">\(z_1 \uparrow\)</span></span> en la fila 4 con pivote <strong><span style="color:#2563eb; font-weight:bold;">2</span></strong>.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Base</th>
+<th>Sol.</th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(y_1\)</span></th>
+<th><span class="math inline">\(y_2\)</span></th>
+<th><span class="math inline">\(y_3\)</span></th>
+<th><span class="math inline">\(u_1\)</span></th>
+<th><span class="math inline">\(u_2\)</span></th>
+<th><span class="math inline">\(u_3\)</span></th>
+<th><span class="math inline">\(v_1\)</span></th>
+<th><span class="math inline">\(v_2\)</span></th>
+<th><span class="math inline">\(z_1\)</span></th>
+<th><span class="math inline">\(z_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><span class="math inline">\(x_1\)</span></strong></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(-1/2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(x_2\)</span></strong></td>
+<td><span class="math inline">\(3\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(y_3\)</span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-5/2\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span style="color:#dc2626; font-weight:bold;"><span class="math inline">\(z_1\)</span></span></strong></td>
+<td><span class="math inline">\(4\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><strong><span style="color:#2563eb; font-weight:bold;">2</span></strong></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-2\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(u_1\)</span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Coste</strong></td>
+<td><span class="math inline">\(4\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span style="color:#16a34a; font-weight:bold;"><span class="math inline">\(-2\)</span></span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span style="color:#2563eb; font-weight:bold;"><span class="math inline">\(-1\)</span></span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span style="color:#2563eb; font-weight:bold;"><span class="math inline">\(-1\)</span></span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Geométricamente, el punto en el espacio primal permanece en el vértice <span class="math inline">\(\bar{x} = (1,3)\)</span> mientras se ajusta la tensión del multiplicador dual (<span class="math inline">\(u_1 = 2\)</span>).</p>
+<div id="fig-wolfe-iter4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wolfe-iter4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/wolfe_iter4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figura&nbsp;5.13: Interpretación geométrica de la Iteración 4 (Ajuste Dual en (1,3))"><img src="images/wolfe_iter4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wolfe-iter4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.13: Interpretación geométrica de la Iteración 4 (Ajuste Dual en (1,3))
+</figcaption>
+</figure>
+</div>
+<p><strong>Iteración 5 (Paso 5: Consecución del Óptimo Global y Tangencia en (2,2))</strong><br>
+En la quinta iteración, la entrada de la holgura <span class="math inline">\(y_2\)</span> permite que el punto abandone el vértice <span class="math inline">\((1,3)\)</span> y se deslice a lo largo del segmento de la restricción activa <span class="math inline">\(x_1 + x_2 = 4\)</span> hasta el punto <span class="math inline">\(\bar{x} = (2,2)\)</span>. En este punto se alcanza la tangencia con la superficie cuadrática de nivel de la función objetivo, anulando por completo las variables artificiales (<span class="math inline">\(\sum z_i = 0\)</span>), fijando el multiplicador dual activo <span class="math inline">\(u_1^* = 4\)</span> y alcanzando el coste mínimo de <span class="math inline">\(f(2,2) = 8\)</span>.</p>
+<ul>
+<li><strong>Base óptima</strong>: <span class="math inline">\(\{x_1, x_2, y_3, y_2, u_1\}\)</span>, <strong>Objetivo artificial</strong>: <span class="math inline">\(0\)</span>.</li>
+<li><strong>Criterio de parada</strong>: Todas las variables artificiales han salido de la base (<span class="math inline">\(z_1^* = 0, z_2^* = 0\)</span>) y no existen costes reducidos negativos viables bajo la regla de entrada restringida.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Base</th>
+<th>Sol.</th>
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(y_1\)</span></th>
+<th><span class="math inline">\(y_2\)</span></th>
+<th><span class="math inline">\(y_3\)</span></th>
+<th><span class="math inline">\(u_1\)</span></th>
+<th><span class="math inline">\(u_2\)</span></th>
+<th><span class="math inline">\(u_3\)</span></th>
+<th><span class="math inline">\(v_1\)</span></th>
+<th><span class="math inline">\(v_2\)</span></th>
+<th><span class="math inline">\(z_1\)</span></th>
+<th><span class="math inline">\(z_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><span class="math inline">\(x_1\)</span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1/2\)</span></td>
+<td><span class="math inline">\(1/4\)</span></td>
+<td><span class="math inline">\(-1/4\)</span></td>
+<td><span class="math inline">\(1/4\)</span></td>
+<td><span class="math inline">\(1/4\)</span></td>
+<td><span class="math inline">\(-1/4\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(x_2\)</span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(-1/4\)</span></td>
+<td><span class="math inline">\(1/4\)</span></td>
+<td><span class="math inline">\(-1/4\)</span></td>
+<td><span class="math inline">\(-1/4\)</span></td>
+<td><span class="math inline">\(1/4\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(y_3\)</span></strong></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-5/2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(-1/4\)</span></td>
+<td><span class="math inline">\(1/4\)</span></td>
+<td><span class="math inline">\(-1/4\)</span></td>
+<td><span class="math inline">\(-1/4\)</span></td>
+<td><span class="math inline">\(1/4\)</span></td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(y_2\)</span></strong></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(-1/2\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(-1/2\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(u_1\)</span></strong></td>
+<td><span class="math inline">\(4\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(3/2\)</span></td>
+<td><span class="math inline">\(-1/2\)</span></td>
+<td><span class="math inline">\(-1/2\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+<td><span class="math inline">\(1/2\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Coste</strong></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resultado final</strong>: El punto se desliza sobre la restricción activa <span class="math inline">\(x_1 + x_2 = 4\)</span> (<span class="math inline">\(y_1=0\)</span>) hasta alcanzar el punto óptimo global <span class="math inline">\(\bar{x} = (2,2)\)</span> con <span class="math inline">\(u_1^* = 4\)</span> y valor mínimo de la función objetivo <span class="math inline">\(f(2,2) = 8\)</span>.</p>
+<div id="fig-wolfe-iter5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wolfe-iter5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/wolfe_iter5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figura&nbsp;5.14: Interpretación geométrica de la Iteración 5 Óptima en (2,2)"><img src="images/wolfe_iter5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wolfe-iter5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.14: Interpretación geométrica de la Iteración 5 Óptima en (2,2)
+</figcaption>
+</figure>
+</div>
+<p><strong>Análisis Geométrico de la Trayectoria Completa del Símplex de Wolfe</strong><br>
+La secuencia de pivotes del algoritmo del Símplex de Wolfe dibuja una trayectoria geométrica precisa sobre el plano <span class="math inline">\(\mathbb{R}^2\)</span>:</p>
+<ol type="1">
+<li><strong>Iteración 1</strong>: Arranca en el origen <span class="math inline">\((0,0)\)</span>.</li>
+<li><strong>Iteración 2</strong>: La variable <span class="math inline">\(x_2\)</span> entra en la base, desplazando el punto sobre el eje <span class="math inline">\(Y\)</span> hasta el vértice <span class="math inline">\((0,2)\)</span>, donde se activa la restricción <span class="math inline">\(-x_1 + x_2 \le 2\)</span> (<span class="math inline">\(y_2 = 0\)</span>).</li>
+<li><strong>Iteración 3</strong>: La variable <span class="math inline">\(x_1\)</span> entra en la base, avanzando por el borde de la restricción <span class="math inline">\(-x_1 + x_2 = 2\)</span> hasta el vértice <span class="math inline">\((1,3)\)</span>, donde se activa además <span class="math inline">\(x_1 + x_2 \le 4\)</span> (<span class="math inline">\(y_1 = 0\)</span>).</li>
+<li><strong>Iteración 4</strong>: Al anularse <span class="math inline">\(y_1\)</span>, se desbloquea la entrada del multiplicador dual <span class="math inline">\(u_1\)</span>. El punto geométrico permanece en <span class="math inline">\((1,3)\)</span> mientras se ajusta la tensión dual (<span class="math inline">\(u_1 = 2\)</span>).</li>
+<li><strong>Iteración 5</strong>: Entra la holgura <span class="math inline">\(y_2\)</span> (desactivando la restricción <span class="math inline">\(-x_1 + x_2 \le 2\)</span>). El punto se desliza sobre el segmento activo <span class="math inline">\(x_1 + x_2 = 4\)</span> hasta alcanzar el punto más próximo al objetivo <span class="math inline">\((4,4)\)</span>, situándose en <span class="math inline">\((2,2)\)</span> con <span class="math inline">\(u_1^* = 4\)</span>.</li>
+</ol>
+<p>La trayectoria geométrica global completa sobre el politopo factible se ilustra en la <a href="#fig-wolfe-trayectoria" class="quarto-xref">Figura&nbsp;<span>5.15</span></a>.</p>
+<div id="fig-wolfe-trayectoria" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wolfe-trayectoria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/wolfe_trayectoria.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figura&nbsp;5.15: Trayectoria del algoritmo del Símplex de Wolfe sobre el politopo factible"><img src="images/wolfe_trayectoria.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wolfe-trayectoria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.15: Trayectoria del algoritmo del Símplex de Wolfe sobre el politopo factible
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="consideraciones-finales" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="consideraciones-finales"><span class="header-section-number">5.3</span> Consideraciones finales</h2>
+<p>En este tema se ha analizado en profundidad la interconexión matemática existente entre las condiciones de Karush-Kuhn-Tucker (KKT), la teoría de la dualidad en programación lineal y la resolución computacional de problemas de programación cuadrática (QP). Los pilares teóricos y metodológicos fundamentales derivados de este estudio se estructuran a continuación:</p>
+<ol type="1">
+<li><p><strong>Equivalencia entre multiplicadores KKT y variables duales</strong>: La caracterización de optimalidad KKT para problemas de optimización lineal demuestra formalmente que los multiplicadores de Lagrange <span class="math inline">\(u_i^*\)</span> asociados a las restricciones de desigualdad no son meros constructos algebraicos, sino que equivalen exactamente a las variables óptimas del problema dual. Esta correspondencia biunívoca vincula directamente la geometría del politopo primal con el espacio de soluciones del dual.</p></li>
+<li><p><strong>Interpretación económica y precios sombra</strong>: Los multiplicadores KKT <span class="math inline">\(u_i^*\)</span> representan los precios sombra o costes marginales de oportunidad asociados a las restricciones del sistema. Formalmente, <span class="math inline">\(u_i^*\)</span> cuantifica la tasa de variación marginal en el beneficio o coste óptimo ante un incremento unitario en la término independiente <span class="math inline">\(b_i\)</span>. Las condiciones de holgura complementaria (<span class="math inline">\(u_i^* g_i(x^*) = 0\)</span>) aseguran que solo aquellos restricciones activas (restricciones activas con <span class="math inline">\(g_i(x^*)=0\)</span>) presentan un valor marginal positivo (<span class="math inline">\(u_i^* &gt; 0\)</span>), mientras que los restricciones inactivas (<span class="math inline">\(g_i(x^*) &lt; 0\)</span>) poseen un precio sombra nulo (<span class="math inline">\(u_i^* = 0\)</span>).</p></li>
+<li><p><strong>Estructura matricial y convexidad en programación cuadrática</strong>: Al incorporar términos cuadráticos en la función objetivo mediante una matriz simétrica semidefinida positiva <span class="math inline">\(Q \succeq 0\)</span>, el problema mantiene la convexidad, lo que garantiza que cualquier punto que satisfaga las condiciones KKT sea un óptimo global absoluto. Las condiciones KKT de un problema QP adoptan la forma de un sistema de ecuaciones lineales sobre las variables primales <span class="math inline">\(x\)</span>, de holgura <span class="math inline">\(y\)</span>, duales <span class="math inline">\(u\)</span> y de gradiente <span class="math inline">\(v\)</span>, sujeto únicamente a la restricción bilineal de complementariedad.</p></li>
+<li><p><strong>Fundamento algorítmico del Símplex de Wolfe</strong>: El algoritmo del Símplex de Wolfe adapta el mecanismo de pivotaje de la programación lineal para resolver el sistema KKT de un problema QP convexo imponiendo una regla de entrada restringida. Esta regla prohíbe explícitamente que una variable dual <span class="math inline">\(u_i\)</span> (o <span class="math inline">\(v_j\)</span>) entre en la base si su variable primal complementaria <span class="math inline">\(y_i\)</span> (o <span class="math inline">\(x_j\)</span>) pertenece actualmente a la misma, garantizando el cumplimiento estricto de la holgura complementaria en cada iteración del algoritmo.</p></li>
+<li><p><strong>Dinámica geométrica primal-dual</strong>: A diferencia del Símplex lineal clásico —que se desplaza de vértice en vértice sobre las esquinas del politopo—, el Símplex de Wolfe recorre la frontera y las caras del conjunto factible <span class="math inline">\(S\)</span>. A lo largo de esta trayectoria, el algoritmo combina desplazamientos en el dominio de las variables primales con ajustes de tensión en el espacio dual hasta situar la solución en el punto exacto de tangencia entre las superficies cuadráticas de nivel y el borde activo de las restricciones.</p></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-bazaraa2011linear" class="csl-entry" role="listitem">
+Bazaraa, Mokhtar S, John J Jarvis, y Hanif D Sherali. 2011. <em>Linear Programming and Network Flows</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-hillier2010investigacion" class="csl-entry" role="listitem">
+Hillier, Frederick S, y Gerald J Lieberman. 2010. <em>Introducción a la Investigación de Operaciones</em>. 9na ed. McGraw-Hill.
+</div>
+<div id="ref-luenberger2015linear" class="csl-entry" role="listitem">
+Luenberger, David G, y Yinyu Ye. 2015. <em>Linear and Nonlinear Programming</em>. 4th ed. Springer.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tema4.html" class="pagination-link" aria-label="Condiciones de optimalidad y KKT">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de optimalidad y KKT</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema6.html" class="pagination-link" aria-label="Grafos y árboles soporte">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Grafos y árboles soporte</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Categorize callouts: Quarto puts the title in the `title` attribute of the .callout div
+  document.querySelectorAll(".callout[title]").forEach(function (callout) {
+    var text = callout.getAttribute("title").trim().toLowerCase();
+
+    // Si ya es warning o caution, siempre es advertencia (sin importar el título)
+    if (callout.classList.contains("callout-warning") || callout.classList.contains("callout-caution")) {
+      callout.setAttribute("data-kind", "advertencia");
+    } else if (text.includes("objetivo") && (text.includes("aprendizaje") || text.startsWith("objetivo"))) {
+      callout.setAttribute("data-kind", "objetivos");
+    } else if (/^\s*(teorema|demostración|demostracion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "teorema");
+    } else if (/^\s*lema\b/.test(text)) {
+      callout.setAttribute("data-kind", "lema");
+    } else if (/^\s*corolario\b/.test(text)) {
+      callout.setAttribute("data-kind", "corolario");
+    } else if (/^\s*(definición|definicion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "definicion");
+    } else if (/^\s*(ejemplo|ejemplos)\b/.test(text)) {
+      callout.setAttribute("data-kind", "ejemplo");
+    } else if (/^\s*(esquema|propiedades)\b/.test(text)) {
+      callout.setAttribute("data-kind", "esquema");
+    } else if (/^\s*(advertencia|precaución|precaucion|importancia|limitación|limitacion)\b/.test(text) || text.includes("recíproco") || text.includes("no es cierto")) {
+      callout.setAttribute("data-kind", "advertencia");
+    } else if (/^\s*(nota|observación|observacion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "nota");
+    }
+  });
+
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+
+  var links = Array.from(toc.querySelectorAll("a.nav-link"));
+  if (links.length === 0) return;
+
+  function getTargets() {
+    return links.map(function (link) {
+      var targetId = link.getAttribute("data-scroll-target") || link.getAttribute("href");
+      if (targetId && targetId.startsWith("#")) {
+        return document.getElementById(decodeURIComponent(targetId.substring(1)));
+      }
+      return null;
+    });
+  }
+
+  var targets = getTargets();
+
+  function updateTOC() {
+    var scrollPos = window.scrollY || document.documentElement.scrollTop || 0;
+    var windowHeight = window.innerHeight;
+    var docHeight = document.documentElement.scrollHeight;
+
+    var activeIdx = -1;
+
+    if (scrollPos + windowHeight >= docHeight - 20) {
+      activeIdx = targets.length - 1;
+    } else {
+      for (var i = targets.length - 1; i >= 0; i--) {
+        if (targets[i]) {
+          var top = targets[i].getBoundingClientRect().top + scrollPos;
+          if (scrollPos >= top - 140) {
+            activeIdx = i;
+            break;
+          }
+        }
+      }
+    }
+
+    if (activeIdx < 0) activeIdx = 0;
+
+    links.forEach(function (link, idx) {
+      if (idx === activeIdx) {
+        link.classList.add("active");
+        link.style.color = "#0284c7";
+        link.style.fontWeight = "bold";
+      } else {
+        link.classList.remove("active");
+        link.style.color = "";
+        link.style.fontWeight = "";
+      }
+    });
+
+    // Handle accordion collapse/expand
+    var collapses = toc.querySelectorAll("ul.collapse");
+    collapses.forEach(function (c) {
+      c.classList.remove("show");
+      c.style.display = "none";
+    });
+
+    var activeLink = links[activeIdx];
+    if (activeLink) {
+      // Show parent collapse if inside a subsection
+      var parentUl = activeLink.closest("ul.collapse");
+      if (parentUl) {
+        parentUl.classList.add("show");
+        parentUl.style.display = "block";
+      }
+      // Show child collapse if active link is a main section with sub-items
+      var parentLi = activeLink.closest("li");
+      if (parentLi) {
+        var childUl = parentLi.querySelector("ul.collapse");
+        if (childUl) {
+          childUl.classList.add("show");
+          childUl.style.display = "block";
+        }
+      }
+    }
+  }
+
+  window.addEventListener("scroll", updateTOC);
+  window.addEventListener("resize", updateTOC);
+  setTimeout(updateTOC, 100);
+});
+</script>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

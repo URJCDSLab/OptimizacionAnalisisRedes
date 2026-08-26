@@ -1,0 +1,161 @@
+---
+title: "Laboratorio 4: condiciones de optimalidad y KKT en Python"
+subtitle: "Optimización y Análisis de Redes"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+lang: es
+---
+
+# Introducción
+
+Las condiciones de optimalidad constituyen el pilar fundamental sobre el cual se asientan tanto la teoría como los algoritmos numéricos de la optimización con y sin restricciones. El paso de la teoría analítica (donde manipulamos manualmente ecuaciones) a la práctica profesional exige dominar el uso de herramientas computacionales para:
+
+1. **Analizar la optimalidad sin restricciones**: Calcular simbólicamente gradientes y hessianas, resolviendo sistemas algebraicos para identificar puntos estacionarios y caracterizar su curvatura local a través del signo de sus autovalores.
+2. **Evaluar la regularidad de las restricciones (LICQ)**: Verificar la cualificación de restricciones mediante el análisis del rango de la matriz jacobiana activa.
+3. **Resolver analíticamente sistemas KKT complejos**: Implementar de forma automatizada y simbólica la resolución combinatoria de casos derivada de las condiciones de holgura complementaria.
+4. **Validar y modelar numéricamente problemas convexos**: Utilizar lenguajes de modelado como **`CVXPY`** para resolver problemas numéricamente y recuperar de forma directa los multiplicadores de Lagrange (valores duales) para el análisis de sensibilidad física o económica.
+
+En este laboratorio práctico aprenderás a:
+
+* Encontrar de forma analítica puntos estacionarios y clasificarlos con `SymPy` y `NumPy` mediante autovalores.
+* Formular y resolver la ecuación de Fritz-John en casos singulares donde falla la cualificación de restricciones (LICQ).
+* Automatizar el análisis combinatorio KKT mediante bucles de SymPy.
+* Comparar y contrastar las soluciones simbólicas obtenidas de KKT con el valor numérico y las variables duales devueltas por `CVXPY`.
+
+---
+
+# Fundamentos teóricos y herramientas de Python
+
+## Análisis simbólico de optimalidad sin restricciones
+Para funciones univariantes o multivariantes diferenciables, el primer paso es encontrar los puntos estacionarios resolviendo el sistema no lineal $\nabla f(\mathbf{x}) = \mathbf{0}$. En `SymPy`, esto se realiza definiendo las variables simbólicas y aplicando `sp.solve` sobre el gradiente de la función:
+
+```python
+import sympy as sp
+
+# 1. Definir variables y función
+x, y = sp.symbols('x y')
+f = x**3 + y**3 - 3*x*y
+
+# 2. Calcular gradiente
+grad = [sp.diff(f, var) for var in (x, y)]
+
+# 3. Resolver sistema analítico
+puntos_estacionarios = sp.solve(grad, (x, y))
+print("Puntos hallados:", puntos_estacionarios)
+```
+
+Posteriormente, evaluamos la matriz hessiana $\nabla^2 f(\mathbf{x})$ obtenida mediante `sp.hessian(f, (x, y))` en cada uno de estos puntos para comprobar si es definida positiva (mínimo local), definida negativa (máximo local) o indefinida (punto de ensilladura).
+
+---
+
+## Verificación de LICQ en problemas restringidos
+La cualificación de restricciones **LICQ** (*Linear Independence Constraint Qualification*) exige que los gradientes de las restricciones activas en el punto de estudio sean linealmente independientes. Computacionalmente, esto equivale a comprobar que la matriz cuyas columnas son dichos gradientes tiene rango completo (igual al número de restricciones activas):
+
+```python
+# Suponiendo que grad_g1 y grad_g2 son los vectores columna activos
+A = sp.Matrix.hstack(grad_g1, grad_g2)
+rango = A.rank()
+if rango == A.shape[1]:
+    print("Se cumple LICQ")
+else:
+    print("Falla LICQ: los gradientes son dependientes")
+```
+
+Si LICQ falla en un óptimo local, no se garantiza la existencia de multiplicadores KKT válidos ($u_0 = 1$), y es necesario formular el sistema generalizado de Fritz-John con $u_0 = 0$.
+
+---
+
+# Ejercicios de laboratorio propuestos
+
+## Ejercicio 1: análisis de optimalidad sin restricciones
+Dada la función de dos variables:
+$$ f(x_1, x_2) = x_1^4 + x_2^4 - 2(x_1 - x_2)^2 $$
+
+### Tareas
+1. Calcula simbólicamente el gradiente de la función y halla todos los puntos estacionarios en $\mathbb{R}^2$ utilizando `SymPy`.
+2. Obtén de forma simbólica la matriz hessiana de $f(x_1, x_2)$.
+3. Convierte la hessiana a una matriz numérica en cada punto estacionario, calcula sus autovalores empleando `NumPy` y clasifica cada uno de los puntos (mínimo local, máximo local o punto de ensilladura).
+4. Razona si alguno de los mínimos locales hallados es también un mínimo global.
+
+```{python}
+# Tu código aquí:
+# ...
+```
+
+---
+
+## Ejercicio 2: cualificación de restricciones (LICQ) y condiciones Fritz-John
+Consideremos el problema de minimizar $f(x_1, x_2) = x_1$ sujeto a las restricciones de desigualdad:
+$$
+\begin{aligned}
+g_1(x_1, x_2) &= x_2 - (x_1 - 1)^3 \le 0 \\
+g_2(x_1, x_2) &= -x_2 \le 0
+\end{aligned}
+$$
+
+Estudiaremos el punto factible $\bar{\mathbf{x}} = (1, 0)^T$, el cual es el mínimo global de este problema.
+
+### Tareas
+1. Identifica qué restricciones están activas en $\bar{\mathbf{x}}$ y calcula simbólicamente sus gradientes $\nabla g_i(\bar{\mathbf{x}})$.
+2. Comprueba mediante el rango de la matriz de gradientes si se cumple o no la condición de regularidad LICQ en dicho punto.
+3. Escribe el sistema de ecuaciones duales generalizado de Fritz-John:
+   $$ u_0 \nabla f(\bar{\mathbf{x}}) + u_1 \nabla g_1(\bar{\mathbf{x}}) + u_2 \nabla g_2(\bar{\mathbf{x}}) = \mathbf{0} $$
+   con $u_0, u_1, u_2 \ge 0$.
+4. Resuelve el sistema para $u_0 = 1$ (KKT) e interpreta el resultado. Si no tiene solución, resuelve para $u_0 = 0$ y determina el valor de los multiplicadores. ¿Qué implicaciones tiene el fallo de LICQ?
+
+```{python}
+# Tu código aquí:
+# ...
+```
+
+---
+
+## Ejercicio 3: resolución combinatoria de KKT mediante bucles simbólicos
+Dada la función objetivo cuadrática:
+$$ \min \ f(x_1, x_2) = (x_1 - 2.5)^2 + (x_2 - 3)^2 $$
+sujeto a las restricciones:
+$$
+\begin{aligned}
+g_1(x) &= x_1^2 + x_2^2 - 4 \le 0 \\
+g_2(x) &= -x_1 \le 0 \\
+g_3(x) &= -x_2 \le 0
+\end{aligned}
+$$
+
+### Tareas
+1. Define la función lagrangiana simbólica en `SymPy`:
+   $$ L(x_1, x_2, u_1, u_2, u_3) = f(x) + u_1 g_1(x) + u_2 g_2(x) + u_3 g_3(x) $$
+   *(Nota: Por simplicidad didáctica de los subíndices simbólicos, usa $u_1, u_2, u_3$ correspondientes a $g_1, g_2, g_3$)*.
+2. Plantea el sistema de condiciones de optimalidad de primer orden KKT ($\nabla_x L = \mathbf{0}$).
+3. Implementa un script con bucles en Python que recorra de forma sistemática los 8 casos combinatorios posibles derivados del estado de activación de las 3 restricciones:
+   * Para cada caso, resuelve el sistema de ecuaciones lineales en variables $x_1, x_2$ y los multiplicadores activos $u_i$ correspondientes (fijando a cero los multiplicadores de restricciones inactivas).
+   * Comprueba de manera programática en cada caso si el punto obtenido satisface la **factibilidad primal** ($g_k(x) \le 0, \forall k$) y la **factibilidad dual** ($u_i \ge 0$ para los multiplicadores activos).
+4. Imprime únicamente la solución o soluciones KKT válidas resultantes y descarta el resto.
+
+```{python}
+# Tu código aquí:
+# ...
+```
+
+---
+
+## Ejercicio 4: modelado y verificación numérica con CVXPY
+Resuelve de forma directa el problema del Ejercicio 3 utilizando CVXPY.
+
+### Tareas
+1. Declara las variables y modela la función objetivo y las restricciones en CVXPY.
+2. Resuelve el modelo.
+3. Imprime el punto óptimo hallado $\mathbf{x}^* = (x_1^*, x_2^*)^T$ y comprueba si coincide con el candidato KKT válido obtenido en el Ejercicio 3.
+4. Recupera los multiplicadores de Lagrange asociados a las restricciones circular y de no negatividad empleando la propiedad `.dual_value`. Compáralos cuantitativamente con los multiplicadores analíticos hallados en el Ejercicio 3.
+
+```{python}
+# Tu código aquí:
+# ...
+```

@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Emparejamientos en redes – Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema10.html" rel="next">
+<link href="./tema8.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="estilos_html.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema6.html">Bloque II: Optimización en redes</a></li><li class="breadcrumb-item"><a href="./tema9.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Emparejamientos en redes</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la investigación operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bloque I: Optimización no lineal</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización no lineal y métodos numéricos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis convexo</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de optimalidad y KKT</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Programación lineal y cuadrática</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bloque II: Optimización en redes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Grafos y árboles soporte</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Caminos mínimos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Flujos en redes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema9.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Emparejamientos en redes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Rutas eulerianas, hamiltonianas y problemas de rutas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#fundamentos-y-conceptos-de-emparejamiento" id="toc-fundamentos-y-conceptos-de-emparejamiento" class="nav-link active" data-scroll-target="#fundamentos-y-conceptos-de-emparejamiento"><span class="header-section-number">9.1</span> Fundamentos y conceptos de emparejamiento</a></li>
+  <li><a href="#resolución-mediante-cadenas-alternantes-e-incrementales" id="toc-resolución-mediante-cadenas-alternantes-e-incrementales" class="nav-link" data-scroll-target="#resolución-mediante-cadenas-alternantes-e-incrementales"><span class="header-section-number">9.2</span> Resolución mediante cadenas alternantes e incrementales</a>
+  <ul class="collapse">
+  <li><a href="#cadenas-alternantes-cadenas-incrementales-y-transferencias" id="toc-cadenas-alternantes-cadenas-incrementales-y-transferencias" class="nav-link" data-scroll-target="#cadenas-alternantes-cadenas-incrementales-y-transferencias"><span class="header-section-number">9.2.1</span> Cadenas alternantes, cadenas incrementales y transferencias</a></li>
+  <li><a href="#teorema-de-caracterización-de-berge-y-descomposición-de-componentes" id="toc-teorema-de-caracterización-de-berge-y-descomposición-de-componentes" class="nav-link" data-scroll-target="#teorema-de-caracterización-de-berge-y-descomposición-de-componentes"><span class="header-section-number">9.2.2</span> Teorema de caracterización de Berge y descomposición de componentes</a></li>
+  </ul></li>
+  <li><a href="#algoritmo-del-árbol-alternante-y-contracción-de-flores-edmonds" id="toc-algoritmo-del-árbol-alternante-y-contracción-de-flores-edmonds" class="nav-link" data-scroll-target="#algoritmo-del-árbol-alternante-y-contracción-de-flores-edmonds"><span class="header-section-number">9.3</span> Algoritmo del árbol alternante y contracción de flores (Edmonds)</a>
+  <ul class="collapse">
+  <li><a href="#estructura-del-bosque-y-árbol-alternante" id="toc-estructura-del-bosque-y-árbol-alternante" class="nav-link" data-scroll-target="#estructura-del-bosque-y-árbol-alternante"><span class="header-section-number">9.3.1</span> Estructura del bosque y árbol alternante</a></li>
+  <li><a href="#el-desafío-de-los-ciclos-impares-y-la-contracción-de-flores-de-edmonds" id="toc-el-desafío-de-los-ciclos-impares-y-la-contracción-de-flores-de-edmonds" class="nav-link" data-scroll-target="#el-desafío-de-los-ciclos-impares-y-la-contracción-de-flores-de-edmonds"><span class="header-section-number">9.3.2</span> El desafío de los ciclos impares y la contracción de flores de Edmonds</a></li>
+  <li><a href="#algoritmo-de-flor-de-edmonds-esquema-y-resolución-paso-a-paso" id="toc-algoritmo-de-flor-de-edmonds-esquema-y-resolución-paso-a-paso" class="nav-link" data-scroll-target="#algoritmo-de-flor-de-edmonds-esquema-y-resolución-paso-a-paso"><span class="header-section-number">9.3.3</span> Algoritmo de Flor de Edmonds: Esquema y resolución paso a paso</a></li>
+  </ul></li>
+  <li><a href="#problemas-de-recubrimiento-en-grafos-y-relaciones-de-dualidad" id="toc-problemas-de-recubrimiento-en-grafos-y-relaciones-de-dualidad" class="nav-link" data-scroll-target="#problemas-de-recubrimiento-en-grafos-y-relaciones-de-dualidad"><span class="header-section-number">9.4</span> Problemas de recubrimiento en grafos y relaciones de dualidad</a>
+  <ul class="collapse">
+  <li><a href="#teorema-fundamental-de-dualidad-de-gallai" id="toc-teorema-fundamental-de-dualidad-de-gallai" class="nav-link" data-scroll-target="#teorema-fundamental-de-dualidad-de-gallai"><span class="header-section-number">9.4.1</span> Teorema fundamental de dualidad de Gallai</a></li>
+  </ul></li>
+  <li><a href="#emparejamiento-de-máximo-peso-y-algoritmo-primal-dual" id="toc-emparejamiento-de-máximo-peso-y-algoritmo-primal-dual" class="nav-link" data-scroll-target="#emparejamiento-de-máximo-peso-y-algoritmo-primal-dual"><span class="header-section-number">9.5</span> Emparejamiento de máximo peso y algoritmo primal-dual</a>
+  <ul class="collapse">
+  <li><a href="#coste-reducido-de-cadenas-y-caracterización-de-optimalidad" id="toc-coste-reducido-de-cadenas-y-caracterización-de-optimalidad" class="nav-link" data-scroll-target="#coste-reducido-de-cadenas-y-caracterización-de-optimalidad"><span class="header-section-number">9.5.1</span> Coste reducido de cadenas y caracterización de optimalidad</a></li>
+  <li><a href="#algoritmo-de-aumento-por-cardinalidad-fija" id="toc-algoritmo-de-aumento-por-cardinalidad-fija" class="nav-link" data-scroll-target="#algoritmo-de-aumento-por-cardinalidad-fija"><span class="header-section-number">9.5.2</span> Algoritmo de aumento por cardinalidad fija</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema6.html">Bloque II: Optimización en redes</a></li><li class="breadcrumb-item"><a href="./tema9.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Emparejamientos en redes</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Emparejamientos en redes</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>La teoría de <strong>emparejamientos en grafos</strong> (<em>matchings</em>) constituye uno de los capítulos más elegantes, profundos y de mayor impacto práctico dentro de la optimización combinatoria y el análisis de redes <span class="citation" data-cites="ahuja1993network papadimitriou1998combinatorial">(<a href="references.html#ref-ahuja1993network" role="doc-biblioref">Ahuja, Magnanti, y Orlin 1993</a>; <a href="references.html#ref-papadimitriou1998combinatorial" role="doc-biblioref">Papadimitriou y Steiglitz 1998</a>)</span>. Su propósito fundamental es seleccionar un subconjunto de aristas de forma que ningún par de ellas comparta un vértice común, modelando la asignación óptima de recursos discretos e indivisibles: asignación de tripulaciones a vuelos, emparejamiento de donantes y receptores de órganos, emparejamiento de estudiantes a universidades, y partición de tareas en entornos computacionales y logísticos <span class="citation" data-cites="edmonds1965paths lovasz2009matching">(<a href="references.html#ref-edmonds1965paths" role="doc-biblioref">Edmonds 1965</a>; <a href="references.html#ref-lovasz2009matching" role="doc-biblioref">Lovász y Plummer 2009</a>)</span>.</p>
+<p>En este capítulo desarrollaremos la fundamentación teórica y algorítmica completa de los emparejamientos. Comenzaremos formalizando los conceptos de saturación, vértices expuestos y emparejamientos máximos y perfectos. A continuación, estudiaremos las cadenas alternantes y la operación de transferencia, demostrando rigurosamente el célebre Teorema de Caracterización de Berge y el lema estructural de componentes conexas en la diferencia simétrica. Posteriormente, abordaremos el desafío de los ciclos impares (<em>flores</em>) en grafos generales mediante la operación de contracción y el Algoritmo del Árbol Alternante de Edmonds. Finalmente, analizaremos la estrecha relación de dualidad entre emparejamientos y recubrimientos formulada por Gallai, culminando con la resolución del problema de emparejamiento de peso máximo mediante análisis de costes reducidos.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Objetivos de aprendizaje" data-kind="objetivos">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo, serás capaz de:</p>
+<ol type="1">
+<li><strong>Definir</strong> y <strong>clasificar</strong> emparejamientos maximales, de máximo cardinal y perfectos, caracterizando el estado de saturación de los vértices.</li>
+<li><strong>Demostrar</strong> y <strong>aplicar</strong> el Teorema de Berge para certificar la optimalidad de un emparejamiento mediante la ausencia de cadenas incrementales.</li>
+<li><strong>Analizar</strong> la descomposición estructural en componentes conexas del grafo diferencia simétrica <span class="math inline">\(G' = (V, K_1 \bigtriangleup K_2)\)</span>.</li>
+<li><strong>Construir</strong> árboles y bosques alternantes, caracterizando los conjuntos de niveles pares <span class="math inline">\(Y^0\)</span> e impares <span class="math inline">\(Y^1\)</span> para guiar la búsqueda de caminos de aumento.</li>
+<li><strong>Ejecutar</strong> el algoritmo de contracción y descompresión de flores de Edmonds para resolver emparejamientos en grafos no bipartitos.</li>
+<li><strong>Demostrar</strong> y <strong>aplicar</strong> el Teorema de Dualidad de Gallai que vincula los emparejamientos máximos con los recubrimientos de aristas mínimos.</li>
+<li><strong>Formular</strong> y <strong>resolver</strong> el problema de emparejamiento de máximo peso mediante transferencias de cadenas de coste reducido máximo.</li>
+</ol>
+</div>
+</div>
+<section id="fundamentos-y-conceptos-de-emparejamiento" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="fundamentos-y-conceptos-de-emparejamiento"><span class="header-section-number">9.1</span> Fundamentos y conceptos de emparejamiento</h2>
+<p>Para comprender la naturaleza combinatoria del emparejamiento, resulta ilustrativo comenzar analizando un problema clásico de asignación de recursos indivisibles en el que se busca coordinar pares de elementos compatibles. Consideremos el problema de coordinación de tripulaciones aéreas.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Asignación de tripulaciones de la Royal Air Force (RAF)" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Asignación de tripulaciones de la Royal Air Force (RAF)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Durante la Segunda Guerra Mundial, la Real Fuerza Aérea británica (RAF) necesitaba organizar tripulaciones formadas por parejas de dos pilotos para sus aviones biplaza de combate. Por motivos operativos y de seguridad en vuelo, ambos pilotos debían dominar al menos un idioma común para garantizar la comunicación fluida en cabina.</p>
+<p>Supongamos que en una base aérea se dispone de <span class="math inline">\(7\)</span> pilotos con las siguientes competencias lingüísticas:</p>
+<ul>
+<li><strong>Piloto 1 (<span class="math inline">\(P\)</span>)</strong>: Habla únicamente <span class="math inline">\(\{ \text{polaco} \}\)</span>.</li>
+<li><strong>Piloto 2 (<span class="math inline">\(PI\)</span>)</strong>: Habla <span class="math inline">\(\{ \text{polaco, inglés} \}\)</span>.</li>
+<li><strong>Piloto 3 (<span class="math inline">\(P'\)</span>)</strong>: Habla <span class="math inline">\(\{ \text{polaco} \}\)</span>.</li>
+<li><strong>Piloto 4 (<span class="math inline">\(I\)</span>)</strong>: Habla únicamente <span class="math inline">\(\{ \text{inglés} \}\)</span>.</li>
+<li><strong>Piloto 5 (<span class="math inline">\(A\)</span>)</strong>: Habla únicamente <span class="math inline">\(\{ \text{alemán} \}\)</span>.</li>
+<li><strong>Piloto 6 (<span class="math inline">\(AI\)</span>)</strong>: Habla <span class="math inline">\(\{ \text{alemán, inglés} \}\)</span>.</li>
+<li><strong>Piloto 7 (<span class="math inline">\(FI\)</span>)</strong>: Habla <span class="math inline">\(\{ \text{francés, inglés} \}\)</span>.</li>
+</ul>
+<p>Se desea determinar el <strong>número máximo de tripulaciones completas</strong> (parejas de pilotos) que pueden formarse simultáneamente.</p>
+<p>Para resolver el problema, modelamos el sistema mediante un grafo simple no dirigido <span class="math inline">\(G = (V, E)\)</span>, donde cada vértice representa a un piloto (<span class="math inline">\(V = \{P, PI, P', I, A, AI, FI\}\)</span>) y existe una arista no dirigida <span class="math inline">\(\{u, v\} \in E\)</span> si y sólo si los pilotos asociados <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span> comparten al menos un idioma. Las aristas del grafo resultan ser: <span class="math display">\[
+\begin{aligned}
+E = \bigl\{ &amp; \{P, PI\}, \, \{P, P'\}, \, \{PI, P'\}, \, \{PI, I\}, \, \{PI, AI\}, \\
+&amp; \{PI, FI\}, \, \{I, FI\}, \, \{I, AI\}, \, \{FI, AI\}, \, \{A, AI\} \bigr\}
+\end{aligned}
+\]</span></p>
+<p>Como se ilustra en la <a href="#fig-emparejamiento-tripulaciones-raf" class="quarto-xref">Figura&nbsp;<span>9.1</span></a>, una asignación miope o codiciosa podría emparejar inicialmente a los pilotos <span class="math inline">\(\{P, PI\}\)</span> (por hablar polaco) y <span class="math inline">\(\{A, AI\}\)</span> (por hablar alemán), obteniendo el emparejamiento <span class="math inline">\(K_1 = \bigl\{ \{P, PI\}, \, \{A, AI\} \bigr\}\)</span> de tamaño <span class="math inline">\(2\)</span>. Sin embargo, esta selección bloquea a los pilotos restantes (<span class="math inline">\(P', FI, I\)</span>), impidiendo formar una tercera pareja a pesar de que el número total de pilotos (<span class="math inline">\(7\)</span>) permitiría teóricamente hasta <span class="math inline">\(\lfloor 7/2 \rfloor = 3\)</span> parejas.</p>
+<div id="fig-emparejamiento-tripulaciones-raf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-emparejamiento-tripulaciones-raf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/emparejamiento_tripulaciones_raf.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figura&nbsp;9.1: Problema de tripulaciones de la RAF: comparación entre un emparejamiento subóptimo de 2 aristas (izquierda) y un emparejamiento máximo de 3 aristas (derecha)"><img src="images/emparejamiento_tripulaciones_raf.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-emparejamiento-tripulaciones-raf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.1: Problema de tripulaciones de la RAF: comparación entre un emparejamiento subóptimo de 2 aristas (izquierda) y un emparejamiento máximo de 3 aristas (derecha)
+</figcaption>
+</figure>
+</div>
+<p>Reorganizando las asignaciones hacia el emparejamiento <span class="math inline">\(K_2 = \bigl\{ \{P, P'\}, \, \{PI, I\}, \, \{AI, FI\} \bigr\}\)</span>, se logran formar <strong>3 tripulaciones completas</strong>, dejando únicamente al piloto <span class="math inline">\(A\)</span> sin pareja asignada. Dado que con <span class="math inline">\(7\)</span> pilotos no es posible formar más de <span class="math inline">\(3\)</span> parejas independientes, <span class="math inline">\(K_2\)</span> constituye una solución de máxima cardinalidad.</p>
+</div>
+</div>
+</div>
+<p>La formalización matemática de este problema requiere definir con precisión los conceptos de aristas disjuntas, vértices saturados y clases de optimalidad sobre grafos no dirigidos.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Emparejamiento en un grafo" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Emparejamiento en un grafo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo no dirigido simple <span class="math inline">\(G = (V, E)\)</span>, un <strong>emparejamiento</strong> (o <em>matching</em>) es un subconjunto de aristas <span class="math inline">\(K \subseteq E\)</span> tal que ninguna pareja de aristas en <span class="math inline">\(K\)</span> comparte un vértice en común, es decir:</p>
+<p><span class="math display">\[
+e_1 \cap e_2 = \emptyset, \quad \forall e_1, e_2 \in K, \; e_1 \neq e_2
+\]</span></p>
+</div>
+</div>
+<p>Desde una perspectiva algebraica y de programación matemática, un emparejamiento puede representarse mediante un vector binario de decisión <span class="math inline">\(\mathbf{x} \in \{0, 1\}^{|E|}\)</span>, donde cada componente <span class="math inline">\(x_e = 1\)</span> si la arista <span class="math inline">\(e \in E\)</span> se incluye en el emparejamiento y <span class="math inline">\(x_e = 0\)</span> en caso contrario. La condición de no adyacencia equivale a imponer que, para cada vértice <span class="math inline">\(v \in V\)</span>, la suma de variables incidentes no supere la unidad:</p>
+<p><span class="math display">\[
+\sum_{e \in \delta(v)} x_e \le 1, \quad \forall v \in V
+\]</span></p>
+<p>donde <span class="math inline">\(\delta(v)\)</span> denota el conjunto de aristas incidentes en el vértice <span class="math inline">\(v\)</span>. Esta estructura muestra que el conjunto de emparejamientos es hereditario, propiedad clave que permite analizar subconjuntos de soluciones válidas.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposición: Hereditariedad de los emparejamientos" data-kind="corolario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposición: Hereditariedad de los emparejamientos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> y un emparejamiento <span class="math inline">\(K \subseteq E\)</span>, cualquier subconjunto <span class="math inline">\(K' \subseteq K\)</span> es también un emparejamiento de <span class="math inline">\(G\)</span>.</p>
+<p><em>Demostración</em>: Si <span class="math inline">\(K\)</span> no contiene aristas con extremos compartidos, la eliminación de una o más aristas para formar <span class="math inline">\(K'\)</span> preserva trivialmente la ausencia de aristas adyacentes. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<p>La propiedad de hereditariedad implica que los emparejamientos forman una familia de conjuntos independientes (un complejo simplicial o sistema de independencia). Sobre esta familia, el objetivo primordial consiste en encontrar la solución de mayor tamaño.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Problema de emparejamiento de máximo cardinal" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Problema de emparejamiento de máximo cardinal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo no dirigido <span class="math inline">\(G = (V, E)\)</span>, el <strong>problema de emparejamiento de máximo cardinal</strong> consiste en determinar un emparejamiento <span class="math inline">\(K \subseteq E\)</span> que contenga el mayor número posible de aristas, es decir, que maximice <span class="math inline">\(|K|\)</span>.</p>
+</div>
+</div>
+<p>Para caracterizar la calidad de una solución y guiar los algoritmos de búsqueda, resulta esencial clasificar los vértices del grafo según su pertenencia a las aristas del emparejamiento.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Vértices saturados y vértices expuestos" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Vértices saturados y vértices expuestos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> y un emparejamiento <span class="math inline">\(K \subseteq E\)</span>:</p>
+<ul>
+<li>Un vértice <span class="math inline">\(x \in V\)</span> está <strong>saturado</strong> (o emparejado) por <span class="math inline">\(K\)</span> si existe alguna arista <span class="math inline">\(\{x, y\} \in K\)</span> incidente en <span class="math inline">\(x\)</span>.</li>
+<li>Un vértice <span class="math inline">\(x \in V\)</span> está <strong>expuesto</strong> (o no saturado, o libre) si ninguna arista de <span class="math inline">\(K\)</span> incide en <span class="math inline">\(x\)</span>.</li>
+</ul>
+</div>
+</div>
+<p>Puesto que cada arista de <span class="math inline">\(K\)</span> satura exactamente a <span class="math inline">\(2\)</span> vértices distintos y ningún vértice puede estar saturado por dos aristas a la vez, el número total de vértices saturados por un emparejamiento <span class="math inline">\(K\)</span> es exactamente <span class="math inline">\(2|K|\)</span>, y el número de vértices expuestos es <span class="math inline">\(|V| - 2|K|\)</span>.</p>
+<p>Esta relación de conservación entre aristas y vértices conduce a una cota superior natural: en cualquier grafo con <span class="math inline">\(n = |V|\)</span> vértices, el tamaño de cualquier emparejamiento está acotado por <span class="math inline">\(|K| \le \lfloor n/2 \rfloor\)</span>. En consecuencia, cuando el número de vértices libres se reduce al mínimo posible, la búsqueda algorítmica concluye de forma inmediata.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposición: Condición de parada por cardinalidad de expuestos" data-kind="corolario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposición: Condición de parada por cardinalidad de expuestos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> con <span class="math inline">\(n = |V|\)</span> vértices y un emparejamiento <span class="math inline">\(K \subseteq E\)</span>, si el número de vértices no saturados (expuestos) es <span class="math inline">\(0\)</span> o <span class="math inline">\(1\)</span>, entonces <span class="math inline">\(K\)</span> es un <strong>emparejamiento de máximo cardinal</strong>.</p>
+<p><em>Demostración</em>: Cualquier emparejamiento adicional requeriría seleccionar al menos una arista no adyacente a las existentes, lo que exige disponer de al menos <span class="math inline">\(2\)</span> vértices no saturados disponibles. Al haber como máximo <span class="math inline">\(1\)</span> vértice libre, no es posible añadir ninguna arista disjunta ni aumentar el cardinal. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<p>Es fundamental distinguir conceptualmente entre un <strong>emparejamiento maximal</strong> (por inclusión) y un <strong>emparejamiento de máximo cardinal</strong> (óptimo global):</p>
+<ul>
+<li><strong>Emparejamiento Maximal</strong>: Es un emparejamiento al que no se le puede añadir ninguna arista adicional de <span class="math inline">\(E\)</span> sin violar la condición de disyunción de vértices. Cualquier algoritmo codicioso (<em>greedy</em>) encuentra un emparejamiento maximal rápidamente, pero este puede quedar atrapado en un óptimo local de cardinal estrictamente inferior al óptimo global (como ocurría en el emparejamiento <span class="math inline">\(K_1\)</span> del problema de la RAF).</li>
+<li><strong>Emparejamiento de Máximo Cardinal</strong>: Es un emparejamiento que alcanza el máximo valor absoluto de <span class="math inline">\(|K|\)</span> entre todos los emparejamientos posibles del grafo. Para transformar un emparejamiento maximal subóptimo en uno de máximo cardinal, es indispensable reorganizar y reasignar parejas a lo largo del grafo.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Emparejamiento perfecto" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Emparejamiento perfecto
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> con <span class="math inline">\(n = |V|\)</span> vértices, un emparejamiento <span class="math inline">\(K \subseteq E\)</span> se dice <strong>perfecto</strong> (o 1-factor) si satura a todos los vértices del grafo (<span class="math inline">\(|V| - 2|K| = 0\)</span>). En tal caso, el tamaño del emparejamiento es exactamente:</p>
+<p><span class="math display">\[
+|K| = \frac{n}{2}
+\]</span></p>
+<p>lo que requiere necesariamente que el orden del grafo <span class="math inline">\(n\)</span> sea un número par.</p>
+</div>
+</div>
+</section>
+<section id="resolución-mediante-cadenas-alternantes-e-incrementales" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="resolución-mediante-cadenas-alternantes-e-incrementales"><span class="header-section-number">9.2</span> Resolución mediante cadenas alternantes e incrementales</h2>
+<p>Para resolver de forma constructiva el problema de emparejamiento de máximo cardinal cuando existen dos o más vértices expuestos, es necesario analizar cómo modificar un emparejamiento existente para incrementar su tamaño. En lugar de reconstruir el emparejamiento desde cero, los métodos combinatorios emplean un principio de mejora local iterativa basado en <strong>cadenas alternantes de aristas</strong>, que actúan como cascadas de reasignación de parejas.</p>
+<section id="cadenas-alternantes-cadenas-incrementales-y-transferencias" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="cadenas-alternantes-cadenas-incrementales-y-transferencias"><span class="header-section-number">9.2.1</span> Cadenas alternantes, cadenas incrementales y transferencias</h3>
+<p>La intuición física tras una cadena alternante reside en la posibilidad de intercambiar las asignaciones actuales por nuevas parejas compatibles. Al alternar aristas no emparejadas con aristas ya emparejadas, cualquier cambio en una arista desencadena una reacción en cadena que exige reajustar las aristas adyacentes.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Cadena alternante e incremental" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Cadena alternante e incremental
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> y un emparejamiento <span class="math inline">\(K \subseteq E\)</span>:</p>
+<ul>
+<li>Una <strong>cadena alternante</strong> es una cadena simple <span class="math inline">\(\mu = (v_1, v_2, \dots, v_k)\)</span> cuyas aristas pertenecen y no pertenecen alternativamente al emparejamiento <span class="math inline">\(K\)</span> (es decir, las aristas alternan entre <span class="math inline">\(K\)</span> y <span class="math inline">\(E \setminus K\)</span>).</li>
+<li>Una <strong>cadena incremental</strong> (o cadena de aumento) <span class="math inline">\(\mu[x, y]\)</span> con <span class="math inline">\(x \neq y\)</span> es una cadena alternante cuyos dos vértices extremos <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> son <strong>vértices expuestos</strong> (no saturados) respecto de <span class="math inline">\(K\)</span>.</li>
+</ul>
+</div>
+</div>
+<p>Las cadenas incrementales poseen propiedades algebraicas y combinatorias muy definidas:</p>
+<ol type="1">
+<li><strong>Longitud Impar de Aristas</strong>: Toda cadena incremental contiene un <strong>número impar de aristas</strong>. Al comenzar y terminar en vértices no saturados, sus aristas primera y última deben pertenecer obligatoriamente a <span class="math inline">\(E \setminus K\)</span>.</li>
+<li><strong>Balance de Aristas</strong>: En una cadena incremental con <span class="math inline">\(2k + 1\)</span> aristas, exactamente <span class="math inline">\(k + 1\)</span> aristas pertenecen a <span class="math inline">\(E \setminus K\)</span> y <span class="math inline">\(k\)</span> aristas pertenecen a <span class="math inline">\(K\)</span>. El número de aristas fuera del emparejamiento supera siempre en una unidad al número de aristas dentro de <span class="math inline">\(K\)</span>.</li>
+</ol>
+<p>Esta asimetría en el número de aristas es la que permite incrementar el tamaño global del emparejamiento mediante la operación de transferencia.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Operación de transferencia" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Operación de transferencia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un emparejamiento <span class="math inline">\(K \subseteq E\)</span> y una cadena incremental <span class="math inline">\(\mu[x, y]\)</span> respecto de <span class="math inline">\(K\)</span>, la <strong>transferencia</strong> consiste en permutar la pertenencia de las aristas a lo largo de la cadena, sustituyendo las aristas de <span class="math inline">\(\mu \cap K\)</span> por las aristas de <span class="math inline">\(\mu \setminus K\)</span>.</p>
+<p>Algebraicamente, el nuevo emparejamiento <span class="math inline">\(K'\)</span> se obtiene mediante la <strong>diferencia simétrica</strong> (<span class="math inline">\(\bigtriangleup\)</span>):</p>
+<p><span class="math display">\[
+K' = K \bigtriangleup \mu[x, y] = (K \setminus \mu) \cup (\mu \setminus K)
+\]</span></p>
+<p>El emparejamiento resultante satisface estrictamente:</p>
+<p><span class="math display">\[
+|K'| = |K| + 1
+\]</span></p>
+</div>
+</div>
+<p>La operación de transferencia preserva de manera rigurosa la validez del emparejamiento: en los vértices interiores de la cadena <span class="math inline">\(\mu\)</span>, la arista eliminada de <span class="math inline">\(K\)</span> es reemplazada exactamente por una nueva arista incidente en dicho vértice, manteniendo su grado saturado en <span class="math inline">\(1\)</span>. En los dos vértices extremos <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>, que antes estaban expuestos, la incorporación de las aristas extremas pasa su estado a saturado (<span class="math inline">\(sat = 1\)</span>), incrementando el cardinal total en una unidad sin alterar el estado del resto del grafo.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Aplicación de una transferencia en un grafo de 6 nodos" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Aplicación de una transferencia en un grafo de 6 nodos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Considérese el grafo de 6 vértices <span class="math inline">\(V = \{1, 2, 3, 4, 5, 6\}\)</span> y 9 aristas <span class="math inline">\(E = \bigl\{ \{1,2\}, \{1,3\}, \{2,3\}, \{2,5\}, \{3,4\}, \{3,6\}, \{4,5\}, \{4,6\}, \{5,6\} \bigr\}\)</span> presentado en la <a href="#fig-cadenas-alternantes-transferencia" class="quarto-xref">Figura&nbsp;<span>9.2</span></a>.</p>
+<p>Partimos del emparejamiento inicial <span class="math inline">\(K = \bigl\{ \{2,3\}, \, \{5,6\} \bigr\}\)</span> con <span class="math inline">\(|K| = 2\)</span>. Evaluamos la red:</p>
+<ol type="1">
+<li><strong>Identificación de Vértices Expuestos</strong>: Los vértices <span class="math inline">\(2, 3, 5, 6\)</span> están saturados por <span class="math inline">\(K\)</span>. Los vértices <span class="math inline">\(1\)</span> y <span class="math inline">\(4\)</span> son vértices expuestos (<span class="math inline">\(1, 4 \notin V(K)\)</span>).</li>
+<li><strong>Detección de la Cadena Incremental</strong>: La trayectoria <span class="math inline">\(\mu = (1, 2, 3, 4)\)</span> une los vértices expuestos <span class="math inline">\(1\)</span> y <span class="math inline">\(4\)</span>. Sus aristas son:
+<ul>
+<li><span class="math inline">\(\{1, 2\} \notin K\)</span> (fuera de <span class="math inline">\(K\)</span>)</li>
+<li><span class="math inline">\(\{2, 3\} \in K\)</span> (dentro de <span class="math inline">\(K\)</span>)</li>
+<li><span class="math inline">\(\{3, 4\} \notin K\)</span> (fuera de <span class="math inline">\(K\)</span>) La cadena alterna aristas de <span class="math inline">\(E \setminus K\)</span> y <span class="math inline">\(K\)</span>, y tiene longitud <span class="math inline">\(3\)</span> (impar).</li>
+</ul></li>
+<li><strong>Ejecución de la Transferencia</strong>: Calculamos la diferencia simétrica <span class="math inline">\(K' = K \bigtriangleup \mu\)</span>:
+<ul>
+<li>Eliminamos la arista <span class="math inline">\(\{2, 3\} \in K\)</span>.</li>
+<li>Incorporamos las aristas <span class="math inline">\(\{1, 2\}\)</span> y <span class="math inline">\(\{3, 4\}\)</span>.</li>
+<li>Mantenemos la arista ajena a la cadena <span class="math inline">\(\{5, 6\}\)</span>.</li>
+</ul>
+Obtenemos el nuevo emparejamiento: <span class="math display">\[
+K' = \bigl\{ \{1,2\}, \, \{3,4\}, \, \{5,6\} \bigr\}
+\]</span> El cardinal aumenta de <span class="math inline">\(|K| = 2\)</span> a <span class="math inline">\(|K'| = 3\)</span>. Dado que <span class="math inline">\(|K'| = 6/2 = 3\)</span>, <span class="math inline">\(K'\)</span> satura a todos los vértices del grafo y constituye un <strong>emparejamiento perfecto</strong>.</li>
+</ol>
+<div id="fig-cadenas-alternantes-transferencia" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cadenas-alternantes-transferencia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/cadenas_alternantes_transferencia.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figura&nbsp;9.2: Proceso de transferencia: estado inicial K (izquierda), identificación de la cadena incremental (centro) y nuevo emparejamiento K' (derecha)"><img src="images/cadenas_alternantes_transferencia.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cadenas-alternantes-transferencia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.2: Proceso de transferencia: estado inicial <span class="math inline">\(K\)</span> (izquierda), identificación de la cadena incremental (centro) y nuevo emparejamiento <span class="math inline">\(K'\)</span> (derecha)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="teorema-de-caracterización-de-berge-y-descomposición-de-componentes" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="teorema-de-caracterización-de-berge-y-descomposición-de-componentes"><span class="header-section-number">9.2.2</span> Teorema de caracterización de Berge y descomposición de componentes</h3>
+<p>La relación directa entre las cadenas incrementales y el aumento del cardinal conduce a la caracterización fundamental de optimalidad descubierta por Claude Berge en 1957 <span class="citation" data-cites="berge1957two">(<a href="references.html#ref-berge1957two" role="doc-biblioref">Berge 1957</a>)</span>. Para demostrar este teorema formalmente, es necesario caracterizar previamente la estructura topológica que surge al superponer dos emparejamientos distintos sobre un mismo grafo.</p>
+<p>Al calcular la diferencia simétrica <span class="math inline">\(K_1 \bigtriangleup K_2\)</span> entre dos emparejamientos <span class="math inline">\(K_1\)</span> y <span class="math inline">\(K_2\)</span>, estamos aislando el <strong>grafo de discrepancias</strong> entre ambas soluciones.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Lema: Estructura del grafo diferencia simétrica" data-kind="lema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Lema: Estructura del grafo diferencia simétrica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dados dos emparejamientos cualesquiera <span class="math inline">\(K_1\)</span> y <span class="math inline">\(K_2\)</span> en un grafo simple <span class="math inline">\(G = (V, E)\)</span>, el subgrafo parcial generado por la diferencia simétrica <span class="math inline">\(G' = (V, K_1 \bigtriangleup K_2)\)</span> está compuesto exclusivamente por componentes conexas disjuntas que pertenecen a alguno de los siguientes tres tipos:</p>
+<ol type="1">
+<li><strong>Vértices aislados</strong> (grado <span class="math inline">\(0\)</span>).</li>
+<li><strong>Ciclos elementales alternantes</strong> de longitud estrictamente par (cuyas aristas alternan entre <span class="math inline">\(K_1\)</span> y <span class="math inline">\(K_2\)</span>).</li>
+<li><strong>Cadenas elementales alternantes</strong> de longitud par o impar (cuyas aristas alternan entre <span class="math inline">\(K_1\)</span> y <span class="math inline">\(K_2\)</span>).</li>
+</ol>
+<p><em>Demostración</em>: Analicemos el grado máximo que puede tener cualquier vértice <span class="math inline">\(v \in V\)</span> en el grafo diferencia <span class="math inline">\(G' = (V, K_1 \bigtriangleup K_2)\)</span>:</p>
+<ul>
+<li><strong>Caso 1 (Vértice no saturado por <span class="math inline">\(K_1\)</span> ni por <span class="math inline">\(K_2\)</span>)</strong>: Ninguna arista de <span class="math inline">\(K_1 \cup K_2\)</span> incide en <span class="math inline">\(v\)</span>. Por tanto, el grado de <span class="math inline">\(v\)</span> en <span class="math inline">\(G'\)</span> es <span class="math inline">\(d_{G'}(v) = 0\)</span> (vértice aislado).</li>
+<li><strong>Caso 2 (Vértice saturado por <span class="math inline">\(K_1\)</span> y por <span class="math inline">\(K_2\)</span> con la misma arista)</strong>: Sea <span class="math inline">\(e \in K_1 \cap K_2\)</span> la arista incidente. Por definición de diferencia simétrica, <span class="math inline">\(e \notin K_1 \bigtriangleup K_2\)</span>. Ninguna otra arista de <span class="math inline">\(K_1\)</span> ni de <span class="math inline">\(K_2\)</span> incide en <span class="math inline">\(v\)</span>, luego <span class="math inline">\(d_{G'}(v) = 0\)</span> (vértice aislado).</li>
+<li><strong>Caso 3 (Vértice saturado sólo por uno de los dos emparejamientos)</strong>: Si <span class="math inline">\(v\)</span> está saturado por <span class="math inline">\(e_1 \in K_1\)</span> y ninguna arista de <span class="math inline">\(K_2\)</span> incide en <span class="math inline">\(v\)</span> (o viceversa), entonces exactamente una arista incidente pertenece a <span class="math inline">\(K_1 \bigtriangleup K_2\)</span>, por lo que <span class="math inline">\(d_{G'}(v) = 1\)</span>. Estos vértices corresponden exclusivamente a los extremos de cadenas alternantes.</li>
+<li><strong>Caso 4 (Vértice saturado por ambos emparejamientos con aristas distintas)</strong>: Si <span class="math inline">\(e_1 \in K_1\)</span> y <span class="math inline">\(e_2 \in K_2\)</span> con <span class="math inline">\(e_1 \neq e_2\)</span> inciden en <span class="math inline">\(v\)</span>, ambas aristas pertenecen a <span class="math inline">\(K_1 \bigtriangleup K_2\)</span>. Al no poder incidir más de una arista de cada emparejamiento en <span class="math inline">\(v\)</span>, el grado es exactamente <span class="math inline">\(d_{G'}(v) = 2\)</span>.</li>
+</ul>
+<p>Puesto que ningún vértice en <span class="math inline">\(G'\)</span> tiene grado superior a <span class="math inline">\(2\)</span> (<span class="math inline">\(d_{G'}(v) \le 2, \forall v \in V\)</span>), todo grafo de grado máximo 2 se descompone de forma unívoca en vértices aislados, cadenas simples y ciclos cerrados. Además, como las aristas deben alternar estrictamente entre <span class="math inline">\(K_1\)</span> y <span class="math inline">\(K_2\)</span>, los ciclos cerrados deben cerrarse alternando aristas de ambos conjuntos, lo que exige obligatoriamente un número par de aristas. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<p>Como se ilustra en la <a href="#fig-lema-diferencia-componentes" class="quarto-xref">Figura&nbsp;<span>9.3</span></a> y en la <a href="#fig-lema-diferencia-bipartito" class="quarto-xref">Figura&nbsp;<span>9.4</span></a>, el lema anterior permite descomponer cualquier par de soluciones en piezas estructurales elementales independientes sin ramificaciones complejas.</p>
+<div id="fig-lema-diferencia-componentes" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lema-diferencia-componentes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lema_diferencia_simetrica_componentes.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figura&nbsp;9.3: Descomposición del grafo diferencia simétrica G' = (V, K_1 \bigtriangleup K_2) en vértices aislados, ciclos pares y cadenas alternantes"><img src="images/lema_diferencia_simetrica_componentes.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lema-diferencia-componentes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.3: Descomposición del grafo diferencia simétrica <span class="math inline">\(G' = (V, K_1 \bigtriangleup K_2)\)</span> en vértices aislados, ciclos pares y cadenas alternantes
+</figcaption>
+</figure>
+</div>
+<div id="fig-lema-diferencia-bipartito" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lema-diferencia-bipartito-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lema_diferencia_bipartito_ejemplo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figura&nbsp;9.4: Evaluación de la diferencia simétrica K_1 \bigtriangleup K_2 sobre un grafo bipartito de 10 vértices"><img src="images/lema_diferencia_bipartito_ejemplo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lema-diferencia-bipartito-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.4: Evaluación de la diferencia simétrica <span class="math inline">\(K_1 \bigtriangleup K_2\)</span> sobre un grafo bipartito de 10 vértices
+</figcaption>
+</figure>
+</div>
+<p>A partir del lema de descomposición de la diferencia simétrica, podemos demostrar de forma rigurosa el Teorema de Berge.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema de caracterización de Berge (1957)" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema de caracterización de Berge (1957)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span>, un emparejamiento <span class="math inline">\(K \subseteq E\)</span> es de <strong>máximo cardinal</strong> si y solo si el grafo <span class="math inline">\(G\)</span> <strong>no contiene ninguna cadena incremental</strong> con respecto a <span class="math inline">\(K\)</span>.</p>
+<p><em>Demostración</em>: Demostramos la doble implicación:</p>
+<ul>
+<li><strong>Necesidad (<span class="math inline">\(\implies\)</span>)</strong>: Razonamos por reducción al absurdo. Supongamos que <span class="math inline">\(K\)</span> es de máximo cardinal y que existe una cadena incremental <span class="math inline">\(\mu[x, y]\)</span> respecto de <span class="math inline">\(K\)</span>. Aplicando la operación de transferencia, el nuevo conjunto <span class="math inline">\(K' = K \bigtriangleup \mu[x, y]\)</span> es un emparejamiento válido de <span class="math inline">\(G\)</span> con cardinal <span class="math inline">\(|K'| = |K| + 1 &gt; |K|\)</span>, lo que contradice la hipótesis de que <span class="math inline">\(K\)</span> era de cardinal máximo.</li>
+<li><strong>Suficiencia (<span class="math inline">\(\impliedby\)</span>)</strong>: Supongamos que <span class="math inline">\(K\)</span> no contiene ninguna cadena incremental respecto de sí mismo. Sea <span class="math inline">\(K^*\)</span> un emparejamiento de máximo cardinal en <span class="math inline">\(G\)</span> (cuya existencia está garantizada al ser el conjunto de aristas finito). Consideramos el subgrafo diferencia simétrica <span class="math inline">\(G' = (V, K \bigtriangleup K^*)\)</span>.</li>
+</ul>
+<p>Por el Lema de Descomposición, <span class="math inline">\(G'\)</span> se compone únicamente de vértices aislados, ciclos pares alternantes y cadenas alternantes:</p>
+<ol type="1">
+<li>Los vértices aislados contienen <span class="math inline">\(0\)</span> aristas de <span class="math inline">\(K\)</span> y <span class="math inline">\(0\)</span> de <span class="math inline">\(K^*\)</span>.</li>
+<li>Cada ciclo alternante contiene exactamente el mismo número de aristas de <span class="math inline">\(K\)</span> que de <span class="math inline">\(K^*\)</span> (al tener longitud par).</li>
+<li>En cada cadena alternante de longitud par, el número de aristas de <span class="math inline">\(K\)</span> iguala al de <span class="math inline">\(K^*\)</span>.</li>
+<li>En cada cadena alternante de longitud impar, las aristas alternan comenzando y terminando con el mismo emparejamiento. Si alguna cadena impar tuviera más aristas de <span class="math inline">\(K^*\)</span> que de <span class="math inline">\(K\)</span>, sus extremos serían vértices no saturados por <span class="math inline">\(K\)</span>, lo que convertiría a dicha cadena en una <strong>cadena incremental respecto de <span class="math inline">\(K\)</span></strong>. Pero por hipótesis, <span class="math inline">\(K\)</span> no admite cadenas incrementales. Por tanto, ninguna cadena impar puede tener más aristas de <span class="math inline">\(K^*\)</span> que de <span class="math inline">\(K\)</span>.</li>
+</ol>
+<p>Sumando el número de aristas en todas las componentes conexas de <span class="math inline">\(G'\)</span>, se deduce que <span class="math inline">\(|K^*| \le |K|\)</span>. Dado que por definición de máximo <span class="math inline">\(|K| \le |K^*|\)</span>, concluimos que <span class="math inline">\(|K| = |K^*|\)</span>, lo que certifica que <span class="math inline">\(K\)</span> es de máximo cardinal. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<p>El Teorema de Berge constituye la piedra angular de la teoría de emparejamientos y juega un papel análogo al <strong>Teorema de Flujo Máximo - Corte Mínimo de Ford-Fulkerson</strong> en redes de transporte (donde la ausencia de caminos de aumento en la red residual certifica el flujo máximo, como se vio en el Capítulo 8) y al criterio de parada del <strong>método del Símplex</strong> en Programación Lineal (donde la no negatividad de los costes reducidos certifica la optimalidad global, como se demostró en el Capítulo 3). En todos estos casos, una condición de optimalidad local determinista certifica la optimalidad global absoluta.</p>
+</section>
+</section>
+<section id="algoritmo-del-árbol-alternante-y-contracción-de-flores-edmonds" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="algoritmo-del-árbol-alternante-y-contracción-de-flores-edmonds"><span class="header-section-number">9.3</span> Algoritmo del árbol alternante y contracción de flores (Edmonds)</h2>
+<p>El Teorema de Berge reduce el problema de optimización a una tarea constructiva: buscar de forma sistemática cadenas incrementales en el grafo o certificar formalmente que no existen. Para realizar esta búsqueda de manera determinista y eficiente, se utiliza la estructura jerárquica del <strong>árbol alternante</strong>.</p>
+<section id="estructura-del-bosque-y-árbol-alternante" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="estructura-del-bosque-y-árbol-alternante"><span class="header-section-number">9.3.1</span> Estructura del bosque y árbol alternante</h3>
+<p>Dado un emparejamiento <span class="math inline">\(K\)</span> y un vértice expuesto, el objetivo algorítmico consiste en explorar caminos alternantes en busca de una cadena incremental de longitud impar que termine en otro vértice expuesto. Para formular este proceso, identificamos el estado de cada vértice <span class="math inline">\(x \in V\)</span> mediante una <strong>variable indicadora de saturación</strong>:</p>
+<p><span class="math display">\[
+sat(x) = \begin{cases} 1, &amp; \text{si } x \text{ está saturado por } K \text{ (existe } e \in K \text{ incidente en } x) \\ 0, &amp; \text{si } x \text{ es un vértice expuesto o no saturado} \end{cases}
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Nota: Bipartición del subgrafo de aristas del emparejamiento" data-kind="nota">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota: Bipartición del subgrafo de aristas del emparejamiento
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A partir de cualquier emparejamiento <span class="math inline">\(K\)</span> sobre un grafo general <span class="math inline">\(G = (V, E)\)</span> (sea este originalmente bipartito o no), el subgrafo parcial <span class="math inline">\(G_K = (V, K)\)</span> formado exclusivamente por las aristas de <span class="math inline">\(K\)</span> es siempre un <strong>grafo bipartito</strong>. En efecto, al ser las aristas de <span class="math inline">\(K\)</span> disjuntas en vértices, cada arista forma una componente conexa <span class="math inline">\(K_2\)</span> independiente, cuyos dos extremos pueden asignarse a conjuntos disjuntos de una bipartición.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Árbol alternante y bosque alternante" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Árbol alternante y bosque alternante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dados un grafo <span class="math inline">\(G = (V, E)\)</span> y un emparejamiento <span class="math inline">\(K \subseteq E\)</span>, un <strong>árbol alternante</strong> es un subgrafo parcial <span class="math inline">\(H = (W, T)\)</span> con <span class="math inline">\(W \subseteq V\)</span> y <span class="math inline">\(T \subseteq E\)</span> que satisface las siguientes tres propiedades fundamentales:</p>
+<ol type="1">
+<li><span class="math inline">\(H\)</span> es un árbol (subgrafo conexo y sin ciclos).</li>
+<li>Existe un único vértice distinguido <span class="math inline">\(r \in W\)</span>, denominado <strong>raíz del árbol alternante</strong>, que es un vértice expuesto respecto del emparejamiento <span class="math inline">\(K\)</span> (<span class="math inline">\(sat(r) = 0\)</span>).</li>
+<li>Cualquier cadena elemental en <span class="math inline">\(H\)</span> que une un vértice cualquiera <span class="math inline">\(w \in W\)</span> con la raíz <span class="math inline">\(r\)</span> es una <strong>cadena alternante</strong>.</li>
+</ol>
+<p>Un conjunto de árboles alternantes disjuntos cuyas raíces son vértices expuestos de <span class="math inline">\(G\)</span> constituye un <strong>bosque alternante</strong>. Cada árbol se denota unívocamente a partir de su raíz mediante <span class="math inline">\(H(r) = (W(r), T(r))\)</span>.</p>
+</div>
+</div>
+<p>Para la gestión y navegación computacional del bosque alternante, se emplea el <strong>vector de antecesores o vector de padres</strong> <span class="math inline">\(\mathbf{p} = (p(1), p(2), \dots, p(n))^T \in V^n\)</span>. Cada raíz <span class="math inline">\(r \in R\)</span> de un árbol alternante se identifica de forma unívoca por la autorreferencia <span class="math inline">\(p(r) = r\)</span>. La única cadena alternante que conecta cualquier vértice <span class="math inline">\(w \in W(r)\)</span> con su raíz <span class="math inline">\(r\)</span> se recupera de manera determinista encadenando las referencias del vector <span class="math inline">\(\mathbf{p}\)</span>:</p>
+<p><span class="math display">\[
+w \longleftrightarrow p(w) \longleftrightarrow p(p(w)) \longleftrightarrow \cdots \longleftrightarrow p(\cdots(p(w))\cdots) \longleftrightarrow r
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Bosque alternante y verificación de maximalidad en grafo de 6 nodos" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Bosque alternante y verificación de maximalidad en grafo de 6 nodos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Considérese el grafo de 6 vértices <span class="math inline">\(V = \{1, 2, 3, 4, 5, 6\}\)</span> y aristas <span class="math inline">\(E = \bigl\{ \{1,4\}, \{1,5\}, \{1,6\}, \{2,5\}, \{3,5\} \bigr\}\)</span> representado en la <a href="#fig-arbol-ejemplo-6nodos" class="quarto-xref">Figura&nbsp;<span>9.5</span></a>, con el emparejamiento inicial <span class="math inline">\(K = \bigl\{ \{1,4\}, \, \{2,5\} \bigr\}\)</span>.</p>
+<ol type="1">
+<li><p><strong>Identificación de Raíces</strong>: Los vértices saturados son <span class="math inline">\(\{1, 2, 4, 5\}\)</span> (<span class="math inline">\(sat = 1\)</span>), mientras que los vértices expuestos son <span class="math inline">\(\{3, 6\}\)</span> (<span class="math inline">\(sat = 0\)</span>). Por tanto, el conjunto de raíces del bosque alternante es <span class="math inline">\(R = \{3, 6\}\)</span>.</p></li>
+<li><p><strong>Construcción de los Árboles Alternantes</strong>:</p>
+<ul>
+<li><p>Árbol <span class="math inline">\(H(3) = (W(3), T(3))\)</span> con raíz <span class="math inline">\(r = 3\)</span>: <span class="math display">\[W(3) = \{2, 3, 5\}, \quad T(3) = \bigl\{ \{3,5\}, \, \{2,5\} \bigr\}\]</span></p></li>
+<li><p>Árbol <span class="math inline">\(H(6) = (W(6), T(6))\)</span> con raíz <span class="math inline">\(r = 6\)</span>: <span class="math display">\[W(6) = \{1, 4, 6\}, \quad T(6) = \bigl\{ \{6,1\}, \, \{1,4\} \bigr\}\]</span></p></li>
+</ul></li>
+<li><p><strong>Vector de Padres</strong>: El vector de antecesores queda determinado por: <span class="math display">\[
+\mathbf{p}^T = (6, 5, 3, 1, 3, 6)
+\]</span></p></li>
+<li><p><strong>Conclusión de Optimalidad</strong>: Desde los árboles alternantes no es posible alcanzar ningún otro vértice expuesto mediante aristas alternantes. Al no existir cadenas incrementales, el Teorema de Berge certifica que <span class="math inline">\(K\)</span> es un <strong>emparejamiento de máximo cardinal</strong> (<span class="math inline">\(|K| = 2\)</span>).</p></li>
+</ol>
+<div id="fig-arbol-ejemplo-6nodos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arbol-ejemplo-6nodos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/arbol_alternante_ejemplo_6nodos.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figura&nbsp;9.5: Bosque alternante en grafo de 6 nodos: configuración inicial de K (izq.) y descomposición en árboles H(3) y H(6) caracterizados por el vector \mathbf{p} (der.)"><img src="images/arbol_alternante_ejemplo_6nodos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arbol-ejemplo-6nodos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.5: Bosque alternante en grafo de 6 nodos: configuración inicial de <span class="math inline">\(K\)</span> (izq.) y descomposición en árboles <span class="math inline">\(H(3)\)</span> y <span class="math inline">\(H(6)\)</span> caracterizados por el vector <span class="math inline">\(\mathbf{p}\)</span> (der.)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Cuando la exploración del árbol alternante sí alcanza otros vértices expuestos antes de agotarse, se descubre al menos una cadena incremental que permite aplicar la transferencia y aumentar el cardinal del emparejamiento, como se detalla en el siguiente ejemplo:</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Detección de cadenas incrementales y transferencia en grafo bipartito de 10 nodos" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Detección de cadenas incrementales y transferencia en grafo bipartito de 10 nodos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Considérese el grafo bipartito de 10 vértices <span class="math inline">\(V = \{1, \dots, 10\}\)</span> ilustrado en la <a href="#fig-arbol-ejemplo-10nodos" class="quarto-xref">Figura&nbsp;<span>9.6</span></a>, con el emparejamiento inicial <span class="math inline">\(K_1 = \bigl\{ \{2,7\}, \, \{3,8\}, \, \{5,10\} \bigr\}\)</span> de cardinal <span class="math inline">\(3\)</span>.</p>
+<ol type="1">
+<li><p><strong>Inicialización del Árbol con Raíz Expuesta</strong>: El nodo <span class="math inline">\(1\)</span> es un vértice expuesto (<span class="math inline">\(sat(1) = 0\)</span>). Tomamos <span class="math inline">\(R = \{1\}\)</span> como raíz del árbol alternante.</p></li>
+<li><p><strong>Vector de Padres</strong>: Tras explorar las aristas del grafo bipartito desde la raíz <span class="math inline">\(1\)</span> (alcanzando el camino alternante <span class="math inline">\(1 \to 7 \to 2 \to 8 \to 3\)</span> y, desde el vértice <span class="math inline">\(3\)</span>, ramificando hacia los nodos <span class="math inline">\(6\)</span>, <span class="math inline">\(9\)</span> y la rama <span class="math inline">\(10 \to 5\)</span>), el vector de antecesores obtenido es: <span class="math display">\[
+\mathbf{p}^T = (1, 7, 8, 0, 10, 3, 1, 2, 3, 3)
+\]</span> donde <span class="math inline">\(p(4) = 0\)</span> indica que el nodo <span class="math inline">\(4\)</span> no es alcanzado por el árbol, mientras que <span class="math inline">\(p(10) = 3\)</span> y <span class="math inline">\(p(5) = 10\)</span> caracterizan la exploración de la rama saturada <span class="math inline">\(\{5, 10\}\)</span>.</p></li>
+<li><p><strong>Identificación de Cadenas Incrementales</strong>: Los vértices <span class="math inline">\(6\)</span> y <span class="math inline">\(9\)</span> son vértices expuestos que han sido alcanzados por el árbol. Desenrollando sus antecesores mediante <span class="math inline">\(\mathbf{p}\)</span>, obtenemos dos cadenas incrementales que conectan con la raíz <span class="math inline">\(1\)</span>: <span class="math display">\[
+6 \longleftrightarrow p(6)=3 \longleftrightarrow p(3)=8 \longleftrightarrow p(8)=2 \longleftrightarrow p(2)=7 \longleftrightarrow p(7)=1
+\]</span> <span class="math display">\[
+9 \longleftrightarrow p(9)=3 \longleftrightarrow p(3)=8 \longleftrightarrow p(8)=2 \longleftrightarrow p(2)=7 \longleftrightarrow p(7)=1
+\]</span></p></li>
+<li><p><strong>Ejecución de la Transferencia</strong>: Aplicando la transferencia por la cadena incremental que parte del nodo expuesto <span class="math inline">\(6\)</span>: <span class="math display">\[
+\mu = (6, 3, 8, 2, 7, 1)
+\]</span> Calculamos la diferencia simétrica <span class="math inline">\(K'_1 = K_1 \bigtriangleup \mu\)</span>: <span class="math display">\[
+K'_1 = \bigl\{ \{6,3\}, \, \{8,2\}, \, \{7,1\}, \, \{5,10\} \bigr\}
+\]</span> El cardinal resultante aumenta a <span class="math inline">\(|K'_1| = 4\)</span>, logrando un nuevo emparejamiento con una arista adicional.</p></li>
+</ol>
+<div id="fig-arbol-ejemplo-10nodos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arbol-ejemplo-10nodos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/arbol_alternante_ejemplo_10nodos.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figura&nbsp;9.6: Búsqueda mediante árbol alternante en grafo de 10 nodos: identificación de cadenas incrementales desde los nodos expuestos 6 y 9 (izq.) y nuevo emparejamiento aumentado K'_1 tras la transferencia (der.)"><img src="images/arbol_alternante_ejemplo_10nodos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arbol-ejemplo-10nodos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.6: Búsqueda mediante árbol alternante en grafo de 10 nodos: identificación de cadenas incrementales desde los nodos expuestos <span class="math inline">\(6\)</span> y <span class="math inline">\(9\)</span> (izq.) y nuevo emparejamiento aumentado <span class="math inline">\(K'_1\)</span> tras la transferencia (der.)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="el-desafío-de-los-ciclos-impares-y-la-contracción-de-flores-de-edmonds" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="el-desafío-de-los-ciclos-impares-y-la-contracción-de-flores-de-edmonds"><span class="header-section-number">9.3.2</span> El desafío de los ciclos impares y la contracción de flores de Edmonds</h3>
+<p>En grafos bipartitos, todos los ciclos tienen longitud par, lo que garantiza que la búsqueda mediante árboles alternantes siempre progresa de forma directa hacia nuevos vértices o detecta cadenas incrementales. Sin embargo, en grafos generales no bipartitos, la presencia de <strong>ciclos de longitud impar</strong> (denominados <em>flores</em> o <em>blossoms</em>) introduce una dificultad estructural profunda.</p>
+<p>Como se ilustra en la <a href="#fig-contraccion-ciclo-flor" class="quarto-xref">Figura&nbsp;<span>9.7</span></a>, en un ciclo impar de <span class="math inline">\(2k + 1\)</span> vértices (por ejemplo, el ciclo de 5 vértices <span class="math inline">\(C_5\)</span>), el emparejamiento maximal dentro del ciclo puede saturar como máximo a <span class="math inline">\(2k\)</span> vértices mediante <span class="math inline">\(k\)</span> aristas, dejando exactamente <strong>un vértice expuesto</strong>. La propiedad algebraica y combinatoria clave de la flor es que <strong>cualquiera de los <span class="math inline">\(2k+1\)</span> vértices del ciclo puede elegirse libremente como el vértice expuesto</strong>, mientras los restantes <span class="math inline">\(2k\)</span> vértices quedan completamente saturados por parejas disjuntas.</p>
+<div id="fig-contraccion-ciclo-flor" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-contraccion-ciclo-flor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/contraccion_ciclo_impar_flor.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figura&nbsp;9.7: Propiedad de la flor en un ciclo impar C_5: cualquiera de sus 5 vértices puede quedar expuesto mientras los 4 restantes quedan saturados"><img src="images/contraccion_ciclo_impar_flor.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-contraccion-ciclo-flor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.7: Propiedad de la flor en un ciclo impar <span class="math inline">\(C_5\)</span>: cualquiera de sus 5 vértices puede quedar expuesto mientras los 4 restantes quedan saturados
+</figcaption>
+</figure>
+</div>
+<p>Para sortear este obstáculo sin explorar factorialmente todas las posibles asignaciones internas del ciclo, Jack Edmonds introdujo en 1965 la técnica de <strong>contracción de flores</strong>: comprimir todo el ciclo impar en un único pseudovértice (<em>supernodo</em>) <span class="math inline">\(w\)</span>, resolver el emparejamiento en el grafo comprimido, y descontraer (<em>expandir</em>) posteriormente el ciclo ajustando internamente las aristas <span class="citation" data-cites="edmonds1965paths">(<a href="references.html#ref-edmonds1965paths" role="doc-biblioref">Edmonds 1965</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Contracción de un grafo (Grafo comprimido)" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Contracción de un grafo (Grafo comprimido)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo no dirigido <span class="math inline">\(G = (V, E)\)</span> y un subconjunto de vértices <span class="math inline">\(W \subset V\)</span> correspondiente a un ciclo impar, se define el <strong>grafo comprimido</strong> <span class="math inline">\(G/W\)</span> como:</p>
+<p><span class="math display">\[
+G/W = \bigl( (V \setminus W) \cup \{w\}, \, E/W \bigr)
+\]</span></p>
+<p>donde <span class="math inline">\(w\)</span> es un nuevo pseudovértice representativo y el conjunto de aristas <span class="math inline">\(E/W\)</span> se define como:</p>
+<p><span class="math display">\[
+E/W = \bigl\{ \{i, j\} \in E \mid i, j \notin W \bigr\} \cup \bigl\{ \{w, j\} \mid \exists i \in W \text{ tal que } \{i, j\} \in E, \, j \notin W \bigr\}
+\]</span></p>
+</div>
+</div>
+<p>El siguiente resultado teórico, formulado por Jack Edmonds, garantiza que la contracción de un ciclo impar preserva la capacidad de reconstruir un emparejamiento válido sobre el grafo original mediante una descompresión determinista.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Contracción de ciclos impares de Edmonds (1965)" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Contracción de ciclos impares de Edmonds (1965)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (V, E)\)</span> un grafo, <span class="math inline">\(W \subset V\)</span> un subconjunto de vértices asociado a un ciclo de longitud impar, y sea <span class="math inline">\(K_1\)</span> un emparejamiento en el grafo comprimido <span class="math inline">\(G/W\)</span>.</p>
+<p>Entonces, existe un emparejamiento <span class="math inline">\(K_W\)</span> en el subgrafo generado por <span class="math inline">\(W\)</span> tal que:</p>
+<p><span class="math display">\[
+K = K_1 \cup K_W
+\]</span></p>
+<p>es un emparejamiento válido de <span class="math inline">\(G\)</span>.</p>
+<p><em>Demostración</em>: Al ser <span class="math inline">\(W\)</span> un ciclo de longitud impar <span class="math inline">\(|W| = 2k + 1\)</span>, el emparejamiento maximal <span class="math inline">\(K_W\)</span> dentro de <span class="math inline">\(W\)</span> contiene <span class="math inline">\(k\)</span> aristas y deja exactamente un vértice <span class="math inline">\(v \in W\)</span> sin saturar. Distinguimos dos situaciones posibles sobre el pseudovértice <span class="math inline">\(w\)</span> en el emparejamiento <span class="math inline">\(K_1\)</span>:</p>
+<ol type="1">
+<li>Si <span class="math inline">\(w\)</span> está expuesto en <span class="math inline">\(K_1\)</span>, se selecciona cualquier emparejamiento <span class="math inline">\(K_W\)</span> de <span class="math inline">\(k\)</span> aristas en <span class="math inline">\(W\)</span>. El único nodo de <span class="math inline">\(W\)</span> que queda sin saturar actúa como vértice expuesto en <span class="math inline">\(G\)</span>, y ningún arco de <span class="math inline">\(K_1\)</span> interfiere con <span class="math inline">\(W\)</span>, por lo que <span class="math inline">\(K = K_1 \cup K_W\)</span> es un emparejamiento válido.</li>
+<li>Si <span class="math inline">\(w\)</span> está saturado en <span class="math inline">\(K_1\)</span> por una arista <span class="math inline">\(\{w, j\} \in K_1\)</span>, dicha arista proviene originalmente de una arista <span class="math inline">\(\{i, j\} \in E\)</span> con <span class="math inline">\(i \in W\)</span> y <span class="math inline">\(j \notin W\)</span>. En tal caso, seleccionamos en <span class="math inline">\(W\)</span> el emparejamiento <span class="math inline">\(K_W\)</span> de <span class="math inline">\(k\)</span> aristas que deja precisamente al vértice <span class="math inline">\(i\)</span> como el único nodo no saturado de <span class="math inline">\(W\)</span>. De este modo, la arista <span class="math inline">\(\{i, j\}\)</span> satura a <span class="math inline">\(i\)</span> desde el exterior, y las <span class="math inline">\(k\)</span> aristas de <span class="math inline">\(K_W\)</span> saturan a los restantes <span class="math inline">\(2k\)</span> vértices de <span class="math inline">\(W\)</span>. Como ninguna otra arista de <span class="math inline">\(K_1\)</span> incide en <span class="math inline">\(W\)</span>, <span class="math inline">\(K = (K_1 \setminus \{\{w, j\}\}) \cup \{\{i, j\}\} \cup K_W\)</span> es un emparejamiento válido en <span class="math inline">\(G\)</span>. <span class="math inline">\(\blacksquare\)</span></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Nota: Reglas pedagógicas de descompresión de flores" data-kind="nota">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota: Reglas pedagógicas de descompresión de flores
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Las claves operativas de la contracción de flores se resumen en tres principios:</p>
+<ul>
+<li><strong>Existencia de vértice expuesto</strong>: Al ser <span class="math inline">\(W\)</span> un ciclo impar, siempre queda exactamente un vértice no saturado en <span class="math inline">\(W\)</span> respecto de <span class="math inline">\(K_W\)</span>.</li>
+<li><strong>Libertad de selección del vértice expuesto</strong>: Siempre es posible elegir de forma determinista qué vértice del ciclo queda no saturado.</li>
+<li><strong>Alineación con la arista exterior</strong>: Si el pseudovértice <span class="math inline">\(w\)</span> está saturado en <span class="math inline">\(K_1\)</span>, se deja como no saturado en el ciclo precisamente el vértice <span class="math inline">\(i \in W\)</span> incidente en la arista exterior que satura a <span class="math inline">\(w\)</span>, asegurando que ningún vértice del ciclo quede saturado dos veces.</li>
+</ul>
+</div>
+</div>
+<p>A pesar de la elegancia del Teorema de Edmonds, la contracción de flores debe gestionarse con extrema cautela dentro de un esquema algorítmico formal, ya que operar directamente con maximalidades en el grafo comprimido puede conducir a soluciones subóptimas:</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Advertencia: Maximalidad en grafos comprimidos" data-kind="advertencia">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Advertencia: Maximalidad en grafos comprimidos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Que un emparejamiento <span class="math inline">\(K_1\)</span> sea <strong>maximal</strong> en el grafo comprimido <span class="math inline">\(G/W\)</span> no implica necesariamente que el emparejamiento extendido <span class="math inline">\(K\)</span> sea de <strong>máximo cardinal</strong> en el grafo original <span class="math inline">\(G\)</span>.</p>
+<p>Como se ilustra en la <a href="#fig-contraejemplo-maximalidad" class="quarto-xref">Figura&nbsp;<span>9.8</span></a>, considérese un grafo con un ciclo impar <span class="math inline">\(\{1, 2, 3\}\)</span> y tres aristas exteriores <span class="math inline">\(\{ \{1,6\}, \{2,4\}, \{3,5\} \}\)</span>. Al comprimir el ciclo <span class="math inline">\(\{1, 2, 3\}\)</span> en el pseudonodo <span class="math inline">\(w\)</span>, el grafo comprimido <span class="math inline">\(G/W\)</span> contiene las aristas <span class="math inline">\(\{ \{w,6\}, \{w,4\}, \{w,5\} \}\)</span>. El emparejamiento <span class="math inline">\(K_1 = \bigl\{ \{w, 6\} \bigr\}\)</span> es maximal en <span class="math inline">\(G/W\)</span> (no puede añadirse ninguna otra arista disjunta), pero produce en <span class="math inline">\(G\)</span> un emparejamiento de cardinal <span class="math inline">\(2\)</span> (<span class="math inline">\(K = \bigl\{ \{1,6\}, \{2,3\} \bigr\}\)</span>), cuando el grafo original admite el emparejamiento de cardinal <span class="math inline">\(3\)</span>: <span class="math inline">\(K^* = \bigl\{ \{1,6\}, \{2,4\}, \{3,5\} \bigr\}\)</span>. Por esta razón, la contracción debe ejecutarse guiada estrictamente por la jerarquía de niveles del árbol alternante de Edmonds.</p>
+<div id="fig-contraejemplo-maximalidad" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-contraejemplo-maximalidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/contraejemplo_maximalidad_contraccion.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figura&nbsp;9.8: Contraejemplo de maximalidad: grafo con ciclo impar \{1,2,3\} y emparejamiento óptimo de cardinal 3"><img src="images/contraejemplo_maximalidad_contraccion.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-contraejemplo-maximalidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.8: Contraejemplo de maximalidad: grafo con ciclo impar <span class="math inline">\(\{1,2,3\}\)</span> y emparejamiento óptimo de cardinal 3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="algoritmo-de-flor-de-edmonds-esquema-y-resolución-paso-a-paso" class="level3" data-number="9.3.3">
+<h3 data-number="9.3.3" class="anchored" data-anchor-id="algoritmo-de-flor-de-edmonds-esquema-y-resolución-paso-a-paso"><span class="header-section-number">9.3.3</span> Algoritmo de Flor de Edmonds: Esquema y resolución paso a paso</h3>
+<p>Para aplicar y estructurar sistemáticamente el procedimiento de exploración del árbol alternante en el <strong>Paso C</strong> del algoritmo de Edmonds, se definen los siguientes elementos clave:</p>
+<ul>
+<li><strong>Árbol alternante <span class="math inline">\((Y, T)\)</span></strong>: Subgrafo donde <span class="math inline">\(Y \subseteq V\)</span> representa el conjunto de vértices explorados por el árbol y <span class="math inline">\(T \subseteq E\)</span> el conjunto de aristas que forman la estructura del árbol.</li>
+<li><strong>Conjunto de vértices pares (<span class="math inline">\(Y^0 \subset Y\)</span>)</strong>: Vértices de <span class="math inline">\(Y\)</span> conectados con la raíz del árbol (incluyendo a la propia raíz a distancia <span class="math inline">\(0\)</span>) mediante una cadena alternante de longitud par.</li>
+<li><strong>Propiedad estructural de las hojas</strong>: Todas las hojas (extremos terminales) del árbol alternante deben ser obligatoriamente vértices pares (<span class="math inline">\(Y^0\)</span>).</li>
+</ul>
+<p>Como se ilustra en la <a href="#fig-arbol-alternante-estructura" class="quarto-xref">Figura&nbsp;<span>9.9</span></a>, considérese el árbol alternante con vértices <span class="math inline">\(Y = \{0, 1, 2, 3, 4, 5, 6, 7, 8\}\)</span>, cuya raíz es el vértice expuesto <span class="math inline">\(r = 0\)</span>. Los niveles se organizan alternadamente:</p>
+<ul>
+<li><strong>Nivel 0 (Raíz)</strong>: Vértice <span class="math inline">\(0 \in Y^0\)</span> (par, en rojo).</li>
+<li><strong>Nivel 1 (Impar)</strong>: Vértices <span class="math inline">\(\{1, 3\}\)</span> (conectados por aristas fuera de <span class="math inline">\(K\)</span>).</li>
+<li><strong>Nivel 2 (Par)</strong>: Vértices <span class="math inline">\(\{2, 4\} \subset Y^0\)</span> (conectados por aristas dentro de <span class="math inline">\(K\)</span>, en rojo).</li>
+<li><strong>Nivel 3 (Impar)</strong>: Vértices <span class="math inline">\(\{5, 7\}\)</span> (conectados por aristas fuera de <span class="math inline">\(K\)</span>).</li>
+<li><strong>Nivel 4 (Par)</strong>: Vértices <span class="math inline">\(\{6, 8\} \subset Y^0\)</span> (conectados por aristas dentro de <span class="math inline">\(K\)</span>, en rojo).</li>
+</ul>
+<p>En este árbol, el conjunto de vértices pares es exactamente: <span class="math display">\[
+Y^0 = \{0, 2, 4, 6, 8\}
+\]</span></p>
+<div id="fig-arbol-alternante-estructura" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-arbol-alternante-estructura-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/arbol_alternante_estructura.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figura&nbsp;9.9: Estructura jerárquica del árbol alternante con Y=\{0,\dots,8\} destacando los vértices pares Y^0 = \{0, 2, 4, 6, 8\} (en rojo) y los niveles impares"><img src="images/arbol_alternante_estructura.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-arbol-alternante-estructura-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.9: Estructura jerárquica del árbol alternante con <span class="math inline">\(Y=\{0,\dots,8\}\)</span> destacando los vértices pares <span class="math inline">\(Y^0 = \{0, 2, 4, 6, 8\}\)</span> (en rojo) y los niveles impares
+</figcaption>
+</figure>
+</div>
+<p>A partir de los vértices pares <span class="math inline">\(Y^0\)</span>, la exploración del árbol alternante se rige por las siguientes reglas operativas:</p>
+<ol type="1">
+<li><strong>Detección de Ciclos Impares (Flores)</strong>: Si en el grafo original existen dos vértices de <span class="math inline">\(Y^0\)</span> conectados directamente por una arista <span class="math inline">\(\{i, j\} \in E\)</span>, se ha formado un <strong>ciclo de longitud impar</strong> (flor). Dicho ciclo debe contraerse en un supernodo <span class="math inline">\(w\)</span> para continuar la búsqueda.</li>
+<li><strong>Expansión del Árbol desde <span class="math inline">\(Y^0\)</span></strong>: Si no se detectan ciclos impares entre nodos pares, se examinan las aristas incidentes en vértices de <span class="math inline">\(Y^0\)</span> hacia nodos exteriores al árbol (<span class="math inline">\(j \notin Y\)</span>):
+<ul>
+<li><strong>Hacia vértices adyacentes no saturados (<span class="math inline">\(sat(j) = 0\)</span>)</strong>: Se detecta una <strong>cadena alternante incremental</strong> que une la raíz con <span class="math inline">\(j\)</span>, permitiendo aumentar de inmediato el cardinal del emparejamiento.</li>
+<li><strong>Hacia vértices adyacentes saturados (<span class="math inline">\(sat(j) = 1\)</span>)</strong>: Si <span class="math inline">\(j\)</span> está saturado por una arista <span class="math inline">\(\{j, k\} \in K\)</span>, se añade el par de aristas al árbol, incorporando el vértice <span class="math inline">\(k\)</span> al conjunto de vértices pares <span class="math inline">\(Y^0\)</span>.</li>
+</ul></li>
+</ol>
+<p>El algoritmo completo de Edmonds se sintetiza en el siguiente esquema formal:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de Flor de Edmonds para Emparejamiento Máximo" data-kind="esquema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Esquema: Algoritmo de Flor de Edmonds para Emparejamiento Máximo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Paso A (Inicialización)</strong>: Encontrar un emparejamiento inicial factible <span class="math inline">\(K\)</span> en <span class="math inline">\(G\)</span> (por ejemplo, el emparejamiento trivial <span class="math inline">\(K = \emptyset\)</span>).</li>
+<li><strong>Paso B (Condición de parada elemental)</strong>: Si el número de vértices no saturados por <span class="math inline">\(K\)</span> es <span class="math inline">\(0\)</span> o <span class="math inline">\(1\)</span>, <strong>PARAR</strong>: <span class="math inline">\(K\)</span> es de máximo cardinal. En caso contrario, ir al <strong>Paso C</strong>.</li>
+<li><strong>Paso C (Construcción del Árbol Alternante)</strong>:
+<ul>
+<li><strong>Paso C.1</strong>: Seleccionar un vértice expuesto <span class="math inline">\(i_0 \in V\)</span> (<span class="math inline">\(sat(i_0) = 0\)</span>). Inicializar el árbol con <span class="math inline">\(Y = Y^0 = \{i_0\}\)</span> y <span class="math inline">\(T = \emptyset\)</span>.</li>
+<li><strong>Paso C.2 (Exploración desde vértices pares <span class="math inline">\(Y^0\)</span>)</strong>:
+<ul>
+<li><strong>Caso 1 (Detección de Flor / Ciclo Impar)</strong>: Si existen dos vértices <span class="math inline">\(i, j \in Y^0\)</span> tales que <span class="math inline">\(\{i, j\} \in E\)</span>, se detecta un ciclo impar. Contraer el ciclo definiendo el grafo comprimido <span class="math inline">\(G \leftarrow G/W\)</span>, actualizar el árbol (<span class="math inline">\(Y \leftarrow (Y \setminus W) \cup \{w\}\)</span>, <span class="math inline">\(Y^0 \leftarrow (Y^0 \setminus W) \cup \{w\}\)</span>) y volver al <strong>Paso C.2</strong>.</li>
+<li><strong>Caso 2 (Extensión del Árbol)</strong>: Si existe <span class="math inline">\(i \in Y^0\)</span> y un vértice adyacente saturado <span class="math inline">\(j \notin Y\)</span> con <span class="math inline">\(\{i, j\} \in E\)</span> y <span class="math inline">\(\{j, k\} \in K\)</span>, añadir las aristas <span class="math inline">\(\{i, j\}\)</span> y <span class="math inline">\(\{j, k\}\)</span> al árbol: <span class="math inline">\(Y \leftarrow Y \cup \{j, k\}\)</span>, <span class="math inline">\(Y^0 \leftarrow Y^0 \cup \{k\}\)</span>, <span class="math inline">\(T \leftarrow T \cup \{\{i, j\}, \{j, k\}\}\)</span> y volver al <strong>Paso C.2</strong>.</li>
+<li><strong>Caso 3 (Detección de Cadena Incremental)</strong>: Si existe <span class="math inline">\(i \in Y^0\)</span> y un vértice adyacente expuesto <span class="math inline">\(j \notin Y\)</span> (<span class="math inline">\(sat(j) = 0\)</span>) con <span class="math inline">\(\{i, j\} \in E\)</span>, se ha detectado una <strong>cadena incremental</strong> entre la raíz <span class="math inline">\(i_0\)</span> y <span class="math inline">\(j\)</span>. Realizar la transferencia <span class="math inline">\(K \leftarrow K \bigtriangleup \mu\)</span>, descontraer todas las flores activas reconstruyendo el emparejamiento en el grafo original, y volver al <strong>Paso B</strong>.</li>
+<li><strong>Caso 4 (Árbol Bloqueado / Húngaro)</strong>: Si no es posible aplicar ninguno de los casos anteriores desde los vértices de <span class="math inline">\(Y^0\)</span>, no existe ninguna cadena incremental conectada a <span class="math inline">\(i_0\)</span>. Fijar <span class="math inline">\(i_0\)</span> como no aumentable. Si quedan otros vértices expuestos sin explorar, inicializar un nuevo árbol (Paso C.1); en caso contrario, <strong>PARAR</strong>: <span class="math inline">\(K\)</span> es de <strong>máximo cardinal</strong>.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Traza completa del Algoritmo de Edmonds con contracciones sucesivas" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Traza completa del Algoritmo de Edmonds con contracciones sucesivas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Considérese el grafo de 8 vértices <span class="math inline">\(V = \{1, 2, 3, 4, 5, 6, 7, 8\}\)</span> ilustrado en la <a href="#fig-edmonds-animado" class="quarto-xref">Figura&nbsp;<span>9.10</span></a>, cuyas aristas son: <span class="math display">\[
+\begin{aligned}
+E = \bigl\{ &amp; \{6,7\}, \, \{7,8\}, \, \{1,2\}, \, \{2,3\}, \, \{3,4\}, \\
+&amp; \{4,5\}, \, \{4,6\}, \, \{1,5\}, \, \{1,7\}, \, \{2,8\} \bigr\}
+\end{aligned}
+\]</span></p>
+<p>A continuación se detalla la ejecución paso a paso del algoritmo desde el emparejamiento nulo:</p>
+<ol type="1">
+<li><strong>Fase Inicial</strong>:
+<ul>
+<li><strong>Paso A (Inicialización)</strong>: Comenzamos con el emparejamiento nulo <span class="math inline">\(K = \emptyset\)</span>. Conjunto de vértices expuestos (no saturados): <span class="math inline">\(\{1, 2, 3, 4, 5, 6, 7, 8\}\)</span>.</li>
+<li><strong>Paso B (Comprobación)</strong>: Hay 8 vértices no saturados (<span class="math inline">\(&gt; 1\)</span>). No se cumple la condición de parada elemental <span class="math inline">\(\implies\)</span> Ir al <strong>Paso C</strong>.</li>
+</ul></li>
+<li><strong>Iteración 1</strong>:
+<ul>
+<li><strong>Paso C.1</strong>: Seleccionamos la raíz expuesta <span class="math inline">\(i_0 = 1\)</span>. Se inicializa el árbol alternante: <span class="math inline">\(Y = Y^0 = \{1\}\)</span>, <span class="math inline">\(T = \emptyset\)</span>.</li>
+<li><strong>Paso C.2</strong>:
+<ul>
+<li><em>Caso 1 (Ciclo impar)</em>: No hay ciclos impares en <span class="math inline">\(Y^0\)</span>.</li>
+<li><em>Caso 2 (Adyacente saturado)</em>: No existen vecinos saturados por <span class="math inline">\(K = \emptyset\)</span>.</li>
+<li><em>Caso 3 (Adyacente no saturado)</em>: Para <span class="math inline">\(i = 1 \in Y^0\)</span>, existe el vértice adyacente expuesto <span class="math inline">\(j = 2 \notin Y\)</span> con <span class="math inline">\(\{1,2\} \in E\)</span>. Se detecta la cadena incremental elemental <span class="math inline">\(\mu = (1, 2)\)</span>.</li>
+<li><em>Transferencia</em>: Realizamos <span class="math inline">\(K \leftarrow K \bigtriangleup \{\{1,2\}\} = \bigl\{ \{1,2\} \bigr\}\)</span>.</li>
+<li><strong>Volver al Paso B</strong>.</li>
+</ul></li>
+</ul></li>
+<li><strong>Iteración 2</strong>:
+<ul>
+<li><p><strong>Paso B (Comprobación)</strong>: Con <span class="math inline">\(K = \bigl\{ \{1,2\} \bigr\}\)</span>, quedan 6 vértices no saturados <span class="math inline">\(\{3, 4, 5, 6, 7, 8\} &gt; 1 \implies\)</span> Ir al <strong>Paso C</strong>.</p></li>
+<li><p><strong>Paso C.1</strong>: Seleccionamos la raíz expuesta <span class="math inline">\(i_0 = 3\)</span>. Se inicializa el árbol alternante: <span class="math inline">\(Y = Y^0 = \{3\}\)</span>, <span class="math inline">\(T = \emptyset\)</span>.</p></li>
+<li><p><strong>Paso C.2 (Extensión)</strong>: Para <span class="math inline">\(3 \in Y^0\)</span>, existe el vecino saturado <span class="math inline">\(2 \notin Y\)</span> (saturado por <span class="math inline">\(\{1,2\} \in K\)</span>) con <span class="math inline">\(\{2,3\} \in E\)</span>. Aplicando el Caso 2, incorporamos las aristas <span class="math inline">\(\{2,3\}\)</span> y <span class="math inline">\(\{1,2\}\)</span> al árbol: <span class="math display">\[Y = \{1, 2, 3\}, \quad Y^0 = \{1, 3\}, \quad T = \bigl\{ \{2,3\}, \, \{1,2\} \bigr\}\]</span> Volvemos a evaluar el <strong>Paso C.2</strong>.</p></li>
+<li><p><strong>Paso C.2 (Detección de Cadena Incremental)</strong>: Evaluando desde los vértices pares <span class="math inline">\(Y^0 = \{1, 3\}\)</span>, para <span class="math inline">\(3 \in Y^0\)</span> existe el vecino expuesto <span class="math inline">\(4 \notin Y\)</span> con <span class="math inline">\(\{3,4\} \in E\)</span> (Caso 3). Se detecta la cadena incremental <span class="math inline">\(\mu = (3, 4)\)</span>.</p></li>
+<li><p><strong>Transferencia</strong>: Realizamos <span class="math inline">\(K \leftarrow K \bigtriangleup \{\{3,4\}\} = \bigl\{ \{1,2\}, \, \{3,4\} \bigr\}\)</span>.</p></li>
+<li><p><strong>Volver al Paso B</strong>.</p></li>
+</ul></li>
+<li><strong>Iteración 3 (Detección y Contracción de la Primera Flor <span class="math inline">\(W\)</span>)</strong>:
+<ul>
+<li><p><strong>Paso B (Comprobación)</strong>: Con <span class="math inline">\(K = \bigl\{ \{1,2\}, \{3,4\} \bigr\}\)</span>, quedan 4 vértices expuestos <span class="math inline">\(\{5, 6, 7, 8\} &gt; 1 \implies\)</span> Ir al <strong>Paso C</strong>.</p></li>
+<li><p><strong>Paso C.1</strong>: Seleccionamos la raíz expuesta <span class="math inline">\(i_0 = 5\)</span>. Inicializamos el árbol alternante: <span class="math inline">\(Y = Y^0 = \{5\}\)</span>, <span class="math inline">\(T = \emptyset\)</span>.</p></li>
+<li><p><strong>Paso C.2 (Extensión 1)</strong>: Para <span class="math inline">\(5 \in Y^0\)</span>, existe el vecino saturado <span class="math inline">\(1 \notin Y\)</span> (saturado por <span class="math inline">\(\{1,2\} \in K\)</span>). Aplicando el Caso 2, incorporamos las aristas <span class="math inline">\(\{5,1\}\)</span> y <span class="math inline">\(\{1,2\}\)</span> al árbol: <span class="math display">\[Y = \{1, 2, 5\}, \quad Y^0 = \{2, 5\}, \quad T = \bigl\{ \{5,1\}, \, \{1,2\} \bigr\}\]</span> Volvemos al <strong>Paso C.2</strong>.</p></li>
+<li><p><strong>Paso C.2 (Extensión 2)</strong>: Para <span class="math inline">\(5 \in Y^0\)</span>, existe el vecino saturado <span class="math inline">\(4 \notin Y\)</span> (saturado por <span class="math inline">\(\{3,4\} \in K\)</span>). Aplicando el Caso 2, incorporamos las aristas <span class="math inline">\(\{5,4\}\)</span> y <span class="math inline">\(\{4,3\}\)</span> al árbol: <span class="math display">\[Y = \{1, 2, 3, 4, 5\}, \quad Y^0 = \{2, 3, 5\}, \quad T = \bigl\{ \{5,1\}, \, \{1,2\}, \, \{5,4\}, \, \{4,3\} \bigr\}\]</span> Volvemos al <strong>Paso C.2</strong>.</p></li>
+<li><p><strong>Paso C.2 (Caso 1: Detección de Flor)</strong>: Entre los nodos pares del árbol <span class="math inline">\(Y^0 = \{2, 3, 5\}\)</span>, existe la arista <span class="math inline">\(\{2, 3\} \in E\)</span>. Al conectar dos vértices de la misma paridad respecto a la raíz, se identifica el ciclo impar (flor) de 5 vértices: <span class="math display">\[W = \{1, 2, 3, 4, 5\}\]</span></p></li>
+<li><p><strong>Contracción de la Flor <span class="math inline">\(W\)</span></strong>: Comprimimos todo el subconjunto <span class="math inline">\(W\)</span> en el pseudonodo (supernodo) <span class="math inline">\(w\)</span>. Se define el grafo comprimido <span class="math inline">\(G/W\)</span> con vértices <span class="math inline">\(\{w, 6, 7, 8\}\)</span> y aristas <span class="math inline">\(\{ \{w,6\}, \{w,7\}, \{w,8\}, \{6,7\}, \{7,8\} \}\)</span>. En <span class="math inline">\(G/W\)</span>, el árbol se actualiza a <span class="math inline">\(Y = Y^0 = \{w\}\)</span>, <span class="math inline">\(T = \emptyset\)</span> y <span class="math inline">\(K = \emptyset\)</span>.</p></li>
+<li><p><strong>Paso C.2 en <span class="math inline">\(G/W\)</span> (Transferencia)</strong>: Desde <span class="math inline">\(w \in Y^0\)</span>, se explora la arista <span class="math inline">\(\{w,6\}\)</span> hacia el vértice expuesto <span class="math inline">\(6 \notin Y\)</span> (Caso 3). Se realiza la transferencia en <span class="math inline">\(G/W\)</span>: <span class="math display">\[K = \bigl\{ \{w, 6\} \bigr\}\]</span> <strong>Volver al Paso B</strong>.</p></li>
+</ul></li>
+<li><strong>Iteración 4 (Búsqueda en <span class="math inline">\(G/W\)</span> y Contracción de la Segunda Flor <span class="math inline">\(W'\)</span>)</strong>:
+<ul>
+<li><p><strong>Paso B (Comprobación en <span class="math inline">\(G/W\)</span>)</strong>: Con <span class="math inline">\(K = \bigl\{ \{w, 6\} \bigr\}\)</span>, los vértices no saturados en <span class="math inline">\(G/W\)</span> son <span class="math inline">\(\{7, 8\}\)</span> (<span class="math inline">\(2 &gt; 1\)</span>) <span class="math inline">\(\implies\)</span> Ir al <strong>Paso C</strong>.</p></li>
+<li><p><strong>Paso C.1</strong>: Seleccionamos la raíz expuesta <span class="math inline">\(i_0 = 7\)</span>. Inicializamos el árbol: <span class="math inline">\(Y = Y^0 = \{7\}\)</span>, <span class="math inline">\(T = \emptyset\)</span>.</p></li>
+<li><p><strong>Paso C.2 (Extensión)</strong>: Para <span class="math inline">\(7 \in Y^0\)</span>, el vecino <span class="math inline">\(w \notin Y\)</span> está saturado por <span class="math inline">\(\{w, 6\} \in K\)</span>. Por Caso 2, añadimos <span class="math inline">\(\{7,w\}\)</span> y <span class="math inline">\(\{w,6\}\)</span> al árbol: <span class="math display">\[Y = \{w, 6, 7\}, \quad Y^0 = \{6, 7\}, \quad T = \bigl\{ \{7,w\}, \, \{w,6\} \bigr\}\]</span> Volvemos al <strong>Paso C.2</strong>.</p></li>
+<li><p><strong>Paso C.2 (Caso 1: Detección de Segunda Flor)</strong>: Entre los nodos pares <span class="math inline">\(Y^0 = \{6, 7\}\)</span>, existe la arista <span class="math inline">\(\{6, 7\} \in E\)</span>. Se detecta el segundo ciclo impar: <span class="math display">\[W' = \{w, 6, 7\}\]</span></p></li>
+<li><p><strong>Segunda Contracción</strong>: Comprimimos <span class="math inline">\(W'\)</span> en el pseudonodo <span class="math inline">\(w'\)</span>. Obtenemos el grafo comprimido <span class="math inline">\(G/W'\)</span> con vértices <span class="math inline">\(\{w', 8\}\)</span> y la arista <span class="math inline">\(\{w', 8\}\)</span>.</p></li>
+<li><p><strong>Paso C.2 en <span class="math inline">\(G/W'\)</span> (Transferencia)</strong>: La arista <span class="math inline">\(\{w', 8\}\)</span> une los dos únicos vértices (ambos expuestos) en <span class="math inline">\(G/W'\)</span> (Caso 3). Transferencia: <span class="math inline">\(K = \bigl\{ \{w', 8\} \bigr\}\)</span>.</p></li>
+<li><p><strong>Paso B (Parada)</strong>: En <span class="math inline">\(G/W'\)</span>, todos los vértices están saturados (quedan <span class="math inline">\(0\)</span> vértices expuestos <span class="math inline">\(\le 1\)</span>). <strong>PARAR</strong>: Se alcanza la optimalidad global.</p></li>
+</ul></li>
+<li><strong>Fase de Descompresión y Reconstrucción Óptima</strong>:
+<ul>
+<li><p><strong>Descompresión de <span class="math inline">\(W'\)</span></strong>: Al descontraer el supernodo <span class="math inline">\(w'\)</span>, la arista <span class="math inline">\(\{w', 8\}\)</span> proviene originalmente de <span class="math inline">\(\{7, 8\} \in E\)</span>. En el ciclo impar <span class="math inline">\(W' = \{w, 6, 7\}\)</span>, el nodo <span class="math inline">\(7\)</span> queda saturado hacia el exterior por <span class="math inline">\(\{7, 8\}\)</span>, lo que deja en <span class="math inline">\(W'\)</span> la arista <span class="math inline">\(\{w, 6\}\)</span> para saturar a los nodos restantes. Obtenemos en <span class="math inline">\(G/W\)</span>: <span class="math display">\[K = \bigl\{ \{w, 6\}, \, \{7, 8\} \bigr\}\]</span></p></li>
+<li><p><strong>Descompresión de <span class="math inline">\(W\)</span></strong>: La arista <span class="math inline">\(\{w, 6\}\)</span> proviene originalmente de la arista exterior <span class="math inline">\(\{4, 6\} \in E\)</span>. En la flor <span class="math inline">\(W = \{1, 2, 3, 4, 5\}\)</span>, el vértice <span class="math inline">\(4\)</span> queda saturado hacia el exterior por <span class="math inline">\(\{4, 6\}\)</span>. Seleccionamos en <span class="math inline">\(W\)</span> el emparejamiento que satura a los 4 vértices restantes <span class="math inline">\(\{1, 2, 3, 5\}\)</span>, correspondiente a <span class="math inline">\(\{1, 5\}\)</span> y <span class="math inline">\(\{2, 3\}\)</span>.</p></li>
+<li><p><strong>Emparejamiento Óptimo Final</strong>: Reconstruyendo todas las aristas en el grafo original <span class="math inline">\(G\)</span>, obtenemos: <span class="math display">\[
+K^* = \bigl\{ \{1, 5\}, \, \{2, 3\}, \, \{4, 6\}, \, \{7, 8\} \bigr\}
+\]</span> El cardinal resultante es <span class="math inline">\(|K^*| = 4 = 8/2\)</span>, alcanzando un <strong>emparejamiento perfecto</strong> en el grafo de 8 nodos.</p></li>
+</ul></li>
+</ol>
+<div id="fig-edmonds-animado" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-edmonds-animado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="edmonds-preview" src="images/edmonds_blossom_animado.gif" class="img-fluid figure-img" style="width:75%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Traza interactiva del algoritmo de flor de Edmonds"></p>
+<p></p><dialog id="edmonds-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('edmonds-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/edmonds_blossom_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('edmonds-preview');
+  var dlg = document.getElementById('edmonds-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-edmonds-animado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.10: Traza interactiva paso a paso del Algoritmo de Flor de Edmonds a través de sus 9 fases de contracción y descompresión.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="problemas-de-recubrimiento-en-grafos-y-relaciones-de-dualidad" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="problemas-de-recubrimiento-en-grafos-y-relaciones-de-dualidad"><span class="header-section-number">9.4</span> Problemas de recubrimiento en grafos y relaciones de dualidad</h2>
+<p>Existe una estrecha relación de complementariedad y dualidad entre seleccionar conjuntos de aristas independientes (emparejamientos) y seleccionar conjuntos de aristas que cubran todos los vértices de una red. Para introducir este concepto, consideremos el problema de diseño de patrullas de vigilancia en recintos fortificados.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Vigilancia de murallas en la fortaleza" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Vigilancia de murallas en la fortaleza
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Considérese el recinto fortificado de <span class="math inline">\(12\)</span> torres de vigilancia conectadas mediante <span class="math inline">\(12\)</span> tramos de muralla, representado en la <a href="#fig-recubrimiento-aristas-fortaleza" class="quarto-xref">Figura&nbsp;<span>9.11</span></a>.</p>
+<p>Se desea posicionar patrullas de centinelas sobre las murallas. Cada guardia asignado a una muralla <span class="math inline">\(\{u, v\}\)</span> vigila simultáneamente las dos torres situadas en sus extremos (<span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span>). El objetivo consiste en <strong>determinar el número mínimo de guardias (murallas)</strong> necesarios para que <strong>todas las torres de la fortaleza queden vigiladas</strong>.</p>
+<div id="fig-recubrimiento-aristas-fortaleza" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-recubrimiento-aristas-fortaleza-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/recubrimiento_aristas_fortaleza.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figura&nbsp;9.11: Problema de vigilancia en la fortaleza: recubrimiento de aristas mínimo |F_0| = 8 sobre 12 torres"><img src="images/recubrimiento_aristas_fortaleza.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-recubrimiento-aristas-fortaleza-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.11: Problema de vigilancia en la fortaleza: recubrimiento de aristas mínimo <span class="math inline">\(|F_0| = 8\)</span> sobre 12 torres
+</figcaption>
+</figure>
+</div>
+<p>Modelando la fortaleza como un grafo <span class="math inline">\(G = (V, E)\)</span>, el problema consiste en hallar un subconjunto de aristas <span class="math inline">\(F \subseteq E\)</span> de mínimo cardinal tal que todo vértice <span class="math inline">\(v \in V\)</span> sea incidente en al menos una arista de <span class="math inline">\(F\)</span>. Como se observa en la figura, seleccionando las 8 aristas en rojo: <span class="math display">\[
+F_0 = \bigl\{ \{1,2\}, \, \{2,12\}, \, \{2,3\}, \, \{4,5\}, \, \{6,7\}, \, \{8,9\}, \, \{8,10\}, \, \{8,11\} \bigr\}
+\]</span> se cubren las 12 torres con <span class="math inline">\(|F_0| = 8\)</span> guardias, garantizando la seguridad completa a coste mínimo.</p>
+</div>
+</div>
+</div>
+<p>A partir del problema de la fortaleza, se formaliza la noción de subconjunto de aristas que cubre la totalidad de los vértices del grafo. A diferencia del problema de emparejamiento (donde se busca que cada nodo esté saturado a lo sumo una vez por las aristas seleccionadas, <span class="math inline">\(\sum x_e \le 1\)</span>), en el problema de recubrimiento se exige que todo nodo esté cubierto al menos una vez (<span class="math inline">\(\sum x_e \ge 1\)</span>).</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Recubrimiento de aristas (Edge Cover)" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Recubrimiento de aristas (Edge Cover)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo no dirigido <span class="math inline">\(G = (V, E)\)</span> sin vértices aislados, un <strong>recubrimiento de aristas</strong> (o <em>edge cover</em>) es un subconjunto de aristas <span class="math inline">\(F \subseteq E\)</span> tal que todo vértice <span class="math inline">\(v \in V\)</span> es incidente en al menos una arista de <span class="math inline">\(F\)</span>, es decir:</p>
+<p><span class="math display">\[
+\bigcup_{e \in F} e = V
+\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposición: Monotonía del recubrimiento" data-kind="corolario">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposición: Monotonía del recubrimiento
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> y un recubrimiento de aristas <span class="math inline">\(F \subseteq E\)</span>, si <span class="math inline">\(F' \subseteq E\)</span> satisface <span class="math inline">\(F \subseteq F'\)</span>, entonces <span class="math inline">\(F'\)</span> es también un recubrimiento de aristas de <span class="math inline">\(G\)</span>.</p>
+<p><em>Demostración</em>: Si cada vértice <span class="math inline">\(v \in V\)</span> es incidente en alguna arista de <span class="math inline">\(F\)</span>, la adición de aristas adicionales en <span class="math inline">\(F'\)</span> preserva de forma trivial la cobertura de todos los vértices. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<section id="teorema-fundamental-de-dualidad-de-gallai" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="teorema-fundamental-de-dualidad-de-gallai"><span class="header-section-number">9.4.1</span> Teorema fundamental de dualidad de Gallai</h3>
+<p>La conexión cuantitativa exacta entre el emparejamiento de máximo cardinal y el recubrimiento de mínimo cardinal fue establecida por Tibor Gallai en 1959 <span class="citation" data-cites="gallai1959uber">(<a href="references.html#ref-gallai1959uber" role="doc-biblioref">Gallai 1959</a>)</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Dualidad de Gallai para emparejamientos y recubrimientos" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Dualidad de Gallai para emparejamientos y recubrimientos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (V, E)\)</span> un grafo simple conexo con <span class="math inline">\(n = |V|\)</span> vértices y sin nodos aislados. Sean <span class="math inline">\(K_0 \subseteq E\)</span> un emparejamiento de <strong>máximo cardinal</strong> y <span class="math inline">\(F_0 \subseteq E\)</span> un recubrimiento de aristas de <strong>mínimo cardinal</strong>. Entonces se verifican las siguientes propiedades:</p>
+<ol type="1">
+<li><p><strong>Conservación de la Cardinalidad</strong>: <span class="math display">\[
+|K_0| + |F_0| = n
+\]</span></p></li>
+<li><p><strong>Construcción del Recubrimiento Mínimo a partir de <span class="math inline">\(K_0\)</span></strong>: El conjunto <span class="math inline">\(F_1\)</span> obtenido añadiendo a <span class="math inline">\(K_0\)</span> exactamente una arista incidente en cada uno de los <span class="math inline">\(n - 2|K_0|\)</span> vértices expuestos por <span class="math inline">\(K_0\)</span>: <span class="math display">\[
+F_1 = K_0 \cup \bigl\{ e_v \in E \mid v \in V \setminus V(K_0) \bigr\}
+\]</span> es un <strong>recubrimiento de aristas de mínimo cardinal</strong> (<span class="math inline">\(|F_1| = |F_0|\)</span>).</p></li>
+<li><p><strong>Construcción del Emparejamiento Máximo a partir de <span class="math inline">\(F_0\)</span></strong>: El conjunto <span class="math inline">\(K_1\)</span> obtenido eliminando de <span class="math inline">\(F_0\)</span> todas las aristas redundantes salvo una en cada vértice cubierto más de una vez (<span class="math inline">\(d_{F_0}(v) &gt; 1\)</span>): <span class="math display">\[
+K_1 = F_0 \setminus \bigl\{ \text{aristas sobrantes en vértices de grado } &gt; 1 \text{ en } F_0 \bigr\}
+\]</span> es un <strong>emparejamiento de máximo cardinal</strong> (<span class="math inline">\(|K_1| = |K_0|\)</span>).</p></li>
+</ol>
+<p><em>Demostración</em>: Demostramos constructivamente las tres afirmaciones del teorema:</p>
+<ul>
+<li><p><strong>Parte 2 (Construcción de <span class="math inline">\(F_1\)</span> y acotación superior)</strong>: Sea <span class="math inline">\(K_0\)</span> un emparejamiento de máximo cardinal. <span class="math inline">\(K_0\)</span> satura exactamente a <span class="math inline">\(2|K_0|\)</span> vértices, dejando <span class="math inline">\(n - 2|K_0|\)</span> vértices expuestos. Como <span class="math inline">\(G\)</span> no tiene vértices aislados, para cada vértice expuesto <span class="math inline">\(v \in V \setminus V(K_0)\)</span> existe al menos una arista <span class="math inline">\(e_v \in E\)</span> incidente en <span class="math inline">\(v\)</span>. Añadiendo una arista por cada vértice libre, el conjunto <span class="math inline">\(F_1\)</span> cubre a todos los vértices de <span class="math inline">\(G\)</span>, constituyendo un recubrimiento válido. El número de aristas de <span class="math inline">\(F_1\)</span> es exactamente: <span class="math display">\[
+|F_1| = |K_0| + (n - 2|K_0|) = n - |K_0| \implies |F_1| + |K_0| = n
+\]</span> Dado que <span class="math inline">\(F_0\)</span> es el recubrimiento de mínimo cardinal, por definición <span class="math inline">\(|F_0| \le |F_1|\)</span>, luego: <span class="math display">\[
+|F_0| + |K_0| \le n
+\]</span></p></li>
+<li><p><strong>Parte 3 (Construcción de <span class="math inline">\(K_1\)</span> y acotación inferior)</strong>: Sea <span class="math inline">\(F_0\)</span> un recubrimiento de aristas de mínimo cardinal. En <span class="math inline">\(F_0\)</span>, no pueden existir ciclos cerrados (eliminar una arista de un ciclo preservaría la cobertura de todos sus nodos, contradiciendo la minimalidad de <span class="math inline">\(F_0\)</span>), ni cadenas de longitud mayor o igual a <span class="math inline">\(3\)</span> (eliminar una arista interior mantendría cubiertos los extremos). Por tanto, el subgrafo <span class="math inline">\((V, F_0)\)</span> está formado exclusivamente por estrellas conexas (árboles de profundidad 1) de aristas incidentes en centros comunes.</p>
+<p>Para cada componente estrella con <span class="math inline">\(k \ge 2\)</span> aristas incidentes en un centro, eliminamos <span class="math inline">\(k - 1\)</span> aristas, conservando una única arista por componente. El conjunto resultante <span class="math inline">\(K_1 \subset F_0\)</span> no tiene aristas adyacentes, luego <span class="math inline">\(K_1\)</span> es un emparejamiento válido de <span class="math inline">\(G\)</span>. Cada arista eliminada de <span class="math inline">\(F_0\)</span> deja de saturar a exactamente un vértice hoja, por lo que el número de vértices no saturados por <span class="math inline">\(K_1\)</span> es igual al número de aristas eliminadas: <span class="math inline">\(|F_0| - |K_1| = n - 2|K_1|\)</span>. Despejando: <span class="math display">\[
+|K_1| = |F_0| - (n - 2|K_1|) \implies |F_0| + |K_1| = n
+\]</span> Como <span class="math inline">\(K_0\)</span> es el emparejamiento de máximo cardinal, <span class="math inline">\(|K_1| \le |K_0|\)</span>, por lo que: <span class="math display">\[
+n = |F_0| + |K_1| \le |F_0| + |K_0|
+\]</span></p></li>
+<li><p><strong>Conclusión de igualdad</strong>: Combinando ambas desigualdades: <span class="math display">\[
+n = |F_1| + |K_0| \ge |F_0| + |K_0| \ge |F_0| + |K_1| = n
+\]</span> Todas las desigualdades intermedias deben cumplirse como igualdades estrictas: <span class="math display">\[
+|F_1| = |F_0|, \quad |K_1| = |K_0|, \quad \text{y} \quad |K_0| + |F_0| = n
+\]</span> Esto demuestra simultáneamente que <span class="math inline">\(|K_0| + |F_0| = n\)</span>, que <span class="math inline">\(F_1\)</span> es un recubrimiento mínimo y que <span class="math inline">\(K_1\)</span> es un emparejamiento máximo. <span class="math inline">\(\blacksquare\)</span></p></li>
+</ul>
+</div>
+</div>
+<p>El Teorema de Gallai establece una de las relaciones de conservación combinatoria más profundas entre problemas de <strong>empaquetamiento</strong> (<em>packing</em>) y problemas de <strong>recubrimiento</strong> (<em>covering</em>). En cualquier grafo sin vértices aislados, cada arista de un emparejamiento satura exactamente <span class="math inline">\(2\)</span> vértices distintos, mientras que cada arista adicional necesaria para completar un recubrimiento cubre exactamente a <span class="math inline">\(1\)</span> vértice libre. La identidad <span class="math inline">\(|K_0| + |F_0| = n\)</span> actúa como una ecuación de conservación estructural: el déficit de aristas en el emparejamiento respecto del total de nodos se traduce exactamente en el superávit de aristas requeridas para el recubrimiento mínimo.</p>
+<p>Como ilustra la <a href="#fig-gallai-teorema-demostracion" class="quarto-xref">Figura&nbsp;<span>9.12</span></a>, este teorema proporciona un algoritmo inmediato de complejidad lineal <span class="math inline">\(\mathcal{O}(n)\)</span> para resolver el problema del recubrimiento de aristas mínimo una vez obtenido el emparejamiento máximo mediante el algoritmo de Edmonds.</p>
+<div id="fig-gallai-teorema-demostracion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gallai-teorema-demostracion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/gallai_teorema_demostracion.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figura&nbsp;9.12: Ilustración del Teorema de Gallai en un grafo de 11 vértices: emparejamiento máximo |K_0|=4 (discontinuo) y recubrimiento mínimo |F_0|=7 (rojo), verificando |K_0| + |F_0| = 4 + 7 = 11"><img src="images/gallai_teorema_demostracion.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gallai-teorema-demostracion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.12: Ilustración del Teorema de Gallai en un grafo de 11 vértices: emparejamiento máximo <span class="math inline">\(|K_0|=4\)</span> (discontinuo) y recubrimiento mínimo <span class="math inline">\(|F_0|=7\)</span> (rojo), verificando <span class="math inline">\(|K_0| + |F_0| = 4 + 7 = 11\)</span>
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="emparejamiento-de-máximo-peso-y-algoritmo-primal-dual" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="emparejamiento-de-máximo-peso-y-algoritmo-primal-dual"><span class="header-section-number">9.5</span> Emparejamiento de máximo peso y algoritmo primal-dual</h2>
+<p>En múltiples aplicaciones logísticas, económicas y de telecomunicaciones, las conexiones no tienen la misma importancia ni el mismo rendimiento económico. En tales escenarios, cada arista <span class="math inline">\(e \in E\)</span> lleva asignado un peso o beneficio <span class="math inline">\(p(e) \in \mathbb{R}\)</span>, y el objetivo no es maximizar el número de parejas, sino el <strong>peso total acumulado</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Problema de emparejamiento de máximo peso" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Problema de emparejamiento de máximo peso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo simple no dirigido <span class="math inline">\(G = (V, E)\)</span> y un vector de pesos <span class="math inline">\(\mathbf{p} = \{p(e) \mid e \in E\}\)</span>, el <strong>problema de emparejamiento de máximo peso</strong> consiste en determinar un subconjunto de aristas <span class="math inline">\(K \subseteq E\)</span> tal que:</p>
+<ol type="1">
+<li><span class="math inline">\(K\)</span> es un emparejamiento válido de <span class="math inline">\(G\)</span>.</li>
+<li>Para cualquier otro emparejamiento <span class="math inline">\(K' \subseteq E\)</span>, se satisface: <span class="math display">\[
+p(K') \le p(K), \quad \text{donde } p(K) = \sum_{e \in K} p(e)
+\]</span></li>
+</ol>
+</div>
+</div>
+<p>En el emparejamiento de máximo peso, un emparejamiento óptimo no tiene por qué tener el máximo número de aristas posible: en ocasiones, el beneficio máximo se obtiene con menos aristas si estas concentran pesos individuales muy superiores.</p>
+<section id="coste-reducido-de-cadenas-y-caracterización-de-optimalidad" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="coste-reducido-de-cadenas-y-caracterización-de-optimalidad"><span class="header-section-number">9.5.1</span> Coste reducido de cadenas y caracterización de optimalidad</h3>
+<p>Para cuantificar el impacto económico de alterar un emparejamiento a lo largo de una cadena alternante, definimos el concepto de coste reducido.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Coste reducido de una cadena alternante" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Coste reducido de una cadena alternante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> con pesos <span class="math inline">\(p(e)\)</span>, un emparejamiento <span class="math inline">\(K \subseteq E\)</span> y una cadena alternante <span class="math inline">\(L\)</span>, se define el <strong>coste reducido</strong> de <span class="math inline">\(L\)</span> respecto de <span class="math inline">\(K\)</span>, denotado por <span class="math inline">\(\delta_L\)</span>, como:</p>
+<p><span class="math display">\[
+\delta_L = p(L \cap \overline{K}) - p(L \cap K) = \sum_{e \in L \setminus K} p(e) - \sum_{e \in L \cap K} p(e)
+\]</span></p>
+<p>donde <span class="math inline">\(\overline{K} = E \setminus K\)</span> representa el conjunto de aristas fuera del emparejamiento.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Definición: Ciclo alternante" data-kind="definicion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Ciclo alternante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> y un emparejamiento <span class="math inline">\(K \subseteq E\)</span>, un <strong>ciclo alternante</strong> es una cadena alternante cerrada y simple de longitud estrictamente par, cuyas aristas pertenecen y no pertenecen alternativamente al emparejamiento <span class="math inline">\(K\)</span>.</p>
+</div>
+</div>
+<p>El signo del coste reducido <span class="math inline">\(\delta_L\)</span> posee una interpretación económica directa: representa el beneficio marginal neto obtenido al intercambiar las parejas existentes a lo largo de <span class="math inline">\(L\)</span>:</p>
+<ul>
+<li>Si <span class="math inline">\(\delta_L &gt; 0\)</span>, la transferencia <strong>incrementa estrictamente</strong> el peso de la solución (<span class="math inline">\(p(K') = p(K) + \delta_L\)</span>).</li>
+<li>Si <span class="math inline">\(\delta_L = 0\)</span>, la transferencia mantiene invariable el peso acumulado.</li>
+<li>Si <span class="math inline">\(\delta_L &lt; 0\)</span>, la transferencia empeora el peso total.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Optimalidad por costes reducidos" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Optimalidad por costes reducidos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un grafo <span class="math inline">\(G = (V, E)\)</span> con pesos <span class="math inline">\(p(e)\)</span> sobre las aristas, un emparejamiento <span class="math inline">\(K \subseteq E\)</span> es de <strong>máximo peso</strong> si y solo si <strong>no existe ninguna cadena alternante</strong> (abierta o cerrada) con coste reducido estrictamente positivo (<span class="math inline">\(\delta_L \le 0\)</span> para toda cadena alternante <span class="math inline">\(L\)</span>).</p>
+<p><em>Demostración</em>:</p>
+<ul>
+<li><strong>Necesidad (<span class="math inline">\(\implies\)</span>)</strong>: Si existiera una cadena alternante <span class="math inline">\(L\)</span> con <span class="math inline">\(\delta_L &gt; 0\)</span>, la transferencia <span class="math inline">\(K' = K \bigtriangleup L\)</span> produciría un emparejamiento de peso <span class="math inline">\(p(K') = p(K) + \delta_L &gt; p(K)\)</span>, lo que contradice la optimalidad de <span class="math inline">\(K\)</span>.</li>
+<li><strong>Suficiencia (<span class="math inline">\(\impliedby\)</span>)</strong>: Sea <span class="math inline">\(K_1\)</span> un emparejamiento de máximo peso global, de modo que <span class="math inline">\(p(K_1) \ge p(K)\)</span>. Consideramos el grafo diferencia simétrica <span class="math inline">\(H = (V, K \bigtriangleup K_1)\)</span>. Por el Lema de Descomposición, <span class="math inline">\(H\)</span> se descompone en vértices aislados, ciclos alternantes y cadenas alternantes respecto de <span class="math inline">\(K\)</span>. Al no existir en <span class="math inline">\(G\)</span> ninguna cadena ni ciclo alternante con coste reducido positivo respecto de <span class="math inline">\(K\)</span>, la suma de las diferencias de peso sobre todas las componentes de <span class="math inline">\(H\)</span> satisface <span class="math inline">\(p(K_1) - p(K) \le 0 \implies p(K_1) \le p(K)\)</span>. Por consiguiente, <span class="math inline">\(p(K) = p(K_1)\)</span>, lo que certifica que <span class="math inline">\(K\)</span> es de máximo peso. <span class="math inline">\(\blacksquare\)</span></li>
+</ul>
+</div>
+</div>
+<p>Este teorema generaliza el criterio de Berge: mientras que para emparejamientos de máximo cardinal se busca cualquier cadena incremental (que siempre aporta <span class="math inline">\(+1\)</span> arista neta), en el caso ponderado se buscan cadenas que aporten un balance de peso neto positivo (<span class="math inline">\(\delta_L &gt; 0\)</span>).</p>
+</section>
+<section id="algoritmo-de-aumento-por-cardinalidad-fija" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="algoritmo-de-aumento-por-cardinalidad-fija"><span class="header-section-number">9.5.2</span> Algoritmo de aumento por cardinalidad fija</h3>
+<p>La resolución algorítmica del emparejamiento de máximo peso se estructura determinando inductivamente los emparejamientos <span class="math inline">\(K^m\)</span> de máximo peso para cada cardinalidad fija <span class="math inline">\(m = 1, 2, \dots, \lfloor n/2 \rfloor\)</span>:</p>
+<ul>
+<li><span class="math inline">\(K^1\)</span>: Es la arista individual de mayor peso en <span class="math inline">\(E\)</span>.</li>
+<li><span class="math inline">\(K^2\)</span>: Es el par de aristas disjuntas de mayor suma de pesos en <span class="math inline">\(E\)</span>.</li>
+<li><span class="math inline">\(K^{m+1}\)</span>: Se obtiene a partir de <span class="math inline">\(K^m\)</span> mediante el siguiente resultado teórico fundamental.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Progresión de emparejamientos de peso máximo" data-kind="teorema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Progresión de emparejamientos de peso máximo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (V, E)\)</span> un grafo, sea <span class="math inline">\(K^m\)</span> el emparejamiento de máximo peso entre todos los de cardinal <span class="math inline">\(m\)</span>, y sea <span class="math inline">\(L\)</span> una <strong>cadena alternante incremental</strong> respecto de <span class="math inline">\(K^m\)</span> que posea el <strong>coste reducido máximo</strong> (<span class="math inline">\(\delta(L) = \max \delta\)</span>).</p>
+<p>Entonces, el emparejamiento <span class="math inline">\(K^{m+1} = K^m \bigtriangleup L\)</span> obtenido por la transferencia de <span class="math inline">\(L\)</span> es el <strong>emparejamiento de máximo peso entre todos los de cardinal <span class="math inline">\(m + 1\)</span></strong>.</p>
+<p><em>Demostración</em>: Sea <span class="math inline">\(K^*\)</span> un emparejamiento óptimo de peso máximo con exactamente <span class="math inline">\(m + 1\)</span> aristas. Analizamos el subgrafo diferencia simétrica: <span class="math display">\[
+H = (V, E_H), \quad \text{donde } E_H = (K^* \setminus K^m) \cup (K^m \setminus K^*)
+\]</span></p>
+<p>El grafo <span class="math inline">\(H\)</span> se compone exclusivamente de vértices aislados, ciclos alternantes y cadenas alternantes:</p>
+<ol type="1">
+<li>Los ciclos alternantes y las cadenas alternantes de longitud par poseen igual número de aristas de <span class="math inline">\(K^*\)</span> que de <span class="math inline">\(K^m\)</span>. Al ser <span class="math inline">\(K^*\)</span> y <span class="math inline">\(K^m\)</span> óptimos en sus respectivas cardinalidades, el coste reducido de todas estas componentes cerradas o pares es exactamente <span class="math inline">\(0\)</span>.</li>
+<li>Para las cadenas alternantes de longitud impar, decimos que una cadena está <strong>dominada por <span class="math inline">\(K^*\)</span></strong> si contiene más aristas de <span class="math inline">\(K^*\)</span> que de <span class="math inline">\(K^m\)</span> (es decir, <span class="math inline">\(k+1\)</span> aristas de <span class="math inline">\(K^*\)</span> y <span class="math inline">\(k\)</span> aristas de <span class="math inline">\(K^m\)</span>), y <strong>dominada por <span class="math inline">\(K^m\)</span></strong> en caso contrario.</li>
+</ol>
+<p>Dado que <span class="math inline">\(|K^*| = |K^m| + 1\)</span>, el número de aristas de <span class="math inline">\(K^*\)</span> en <span class="math inline">\(H\)</span> supera en exactamente <span class="math inline">\(1\)</span> al número de aristas de <span class="math inline">\(K^m\)</span>. En consecuencia, si existen <span class="math inline">\(s\)</span> cadenas impares dominadas por <span class="math inline">\(K^m\)</span>, debe haber exactamente <span class="math inline">\(s + 1\)</span> cadenas impares dominadas por <span class="math inline">\(K^*\)</span>. Las <span class="math inline">\(s\)</span> cadenas dominadas por <span class="math inline">\(K^m\)</span> se pueden emparejar y compensar con <span class="math inline">\(s\)</span> cadenas dominadas por <span class="math inline">\(K^*\)</span>. Por la optimalidad de ambas soluciones, estas <span class="math inline">\(2s\)</span> cadenas compensadas tienen coste reducido total nulo.</p>
+<p>Queda exactamente <strong>una única cadena impar no compensada</strong>, denotada por <span class="math inline">\(L^*\)</span>, que está dominada por <span class="math inline">\(K^*\)</span>. Al tener sus extremos libres en <span class="math inline">\(K^m\)</span>, <span class="math inline">\(L^*\)</span> es una <strong>cadena alternante incremental</strong> respecto de <span class="math inline">\(K^m\)</span>. Dicha cadena concentra toda la diferencia neta de peso entre <span class="math inline">\(K^*\)</span> y <span class="math inline">\(K^m\)</span>: <span class="math display">\[
+p(K^*) = p(K^m) + \delta(L^*)
+\]</span></p>
+<p>Por otro lado, por definición de <span class="math inline">\(K^{m+1} = K^m \bigtriangleup L\)</span>, su peso es: <span class="math display">\[
+p(K^{m+1}) = p(K^m) + \delta(L)
+\]</span></p>
+<p>Como <span class="math inline">\(K^*\)</span> es el emparejamiento de peso máximo con <span class="math inline">\(m + 1\)</span> aristas, se tiene <span class="math inline">\(p(K^{m+1}) \le p(K^*) \implies \delta(L) \le \delta(L^*)\)</span>. Pero habiendo seleccionado <span class="math inline">\(L\)</span> como la cadena de coste reducido máximo en <span class="math inline">\(G\)</span>, se cumple <span class="math inline">\(\delta(L) \ge \delta(L^*)\)</span>. Por tanto, <span class="math inline">\(\delta(L) = \delta(L^*)\)</span> y <span class="math inline">\(p(K^{m+1}) = p(K^*)\)</span>, lo que demuestra que <span class="math inline">\(K^{m+1}\)</span> es un emparejamiento de máximo peso de cardinal <span class="math inline">\(m + 1\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Resolución de emparejamiento de peso máximo en grafo de 6 nodos" data-kind="ejemplo">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Resolución de emparejamiento de peso máximo en grafo de 6 nodos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-33" class="callout-33-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Considérese el grafo de 6 vértices <span class="math inline">\(V = \{1, 2, 3, 4, 5, 6\}\)</span> y 9 aristas ponderadas representado en la <a href="#fig-peso-animado" class="quarto-xref">Figura&nbsp;<span>9.13</span></a>, cuyos pesos se dividen en dos conjuntos de aristas: <span class="math display">\[
+\begin{aligned}
+&amp; p(1,2)=2, \quad p(1,6)=1, \quad p(6,2)=2, \quad p(6,3)=3, \quad p(2,3)=3, \\
+&amp; p(2,4)=1, \quad p(3,4)=4, \quad p(4,5)=5, \quad p(6,5)=2
+\end{aligned}
+\]</span></p>
+<p>Aplicamos el algoritmo de aumento inductivo por cardinalidad:</p>
+<ol type="1">
+<li><strong>Cardinal <span class="math inline">\(m = 1\)</span></strong>:
+<ul>
+<li><p>Buscamos la arista de peso máximo en <span class="math inline">\(E\)</span>: <span class="math display">\[e^* = \{4, 5\} \quad \text{con } p(4, 5) = 5\]</span></p></li>
+<li><p>Obtenemos el emparejamiento óptimo de 1 arista: <span class="math display">\[K^1 = \bigl\{ \{4, 5\} \bigr\}, \quad p(K^1) = 5\]</span></p></li>
+</ul></li>
+<li><strong>Cardinal <span class="math inline">\(m = 2\)</span></strong>:
+<ul>
+<li>Los vértices expuestos respecto de <span class="math inline">\(K^1\)</span> son <span class="math inline">\(\{1, 2, 3, 6\}\)</span>.</li>
+<li>Buscamos entre los vértices expuestos la cadena incremental <span class="math inline">\(L_1\)</span> que maximice el coste reducido <span class="math inline">\(\delta(L_1)\)</span>. Evaluamos aristas disjuntas a <span class="math inline">\(\{4,5\}\)</span>:
+<ul>
+<li>Arista <span class="math inline">\(\{2, 3\}\)</span>: <span class="math inline">\(\delta = p(2, 3) = 3\)</span>.</li>
+<li>Arista <span class="math inline">\(\{6, 3\}\)</span>: <span class="math inline">\(\delta = p(6, 3) = 3\)</span>.</li>
+<li>Arista <span class="math inline">\(\{1, 2\}\)</span>: <span class="math inline">\(\delta = p(1, 2) = 2\)</span>.</li>
+</ul></li>
+<li>Seleccionamos la arista de mayor incremento <span class="math inline">\(L_1 = \{2, 3\}\)</span> con <span class="math inline">\(\delta(L_1) = 3\)</span>.</li>
+<li>Obtenemos el emparejamiento óptimo de 2 aristas: <span class="math display">\[K^2 = K^1 \cup \bigl\{ \{2, 3\} \bigr\} = \bigl\{ \{4, 5\}, \, \{2, 3\} \bigr\}, \quad p(K^2) = 5 + 3 = 8\]</span></li>
+</ul></li>
+<li><strong>Cardinal <span class="math inline">\(m = 3\)</span></strong>:
+<ul>
+<li>Los vértices expuestos respecto de <span class="math inline">\(K^2\)</span> son <span class="math inline">\(\{1, 6\}\)</span>.</li>
+<li>Evaluamos todas las cadenas incrementales alternantes que conectan los vértices expuestos <span class="math inline">\(1\)</span> y <span class="math inline">\(6\)</span>:
+<ul>
+<li><p><strong>Cadena de longitud 1</strong> (<span class="math inline">\(L_A = 1 - 6\)</span>): <span class="math display">\[\delta(L_A) = p(1, 6) = 1\]</span></p></li>
+<li><p><strong>Cadena de longitud 3</strong> (<span class="math inline">\(L_B = 1 - 2 - 3 - 6\)</span>): Entran las aristas <span class="math inline">\(\{1,2\}\)</span> y <span class="math inline">\(\{3,6\}\)</span>; sale la arista <span class="math inline">\(\{2,3\} \in K^2\)</span>: <span class="math display">\[
+\begin{aligned}
+\delta(L_B) &amp;= [p(1,2) + p(3,6)] - p(2,3) \\
+&amp;= [2 + 3] - 3 = 2
+\end{aligned}
+\]</span></p></li>
+<li><p><strong>Cadena de longitud 5</strong> (<span class="math inline">\(L_C = 1 - 2 - 3 - 4 - 5 - 6\)</span>): Entran las aristas <span class="math inline">\(\{1,2\}\)</span>, <span class="math inline">\(\{3,4\}\)</span> y <span class="math inline">\(\{6,5\}\)</span>; salen las aristas <span class="math inline">\(\{2,3\}\)</span> y <span class="math inline">\(\{4,5\} \in K^2\)</span>: <span class="math display">\[
+\begin{aligned}
+\delta(L_C) &amp;= [p(1,2) + p(3,4) + p(6,5)] - [p(2,3) + p(4,5)] \\
+&amp;= [2 + 4 + 2] - [3 + 5] = 8 - 8 = 0
+\end{aligned}
+\]</span></p></li>
+</ul></li>
+<li>El coste reducido máximo es <span class="math inline">\(\delta(L_B) = 2\)</span>, correspondiente a la cadena alternante <span class="math inline">\(L_B = 1 - 2 - 3 - 6\)</span>.</li>
+<li>Realizamos la transferencia <span class="math inline">\(K^3 = K^2 \bigtriangleup (1-2-3-6) = \bigl( K^2 \setminus \{\{2,3\}\} \bigr) \cup \bigl\{ \{1,2\}, \{3,6\} \bigr\}\)</span>: <span class="math display">\[
+K^3 = \bigl\{ \{1, 2\}, \, \{3, 6\}, \, \{4, 5\} \bigr\}, \quad p(K^3) = p(K^2) + \delta(L_B) = 8 + 2 = 10
+\]</span></li>
+</ul></li>
+<li><strong>Conclusión de Optimalidad Global</strong>: Dado que <span class="math inline">\(K^3\)</span> es un emparejamiento perfecto (satura los 6 vértices del grafo), no es posible construir emparejamientos con un número mayor de aristas. El <strong>emparejamiento de peso máximo global</strong> es: <span class="math display">\[
+K^* = K^3 = \bigl\{ \{1, 2\}, \, \{3, 6\}, \, \{4, 5\} \bigr\} \quad \text{con peso óptimo total } p(K^*) = 10
+\]</span></li>
+</ol>
+<div id="fig-peso-animado" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-peso-animado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="peso-preview" src="images/emparejamiento_peso_animado.gif" class="img-fluid figure-img" style="width:75%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Traza interactiva del algoritmo de emparejamiento con pesos"></p>
+<p></p><dialog id="peso-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('peso-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/emparejamiento_peso_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('peso-preview');
+  var dlg = document.getElementById('peso-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-peso-animado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.13: Traza interactiva paso a paso del algoritmo de emparejamiento de peso máximo por incremento sucesivo de cardinalidad.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-ahuja1993network" class="csl-entry" role="listitem">
+Ahuja, Ravindra K, Thomas L Magnanti, y James B Orlin. 1993. <em>Network Flows: Theory, Algorithms, and Applications</em>. Prentice Hall.
+</div>
+<div id="ref-berge1957two" class="csl-entry" role="listitem">
+Berge, Claude. 1957. <span>«Two theorems in graph theory»</span>. <em>Proceedings of the National Academy of Sciences</em> 43 (9): 842-44.
+</div>
+<div id="ref-edmonds1965paths" class="csl-entry" role="listitem">
+Edmonds, Jack. 1965. <span>«Paths, trees, and flowers»</span>. <em>Canadian Journal of Mathematics</em> 17: 449-67.
+</div>
+<div id="ref-gallai1959uber" class="csl-entry" role="listitem">
+Gallai, Tibor. 1959. <span>«<span>Ü</span>ber extreme Punkt-und Kantenmengen»</span>. <em>Ann. Univ. Sci. Budapest, E<span>ö</span>tv<span>ö</span>s Sect. Math.</em> 2: 133-38.
+</div>
+<div id="ref-lovasz2009matching" class="csl-entry" role="listitem">
+Lovász, László, y Michael D Plummer. 2009. <em>Matching Theory</em>. Vol. 367. American Mathematical Society.
+</div>
+<div id="ref-papadimitriou1998combinatorial" class="csl-entry" role="listitem">
+Papadimitriou, Christos H, y Kenneth Steiglitz. 1998. <em>Combinatorial Optimization: Algorithms and Complexity</em>. Courier Corporation.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tema8.html" class="pagination-link" aria-label="Flujos en redes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Flujos en redes</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema10.html" class="pagination-link" aria-label="Rutas eulerianas, hamiltonianas y problemas de rutas">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Rutas eulerianas, hamiltonianas y problemas de rutas</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Categorize callouts: Quarto puts the title in the `title` attribute of the .callout div
+  document.querySelectorAll(".callout[title]").forEach(function (callout) {
+    var text = callout.getAttribute("title").trim().toLowerCase();
+
+    // Si ya es warning o caution, siempre es advertencia (sin importar el título)
+    if (callout.classList.contains("callout-warning") || callout.classList.contains("callout-caution")) {
+      callout.setAttribute("data-kind", "advertencia");
+    } else if (text.includes("objetivo") && (text.includes("aprendizaje") || text.startsWith("objetivo"))) {
+      callout.setAttribute("data-kind", "objetivos");
+    } else if (/^\s*(teorema|demostración|demostracion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "teorema");
+    } else if (/^\s*lema\b/.test(text)) {
+      callout.setAttribute("data-kind", "lema");
+    } else if (/^\s*corolario\b/.test(text)) {
+      callout.setAttribute("data-kind", "corolario");
+    } else if (/^\s*(definición|definicion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "definicion");
+    } else if (/^\s*(ejemplo|ejemplos)\b/.test(text)) {
+      callout.setAttribute("data-kind", "ejemplo");
+    } else if (/^\s*(esquema|propiedades)\b/.test(text)) {
+      callout.setAttribute("data-kind", "esquema");
+    } else if (/^\s*(advertencia|precaución|precaucion|importancia|limitación|limitacion)\b/.test(text) || text.includes("recíproco") || text.includes("no es cierto")) {
+      callout.setAttribute("data-kind", "advertencia");
+    } else if (/^\s*(nota|observación|observacion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "nota");
+    }
+  });
+
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+
+  var links = Array.from(toc.querySelectorAll("a.nav-link"));
+  if (links.length === 0) return;
+
+  function getTargets() {
+    return links.map(function (link) {
+      var targetId = link.getAttribute("data-scroll-target") || link.getAttribute("href");
+      if (targetId && targetId.startsWith("#")) {
+        return document.getElementById(decodeURIComponent(targetId.substring(1)));
+      }
+      return null;
+    });
+  }
+
+  var targets = getTargets();
+
+  function updateTOC() {
+    var scrollPos = window.scrollY || document.documentElement.scrollTop || 0;
+    var windowHeight = window.innerHeight;
+    var docHeight = document.documentElement.scrollHeight;
+
+    var activeIdx = -1;
+
+    if (scrollPos + windowHeight >= docHeight - 20) {
+      activeIdx = targets.length - 1;
+    } else {
+      for (var i = targets.length - 1; i >= 0; i--) {
+        if (targets[i]) {
+          var top = targets[i].getBoundingClientRect().top + scrollPos;
+          if (scrollPos >= top - 140) {
+            activeIdx = i;
+            break;
+          }
+        }
+      }
+    }
+
+    if (activeIdx < 0) activeIdx = 0;
+
+    links.forEach(function (link, idx) {
+      if (idx === activeIdx) {
+        link.classList.add("active");
+        link.style.color = "#0284c7";
+        link.style.fontWeight = "bold";
+      } else {
+        link.classList.remove("active");
+        link.style.color = "";
+        link.style.fontWeight = "";
+      }
+    });
+
+    // Handle accordion collapse/expand
+    var collapses = toc.querySelectorAll("ul.collapse");
+    collapses.forEach(function (c) {
+      c.classList.remove("show");
+      c.style.display = "none";
+    });
+
+    var activeLink = links[activeIdx];
+    if (activeLink) {
+      // Show parent collapse if inside a subsection
+      var parentUl = activeLink.closest("ul.collapse");
+      if (parentUl) {
+        parentUl.classList.add("show");
+        parentUl.style.display = "block";
+      }
+      // Show child collapse if active link is a main section with sub-items
+      var parentLi = activeLink.closest("li");
+      if (parentLi) {
+        var childUl = parentLi.querySelector("ul.collapse");
+        if (childUl) {
+          childUl.classList.add("show");
+          childUl.style.display = "block";
+        }
+      }
+    }
+  }
+
+  window.addEventListener("scroll", updateTOC);
+  window.addEventListener("resize", updateTOC);
+  setTimeout(updateTOC, 100);
+});
+</script>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

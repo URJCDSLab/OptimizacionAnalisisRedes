@@ -1,0 +1,206 @@
+---
+title: "Tema 1: Introducción a la investigación operativa"
+subtitle: "Optimización y Análisis de Redes"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: "2026-06-15"
+format:
+  revealjs:
+    theme: [simple, diapo_theme.scss]
+    transition: slide
+    slide-number: true
+    code-line-numbers: true
+    embed-resources: true
+    width: 1280
+    height: 720
+    margin: 0.05
+---
+
+# Introducción a la investigación operativa
+
+## Raíces históricas
+
+La **investigación operativa (IO)** o *Operations Research* nace formalmente durante la Segunda Guerra Mundial:
+
+*   **Problemas complejos**: Logística, despliegue de radares, escolta de convoyes y asignación de recursos limitados.
+*   **Enfoque interdisciplinar**: Grupos de científicos (matemáticos, físicos, ingenieros) colaborando para aplicar el método científico a operaciones militares.
+*   **Postguerra**: Aplicación exitosa al crecimiento industrial, el comercio y la gestión pública.
+
+---
+
+## Definición de investigación operativa
+
+::: {.callout-note title="Operational research society"}
+La Investigación Operativa es la **aplicación del método científico** a los **problemas complejos** producidos en la dirección y gestión de grandes sistemas de personas, máquinas, materiales y dinero, en la industria, comercio, administración y defensa.
+:::
+
+*   Consiste en construir un **modelo científico** del sistema (incluyendo azar y riesgo) para predecir y **comparar los resultados** de diferentes decisiones estratégicas.
+
+---
+
+## Herramientas de la investigación operativa
+
+La IO abarca múltiples metodologías cuantitativas:
+
+*   **Optimización matemática** (Lineal, Entera, No Lineal) $\leftarrow$ *Foco del bloque I*
+*   **Teoría de grafos y redes** $\leftarrow$ *Foco del bloque II*
+*   Sistemas dinámicos y teoría de control
+*   Modelos estocásticos y teoría de colas
+*   Simulación de eventos discretos
+*   Teoría de juegos y teoría de la decisión
+
+# El concepto de modelo
+
+## ¿Qué es un modelo?
+
+Un **modelo** es una representación simplificada de la realidad diseñada para estructurar, analizar y predecir el comportamiento de un sistema real.
+
+### Tipos de modelos
+
+*   **Modelos concretos (físicos)**: Representaciones físicas a escala (ej. túnel de viento, maqueta de un edificio).
+*   **Modelos abstractos (matemáticos)**: Relaciones y ecuaciones cuantitativas que definen la lógica interna del sistema. Son la herramienta central en ciencias de la decisión.
+
+---
+
+## Ciclo de vida del modelado
+
+El proceso de modelización matemática es iterativo:
+
+```{=html}
+<svg viewBox="0 0 1000 145" width="100%" height="auto" style="display: block; margin: 25px auto; font-family: 'Plus Jakarta Sans', sans-serif;">
+  <defs>
+    <!-- Blue Arrow Head -->
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0284c7" />
+    </marker>
+    <!-- Green Arrow Head -->
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#10b981" />
+    </marker>
+    <!-- Red Arrow Head -->
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#ef4444" />
+    </marker>
+  </defs>
+
+  <!-- Connections -->
+  <line x1="120" y1="50" x2="172" y2="50" stroke="#0284c7" stroke-width="2" marker-end="url(#arrow-blue)" />
+  <line x1="290" y1="50" x2="342" y2="50" stroke="#0284c7" stroke-width="2" marker-end="url(#arrow-blue)" />
+  <line x1="480" y1="50" x2="522" y2="50" stroke="#0284c7" stroke-width="2" marker-end="url(#arrow-blue)" />
+  <line x1="660" y1="50" x2="702" y2="50" stroke="#0284c7" stroke-width="2" marker-end="url(#arrow-blue)" />
+  <line x1="820" y1="50" x2="872" y2="50" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-green)" />
+
+  <!-- Feedback Loop (No válido) -->
+  <path d="M 765,75 L 765,115 L 235,115 L 235,83" stroke="#ef4444" stroke-width="2" fill="none" stroke-dasharray="4" marker-end="url(#arrow-red)" />
+
+  <!-- Labels -->
+  <text x="846" y="42" fill="#10b981" font-size="11px" font-weight="700" text-anchor="middle">Válido</text>
+  <text x="500" y="110" fill="#ef4444" font-size="11px" font-weight="700" text-anchor="middle">No válido</text>
+
+  <!-- Nodes -->
+  <!-- A: Problema Real -->
+  <rect x="10" y="25" width="110" height="50" rx="0" fill="#f0f9ff" stroke="#0284c7" stroke-width="2" />
+  <text x="65" y="50" fill="#0f172a" font-size="12px" font-weight="600" text-anchor="middle" dominant-baseline="middle">Problema real</text>
+
+  <!-- B: Formulación -->
+  <rect x="180" y="25" width="110" height="50" rx="0" fill="#f0f9ff" stroke="#0284c7" stroke-width="2" />
+  <text x="235" y="50" fill="#0f172a" font-size="12px" font-weight="600" text-anchor="middle" dominant-baseline="middle">Formulación</text>
+
+  <!-- C: Modelo Matemático -->
+  <rect x="350" y="25" width="130" height="50" rx="0" fill="#f0f9ff" stroke="#0284c7" stroke-width="2" />
+  <text x="415" y="50" fill="#0f172a" font-size="12px" font-weight="600" text-anchor="middle" dominant-baseline="middle">Modelo matemático</text>
+
+  <!-- D: Resolución/Solver -->
+  <rect x="530" y="25" width="130" height="50" rx="0" fill="#f0f9ff" stroke="#0284c7" stroke-width="2" />
+  <text x="595" y="50" fill="#0f172a" font-size="12px" font-weight="600" text-anchor="middle" dominant-baseline="middle">Resolución/Solver</text>
+
+  <!-- E: Validación -->
+  <rect x="710" y="25" width="110" height="50" rx="0" fill="#f0f9ff" stroke="#0284c7" stroke-width="2" />
+  <text x="765" y="50" fill="#0f172a" font-size="12px" font-weight="600" text-anchor="middle" dominant-baseline="middle">Validación</text>
+
+  <!-- F: Implementación -->
+  <rect x="880" y="25" width="110" height="50" rx="0" fill="#ecfdf5" stroke="#10b981" stroke-width="2" />
+  <text x="935" y="50" fill="#065f46" font-size="12px" font-weight="600" text-anchor="middle" dominant-baseline="middle">Implementación</text>
+</svg>
+```
+
+
+
+1.  **Formulación**: Traducir la realidad a variables y ecuaciones.
+2.  **Resolución**: Aplicar algoritmos para hallar el óptimo.
+3.  **Validación**: Contrastar con datos reales y analizar sensibilidad.
+4.  **Implementación**: Toma de decisiones informada.
+
+# Modelos de optimización
+
+## Formulación general
+
+Un modelo de programación matemática consta de:
+
+$$
+\begin{aligned}
+\min_{x \in \mathbb{R}^n} \quad & f(x) \\
+\text{sujeto a} \quad & g_i(x) \le 0, \quad i = 1, \dots, m \\
+& h_j(x) = 0, \quad j = 1, \dots, p
+\end{aligned}
+$$
+
+*   **Variables de decisión ($x$)**: Las incógnitas que podemos controlar.
+*   **Función objetivo ($f$)**: La función real a maximizar o minimizar.
+*   **Restricciones ($g_i, h_j$)**: Límites físicos, económicos o lógicos que restringen las variables.
+
+---
+
+## Clasificación de modelos de optimización
+
+Atendiendo al tipo de ecuaciones y funciones:
+
+*   **Optimización lineal (LP)**: Función objetivo y restricciones estrictamente lineales.
+*   **Optimización no lineal (NLP)**: Objetivo o alguna restricción presentan curvatura no lineal.
+*   **Optimización estocástica**: Incluye parámetros probabilísticos y aleatorios.
+
+---
+
+## Clasificación según el tipo de variables
+
+*   **Optimización continua**: Las variables de decisión pueden tomar cualquier valor real dentro de un intervalo:
+    $$ x_i \ge 0, \quad x_i \in \mathbb{R} $$
+*   **Optimización entera**: Las variables deben ser valores enteros (ej. número de camiones a comprar):
+    $$ x_i \in \mathbb{Z} $$
+*   **Optimización binaria**: Decisiones lógicas sí/no ($x_i \in \{0, 1\}$).
+*   **Entera mixta (MIP)**: Combina variables continuas y enteras.
+
+# Optimización no lineal y en redes
+
+## Bloque I: optimización no lineal (NLP)
+
+Se estudian problemas continuos donde la curvatura juega un papel crítico:
+
+*   **Diferenciabilidad**: Uso del gradiente y la matriz Hessiana para el análisis de curvatura local.
+*   **Convexidad**: Si el problema es convexo, se garantiza la globalidad de los óptimos.
+*   **Algoritmos**:
+    *   *Búsqueda 1D*: Bisección, Newton, Sección Áurea.
+    *   *Multivariantes*: Máximo Descenso, Newton, BFGS.
+    *   *Con restricciones*: Condiciones de Karush-Kuhn-Tucker (KKT).
+
+---
+
+## Bloque II: optimización en redes
+
+Modelado y resolución eficiente de problemas estructurados sobre grafos:
+
+::: {.columns}
+::: {.column width="55%"}
+
+*   **Matriz de incidencia**: Totalmente unimodular (garantiza soluciones enteras en relajación lineal).
+*   **Algoritmos especializados**: Símplex de redes, Dijkstra, Kruskal, algoritmos de flujo máximo.
+:::
+
+::: {.column width="45%"}
+### Problemas clave
+
+*   Caminos mínimos.
+*   Flujo máximo.
+*   Emparejamientos.
+*   Rutas de reparto (TSP).
+:::
+:::

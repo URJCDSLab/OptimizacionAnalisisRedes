@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Optimización no lineal y métodos numéricos – Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema3.html" rel="next">
+<link href="./tema1.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="estilos_html.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema2.html">Bloque I: Optimización no lineal</a></li><li class="breadcrumb-item"><a href="./tema2.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización no lineal y métodos numéricos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la investigación operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bloque I: Optimización no lineal</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización no lineal y métodos numéricos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis convexo</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Condiciones de optimalidad y KKT</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Programación lineal y cuadrática</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bloque II: Optimización en redes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Grafos y árboles soporte</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Caminos mínimos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Flujos en redes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Emparejamientos en redes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Rutas eulerianas, hamiltonianas y problemas de rutas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliografía</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#formulación-de-problemas-no-lineales" id="toc-formulación-de-problemas-no-lineales" class="nav-link active" data-scroll-target="#formulación-de-problemas-no-lineales"><span class="header-section-number">2.1</span> Formulación de problemas no lineales</a>
+  <ul class="collapse">
+  <li><a href="#casos-particulares-de-la-optimización-no-lineal" id="toc-casos-particulares-de-la-optimización-no-lineal" class="nav-link" data-scroll-target="#casos-particulares-de-la-optimización-no-lineal"><span class="header-section-number">2.1.1</span> Casos particulares de la optimización no lineal</a></li>
+  <li><a href="#el-monopolio-de-cournot-1838" id="toc-el-monopolio-de-cournot-1838" class="nav-link" data-scroll-target="#el-monopolio-de-cournot-1838"><span class="header-section-number">2.1.2</span> El monopolio de Cournot (1838)</a></li>
+  <li><a href="#selección-de-cartera-de-valores-markowitz-1952" id="toc-selección-de-cartera-de-valores-markowitz-1952" class="nav-link" data-scroll-target="#selección-de-cartera-de-valores-markowitz-1952"><span class="header-section-number">2.1.3</span> Selección de cartera de valores (Markowitz, 1952)</a></li>
+  </ul></li>
+  <li><a href="#óptimos-locales-globales-y-puntos-de-silla" id="toc-óptimos-locales-globales-y-puntos-de-silla" class="nav-link" data-scroll-target="#óptimos-locales-globales-y-puntos-de-silla"><span class="header-section-number">2.2</span> Óptimos locales, globales y puntos de silla</a></li>
+  <li><a href="#herramientas-de-análisis-diferencial" id="toc-herramientas-de-análisis-diferencial" class="nav-link" data-scroll-target="#herramientas-de-análisis-diferencial"><span class="header-section-number">2.3</span> Herramientas de análisis diferencial</a>
+  <ul class="collapse">
+  <li><a href="#desarrollo-de-taylor-multivariante" id="toc-desarrollo-de-taylor-multivariante" class="nav-link" data-scroll-target="#desarrollo-de-taylor-multivariante"><span class="header-section-number">2.3.1</span> Desarrollo de Taylor multivariante</a></li>
+  <li><a href="#caracterización-de-curvatura-y-clasificación-de-matrices" id="toc-caracterización-de-curvatura-y-clasificación-de-matrices" class="nav-link" data-scroll-target="#caracterización-de-curvatura-y-clasificación-de-matrices"><span class="header-section-number">2.3.2</span> Caracterización de curvatura y clasificación de matrices</a></li>
+  <li><a href="#condiciones-de-optimalidad-y-puntos-estacionarios" id="toc-condiciones-de-optimalidad-y-puntos-estacionarios" class="nav-link" data-scroll-target="#condiciones-de-optimalidad-y-puntos-estacionarios"><span class="header-section-number">2.3.3</span> Condiciones de optimalidad y puntos estacionarios</a></li>
+  </ul></li>
+  <li><a href="#métodos-de-búsqueda-unidimensional" id="toc-métodos-de-búsqueda-unidimensional" class="nav-link" data-scroll-target="#métodos-de-búsqueda-unidimensional"><span class="header-section-number">2.4</span> Métodos de búsqueda unidimensional</a>
+  <ul class="collapse">
+  <li><a href="#métodos-sin-derivadas" id="toc-métodos-sin-derivadas" class="nav-link" data-scroll-target="#métodos-sin-derivadas"><span class="header-section-number">2.4.1</span> Métodos sin derivadas</a></li>
+  <li><a href="#métodos-con-derivadas" id="toc-métodos-con-derivadas" class="nav-link" data-scroll-target="#métodos-con-derivadas"><span class="header-section-number">2.4.2</span> Métodos con derivadas</a></li>
+  </ul></li>
+  <li><a href="#métodos-multivariantes-de-optimización-sin-restricciones" id="toc-métodos-multivariantes-de-optimización-sin-restricciones" class="nav-link" data-scroll-target="#métodos-multivariantes-de-optimización-sin-restricciones"><span class="header-section-number">2.5</span> Métodos multivariantes de optimización sin restricciones</a>
+  <ul class="collapse">
+  <li><a href="#método-de-las-coordenadas-cíclicas" id="toc-método-de-las-coordenadas-cíclicas" class="nav-link" data-scroll-target="#método-de-las-coordenadas-cíclicas"><span class="header-section-number">2.5.1</span> Método de las coordenadas cíclicas</a></li>
+  <li><a href="#método-del-máximo-descenso" id="toc-método-del-máximo-descenso" class="nav-link" data-scroll-target="#método-del-máximo-descenso"><span class="header-section-number">2.5.2</span> Método del máximo descenso</a></li>
+  <li><a href="#métodos-de-newton-multivariante-y-bfgs" id="toc-métodos-de-newton-multivariante-y-bfgs" class="nav-link" data-scroll-target="#métodos-de-newton-multivariante-y-bfgs"><span class="header-section-number">2.5.3</span> Métodos de Newton multivariante y BFGS</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema2.html">Bloque I: Optimización no lineal</a></li><li class="breadcrumb-item"><a href="./tema2.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización no lineal y métodos numéricos</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimización no lineal y métodos numéricos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>La <strong>optimización no lineal</strong> (Nonlinear Programming, NLP) estudia problemas de decisión donde la función objetivo o alguna de las restricciones presentan comportamientos no lineales. A diferencia de la programación lineal, donde las soluciones óptimas se encuentran siempre en la frontera del conjunto factible (específicamente en sus puntos extremos o vértices), en optimización no lineal el óptimo puede situarse en el interior del espacio factible o en cualquier punto de su frontera. La presencia de curvatura en la función objetivo y en las restricciones exige herramientas avanzadas de análisis diferencial multivariante y algoritmos iterativos complejos.</p>
+<p>En este tema estudiaremos la formulación y clasificación de los problemas de optimización no lineal y sus casos más relevantes. Desarrollaremos las herramientas de análisis diferencial necesarias (gradiente, hessiana y condiciones de optimalidad) para caracterizar la curvatura local e identificar mínimos, máximos y puntos de silla. Finalmente, abordaremos los principales métodos numéricos de búsqueda unidimensional (sin y con derivadas) y los métodos multivariantes sin restricciones, desde el sencillo descenso por coordenadas hasta los métodos de Newton y la técnica Quasi-Newton BFGS.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Objetivos de aprendizaje">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Objetivos de aprendizaje
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al finalizar este capítulo, serás capaz de:</p>
+<ol type="1">
+<li><strong>Formular y clasificar</strong> problemas de optimización no lineal en sus distintas familias estructurales.</li>
+<li><strong>Visualizar e interpretar geométricamente</strong> la diferencia entre la optimización lineal y la no lineal a través del análisis de conjuntos factibles convexos y curvas de nivel no lineales.</li>
+<li><strong>Caracterizar la curvatura</strong> de una función multivariante mediante el análisis del gradiente y de la matriz hessiana empleando el criterio de los menores principales.</li>
+<li><strong>Clasificar puntos estacionarios</strong> aplicando las condiciones de optimalidad de primer y segundo orden (FONC, SONC, SOSC).</li>
+<li><strong>Implementar y trazar numéricamente</strong> algoritmos de búsqueda lineal en una dimensión, tanto sin derivadas como con derivadas.</li>
+<li><strong>Comprender y programar</strong> algoritmos de optimización multivariante sin restricciones, analizando el comportamiento de las coordenadas cíclicas, el fenómeno de zigzag del máximo descenso y las ventajas de los métodos de Newton y Cuasi-Newton (BFGS).</li>
+</ol>
+</div>
+</div>
+<section id="formulación-de-problemas-no-lineales" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="formulación-de-problemas-no-lineales"><span class="header-section-number">2.1</span> Formulación de problemas no lineales</h2>
+<p>En el mundo real, la linealidad es una excepción matemática. Los fenómenos físicos, económicos y tecnológicos se comportan de manera inherentemente no lineal. En la industria, por ejemplo, las <strong>economías de escala</strong> provocan que el coste unitario de producción disminuya a medida que aumenta el volumen debido al reparto de costes fijos o descuentos por cantidad, lo que rompe la relación de proporcionalidad lineal. En el ámbito económico, la <strong>elasticidad de la demanda</strong> determina que la cantidad demandada de un bien sea sensible a su precio de venta, por lo que la función de ingresos resultante (<span class="math inline">\(I = P \cdot Q\)</span>) es cuadrática y no lineal. En el sector financiero, siguiendo el modelo de selección de carteras de Markowitz, el riesgo se mide mediante la varianza del rendimiento de los activos, que constituye una combinación cuadrática de los pesos invertidos, mientras que el rendimiento esperado se mantiene lineal. Finalmente, en la ciencia de datos, la estimación de modelos y algoritmos de aprendizaje automático suele penalizar los errores de ajuste de forma cuadrática (mínimos cuadrados), generando funciones objetivo no lineales.</p>
+<p>Un <strong>problema de optimización no lineal (PNL)</strong> general se define matemáticamente sobre un espacio vectorial <span class="math inline">\(\mathbb{R}^n\)</span> como:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min_{x \in \mathbb{R}^n} \quad &amp; f(x) \\
+\text{sujeto a} \quad &amp; g_i(x) \le 0, \quad i = 1, \dots, m \\
+&amp; h_j(x) = 0, \quad j = 1, \dots, p
+\end{aligned}
+\]</span></p>
+<p>Donde <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> es la función objetivo, <span class="math inline">\(g_i: \mathbb{R}^n \to \mathbb{R}\)</span> representa las restricciones de desigualdad, e <span class="math inline">\(h_j: \mathbb{R}^n \to \mathbb{R}\)</span> representa las restricciones de igualdad. Para que el problema sea clasificado como no lineal, al menos una de estas funciones debe exhibir un comportamiento no lineal en el dominio de interés.</p>
+<p>La transición de modelos lineales a no lineales altera profundamente la geometría del espacio de búsqueda. En programación lineal (LP), el conjunto factible es siempre un poliedro convexo y la solución óptima se localiza en uno de sus vértices. Esto permite que algoritmos como el Símplex resuelvan problemas de millones de variables explorando únicamente un número finito de candidatos. En optimización no lineal (NLP), las restricciones no lineales pueden deformar el conjunto factible, y el óptimo puede hallarse en el interior del espacio factible o en cualquier punto de la frontera. Además, la presencia de no convexidades puede generar múltiples óptimos locales, atrapando a los algoritmos numéricos antes de alcanzar el mínimo global.</p>
+<section id="casos-particulares-de-la-optimización-no-lineal" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="casos-particulares-de-la-optimización-no-lineal"><span class="header-section-number">2.1.1</span> Casos particulares de la optimización no lineal</h3>
+<p>Para abordar la resolución de problemas no lineales de forma eficiente, la disciplina los clasifica en familias estructuradas según las propiedades algebraicas y analíticas de sus funciones:</p>
+<p>La <strong>Programación Cuadrática (QP)</strong> representa problemas donde la función objetivo es cuadrática y las restricciones son afines (lineales), formulándose en su forma estándar como: <span class="math display">\[ \min_{x} \quad \frac{1}{2} x^T Q x - b^T x \quad \text{sujeto a} \quad A x \le d \]</span> Si la matriz <span class="math inline">\(Q\)</span> es semidefinida positiva, el problema es convexo, lo que permite el uso de algoritmos especializados extremadamente eficientes como los métodos de conjuntos activos (<em>active-set</em>) o de punto interior, que resuelven el problema de forma exacta en pocas iteraciones.</p>
+<p>La <strong>Programación Convexa</strong> constituye la clase de problemas más robusta en optimización no lineal. Un problema es convexo si la función objetivo <span class="math inline">\(f(x)\)</span> es convexa, las restricciones de desigualdad <span class="math inline">\(g_i(x)\)</span> son convexas y las restricciones de igualdad <span class="math inline">\(h_j(x)\)</span> son afines. La gran ventaja analítica de la programación convexa es que todo mínimo local es un mínimo global. Esto elimina la necesidad de realizar búsquedas globales exhaustivas y garantiza que métodos locales de gradiente converjan siempre a la solución óptima del sistema.</p>
+<p>La <strong>Programación Separable</strong> se presenta cuando todas las funciones involucradas se pueden descomponer en la suma de funciones que dependen exclusivamente de una sola variable independiente: <span class="math display">\[ f(x) = \sum_{j=1}^n f_j(x_j) \qquad \text{y} \qquad g_i(x) = \sum_{j=1}^n g_{ij}(x_j) \le 0 \]</span> Esta propiedad estructural es muy útil, ya que permite aproximar funciones no lineales arbitrarias mediante funciones lineales a trozos (<em>piecewise linear approximation</em>), transformando el problema en un modelo lineal de variables continuas que se puede resolver con variantes del algoritmo del Símplex.</p>
+<p>La <strong>Programación Geométrica</strong> surge cuando la función objetivo y las restricciones están modeladas por posinomios (sumas de términos monomios con coeficientes reales positivos): <span class="math display">\[ f(x) = \sum_{k} c_k x_1^{a_{1k}} x_2^{a_{2k}} \dots x_n^{a_{nk}} \]</span> Aunque un problema geométrico es inherentemente no convexo en sus variables originales, la aplicación de un cambio de variables logarítmico: <span class="math display">\[ y_j = \ln(x_j) \]</span> transforma el modelo en un problema convexo equivalente en el espacio <span class="math inline">\(y\)</span>, permitiendo su resolución exacta de forma global.</p>
+<p>La <strong>Programación Fraccionaria</strong> se presenta cuando la función objetivo se formula como el cociente de dos funciones reales: <span class="math display">\[ \min_{x} \quad \frac{f_1(x)}{f_2(x)} \]</span> Aparece habitualmente al optimizar ratios de eficiencia, rentabilidad de inversiones o productividad. Bajo condiciones de concavidad y convexidad de las funciones individuales, la transformación de variables de Charnes-Cooper permite linealizar el modelo y resolverlo de forma exacta.</p>
+</section>
+<section id="el-monopolio-de-cournot-1838" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="el-monopolio-de-cournot-1838"><span class="header-section-number">2.1.2</span> El monopolio de Cournot (1838)</h3>
+<p>Consideremos una empresa que opera en régimen de monopolio y desea maximizar su beneficio, siguiendo el modelo clásico de Cournot <span class="citation" data-cites="cournot1838recherches">(<a href="references.html#ref-cournot1838recherches" role="doc-biblioref">Cournot 1838</a>)</span>. La relación entre la cantidad demandada del mercado <span class="math inline">\(Q\)</span> y el precio de venta <span class="math inline">\(P\)</span> viene dada por la función de demanda inversa del mercado: <span class="math inline">\(P(Q) = 10 - Q\)</span>. El coste total de producción de la empresa es lineal con respecto a la cantidad fabricada: <span class="math inline">\(C(Q) = 1 + 3Q\)</span>. La empresa está sujeta a una limitación de capacidad física máxima de producción de <span class="math inline">\(9\)</span> unidades (<span class="math inline">\(Q \le 9\)</span>). Por su parte, el organismo regulador estatal establece que el precio de venta al público no puede superar las <span class="math inline">\(8\)</span> unidades monetarias (<span class="math inline">\(P \le 8\)</span>).</p>
+<p>Para determinar la política óptima de producción y precios, formulamos el problema como un modelo con dos variables de decisión (<span class="math inline">\(Q\)</span> y <span class="math inline">\(P\)</span>):</p>
+<p><span class="math display">\[
+\begin{aligned}
+\max_{Q, P} \quad &amp; B(Q, P) = P \cdot Q - 3Q - 1 \\
+\text{sujeto a} \quad &amp; Q \le 10 - P \\
+&amp; 0 \le P \le 8 \\
+&amp; 0 \le Q \le 9
+\end{aligned}
+\]</span></p>
+<p>Este problema presenta una función objetivo no lineal debido al término cuadrático <span class="math inline">\(P \cdot Q\)</span>. Dado que la empresa busca maximizar el beneficio y el precio está acotado por la demanda, la solución óptima operará exactamente sobre la frontera de la curva de demanda activa (donde la restricción <span class="math inline">\(Q \le 10 - P\)</span> se cumple como igualdad: <span class="math inline">\(P = 10 - Q\)</span>). Sustituyendo el precio en la función de beneficio, reducimos el problema a una única variable real <span class="math inline">\(Q\)</span>:</p>
+<p><span class="math display">\[ B(Q) = (10 - Q)Q - 3Q - 1 = -Q^2 + 7Q - 1 \]</span></p>
+<p>El rango de factibilidad de <span class="math inline">\(Q\)</span> se obtiene combinando las restricciones: <span class="math inline">\(Q \le 9\)</span> y <span class="math inline">\(P \le 8 \implies 10 - Q \le 8 \implies Q \ge 2\)</span>. Por lo tanto, el problema de una sola variable se reduce a:</p>
+<p><span class="math display">\[ \max_{Q} \quad -Q^2 + 7Q - 1 \quad \text{sujeto a} \quad 2 \le Q \le 9 \]</span></p>
+<p>Para hallar el óptimo, derivamos el beneficio con respecto a la cantidad de producción e igualamos a cero: <span class="math inline">\(B'(Q) = -2Q + 7 = 0 \implies Q^* = 3.5\)</span>. Como <span class="math inline">\(Q^* = 3.5\)</span> pertenece al intervalo factible <span class="math inline">\([2, 9]\)</span>, constituye el óptimo global del problema. Sustituyendo, obtenemos el precio óptimo <span class="math inline">\(P^* = 6.5\)</span> y el beneficio máximo de la empresa: <span class="math inline">\(B^* = -(3.5)^2 + 7(3.5) - 1 = 11.25\)</span> u.m.</p>
+<p>La región factible en el plano <span class="math inline">\((Q, P)\)</span> es un polígono convexo con vértices en <span class="math inline">\((0,0)\)</span>, <span class="math inline">\((0,8)\)</span>, <span class="math inline">\((2,8)\)</span>, <span class="math inline">\((9,1)\)</span>, y <span class="math inline">\((9,0)\)</span>. Las curvas de nivel de la función objetivo (curvas de isobeneficio) son hipérbolas de la forma <span class="math inline">\(P = 3 + (B + 1)/Q\)</span>. A medida que el beneficio <span class="math inline">\(B\)</span> aumenta, las hipérbolas se desplazan hacia arriba y a la derecha. El punto óptimo <span class="math inline">\((Q^*, P^*) = (3.5, 6.5)\)</span> es el punto donde la curva de isobeneficio correspondiente a <span class="math inline">\(B = 11.25\)</span> es exactamente tangente al segmento de la frontera <span class="math inline">\(P + Q = 10\)</span>, tal y como se ilustra en la <a href="#fig-cournot-monopolio" class="quarto-xref">Figura&nbsp;<span>2.1</span></a>.</p>
+<div id="fig-cournot-monopolio" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cournot-monopolio-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/cournot_monopolio.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figura&nbsp;2.1: Geometría del Monopolio de Cournot: el óptimo de tangencia (3.5, 6.5) se sitúa en la frontera y no coincide con ningún vértice de la región factible polimórfica"><img src="images/cournot_monopolio.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cournot-monopolio-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.1: Geometría del Monopolio de Cournot: el óptimo de tangencia (3.5, 6.5) se sitúa en la frontera y no coincide con ningún vértice de la región factible polimórfica
+</figcaption>
+</figure>
+</div>
+<p>Este resultado ilustra la diferencia fundamental con la programación lineal: la solución óptima de un problema no lineal con restricciones lineales puede situarse en el interior de una de las caras de la región factible y no en un vértice (los vértices adyacentes son <span class="math inline">\((2,8)\)</span> y <span class="math inline">\((9,1)\)</span>, los cuales arrojan beneficios inferiores, de <span class="math inline">\(9.0\)</span> y <span class="math inline">\(8.0\)</span> u.m. respectivamente).</p>
+</section>
+<section id="selección-de-cartera-de-valores-markowitz-1952" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="selección-de-cartera-de-valores-markowitz-1952"><span class="header-section-number">2.1.3</span> Selección de cartera de valores (Markowitz, 1952)</h3>
+<p>Supongamos que disponemos de un capital <span class="math inline">\(C\)</span> para invertir entre <span class="math inline">\(n\)</span> activos financieros, siguiendo el modelo pionero de selección de carteras de Markowitz <span class="citation" data-cites="markowitz1952portfolio">(<a href="references.html#ref-markowitz1952portfolio" role="doc-biblioref">Markowitz 1952</a>)</span>. Denotamos por <span class="math inline">\(x_i\)</span> la cantidad monetaria asignada al activo <span class="math inline">\(i\)</span>. Cada activo presenta un rendimiento medio esperado <span class="math inline">\(\mu_i\)</span>, y la relación de variabilidad conjunta del mercado se modela a través de la covarianza <span class="math inline">\(\sigma_{ij}\)</span> entre los activos <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span>. La varianza de la cartera (medida del riesgo o volatilidad) viene dada por la forma cuadrática <span class="math inline">\(\sum_{i=1}^n \sum_{j=1}^n \sigma_{ij} x_i x_j\)</span>.</p>
+<p>El inversor busca maximizar el rendimiento esperado de la cartera al tiempo que minimiza su riesgo, penalizándolo mediante un coeficiente de aversión al riesgo <span class="math inline">\(\beta &gt; 0\)</span>. El problema se formula como:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\max_{x \in \mathbb{R}^n} \quad &amp; \sum_{i=1}^n \mu_i x_i - \beta \sum_{i=1}^n \sum_{j=1}^n \sigma_{ij} x_i x_j \\
+\text{sujeto a} \quad &amp; \sum_{i=1}^n x_i \le C \\
+&amp; x_i \ge 0, \quad i = 1, \dots, n
+\end{aligned}
+\]</span></p>
+<p>Este problema posee una función objetivo cuadrática no lineal y restricciones lineales, lo que constituye un problema clásico de <strong>Programación Cuadrática (QP)</strong>. Su naturaleza estrictamente convexa (cuando la matriz de covarianzas es semidefinida positiva) asegura que cualquier óptimo local sea también el óptimo global del sistema <span class="citation" data-cites="boyd2004convex hillier2010investigacion">(<a href="references.html#ref-boyd2004convex" role="doc-biblioref">Boyd y Vandenberghe 2004</a>; <a href="references.html#ref-hillier2010investigacion" role="doc-biblioref">Hillier y Lieberman 2010</a>)</span>.</p>
+</section>
+</section>
+<section id="óptimos-locales-globales-y-puntos-de-silla" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="óptimos-locales-globales-y-puntos-de-silla"><span class="header-section-number">2.2</span> Óptimos locales, globales y puntos de silla</h2>
+<p>Sea <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> una función real definida sobre un conjunto factible <span class="math inline">\(\mathcal{X} \subseteq \mathbb{R}^n\)</span>. Un punto <span class="math inline">\(x^* \in \mathcal{X}\)</span> es un <strong>mínimo global</strong> si no existe ningún otro punto factible con un valor inferior de la función objetivo, es decir, <span class="math inline">\(f(x) \ge f(x^*)\)</span> para todo <span class="math inline">\(x \in \mathcal{X}\)</span>. Del mismo modo, <span class="math inline">\(x^*\)</span> es un <strong>mínimo global estricto</strong> si se cumple que <span class="math inline">\(f(x) &gt; f(x^*)\)</span> para cualquier <span class="math inline">\(x \in \mathcal{X} \setminus \{x^*\}\)</span>.</p>
+<p>Por otro lado, un punto <span class="math inline">\(x^*\)</span> constituye un <strong>mínimo local</strong> si es la mejor solución dentro de un entorno local delimitado por una bola de radio <span class="math inline">\(\epsilon &gt; 0\)</span> centrada en él, satisfaciendo <span class="math inline">\(f(x) \ge f(x^*)\)</span> para todo <span class="math inline">\(x \in \mathcal{X}\)</span> tal que <span class="math inline">\(\|x - x^*\| \le \epsilon\)</span>. Finalmente, <span class="math inline">\(x^*\)</span> es un <strong>mínimo local estricto</strong> si existe un radio <span class="math inline">\(\epsilon &gt; 0\)</span> tal que <span class="math inline">\(f(x) &gt; f(x^*)\)</span> para todo <span class="math inline">\(x \in \mathcal{X} \setminus \{x^*\}\)</span> con <span class="math inline">\(\|x - x^*\| \le \epsilon\)</span>.</p>
+<p>En optimización no lineal general, debido a la posible presencia de no convexidades, los algoritmos locales basados en derivadas pueden converger hacia mínimos locales mediocres en lugar de alcanzar el óptimo global. Esta es la complejidad fundamental que diferencia al PNL de la programación lineal (como se ilustra en la <a href="#fig-tipos-optimos" class="quarto-xref">Figura&nbsp;<span>2.2</span></a>).</p>
+<div id="fig-tipos-optimos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tipos-optimos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/tipos_optimos.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figura&nbsp;2.2: Ilustración de los distintos tipos de óptimos locales y globales (estrictos y no estrictos) sobre funciones convexas y no convexas"><img src="images/tipos_optimos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tipos-optimos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.2: Ilustración de los distintos tipos de óptimos locales y globales (estrictos y no estrictos) sobre funciones convexas y no convexas
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="herramientas-de-análisis-diferencial" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="herramientas-de-análisis-diferencial"><span class="header-section-number">2.3</span> Herramientas de análisis diferencial</h2>
+<p>Para caracterizar y clasificar los puntos óptimos locales en múltiples dimensiones, recurrimos al cálculo diferencial. Consideremos una función <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> diferenciable de clase <span class="math inline">\(\mathcal{C}^2\)</span> (con segundas derivadas continuas).</p>
+<p>El <strong>vector gradiente</strong> representa la dirección de máxima pendiente de subida local de la función y se define como el vector columna de derivadas parciales de primer orden: <span class="math display">\[ \nabla f(x) = \begin{pmatrix} \frac{\partial f(x)}{\partial x_1} \\ \frac{\partial f(x)}{\partial x_2} \\ \vdots \\ \frac{\partial f(x)}{\partial x_n} \end{pmatrix} \]</span> Por su parte, la <strong>matriz hessiana</strong> modela la curvatura local de la función (análoga a la segunda derivada en una dimensión) y se define como la matriz simétrica de segundas derivadas parciales: <span class="math display">\[ [\nabla^2 f(x)]_{ij} = \frac{\partial^2 f(x)}{\partial x_i \partial x_j} \]</span></p>
+<section id="desarrollo-de-taylor-multivariante" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="desarrollo-de-taylor-multivariante"><span class="header-section-number">2.3.1</span> Desarrollo de Taylor multivariante</h3>
+<p>El comportamiento local de una función no lineal alrededor de un punto de referencia <span class="math inline">\(\bar{x}\)</span> se aproxima mediante su desarrollo cuadrático de Taylor:</p>
+<p><span class="math display">\[ f(x) = f(\bar{x}) + \nabla f(\bar{x})^T (x - \bar{x}) + \frac{1}{2} (x - \bar{x})^T \nabla^2 f(\bar{x}) (x - \bar{x}) + o(\|x - \bar{x}\|^2) \]</span></p>
+<p>Si la función <span class="math inline">\(f(x)\)</span> es cuadrática, esta aproximación de segundo orden es exacta para todo <span class="math inline">\(x \in \mathbb{R}^n\)</span>.</p>
+</section>
+<section id="caracterización-de-curvatura-y-clasificación-de-matrices" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="caracterización-de-curvatura-y-clasificación-de-matrices"><span class="header-section-number">2.3.2</span> Caracterización de curvatura y clasificación de matrices</h3>
+<p>La curvatura local de la función está determinada por el carácter de su matriz hessiana <span class="math inline">\(\nabla^2 f(x)\)</span>, el cual se clasifica analizando la forma cuadrática: <span class="math display">\[ z^T \nabla^2 f(x) z \]</span></p>
+<ul>
+<li><strong>Definida positiva (<span class="math inline">\(\nabla^2 f(x) \succ 0\)</span>)</strong>: Si <span class="math inline">\(z^T \nabla^2 f(x) z &gt; 0\)</span> para todo vector no nulo <span class="math inline">\(z \in \mathbb{R}^n\)</span>. Todos sus autovalores son estrictamente positivos y todos sus menores principales son mayores que cero. La función se curva hacia arriba en forma de cuenco, lo que garantiza que un punto crítico sea un mínimo local estricto.</li>
+<li><strong>Semidefinida positiva (<span class="math inline">\(\nabla^2 f(x) \succeq 0\)</span>)</strong>: Si <span class="math inline">\(z^T \nabla^2 f(x) z \ge 0\)</span> para todo vector <span class="math inline">\(z \in \mathbb{R}^n\)</span>. Todos sus autovalores son no negativos y todos sus menores principales son no negativos.</li>
+<li><strong>Definida negativa (<span class="math inline">\(\nabla^2 f(x) \prec 0\)</span>)</strong>: Si <span class="math inline">\(z^T \nabla^2 f(x) z &lt; 0\)</span> para todo vector no nulo <span class="math inline">\(z \in \mathbb{R}^n\)</span>. Sus menores principales alternan de signo comenzando por negativo (<span class="math inline">\(M_1 &lt; 0, M_2 &gt; 0, M_3 &lt; 0, \dots\)</span>) y todos sus autovalores son estrictamente negativos. La función se curva hacia abajo en forma de cúpula.</li>
+<li><strong>Semidefinida negativa (<span class="math inline">\(\nabla^2 f(x) \preceq 0\)</span>)</strong>: Si <span class="math inline">\(z^T \nabla^2 f(x) z \le 0\)</span> para todo vector <span class="math inline">\(z\)</span>. Todos sus autovalores son no positivos y todos sus menores principales alternan de signo de forma no estricta o son nulos.</li>
+<li><strong>Indefinida</strong>: Si existen autovalores estrictamente positivos y negativos. El punto crítico resultante constituye un <strong>punto de silla</strong> (con direcciones de subida y direcciones de bajada).</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplos: Clasificación de matrices">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplos: Clasificación de matrices
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p><strong>Matriz Definida Positiva</strong>: Sea la matriz: <span class="math display">\[ A_1 = \begin{pmatrix} 2 &amp; 1 \\ 1 &amp; 2 \end{pmatrix} \]</span> Sus menores principales son: <span class="math display">\[ M_1 = |2| = 2 &gt; 0 \qquad \text{y} \qquad M_2 = \det(A_1) = 4 - 1 = 3 &gt; 0 \]</span> Al ser ambos menores principales estrictamente positivos, se tiene que <span class="math inline">\(A_1 \succ 0\)</span>.</p>
+<p>Resolviendo el polinomio característico: <span class="math display">\[ \det(A_1 - \lambda I) = (2-\lambda)^2 - 1 = 0 \implies \lambda^2 - 4\lambda + 3 = 0 \]</span> obtenemos los autovalores <span class="math inline">\(\lambda_1 = 3\)</span> y <span class="math inline">\(\lambda_2 = 1\)</span>, los cuales confirman que es definida positiva.</p></li>
+<li><p><strong>Matriz Indefinida</strong>: Sea la matriz: <span class="math display">\[ A_2 = \begin{pmatrix} 1 &amp; 2 \\ 2 &amp; 1 \end{pmatrix} \]</span> Sus menores principales son: <span class="math display">\[ M_1 = |1| = 1 &gt; 0 \qquad \text{y} \qquad M_2 = \det(A_2) = 1 - 4 = -3 &lt; 0 \]</span> Dado que el determinante de segundo orden es negativo, la matriz es indefinida.</p>
+<p>Resolviendo el polinomio característico: <span class="math display">\[ \det(A_2 - \lambda I) = (1-\lambda)^2 - 4 = 0 \implies \lambda^2 - 2\lambda - 3 = 0 \]</span> hallamos los autovalores <span class="math inline">\(\lambda_1 = 3\)</span> (positivo) y <span class="math inline">\(\lambda_2 = -1\)</span> (negativo), lo que ratifica el carácter indefinido.</p></li>
+<li><p><strong>Matriz Semidefinida Positiva</strong>: Sea la matriz: <span class="math display">\[ A_3 = \begin{pmatrix} 2 &amp; -3 &amp; -1 \\ -3 &amp; 12 &amp; 6 \\ -1 &amp; 6 &amp; 3.2 \end{pmatrix} \]</span> Sus menores principales de primer y segundo orden son: <span class="math display">\[ M_1 = |2| = 2 &gt; 0 \qquad \text{y} \qquad M_2 = 24 - 9 = 15 &gt; 0 \]</span> y su determinante (menor principal de tercer orden): <span class="math display">\[ M_3 = \det(A_3) = 2(38.4 - 36) + 3(-9.6 + 6) - 1(-18 + 12) = 4.8 - 10.8 + 6 = 0 \]</span> Al ser todos los menores principales no negativos y el determinante nulo, la matriz es semidefinida positiva y singular. Sus autovalores son <span class="math inline">\(\lambda_1 \approx 15.75\)</span>, <span class="math inline">\(\lambda_2 \approx 1.45\)</span>, y <span class="math inline">\(\lambda_3 = 0\)</span>, confirmando la semidefinición (<span class="math inline">\(A_3 \succeq 0\)</span>).</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="condiciones-de-optimalidad-y-puntos-estacionarios" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="condiciones-de-optimalidad-y-puntos-estacionarios"><span class="header-section-number">2.3.3</span> Condiciones de optimalidad y puntos estacionarios</h3>
+<p>Las condiciones diferenciales para determinar extremos locales se enuncian en el siguiente teorema.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Teorema: Condiciones de optimalidad de segundo orden">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema: Condiciones de optimalidad de segundo orden
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> una función diferenciable de clase <span class="math inline">\(\mathcal{C}^2\)</span>:</p>
+<ol type="1">
+<li><strong>Condición Necesaria de Primer Orden (FONC)</strong>: Si <span class="math inline">\(x^*\)</span> es un mínimo local, entonces el gradiente de la función se anula en dicho punto: <span class="math display">\[ \nabla f(x^*) = 0 \]</span> Cualquier punto que verifique esta condición se denomina <strong>punto estacionario</strong> o punto crítico.</li>
+<li><strong>Condición Necesaria de Segundo Orden (SONC)</strong>: Si <span class="math inline">\(x^*\)</span> es un mínimo local, entonces además de cumplirse la FONC, la matriz hessiana en dicho punto es semidefinida positiva: <span class="math display">\[ \nabla^2 f(x^*) \succeq 0 \]</span></li>
+<li><strong>Condición Suficiente de Segundo Orden (SOSC)</strong>: Si un punto <span class="math inline">\(x^*\)</span> satisface simultáneamente que: <span class="math display">\[ \nabla f(x^*) = 0 \qquad \text{y} \qquad \nabla^2 f(x^*) \succ 0 \]</span> Entonces <span class="math inline">\(x^*\)</span> es un <strong>mínimo local estricto</strong> de la función.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Importancia de la definición positiva en SOSC">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Importancia de la definición positiva en SOSC
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Es fundamental notar que en la condición suficiente (SOSC), la matriz hessiana debe ser <strong>estrictamente definida positiva</strong> (<span class="math inline">\(\nabla^2 f(x^*) \succ 0\)</span>) y no simplemente semidefinida positiva. Si la hessiana es semidefinida con algún autovalor nulo (por ejemplo, en la función <span class="math inline">\(f(x) = x^4\)</span> en el origen <span class="math inline">\(x^*=0\)</span>, donde <span class="math inline">\(f'(0)=0\)</span> y <span class="math inline">\(f''(0)=0 \succeq 0\)</span>), el análisis de segundo orden es insuficiente para garantizar analíticamente si el punto es un mínimo, un máximo o un punto de inflexión.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplos: Clasificación de puntos estacionarios">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplos: Clasificación de puntos estacionarios
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p><strong>Punto de Silla (Hessiana Indefinida)</strong>: Sea la función: <span class="math display">\[ f(x, y) = \frac{1}{2} x^2 + 2xy + \frac{1}{2} y^2 - y + 9 \]</span> Su gradiente se obtiene derivando parcialmente respecto a cada variable: <span class="math display">\[ \nabla f(x, y) = \begin{pmatrix} x + 2y \\ 2x + y - 1 \end{pmatrix} \]</span> Igualando el gradiente a cero, resolvemos el sistema de ecuaciones para hallar los puntos críticos: <span class="math display">\[ \begin{cases} x + 2y = 0 \implies x = -2y \\ 2x + y - 1 = 0 \implies 2(-2y) + y = 1 \implies -3y = 1 \implies y^* = -1/3 \end{cases} \]</span> sustituyendo, obtenemos el punto crítico único en <span class="math inline">\((x^*, y^*) = (2/3, -1/3)\)</span>.</p>
+<p>La matriz hessiana de la función es: <span class="math display">\[ \nabla^2 f(x, y) = \begin{pmatrix} 1 &amp; 2 \\ 2 &amp; 1 \end{pmatrix} \]</span> Calculamos sus menores principales para clasificarla: <span class="math display">\[ M_1 = |1| = 1 &gt; 0 \qquad \text{y} \qquad M_2 = \det(\nabla^2 f) = 1 - 4 = -3 &lt; 0 \]</span> Al ser el menor principal de segundo orden negativo (<span class="math inline">\(M_2 &lt; 0\)</span>), la matriz hessiana es indefinida. Por tanto, el punto crítico <span class="math inline">\((2/3, -1/3)\)</span> constituye un <strong>punto de silla</strong>.</p>
+<div id="fig-superficies-3d-silla" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-superficies-3d-silla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/punto_silla_3d.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figura&nbsp;2.3: Representación 3D y curvas de nivel de un punto de silla (Hessiana indefinida)"><img src="images/punto_silla_3d.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-superficies-3d-silla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.3: Representación 3D y curvas de nivel de un punto de silla (Hessiana indefinida)
+</figcaption>
+</figure>
+</div></li>
+<li><p><strong>Mínimo Local Estricto Circular (Hessiana Definida Positiva)</strong>: Sea la función que mide el cuadrado de la distancia al punto <span class="math inline">\((2, 1)\)</span>: <span class="math display">\[ f(x, y) = (x-2)^2 + (y-1)^2 \]</span> Su gradiente es: <span class="math display">\[ \nabla f(x, y) = \begin{pmatrix} 2(x-2) \\ 2(y-1) \end{pmatrix} \]</span> Igualando a cero, el gradiente se anula únicamente en el punto crítico <span class="math inline">\((x^*, y^*) = (2, 1)\)</span>.</p>
+<p>La matriz hessiana es constante y diagonal: <span class="math display">\[ \nabla^2 f(x, y) = \begin{pmatrix} 2 &amp; 0 \\ 0 &amp; 2 \end{pmatrix} \]</span> Evaluamos los menores principales: <span class="math display">\[ M_1 = 2 &gt; 0 \qquad \text{y} \qquad M_2 = 4 &gt; 0 \]</span> Dado que ambos menores principales son estrictamente positivos, la matriz hessiana es definida positiva (<span class="math inline">\(\nabla^2 f \succ 0\)</span>). Esto clasifica al punto crítico <span class="math inline">\((2, 1)\)</span> como un <strong>mínimo local estricto</strong> (cuyas curvas de nivel son circunferencias concéntricas).</p>
+<div id="fig-superficies-3d-circular" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-superficies-3d-circular-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/funcion_distancia_3d.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figura&nbsp;2.4: Representación 3D y curvas de nivel de un mínimo circular (Hessiana definida positiva)"><img src="images/funcion_distancia_3d.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-superficies-3d-circular-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.4: Representación 3D y curvas de nivel de un mínimo circular (Hessiana definida positiva)
+</figcaption>
+</figure>
+</div></li>
+<li><p><strong>Mínimo Local Estricto Elíptico (Función Cuadrática Acoplada)</strong>: Sea la función con término de acoplamiento cruzado: <span class="math display">\[ f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29 \]</span> Su gradiente es: <span class="math display">\[ \nabla f(x, y) = \begin{pmatrix} 16x + 3y - 25 \\ 3x + 14y + 31 \end{pmatrix} \]</span> Resolvemos el sistema lineal <span class="math inline">\(\nabla f(x, y) = 0\)</span>: <span class="math display">\[ \begin{pmatrix} 16 &amp; 3 \\ 3 &amp; 14 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 25 \\ -31 \end{pmatrix} \implies (x^*, y^*) \approx (2.060, -2.656) \]</span></p>
+<p>La matriz hessiana es constante: <span class="math display">\[ \nabla^2 f(x, y) = \begin{pmatrix} 16 &amp; 3 \\ 3 &amp; 14 \end{pmatrix} \]</span> Sus menores principales de primer y segundo orden son: <span class="math display">\[ M_1 = 16 &gt; 0 \qquad \text{y} \qquad M_2 = 16(14) - 3^2 = 224 - 9 = 215 &gt; 0 \]</span> Al ser ambos menores principales estrictamente positivos, la matriz es definida positiva (<span class="math inline">\(\nabla^2 f \succ 0\)</span>). Esto confirma que el punto crítico <span class="math inline">\((2.060, -2.656)\)</span> es un <strong>mínimo local estricto</strong> (con curvas de nivel elípticas inclinadas por efecto del acoplamiento).</p>
+<div id="fig-superficies-3d-eliptica" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-superficies-3d-eliptica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/funcion_cuadratica_3d.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figura&nbsp;2.5: Representación 3D y curvas de nivel de un mínimo elíptico (Hessiana definida positiva)"><img src="images/funcion_cuadratica_3d.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-superficies-3d-eliptica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.5: Representación 3D y curvas de nivel de un mínimo elíptico (Hessiana definida positiva)
+</figcaption>
+</figure>
+</div></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="métodos-de-búsqueda-unidimensional" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="métodos-de-búsqueda-unidimensional"><span class="header-section-number">2.4</span> Métodos de búsqueda unidimensional</h2>
+<p>Los métodos de búsqueda unidimensional buscan minimizar una función real de una variable <span class="math inline">\(f: \mathbb{R} \to \mathbb{R}\)</span> en un intervalo acotado <span class="math inline">\([a, b]\)</span>. Son fundamentales porque resolver problemas multidimensionales complejos suele requerir resolver una sucesión de problemas unidimensionales a lo largo de direcciones de descenso: <span class="math inline">\(\min_{\alpha &gt; 0} f(x_k + \alpha d_k)\)</span>.</p>
+<p>A modo de ilustración de las trazas numéricas de los algoritmos 1D, utilizaremos como caso de prueba la minimización en el intervalo <span class="math inline">\([1, 4]\)</span> de la función de cuarto grado: <span class="math display">\[ f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1 \]</span> cuyo gráfico y mínimo global en <span class="math inline">\(x^* = 3.0\)</span> se muestran en la <a href="#fig-opt-1d-ejemplo" class="quarto-xref">Figura&nbsp;<span>2.6</span></a>.</p>
+<div id="fig-opt-1d-ejemplo" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-opt-1d-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/opt_1d_ejemplo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figura&nbsp;2.6: Caso de prueba para métodos de búsqueda 1D: función de cuarto grado y su mínimo global"><img src="images/opt_1d_ejemplo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-opt-1d-ejemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.6: Caso de prueba para métodos de búsqueda 1D: función de cuarto grado y su mínimo global
+</figcaption>
+</figure>
+</div>
+<section id="métodos-sin-derivadas" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="métodos-sin-derivadas"><span class="header-section-number">2.4.1</span> Métodos sin derivadas</h3>
+<p>Estos métodos solo requieren evaluar el valor de la función objetivo. Exigen que la función sea <strong>unimodal</strong> en el intervalo <span class="math inline">\([a, b]\)</span>, es decir, que posea un único mínimo local en dicho intervalo, decreciendo de forma monótona a la izquierda del mínimo y creciendo a su derecha.</p>
+<p>La <strong>Búsqueda Uniforme (Rejilla)</strong> consiste en dividir el intervalo inicial <span class="math inline">\([a, b]\)</span> en <span class="math inline">\(n\)</span> subintervalos de igual anchura mediante una rejilla equidistante de puntos.</p>
+<p>Formalmente, los puntos se definen como: <span class="math display">\[x_k = a + k \cdot \frac{b-a}{n}, \quad k = 0, 1, \dots, n\]</span> Evaluamos la función en todos los puntos de la rejilla para identificar el punto mínimo: <span class="math display">\[k^* = \arg\min_{k \in \{0, \dots, n\}} f(x_k)\]</span> y reducimos el intervalo de incertidumbre al subintervalo adyacente que rodea al óptimo muestreado: <span class="math display">\[[a', b'] = [x_{k^*-1}, x_{k^*+1}]\]</span> Aunque es un método muy robusto, resulta poco eficiente debido a que no aprovecha la información de las evaluaciones previas (ver la <a href="#fig-busqueda-uniforme-concepto" class="quarto-xref">Figura&nbsp;<span>2.7</span></a>).</p>
+<div id="fig-busqueda-uniforme-concepto" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-busqueda-uniforme-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="uniforme-preview" src="images/busqueda_uniforme.gif" class="img-fluid figure-img" style="width:70%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Concepto de la Búsqueda Uniforme en rejilla"></p>
+<p></p><dialog id="uniforme-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('uniforme-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/busqueda_uniforme_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('uniforme-preview');
+  var dlg = document.getElementById('uniforme-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-busqueda-uniforme-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.7: Concepto de la Búsqueda Uniforme en rejilla (reproductor interactivo): subdivisión equidistante del intervalo y reducción basada en el punto mínimo de la muestra.
+</figcaption>
+</figure>
+</div>
+<p>La <strong>Búsqueda Dicotómica</strong> evalúa la función en el entorno del punto medio del intervalo actual. Bajo la hipótesis de unimodalidad, si únicamente evaluásemos la función en el punto medio exacto <span class="math inline">\(c\)</span>, no tendríamos suficiente información para comparar y deducir si el mínimo está a la izquierda o a la derecha (ver <a href="#fig-busqueda-dicotomica-insuficiente" class="quarto-xref">Figura&nbsp;<span>2.8</span></a>).</p>
+<div id="fig-busqueda-dicotomica-insuficiente" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-busqueda-dicotomica-insuficiente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/busqueda_dicotomica_insuficiente.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figura&nbsp;2.8: Insuficiencia de evaluar un único punto medio: dos funciones unimodales diferentes pueden tener idéntico valor en c teniendo sus mínimos globales en lados opuestos"><img src="images/busqueda_dicotomica_insuficiente.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-busqueda-dicotomica-insuficiente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.8: Insuficiencia de evaluar un único punto medio: dos funciones unimodales diferentes pueden tener idéntico valor en <span class="math inline">\(c\)</span> teniendo sus mínimos globales en lados opuestos
+</figcaption>
+</figure>
+</div>
+<p>Para resolver esto, calculamos en cada iteración <span class="math inline">\(k\)</span> dos puntos simétricos respecto al punto medio, separados por una perturbación infinitesimal <span class="math inline">\(\delta &gt; 0\)</span>: <span class="math display">\[\lambda_k = \frac{a_k + b_k}{2} - \delta \qquad \mu_k = \frac{a_k + b_k}{2} + \delta\]</span> Comparamos sus valores para actualizar el intervalo:</p>
+<ul>
+<li>Si <span class="math inline">\(f(\lambda_k) &lt; f(\mu_k) \implies\)</span> descartamos <span class="math inline">\([\mu_k, b_k]\)</span>, y el nuevo intervalo es <span class="math inline">\([a_{k+1}, b_{k+1}] = [a_k, \mu_k]\)</span>.</li>
+<li>Si <span class="math inline">\(f(\lambda_k) &gt; f(\mu_k) \implies\)</span> descartamos <span class="math inline">\([a_k, \lambda_k]\)</span>, y el nuevo intervalo es <span class="math inline">\([a_{k+1}, b_{k+1}] = [\lambda_k, b_k]\)</span>.</li>
+</ul>
+<p>La amplitud del nuevo intervalo viene dada por la ecuación: <span class="math display">\[I_{k+1} = \frac{b_k - a_k}{2} + \delta\]</span> Cada paso reduce el intervalo de incertidumbre a la mitad más la perturbación (<span class="math inline">\(I_{k+1} \approx \frac{1}{2} I_k\)</span>).</p>
+<div id="fig-busqueda-dicotomica-concepto" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-busqueda-dicotomica-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/busqueda_dicotomica_concepto.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figura&nbsp;2.9: Concepto de la Búsqueda Dicotómica: la comparación de \lambda_k y \mu_k descarta con certeza una de las mitades del intervalo"><img src="images/busqueda_dicotomica_concepto.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-busqueda-dicotomica-concepto-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.9: Concepto de la Búsqueda Dicotómica: la comparación de <span class="math inline">\(\lambda_k\)</span> y <span class="math inline">\(\mu_k\)</span> descarta con certeza una de las mitades del intervalo
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Búsqueda dicotómica">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Búsqueda dicotómica
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función de cuarto grado <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con perturbación <span class="math inline">\(\delta = 0.02\)</span> y tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>:</p>
+<ul>
+<li><strong>Paso 1</strong>: Intervalo <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Punto medio <span class="math inline">\(c = 2.5\)</span>.
+<ul>
+<li>Cálculo de puntos internos: <span class="math display">\[\lambda_0 = \frac{1 + 4}{2} - 0.02 = 2.48 \qquad \mu_0 = \frac{1 + 4}{2} + 0.02 = 2.52\]</span></li>
+<li>Evaluaciones correspondientes: <span class="math display">\[f(2.48) \approx -68.1386 \qquad f(2.52) \approx -68.2437\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la porción izquierda <span class="math inline">\([1, 2.48]\)</span>. Nuevo intervalo: <span class="math inline">\([a_1, b_1] = [2.48, 4]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 2</strong>: Intervalo <span class="math inline">\([a_1, b_1] = [2.48, 4]\)</span>. Punto medio <span class="math inline">\(c = 3.24\)</span>.
+<ul>
+<li>Cálculo de puntos internos: <span class="math display">\[\lambda_1 = \frac{2.48 + 4}{2} - 0.02 = 3.22 \qquad \mu_1 = \frac{2.48 + 4}{2} + 0.02 = 3.26\]</span></li>
+<li>Evaluaciones correspondientes: <span class="math display">\[f(3.22) \approx -68.6910 \qquad f(3.26) \approx -68.6709\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la porción derecha <span class="math inline">\([3.26, 4]\)</span>. Nuevo intervalo: <span class="math inline">\([a_2, b_2] = [2.48, 3.26]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 3</strong>: Intervalo <span class="math inline">\([a_2, b_2] = [2.48, 3.26]\)</span>. Punto medio <span class="math inline">\(c = 2.87\)</span>.
+<ul>
+<li>Cálculo de puntos internos: <span class="math display">\[\lambda_2 = \frac{2.48 + 3.26}{2} - 0.02 = 2.85 \qquad \mu_2 = \frac{2.48 + 3.26}{2} + 0.02 = 2.89\]</span></li>
+<li>Evaluaciones correspondientes: <span class="math display">\[f(2.85) \approx -68.7116 \qquad f(2.89) \approx -68.7300\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_2) &gt; f(\mu_2)\)</span>, descartamos la porción izquierda <span class="math inline">\([2.48, 2.85]\)</span>. Nuevo intervalo: <span class="math inline">\([a_3, b_3] = [2.85, 3.26]\)</span>.</li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: El proceso continúa evaluando de forma pareada. En el paso 5, el intervalo se reduce a <span class="math inline">\([2.9425, 3.075]\)</span> con amplitud <span class="math inline">\(0.1325 \le 0.15\)</span>, finalizando el algoritmo.</li>
+</ul>
+<div id="fig-dicotomica" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dicotomica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="dicotomica-preview" src="images/dicotomica.gif" class="img-fluid figure-img" style="width:65%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Animación de la Búsqueda Dicotómica (5 iteraciones)"></p>
+<p></p><dialog id="dicotomica-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('dicotomica-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/dicotomica_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('dicotomica-preview');
+  var dlg = document.getElementById('dicotomica-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dicotomica-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.10: Animación de la Búsqueda Dicotómica (5 iteraciones).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>La <strong>Sección Áurea (Golden Section)</strong> optimiza la búsqueda dicotómica reduciendo a la mitad el número de evaluaciones necesarias en cada paso. Esto se logra colocando los puntos internos <span class="math inline">\(\lambda_k\)</span> y <span class="math inline">\(\mu_k\)</span> de tal forma que uno de ellos coincida exactamente con un punto evaluado en la iteración anterior, requiriendo solo una nueva evaluación por iteración a partir de la segunda.</p>
+<p>Para deducir la razón áurea <span class="math inline">\(\alpha &gt; 1\)</span>, consideremos la proporción constante entre la amplitud de intervalos consecutivos: <span class="math display">\[I_k = \alpha \cdot I_{k+1} \qquad I_{k+1} = \alpha \cdot I_{k+2} \implies I_k = \alpha^2 \cdot I_{k+2}\]</span> Dado que los puntos se sitúan de manera simétrica, la longitud total del intervalo actual <span class="math inline">\(I_k\)</span> es la suma de los dos posibles subintervalos sucesivos <span class="math inline">\(I_{k+1}\)</span> y <span class="math inline">\(I_{k+2}\)</span>: <span class="math display">\[I_k = I_{k+1} + I_{k+2}\]</span> Sustituyendo las relaciones de escala constante obtenemos: <span class="math display">\[\alpha^2 \cdot I_{k+2} = \alpha \cdot I_{k+2} + I_{k+2} \iff \alpha^2 - \alpha - 1 = 0\]</span> Tomando la solución positiva de esta ecuación cuadrática obtenemos el <strong>número áureo</strong>: <span class="math display">\[\alpha = \frac{1 + \sqrt{5}}{2} \approx 1.618033988\]</span></p>
+<p>Los puntos de evaluación en cada iteración <span class="math inline">\(k\)</span> sobre el intervalo <span class="math inline">\([a_k, b_k]\)</span> se calculan como: <span class="math display">\[\lambda_k = b_k - \frac{b_k - a_k}{\alpha} \qquad \mu_k = a_k + \frac{b_k - a_k}{\alpha}\]</span> La amplitud decrece en cada paso por un factor de <span class="math inline">\(1/\alpha \approx 0.618\)</span>. Dada una tolerancia <span class="math inline">\(\epsilon &gt; 0\)</span> y amplitud inicial <span class="math inline">\(I_0 = b - a\)</span>, el número total de iteraciones <span class="math inline">\(N\)</span> viene dado por: <span class="math display">\[N = \left\lceil \frac{\ln(I_0) - \ln(\epsilon)}{\ln(\alpha)} \right\rceil\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Sección áurea">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Sección áurea
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. El número de iteraciones requerido es <span class="math inline">\(N = \lceil (\ln(3.0) - \ln(0.15)) / \ln(1.61803) \rceil = 7\)</span>.</p>
+<ul>
+<li><strong>Paso 1</strong>: Intervalo inicial <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>. Amplitud teórica <span class="math inline">\(I_1 = 3.0 / 1.61803 \approx 1.8541\)</span>.
+<ul>
+<li>Cálculo de puntos y evaluaciones: <span class="math display">\[\lambda_0 = 4 - 1.8541 = 2.1459 \implies f(2.1459) \approx -66.692\]</span> <span class="math display">\[\mu_0 = 1 + 1.8541 = 2.8541 \implies f(2.8541) \approx -68.714\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la porción izquierda <span class="math inline">\([1, 2.1459]\)</span>. Nuevo intervalo: <span class="math inline">\([a_1, b_1] = [2.1459, 4]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 2</strong>: Intervalo <span class="math inline">\([a_1, b_1] = [2.1459, 4]\)</span>. Amplitud <span class="math inline">\(I_2 = 1.8541 / 1.61803 \approx 1.1459\)</span>.
+<ul>
+<li>Reutilizamos el punto interior evaluado previamente: <span class="math display">\[\lambda_1 = \mu_0 = 2.8541 \implies f(2.8541) \approx -68.714\]</span></li>
+<li>Calculamos únicamente el nuevo punto y su evaluación: <span class="math display">\[\mu_1 = 2.1459 + 1.1459 = 3.2918 \implies f(3.2918) \approx -68.654\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la derecha <span class="math inline">\([3.2918, 4]\)</span>. Nuevo intervalo: <span class="math inline">\([a_2, b_2] = [2.1459, 3.2918]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 3</strong>: Intervalo <span class="math inline">\([a_2, b_2] = [2.1459, 3.2918]\)</span>. Amplitud <span class="math inline">\(I_3 = 1.1459 / 1.61803 \approx 0.7082\)</span>.
+<ul>
+<li>Reutilizamos el punto interior: <span class="math display">\[\mu_2 = \lambda_1 = 2.8541 \implies f(2.8541) \approx -68.714\]</span></li>
+<li>Calculamos el nuevo punto: <span class="math display">\[\lambda_2 = 3.2918 - 0.7082 = 2.5836 \implies f(2.5836) \approx -68.3861\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_2) &gt; f(\mu_2)\)</span>, descartamos la izquierda <span class="math inline">\([2.1459, 2.5836]\)</span>. Nuevo intervalo: <span class="math inline">\([a_3, b_3] = [2.5836, 3.2918]\)</span>.</li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: El algoritmo continúa reutilizando evaluaciones previas de forma simétrica. En el paso 7, la amplitud alcanza <span class="math inline">\(0.1033 \le 0.15\)</span> convergiendo al intervalo final <span class="math inline">\([2.9574, 3.0608]\)</span>, el cual contiene el mínimo analítico en <span class="math inline">\(x^* = 3.0\)</span>.</li>
+</ul>
+<div id="fig-seccion-aurea" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seccion-aurea-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="seccion_aurea-preview" src="images/seccion_aurea.gif" class="img-fluid figure-img" style="width:65%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Animación de la búsqueda por Sección Áurea (7 iteraciones)"></p>
+<p></p><dialog id="seccion_aurea-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('seccion_aurea-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/seccion_aurea_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('seccion_aurea-preview');
+  var dlg = document.getElementById('seccion_aurea-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seccion-aurea-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.11: Animación de la búsqueda por Sección Áurea (7 iteraciones).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>La <strong>Búsqueda de Fibonacci</strong> optimiza teóricamente la sección áurea si se fija de antemano el número total de evaluaciones de la función <span class="math inline">\(N\)</span>. Utiliza los términos de la sucesión de Fibonacci (<span class="math inline">\(F_i\)</span>, donde <span class="math inline">\(F_0=1, F_1=1, F_2=2, F_3=3, F_4=5, F_5=8, F_6=13, F_7=21, \dots\)</span> definidos por recurrencia <span class="math inline">\(F_i = F_{i-1} + F_{i-2}\)</span>) para calcular la amplitud del paso en cada iteración <span class="math inline">\(k\)</span>: <span class="math display">\[I_k = \frac{F_{N-k}}{F_{N-k+2}} (b_{k-1} - a_{k-1})\]</span></p>
+<p>A partir de estas amplitudes, los puntos de evaluación se definen en la iteración <span class="math inline">\(k\)</span> de la forma: <span class="math display">\[\mu_k = a_k + \frac{F_{N-k}}{F_{N-k+1}} (b_k - a_k) \qquad \lambda_k = a_k + \frac{F_{N-k-1}}{F_{N-k+1}} (b_k - a_k)\]</span> Al igual que en la Sección Áurea, las amplitudes de intervalos sucesivos guardan la relación de suma <span class="math inline">\(I_{k-1} = I_k + I_{k+1}\)</span>, lo que permite reutilizar un punto evaluado en cada iteración. En el paso final <span class="math inline">\(k=N-1\)</span>, ambos puntos coinciden en el centro del intervalo, requiriendo introducir una pequeña perturbación <span class="math inline">\(\epsilon_0 &gt; 0\)</span> para poder tomar la decisión de descarte definitiva. Aunque Fibonacci proporciona la máxima reducción matemática en un número de pasos fijo, la Sección Áurea es preferible habitualmente porque no requiere predeterminar <span class="math inline">\(N\)</span> ni almacenar o calcular la sucesión de Fibonacci.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Búsqueda de Fibonacci">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Búsqueda de Fibonacci
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Minimizamos la misma función en <span class="math inline">\([1, 4]\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span> fijando un número total de evaluaciones <span class="math inline">\(N = 6\)</span> (usando <span class="math inline">\(F_7 = 21\)</span>).</p>
+<ul>
+<li><strong>Paso 1</strong>: Intervalo inicial <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>.
+<ul>
+<li>Amplitud teórica del paso: <span class="math display">\[I_1 = \frac{F_6}{F_7}(b_0 - a_0) = \frac{13}{21} \cdot 3.0 \approx 1.8571\]</span></li>
+<li>Cálculo de puntos y evaluaciones: <span class="math display">\[\lambda_0 = 4 - 1.8571 = 2.1429 \implies f(2.1429) \approx -66.673\]</span> <span class="math display">\[\mu_0 = 1 + 1.8571 = 2.8571 \implies f(2.8571) \approx -68.715\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_0) &gt; f(\mu_0)\)</span>, descartamos la porción izquierda <span class="math inline">\([1, 2.1429]\)</span>. Nuevo intervalo: <span class="math inline">\([a_1, b_1] = [2.1429, 4]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 2</strong>: Intervalo <span class="math inline">\([a_1, b_1] = [2.1429, 4]\)</span>.
+<ul>
+<li>Amplitud teórica: <span class="math display">\[I_2 = \frac{F_5}{F_7}(b_0 - a_0) = \frac{8}{21} \cdot 3.0 \approx 1.1429\]</span></li>
+<li>Reutilizamos el punto evaluado previamente: <span class="math display">\[\lambda_1 = \mu_0 = 2.8571 \implies f(2.8571) \approx -68.715\]</span></li>
+<li>Calculamos el nuevo punto y su evaluación: <span class="math display">\[\mu_1 = 2.1429 + 1.1429 = 3.2857 \implies f(3.2857) \approx -68.657\]</span></li>
+<li>Como <span class="math inline">\(f(\lambda_1) &lt; f(\mu_1)\)</span>, descartamos la derecha <span class="math inline">\([3.2857, 4]\)</span>. Nuevo intervalo: <span class="math inline">\([a_2, b_2] = [2.1429, 3.2857]\)</span>.</li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: Continuando con el proceso de reducción mediante los cocientes de Fibonacci, en la iteración 6 (última) la amplitud del intervalo alcanza <span class="math inline">\(I_6 = 0.1429 \le 0.15\)</span>, logrando converger en el intervalo final <span class="math inline">\([2.8541, 3.001]\)</span> con una iteración menos que en la sección áurea gracias a fijar <span class="math inline">\(N\)</span> de forma anticipada.</li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="métodos-con-derivadas" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="métodos-con-derivadas"><span class="header-section-number">2.4.2</span> Métodos con derivadas</h3>
+<p>Los métodos con derivadas incorporan información analítica de las pendientes locales para acelerar significativamente la convergencia.</p>
+<p>El <strong>Método de Bisección (Bolzano)</strong> se basa en buscar las raíces de la derivada de primer orden (<span class="math inline">\(f'(x) = 0\)</span>). Exige que los signos de la derivada en los extremos del intervalo inicial <span class="math inline">\([a_0, b_0]\)</span> sean opuestos (<span class="math inline">\(f'(a_0) &lt; 0\)</span> y <span class="math inline">\(f'(b_0) &gt; 0\)</span>), lo que por el Teorema de Bolzano asegura la existencia de al menos un punto estacionario en el interior.</p>
+<p>En cada iteración <span class="math inline">\(k\)</span>, calculamos el punto medio: <span class="math display">\[c_k = \frac{a_k + b_k}{2}\]</span> y evaluamos el signo de la derivada en dicho punto:</p>
+<ul>
+<li>Si <span class="math inline">\(f'(c_k) &lt; 0 \implies\)</span> actualizamos la cota izquierda: <span class="math inline">\([a_{k+1}, b_{k+1}] = [c_k, b_k]\)</span>.</li>
+<li>Si <span class="math inline">\(f'(c_k) &gt; 0 \implies\)</span> actualizamos la cota derecha: <span class="math inline">\([a_{k+1}, b_{k+1}] = [a_k, c_k]\)</span>.</li>
+<li>Si <span class="math inline">\(f'(c_k) = 0 \implies c_k\)</span> es el punto óptimo exacto.</li>
+</ul>
+<p>La amplitud del intervalo se reduce a la mitad exacta en cada paso: <span class="math display">\[I_{k+1} = \frac{b_k - a_k}{2}\]</span> El número de pasos <span class="math inline">\(n\)</span> requeridos para alcanzar una tolerancia <span class="math inline">\(\epsilon &gt; 0\)</span> es: <span class="math display">\[n = \left\lceil \frac{\ln(I_0) - \ln(\epsilon)}{\ln(2)} \right\rceil\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Método de bisección">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Método de bisección
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la función <span class="math inline">\(f(x) = \frac{1}{4}x^4 - \frac{13}{3}x^3 + 27x^2 - 72x + 1\)</span> con tolerancia <span class="math inline">\(\epsilon = 0.15\)</span>. La primera derivada es <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span>.</p>
+<ul>
+<li><strong>Paso 1</strong>: Intervalo inicial <span class="math inline">\([a_0, b_0] = [1, 4]\)</span>.
+<ul>
+<li>Calculamos el punto medio: <span class="math display">\[c_0 = \frac{1 + 4}{2} = 2.5\]</span></li>
+<li>Evaluamos la derivada en <span class="math inline">\(c_0\)</span>: <span class="math display">\[f'(2.5) = (2.5)^3 - 13(2.5)^2 + 54(2.5) - 72 = -2.6250 &lt; 0\]</span></li>
+<li>Como <span class="math inline">\(f'(2.5) &lt; 0\)</span>, descartamos la izquierda. Nuevo intervalo: <span class="math inline">\([a_1, b_1] = [2.5, 4]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 2</strong>: Intervalo <span class="math inline">\([a_1, b_1] = [2.5, 4]\)</span>.
+<ul>
+<li>Punto medio: <span class="math display">\[c_1 = \frac{2.5 + 4}{2} = 3.25\]</span></li>
+<li>Evaluamos la derivada en <span class="math inline">\(c_1\)</span>: <span class="math display">\[f'(3.25) = (3.25)^3 - 13(3.25)^2 + 54(3.25) - 72 = 0.5156 &gt; 0\]</span></li>
+<li>Como <span class="math inline">\(f'(3.25) &gt; 0\)</span>, descartamos la derecha. Nuevo intervalo: <span class="math inline">\([a_2, b_2] = [2.5, 3.25]\)</span>.</li>
+</ul></li>
+<li><strong>Paso 3</strong>: Intervalo <span class="math inline">\([a_2, b_2] = [2.5, 3.25]\)</span>.
+<ul>
+<li>Punto medio: <span class="math display">\[c_2 = \frac{2.5 + 3.25}{2} = 2.875\]</span></li>
+<li>Evaluamos la derivada: <span class="math display">\[f'(2.875) \approx -0.4395 &lt; 0\]</span></li>
+<li>Descartamos la izquierda. Nuevo intervalo: <span class="math inline">\([a_3, b_3] = [2.875, 3.25]\)</span>.</li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: Continuando el proceso de subdivisión, en el paso 5 se obtiene el intervalo final <span class="math inline">\([2.96875, 3.0625]\)</span> con amplitud <span class="math inline">\(0.0938 \le 0.15\)</span>, finalizando el algoritmo.</li>
+</ul>
+<div id="fig-biseccion" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-biseccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="biseccion-preview" src="images/biseccion.gif" class="img-fluid figure-img" style="width:65%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Animación de la búsqueda por Bisección (Bolzano)"></p>
+<p></p><dialog id="biseccion-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('biseccion-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/biseccion_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('biseccion-preview');
+  var dlg = document.getElementById('biseccion-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-biseccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.12: Animación de la búsqueda por Bisección (Bolzano).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>El <strong>Método de Newton 1D</strong> aproxima localmente la función objetivo en cada paso <span class="math inline">\(x_k\)</span> mediante su polinomio cuadrático de Taylor de segundo orden: <span class="math display">\[q(x) = f(x_k) + f'(x_k)(x - x_k) + \frac{1}{2} f''(x_k)(x - x_k)^2\]</span> Para encontrar el mínimo de esta aproximación parabólica, igualamos su derivada a cero: <span class="math display">\[q'(x) = f'(x_k) + f''(x_k)(x - x_k) = 0 \implies x = x_k - \frac{f'(x_k)}{f''(x_k)}\]</span> Esto nos da la regla iterativa clásica de actualización del método: <span class="math display">\[x_{k+1} = x_k - \frac{f'(x_k)}{f''(x_k)}\]</span> Presenta una <strong>convergencia cuadrática local</strong> (orden 2), duplicando el número de dígitos significativos de precisión en cada paso cuando está cerca del óptimo. Exige calcular tanto <span class="math inline">\(f'(x)\)</span> como <span class="math inline">\(f''(x)\)</span> en cada paso, requiriendo que la función sea de clase <span class="math inline">\(\mathcal{C}^2\)</span> y que la curvatura sea estrictamente positiva (<span class="math inline">\(f''(x_k) &gt; 0\)</span>).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Método de Newton 1D">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Método de Newton 1D
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la misma función partiendo de <span class="math inline">\(x_0 = 1.0\)</span>. Las derivadas son <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span> y <span class="math inline">\(f''(x) = 3x^2 - 26x + 54\)</span>.</p>
+<ul>
+<li><strong>Paso 1</strong>: Partimos de <span class="math inline">\(x_0 = 1.0\)</span>.
+<ul>
+<li>Evaluamos derivadas: <span class="math display">\[f'(1.0) = 1^3 - 13(1)^2 + 54(1) - 72 = -30.0\]</span> <span class="math display">\[f''(1.0) = 3(1)^2 - 26(1) + 54 = 31.0\]</span></li>
+<li>Actualización: <span class="math display">\[x_1 = 1.0 - \frac{-30.0}{31.0} \approx 1.9677\]</span></li>
+</ul></li>
+<li><strong>Paso 2</strong>: Partimos del punto previo <span class="math inline">\(x_1 = 1.9677\)</span>.
+<ul>
+<li>Evaluamos derivadas: <span class="math display">\[f'(1.9677) \approx -8.4589 \qquad f''(1.9677) \approx 14.4547\]</span></li>
+<li>Actualización: <span class="math display">\[x_2 = 1.9677 - \frac{-8.4589}{14.4547} \approx 2.5529\]</span></li>
+</ul></li>
+<li><strong>Paso 3</strong>: Partimos de <span class="math inline">\(x_2 = 2.5529\)</span>.
+<ul>
+<li>Evaluamos derivadas: <span class="math display">\[f'(2.5529) \approx -2.2300 \qquad f''(2.5529) \approx 7.1760\]</span></li>
+<li>Actualización: <span class="math display">\[x_3 = 2.5529 - \frac{-2.2300}{7.1760} \approx 2.8637\]</span></li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: Aplicando de nuevo la fórmula se obtiene <span class="math inline">\(x_4 \approx 2.9808\)</span> y finalmente <span class="math inline">\(x_5 \approx 2.9995 \approx 3.0\)</span> logrando la convergencia óptima en solo 5 iteraciones.</li>
+</ul>
+<div id="fig-newton-1d" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-newton-1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="newton_1d-preview" src="images/newton_1d.gif" class="img-fluid figure-img" style="width:65%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Animación del método de Newton 1D"></p>
+<p></p><dialog id="newton_1d-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('newton_1d-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/newton_1d_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('newton_1d-preview');
+  var dlg = document.getElementById('newton_1d-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-newton-1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.13: Animación del método de Newton 1D.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>El <strong>Método de la Secante</strong> evita el inconveniente de calcular analíticamente la segunda derivada <span class="math inline">\(f''(x)\)</span> aproximándola numéricamente por diferencias finitas a partir de las pendientes de los dos últimos puntos evaluados: <span class="math display">\[f''(x_k) \approx \frac{f'(x_k) - f'(x_{k-1})}{x_k - x_{k-1}}\]</span> Sustituyendo esta aproximación en la fórmula de Newton, la regla iterativa de la secante se calcula como: <span class="math display">\[x_{k+1} = x_k - f'(x_k) \cdot \frac{x_k - x_{k-1}}{f'(x_k) - f'(x_{k-1})}\]</span> Este método ofrece una convergencia superlineal de orden <span class="math inline">\(\approx 1.618\)</span> (la razón áurea) y requiere disponer de dos estimaciones iniciales para iniciar las iteraciones (<span class="math inline">\(x_0\)</span> y <span class="math inline">\(x_{-1}\)</span>).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Método de la secante">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Método de la secante
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Minimizamos en el intervalo <span class="math inline">\([1, 4]\)</span> la misma función partiendo de <span class="math inline">\(x_{-1} = 1.0\)</span> y <span class="math inline">\(x_0 = 1.5\)</span>. La derivada es <span class="math inline">\(f'(x) = x^3 - 13x^2 + 54x - 72\)</span>.</p>
+<ul>
+<li><strong>Paso 1</strong>: Puntos iniciales <span class="math inline">\(x_{-1} = 1.0\)</span> y <span class="math inline">\(x_0 = 1.5\)</span>.
+<ul>
+<li>Evaluamos la derivada en ambos puntos: <span class="math display">\[f'(1.0) = -30.0 \qquad f'(1.5) = -16.875\]</span></li>
+<li>Aplicamos la regla de la secante: <span class="math display">\[x_1 = 1.5 - (-16.875) \cdot \frac{1.5 - 1.0}{-16.875 - (-30.0)} = 1.5 + 16.875 \cdot \frac{0.5}{13.125} \approx 2.1429\]</span></li>
+</ul></li>
+<li><strong>Paso 2</strong>: Puntos <span class="math inline">\(x_0 = 1.5\)</span> y <span class="math inline">\(x_1 = 2.1429\)</span>.
+<ul>
+<li>Evaluamos la derivada en el nuevo punto <span class="math inline">\(x_1\)</span>: <span class="math display">\[f'(2.1429) \approx -6.1399\]</span></li>
+<li>Aplicamos la regla de la secante: <span class="math display">\[x_2 = 2.1429 - (-6.1399) \cdot \frac{2.1429 - 1.5}{-6.1399 - (-16.875)} = 2.1429 + 6.1399 \cdot \frac{0.6429}{10.7351} \approx 2.5106\]</span></li>
+</ul></li>
+<li><strong>Pasos siguientes</strong>: Aplicando iterativamente la secante obtenemos <span class="math inline">\(x_3 \approx 2.7707\)</span>, <span class="math inline">\(x_4 \approx 2.9157\)</span>, <span class="math inline">\(x_5 \approx 2.9807\)</span>, y finalmente <span class="math inline">\(x_7 \approx 2.9999 \approx 3.0\)</span>, convergiendo rápidamente al mínimo sin segundas derivadas.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="métodos-multivariantes-de-optimización-sin-restricciones" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="métodos-multivariantes-de-optimización-sin-restricciones"><span class="header-section-number">2.5</span> Métodos multivariantes de optimización sin restricciones</h2>
+<p>Para minimizar funciones multivariantes <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> sin restricciones, construimos una sucesión iterativa a partir de una dirección de búsqueda <span class="math inline">\(d_k\)</span> y un tamaño de paso <span class="math inline">\(\alpha_k &gt; 0\)</span>: <span class="math display">\[x_{k+1} = x_k + \alpha_k d_k\]</span> Para garantizar que el algoritmo avance reduciendo la función en cada paso, la dirección <span class="math inline">\(d_k\)</span> debe ser de descenso, lo que exige matemáticamente que forme un ángulo obtuso con el gradiente de la función en el punto actual: <span class="math display">\[\nabla f(x_k)^T d_k &lt; 0\]</span></p>
+<p>Para ilustrar el funcionamiento de los algoritmos multivariantes, utilizaremos a lo largo del capítulo dos funciones de prueba representativas en <span class="math inline">\(\mathbb{R}^2\)</span>:</p>
+<ol type="1">
+<li><strong>Función de distancia circular (desacoplada)</strong>: <span class="math display">\[f(x, y) = (x-2)^2 + (y-1)^2\]</span> Su forma geométrica es la de un cuenco circular (paraboloide de revolución) con curvas de nivel perfectamente redondas, lo que facilita el comportamiento de los métodos por no existir acoplamiento cruzado (ver <a href="#fig-funciones-3d-1" class="quarto-xref">Figura&nbsp;<span>2.14 (a)</span></a>).</li>
+<li><strong>Función cuadrática mal acondicionada (acoplada)</strong>: <span class="math display">\[f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\]</span> Presenta curvas de nivel elípticas muy alargadas y un término cruzado <span class="math inline">\(3xy\)</span> que acopla las variables, simulando un problema de optimización realista de curvatura desigual (ver <a href="#fig-funciones-3d-2" class="quarto-xref">Figura&nbsp;<span>2.14 (b)</span></a>).</li>
+</ol>
+<div id="fig-funciones-3d" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-funciones-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-funciones-3d" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-funciones-3d-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-funciones-3d-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/funcion_distancia_3d.png" class="lightbox" data-gallery="fig-funciones-3d" title="Figura&nbsp;2.14&nbsp;(a): Superficie 3D de la función de distancia circular desacoplada"><img src="images/funcion_distancia_3d.png" class="img-fluid figure-img" data-ref-parent="fig-funciones-3d"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-funciones-3d-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Superficie 3D de la función de distancia circular desacoplada
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-funciones-3d" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-funciones-3d-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-funciones-3d-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/funcion_cuadratica_3d.png" class="lightbox" data-gallery="fig-funciones-3d" title="Figura&nbsp;2.14&nbsp;(b): Superficie 3D de la función cuadrática acoplada"><img src="images/funcion_cuadratica_3d.png" class="img-fluid figure-img" data-ref-parent="fig-funciones-3d"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-funciones-3d-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Superficie 3D de la función cuadrática acoplada
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-funciones-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.14: Superficies tridimensionales de las funciones de prueba en varias variables
+</figcaption>
+</figure>
+</div>
+<section id="método-de-las-coordenadas-cíclicas" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="método-de-las-coordenadas-cíclicas"><span class="header-section-number">2.5.1</span> Método de las coordenadas cíclicas</h3>
+<p>Es uno de los algoritmos de optimización multivariante más sencillos. Evita por completo el cálculo de derivadas y gradientes. En su lugar, avanza secuencialmente minimizando la función respecto a una única variable de decisión a la vez, manteniendo constantes las restantes <span class="math inline">\(n-1\)</span> variables. Las direcciones de búsqueda coinciden cíclicamente con los vectores de la base canónica de <span class="math inline">\(\mathbb{R}^n\)</span>: <span class="math display">\[d_k = e_{(k \bmod n) + 1}\]</span> donde <span class="math inline">\(e_i\)</span> es el <span class="math inline">\(i\)</span>-ésimo vector unitario. En cada paso, se resuelve un subproblema de optimización lineal 1D.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Coordenadas cíclicas">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Coordenadas cíclicas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>Variables Desacopladas</strong>: Minimizamos la función de distancia <span class="math inline">\(f(x, y) = (x-2)^2 + (y-1)^2\)</span> (ver <a href="#fig-coord-ciclicas-1" class="quarto-xref">Figura&nbsp;<span>2.15</span></a>) partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
+<ul>
+<li><em>Paso 1</em>: Minimizamos respecto a <span class="math inline">\(x\)</span>: <span class="math display">\[ \min_{x} \quad f(x, 0) = (x-2)^2 + 1 \implies x_1 = (2, 0)^T \]</span></li>
+<li><em>Paso 2</em>: Minimizamos respecto a <span class="math inline">\(y\)</span>: <span class="math display">\[ \min_{y} \quad f(2, y) = (y-1)^2 \implies x_2 = (2, 1)^T \]</span></li>
+</ul>
+<p>Al no existir términos de acoplamiento cruzado entre las variables (la matriz hessiana es diagonal), el algoritmo localiza el mínimo exacto en una única iteración de <span class="math inline">\(n=2\)</span> pasos ortogonales.</p></li>
+</ul>
+<div id="fig-coord-ciclicas-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coord-ciclicas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="coordenadas_ciclicas_ej1-preview" src="images/coordenadas_ciclicas_ej1.gif" class="img-fluid figure-img" style="width:60%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Descenso por coordenadas cíclicas: trayectoria paso a paso (animación)"></p>
+<p></p><dialog id="coordenadas_ciclicas_ej1-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('coordenadas_ciclicas_ej1-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/coordenadas_ciclicas_ej1_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('coordenadas_ciclicas_ej1-preview');
+  var dlg = document.getElementById('coordenadas_ciclicas_ej1-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coord-ciclicas-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.15: Descenso por coordenadas cíclicas: trayectoria paso a paso (animación).
+</figcaption>
+</figure>
+</div>
+<ul>
+<li><p><strong>Variables Acopladas</strong>: Minimizamos <span class="math inline">\(f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\)</span> (ver <a href="#fig-coord-ciclicas-2" class="quarto-xref">Figura&nbsp;<span>2.16</span></a>) partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
+<ul>
+<li><em>Paso 1</em>: Minimizamos respecto a <span class="math inline">\(x\)</span>: <span class="math display">\[ \min_{x} \quad f(x, 0) = 8x^2 - 25x - 29 \implies 16x - 25 = 0 \implies x_1 = (1.5625, 0)^T \]</span></li>
+<li><em>Paso 2</em>: Minimizamos respecto a <span class="math inline">\(y\)</span> manteniendo <span class="math inline">\(x = 1.5625\)</span>: <span class="math display">\[ \min_{y} \quad f(1.5625, y) = 7y^2 + 35.6875y + \text{ct} \implies 14y + 35.6875 = 0 \implies \]</span> <span class="math display">\[y = -\frac{571}{224} \approx -2.5491 \]</span> Lo que resulta en el punto <span class="math inline">\(x_2 = (1.5625, -2.5491)^T\)</span>.</li>
+<li><em>Paso 3</em>: Minimizamos de nuevo respecto a <span class="math inline">\(x\)</span> con <span class="math inline">\(y = -2.5491\)</span>: <span class="math display">\[ \min_{x} \quad f(x, -2.5491) = 8x^2 - 32.6473x + \text{ct} \implies 16x - 32.6473 = 0 \implies\]</span> <span class="math display">\[x_3 = (2.0405, -2.5491)^T \]</span></li>
+</ul>
+<p>Debido al acoplamiento bilineal inducido por el término <span class="math inline">\(3xy\)</span>, la trayectoria dibuja un patrón de “escalera”, requiriendo múltiples ciclos para aproximarse al mínimo global situado en <span class="math inline">\(x^* = (2.060, -2.656)\)</span>.</p></li>
+</ul>
+<div id="fig-coord-ciclicas-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coord-ciclicas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="coordenadas_ciclicas_ej2-preview" src="images/coordenadas_ciclicas_ej2.gif" class="img-fluid figure-img" style="width:60%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Trayectoria en escalera del descenso por coordenadas cíclicas (animación)"></p>
+<p></p><dialog id="coordenadas_ciclicas_ej2-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('coordenadas_ciclicas_ej2-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/coordenadas_ciclicas_ej2_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('coordenadas_ciclicas_ej2-preview');
+  var dlg = document.getElementById('coordenadas_ciclicas_ej2-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coord-ciclicas-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.16: Trayectoria en escalera del descenso por coordenadas cíclicas (animación).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="método-del-máximo-descenso" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="método-del-máximo-descenso"><span class="header-section-number">2.5.2</span> Método del máximo descenso</h3>
+<p>La dirección de búsqueda en el método de máximo descenso se define como la dirección en la que la función decrece más rápidamente a nivel local, dada por el opuesto del vector gradiente: <span class="math display">\[d_k = -\nabla f(x_k)\]</span> El tamaño de paso óptimo <span class="math inline">\(\alpha_k\)</span> se calcula mediante búsqueda de línea exacta: <span class="math display">\[\alpha_k = \arg\min_{\alpha &gt; 0} f(x_k - \alpha \nabla f(x_k))\]</span></p>
+<p>Una propiedad matemática de la búsqueda lineal exacta en el método de máximo descenso es que las direcciones de búsqueda en iteraciones consecutivas son estrictamente ortogonales entre sí: <span class="math display">\[d_k^T d_{k+1} = 0\]</span></p>
+<p>Para demostrarlo, definimos la función unidimensional <span class="math inline">\(\phi(\alpha) = f(x_k + \alpha d_k)\)</span> que se minimiza para hallar <span class="math inline">\(\alpha_k\)</span>. La condición de óptimo exige que su derivada con respecto al tamaño de paso sea nula en <span class="math inline">\(\alpha_k\)</span>: <span class="math display">\[\phi'(\alpha_k) = \nabla f(x_k + \alpha_k d_k)^T d_k = 0\]</span> Dado que el nuevo punto es <span class="math inline">\(x_{k+1} = x_k + \alpha_k d_k\)</span>, se tiene que <span class="math inline">\(\nabla f(x_{k+1})^T d_k = 0\)</span>. Puesto que las direcciones consecutivas son proporcionales a los gradientes (<span class="math inline">\(d_{k+1} = -\nabla f(x_{k+1})\)</span> y <span class="math inline">\(d_k = -\nabla f(x_k)\)</span>), se concluye de forma directa la ortogonalidad: <span class="math display">\[d_{k+1}^T d_k = 0\]</span></p>
+<p>Esta ortogonalidad geométrica provoca que, si la función presenta curvas de nivel elípticas muy alargadas (problemas mal acondicionados), el algoritmo realice continuos giros de 90°, generando un patrón en <strong>zigzag</strong> que ralentiza la convergencia, tal y como se observa en la <a href="#fig-steepest-descent" class="quarto-xref">Figura&nbsp;<span>2.17</span></a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Máximo descenso">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo: Máximo descenso
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Minimizamos <span class="math inline">\(f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29\)</span> partiendo de <span class="math inline">\(x_0 = (0, 0)^T\)</span>.</p>
+<ul>
+<li><p><strong>Gradiente en <span class="math inline">\(x_0\)</span></strong>: Calculamos el gradiente de la función y lo evaluamos en el origen: <span class="math display">\[ \nabla f(x_0) = \begin{pmatrix} 16x + 3y - 25 \\ 3x + 14y + 31 \end{pmatrix}_{x=(0,0)} = \begin{pmatrix} -25 \\ 31 \end{pmatrix} \]</span> La dirección de descenso óptima es el gradiente negativo: <span class="math display">\[ d_0 = -\nabla f(x_0) = \begin{pmatrix} 25 \\ -31 \end{pmatrix} \]</span></p></li>
+<li><p><strong>Búsqueda de línea exacta</strong>: Minimizamos la función respecto al tamaño del paso <span class="math inline">\(\alpha\)</span>: <span class="math display">\[ \phi(\alpha) = f(x_0 + \alpha d_0) = f(25\alpha, -31\alpha) = 9402\alpha^2 - 1586\alpha - 29 \]</span> Derivando e igualando a cero: <span class="math display">\[ \phi'(\alpha) = 18804\alpha - 1586 = 0 \implies \alpha_0 = \frac{1586}{18804} \approx 0.0843 \]</span></p></li>
+<li><p><strong>Actualización del punto</strong>: El nuevo punto en la primera iteración es: <span class="math display">\[ x_1 = x_0 + \alpha_0 d_0 = \begin{pmatrix} 0 \\ 0 \end{pmatrix} + 0.0843 \begin{pmatrix} 25 \\ -31 \end{pmatrix} = \begin{pmatrix} 2.109 \\ -2.615 \end{pmatrix} \]</span> El nuevo gradiente en <span class="math inline">\(x_1\)</span> es: <span class="math display">\[ \nabla f(x_1) \approx \begin{pmatrix} 0.8925 \\ 0.7225 \end{pmatrix} \]</span> Verificamos la ortogonalidad respecto a la dirección de búsqueda anterior: <span class="math display">\[ d_0^T \nabla f(x_1) = 25(0.8925) - 31(0.7225) \approx 0 \]</span> Lo cual ilustra la ortogonalidad requerida por la búsqueda exacta.</p></li>
+</ul>
+<div id="fig-steepest-descent" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-steepest-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><img id="steepest_descent-preview" src="images/steepest_descent.gif" class="img-fluid figure-img" style="width:65%; display:block; margin:0 auto; cursor:pointer;" title="Haz clic para abrir el reproductor interactivo" alt="Máximo descenso: trayectoria iterativa (animación)"></p>
+<p></p><dialog id="steepest_descent-dialog" style="border:none; border-radius:10px; padding:0; width:88vw; max-width:88vw; height:84vh; max-height:84vh; box-shadow:0 20px 60px rgba(0,0,0,0.55); overflow:hidden; background:#fff;"> <button onclick="document.getElementById('steepest_descent-dialog').close()" style="position:absolute; top:10px; right:14px; z-index:10; background:rgba(15,23,42,0.6); color:#fff; border:none; border-radius:50%; width:30px; height:30px; font-size:17px; cursor:pointer; line-height:1; display:flex; align-items:center; justify-content:center;">×</button> <iframe src="images/steepest_descent_player.html" width="100%" height="100%" style="border:none; display:block;" scrolling="no"></iframe> </dialog><p></p>
+<script>
+(function() {
+  var img = document.getElementById('steepest_descent-preview');
+  var dlg = document.getElementById('steepest_descent-dialog');
+  if (!img || !dlg) return;
+  img.addEventListener('click', function() { dlg.showModal(); });
+  dlg.addEventListener('click', function(e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+      dlg.close();
+    }
+  });
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-steepest-descent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.17: Máximo descenso: trayectoria iterativa (animación).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="métodos-de-newton-multivariante-y-bfgs" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="métodos-de-newton-multivariante-y-bfgs"><span class="header-section-number">2.5.3</span> Métodos de Newton multivariante y BFGS</h3>
+<p>El <strong>Método de Newton Multivariante</strong> incorpora información de segundo orden utilizando la aproximación de Taylor cuadrática en el punto <span class="math inline">\(x_k\)</span>, calculando el nuevo punto mediante la expresión: <span class="math display">\[x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k)\]</span> Si la función objetivo es cuadrática, el método de Newton localiza el mínimo global del sistema en una sola iteración desde cualquier punto inicial. Si la función es no lineal general, presenta una convergencia cuadrática local de orden 2.</p>
+<p>A pesar de su velocidad de convergencia, el método de Newton tiene importantes limitaciones prácticas. Presenta un <strong>coste computacional elevado</strong> debido a que en cada iteración se debe calcular la matriz hessiana y resolver un sistema de ecuaciones lineales, lo que supone un coste de <span class="math inline">\(O(n^3)\)</span> operaciones. Asimismo, exige que la matriz hessiana sea <strong>estrictamente definida positiva</strong> para garantizar que la dirección obtenida sea de descenso; si el algoritmo entra en una región cóncava o se topa con un punto de silla, puede diverger. Por último, su convergencia es de <strong>carácter local</strong>, estando garantizada solo si el punto inicial <span class="math inline">\(x_0\)</span> se encuentra cerca del óptimo.</p>
+<p>Los <strong>Métodos Cuasi-Newton (BFGS)</strong> eliminan estos inconvenientes estimando iterativamente una aproximación simétrica y definida positiva de la inversa de la hessiana, denotada por <span class="math inline">\(H_k \approx [\nabla^2 f(x_k)]^{-1}\)</span>. Esta matriz se actualiza utilizando únicamente la información de los gradientes de los dos puntos consecutivos, forzando a que se cumpla la <strong>ecuación de la secante</strong>: <span class="math display">\[H_{k+1} y_k = s_k\]</span> donde <span class="math inline">\(s_k = x_{k+1} - x_k\)</span> y <span class="math inline">\(y_k = \nabla f(x_{k+1}) - \nabla f(x_k)\)</span>. El algoritmo BFGS actualiza la matriz aproximada mediante la expresión: <span class="math display">\[H_{k+1} = (I - \rho_k s_k y_k^T) H_k (I - \rho_k y_k s_k^T) + \rho_k s_k s_k^T\]</span> donde <span class="math inline">\(\rho_k = 1 / (y_k^T s_k)\)</span>. Garantiza que la aproximación se mantenga definida positiva en cada paso si la búsqueda de línea satisface las condiciones de Wolfe, proporcionando una convergencia superlineal con un coste por iteración de tan solo <span class="math inline">\(O(n^2)\)</span> operaciones <span class="citation" data-cites="nocedal2006numerical luenberger2015linear">(<a href="references.html#ref-nocedal2006numerical" role="doc-biblioref">Nocedal y Wright 2006</a>; <a href="references.html#ref-luenberger2015linear" role="doc-biblioref">Luenberger y Ye 2015</a>)</span>.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-boyd2004convex" class="csl-entry" role="listitem">
+Boyd, Stephen, y Lieven Vandenberghe. 2004. <em>Convex Optimization</em>. Cambridge University Press.
+</div>
+<div id="ref-cournot1838recherches" class="csl-entry" role="listitem">
+Cournot, Augustin. 1838. <em>Recherches sur les principes math<span>é</span>matiques de la th<span>é</span>orie des richesses</em>. Paris: L. Hachette.
+</div>
+<div id="ref-hillier2010investigacion" class="csl-entry" role="listitem">
+Hillier, Frederick S, y Gerald J Lieberman. 2010. <em>Introducción a la Investigación de Operaciones</em>. 9na ed. McGraw-Hill.
+</div>
+<div id="ref-luenberger2015linear" class="csl-entry" role="listitem">
+Luenberger, David G, y Yinyu Ye. 2015. <em>Linear and Nonlinear Programming</em>. 4th ed. Springer.
+</div>
+<div id="ref-markowitz1952portfolio" class="csl-entry" role="listitem">
+Markowitz, Harry. 1952. <span>«Portfolio Selection»</span>. <em>The Journal of Finance</em> 7 (1): 77-91.
+</div>
+<div id="ref-nocedal2006numerical" class="csl-entry" role="listitem">
+Nocedal, Jorge, y Stephen Wright. 2006. <em>Numerical Optimization</em>. Springer Science &amp; Business Media.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tema1.html" class="pagination-link" aria-label="Introducción a la investigación operativa">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a la investigación operativa</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema3.html" class="pagination-link" aria-label="Análisis convexo">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis convexo</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Categorize callouts: Quarto puts the title in the `title` attribute of the .callout div
+  document.querySelectorAll(".callout[title]").forEach(function (callout) {
+    var text = callout.getAttribute("title").trim().toLowerCase();
+
+    // Si ya es warning o caution, siempre es advertencia (sin importar el título)
+    if (callout.classList.contains("callout-warning") || callout.classList.contains("callout-caution")) {
+      callout.setAttribute("data-kind", "advertencia");
+    } else if (text.includes("objetivo") && (text.includes("aprendizaje") || text.startsWith("objetivo"))) {
+      callout.setAttribute("data-kind", "objetivos");
+    } else if (/^\s*(teorema|demostración|demostracion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "teorema");
+    } else if (/^\s*lema\b/.test(text)) {
+      callout.setAttribute("data-kind", "lema");
+    } else if (/^\s*corolario\b/.test(text)) {
+      callout.setAttribute("data-kind", "corolario");
+    } else if (/^\s*(definición|definicion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "definicion");
+    } else if (/^\s*(ejemplo|ejemplos)\b/.test(text)) {
+      callout.setAttribute("data-kind", "ejemplo");
+    } else if (/^\s*(esquema|propiedades)\b/.test(text)) {
+      callout.setAttribute("data-kind", "esquema");
+    } else if (/^\s*(advertencia|precaución|precaucion|importancia|limitación|limitacion)\b/.test(text) || text.includes("recíproco") || text.includes("no es cierto")) {
+      callout.setAttribute("data-kind", "advertencia");
+    } else if (/^\s*(nota|observación|observacion)\b/.test(text)) {
+      callout.setAttribute("data-kind", "nota");
+    }
+  });
+
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+
+  var links = Array.from(toc.querySelectorAll("a.nav-link"));
+  if (links.length === 0) return;
+
+  function getTargets() {
+    return links.map(function (link) {
+      var targetId = link.getAttribute("data-scroll-target") || link.getAttribute("href");
+      if (targetId && targetId.startsWith("#")) {
+        return document.getElementById(decodeURIComponent(targetId.substring(1)));
+      }
+      return null;
+    });
+  }
+
+  var targets = getTargets();
+
+  function updateTOC() {
+    var scrollPos = window.scrollY || document.documentElement.scrollTop || 0;
+    var windowHeight = window.innerHeight;
+    var docHeight = document.documentElement.scrollHeight;
+
+    var activeIdx = -1;
+
+    if (scrollPos + windowHeight >= docHeight - 20) {
+      activeIdx = targets.length - 1;
+    } else {
+      for (var i = targets.length - 1; i >= 0; i--) {
+        if (targets[i]) {
+          var top = targets[i].getBoundingClientRect().top + scrollPos;
+          if (scrollPos >= top - 140) {
+            activeIdx = i;
+            break;
+          }
+        }
+      }
+    }
+
+    if (activeIdx < 0) activeIdx = 0;
+
+    links.forEach(function (link, idx) {
+      if (idx === activeIdx) {
+        link.classList.add("active");
+        link.style.color = "#0284c7";
+        link.style.fontWeight = "bold";
+      } else {
+        link.classList.remove("active");
+        link.style.color = "";
+        link.style.fontWeight = "";
+      }
+    });
+
+    // Handle accordion collapse/expand
+    var collapses = toc.querySelectorAll("ul.collapse");
+    collapses.forEach(function (c) {
+      c.classList.remove("show");
+      c.style.display = "none";
+    });
+
+    var activeLink = links[activeIdx];
+    if (activeLink) {
+      // Show parent collapse if inside a subsection
+      var parentUl = activeLink.closest("ul.collapse");
+      if (parentUl) {
+        parentUl.classList.add("show");
+        parentUl.style.display = "block";
+      }
+      // Show child collapse if active link is a main section with sub-items
+      var parentLi = activeLink.closest("li");
+      if (parentLi) {
+        var childUl = parentLi.querySelector("ul.collapse");
+        if (childUl) {
+          childUl.classList.add("show");
+          childUl.style.display = "block";
+        }
+      }
+    }
+  }
+
+  window.addEventListener("scroll", updateTOC);
+  window.addEventListener("resize", updateTOC);
+  setTimeout(updateTOC, 100);
+});
+</script>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

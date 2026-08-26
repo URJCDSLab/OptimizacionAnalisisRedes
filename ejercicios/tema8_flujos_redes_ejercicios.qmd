@@ -1,0 +1,88 @@
+# Ejercicios del Tema 8: flujos en redes
+
+## Ejercicio 1: Formulación en Programación Lineal y Propiedades del Flujo Máximo
+
+Considérese la red de transporte dirigida $G = (V, U, \mathbf{c})$ de $n = 5$ vértices $V = \{s, 1, 2, 3, t\}$ con las siguientes capacidades acotadas en sus 7 arcos:
+
+$$
+c_{s1} = 8, \quad c_{s2} = 6, \quad c_{12} = 3, \quad c_{13} = 4, \quad c_{23} = 2, \quad c_{1t} = 5, \quad c_{3t} = 7
+$$
+
+Se pide:
+
+1. Formular el programa lineal primal de flujo máximo $\max f_0$ definiendo la matriz de incidencia nodo-arco $\mathbf{A}$ y el sistema de conservación de flujo para vértices intermedios $\mathbf{A} \mathbf{x} = \mathbf{0}$.
+2. Formular el problema dual continuo e interpretar físicamente las variables duales nodales $u_i \in \mathbb{R}$ y los multiplicadores de capacidad $w_{ij} \ge 0$.
+3. Demostrar algebraicamente por el Teorema de Dualidad Fuerte la equivalencia exacta $f_0^* = C(w^+(S))$, justificando por qué el Teorema del Flujo Máximo - Corte Mínimo es la manifestación directa de la dualidad lineal.
+4. Resolver analíticamente el modelo obteniendo la asignación óptima de flujos $x_{ij}^*$, el valor del flujo máximo $f_0^*$ y la partición del corte de capacidad mínima $(S, T)$.
+
+---
+
+## Ejercicio 2: Algoritmo de Etiquetado Dinámico de Ford-Fulkerson paso a paso
+
+Dada la red de transporte dirigida $G = (V, U, \mathbf{c})$ con 5 vértices $V = \{s, a, b, c, t\}$ y capacidades acotadas:
+
+$$
+c_{sa} = 5, \quad c_{sb} = 4, \quad c_{ab} = 2, \quad c_{ac} = 4, \quad c_{bc} = 1, \quad c_{at} = 3, \quad c_{ct} = 6
+$$
+
+Se pide:
+
+1. Iniciar el procedimiento desde la solución de flujo nulo $\mathbf{f}^0 = \mathbf{0}$ para $f_0 = 0$.
+2. Desarrollar paso a paso cada iteración del algoritmo de etiquetado dinámico de Ford-Fulkerson, indicando en cada paso el camino de aumento seleccionado en el grafo residual $G(\mathbf{f}^k)$, la capacidad residual $\Delta_k$ y la actualización de marcas $[\pm i, \Delta(j)]$.
+3. Identificar la iteración de parada por imposibilidad de etiquetar el sumidero $t$.
+4. Caracterizar el conjunto de nodos alcanzables $S = N$ y determinar los arcos que componen el corte de capacidad mínima $w^+(S)$ con su capacidad total.
+
+---
+
+## Ejercicio 3: Criterios de Optimalidad y Eliminación de Circuitos Negativos en Flujo de Coste Mínimo
+
+Considérese la red de 4 vértices $V = \{s, 1, 2, t\}$ con arcos, capacidades $c_{ij}$ y costes unitarios de transporte $p_{ij} \in \mathbb{R}$:
+
+$$
+(s, 1): c_{s1}=3, p_{s1}=2; \quad (s, 2): c_{s2}=2, p_{s2}=4; \quad (1, 2): c_{12}=2, p_{12}=-3;
+$$
+$$
+(2, 1): c_{21}=1, p_{21}=1; \quad (1, t): c_{1t}=3, p_{1t}=1; \quad (2, t): c_{2t}=2, p_{2t}=2
+$$
+
+Se pide:
+
+1. Probar la validez del Teorema 1 de optimalidad: un flujo de valor $\nu$ es de coste mínimo si y solo si $G(\mathbf{f})$ no contiene circuitos incrementales de coste negativo.
+2. Dada la solución compatible inicial de prueba $\mathbf{f}^0$ con $f_{s2}^0 = 2, f_{21}^0 = 1, f_{1t}^0 = 2$ (y cero en el resto), construir su grafo residual $G(\mathbf{f}^0)$ e identificar un circuito residual de coste negativo $C_1$.
+3. Calcular la capacidad residual máxima $\delta_1$ del circuito $C_1$, hacer circular dicho flujo y calcular la reducción exacta de coste total $C(\mathbf{f}^1) - C(\mathbf{f}^0)$.
+4. Demostrar que el nuevo flujo $\mathbf{f}^1$ no contiene circuitos de coste negativo en $G(\mathbf{f}^1)$.
+
+---
+
+## Ejercicio 4: Crecimiento Iterativo por Caminos Mínimos (Teorema 2)
+
+Dada la red de transporte dirigida de 5 nodos $V = \{s, a, b, c, t\}$ con capacidades $c_{ij}$ y costes unitarios $p_{ij}$:
+
+$$
+(s, a): c_{sa}=3, p_{sa}=3; \quad (s, b): c_{sb}=3, p_{sb}=1; \quad (a, c): c_{ac}=2, p_{ac}=2;
+$$
+$$
+(b, c): c_{bc}=2, p_{bc}=5; \quad (b, t): c_{bt}=4, p_{bt}=2; \quad (c, t): c_{ct}=3, p_{ct}=1
+$$
+
+Se desea transmitir un caudal total de $\nu = 4$ unidades desde la fuente $s$ al sumidero $t$ al menor coste posible.
+
+Se pide:
+
+1. Partir del flujo óptimo inicial $\mathbf{f}^0 = \mathbf{0}$ para $\nu_0 = 0$.
+2. Encontrar en cada iteración la cadena de incremento de coste residual mínimo desde $s$ a $t$ en el grafo de distancias residual $G(\mathbf{f}^k)$.
+3. Calcular el incremento óptimo $\Delta_k = \min \{ c(\mu_k), \nu - f_0 \}$ y actualizar el flujo y los arcos inversos.
+4. Construir la tabla completa de evoluciones de caudal $f_0$, coste acumulado $C(\mathbf{f}^k)$ y verificación de optimalidad para el volumen objetivo $\nu = 4$.
+
+---
+
+## Ejercicio 5: El Problema del Transbordo y Reducción Unificada de Problemas de Redes
+
+Considérese el problema de transbordo en una red dirigida $G = (V, U)$ con $n$ nodos, $m$ arcos, balances nodales $b_i \in \mathbb{R}$ y capacidades $\ell_{ij} \le f_{ij} \le c_{ij}$.
+
+Se pide:
+
+1. Demostrar analíticamente que si la red está en equilibrio ($\sum_{i=1}^n b_i = 0$), el sistema de ecuaciones de conservación de flujo $\mathbf{A} \mathbf{f} = \mathbf{b}$ posee rango $n - 1$.
+2. Formular la matriz de incidencia nodo-arco $\mathbf{A}$ y mostrar su estructura de unos y menos unos (+1 en arcos salientes, -1 en arcos entrantes).
+3. Demostrar formalmente la reducción unificada de un problema de Transporte bipartito a un modelo de Transbordo equivalente introduciendo nodos intermedios de paso.
+4. Explicar cómo la propiedad de unimodularidad total (TUM) de la matriz de incidencia $\mathbf{A}$ garantiza soluciones enteras óptimas $\mathbf{f}^* \in \mathbb{Z}^m$ siempre que los balances nodales $b_i$ y las cotas de capacidad $\ell_{ij}, c_{ij}$ sean enteros.
