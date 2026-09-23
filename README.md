@@ -1,119 +1,95 @@
-# Proceso de Creación y Compilación del Libro Completo
+# Optimización y Análisis de Redes
 
-Este documento explica de forma exhaustiva y detallada el proceso técnico de creación, generación de subcomponentes y compilación del documento unificado del libro **Optimización y Análisis de Redes**.
+**Material docente oficial y libro de referencia**  
+*Grado en Matemáticas (Universidad Rey Juan Carlos)*  
+
+**Autores:** Víctor Aceña Gil y Antonio Alonso Ayuso  
+*Departamento de Informática y Estadística / Grupo de Investigación DSLAB (URJC)*
 
 ---
 
-## 1. Arquitectura General del Proyecto
+## Descripción del Repositorio
 
-El libro completo (`libro/LibroCompletoOptimizacionAnalisisRedes.pdf`) es una obra integral que combina automáticamente seis subcomponentes independientes mediante scripts de Python dedicados en el entorno de Conda **`oar_env`**:
+Este repositorio contiene la colección completa de materiales docentes para la asignatura de **Optimización y Análisis de Redes** impartida en el Grado en Matemáticas de la Universidad Rey Juan Carlos (URJC).
 
-```mermaid
-flowchart TD
-    A[libro/generar_libro_final.py] --> B[guia_estudio/generar_guia.py]
-    A --> C[apuntes/generar_apuntes.py]
-    A --> D[diapositivas/crear_diapositivas_completas.py]
-    A --> E[ejercicios/generar_ejercicios.py]
-    A --> F[ejercicios_resueltos/generar_soluciones.py]
-    A --> G[laboratorios/generar_software.py]
-    
-    B --> H[guia_estudio/GuiaEstudio...pdf]
-    C --> I[apuntes/apuntes_pdf/Apuntes...pdf]
-    D --> J[diapositivas/diapositivas_pdf/Diapositivas...pdf]
-    E --> K[ejercicios/ejercicios_pdf/Ejercicios...pdf]
-    F --> L[ejercicios_resueltos/...pdf]
-    G --> M[laboratorios/SoftwareUtilizado...pdf]
-    
-    H & I & J & K & L & M --> N[Cálculo Iterativo de Páginas de Índice con pypdf]
-    N --> O[libro/LibroCompletoOptimizacionAnalisisRedes.pdf]
+La obra cubre tanto los fundamentos teóricos, geométricos y analíticos de la optimización matemática continua y discreta como su vertiente computacional aplicada mediante Python (`SciPy`, `CVXPY`, `NetworkX`, `SymPy`).
+
+El contenido está disponible en dos formatos principales:
+
+1. **Sitio web interactivo**: Publicado a partir del directorio `docs/`, permitiendo la lectura en línea con reproductores interactivos para las animaciones y algoritmos.
+2. **Libro completo en PDF**: Documento unificado y encuadernado digitalmente de más de 1.300 páginas que agrupa la guía de estudio, apuntes, diapositivas, ejercicios y laboratorios, accesible directamente en [`libro/LibroCompletoOptimizacionAnalisisRedes.pdf`](libro/LibroCompletoOptimizacionAnalisisRedes.pdf).
+
+---
+
+## Estructura de la Asignatura
+
+El temario se organiza en dos bloques temáticos secuenciales a lo largo de diez capítulos:
+
+### Bloque I: Optimización no lineal
+* **Tema 1: Introducción a la Programación No Lineal**: Fundamentos, modelos clásicos de decisión (Cournot, Markowitz, transporte) y tipología de problemas no lineales.
+* **Tema 2: Optimización no lineal y métodos numéricos**: Análisis diferencial local, métodos de búsqueda lineal unidimensional (Dicotómica, Sección Áurea, Fibonacci) y algoritmos multivariantes sin restricciones (Coordenadas Cíclicas, Máximo Descenso, Newton y BFGS).
+* **Tema 3: Análisis convexo y geometría de la optimización**: Conjuntos convexos, funciones convexas, conos (cono normal, cono tangente) y teoremas de separación.
+* **Tema 4: Condiciones de optimalidad (KKT)**: Cualificación de restricciones (LICQ), condiciones necesarias y suficientes de primer y segundo orden de Karush-Kuhn-Tucker.
+* **Tema 5: Dualidad y programación cuadrática**: Dualidad lagrangiana en Programación Lineal y Cuadrática, condiciones de punto de silla y el método del Símplex de Wolfe.
+
+### Bloque II: Optimización en redes
+* **Tema 6: Introducción a la teoría de grafos y árboles**: Matrices de incidencia y adyacencia, propiedad de Total Unimodularidad (TUM), árboles soporte de mínimo peso (Kruskal, Prim) y clustering basado en MST.
+* **Tema 7: Caminos mínimos**: Formulación primal-dual, potenciales nodales, algoritmos de Dijkstra, Bellman-Ford (detección de ciclos negativos) y Floyd-Warshall.
+* **Tema 8: Flujos en redes**: Teorema Max-Flow Min-Cut, algoritmos de Ford-Fulkerson y Edmonds-Karp, y problemas de flujo de coste mínimo (algoritmo del ciclo negativo y Simplex de redes).
+* **Tema 9: Emparejamientos y asignación óptima**: Emparejamientos en grafos bipartitos y generales, algoritmo Húngaro para asignación y algoritmo de Blossom de Edmonds.
+* **Tema 10: Rutas eulerianas, hamiltonianas y enrutamiento (TSP y VRP)**: Circuitos eulerianos (algoritmo de Fleury y Hierholzer), problema del cartero chino, formulaciones del TSP (DFJ y MTZ), heurísticas (2-Opt), aproximación de Christofides y taxonomía del problema de rutas de vehículos (VRP).
+
+---
+
+## Componentes del Repositorio
+
+El repositorio se divide en módulos independientes desarrollados en [Quarto](https://quarto.org/):
+
+* **Apuntes Teóricos (`tema1.qmd` a `tema10.qmd`)**: Texto riguroso con demostraciones detalladas, ejemplos numéricos resueltos e ilustraciones geométricas.
+* **Diapositivas (`diapositivas/`)**:
+  * *HTML (RevealJS)*: Presentaciones interactivas para el aula con trazas algorítmicas paso a paso y reproductores dinámicos.
+  * *PDF (Beamer)*: Presentaciones compactas y estáticas listas para descarga e impresión (`diapositivas/diapositivas_pdf/DiapositivasOptimizacionAnalisisRedes.pdf`).
+* **Ejercicios Prácticos (`ejercicios/`)**: Colección completa de enunciados de problemas analíticos propuestos por tema (`ejercicios/ejercicios_pdf/EjerciciosOptimizacionAnalisisRedes.pdf`).
+* **Laboratorios Computacionales (`laboratorios/`)**: 10 cuadernos interactivos en Python diseñados para que el estudiante aprenda a implementar y resolver modelos con bibliotecas científicas (`laboratorios/SoftwareUtilizadoOptimizacionAnalisisRedes.pdf`).
+* **Guía de Estudio (`guia_estudio/`)**: Cronograma docente, distribución de sesiones, metodología pedagógica y sistema de evaluación (`guia_estudio/GuiaEstudioOptimizacionAnalisisRedes.pdf`).
+* **Libro Unificado (`libro/`)**: Script maestro y PDF unificado final que integra secuencialmente todos los componentes del curso.
+
+---
+
+## Requisitos y Entorno de Software
+
+Para trabajar con los cuadernos interactivos y reproducir los laboratorios, se recomienda utilizar un entorno de Python 3.11 o superior gestionado mediante Conda.
+
+### Creación del entorno
+
+```bash
+conda create -n oar_env python=3.11 -y
+conda activate oar_env
+```
+
+### Instalación de dependencias científicas
+
+```bash
+pip install numpy scipy matplotlib networkx cvxpy sympy autograd
+```
+
+### Visualización y renderizado con Quarto
+
+Para previsualizar o compilar la versión web localmente, se requiere tener instalado [Quarto CLI](https://quarto.org/docs/get-started/) (v1.4 o superior):
+
+```bash
+# Previsualizar el sitio web en tiempo real
+quarto preview
+
+# Renderizar el sitio web completo en la carpeta docs/
+quarto render
 ```
 
 ---
 
-## 2. Los Scripts de Generación de Subcomponentes
+## Licencia y Créditos
 
-Toda la compilación se realiza utilizando la infraestructura de código Python ubicada en las subcarpetas del proyecto. Cada subcomponente posee un script especializado:
+Este material ha sido desarrollado por **Víctor Aceña Gil** y **Antonio Alonso Ayuso** dentro del grupo de investigación de alto rendimiento en Fundamentos y Aplicaciones de la Ciencia de Datos ([DSLAB](https://dslab.urjc.es/)) de la Universidad Rey Juan Carlos.
 
-| Subcomponente | Script de Generación | Producto Generado | Descripción |
-| :--- | :--- | :--- | :--- |
-| **Guía de Estudio** | `guia_estudio/generar_guia.py` | `guia_estudio/GuiaEstudioOptimizacionAnalisisRedes.pdf` | Cronograma, metodología, evaluación y plan docente del curso. |
-| **Apuntes Teóricos** | `apuntes/generar_apuntes.py` | `apuntes/apuntes_pdf/ApuntesOptimizacionAnalisisRedes.pdf` | Libro teórico de capítulos (`tema1.qmd` a `tema10.qmd`) en PDF. |
-| **Diapositivas de Clase** | `diapositivas/crear_diapositivas_completas.py` | `diapositivas/diapositivas_pdf/DiapositivasOptimizacionAnalisisRedes.pdf` y `diapositivas/*.html` | Presentaciones Beamer PDF para impresión y presentaciones RevealJS HTML interactivas para clase. |
-| **Ejercicios Prácticos** | `ejercicios/generar_ejercicios.py` | `ejercicios/ejercicios_pdf/EjerciciosOptimizacionAnalisisRedes.pdf` | Colección de enunciados de problemas teóricos numerados. |
-| **Soluciones de Ejercicios** | `ejercicios_resueltos/generar_soluciones.py` | `ejercicios_resueltos/ejercicios_resueltos_pdf/SolucionesOptimizacionAnalisisRedes.pdf` | Resoluciones analíticas paso a paso de los ejercicios teóricos. |
-| **Software y Laboratorios** | `laboratorios/generar_software.py` | `laboratorios/SoftwareUtilizadoOptimizacionAnalisisRedes.pdf` | Guía práctica de programación en Python (`NetworkX`, `SciPy`, `CVXPY`). |
-
----
-
-## 3. Manejo Dual: HTML (RevealJS) vs. PDF (Beamer / Quarto PDF)
-
-Uno de los pilares del diseño es el **soporte dual** entre formatos digitales interactivos e impresos:
-
-1. **En Diapositivas RevealJS (HTML para clase)**:
-   * Las animaciones e iteraciones algorítmicas (Kruskal, Prim, búsquedas 1D) se embeben usando los reproductores interactivos modales `<iframe src="../images/[id]_player.html" ...>`.
-   * Esto permite al profesor controlar los fotogramas, pausar o avanzar la traza paso a paso en el aula.
-
-2. **En Diapositivas Beamer / Documentos PDF (para impresión)**:
-   * Los scripts de Python (como `crear_diapositivas_completas.py`) detectan automáticamente las referencias a archivos `.gif` o reproductores HTML y las sustituyen en un `.qmd` temporal por figuras estáticas nítidas en PNG (`images/[id]_traza_paso_a_paso.png` o `images/[id]_pasos.png`).
-   * **JAMÁS se incluyen archivos `.gif` o iFrames en las compilaciones PDF**, garantizando que LuaLaTeX/Quarto renderice sin errores.
-
----
-
-## 4. Algoritmo de Compilación Máster (`libro/generar_libro_final.py`)
-
-El script principal de compilación ejecutable desde la raíz es `libro/generar_libro_final.py`. Su flujo interno consta de 4 fases automáticas:
-
-### Fase 1: Verificación de Entorno
-Comprueba la presencia de la estructura del proyecto y confirma que la librería `pypdf` y el ejecutable Quarto están disponibles dentro del entorno Conda `oar_env`.
-
-### Fase 2: Ejecución Secuencial de Subscripts
-Invoca de forma ordenada los scripts de los 6 subcomponentes (`generar_guia.py`, `generar_apuntes.py`, `crear_diapositivas_completas.py`, etc.) utilizando el intérprete Python oficial del entorno.
-
-### Fase 3: Cálculo Iterativo de Páginas de Inicio (Páginas Estables)
-Para construir un Índice General preciso en el libro impreso:
-1. Mide la longitud exacta en páginas de cada PDF generado utilizando `pypdf.PdfReader`.
-2. Calcula de forma dinámica las páginas de inicio para cada bloque (Portada, Índice, Guía de Estudio, Apuntes Teóricos, Diapositivas, Ejercicios y Software).
-3. Genera un archivo temporal `libro/indice_temp.qmd` inyectando los números de página exactos (`{{GUIA_PAGE}}`, `{{APUNTES_PAGE}}`, `{{DIAPOSITIVAS_PAGE}}`, etc.) y lo compila a PDF.
-4. Repite el proceso hasta que el número de páginas del índice se estabiliza (bucle de convergencia).
-
-### Fase 4: Fusión Final y Marcadores (Bookmarks PDF)
-1. Combina todos los PDFs individuales en un único documento maestro mediante `pypdf.PdfWriter`.
-2. Inyecta marcadores de nivel superior (*outlines / bookmarks*) en el PDF para permitir la navegación directa por secciones desde cualquier visor de PDF.
-3. Elimina automáticamente los archivos intermediarios temporales.
-4. Guarda el resultado final en `libro/LibroCompletoOptimizacionAnalisisRedes.pdf`.
-
----
-
-## 5. Comando de Compilación Unificado
-
-Para recompilar todo el libro y mantener sincronizados los apuntes, diapositivas Beamer, presentaciones RevealJS HTML, ejercicios y el PDF final unificado, se debe ejecutar exclusivamente el siguiente comando desde la raíz de la workspace:
-
-```powershell
-C:\Users\vacek\anaconda3\envs\oar_env\python.exe libro/generar_libro_final.py
-```
-
-### Comandos de Compilación Individual (por componente)
-
-Si solo se ha modificado un componente específico y se desea una vista previa rápida:
-
-* **Solo Diapositivas (RevealJS HTML y Beamer PDF)**:
-  ```powershell
-  C:\Users\vacek\anaconda3\envs\oar_env\python.exe diapositivas/crear_diapositivas_completas.py
-  ```
-* **Solo Apuntes Teóricos (PDF del Libro Teórico)**:
-  ```powershell
-  C:\Users\vacek\anaconda3\envs\oar_env\python.exe apuntes/generar_apuntes.py
-  ```
-* **Solo Guía de Estudio**:
-  ```powershell
-  C:\Users\vacek\anaconda3\envs\oar_env\python.exe guia_estudio/generar_guia.py
-  ```
-
----
-
-## 6. Resumen de Reglas de Oro
-
-1. **Única fuente de verdad para la compilación**: Usar siempre el script máster `libro/generar_libro_final.py` en el entorno Conda `oar_env`.
-2. **Sin código Python en capítulos del libro**: Los archivos `temaN.qmd` son estrictamente teóricos y didácticos. Toda la componente práctica se ubica en `laboratorios/`.
-3. **No GIFs en PDF**: Los reproductores HTML modales se reservan para RevealJS; para los PDFs se usan imágenes estáticas `.png`.
-4. **Respeto a las reglas de estilo y notación**: Usar llaves $\{u,v\}$ para aristas no dirigidas y paréntesis $(u,v)$ para arcos dirigidos, Sentence case en títulos y sin demostraciones en diapositivas.
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" alt="Licencia de Creative Commons" style="border-width:0"/></a><br />
+Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">licencia de Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)</a>.
