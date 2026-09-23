@@ -715,9 +715,25 @@ Superficies tridimensionales de las funciones de prueba en varias variables
 
 ### Método de las coordenadas cíclicas
 
-Es uno de los algoritmos de optimización multivariante más sencillos. Evita por completo el cálculo de derivadas y gradientes. En su lugar, avanza secuencialmente minimizando la función respecto a una única variable de decisión a la vez, manteniendo constantes las restantes $n-1$ variables. Las direcciones de búsqueda coinciden cíclicamente con los vectores de la base canónica de $\mathbb{R}^n$:
-$$d_k = e_{(k \bmod n) + 1}$$
-donde $e_i$ es el $i$-ésimo vector unitario. En cada paso, se resuelve un subproblema de optimización lineal 1D.
+El **método de las coordenadas cíclicas** (o *coordinate descent*) es uno de los algoritmos de optimización multivariante más elementales e intuitivos. Su principal ventaja radica en que **evita por completo el cálculo de gradientes y matrices hessianas**, aplicando una estrategia de descomposición: en lugar de buscar la dirección óptima en el espacio multidimensional $\mathbb{R}^n$, descompone el problema en una sucesión ordenada de búsquedas unidimensionales a lo largo de los ejes coordenados.
+
+El procedimiento explora de forma secuencial cada una de las variables de decisión, manteniendo fijas las restantes $n-1$. Las direcciones de búsqueda coinciden cíclicamente con los vectores de la base canónica de $\mathbb{R}^n$, definidos formalmente como $d_k = e_{(k \bmod n) + 1}$, donde $e_i$ es el $i$-ésimo vector unitario con un 1 en la posición $i$ y ceros en las demás. El proceso se articula en tres etapas fundamentales:
+
+1. **Paso unidimensional**: Estando en el punto iterado $x^{(k)}$, se selecciona el eje coordenado correspondiente y se resuelve un subproblema de optimización unidimensional restringido a esa única coordenada:
+   $$ \min_{\alpha \in \mathbb{R}} \quad \phi(\alpha) = f(x^{(k)} + \alpha e_i) $$
+   Esta minimización escalar se resuelve de forma analítica igualando la derivada a cero si la función es elemental, o bien mediante los algoritmos de búsqueda unidimensional vistos anteriormente (como la Sección Áurea). Una vez obtenido el paso óptimo $\alpha^*$, el punto se actualiza como $x^{(k+1)} = x^{(k)} + \alpha^* e_i$.
+
+2. **Cierre de ciclo**: El procedimiento se repite variando sucesivamente la variable 1, luego la variable 2, y así sucesivamente hasta completar la variable $n$. A la realización sucesiva de estas $n$ búsquedas unidimensionales ortogonales se le denomina **un ciclo**.
+
+3. **Criterio de convergencia**: Tras completar un ciclo entero por todas las variables, se comprueba si el desplazamiento acumulado entre el punto inicial y el punto final del ciclo es inferior a una tolerancia prefijada:
+   $$ \| x^{(k+n)} - x^{(k)} \| \le \epsilon \quad \text{o bien} \quad |f(x^{(k+n)}) - f(x^{(k)})| \le \epsilon $$
+   Si se verifica la condición de parada, el algoritmo finaliza con éxito. En caso contrario, se inicia un nuevo ciclo comenzando nuevamente por la primera coordenada.
+
+El rendimiento y velocidad de convergencia de este método depende críticamente de la estructura geométrica de la función y del acoplamiento entre sus variables:
+
+* **Variables desacopladas**: Si la función no contiene términos de interacción cruzada entre variables y su matriz hessiana es diagonal, las curvas de nivel son circunferencias o elipses cuyos ejes principales son paralelos a los ejes coordenados. En este escenario ideal, el algoritmo alcanza el mínimo global exacto en un único ciclo de $n$ pasos ortogonales.
+* **Variables acopladas**: Cuando existen términos cruzados (como un término bilineal $x_i x_j$), las curvas de nivel elípticas aparecen rotadas respecto a los ejes canónicos. Como el algoritmo solo puede desplazarse en giros ortogonales de 90 grados paralelos a los ejes, se ve obligado a avanzar trazando una **trayectoria en escalera o zigzag**, requiriendo una gran cantidad de ciclos y pasos progresivamente más cortos para aproximarse al óptimo.
+
 
 ::: {.callout-tip title="Ejemplo: Coordenadas cíclicas" collapse="true"}
 *   **Variables Desacopladas**:
@@ -824,10 +840,18 @@ Trayectoria en escalera del descenso por coordenadas cíclicas (animación).
 
 ### Método del máximo descenso
 
-La dirección de búsqueda en el método de máximo descenso se define como la dirección en la que la función decrece más rápidamente a nivel local, dada por el opuesto del vector gradiente:
+El **método del máximo descenso** (o *steepest descent* / gradiente descendente) es el algoritmo iterativo de primer orden fundamental en optimización continua. La dirección de búsqueda se define como aquella en la que la función objetivo decrece de manera más rápida a nivel local, dada por el opuesto del vector gradiente:
 $$d_k = -\nabla f(x_k)$$
-El tamaño de paso óptimo $\alpha_k$ se calcula mediante búsqueda de línea exacta:
+A partir del punto actual $x_k$, la actualización se realiza según la expresión $x_{k+1} = x_k + \alpha_k d_k$, donde $\alpha_k > 0$ representa la longitud del paso. En el esquema teórico de **búsqueda de línea exacta**, el tamaño de paso óptimo se determina minimizando la función unidimensional a lo largo del rayo de descenso:
 $$\alpha_k = \arg\min_{\alpha > 0} f(x_k - \alpha \nabla f(x_k))$$
+En aplicaciones computacionales complejas donde evaluar la función de forma exhaustiva resulta prohibitivo, suele recurrirse a esquemas de **búsqueda de línea inexacta** (como las condiciones de Armijo o Wolfe), que garantizan una disminución suficiente del valor de la función sin exigir la localización exacta del mínimo unidimensional.
+
+El algoritmo itera sucesivamente calculando la dirección opuesta al gradiente y actualizando el punto hasta satisfacer alguno de los siguientes **criterios de parada**:
+
+* **Estacionariedad**: La norma del vector gradiente es inferior a una tolerancia prefijada, $\|\nabla f(x_k)\| \le \epsilon_g$, lo que garantiza que nos encontramos en las proximidades de un punto crítico.
+* **Estancamiento del paso**: El desplazamiento relativo o absoluto entre dos iteraciones consecutivas es despreciable, $\|x_{k+1} - x_k\| \le \epsilon_x$.
+* **Estancamiento de la función objetivo**: La reducción en el valor de la función objetivo cae por debajo del umbral mínimo, $|f(x_{k+1}) - f(x_k)| \le \epsilon_f$.
+* **Límite computacional**: Se alcanza un número máximo prefijado de iteraciones $k \ge K_{\max}$.
 
 Una propiedad matemática de la búsqueda lineal exacta en el método de máximo descenso es que las direcciones de búsqueda en iteraciones consecutivas son estrictamente ortogonales entre sí:
 $$d_k^T d_{k+1} = 0$$
@@ -837,7 +861,7 @@ $$\phi'(\alpha_k) = \nabla f(x_k + \alpha_k d_k)^T d_k = 0$$
 Dado que el nuevo punto es $x_{k+1} = x_k + \alpha_k d_k$, se tiene que $\nabla f(x_{k+1})^T d_k = 0$. Puesto que las direcciones consecutivas son proporcionales a los gradientes ($d_{k+1} = -\nabla f(x_{k+1})$ y $d_k = -\nabla f(x_k)$), se concluye de forma directa la ortogonalidad:
 $$d_{k+1}^T d_k = 0$$
 
-Esta ortogonalidad geométrica provoca que, si la función presenta curvas de nivel elípticas muy alargadas (problemas mal acondicionados), el algoritmo realice continuos giros de 90°, generando un patrón en **zigzag** que ralentiza la convergencia, tal y como se observa en la @fig-steepest-descent.
+Esta ortogonalidad geométrica provoca que, si la función presenta curvas de nivel elípticas muy alargadas (lo que ocurre cuando la matriz hessiana está mal condicionada y existe una gran disparidad entre su autovalor máximo y mínimo, $\lambda_{\max} \gg \lambda_{\min}$), el algoritmo realice continuos giros de 90 grados, generando un patrón en **zigzag** que ralentiza sustancialmente la velocidad de convergencia hacia el óptimo, tal y como se observa en la @fig-steepest-descent.
 
 ::: {.callout-tip title="Ejemplo: Máximo descenso" collapse="true"}
 Minimizamos $f(x, y) = 8x^2 + 3xy + 7y^2 - 25x + 31y - 29$ partiendo de $x_0 = (0, 0)^T$.
@@ -904,16 +928,38 @@ Máximo descenso: trayectoria iterativa (animación).
 
 ### Métodos de Newton multivariante y BFGS
 
-El **Método de Newton Multivariante** incorpora información de segundo orden utilizando la aproximación de Taylor cuadrática en el punto $x_k$, calculando el nuevo punto mediante la expresión:
+El **Método de Newton Multivariante** incorpora información de segundo orden sobre la curvatura de la superficie para acelerar drásticamente el proceso de convergencia. En lugar de limitarse a una aproximación lineal, aproxima la función objetivo en el entorno del punto actual $x_k$ mediante su desarrollo cuadrático de Taylor:
+$$ m_k(p) = f(x_k) + \nabla f(x_k)^T p + \frac{1}{2} p^T \nabla^2 f(x_k) p $$
+donde $p \in \mathbb{R}^n$ es el vector de desplazamiento. Para calcular el desplazamiento que minimiza este modelo cuadrático local, se iguala su gradiente a cero respecto a $p$:
+$$ \nabla_p m_k(p) = \nabla f(x_k) + \nabla^2 f(x_k) p = 0 \implies \nabla^2 f(x_k) p = -\nabla f(x_k) $$
+Despejando el vector de dirección $p$, denominado **dirección de Newton** ($d_k$), y aplicando el paso al punto actual, se obtiene la regla de actualización clásica:
 $$x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k)$$
-Si la función objetivo es cuadrática, el método de Newton localiza el mínimo global del sistema en una sola iteración desde cualquier punto inicial. Si la función es no lineal general, presenta una convergencia cuadrática local de orden 2.
+Si la función objetivo es cuadrática y estrictamente convexa, el método de Newton localiza el mínimo global del sistema en una sola iteración desde cualquier punto inicial. Para funciones no lineales generales, presenta una **convergencia cuadrática local** (orden 2), lo que significa que el número de cifras significativas exactas prácticamente se duplica en cada iteración cuando se encuentra cerca de la solución.
 
-A pesar de su velocidad de convergencia, el método de Newton tiene importantes limitaciones prácticas. Presenta un **coste computacional elevado** debido a que en cada iteración se debe calcular la matriz hessiana y resolver un sistema de ecuaciones lineales, lo que supone un coste de $O(n^3)$ operaciones. Asimismo, exige que la matriz hessiana sea **estrictamente definida positiva** para garantizar que la dirección obtenida sea de descenso; si el algoritmo entra en una región cóncava o se topa con un punto de silla, puede diverger. Por último, su convergencia es de **carácter local**, estando garantizada solo si el punto inicial $x_0$ se encuentra cerca del óptimo.
+En formulaciones prácticas, para evitar divergencias cuando la estimación inicial no es cercana al óptimo, se utiliza el **método de Newton amortiguado** (*damped Newton*), introduciendo un tamaño de paso $\alpha_k$ regulado por búsqueda lineal:
+$$ x_{k+1} = x_k - \alpha_k [\nabla^2 f(x_k)]^{-1} \nabla f(x_k) $$
 
-Los **Métodos Cuasi-Newton (BFGS)** eliminan estos inconvenientes estimando iterativamente una aproximación simétrica y definida positiva de la inversa de la hessiana, denotada por $H_k \approx [\nabla^2 f(x_k)]^{-1}$. Esta matriz se actualiza utilizando únicamente la información de los gradientes de los dos puntos consecutivos, forzando a que se cumpla la **ecuación de la secante**:
+A pesar de su velocidad de convergencia, el método de Newton puro presenta tres limitaciones importantes:
+
+* **Coste computacional elevado**: En cada iteración se debe calcular analítica o numéricamente la matriz hessiana completa ($n(n+1)/2$ derivadas segundas) y resolver un sistema de ecuaciones lineales $n \times n$, lo que supone un coste computacional de $O(n^3)$ operaciones.
+* **Exigencia de convexidad**: Requiere que la matriz hessiana $\nabla^2 f(x_k)$ sea estrictamente definida positiva en cada paso para garantizar que la dirección de Newton apunte en sentido de descenso. Si el algoritmo entra en una región cóncava o próxima a un punto de silla, la dirección puede orientarse hacia un máximo o perder la propiedad de descenso.
+* **Convergencia puramente local**: La garantía formal de convergencia rápida solo es válida si el punto inicial $x_0$ se encuentra lo bastante próximo al punto óptimo.
+
+Los **Métodos Cuasi-Newton (BFGS)** resuelven estas limitaciones de forma elegante. En lugar de evaluar y factorizar la matriz hessiana exacta en cada iteración, construyen secuencialmente una aproximación simétrica y definida positiva de la inversa de la hessiana, denotada por $H_k \approx [\nabla^2 f(x_k)]^{-1}$. Esta matriz se actualiza utilizando únicamente las variaciones de posiciones y de gradientes entre dos iteraciones consecutivas, imponiendo la **ecuación de la secante**:
 $$H_{k+1} y_k = s_k$$
-donde $s_k = x_{k+1} - x_k$ y $y_k = \nabla f(x_{k+1}) - \nabla f(x_k)$. El algoritmo BFGS actualiza la matriz aproximada mediante la expresión:
+donde $s_k = x_{k+1} - x_k$ representa el desplazamiento del punto e $y_k = \nabla f(x_{k+1}) - \nabla f(x_k)$ cuantifica la variación del gradiente.
+
+El algoritmo **BFGS** (desarrollado de forma independiente por Broyden, Fletcher, Goldfarb y Shanno) actualiza la matriz aproximada mediante la expresión:
 $$H_{k+1} = (I - \rho_k s_k y_k^T) H_k (I - \rho_k y_k s_k^T) + \rho_k s_k s_k^T$$
-donde $\rho_k = 1 / (y_k^T s_k)$. Garantiza que la aproximación se mantenga definida positiva en cada paso si la búsqueda de línea satisface las condiciones de Wolfe, proporcionando una convergencia superlineal con un coste por iteración de tan solo $O(n^2)$ operaciones [@nocedal2006numerical; @luenberger2015linear].
+donde $\rho_k = 1 / (y_k^T s_k)$. Si el tamaño de paso en la búsqueda lineal satisface las condiciones de Wolfe, se garantiza matemáticamente que la matriz $H_{k+1}$ se mantenga simétrica y estrictamente definida positiva, asegurando direcciones de descenso en cada paso. Este enfoque proporciona una tasa de **convergencia superlineal** con un coste computacional de tan solo $O(n^2)$ operaciones por iteración [@nocedal2006numerical; @luenberger2015linear].
+
+Para sintetizar la progresión conceptual de los métodos multivariantes sin restricciones estudiados en este tema, la siguiente tabla compara sus rasgos operativos y computacionales:
+
+| Algoritmo | Orden y datos requeridos | Coste por paso | Tasa de convergencia | Requisitos de curvatura y robustez |
+| :--- | :--- | :--- | :--- | :--- |
+| **Coordenadas Cíclicas** | Orden 0 (solo evalúa $f(x)$) | $O(n)$ búsquedas 1D | Lenta (sublineal) | No requiere derivadas; vulnerable a acoplamiento cruzado |
+| **Máximo Descenso** | Orden 1 ($f(x)$ y gradiente $\nabla f$) | $O(n)$ más búsqueda 1D | Lineal | Muy robusto con búsqueda lineal; sufre zigzag en elipses alargadas |
+| **Newton Clásico** | Orden 2 ($f, \nabla f$ y hessiana $\nabla^2 f$) | $O(n^3)$ (sistema lineal) | Cuadrática (local) | Muy rápido cerca del óptimo; exige hessiana definida positiva |
+| **Cuasi-Newton (BFGS)** | Orden 1 ($f(x)$ y gradientes sucesivos) | $O(n^2)$ (álgebra matricial) | Superlineal | Excelente equilibrio práctico; preserva siempre definida positiva |
 
 
