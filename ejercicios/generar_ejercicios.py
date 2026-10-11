@@ -6,6 +6,10 @@ import shutil
 def get_conda_env():
     env = os.environ.copy()
     oar_env_dir = os.environ.get('CONDA_PREFIX', sys.prefix)
+    if not oar_env_dir.endswith('oar_env'):
+        candidate = os.path.join(oar_env_dir, 'envs', 'oar_env')
+        if os.path.exists(candidate):
+            oar_env_dir = candidate
     paths_to_add = [
         oar_env_dir,
         os.path.join(oar_env_dir, 'Scripts'),

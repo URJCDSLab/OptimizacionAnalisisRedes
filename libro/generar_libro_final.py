@@ -6,6 +6,10 @@ import shutil
 def get_conda_env():
     env = os.environ.copy()
     oar_env_dir = os.environ.get('CONDA_PREFIX', sys.prefix)
+    if not oar_env_dir.endswith('oar_env'):
+        candidate = os.path.join(oar_env_dir, 'envs', 'oar_env')
+        if os.path.exists(candidate):
+            oar_env_dir = candidate
     paths_to_add = [
         oar_env_dir,
         os.path.join(oar_env_dir, 'Scripts'),
@@ -56,7 +60,14 @@ def ejecutar_script(path):
     print(f"Ejecutando script de subcomponente: {path}...")
     dir_original = os.getcwd()
     try:
-        python_oar = sys.executable
+        oar_env_dir = os.environ.get('CONDA_PREFIX', sys.prefix)
+        if not oar_env_dir.endswith('oar_env'):
+            candidate = os.path.join(oar_env_dir, 'envs', 'oar_env')
+            if os.path.exists(candidate):
+                oar_env_dir = candidate
+        python_oar = os.path.join(oar_env_dir, 'python.exe')
+        if not os.path.exists(python_oar):
+            python_oar = sys.executable
         subprocess.run([python_oar, path], env=get_conda_env(), check=True)
         print(f"   [OK] {path} completado con éxito.")
     except Exception as e:

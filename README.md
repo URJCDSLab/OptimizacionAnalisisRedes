@@ -10,6 +10,10 @@
 * **Fecha de edición:** Curso académico 2026-2027 (Junio 2026)
 * **Lugar de depósito:** Archivo Abierto Institucional de la URJC (**BURJC Digital**) - <https://burjcdigital.urjc.es/>
 * **Identificador / Handle institucional:** `PENDIENTE_DE_REGISTRO_BURJC`
+* **Preservación de software docente (Software Heritage):**
+  * Repositorio de software (Categoría 6): <https://github.com/URJCDSLab/OptimizacionAnalisisRedes_software>
+  * Identificador persistente (SWHID): [`swh:1:dir:85b3015deeb96b2949cfbeea61e1558c1c8b9504`](https://archive.softwareheritage.org/swh:1:dir:85b3015deeb96b2949cfbeea61e1558c1c8b9504;origin=https://github.com/URJCDSLab/OptimizacionAnalisisRedes_software;visit=swh:1:snp:ebc85597ce189b4bf17381fae325419b947cdb24;anchor=swh:1:rev:a16debd4c8b8c2d4c16f297bfd3d401fbee0f2af)
+  * [![Archived on Software Heritage](https://archive.softwareheritage.org/badge/swh:1:dir:85b3015deeb96b2949cfbeea61e1558c1c8b9504/)](https://archive.softwareheritage.org/swh:1:dir:85b3015deeb96b2949cfbeea61e1558c1c8b9504;origin=https://github.com/URJCDSLab/OptimizacionAnalisisRedes_software;visit=swh:1:snp:ebc85597ce189b4bf17381fae325419b947cdb24;anchor=swh:1:rev:a16debd4c8b8c2d4c16f297bfd3d401fbee0f2af)
 * **Grupo de investigación:** Fundamentos y Aplicaciones de la Ciencia de Datos (DSLAB, URJC)
 
 ---
@@ -76,7 +80,9 @@ El repositorio se organiza de forma modular a través de [Quarto](https://quarto
 
 * **Parte VI: Software y Laboratorios (`laboratorios/`)**:
   * 10 cuadernos computacionales interactivos en Python diseñados para implementar algoritmos y resolver modelos con bibliotecas científicas de referencia.
+  * Código fuente preservado en Software Heritage con SWHID: [`swh:1:dir:85b3015deeb96b2949cfbeea61e1558c1c8b9504`](https://archive.softwareheritage.org/swh:1:dir:85b3015deeb96b2949cfbeea61e1558c1c8b9504;origin=https://github.com/URJCDSLab/OptimizacionAnalisisRedes_software;visit=swh:1:snp:ebc85597ce189b4bf17381fae325419b947cdb24;anchor=swh:1:rev:a16debd4c8b8c2d4c16f297bfd3d401fbee0f2af).
   * Documento en PDF: [`laboratorios/SoftwareUtilizadoOptimizacionAnalisisRedes.pdf`](laboratorios/SoftwareUtilizadoOptimizacionAnalisisRedes.pdf).
+  * Repositorio específico de programas: <https://github.com/URJCDSLab/OptimizacionAnalisisRedes_software>.
 
 * **Volumen Maestro Unificado (`libro/`)**:
   * Fusión editorial de las seis partes precedentes con portadillas de sección independientes, cálculo iterativo de páginas estables y marcadores PDF (*bookmarks*) jerárquicos.

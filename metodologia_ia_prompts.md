@@ -16,7 +16,9 @@
 * **Grupo de Investigación**: Fundamentos y Aplicaciones de la Ciencia de Datos (DSLAB)
 * **Licencia de distribución**: Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)
 * **Repositorio institucional**: Archivo Abierto Institucional de la Universidad Rey Juan Carlos (BURJC Digital)
-* **Repositorio de código fuente**: <https://github.com/URJCDSLab/OptimizacionAnalisisRedes>
+* **Repositorio principal de materiales**: <https://github.com/URJCDSLab/OptimizacionAnalisisRedes>
+* **Repositorio de software docente (Categoría 6)**: <https://github.com/URJCDSLab/OptimizacionAnalisisRedes_software>
+* **Identificador persistente en Software Heritage (SWHID)**: [`swh:1:dir:85b3015deeb96b2949cfbeea61e1558c1c8b9504`](https://archive.softwareheritage.org/swh:1:dir:85b3015deeb96b2949cfbeea61e1558c1c8b9504;origin=https://github.com/URJCDSLab/OptimizacionAnalisisRedes_software;visit=swh:1:snp:ebc85597ce189b4bf17381fae325419b947cdb24;anchor=swh:1:rev:a16debd4c8b8c2d4c16f297bfd3d401fbee0f2af)
 
 ---
 
