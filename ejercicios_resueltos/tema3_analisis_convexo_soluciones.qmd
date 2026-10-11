@@ -1,0 +1,489 @@
+# Ejercicios del Tema 3: análisis convexo
+
+## Ejercicio 1: combinaciones convexas y conjuntos convexos
+
+En la teoría de la optimización entera y lineal, la intersección de conjuntos convexos juega un papel fundamental al definir regiones factibles que combinan múltiples restricciones.
+
+Se pide:
+
+1. **Demostrar analíticamente que la intersección de una familia arbitraria (posiblemente infinita) de conjuntos convexos $\mathcal{S}_i \subseteq \mathbb{R}^n$, denotada por $\mathcal{S} = \bigcap_{i \in I} \mathcal{S}_i$, es a su vez un conjunto convexo.**:
+
+   **Solución:**
+
+Queremos demostrar que la intersección $\mathcal{S} = \bigcap_{i \in I} \mathcal{S}_i$ de una familia arbitraria de conjuntos convexos $\mathcal{S}_i \subseteq \mathbb{R}^n$ es un conjunto convexo.
+
+**Demostración**:
+
+1. Sean $x, y \in \mathcal{S}$ dos puntos cualesquiera de la intersección, y sea $\lambda \in [0, 1]$.
+2. Por la definición de la intersección de conjuntos, si $x, y \in \mathcal{S}$, entonces $x \in \mathcal{S}_i$ e $y \in \mathcal{S}_i$ para todo índice $i \in I$.
+3. Dado que cada conjunto $\mathcal{S}_i$ es convexo por hipótesis, cualquier combinación convexa de sus puntos también pertenece al conjunto. Por tanto, para todo $\lambda \in [0, 1]$ se cumple:
+   $$ \lambda x + (1 - \lambda)y \in \mathcal{S}_i, \quad \forall i \in I $$
+
+4. Al cumplirse esta pertenencia para todos los elementos de la familia ($i \in I$), se deduce por definición de intersección que:
+   $$ \lambda x + (1 - \lambda)y \in \bigcap_{i \in I} \mathcal{S}_i = \mathcal{S} $$
+
+5. Como esta relación es válida para cualesquiera $x, y \in \mathcal{S}$ y cualquier $\lambda \in [0, 1]$, el conjunto intersección $\mathcal{S}$ es **convexo**. $\quad \blacksquare$
+
+---
+
+2. **Mostrar mediante un contraejemplo gráfico o analítico en $\mathbb{R}^2$ que la unión de dos conjuntos convexos $\mathcal{S}_1 \cup \mathcal{S}_2$ no es necesariamente un conjunto convexo.**:
+
+   **Solución:**
+
+Queremos mostrar mediante un contraejemplo en $\mathbb{R}^2$ que la unión de dos conjuntos convexos $\mathcal{S}_1 \cup \mathcal{S}_2$ no es necesariamente convexa.
+
+**Contraejemplo**:
+Sean los conjuntos convexos $\mathcal{S}_1, \mathcal{S}_2 \subseteq \mathbb{R}^2$ definidos como dos intervalos cerrados (segmentos de recta unidimensionales en el eje $x$):
+$$ \mathcal{S}_1 = \{ (x, 0)^T \in \mathbb{R}^2 \mid 0 \le x \le 1 \} $$
+$$ \mathcal{S}_2 = \{ (x, 0)^T \in \mathbb{R}^2 \mid 2 \le x \le 3 \} $$
+
+Ambos conjuntos son convexos por ser segmentos cerrados. Consideremos su unión $\mathcal{U} = \mathcal{S}_1 \cup \mathcal{S}_2$.
+
+* Tomemos el punto $a = (0.5, 0)^T \in \mathcal{S}_1 \subseteq \mathcal{U}$.
+* Tomemos el punto $b = (2.5, 0)^T \in \mathcal{S}_2 \subseteq \mathcal{U}$.
+* Evaluemos su punto medio (combinación convexa con $\lambda = 0.5$):
+  $$ c = 0.5a + 0.5b = 0.5(0.5, 0)^T + 0.5(2.5, 0)^T = (1.5, 0)^T $$
+
+El punto $c = (1.5, 0)^T$ no pertenece a $\mathcal{S}_1$ (puesto que $1.5 > 1$) y tampoco pertenece a $\mathcal{S}_2$ (ya que $1.5 < 2$). Por tanto, $c \notin \mathcal{U}$. 
+
+Dado que existen dos puntos en $\mathcal{U}$ cuya combinación convexa no pertenece a $\mathcal{U}$, la unión **no es un conjunto convexo**. $\quad \blacksquare$
+
+---
+
+## Ejercicio 2: operaciones algebraicas que preservan la convexidad
+
+Demostrar las siguientes propiedades relativas a la preservación de la convexidad de conjuntos bajo operaciones afines y algebraicas:
+
+1. **Sean $\mathcal{S}_1, \mathcal{S}_2 \subseteq \mathbb{R}^n$ dos conjuntos convexos. Demostrar que su suma de Minkowski, definida como $\mathcal{S}_1 + \mathcal{S}_2 = \{ x_1 + x_2 \mid x_1 \in \mathcal{S}_1, \ x_2 \in \mathcal{S}_2 \}$, es un conjunto convexo.**:
+
+   **Solución:**
+
+Queremos demostrar que la suma de Minkowski $\mathcal{S}_1 + \mathcal{S}_2 = \{ x_1 + x_2 \mid x_1 \in \mathcal{S}_1, \ x_2 \in \mathcal{S}_2 \}$ de dos conjuntos convexos $\mathcal{S}_1, \mathcal{S}_2 \subseteq \mathbb{R}^n$ es convexa.
+
+**Demostración**:
+
+1. Sean $z_a, z_b \in \mathcal{S}_1 + \mathcal{S}_2$ dos puntos arbitrarios de la suma, y sea $\lambda \in [0, 1]$.
+2. Por definición del conjunto suma, existen puntos $x_a, x_b \in \mathcal{S}_1$ e $y_a, y_b \in \mathcal{S}_2$ tales que:
+   $$ z_a = x_a + y_a \qquad \text{y} \qquad z_b = x_b + y_b $$
+
+3. Evaluamos la combinación convexa de $z_a$ y $z_b$:
+   $$ \lambda z_a + (1 - \lambda)z_b = \lambda (x_a + y_a) + (1 - \lambda)(x_b + y_b) $$
+
+4. Agrupamos los términos correspondientes a cada uno de los conjuntos de procedencia:
+   $$ \lambda z_a + (1 - \lambda)z_b = \left[ \lambda x_a + (1 - \lambda)x_b \right] + \left[ \lambda y_a + (1 - \lambda)y_b \right] $$
+
+5. Puesto que $\mathcal{S}_1$ es convexo y $x_a, x_b \in \mathcal{S}_1$, definimos la combinación $x_c = \lambda x_a + (1 - \lambda)x_b \in \mathcal{S}_1$.
+6. Puesto que $\mathcal{S}_2$ es convexo y $y_a, y_b \in \mathcal{S}_2$, definimos la combinación $y_c = \lambda y_a + (1 - \lambda)y_b \in \mathcal{S}_2$.
+7. Por tanto, tenemos que:
+   $$ \lambda z_a + (1 - \lambda)z_b = x_c + y_c $$
+   Como $x_c \in \mathcal{S}_1$ e $y_c \in \mathcal{S}_2$, se cumple que $x_c + y_c \in \mathcal{S}_1 + \mathcal{S}_2$.
+
+8. Queda demostrado que la suma de Minkowski $\mathcal{S}_1 + \mathcal{S}_2$ es **convexa**. $\quad \blacksquare$
+
+---
+
+2. **Sea $\mathcal{S} \subseteq \mathbb{R}^n$ un conjunto convexo, y sea $f: \mathbb{R}^n \to \mathbb{R}^m$ una transformación afín dada por $f(x) = Ax + b$, donde $A \in \mathbb{R}^{m \times n}$ y $b \in \mathbb{R}^m$. Demostrar que la imagen del conjunto, $f(\mathcal{S}) = \{ Ax + b \mid x \in \mathcal{S} \}$, es un conjunto convexo en $\mathbb{R}^m$.**:
+
+   **Solución:**
+   Queremos demostrar que la imagen de un conjunto convexo $\mathcal{S} \subseteq \mathbb{R}^n$ bajo la transformación afín $f(x) = Ax + b$ es convexa en $\mathbb{R}^m$.
+
+**Demostración**:
+
+1. Sean $y_a, y_b \in f(\mathcal{S})$ dos puntos de la imagen, y sea $\lambda \in [0, 1]$.
+2. Por definición del conjunto imagen, existen preimágenes $x_a, x_b \in \mathcal{S}$ tales que:
+   $$ y_a = A x_a + b \qquad \text{y} \qquad y_b = A x_b + b $$
+
+3. Evaluamos la combinación convexa de los puntos imagen:
+   $$ \lambda y_a + (1 - \lambda)y_b = \lambda (A x_a + b) + (1 - \lambda)(A x_b + b) $$
+
+4. Expandimos y factorizamos por la matriz $A$ y por el vector constante $b$:
+   $$ \lambda y_a + (1 - \lambda)y_b = A \left[ \lambda x_a + (1 - \lambda)x_b \right] + \left[ \lambda + (1 - \lambda) \right]b = A \left[ \lambda x_a + (1 - \lambda)x_b \right] + b $$
+
+5. Puesto que el dominio original $\mathcal{S}$ es un conjunto convexo y $x_a, x_b \in \mathcal{S}$, definimos el punto $x_c = \lambda x_a + (1 - \lambda)x_b \in \mathcal{S}$.
+6. Por consiguiente:
+   $$ \lambda y_a + (1 - \lambda)y_b = A x_c + b = f(x_c) $$
+   Como $x_c \in \mathcal{S}$, su transformación $f(x_c)$ pertenece por definición al conjunto imagen $f(\mathcal{S})$.
+
+7. Se concluye que el conjunto imagen $f(\mathcal{S})$ es **convexo**. $\quad \blacksquare$
+
+---
+
+## Ejercicio 3: puntos extremos y teorema de Minkowski-Weyl
+
+Considerar el conjunto de puntos $\mathcal{S} \subseteq \mathbb{R}^2$ definido por la inecuación de la norma $L_1$:
+$$ \mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid |x| + |y| \le 1 \} $$
+
+Se pide:
+
+1. **Dibujar o describir geométricamente el conjunto $\mathcal{S}$ en el plano real $\mathbb{R}^2$, determinando si es un conjunto convexo y acotado (un politopo).**:
+
+   **Solución:**
+
+El conjunto $\mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid |x| + |y| \le 1 \}$ representa el **círculo unidad bajo la norma $L_1$** en $\mathbb{R}^2$. 
+
+* En el primer cuadrante ($x, y \ge 0$), la frontera es la recta lineal $x + y = 1$.
+* Replicando por simetría en los otros tres cuadrantes, el conjunto dibuja un **cuadrado rotado de $45^\circ$** (un rombo) centrado en el origen $(0,0)^T$, cuyos vértices se encuentran en los puntos coordenados $(1,0)^T$, $(0,1)^T$, $(-1,0)^T$ y $(0,-1)^T$.
+* Al ser el círculo de una norma matemática, es de forma garantizada **convexo y acotado** (un politopo compacto).
+
+---
+
+2. **Identificar todos los puntos extremos (o vértices) del conjunto $\mathcal{S}$ aplicando la definición formal de punto extremo (aquellos puntos que no pueden expresarse como combinación convexa propia de otros dos puntos distintos del conjunto).**:
+
+   **Solución:**
+   Los **puntos extremos** de $\mathcal{S}$ son sus cuatro vértices:
+$$ \mathcal{E} = \left\{ v_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, v_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}, v_3 = \begin{pmatrix} -1 \\ 0 \end{pmatrix}, v_4 = \begin{pmatrix} 0 \\ -1 \end{pmatrix} \right\} $$
+
+**Demostración formal para $v_1 = (1, 0)^T$**:
+Supongamos por reducción al absurdo que $v_1$ no es un punto extremo. Entonces existirían dos puntos distintos $a, b \in \mathcal{S}$ ($a \neq b$) y un parámetro $\lambda \in (0, 1)$ tales que:
+$$ \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \lambda \begin{pmatrix} a_1 \\ a_2 \end{pmatrix} + (1 - \lambda)\begin{pmatrix} b_1 \\ b_2 \end{pmatrix} $$
+
+1. Para la primera coordenada se tiene:
+   $$ 1 = \lambda a_1 + (1 - \lambda)b_1 $$
+   Como $a, b \in \mathcal{S}$, se cumple que $|a_1| \le |a_1| + |a_2| \le 1 \implies a_1 \le 1$. Análogamente, $b_1 \le 1$.
+
+2. Para que una combinación convexa estricta ($\lambda \in (0,1)$) de dos números menores o iguales a 1 resulte exactamente en 1, es matemáticamente obligatorio que ambos números sean iguales a 1:
+   $$ a_1 = 1 \qquad \text{y} \qquad b_1 = 1 $$
+
+3. Sustituyendo en la restricción del conjunto $|x| + |y| \le 1$:
+   * Para $a$: $|1| + |a_2| \le 1 \implies 1 + |a_2| \le 1 \implies a_2 = 0$.
+   * Para $b$: $|1| + |b_2| \le 1 \implies 1 + |b_2| \le 1 \implies b_2 = 0$.
+4. Esto implica que $a = (1, 0)^T$ y $b = (1, 0)^T$, lo cual contradice la hipótesis de partida de que $a$ y $b$ eran puntos distintos ($a \neq b$).
+5. Por lo tanto, $v_1 = (1, 0)^T$ es un **punto extremo**. Por simetría en los cuadrantes, se demuestra idénticamente la propiedad para $v_2, v_3$ y $v_4$. $\quad \blacksquare$
+
+---
+
+3. **Demostrar que cualquier punto interior o de la frontera de $\mathcal{S}$ (por ejemplo, el punto $(0.2, 0.5)^T$) se puede expresar como una combinación convexa de sus puntos extremos, de acuerdo con el Teorema de Representación de Minkowski.**:
+
+   **Solución:**
+
+Queremos escribir el punto $p = (0.2, 0.5)^T \in \mathcal{S}$ como una combinación convexa de sus puntos extremos:
+$$ p = \lambda_1 v_1 + \lambda_2 v_2 + \lambda_3 v_3 + \lambda_4 v_4 $$
+con $\lambda_i \ge 0$ y $\sum_{i=1}^4 \lambda_i = 1$.
+
+1. Escribimos el sistema de ecuaciones coordenadas correspondientes:
+   $$ 0.2 = \lambda_1 (1) + \lambda_2 (0) + \lambda_3 (-1) + \lambda_4 (0) \implies \lambda_1 - \lambda_3 = 0.2 $$
+   $$ 0.5 = \lambda_1 (0) + \lambda_2 (1) + \lambda_3 (0) + \lambda_4 (-1) \implies \lambda_2 - \lambda_4 = 0.5 $$
+   $$ \lambda_1 + \lambda_2 + \lambda_3 + \lambda_4 = 1 $$
+
+2. Despejamos los pesos principales en función de los opuestos:
+   $$ \lambda_1 = 0.2 + \lambda_3 \qquad \text{y} \qquad \lambda_2 = 0.5 + \lambda_4 $$
+
+3. Sustituimos en la ecuación de suma de pesos unitaria:
+   $$ (0.2 + \lambda_3) + (0.5 + \lambda_4) + \lambda_3 + \lambda_4 = 1 \implies 0.7 + 2(\lambda_3 + \lambda_4) = 1 \implies \lambda_3 + \lambda_4 = 0.15 $$
+
+4. Asignamos un valor factible arbitrario para resolver el grado de libertad. Por ejemplo, elegimos $\lambda_4 = 0$. Esto nos da:
+   $$ \lambda_3 = 0.15 $$
+   $$ \lambda_1 = 0.2 + 0.15 = 0.35 $$
+   $$ \lambda_2 = 0.5 + 0 = 0.50 $$
+   $$ \lambda_4 = 0.00 $$
+
+5. Verificamos que todos los coeficientes son no negativos ($\lambda_i \ge 0$) y suman 1 ($0.35 + 0.50 + 0.15 + 0 = 1.0$).
+6. Comprobamos la combinación:
+   $$ 0.35 \begin{pmatrix} 1 \\ 0 \end{pmatrix} + 0.50 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + 0.15 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + 0 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0.35 - 0.15 \\ 0.50 \end{pmatrix} = \begin{pmatrix} 0.2 \\ 0.5 \end{pmatrix} = p $$
+   La representación es correcta y válida. $\quad \blacksquare$
+
+---
+
+## Ejercicio 4: caracterización de primer orden de funciones convexas
+
+Sea $f: \mathcal{S} \to \mathbb{R}$ una función continuamente diferenciable sobre un conjunto abierto y convexo $\mathcal{S} \subseteq \mathbb{R}^n$.
+
+Se pide:
+
+1. **Demostrar analíticamente el teorema de caracterización de primer orden, el cual establece que $f$ es convexa en $\mathcal{S}$ si y solo si $f(y) \ge f(x) + \nabla f(x)^T(y - x), \ \forall x, y \in \mathcal{S}$.**:
+
+   **Solución:**
+
+Queremos demostrar que la diferenciabilidad de primer orden caracteriza la convexidad mediante la desigualdad $f(y) \ge f(x) + \nabla f(x)^T(y-x)$.
+
+**Demostración**:
+
+*   **Implicación Directa ($\implies$)**:
+    1. Asumimos que $f$ es convexa en el conjunto convexo $\mathcal{S}$. Por tanto, para cualesquiera $x, y \in \mathcal{S}$ y cualquier $\lambda \in (0, 1]$, se cumple:
+       $$ f(\lambda y + (1 - \lambda)x) \le \lambda f(y) + (1 - \lambda)f(x) $$
+
+    2. Reescribimos el argumento de la izquierda como una perturbación en la dirección del vector $(y-x)$:
+       $$ f(x + \lambda(y - x)) \le f(x) + \lambda(f(y) - f(x)) $$
+
+    3. Restamos $f(x)$ y dividimos entre el escalar estrictamente positivo $\lambda > 0$:
+       $$ \frac{f(x + \lambda(y - x)) - f(x)}{\lambda} \le f(y) - f(x) $$
+
+    4. Aplicamos el límite cuando $\lambda \to 0^+$ en ambos lados. El lado izquierdo coincide con la definición de la derivada direccional en la dirección $(y-x)$, que para funciones diferenciables se escribe como el producto escalar con el gradiente:
+       $$ \lim_{\lambda \to 0^+} \frac{f(x + \lambda(y - x)) - f(x)}{\lambda} = \nabla f(x)^T(y - x) $$
+
+    5. Por tanto, se obtiene:
+       $$ \nabla f(x)^T(y - x) \le f(y) - f(x) \implies f(y) \ge f(x) + \nabla f(x)^T(y - x) \quad \blacksquare $$
+
+*   **Implicación Inversa ($\impliedby$)**:
+    1. Asumimos que la desigualdad de primer orden es válida para todos los puntos del dominio.
+    2. Sean $x_1, x_2 \in \mathcal{S}$ dos puntos cualesquiera, $\lambda \in [0, 1]$, y sea el punto intermedio $z = \lambda x_1 + (1 - \lambda)x_2 \in \mathcal{S}$.
+    3. Evaluamos la desigualdad de primer orden tomando a $z$ como punto de pivote:
+       * Para $y = x_1$: $\quad f(x_1) \ge f(z) + \nabla f(z)^T(x_1 - z)$
+       * Para $y = x_2$: $\quad f(x_2) \ge f(z) + \nabla f(z)^T(x_2 - z)$
+    4. Multiplicamos la primera ecuación por $\lambda \ge 0$, la segunda por $(1-\lambda) \ge 0$, y las sumamos:
+       $$ \lambda f(x_1) + (1 - \lambda)f(x_2) \ge \lambda f(z) + (1 - \lambda)f(z) + \nabla f(z)^T \left[ \lambda(x_1 - z) + (1 - \lambda)(x_2 - z) \right] $$
+
+    5. Simplificamos el término del corchete del producto escalar:
+       $$ \lambda x_1 - \lambda z + (1 - \lambda)x_2 - (1 - \lambda)z = \left[ \lambda x_1 + (1 - \lambda)x_2 \right] - \left[ \lambda + 1 - \lambda \right]z = z - z = 0 $$
+
+    6. Por consiguiente, el término del gradiente se anula y obtenemos:
+       $$ \lambda f(x_1) + (1 - \lambda)f(x_2) \ge f(z) = f(\lambda x_1 + (1 - \lambda)x_2) $$
+       Lo cual demuestra que $f$ es una función **convexa**. $\quad \blacksquare$
+
+---
+
+2. **Utilizando la desigualdad anterior, demostrar que si $f$ es convexa en $\mathcal{S}$ y existe un punto $x^* \in \mathcal{S}$ tal que el gradiente se anula ($\nabla f(x^*) = 0$), entonces $x^*$ es un mínimo global de la función en $\mathcal{S}$.**:
+
+   **Solución:**
+
+Queremos demostrar que si $f$ es convexa y $\nabla f(x^*) = 0$, entonces $x^*$ es un mínimo global.
+
+**Demostración**:
+
+1. Al ser $f$ una función convexa y diferenciable, se cumple la caracterización de primer orden demostrada en la sección anterior para cualquier punto $y \in \mathcal{S}$:
+   $$ f(y) \ge f(x^*) + \nabla f(x^*)^T(y - x^*) $$
+
+2. Sustituimos la condición de punto crítico $\nabla f(x^*) = 0$:
+   $$ f(y) \ge f(x^*) + 0^T(y - x^*) \implies f(y) \ge f(x^*), \quad \forall y \in \mathcal{S} $$
+
+3. Al ser el valor de la función en $x^*$ menor o igual al de cualquier otro punto $y$ del dominio $\mathcal{S}$, $x^*$ es obligatoriamente un **mínimo global** de la función. $\quad \blacksquare$
+
+---
+
+## Ejercicio 5: caracterización de segundo orden de la curvatura
+
+Estudiar analíticamente la convexidad o concavidad local y global de las siguientes funciones mediante el cálculo de sus matrices hessianas y el análisis de sus menores principales o autovalores:
+
+1. **$f(x, y) = x^2 y^2 - x - y$ definida sobre el dominio global $\mathbb{R}^2$.**:
+
+   **Solución:**
+
+Dada la función $f(x, y) = x^2 y^2 - x - y$ en $\mathbb{R}^2$:
+
+1. Calculamos las primeras derivadas parciales:
+   $$ \frac{\partial f}{\partial x} = 2xy^2 - 1 \qquad \text{y} \qquad \frac{\partial f}{\partial y} = 2x^2 y - 1 $$
+
+2. Calculamos las segundas derivadas para construir la matriz hessiana:
+   $$ \frac{\partial^2 f}{\partial x^2} = 2y^2, \qquad \frac{\partial^2 f}{\partial y^2} = 2x^2, \qquad \frac{\partial^2 f}{\partial x \partial y} = 4xy $$
+   $$ \nabla^2 f(x, y) = \begin{pmatrix} 2y^2 & 4xy \\ 4xy & 2x^2 \end{pmatrix} $$
+
+3. Analizamos los menores principales de la matriz:
+   * Primer menor principal: $\Delta_1 = 2y^2 \ge 0$ (siempre no negativo).
+   * Segundo menor principal (determinante):
+     $$ \Delta_2 = \det(\nabla^2 f(x, y)) = (2y^2)(2x^2) - (4xy)^2 = 4x^2 y^2 - 16x^2 y^2 = -12x^2 y^2 $$
+
+4. Observamos que para cualquier punto del plano donde las coordenadas sean no nulas ($x \neq 0$ e $y \neq 0$), el determinante es estrictamente negativo ($\Delta_2 < 0$).
+5. Al tener un determinante negativo en casi todo el plano, la matriz hessiana es **indefinida**. Por tanto, la función **no es convexa ni cóncava** de manera global en $\mathbb{R}^2$.
+
+---
+
+2. **$f(x, y) = -\ln(4 - x^2 - y^2)$ definida sobre el disco abierto $\mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid x^2 + y^2 < 4 \}$.**:
+
+   **Solución:**
+
+Dada la función $f(x, y) = -\ln(4 - x^2 - y^2)$ en el disco abierto $\mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid x^2 + y^2 < 4 \}$:
+
+1. Sea $u(x, y) = 4 - x^2 - y^2$. En el dominio dado se cumple que $u > 0$.
+2. Calculamos el gradiente de la función aplicando la regla de la cadena:
+   $$ \frac{\partial f}{\partial x} = -\frac{1}{u}(-2x) = \frac{2x}{u} \qquad \text{y} \qquad \frac{\partial f}{\partial y} = \frac{2y}{u} $$
+
+3. Calculamos las segundas derivadas utilizando la regla del cociente:
+   $$ \frac{\partial^2 f}{\partial x^2} = \frac{2u - 2x(-2x)}{u^2} = \frac{2(4 - x^2 - y^2) + 4x^2}{u^2} = \frac{8 + 2x^2 - 2y^2}{u^2} $$
+   $$ \frac{\partial^2 f}{\partial y^2} = \frac{2u - 2y(-2y)}{u^2} = \frac{8 - 2x^2 + 2y^2}{u^2} $$
+   $$ \frac{\partial^2 f}{\partial x \partial y} = \frac{0 - 2x(-2y)}{u^2} = \frac{4xy}{u^2} $$
+
+4. Construimos la matriz Hessiana:
+   $$ \nabla^2 f(x, y) = \frac{2}{u^2} \begin{pmatrix} 4 + x^2 - y^2 & 2xy \\ 2xy & 4 - x^2 + y^2 \end{pmatrix} $$
+
+5. Evaluamos la positividad de los menores principales en el dominio $\mathcal{S}$:
+
+   * **Primer menor principal ($\Delta_1$)**:
+     $$ \Delta_1 = \frac{2}{u^2}(4 + x^2 - y^2) $$
+     Dado que estamos en el disco $x^2 + y^2 < 4$, se cumple que $y^2 < 4 - x^2$. Sustituyendo esta cota superior:
+     $$ 4 + x^2 - y^2 > 4 + x^2 - (4 - x^2) = 2x^2 \ge 0 \implies \Delta_1 > 0 $$
+
+   * **Segundo menor principal (Determinante $\Delta_2$)**:
+     $$ \Delta_2 = \frac{4}{u^4} \left[ (4 + x^2 - y^2)(4 - x^2 + y^2) - 4x^2 y^2 \right] $$
+     Utilizando la identidad de diferencia de cuadrados para los términos diagonalizados $(4 + (x^2 - y^2))(4 - (x^2 - y^2)) = 16 - (x^2 - y^2)^2$:
+     $$ \Delta_2 = \frac{4}{u^4} \left[ 16 - (x^2 - y^2)^2 - 4x^2 y^2 \right] = \frac{4}{u^4} \left[ 16 - (x^4 - 2x^2 y^2 + y^4) - 4x^2 y^2 \right] $$
+     $$ \Delta_2 = \frac{4}{u^4} \left[ 16 - (x^4 + 2x^2 y^2 + y^4) \right] = \frac{4}{u^4} \left[ 16 - (x^2 + y^2)^2 \right] $$
+     Puesto que en el dominio se exige que $x^2 + y^2 < 4$, se deduce que su cuadrado es estrictamente menor a 16 (es decir, $(x^2+y^2)^2 < 16$). Por tanto:
+     $$ 16 - (x^2 + y^2)^2 > 0 \implies \Delta_2 > 0 $$
+
+6. Dado que ambos menores principales son estrictamente positivos en todos los puntos del disco abierto, la matriz hessiana es definida positiva ($\nabla^2 f(x, y) \succ 0$). Concluimos que la función es **estrictamente convexa** en $\mathcal{S}$.
+
+---
+
+3. **$f(x, y, z) = x^2 + 2y^2 + 5z^2 + 2xy - 4yz - 2x + 6$ definida sobre $\mathbb{R}^3$.**:
+
+   **Solución:**
+
+Dada la función $f(x, y, z) = x^2 + 2y^2 + 5z^2 + 2xy - 4yz - 2x + 6$ en $\mathbb{R}^3$:
+
+1. Calculamos el gradiente analítico:
+   $$ \nabla f(x, y, z) = \begin{pmatrix} 2x + 2y - 2 \\ 4y + 2x - 4z \\ 10z - 4y \end{pmatrix} $$
+
+2. Derivamos de nuevo para obtener la matriz hessiana:
+   $$ \nabla^2 f(x, y, z) = \begin{pmatrix} 2 & 2 & 0 \\ 2 & 4 & -4 \\ 0 & -4 & 10 \end{pmatrix} $$
+
+3. Analizamos los menores principales de esta matriz constante:
+
+   * **Menor principal 1**: $\Delta_1 = |2| = 2 > 0$.
+
+   * **Menor principal 2**:
+     $$ \Delta_2 = \det \begin{pmatrix} 2 & 2 \\ 2 & 4 \end{pmatrix} = (2)(4) - (2)(2) = 8 - 4 = 4 > 0 $$
+
+   * **Menor principal 3 (Determinante total)**:
+     $$ \Delta_3 = 2 \cdot \det \begin{pmatrix} 4 & -4 \\ -4 & 10 \end{pmatrix} - 2 \cdot \det \begin{pmatrix} 2 & -4 \\ 0 & 10 \end{pmatrix} + 0 $$
+     $$ \Delta_3 = 2(40 - 16) - 2(20 - 0) = 2(24) - 40 = 48 - 40 = 8 > 0 $$
+
+4. Dado que todos los menores principales de la hessiana son estrictamente positivos ($\Delta_1 > 0, \Delta_2 > 0, \Delta_3 > 0$), la matriz es definida positiva de forma global ($\nabla^2 f \succ 0$).
+5. Por lo tanto, la función cuadrática es **estrictamente convexa** (y fuertemente convexa) en todo $\mathbb{R}^3$.
+
+---
+
+## Ejercicio 6: epígrafe, subgradientes y subdiferencial
+
+Sea la función real no diferenciable $f: \mathbb{R} \to \mathbb{R}$ definida por:
+$$ f(x) = |x| + |x - 1| $$
+
+Se pide:
+
+1. **Trazar la gráfica de la función $f(x)$ en el intervalo $[-1, 2]$ y describir analíticamente su epígrafe $\text{epi}(f)$.**:
+
+   **Solución:**
+
+Dada la función $f(x) = |x| + |x-1|$:
+
+1. Expresamos la función de forma analítica por intervalos eliminando los valores absolutos:
+
+   * **Caso $x \le 0$**: $\quad f(x) = -x - (x - 1) = 1 - 2x$.
+
+   * **Caso $0 < x < 1$**: $\quad f(x) = x - (x - 1) = 1$.
+
+   * **Caso $x \ge 1$**: $\quad f(x) = x + (x - 1) = 2x - 1$.
+2. La gráfica dibuja una cubeta con pendientes laterales de $-2$ y $+2$ y un fondo plano horizontal a altura $y=1$ en el intervalo $[0, 1]$.
+3. El epígrafe de la función se define formalmente como el conjunto de puntos en el plano situados por encima de su gráfica:
+   $$ \text{epi}(f) = \{ (x, y) \in \mathbb{R}^2 \mid y \ge f(x) \} $$
+   $$ \text{epi}(f) = \left\{ (x, y) \in \mathbb{R}^2 \ \middle|\  y \ge \begin{cases} 1 - 2x & \text{si } x \le 0 \\ 1 & \text{si } 0 < x < 1 \\ 2x - 1 & \text{si } x \ge 1 \end{cases} \right\} $$
+
+---
+
+2. **Aplicar la definición de subgradiente para calcular el conjunto subdiferencial $\partial f(x)$ en los puntos $x_0 = 0$, $x_0 = 0.5$ y $x_0 = 1$.**:
+
+   **Solución:**
+
+El subdifferential $\partial f(x_0)$ de una función convexa en un punto $x_0$ está acotado por las derivadas laterales izquierda ($f'_{-}$) y derecha ($f'_{+}$):
+$$ \partial f(x_0) = [ f'_{-}(x_0), \ f'_{+}(x_0) ] $$
+
+1. **En $x_0 = 0.5$**:
+   La función es diferenciable en este punto (está en el tramo plano constante).
+
+   * Derivada izquierda y derecha: $f'(0.5) = 0$.
+   * Por tanto, el subdiferencial contiene un único elemento (el gradiente ordinario):
+     $$ \partial f(0.5) = \{ 0 \} $$
+
+2. **En $x_0 = 0$**:
+   El punto es un vértice de no diferenciabilidad.
+
+   * Derivada lateral izquierda: $f'_{-}(0) = \lim_{h \to 0^-} \frac{(1-2h) - 1}{h} = -2$.
+   * Derivada lateral derecha: $f'_{+}(0) = \lim_{h \to 0^+} \frac{1 - 1}{h} = 0$.
+   * Por lo tanto, el subdiferencial es el intervalo cerrado de pendientes intermedias:
+     $$ \partial f(0) = [-2, 0] $$
+
+3. **En $x_0 = 1$**:
+   Es el otro vértice de no diferenciabilidad de la cubeta.
+
+   * Derivada lateral izquierda: $f'_{-}(1) = \lim_{h \to 0^-} \frac{1 - 1}{h} = 0$.
+   * Derivada lateral derecha: $f'_{+}(1) = \lim_{h \to 0^+} \frac{(2(1+h)-1) - 1}{h} = 2$.
+   * Por lo tanto, el subdiferencial es el intervalo:
+     $$ \partial f(1) = [0, 2] $$
+
+---
+
+3. **Explicar la relación entre el conjunto subdiferencial y la optimización no diferenciable. Comprobar si se cumple la condición de optimalidad global ($0 \in \partial f(x^*)$) en el intervalo de puntos de mínimo de la función.**:
+
+   **Solución:**
+
+* En la optimización no diferenciable de funciones convexas, un punto $x^*$ es un **mínimo global** si y solo si el subgradiente nulo pertenece a su subdiferencial:
+  $$ 0 \in \partial f(x^*) $$
+
+* Evaluamos la condición en los tres tramos de mínimos de la función cubeta (los cuales ocurren para todo el intervalo $[0, 1]$):
+  * Para cualquier punto estrictamente interior $x_0 \in (0, 1)$, se tiene $\partial f(x_0) = \{ 0 \}$. Obviamente, $0 \in \{ 0 \}$.
+  * En el extremo izquierdo $x_0 = 0$, se tiene $\partial f(0) = [-2, 0]$, donde el 0 pertenece al intervalo.
+  * En el extremo derecho $x_0 = 1$, se tiene $\partial f(1) = [0, 2]$, donde el 0 también pertenece al intervalo.
+* De este modo, la condición de optimalidad de subgradiente identifica correctamente que todo el conjunto factible de mínimos globales de la función es el intervalo cerrado $[0, 1]$, donde el valor de la función es mínimo e igual a $1$.
+
+---
+
+## Ejercicio 7: convexidad generalizada: funciones cuasiconvexas y pseudoconvexas
+
+El análisis de la convexidad generalizada nos permite estudiar la unicidad del óptimo en funciones que no cumplen con la definición estricta de convexidad pero que conservan propiedades equivalentes para algoritmos de optimización.
+
+Se pide:
+
+1. **Considerar la función cúbica $f(x) = x^3 - 3x$ en $\mathbb{R}$. Identificar las regiones o intervalos donde la función es convexa, cóncava, cuasiconvexa y pseudoconvexa.**:
+
+   **Solución:**
+
+Dada la función cúbica $f(x) = x^3 - 3x$ en $\mathbb{R}$:
+
+1. Calculamos las derivadas:
+   $$ f'(x) = 3x^2 - 3 = 3(x - 1)(x + 1) \qquad \text{y} \qquad f''(x) = 6x $$
+
+2. **Convexidad y Concavidad**:
+   * Para $x \ge 0$, la segunda derivada es no negativa ($f''(x) \ge 0$). Por tanto, la función es **convexa** en el intervalo $[0, +\infty)$.
+   * Para $x \le 0$, la segunda derivada es no positiva ($f''(x) \le 0$). Por tanto, la función es **cóncava** en el intervalo $(-\infty, 0]$.
+
+3. **Cuasiconvexidad**:
+   * Una función real es cuasiconvex en un intervalo si sus conjuntos de nivel inferior son convexos, lo que equivale a exigir que la función sea **unimodal** (que decrezca hasta un punto y luego crezca, sin máximos locales intermedios).
+   * La función cúbica tiene un máximo local en $x = -1$ (con valor $f(-1) = 2$) y un mínimo local en $x = 1$ (con valor $f(1) = -2$).
+   * En el intervalo $[ -1, +\infty )$, la función decrece desde $2$ hasta el mínimo $-2$ en $x=1$ y luego crece monótonamente hasta $+\infty$. Al ser unimodal en esta región, la función es **cuasiconvexa** en el intervalo $[ -1, +\infty )$.
+
+4. **Pseudoconvexidad**:
+   * En el intervalo $[ 1, +\infty )$, la función es estrictamente creciente y su derivada es no negativa. Cumple la condición de pseudoconvexidad, siendo de hecho **estrictamente pseudoconvexa** en $[1, +\infty)$.
+
+---
+
+2. **Considerar la función de campana inversa $g(x) = \frac{-1}{x^2 + 1}$ definida en $\mathbb{R}$. Demostrar que $g(x)$ no es una función convexa sobre $\mathbb{R}$, demostrar que $g(x)$ es cuasiconvexa y pseudoconvexa en todo $\mathbb{R}$, y analizar qué consecuencias tiene para la convergencia de algoritmos de búsqueda local.**:
+
+   **Solución:**
+
+Dada la función $g(x) = \frac{-1}{x^2 + 1}$:
+
+*   **Verificación de la Convexidad**:
+    1. Calculamos la primera derivada de la función:
+       $$ g'(x) = \frac{2x}{(x^2 + 1)^2} $$
+
+    2. Calculamos la segunda derivada aplicando la regla de la derivada del cociente:
+       $$ g''(x) = \frac{2(x^2 + 1)^2 - 2x \cdot 2(x^2 + 1) \cdot 2x}{(x^2 + 1)^4} = \frac{2(x^2 + 1) - 8x^2}{(x^2 + 1)^3} = \frac{2 - 6x^2}{(x^2 + 1)^3} $$
+
+    3. Evaluamos el signo de $g''(x)$:
+       * La derivada segunda es estrictamente positiva ($g''(x) > 0$) para $|x| < \frac{1}{\sqrt{3}}$.
+       * La derivada segunda es estrictamente negativa ($g''(x) < 0$) para $|x| > \frac{1}{\sqrt{3}}$ (zonas laterales de la campana).
+    4. Dado que la segunda derivada cambia de signo en el dominio, la función **no es convexa** de manera global en $\mathbb{R}$.
+
+*   **Verificación de la Cuasiconvexidad**:
+    1. Analizamos el comportamiento de la primera derivada $g'(x) = \frac{2x}{(x^2+1)^2}$:
+       * Si $x < 0$, entonces $g'(x) < 0$ (la función es estrictamente decreciente).
+       * Si $x = 0$, entonces $g'(x) = 0$ (punto estacionario).
+       * Si $x > 0$, entonces $g'(x) > 0$ (la función es estrictamente creciente).
+    2. La función decrece monótonamente en $(-\infty, 0]$ y crece monótonamente en $[0, +\infty)$. Al ser unimodal, sus conjuntos de nivel inferior son siempre intervalos convexos.
+    3. Por lo tanto, $g(x)$ es **cuasiconvexa** en todo $\mathbb{R}$.
+
+*   **Verificación de la Pseudoconvexidad**:
+    1. Comprobamos la definición de pseudoconvexidad, la cual exige que para cualquier par de puntos $x, y \in \mathbb{R}$:
+       $$ g'(x)(y - x) \ge 0 \implies g(y) \ge g(x) $$
+
+    2. Analizamos los casos de evaluación según el signo de la coordenada $x$:
+
+       * **Caso $x = 0$**: La derivada es nula $g'(0) = 0$. La condición del antecedente $g'(0)(y - 0) = 0 \ge 0$ se cumple siempre. La implicación requiere que $g(y) \ge g(0) = -1$ para todo $y$, lo cual es cierto ya que $-1$ es el valor mínimo global de la función.
+
+       * **Caso $x > 0$**: En esta región la derivada es positiva $g'(x) > 0$. Por tanto, el antecedente $g'(x)(y - x) \ge 0$ exige que $y - x \ge 0 \implies y \ge x$. Como la función es estrictamente creciente para valores positivos, si $y \ge x$ se cumple necesariamente que $g(y) \ge g(x)$.
+
+       * **Caso $x < 0$**: Aquí la derivada es negativa $g'(x) < 0$. El antecedente $g'(x)(y - x) \ge 0$ exige entonces que $y - x \le 0 \implies y \le x$. Como la función es estrictamente decreciente para valores negativos, si $y \le x$ (es decir, $y$ es más negativo que $x$) el valor de la función es mayor, cumpliéndose $g(y) \ge g(x)$.
+    3. Al verificarse la implicación en todos los casos, la función $g(x)$ es **pseudoconvexa** en todo $\mathbb{R}$.
+
+*   **Consecuencias Algorítmicas**:
+    La pseudoconvexidad garantiza que **cualquier mínimo local o punto crítico estacionario es un mínimo global**. 
+    Aunque la función no sea convexa (presentando zonas con curvatura cóncava en los laterales del dominio), si aplicamos un algoritmo de búsqueda local de primer orden (como el método del descenso de gradiente) partiendo de cualquier punto inicial $x_0 \in \mathbb{R}$, el algoritmo se moverá en dirección opuesta al gradiente y tendrá la **garantía de converger globalmente al mínimo único $x^* = 0$**, sin quedar atrapado en ningún otro punto estacionario.

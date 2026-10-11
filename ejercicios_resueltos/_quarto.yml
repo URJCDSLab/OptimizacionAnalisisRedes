@@ -1,0 +1,34 @@
+project:
+  type: book
+  output-dir: soluciones_pdf
+
+book:
+  title: "Problemas de Optimización y Análisis de Redes"
+  subtitle: "Ejercicios resueltos paso a paso"
+  author: 
+    - "Víctor Aceña Gil"
+    - "Antonio Alonso Ayuso"
+  chapters:
+    - index.qmd
+    - tema1_intro_soluciones.qmd
+    - tema2_opt_no_lineal_soluciones.qmd
+    - tema3_analisis_convexo_soluciones.qmd
+    - tema4_condiciones_optimalidad_soluciones.qmd
+    - tema5_kkt_lp_qp_soluciones.qmd
+    - tema6_grafos_arboles_soluciones.qmd
+    - tema7_caminos_minimos_soluciones.qmd
+    - tema8_flujos_redes_soluciones.qmd
+    - tema9_emparejamiento_redes_soluciones.qmd
+    - tema10_rutas_soluciones.qmd
+
+
+format:
+  pdf:
+    documentclass: scrreprt
+    title-block-banner: false 
+    toc: true
+    toc-title: "Índice de Soluciones"
+    number-sections: false
+
+jupyter: python3
+

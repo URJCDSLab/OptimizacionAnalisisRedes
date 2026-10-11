@@ -5,7 +5,7 @@ import sys
 
 def get_conda_env():
     env = os.environ.copy()
-    oar_env_dir = r"C:\Users\vacek\anaconda3\envs\oar_env"
+    oar_env_dir = os.environ.get('CONDA_PREFIX', sys.prefix)
     paths_to_add = [
         oar_env_dir,
         os.path.join(oar_env_dir, 'Scripts'),

@@ -1,0 +1,210 @@
+---
+title: "Laboratorio 0: Conjuntos de datos separables e hiperplanos de separación"
+subtitle: "Optimización Convexa en Aprendizaje Automático"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+    html-math-method: katex
+lang: es
+---
+
+```{python}
+# Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+# Conjuntos de datos separables
+
+Un conjunto de datos se considera *separable* si existe al menos una condición (generalmente una función) que puede dividir los datos en dos o más grupos distintos. La separabilidad es especialmente importante en problemas de clasificación y machine learning, donde queremos poder distinguir claramente entre categorías o clases de datos.
+
+Los conjuntos de datos separables se dividen en categorías basadas en la facilidad con la que se pueden separar. Por ejemplo, los conjuntos de datos *linealmente separables* son aquellos que pueden ser divididos por una línea recta (en 2D), un plano (en 3D) o un hiperplano en dimensiones más altas.
+
+## Ejemplo de conjunto de datos linealmente separable
+
+Vamos a generar un conjunto de datos linealmente separable y visualizarlo.
+
+```{python}
+# Generar datos linealmente separables con una mayor separación
+np.random.seed(0)
+x = np.random.randn(100, 2)
+y = 4*x[:, 0] + 5 > x[:, 1]  
+
+# Visualizar los datos
+plt.figure(figsize=(8, 6))
+plt.scatter(x[y, 0], x[y, 1], color='blue', label='Clase 1')
+plt.scatter(x[~y, 0]-1, x[~y, 1], color='red', label='Clase 2')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.title('Conjunto de Datos Linealmente Separable')
+plt.legend()
+plt.show()
+```
+
+## Ejemplo de conjunto de datos no separable
+
+Ahora, generaremos un conjunto de datos que no es separable y lo visualizaremos.
+
+```{python}
+# Generar datos no separables
+np.random.seed(1)
+x_nonsep = np.random.randn(100, 2)
+y_nonsep = np.logical_xor(x_nonsep[:, 0] > 0, x_nonsep[:, 1] > 0)
+
+# Visualizar los datos
+plt.figure(figsize=(8, 6))
+plt.scatter(x_nonsep[y_nonsep, 0], x_nonsep[y_nonsep, 1], color='green', label='Clase 1')
+plt.scatter(x_nonsep[~y_nonsep, 0], x_nonsep[~y_nonsep, 1], color='purple', label='Clase 2')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.title('Conjunto de Datos No Separable')
+plt.legend()
+plt.show()
+```
+
+# Hiperplanos de separación
+
+## ¿Qué es un hiperplano?
+
+En geometría, un hiperplano es un subespacio de una dimensión menos que su espacio ambiente. Aunque esta definición es correcta, no es muy intuitiva. En lugar de usarla, intentaremos entender qué es un hiperplano empezando por estudiar qué es una línea.
+
+Si recuerdas las matemáticas de la escuela, probablemente aprendiste que una línea tiene una ecuación de la forma $y = ax + b$, donde $a$ es conocida como la pendiente y $b$ es el punto donde intercepta al eje y. Hay varios valores de $(x, y)$ para los cuales esta fórmula es verdadera, y decimos que el conjunto de soluciones es una línea.
+
+Lo que a menudo es confuso es que si estudias la función $f(x) = ax + b$ en un curso de cálculo, estarás estudiando una función con una variable. Sin embargo, es importante notar que la ecuación lineal $y = ax + b$ tiene dos variables, $x$ e $y$, y podemos nombrarlas como queramos.
+
+Por ejemplo, podemos renombrar $x$ como $x_1$ y $y$ como $x_2$. Esto es equivalente a $x_2 = ax_1 + b$.
+
+Si definimos los vectores bidimensionales $\mathbf{x} = (x_1, x_2)$ y $\mathbf{w} = (a, -1)$ para la ecuación de una línea (donde $\cdot$ es el producto escalar de $\mathbf{x}$ y $\mathbf{w}$), obtenemos otra la ecuación del hiperplano
+
+
+$$\mathbf{w} \cdot \mathbf{x} + b = 0$$
+
+
+Un hiperplano es un conjunto de puntos, que satisface la ecuación anterior.
+
+En un plano, un hiperplano es una línea. De manera general, un hiperplano es un elemento con una dimensión menor del espacio considerado.
+
+## Entendiendo la ecuación del hiperplano
+
+Derivamos la ecuación de un hiperplano a partir de la ecuación de una línea. Hacer lo contrario es interesante, ya que nos muestra más claramente la relación entre los dos.
+
+Dado los vectores $\mathbf{x}$, $\mathbf{w}$ y $b$, podemos definir un hiperplano con la ecuación:
+
+
+$$\mathbf{w} \cdot \mathbf{x} + b = 0$$
+
+
+Esto es equivalente a:
+
+
+$$w_0x_1 + w_1x_2 = -b$$
+
+
+Aislamos $x_2$ para obtener:
+
+
+$$x_2 = -\frac{w_0}{w_1}x_1 - \frac{b}{w_1}$$
+
+
+Si definimos $a = -\frac{w_0}{w_1}$ y $c = -\frac{b}{w_1}$:
+
+Vemos que el sesgo $c$ de la ecuación de la línea solo es igual al sesgo $b$ de la ecuación del hiperplano cuando $w_1 = -1$. Por lo tanto, no deberías sorprenderte si $b$ no es la intersección con el eje vertical cuando ves una gráfica de un hiperplano (esto será así en nuestro próximo ejemplo). Además, si $w_0$ y $w_1$ tienen el mismo signo, la pendiente $a$ será negativa.
+
+## Clasificando datos con un hiperplano
+
+Asociamos cada vector $\mathbf{x}$ con una etiqueta $y$, que puede tener el valor $+1$ o $-1$.
+
+Definimos una función de hipótesis $h(\mathbf{x})$:
+
+
+$$h(\mathbf{x}) = \text{sign}(\mathbf{w} \cdot \mathbf{x} + b)$$
+
+
+que es equivalente a:
+
+
+$$h(\mathbf{x}) = \text{sign}(w_0x_1 + w_1x_2 + b)$$
+
+
+Usa la posición de $\mathbf{x}$ con respecto al hiperplano para predecir un valor para la etiqueta $y$. Cada punto de datos en un lado del hiperplano se le asignará una etiqueta, y cada punto de datos en el otro lado se le asignará la otra etiqueta.
+
+Por ejemplo, para $\mathbf{x}$ tal que $\mathbf{w} \cdot \mathbf{x} + b \geq 0$, $h(\mathbf{x}) = +1$. Similarmente, para $\mathbf{x}$ tal que $\mathbf{w} \cdot \mathbf{x} + b < 0$, $h(\mathbf{x}) = -1$.
+
+Porque usa la ecuación del hiperplano, que produce una combinación lineal de los valores, la función $h$ se llama un **clasificador lineal**.
+
+Con un truco más, podemos hacer la fórmula de $h$ aún más simple al eliminar la constante $b$. Primero, añadimos un componente $1$ al vector $\mathbf{x}$. Obtenemos el vector $\mathbf{\hat{x}}$ (se lee "x sombrero" porque le pusimos un sombrero a $\mathbf{x}$). Similarmente, añadimos un componente $b$ al vector $\mathbf{w}$, que se convierte en $\mathbf{\hat{w}}$.
+
+Cuando usamos vectores aumentados, la función de hipótesis se convierte en:
+
+
+$$h(\mathbf{\hat{x}}) = \text{sign}(\mathbf{\hat{w}} \cdot \mathbf{\hat{x}})$$
+
+
+Dado el conjunto de datos linealmente separables anterior, podemos usar un hiperplano para realizar clasificación binaria. Usando la función de hipótesis $h$, somos capaces de predecir la etiqueta de cada punto perfectamente.
+
+```{python}
+# Generar datos linealmente separables con una mayor separación
+np.random.seed(0)
+x = np.random.randn(100, 2)
+y = 4*x[:, 0] + 5 > x[:, 1]  # Aumentar la pendiente y el intercepto para una mayor separación
+
+
+
+# Visualizar los datos
+plt.figure(figsize=(8, 6))
+plt.scatter(x[y, 0], x[y, 1], color='blue', label='Clase 1')
+plt.scatter(x[~y, 0]-1, x[~y, 1], color='red', label='Clase 2')
+
+# Dibujar la línea de separación
+line_x = np.linspace(-3, -0.5, 100)
+line_y = 2* line_x + 4
+plt.plot(line_x, line_y, color='green', label='Hiperplano de Separación')
+
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.title('Conjunto de Datos Linealmente Separable')
+plt.legend()
+plt.show()
+```
+
+## La pregunta principal es: ¿Cómo encontramos tal hiperplano?
+
+```{python}
+# Generar datos linealmente separables con una mayor separación
+np.random.seed(0)
+x = np.random.randn(100, 2)
+y = 4*x[:, 0] + 5 > x[:, 1]  # Aumentar la pendiente y el intercepto para una mayor separación
+
+
+
+# Visualizar los datos
+plt.figure(figsize=(8, 6))
+plt.scatter(x[y, 0], x[y, 1], color='blue', label='Clase 1')
+plt.scatter(x[~y, 0]-1, x[~y, 1], color='red', label='Clase 2')
+
+# Dibujar la línea de separación
+line_x = np.linspace(-3, -0.5, 100)
+line_y = 2* line_x + 4
+plt.plot(line_x, line_y, color='green')
+
+line_x = np.linspace(-2.2, -0.5, 100)
+line_y = 3* line_x + 4.5
+plt.plot(line_x, line_y, color='yellow')
+
+line_x = np.linspace(-2.05, -0.75, 100)
+line_y = 4* line_x + 6
+plt.plot(line_x, line_y, color='pink')
+
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.title('Conjunto de Datos Linealmente Separable')
+plt.legend()
+plt.show()
+```
+

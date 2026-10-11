@@ -5,7 +5,7 @@ import shutil
 
 def get_conda_env():
     env = os.environ.copy()
-    oar_env_dir = r"C:\Users\vacek\anaconda3\envs\oar_env"
+    oar_env_dir = os.environ.get('CONDA_PREFIX', sys.prefix)
     paths_to_add = [
         oar_env_dir,
         os.path.join(oar_env_dir, 'Scripts'),
@@ -56,7 +56,7 @@ def ejecutar_script(path):
     print(f"Ejecutando script de subcomponente: {path}...")
     dir_original = os.getcwd()
     try:
-        python_oar = r"C:\Users\vacek\anaconda3\envs\oar_env\python.exe"
+        python_oar = sys.executable
         subprocess.run([python_oar, path], env=get_conda_env(), check=True)
         print(f"   [OK] {path} completado con éxito.")
     except Exception as e:
@@ -73,7 +73,7 @@ def generar_subcomponentes():
     ejecutar_script("laboratorios/generar_software.py")
 
 
-def compilar_libro_completo(nombre_salida="LibroCompletoOptimizacionAnalisisRedes.pdf"):
+def compilar_libro_completo(nombre_salida="Optimizacion_y_Analisis_de_Redes.pdf"):
     print("2. Calculando páginas de inicio y compilando Libro Completo...")
     
     from pypdf import PdfReader, PdfWriter
@@ -101,7 +101,7 @@ def compilar_libro_completo(nombre_salida="LibroCompletoOptimizacionAnalisisRede
     
     print(f"   Páginas de componentes: Guía={len_guia}, Apuntes={len_apuntes}, Diapositivas={len_diapositivas}, Ejercicios={len_ejercicios}, Soluciones={len_soluciones}, Software={len_software}")
     
-    len_portada = 1
+    len_portada = 2
     len_indice = 2 # Suposición inicial
 
     # Bucle iterativo para calcular páginas de inicio estables
@@ -126,9 +126,9 @@ def compilar_libro_completo(nombre_salida="LibroCompletoOptimizacionAnalisisRede
         indice_content = indice_content.replace("{{SOFTWARE_PAGE}}", str(software_page))
 
         # Guía de Estudio
-        indice_content = indice_content.replace("{{GUIA_P1}}", str(guia_page))
-        indice_content = indice_content.replace("{{GUIA_P2}}", str(guia_page + 2))
-        indice_content = indice_content.replace("{{GUIA_P3}}", str(guia_page + 13))
+        indice_content = indice_content.replace("{{GUIA_P1}}", str(guia_page + 2))
+        indice_content = indice_content.replace("{{GUIA_P2}}", str(guia_page + 5))
+        indice_content = indice_content.replace("{{GUIA_P3}}", str(guia_page + 23))
 
         # Apuntes Teóricos (offsets internos exactos)
         indice_content = indice_content.replace("{{APUNTES_T1}}", str(apuntes_page - 1 + 6))
@@ -220,12 +220,15 @@ def compilar_libro_completo(nombre_salida="LibroCompletoOptimizacionAnalisisRede
     writer = PdfWriter()
 
     pdfs_a_unir = [
-        ("libro/portada.pdf", "Portada", []),
+        ("libro/portada.pdf", "Portada y Créditos", [
+            ("Portada", 0),
+            ("Créditos y Declaración de IA", 1)
+        ]),
         ("libro/indice_temp.pdf", "Índice General", []),
         (guia_path, "Guía de Estudio", [
-            ("Presentación, competencias y metodología", guia_page - 1),
-            ("Cronograma semanal (Bloques I y II)", guia_page + 2 - 1),
-            ("Sistema de evaluación y bibliografía", guia_page + 13 - 1)
+            ("Presentación, competencias y metodología", guia_page + 2 - 1),
+            ("Cronograma semanal (Bloques I y II)", guia_page + 5 - 1),
+            ("Sistema de evaluación y bibliografía", guia_page + 23 - 1)
         ]),
         (apuntes_path, "Apuntes Teóricos", [
             ("Tema 1: Introducción a la investigación operativa", apuntes_page - 1 + 6 - 1),
@@ -314,6 +317,11 @@ def compilar_libro_completo(nombre_salida="LibroCompletoOptimizacionAnalisisRede
     if os.path.exists(final_output_path):
         os.remove(final_output_path)
 
+    # Eliminar archivo con nombre antiguo si existiera para que sólo quede el fichero del nuevo nombre
+    archivo_antiguo = os.path.join("libro", "LibroCompletoOptimizacionAnalisisRedes.pdf")
+    if os.path.exists(archivo_antiguo):
+        os.remove(archivo_antiguo)
+
     with open(final_output_path, "wb") as f_out:
         writer.write(f_out)
 
@@ -348,7 +356,10 @@ def generar_todo():
         return
         
     try:
-        generar_subcomponentes()
+        if "--solo-unir" not in sys.argv and "--saltar-subcomponentes" not in sys.argv:
+            generar_subcomponentes()
+        else:
+            print("Saltando generación de subcomponentes (usando PDFs existentes)...")
         compilar_libro_completo()
         print("\n=== PROCESO COMPLETO FINALIZADO CON ÉXITO ===")
     except Exception as e:

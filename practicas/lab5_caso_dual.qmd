@@ -1,0 +1,658 @@
+---
+title: "Laboratorio 5: Formulación dual KKT, matriz de Gram y truco del kernel (Solución del profesor)"
+subtitle: "Optimización Convexa en Aprendizaje Automático"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+    html-math-method: katex
+lang: es
+---
+
+# Desafíos en la clasificación de datos no lineales
+
+En muchos problemas de clasificación, nos encontramos con conjuntos de datos que no son linealmente separables en su espacio original. Estos desafíos no lineales y no separables requieren métodos avanzados que puedan descubrir patrones complejos y relaciones intrincadas entre los datos.
+
+# Superando la no linealidad sin conocer la transformación $\phi$
+
+Una estrategia para abordar este tipo de problemas es mapear los datos a un espacio de mayor dimensión donde puedan ser linealmente separables. Sin embargo, el desafío aquí es que a menudo no conocemos la transformación $\phi$ necesaria para realizar este mapeo de manera efectiva.
+
+## Generar un conjunto de datos ilustrativo
+
+Para visualizar este problema, generamos un conjunto de datos que claramente no es linealmente separable en su espacio original.
+
+1. **Creación de Puntos Aleatorios**: Generamos puntos distribuidos aleatoriamente en un espacio bidimensional.
+
+2. **Asignación de Etiquetas Según un Patrón No Lineal**: Las etiquetas se asignan basándose en un patrón no lineal, como un círculo o una función XOR, lo que resulta en una separación no trivial de los datos.
+
+3. **Visualización del Conjunto de Datos**: Mostramos estos datos en un gráfico para subrayar su naturaleza no lineal y no separable, resaltando así la necesidad de técnicas más sofisticadas.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Configurar la semilla para reproducibilidad
+np.random.seed(0)
+
+# Generar datos aleatorios
+X = np.random.uniform(-3, 3, (300, 2))
+
+# Definir un patrón no lineal y no trivial para las etiquetas
+# Usaremos una combinación de círculos concéntricos y una función sinusoidal
+Y = np.array([1 if (np.linalg.norm(x) < 2 and np.sin(np.linalg.norm(x) * np.pi) > 0) or
+                  (np.linalg.norm(x) >= 2 and np.sin(np.linalg.norm(x) * np.pi) < 0)
+              else -1 for x in X])
+
+# Visualizar los datos
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1')
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.legend()
+plt.title('Conjunto de Datos No Lineal y No Separable')
+plt.axis('equal')
+plt.show()
+```
+
+# Formulación primal y su transición al problema dual: Introduciendo el kernel trick
+
+En el análisis de datos no lineales y no separables, es crucial emplear técnicas que permitan una clasificación efectiva en escenarios complejos. Una de estas técnicas implica la transformación de los datos a un espacio de mayor dimensión, donde pueden ser linealmente separables. Sin embargo, este proceso suele ser computacionalmente exigente y a menudo no conocemos la transformación específica $\phi$ necesaria. Aquí es donde entra en juego el concepto del kernel trick.
+
+## Formulación del problema primal en espacios de mayor dimensión
+
+El problema primal se centra en encontrar un hiperplano que maximice la separación entre las clases de datos. Matemáticamente, se expresa como un problema de optimización:
+
+
+$$
+\begin{aligned}
+& \underset{\mathbf{w}, b, \xi}{\text{minimizar}}
+& &  \frac{1}{2} ||w||^2_2 + C \sum_{i=1}^n \xi_i\\
+& \text{sujeto a}
+& & y_i(\mathbf{w}^T\phi(\mathbf{x}_i) + b) \geq 1 - \xi_i \\
+& & &  \xi_i \geq 0, \; i = 1, \ldots, n
+\end{aligned}
+$$
+
+
+En este contexto, $\mathbf{w}$ y $b$ definen el hiperplano, mientras que $\xi_i$ son variables de holgura que permiten cierta flexibilidad en la clasificación, y $C$ es un parámetro de penalización. La función $\phi$ es la transformación que mapea los datos al espacio de mayor dimensión.
+
+## Transición al problema dual y la introducción del kernel trick
+
+Para simplificar la solución del problema primal, especialmente en casos donde la función $\phi$ no es conocida o es compleja, se recurre a la formulación dual. Esta formulación se deriva utilizando el método del multiplicador de Lagrange, que transforma el problema de optimización original en uno que depende solo de un conjunto de variables duales, $\boldsymbol{\alpha}$. El problema dual se formula de la siguiente manera:
+
+
+$$
+\begin{aligned}
+& \underset{\boldsymbol{\alpha}}{\text{minimizar}}
+& &  \frac{1}{2}\boldsymbol{\alpha}^T \mathbf{H} \boldsymbol{\alpha} - \mathbf{1}^T_n \boldsymbol{\alpha} \\
+& \text{sujeto a}
+& & \mathbf{y}^T\boldsymbol{\alpha} = 0, \\
+& & & 0 \leq \alpha_i \leq C, \; i = 1, \ldots, n,
+\end{aligned}
+$$
+
+
+Aquí, $\mathbf{H}$ es una matriz cuadrada de orden $n$ donde cada elemento $H_{ij}$ se calcula como $y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$. La función $K(\mathbf{x}_i, \mathbf{x}_j)$ es la función kernel, que reemplaza el producto punto en el espacio transformado, $\phi(\mathbf{x}_i^T) \phi(\mathbf{x}_j)$, permitiendo así calcular la separación en un espacio de alta dimensión sin necesidad de conocer o calcular explícitamente $\phi$.
+
+### Proceso de transición del primal al dual
+
+1. **Introducción de Multiplicadores de Lagrange**: Para cada restricción en el problema primal, introducimos multiplicadores de Lagrange. Esto incluye $\alpha_i$ para las restricciones de clasificación y $\mu_i$ para las restricciones sobre las variables de holgura.
+
+2. **Formulación del Lagrangiano**: El Lagrangiano $L(\mathbf{w}, b, \xi, \boldsymbol{\alpha}, \mathbf{\mu})$ se formula como una combinación de la función objetivo del problema primal y sus restricciones, ponderadas por los multiplicadores de Lagrange:
+
+   
+$$L = \frac{1}{2} ||\mathbf{w}||^2 + C \sum_{i=1}^{n} \xi_i - \sum_{i=1}^{n} \alpha_i [y_i (\mathbf{w}^T \phi(\mathbf{x}_i) + b) - 1 + \xi_i] - \sum_{i=1}^{n} \mu_i \xi_i$$
+
+
+3. **Derivadas Parciales y Condiciones de Karush-Kuhn-Tucker (KKT)**: Calculamos las derivadas parciales del Lagrangiano con respecto a $\mathbf{w}$, $b$, y $\xi_i$, y las establecemos igual a cero para encontrar las condiciones de optimización:
+
+   
+$$\frac{\partial L}{\partial \mathbf{w}} = 0, \quad \frac{\partial L}{\partial b} = 0, \quad \frac{\partial L}{\partial \xi_i} = 0$$
+
+
+   Estas condiciones nos permiten expresar $\mathbf{w}$ y $b$ en términos de los multiplicadores $\alpha_i$.
+
+4. **Eliminación de Variables Primal y Sustitución en el Problema Dual**: Una vez obtenidas las condiciones KKT, expresamos las variables $\mathbf{w}$ y $b$ en función de los multiplicadores $\alpha_i$. Esto se logra derivando el Lagrangiano con respecto a $\mathbf{w}$, $b$, y $\xi_i$ y estableciendo estas derivadas igual a cero:
+
+   
+$$\frac{\partial L}{\partial \mathbf{w}} = 0 \Rightarrow \mathbf{w} = \sum_{i=1}^{n} \alpha_i y_i \phi(\mathbf{x}_i)$$
+
+
+   
+$$\frac{\partial L}{\partial b} = 0 \Rightarrow \sum_{i=1}^{n} \alpha_i y_i = 0$$
+
+
+   
+$$\frac{\partial L}{\partial \xi_i} = 0 \Rightarrow C - \alpha_i - \mu_i = 0$$
+
+
+   Al sustituir estas expresiones en el Lagrangiano, eliminamos $\mathbf{w}$, $b$ y $\xi_i$ y obtenemos una función que depende únicamente de $\alpha_i$.
+
+5. **Formulación del Problema Dual**: Sustituimos las expresiones de $\mathbf{w}$ y $b$ en el Lagrangiano y reformulamos el problema como uno de maximización con respecto a $\alpha_i$:
+
+   
+$$L(\alpha) = \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{n} \alpha_i \alpha_j y_i y_j \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$$
+
+
+   
+$$\text{maximizar} \quad L(\alpha) \quad \text{sujeto a} \quad \alpha_i \geq 0, \quad \sum_{i=1}^n \alpha_i y_i = 0$$
+
+
+   Este es el problema dual, que se centra en optimizar los multiplicadores de Lagrange sujeto a ciertas restricciones.
+
+6. **Introducción del Kernel**: En la formulación dual, la función kernel $K(\mathbf{x}_i, \mathbf{x}_j)$ reemplaza el producto punto en el espacio transformado $\phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)$, completando la transición al problema dual con kernel trick:
+
+   
+$$L(\alpha) = \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{n} \alpha_i \alpha_j y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$$
+
+
+   La función kernel permite operar en el espacio de mayor dimensión sin necesidad de conocer o calcular explícitamente la transformación $\phi$.
+   
+7. **Conexión con la Formulación Explícita del Problema Dual**: La expresión final del Lagrangiano en términos de la función kernel se puede reescribir para conectarla con la formulación matemática estándar del problema dual. Esto se logra reconociendo que la matriz $\mathbf{H}$ y el vector $\boldsymbol{\alpha}$ están implícitos en esta expresión:
+
+   
+$$L(\alpha) = \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \boldsymbol{\alpha}^T \mathbf{H} \boldsymbol{\alpha}$$
+
+
+   donde $\mathbf{H}$ es una matriz de dimensiones $n \times n$ con cada elemento $H_{ij} = y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$. Esta formulación nos lleva directamente a la formulación estándar del problema dual:
+
+   
+$$
+\begin{aligned}
+   & \underset{\boldsymbol{\alpha}}{\text{minimizar}}
+   & &  \frac{1}{2}\boldsymbol{\alpha}^T \mathbf{H} \boldsymbol{\alpha} - \mathbf{1}^T_n \boldsymbol{\alpha} \\
+   & \text{sujeto a}
+   & & \mathbf{y}^T\boldsymbol{\alpha} = 0, \\
+   & & & 0 \leq \alpha_i \leq C, \; i = 1, \ldots, n,
+   \end{aligned}
+$$
+
+
+   Este paso final muestra cómo el Lagrangiano reformulado se relaciona directamente con la formulación estándar del problema dual en el contexto del kernel trick. La matriz $\mathbf{H}$ encapsula la interacción entre los datos a través de la función kernel, facilitando la optimización en un espacio de alta dimensión.
+
+
+
+### Definiendo el kernel trick
+
+El kernel trick se refiere a este proceso de utilizar una función kernel para facilitar la clasificación en un espacio de alta dimensión sin la necesidad de conocer la transformación $\phi$. Esencialmente, el kernel trick permite calcular los productos internos en el espacio transformado indirectamente, a través de la función kernel en el espacio original. Esto lleva a una reducción significativa en la complejidad computacional y permite abordar problemas de clasificación no lineales de manera más eficiente.
+
+### Ejemplos de funciones kernel
+
+Las funciones kernel son fundamentales en la implementación del kernel trick, permitiendo la manipulación de datos en espacios de mayor dimensión de manera eficiente y efectiva. La elección del kernel adecuado puede tener un impacto significativo en el rendimiento del modelo, especialmente en problemas de clasificación no lineales. Aquí presentamos tres ejemplos comunes de funciones kernel: lineal, polinomial y gausiano (RBF).
+
+1. **Kernel Lineal**: 
+   El kernel lineal es el más simple y es útil cuando los datos son linealmente separables en el espacio original. Se define como el producto punto de dos vectores:
+
+   
+$$K(\mathbf{x}, \mathbf{x}') = \mathbf{x}^T \mathbf{x}'$$
+
+
+   Este kernel es efectivo para datos con baja complejidad y donde no se requiere una transformación a un espacio de mayor dimensión para la clasificación.
+
+2. **Kernel Polinomial**: 
+   Este kernel proyecta los datos en un espacio de características polinómicas. Matemáticamente, se define como:
+
+   
+$$K(\mathbf{x}, \mathbf{x}') = (1 + \mathbf{x}^T \mathbf{x}')^d$$
+
+
+   donde $d$ es el grado del polinomio. Un grado mayor permite capturar relaciones más complejas entre los datos, pero también puede llevar a un ajuste excesivo.
+
+3. **Kernel Gausiano (RBF)**:
+   El kernel RBF es una opción popular por su capacidad para manejar casos donde la relación entre los datos no es lineal y no se conoce a priori. Se define como:
+
+   
+$$K(\mathbf{x}, \mathbf{x}') = \exp\left(-\gamma ||\mathbf{x} - \mathbf{x}'||^2\right)$$
+
+
+   donde $\gamma$ es un parámetro que determina la influencia de cada punto de datos. Un valor mayor de $\gamma$ implica que solo los puntos cercanos en el espacio de características influirán en la predicción, mientras que un valor más bajo amplía la influencia de los puntos más lejanos.
+
+La elección del kernel adecuado depende en gran medida de la naturaleza de los datos y del problema específico que se esté tratando. Mientras que el kernel lineal funciona bien para datos linealmente separables, los kernels polinomial y gausiano (RBF) son más adecuados para datos con relaciones más complejas y no lineales.
+
+### Análisis de convexidad en el problema dual
+
+El problema dual, a pesar de su transformación y el uso de la función kernel, mantiene una naturaleza convexa. La matriz $\mathbf{H}$ en la función objetivo es semidefinida positiva, lo que garantiza la convexidad del término cuadrático. Las restricciones del problema son lineales con respecto a $\boldsymbol{\alpha}$, lo que contribuye a mantener la convexidad global del problema. Esta propiedad es fundamental, ya que asegura que cualquier solución local al problema dual será también una solución global, facilitando la búsqueda de la solución óptima.
+
+## Conclusión: Aspectos clave del kernel trick y la transición primal-dual
+
+1. **Paso del problema primal al dual**
+- **Simplificación en Problemas Complejos**: Facilita la clasificación en casos no lineales y no separables.
+- **Importancia de la Convexidad**: Asegura soluciones únicas y óptimas en problemas de optimización cuadrática.
+
+2. **Impacto del kernel trick**
+- **Operación en Espacios de Alta Dimensión**: Permite trabajar en espacios complejos sin conocer explícitamente la transformación $\phi$.
+- **Reducción de la Complejidad Computacional**: Hace viable la clasificación en grandes conjuntos de datos.
+- **Adaptabilidad a la Estructura de Datos**: La elección del kernel adecuado (lineal, polinomial, RBF) es crucial para el éxito del modelo.
+
+3. **Aplicaciones prácticas**
+- **Versatilidad en Diversas Áreas**: Útil en campos como bioinformática, finanzas y procesamiento de imágenes.
+- **Solución a Desafíos del Mundo Real**: Facilita el análisis de datos complejos y la detección de patrones no evidentes.
+
+4. **Resumen**
+- **Pilares en Aprendizaje Automático**: La combinación de la formulación dual, la convexidad, y el kernel trick es fundamental para abordar problemas de clasificación modernos.
+- **Herramientas Valiosas en el Análisis de Datos**: Estas técnicas permiten afrontar con éxito los desafíos de datos en alta dimensión y complejidad.
+
+# Ejemplo de resolución
+
+## Cálculo de la matriz H para el problema dual con kernel gaussiano
+
+En el contexto del problema dual con un kernel gaussiano, el primer paso es calcular la matriz H. Esta matriz es crucial para la formulación del problema de optimización y representa la aplicación del kernel gaussiano a todos los pares de puntos de datos en nuestro conjunto.
+
+### Construcción de la matriz H
+
+La matriz H se construye aplicando el kernel gaussiano a cada par de puntos en nuestro conjunto de datos. El proceso se detalla a continuación:
+
+1. **Cálculo de Normas al Cuadrado**: Calculamos la norma al cuadrado de cada punto en `X`. Esto nos ayuda a calcular las diferencias cuadráticas entre los puntos, que son necesarias para aplicar el kernel gaussiano.
+
+2. **Diferencia Cuadrática Entre Puntos**: Calculamos las diferencias cuadráticas entre todos los pares de puntos en `X`. Esto se realiza para obtener el término $||x_i - x_j||^2$ en la fórmula del kernel gaussiano.
+
+3. **Aplicación del Kernel Gaussiano**: Utilizamos la fórmula del kernel gaussiano para calcular $H_{ij}$ para cada par de puntos, multiplicando por las etiquetas $y_i y_j$:
+
+   
+$$H_{ij} = y_i y_j e^{-\gamma ||x_i - x_j||^2}$$
+
+
+   donde $\gamma$ es el parámetro que controla la anchura del kernel gaussiano.
+
+4. **Estabilidad Numérica**: Añadimos un pequeño valor a la diagonal de la matriz `H` para mejorar su estabilidad numérica y tratarla como semidefinida positiva.
+
+```{python}
+import cvxpy as cp
+import numpy as np
+
+# Parámetros del problema
+n = X.shape[0]   # Número de muestras
+gamma = 1      # Parámetro del kernel gaussiano
+
+# Pre-cálculo de términos necesarios para la matriz H
+X_sq = np.sum(X**2, axis=1)
+X_sq = X_sq.reshape(-1, 1)
+norms = X_sq - 2 * np.dot(X, X.T) + X_sq.T
+
+# Construcción de la matriz H
+H = np.exp(-gamma * norms) * np.outer(Y, Y)
+
+# Umbral
+threshold = 1e-10
+
+# Añadir un pequeño valor a la diagonal de la matriz H
+H_stable = H + threshold * np.eye(n)
+
+# Usar psd_wrap si estás seguro de la naturaleza semidefinida positiva de H
+H_psd = cp.psd_wrap(H_stable)
+```
+
+## Definir variables de optimización para el problema dual
+
+Una vez calculada la matriz H, el siguiente paso en la resolución del problema dual es definir las variables de optimización. En el problema dual, nos centramos en los multiplicadores de Lagrange.
+
+### Variables involucradas en el problema dual
+
+1. **Multiplicadores de Lagrange** `alpha`: Estos son los coeficientes asociados a cada punto de datos en el problema dual. Juegan un papel crucial en la determinación de la separación entre las clases en el espacio transformado por el kernel.
+
+2. **Parámetro de Penalización** `C`: Este parámetro controla el equilibrio entre maximizar el margen de separación y minimizar la violación de margen. Un valor más alto de `C` pone mayor énfasis en clasificar correctamente todos los ejemplos de entrenamiento.
+
+```{python}
+import cvxpy as cp
+
+# Número de muestras
+n = len(Y)
+
+# Definir las variables de optimización
+alpha = cp.Variable(n)
+
+# Definir el parámetro de penalización
+C = 1  # Ejemplo de valor para el parámetro de penalización
+```
+
+## Establecer el objetivo de optimización para el problema dual
+
+En el problema dual, el objetivo es maximizar el margen entre las clases ajustando los multiplicadores de Lagrange, lo que se traduce en minimizar una función objetivo específica que involucra la matriz H y los multiplicadores `alpha`.
+
+### Objetivo de optimización en el problema dual
+
+El objetivo del problema dual es maximizar la distancia entre las clases, lo que implica minimizar la siguiente función objetivo cuadrática:
+
+
+$$\underset{\alpha}{\text{minimizar}} \quad \frac{1}{2} \alpha^T H \alpha - \sum \alpha_i$$
+
+
+Aquí, $\alpha^T H \alpha$ representa la interacción entre los puntos de datos a través del kernel gaussiano, y $\sum \alpha_i$ es la suma de los multiplicadores de Lagrange. La minimización de esta función objetivo nos permite encontrar la separación óptima entre las clases.
+
+```{python}
+import cvxpy as cp
+# Definir la función objetivo para el problema dual
+objective = cp.Minimize(0.5 * cp.quad_form(alpha, H_psd) - cp.sum(alpha))
+```
+
+## Definir las restricciones para el problema dual
+
+Las restricciones en el problema dual son fundamentales para asegurar que la solución cumpla con los requisitos del problema de clasificación. En el caso del problema dual, las restricciones se centran en los multiplicadores de Lagrange.
+
+### Naturaleza de las restricciones en el problema dual
+
+1. **Suma de Multiplicadores de Lagrange**: La suma ponderada de los multiplicadores de Lagrange, multiplicados por sus respectivas etiquetas de clase, debe ser igual a cero. Esta restricción asegura que la solución cumpla con el equilibrio necesario entre las clases.
+
+2. **Limitaciones de los Multiplicadores de Lagrange**: Los multiplicadores de Lagrange deben estar entre 0 y el valor del parámetro de penalización `C`, lo que limita su influencia y evita un sobreajuste.
+
+### Formulación de las restricciones
+
+Las restricciones para el problema dual se formulan como:
+
+
+$$\sum y_i \alpha_i = 0$$
+
+
+
+$$0 \leq \alpha_i \leq C, \; i = 1, \ldots, n$$
+
+
+Estas restricciones son cruciales para mantener la viabilidad del problema de optimización y garantizar que la solución sea válida dentro del contexto del problema dual.
+
+```{python}
+import cvxpy as cp
+# Definir las restricciones para el problema dual
+constraints = [cp.sum(cp.multiply(Y, alpha)) == 0, alpha >= 0, alpha <= C]
+```
+
+# Resolver el problema de optimización dual
+
+Después de establecer las variables, el objetivo y las restricciones, el siguiente paso es resolver el problema de optimización dual. Este proceso es fundamental para encontrar los valores óptimos de los multiplicadores de Lagrange `alpha`, que son clave en la definición del hiperplano de máxima separación en el espacio transformado por el kernel.
+
+## Proceso de resolución
+
+1. **Creación del Problema**: Configuramos el problema de optimización utilizando CVXPY, incorporando tanto la función objetivo como las restricciones que hemos definido.
+
+2. **Búsqueda de la Solución Óptima**: Invocamos el método `solve` de CVXPY para que el optimizador busque automáticamente la solución que minimiza la función objetivo cumpliendo todas las restricciones. Este paso se beneficia de las propiedades de convexidad del problema y de las características del kernel gaussiano.
+
+3. **Recuperación de los Parámetros Óptimos**: Una vez resuelto el problema, extraemos los valores óptimos de `alpha`. Estos valores son esenciales para definir el hiperplano en el espacio transformado y, en última instancia, para clasificar los datos.
+
+### Implementación en Python
+
+La implementación en Python del proceso de resolución se lleva a cabo con la ayuda de la biblioteca `cvxpy`. A continuación, se muestra el código para configurar y resolver el problema dual, y para imprimir los valores óptimos de `alpha` encontrados:
+
+```{python}
+import cvxpy as cp
+# Configurar y resolver el problema de optimización dual
+prob = cp.Problem(objective, constraints)
+prob.solve()
+
+# Recuperar y mostrar los valores óptimos de alpha
+optimal_alpha = alpha.value
+print(f"Valores óptimos de alpha: {optimal_alpha}")
+```
+
+## Visualizar el hiperplano resultante en el problema dual
+
+Tras resolver el problema dual, el siguiente paso es visualizar cómo este clasifica los datos en el espacio original. Dado que trabajamos con un kernel gaussiano, no tenemos un hiperplano explícito en el espacio original, sino que debemos interpretar el efecto del modelo basado en los multiplicadores de Lagrange `alpha`.
+
+### Proceso de visualización
+
+1. **Función de Predicción con Kernel Gaussiano**: Utilizamos una función `predict` que, en lugar de usar `w` y `b`, utiliza los multiplicadores de Lagrange y el kernel gaussiano para predecir las etiquetas. Esta función considera la similitud entre los datos de prueba y los datos de entrenamiento, ponderada por los valores de `alpha`.
+
+2. **Creación de una Malla de Puntos en el Espacio Original**: Generamos una malla de puntos que cubre el rango de los datos originales. Esta malla nos permite visualizar cómo el modelo clasifica diferentes regiones del espacio de entrada.
+
+3. **Cálculo de las Predicciones para la Malla de Puntos**: Usamos la función de predicción y el kernel gaussiano para obtener las predicciones en esta malla. Las predicciones se basan en la suma ponderada de las similitudes del kernel entre los puntos de la malla y los puntos de entrenamiento.
+
+4. **Visualización del Límite de Decisión**: Dibujamos el límite de decisión en el espacio original utilizando las predicciones calculadas. Este límite representa gráficamente cómo el modelo, en el espacio transformado por el kernel, clasifica los datos en el espacio original.
+
+### Función de predicción detallada
+
+La función `predict` sigue varios pasos para calcular la clasificación de nuevos puntos utilizando el kernel gaussiano y los valores óptimos de `alpha`:
+
+- **Calcular Normas al Cuadrado de los Datos Originales y Nuevos**: Para cada punto en el conjunto de datos `X` y para cada nuevo punto en `X_new`, se calcula la norma al cuadrado, lo que es fundamental para el kernel gaussiano.
+
+- **Calcular la Diferencia Cuadrática entre los Puntos**: Se determina la diferencia cuadrática entre cada punto en `X` y cada punto en `X_new`, formando la base para calcular las distancias en el espacio del kernel.
+
+- **Aplicar el Kernel Gaussiano**: Se utiliza el kernel gaussiano para medir la similitud entre los puntos de datos `X` y los puntos `X_new`, basándose en sus diferencias cuadráticas.
+
+- **Sumar las Similitudes Ponderadas por los Multiplicadores de Lagrange y las Etiquetas**: Cada valor del kernel se multiplica por el correspondiente valor de `alpha` y la etiqueta de clase de `X`, sumando estas contribuciones para cada punto en `X_new`.
+
+- **Determinar la Clase de Cada Punto en `X_new`**: El signo de la suma ponderada indica la clasificación final de cada punto, siendo positivo para la clase +1 y negativo para la clase -1.
+
+```{python}
+def predict(X_new):
+    # Paso 1: Calcular las normas al cuadrado
+    X_sq = np.sum(X**2, axis=1)
+    X_new_sq = np.sum(X_new**2, axis=1)
+    X_sq = X_sq.reshape(-1, 1)
+
+    # Paso 2: Calcular la diferencia cuadrática
+    norms = X_sq - 2 * np.dot(X, X_new.T) + X_new_sq
+
+    # Paso 3: Aplicar el kernel gaussiano
+    kernel_vals = np.exp(-gamma * norms)
+
+    # Paso 4: Sumar las similitudes ponderadas
+    prediction_scores = np.dot(kernel_vals.T, Y * optimal_alpha)
+
+    # Paso 5: Determinar la clase de cada punto
+    return np.sign(prediction_scores)
+
+
+# Crear una malla de puntos en el espacio original
+x1_min, x1_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+x2_min, x2_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx1, xx2 = np.meshgrid(np.linspace(x1_min, x1_max, 200), np.linspace(x2_min, x2_max, 200))
+X_grid = np.c_[xx1.ravel(), xx2.ravel()]
+
+# Calcular las predicciones para la malla de puntos
+Z = predict(X_grid)
+Z = Z.reshape(xx1.shape)
+
+# Configurar el tamaño de la figura y visualizar el límite de decisión
+plt.figure(figsize=(10, 8))
+plt.contourf(xx1, xx2, Z, levels=[-1, 0, 1], colors=['orange', 'white'], alpha=0.6)
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1')
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.legend()
+plt.title('Límite de Decisión en el Espacio Original')
+plt.axis('equal')
+plt.show()
+```
+
+## Visualización de vectores soporte con diferentes valores de alpha
+
+Una vez resuelto el problema dual con un kernel gaussiano, es esencial comprender el rol de los vectores soporte en el modelo. Los vectores soporte se pueden dividir en dos categorías basadas en sus valores de `alpha`: aquellos en el margen y aquellos que violan el margen.
+
+### Categorías de vectores soporte
+
+1. **Vectores Soporte en el Margen (`alpha` en (0, C))**: Estos puntos están exactamente en el margen del hiperplano de decisión y son esenciales para definir su orientación y posición. Se marcan con un borde azul en la visualización.
+
+2. **Vectores Soporte que Violan el Margen (`alpha` = C)**: Estos puntos están mal clasificados o se encuentran en el lado incorrecto del margen. Son cruciales para ajustar el compromiso entre el margen y la minimización de la clasificación errónea. Se marcan con un borde rojo en la visualización.
+
+### Proceso de visualización
+
+La visualización muestra el límite de decisión junto con los vectores soporte, diferenciando entre aquellos que están en el margen y los que lo violan. Esta diferenciación ayuda a entender cómo el modelo gestiona el equilibrio entre encontrar un margen amplio y minimizar el error de clasificación.
+
+```{python}
+# Identificar los índices de los vectores soporte
+support_vectors_idx = np.where(optimal_alpha > threshold)[0]
+
+# Crear una malla de puntos para la visualización
+x1_min, x1_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+x2_min, x2_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx1, xx2 = np.meshgrid(np.linspace(x1_min, x1_max, 200), np.linspace(x2_min, x2_max, 200))
+X_grid = np.c_[xx1.ravel(), xx2.ravel()]
+
+# Calcular las predicciones para la malla de puntos
+Z = predict(X_grid)
+Z = Z.reshape(xx1.shape)
+
+# Configurar el tamaño de la figura y visualizar el límite de decisión y los vectores soporte
+plt.figure(figsize=(10, 8))
+plt.contourf(xx1, xx2, Z, levels=[-1, 0, 1], colors=['orange', 'white'], alpha=0.6)
+plt.scatter(X[support_vectors_idx, 0], X[support_vectors_idx, 1], s=100,
+            linewidth=1, facecolors='none', edgecolors='k', label='Vectores Soporte')
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1')
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.legend()
+plt.title('Límite de Decisión y Vectores Soporte en el Espacio Original')
+plt.axis('equal')
+plt.show()
+```
+
+## Visualización de vectores soporte con diferentes valores de alpha
+
+Una vez resuelto el problema dual con un kernel gaussiano, es esencial comprender el rol de los vectores soporte en el modelo. Los vectores soporte se pueden dividir en dos categorías basadas en sus valores de `alpha`: aquellos en el margen y aquellos que violan el margen.
+
+### Categorías de vectores soporte
+
+1. **Vectores Soporte en el Margen (`alpha` en (0, C))**: Estos puntos están exactamente en el margen del hiperplano de decisión y son esenciales para definir su orientación y posición. Se marcan con un borde azul en la visualización.
+
+2. **Vectores Soporte que Violan el Margen (`alpha` = C)**: Estos puntos están mal clasificados o se encuentran en el lado incorrecto del margen. Son cruciales para ajustar el compromiso entre el margen y la minimización de la clasificación errónea. Se marcan con un borde rojo en la visualización.
+
+### Proceso de visualización
+
+La visualización muestra el límite de decisión junto con los vectores soporte, diferenciando entre aquellos que están en el margen y los que lo violan. Esta diferenciación ayuda a entender cómo el modelo gestiona el equilibrio entre encontrar un margen amplio y minimizar el error de clasificación.
+
+```{python}
+# Identificar los índices de los vectores soporte
+support_vectors_idx = np.where(optimal_alpha > threshold)[0]
+
+# Separar los vectores soporte en dos categorías
+on_margin = np.where((optimal_alpha > threshold) & (optimal_alpha < C - threshold))[0]
+violating_margin = np.where(optimal_alpha >= C - threshold)[0]
+
+# Crear una malla de puntos para la visualización
+x1_min, x1_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+x2_min, x2_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx1, xx2 = np.meshgrid(np.linspace(x1_min, x1_max, 200), np.linspace(x2_min, x2_max, 200))
+X_grid = np.c_[xx1.ravel(), xx2.ravel()]
+
+# Calcular las predicciones para la malla de puntos
+Z = predict(X_grid)
+Z = Z.reshape(xx1.shape)
+
+# Configurar el tamaño de la figura y visualizar el límite de decisión y los vectores soporte
+plt.figure(figsize=(10, 8))
+plt.contourf(xx1, xx2, Z, levels=[-1, 0, 1], colors=['orange', 'white'], alpha=0.6)
+plt.scatter(X[on_margin, 0], X[on_margin, 1], s=100,
+            linewidth=1, facecolors='none', edgecolors='blue', label='Vectores Soporte en Margen')
+plt.scatter(X[violating_margin, 0], X[violating_margin, 1], s=100,
+            linewidth=1, facecolors='none', edgecolors='red', label='Vectores Soporte Violando Margen')
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1')
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.legend()
+plt.title('Límite de Decisión y Vectores Soporte en el Espacio Original')
+plt.axis('equal')
+plt.show()
+```
+
+# Evaluar la calidad del modelo con kernel gaussiano
+
+Evaluar la exactitud (*accuracy*) del modelo es esencial para entender su rendimiento. En el caso del problema dual con kernel gaussiano, utilizamos la función `predict` que se basa en los multiplicadores de Lagrange para realizar predicciones.
+
+## Proceso de evaluación
+
+1. **Calcular las Predicciones del Modelo**: Utilizamos la función `predict` para obtener una predicción de +1 o -1 para cada punto de datos en `X`.
+
+2. **Comparar con las Etiquetas Reales**: Comparamos estas predicciones con las etiquetas reales `Y` y calculamos la exactitud como la proporción de predicciones correctas.
+
+```{python}
+# Calcular las predicciones para todo el conjunto de datos X
+predicciones = predict(X)
+
+# Calcular la exactitud del modelo
+accuracy = np.mean(predicciones == Y)
+
+print("Accuracy del modelo: {:.2f}".format(accuracy))
+```
+
+# Visualización del efecto del parámetro del kernel gaussiano $\gamma$
+
+El parámetro $\gamma$ en un kernel gaussiano juega un papel crucial en determinar cómo se interpreta la distancia entre los puntos de datos. Al variar $\gamma$, afectamos directamente la naturaleza y la flexibilidad del límite de decisión generado por el modelo. En esta sección, exploraremos visualmente cómo diferentes valores de $\gamma$ influyen en la clasificación de un conjunto de datos no lineales y no separables.
+
+## ¿Qué es el parámetro $\gamma$?
+
+El parámetro $\gamma$ controla la influencia de un solo punto de entrenamiento en el modelo. Matemáticamente, en un kernel gaussiano (también conocido como RBF - Radial Basis Function), la similitud entre dos puntos $x_i$ y $x_j$ se calcula como $e^{-\gamma ||x_i - x_j||^2}$. Aquí, $||x_i - x_j||$ es la distancia euclidiana entre los dos puntos, y $\gamma$ es un parámetro positivo.
+
+## Visualización y análisis
+
+Visualizaremos cómo estos diferentes valores de $\gamma$ afectan a la frontera de decisión con un kernel gaussiano, observando cómo cambia el límite de decisión con cada valor. Esta visualización nos proporcionará una comprensión intuitiva de cómo el parámetro $\gamma$ modula la capacidad del modelo para capturar y responder a las complejidades en los datos.
+
+```{python}
+import cvxpy as cp
+# Valores de gamma para probar
+valores_gamma = [0.1, 1, 10, 100]
+colores = ['red', 'blue', 'green', 'purple']
+
+# Crear una malla de puntos en el espacio original
+margin = 4
+x1_min, x1_max = X[:, 0].min() - margin, X[:, 0].max() + margin
+x2_min, x2_max = X[:, 1].min() - margin, X[:, 1].max() + margin
+xx1, xx2 = np.meshgrid(np.linspace(x1_min, x1_max, 200), np.linspace(x2_min, x2_max, 200))
+X_grid = np.c_[xx1.ravel(), xx2.ravel()]
+
+# Configurar el tamaño de la figura
+plt.figure(figsize=(10, 8))
+
+# Graficar los puntos de datos
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1', edgecolor='k')
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1', edgecolor='k')
+
+# Definir las coordenadas de la esquina para las etiquetas
+x_esquina = x1_min
+y_esquina = -margin-1
+desplazamiento_y = 0.5  # Desplazamiento vertical entre etiquetas
+
+# Resolver el problema de optimización para cada valor de gamma y visualizar el límite de decisión
+for idx, gamma in enumerate(valores_gamma):
+    # Crear y resolver el problema de optimización para cada valor de gamma
+    alpha = cp.Variable(len(X))
+    H = np.exp(-gamma * norms) * np.outer(Y, Y)
+
+    # Añadir un pequeño valor a la diagonal de la matriz H
+    H_stable = H + threshold * np.eye(n)
+
+    # Usar psd_wrap si estás seguro de la naturaleza semidefinida positiva de H
+    H_psd = cp.psd_wrap(H_stable)
+    
+    # Función objetivo y restricciones
+    objective = cp.Minimize(0.5 * cp.quad_form(alpha, H_psd) - cp.sum(alpha))
+    constraints = [alpha >= 0, cp.sum(cp.multiply(alpha, Y)) == 0]
+
+    # Resolver el problema
+    prob = cp.Problem(objective, constraints)
+    prob.solve()
+
+    # Calcular las predicciones para la malla de puntos
+    Z = predict(X_grid)
+    Z = Z.reshape(xx1.shape)
+
+    # Visualizar el límite de decisión
+    plt.contour(xx1, xx2, Z, levels=[-1, 0, 1], colors=colores[idx], alpha=0.8, linestyles=['--'])
+    
+    # Almacenamos las predicciones
+    predicciones = predict(X)
+    accuracy = np.mean(predicciones == Y)
+
+    # Colocar la etiqueta con el valor de gamma y la exactitud
+    y_adjusted = y_esquina - idx * desplazamiento_y
+    plt.text(x_esquina, y_adjusted, f'Gamma={gamma} (Accuracy={accuracy:.2f})', color=colores[idx], fontsize=10)
+
+# Configurar leyendas y títulos
+plt.title('Límites de Decisión para Diferentes Valores de Gamma en el Espacio Original')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.legend()
+plt.show()
+```
+
+## Impacto de diferentes valores de $\gamma$
+
+1. **$\gamma$ Bajo**: Un valor bajo de $\gamma$ hace que la distancia 'euclidiana' tenga un efecto menor en el cálculo de la similitud. Como resultado, el modelo se vuelve menos sensible a las diferencias específicas entre los puntos y tiende a tener un límite de decisión más suave y generalizado. Este escenario puede ser útil para conjuntos de datos con mucho ruido, donde no queremos que el modelo reaccione excesivamente a variaciones menores en los datos.
+
+2. **$\gamma$ Alto**: Por el contrario, un valor alto de $\gamma$ significa que incluso pequeñas diferencias en la distancia entre los puntos de datos tienen un gran impacto en el cálculo de la similitud. Esto lleva a un modelo que reacciona intensamente a las particularidades de los datos, resultando en un límite de decisión más complejo y ajustado a los datos específicos de entrenamiento. Si bien esto puede ser beneficioso para conjuntos de datos con relaciones no lineales claras y bien definidas, también puede llevar a un sobreajuste, donde el modelo se ajusta demasiado a los datos de entrenamiento y pierde capacidad de generalización.
+

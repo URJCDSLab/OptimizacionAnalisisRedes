@@ -1,0 +1,172 @@
+---
+title: "Práctica Evaluable: Mapeo de Características y Kernel Trick en SVM"
+subtitle: "Optimización Convexa en Aprendizaje Automático"
+author: "Nombre del Alumno:"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+    html-math-method: katex
+lang: es
+---
+
+# Introducción y generación del conjunto de datos
+
+El objetivo de esta práctica es analizar el comportamiento de las Máquinas de Vectores de Soporte (SVM) en problemas de clasificación no lineal y no separable. Compararemos dos enfoques:
+
+1. **Enfoque Primal**: Propuesta e implementación manual de una función de mapeo explícita $\phi: \mathbb{R}^2 \to \mathbb{R}^k$.
+2. **Enfoque Dual**: Uso del *kernel trick* (Kernel Gaussiano/RBF) para trabajar en un espacio implícito de dimensión infinita.
+
+A continuación, ejecutamos el código para generar y visualizar el conjunto de datos de trabajo.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+import cvxpy as cp
+
+# Semilla para reproducibilidad
+np.random.seed(42)
+
+# Generar datos en 2D
+n_samples = 200
+X = np.random.uniform(-2, 2, (n_samples, 2))
+
+# Frontera parabólica x2 = 0.8 * x1^2 - 0.7 con ruido gaussiano
+ruido = np.random.normal(0, 0.45, n_samples)
+y_val = X[:, 1] - (0.8 * X[:, 0]**2 - 0.7) + ruido
+Y = np.where(y_val >= 0, 1, -1)
+
+# Visualización del conjunto de datos
+plt.figure(figsize=(8, 6))
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1', color='blue', alpha=0.7)
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1', color='red', alpha=0.7)
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.title('Conjunto de Datos No Lineal y No Separable')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.show()
+```
+
+# Parte 1: Propuesta del mapeo explícito $\phi(\mathbf{x})$
+
+## Ejercicio 1.1: Justificación geométrica
+
+Observa la distribución espacial de los puntos en la gráfica anterior.
+
+- **Pregunta**: ¿Qué tipo de curva separa aproximadamente las dos clases?
+- **Propuesta**: Define matemáticamente una función de mapeo $\phi(x_1, x_2)$ que transforme cada punto de $\mathbb{R}^2$ a un espacio $\mathbb{R}^k$ donde las clases pasen a ser linealmente separables.
+
+*(Escribe aquí tu respuesta y la fórmula de $\phi(x_1, x_2)$ en LaTeX)*
+
+## Ejercicio 1.2: Implementación del mapeo
+
+Implementa en Python la función `phi(X)` que aplique la transformación propuesta a la matriz de datos `X`.
+
+```{python}
+def phi(X):
+    """
+    Transforma la matriz X de dimensión (n, 2) a (n, k)
+    según la propuesta realizada en el Ejercicio 1.1.
+    """
+    # === COMPLETA AQUÍ TU CÓDIGO ===
+    # Ejemplo: return np.column_stack((X[:, 0], X[:, 1], ...))
+    pass
+
+# X_transformed = phi(X)
+```
+
+# Parte 2: Formulación primal soft-margin en el espacio transformado
+
+Usando los datos transformados $\mathbf{X}_{\text{transformed}} = \phi(\mathbf{X})$, resolvemos el problema primal con margen suave (*Soft-Margin*):
+
+$$
+\begin{aligned}
+\min_{\mathbf{w}, b, \boldsymbol{\xi}} \quad & \frac{1}{2} \|\mathbf{w}\|_2^2 + C \sum_{i=1}^n \xi_i \\
+\text{sujeto a} \quad & y_i (\mathbf{w}^T \phi(\mathbf{x}_i) + b) \geq 1 - \xi_i, \quad i = 1, \ldots, n \\
+& \xi_i \geq 0, \quad i = 1, \ldots, n
+\end{aligned}
+$$
+
+## Ejercicio 2.1: Resolución con CVXPY
+
+Fija un valor de $C = 0.5$. Define y resuelve el problema de optimización en CVXPY. Extrae los valores óptimos de $\mathbf{w}$ y $b$.
+
+```{python}
+# === COMPLETA AQUÍ TU CÓDIGO ===
+# C = 0.5
+# w = cp.Variable(...)
+# b = cp.Variable()
+# xi = cp.Variable(len(X))
+# ...
+```
+
+## Ejercicio 2.2: Visualización de la frontera de decisión en $\mathbb{R}^2$
+
+Representa en el espacio bidimensional original la frontera de decisión no lineal proyectada. Muestra el valor de exactitud (*accuracy*) obtenido en el conjunto de entrenamiento.
+
+```{python}
+# === COMPLETA AQUÍ TU CÓDIGO PARA GRAFICAR EL LÍMITE DE DECISIÓN ===
+```
+
+# Parte 3: Formulación dual y kernel trick (RBF)
+
+Ahora utilizaremos la formulación dual con el *kernel trick* utilizando un kernel Gaussiano (RBF):
+
+$$K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|_2^2)$$
+
+El problema dual a resolver es:
+
+$$
+\begin{aligned}
+\min_{\boldsymbol{\alpha}} \quad & \frac{1}{2} \boldsymbol{\alpha}^T \mathbf{H} \boldsymbol{\alpha} - \mathbf{1}^T \boldsymbol{\alpha} \\
+\text{sujeto a} \quad & \mathbf{y}^T \boldsymbol{\alpha} = 0 \\
+& 0 \leq \alpha_i \leq C, \quad i = 1, \ldots, n
+\end{aligned}
+$$
+
+donde $H_{ij} = y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$.
+
+## Ejercicio 3.1: Construcción de la matriz de Gram y resolución
+
+Calcula la matriz $\mathbf{H}$ para $\gamma = 1.0$ y resuelve el problema dual con CVXPY utilizando el mismo parámetro $C = 0.5$.
+
+```{python}
+# === COMPLETA AQUÍ TU CÓDIGO ===
+# gamma = 1.0
+# C = 0.5
+# H = ...
+# alpha = cp.Variable(len(X))
+# ...
+```
+
+## Ejercicio 3.2: Clasificación de vectores de soporte (condiciones KKT)
+
+Identifica cuáles puntos corresponden a:
+
+1. **Vectores soporte en el margen**: $0 < \alpha_i < C$.
+2. **Vectores soporte que violan el margen**: $\alpha_i = C$.
+
+```{python}
+# === COMPLETA AQUÍ TU CÓDIGO PARA IDENTIFICAR LOS VECTORES SOPORTE ===
+```
+
+## Ejercicio 3.3: Visualización de la frontera dual
+
+Dibuja el límite de decisión obtenido con el kernel RBF e hipermarca los vectores de soporte distinguiendo entre los que están en el margen y los que lo violan.
+
+```{python}
+# === COMPLETA AQUÍ TU CÓDIGO PARA GRAFICAR LA FRONTERA RBF Y LOS VECTORES DE SOPORTE ===
+```
+
+# Parte 4: Discusión comparativa
+
+Responde brevemente a las siguientes preguntas razonando las respuestas:
+
+1. **Comparación de fronteras**: ¿Qué diferencias principales observas entre la frontera obtenida mediante tu mapeo explícito $\phi(\mathbf{x})$ y la obtenida con el Kernel RBF?
+2. **Ventajas del dual**: En un problema de clasificación del mundo real con alta dimensionalidad o fronteras complejas, ¿qué ventajas ofrece la formulación dual con el *kernel trick* frente al diseño manual de un mapeo $\phi(\mathbf{x})$?
+3. **Efecto de los parámetros**: Si incrementamos significativamente el valor de $\gamma$ en el Kernel RBF, ¿qué le ocurriría a la frontera de decisión y qué riesgo correría el modelo?

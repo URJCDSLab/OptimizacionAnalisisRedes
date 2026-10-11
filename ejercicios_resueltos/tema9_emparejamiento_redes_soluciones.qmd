@@ -1,0 +1,535 @@
+# Ejercicios del Tema 9: emparejamientos en redes
+
+## Ejercicio 1: Formulación en Programación Entera y Propiedades Algebraicas del Emparejamiento
+
+Considérese un grafo simple no dirigido $G = (V, E)$ con $n = |V|$ vértices y $m = |E|$ aristas. Se define un emparejamiento como un subconjunto de aristas $K \subseteq E$ tal que ningún par de aristas en $K$ comparte vértices en común.
+
+Se pide:
+
+1. Formular el problema de emparejamiento de máximo cardinal como un programa lineal entero (PLE) definiendo variables binarias $x_e \in \{0, 1\}$ para cada arista $e \in E$, la función objetivo y las restricciones de grado nodal en $\delta(v)$.
+
+   **Solución:**
+
+   Para cada arista $e = \{u, v\} \in E$, definimos la variable de decisión binaria:
+   $$
+   x_e = \begin{cases} 1 & \text{si la arista } e \in E \text{ se incluye en el emparejamiento } K \\ 0 & \text{en caso contrario} \end{cases}
+   $$
+
+   Sea $\delta(v) = \{ e \in E \mid v \in e \}$ el conjunto de aristas incidentes en el vértice $v \in V$. La condición de que ningún par de aristas seleccionadas comparta extremos exige que para todo vértice $v \in V$ incida a lo sumo una arista del emparejamiento. Por consiguiente, el programa lineal entero (PLE) de emparejamiento de máximo cardinal se formula como:
+
+   $$
+   \begin{aligned}
+   \max_{x} \quad & \sum_{e \in E} x_e \\
+   \text{sujeto a} \quad & \sum_{e \in \delta(v)} x_e \le 1, \quad \forall v \in V \\
+   & x_e \in \{0, 1\}, \quad \forall e \in E
+   \end{aligned}
+   $$
+
+   El vector de grado saturado se define mediante $sat(v) = \sum_{e \in \delta(v)} x_e \in \{0, 1\}$, donde $sat(v) = 1$ indica que el vértice $v$ está saturado y $sat(v) = 0$ que está expuesto.
+
+---
+
+2. Demostrar formalmente que la familia de todos los emparejamientos de $G$, denotada por $\mathcal{I} = \{ K \subseteq E \mid K \text{ es emparejamiento} \}$, satisface los axiomas de un complejo simplicial o complejo de independencia (propiedad de hereditariedad).
+
+   **Solución:**
+
+   Un complejo simplicial abstracto o complejo de independencia sobre el conjunto base $E$ es una familia $\mathcal{I} \subseteq \mathcal{P}(E)$ que satisface dos propiedades:
+
+   1. **No vacuidad**: $\emptyset \in \mathcal{I}$. El conjunto vacío de aristas no contiene aristas incidentes entre sí, por lo que $K = \emptyset$ es un emparejamiento válido trivial.
+
+   2. **Hereditariedad (cierre bajo inclusión)**: Si $K \in \mathcal{I}$ y $K' \subseteq K$, entonces $K' \in \mathcal{I}$.
+
+   *Demostración*:
+   Sea $K \in \mathcal{I}$ un emparejamiento en $G$. Por definición, para todo par de aristas distintas $e_1, e_2 \in K$, se verifica $e_1 \cap e_2 = \emptyset$.
+   Sea $K' \subseteq K$ un subconjunto arbitrario de $K$. Si se toma cualquier par de aristas $e_1, e_2 \in K'$, dado que $K' \subseteq K$, necesariamente $e_1, e_2 \in K$, y por tanto $e_1 \cap e_2 = \emptyset$. En consecuencia, $K'$ satisface la condición de no adyacencia nodal y es un emparejamiento válido en $G$. Por tanto, $K' \in \mathcal{I}$, lo que demuestra que $\mathcal{I}$ es un complejo de independencia. $\blacksquare$
+
+---
+
+3. Diferenciar con rigor teórico entre un **emparejamiento maximal** (óptimo local respecto a la inclusión de aristas) y un **emparejamiento de máximo cardinal** (óptimo global). Proporcionar un contraejemplo mínimo sobre el camino de cuatro vértices $P_4$ donde un emparejamiento maximal no sea de máximo cardinal.
+
+   **Solución:**
+
+   * **Emparejamiento maximal (óptimo local)**: Es un emparejamiento $K \subseteq E$ tal que no es posible añadir ninguna arista adicional de $E \setminus K$ sin violar la condición de independencia; es decir, no existe $e \in E \setminus K$ tal que $K \cup \{e\}$ sea un emparejamiento.
+
+   * **Emparejamiento de máximo cardinal (óptimo global)**: Es un emparejamiento $K^* \subseteq E$ tal que $|K^*| \ge |K|$ para todo emparejamiento factible $K$ de $G$.
+
+   Todo emparejamiento de máximo cardinal es obligatoriamente maximal, pero el recíproco es falso en general.
+
+   *Contraejemplo mínimo en $P_4$*:
+   Considérese el camino $P_4$ con vértices $V = \{1, 2, 3, 4\}$ y aristas $E = \bigl\{ \{1,2\}, \, \{2,3\}, \, \{3,4\} \bigr\}$.
+
+   * Si seleccionamos la arista central $K_1 = \bigl\{ \{2,3\} \bigr\}$, ningún arco restante de $E$ puede añadirse porque $\{1,2\}$ incide en $2$ y $\{3,4\}$ incide en $3$. Por tanto, $K_1$ es **maximal** con $|K_1| = 1$.
+   * Sin embargo, el emparejamiento $K^* = \bigl\{ \{1,2\}, \, \{3,4\} \bigr\}$ es válido y posee cardinal $|K^*| = 2$.
+   Por consiguiente, $K_1$ es un óptimo local voraz subóptimo de cardinal 1, mientras que el máximo cardinal global es 2.
+
+---
+
+4. Demostrar analíticamente que el cardinal de cualquier emparejamiento $K$ en un grafo de $n$ vértices satisface la cota universal $|K| \le \lfloor n/2 \rfloor$, y justificar por qué la condición de paridad ($n$ par) es un requisito necesario (aunque no suficiente) para la existencia de un emparejamiento perfecto.
+
+   **Solución:**
+
+   *Demostración de la cota*:
+   Cada arista $e = \{u, v\} \in K$ cubre exactamente $2$ vértices distintos. Al ser las aristas de $K$ disjuntas en vértices, el número total de vértices saturados por $K$ es:
+   $$
+   |V_{sat}(K)| = 2 |K|
+   $$
+   Dado que el conjunto de vértices saturados es un subconjunto de $V$, se cumple $|V_{sat}(K)| \le |V| = n$, de donde:
+   $$
+   2 |K| \le n \implies |K| \le \frac{n}{2}
+   $$
+   Como el cardinal $|K|$ es un número entero no negativo, se deduce que $|K| \le \lfloor n/2 \rfloor$. $\blacksquare$
+
+   *Condición de paridad para emparejamientos perfectos*:
+   Un emparejamiento $K$ es perfecto si satura a la totalidad de los vértices del grafo ($|V_{sat}(K)| = n$). Por tanto, debe cumplirse $2 |K| = n \implies n = 2k$ con $k \in \mathbb{Z}^+$, lo que exige obligatoriamente que $n$ sea par. Si $n$ es impar, al menos un vértice debe quedar siempre expuesto ($|V_{exp}| \ge 1$), imposibilitando la existencia de un emparejamiento perfecto.
+
+   Dicha condición no es suficiente: por ejemplo, el grafo estrella $K_{1,3}$ posee $n = 4$ vértices (par), pero su emparejamiento máximo tiene cardinal 1, ya que las 3 aristas inciden en el centro y no admite emparejamiento perfecto de cardinal 2.
+
+---
+
+## Ejercicio 2: Cadenas Incrementales, Operación de Transferencia y Teorema de Berge
+
+Considérese el grafo no dirigido $G = (V, E)$ de $n = 8$ vértices $V = \{1, 2, 3, 4, 5, 6, 7, 8\}$ con aristas:
+
+$$
+\begin{aligned}
+E = \bigl\{ & \{1,2\}, \, \{1,3\}, \, \{2,4\}, \, \{3,4\}, \, \{3,5\}, \\
+& \{4,6\}, \, \{5,6\}, \, \{5,7\}, \, \{6,8\}, \, \{7,8\} \bigr\}
+\end{aligned}
+$$
+
+Partiendo del emparejamiento inicial no maximal de 2 aristas:
+
+$$
+K_0 = \bigl\{ \{1, 3\}, \, \{6, 8\} \bigr\}
+$$
+
+Se pide:
+
+1. Clasificar el estado de todos los vértices del grafo respecto de $K_0$, identificando el conjunto de vértices saturados $V_{sat}$ y el conjunto de vértices expuestos $V_{exp}$.
+
+   **Solución:**
+
+   Las aristas de $K_0 = \bigl\{ \{1, 3\}, \, \{6, 8\} \bigr\}$ saturan los vértices $\{1, 3, 6, 8\}$. Por tanto:
+
+   * **Vértices saturados ($sat(v) = 1$)**: $V_{sat} = \{1, 3, 6, 8\}$.
+
+   * **Vértices expuestos ($sat(v) = 0$)**: $V_{exp} = V \setminus V_{sat} = \{2, 4, 5, 7\}$.
+
+---
+
+2. Identificar una cadena alternante elemental $\mu$ cuyos dos extremos pertenezcan a $V_{exp}$ (cadena alternante incremental).
+
+   **Solución:**
+
+   Una cadena incremental respecto de $K_0$ debe comenzar en un vértice expuesto con arista fuera de $K_0$, alternar aristas de $K_0$ y fuera de $K_0$, y finalizar en otro vértice expuesto con arista fuera de $K_0$.
+
+   Analizamos la secuencia de vértices $\mu = (2, 1, 3, 5, 7)$:
+
+   * Extremo inicial $2 \in V_{exp}$ (expuesto).
+   * Arista $\{2, 1\} \notin K_0$ (fuera del emparejamiento).
+   * Arista $\{1, 3\} \in K_0$ (en el emparejamiento).
+   * Arista $\{3, 5\} \notin K_0$ (fuera del emparejamiento).
+   * Extremo final $5 \in V_{exp}$ (expuesto).
+
+   Por tanto, $\mu = (2, 1, 3, 5)$ es una **cadena alternante incremental** de 3 aristas con extremos expuestos $2$ y $5$.
+   (Otra cadena válida es $\mu' = (4, 3, 1, 2)$ o $\mu'' = (7, 5, 3, 1, 2)$).
+
+---
+
+3. Aplicar formalmente la operación de transferencia algebraica mediante la diferencia simétrica $K_1 = K_0 \bigtriangleup \mu$, verificando que $K_1$ es un emparejamiento válido y que su cardinal satisface $|K_1| = |K_0| + 1 = 3$.
+
+   **Solución:**
+
+   Para la cadena incremental $\mu = (2, 1, 3, 5)$, el conjunto de aristas de la cadena es:
+   $$
+   E(\mu) = \bigl\{ \{2,1\}, \, \{1,3\}, \, \{3,5\} \bigr\}
+   $$
+   Calculamos la diferencia simétrica $K_1 = K_0 \bigtriangleup E(\mu) = (K_0 \setminus E(\mu)) \cup (E(\mu) \setminus K_0)$:
+
+   * Aristas eliminadas: $K_0 \cap E(\mu) = \bigl\{ \{1,3\} \bigr\}$.
+   * Aristas añadidas: $E(\mu) \setminus K_0 = \bigl\{ \{2,1\}, \, \{3,5\} \bigr\}$.
+   * Aristas que permanecen invariables: $\{6,8\}$.
+
+   Por consiguiente:
+   $$
+   K_1 = \bigl\{ \{1,2\}, \, \{3,5\}, \, \{6,8\} \bigr\}
+   $$
+
+   *Verificación de validez*:
+
+   * $\{1,2\}$ cubre $\{1,2\}$.
+   * $\{3,5\}$ cubre $\{3,5\}$.
+   * $\{6,8\}$ cubre $\{6,8\}$.
+   Los 6 vértices saturados $\{1, 2, 3, 5, 6, 8\}$ son mutuamente disjuntos. Ningún vértice tiene grado superior a 1 en $K_1$.
+   *Cardinalidad*: $|K_1| = 3 = |K_0| + 1$.
+
+---
+
+4. Enunciar y demostrar el Teorema fundamental de caracterización de Berge (1957), analizando la estructura topológica del grafo diferencia simétrica $H = (V, K \bigtriangleup K^*)$ entre un emparejamiento $K$ y un emparejamiento óptimo $K^*$.
+
+   **Solución:**
+
+   **Teorema de Berge (1957)**: Un emparejamiento $K$ en un grafo $G = (V, E)$ es de máximo cardinal si y solo si $G$ no contiene ninguna cadena alternante incremental respecto de $K$.
+
+   *Demostración*:
+
+   * **Necesidad ($\implies$)**: Si $G$ contuviese una cadena incremental $\mu$ respecto de $K$, la transferencia $K' = K \bigtriangleup \mu$ generaría un emparejamiento válido con cardinal $|K'| = |K| + 1 > |K|$, lo que contradice la hipótesis de que $K$ es de máximo cardinal.
+
+   * **Suficiencia ($\impliedby$)**: Supongamos que $K$ no es de máximo cardinal. Sea $K^*$ un emparejamiento de máximo cardinal en $G$, de modo que $|K^*| > |K|$.
+     Consideramos el subgrafo diferencia simétrica $H = (V, K \bigtriangleup K^*)$, con aristas $E_H = (K \setminus K^*) \cup (K^* \setminus K)$.
+     En el grafo $H$, cada vértice $v \in V$ puede ser incidente a lo sumo en una arista de $K$ y una arista de $K^*$, por lo que el grado de cualquier nodo en $H$ satisface $d_H(v) \le 2$.
+     Por el Lema de Descomposición de Grafos de Grado $\le 2$, las componentes conexas de $H$ son exclusivamente:
+
+     1. Vértices aislados ($d_H(v) = 0$).
+     2. Ciclos alternantes de longitud par (con igual número de aristas de $K$ que de $K^*$).
+     3. Cadenas alternantes simples.
+
+     Puesto que $|K^*| > |K|$, en el conjunto de aristas $E_H$ hay estrictamente más aristas de $K^*$ que de $K$. Como los ciclos y cadenas pares contienen idéntico número de aristas de ambos emparejamientos, debe existir al menos una cadena alternante conexa $P$ en $H$ que contenga más aristas de $K^*$ que de $K$.
+     Dicha cadena $P$ comienza y termina obligatoriamente con aristas de $K^*$. En consecuencia, sus dos extremos no pueden estar saturados por aristas de $K$ (pues en $H$ no incide ninguna arista de $K$ en sus extremos), lo que certifica que $P$ es una cadena alternante incremental respecto de $K$.
+     Por reducción al absurdo, si no existen cadenas incrementales en $G$, $K$ es necesariamente de máximo cardinal. $\blacksquare$
+
+---
+
+## Ejercicio 3: Árboles Alternantes en Grafos Bipartitos y Detección de Cadenas Incrementales
+
+Considérese el grafo bipartito $G = (V_1 \cup V_2, E)$ con partición de vértices $V_1 = \{1, 2, 3, 4, 5\}$ y $V_2 = \{6, 7, 8, 9, 10\}$, cuyas aristas son:
+
+$$
+\begin{aligned}
+E = \bigl\{ & \{1,6\}, \, \{1,7\}, \, \{2,7\}, \, \{2,8\}, \, \{3,8\}, \\
+& \{3,9\}, \, \{4,8\}, \, \{4,10\}, \, \{5,9\}, \, \{5,10\} \bigr\}
+\end{aligned}
+$$
+
+Se dispone del emparejamiento inicial $K_1 = \bigl\{ \{2,7\}, \, \{3,8\}, \, \{5,10\} \bigr\}$ con $|K_1| = 3$.
+
+Se pide:
+
+1. Identificar el conjunto de raíces $R \subset V_1 \cup V_2$ formado por los vértices no saturados respecto de $K_1$.
+
+   **Solución:**
+
+   Vértices saturados por $K_1$: $\{2, 3, 5\} \subset V_1$ y $\{7, 8, 10\} \subset V_2$.
+   Vértices expuestos (raíces):
+
+   * En $V_1$: $\{1, 4\}$.
+   * En $V_2$: $\{6, 9\}$.
+   El conjunto de raíces para explorar bosques alternantes es $R = \{1, 4, 6, 9\}$.
+
+---
+
+2. Desarrollar la construcción del árbol alternante con raíz en el vértice expuesto $i_0 = 1$, especificando en cada nivel los vértices de paridad par ($Y^0$) e impar ($Y^1$) y las aristas incorporadas al árbol ($T$).
+
+   **Solución:**
+
+   * **Nivel 0 (Raíz par)**: $Y^0 = \{1\}$, $Y^1 = \emptyset$, $T = \emptyset$.
+
+   * **Nivel 1 (Exploración de vecinos impares fuera de $K_1$)**:
+     Desde $1 \in Y^0$, existen las aristas $\{1,6\}$ y $\{1,7\}$ fuera de $K_1$:
+
+     - Vecino $6 \in V_2$ está expuesto ($sat(6) = 0$). ¡Se detecta extremo incremental!
+     - Vecino $7 \in V_2$ está saturado por $\{7,2\} \in K_1$. Se incorpora $7$ a $Y^1$ y $2$ a $Y^0$.
+     $Y^1 = \{6, 7\}$, $T = \bigl\{ \{1,6\}, \, \{1,7\}, \, \{7,2\} \bigr\}$, $Y^0 = \{1, 2\}$.
+
+   * **Nivel 2 y 3 (Exploración desde $2 \in Y^0$)**:
+     Desde $2 \in Y^0$, evaluamos aristas fuera de $K_1$:
+
+     - Vecino $8 \in V_2$ está saturado por $\{8,3\} \in K_1$. Se incorpora $8$ a $Y^1$ y $3$ a $Y^0$.
+     $Y^1 = \{6, 7, 8\}$, $Y^0 = \{1, 2, 3\}$, $T = T \cup \bigl\{ \{2,8\}, \, \{8,3\} \bigr\}$.
+
+   * **Nivel 4 y 5 (Exploración desde $3 \in Y^0$)**:
+     Desde $3 \in Y^0$, evaluamos aristas fuera de $K_1$:
+
+     - Vecino $9 \in V_2$ está expuesto ($sat(9) = 0$). ¡Se detecta extremo incremental!
+     $Y^1 = \{6, 7, 8, 9\}$, $Y^0 = \{1, 2, 3\}$.
+
+---
+
+3. Construir el vector de antecesores/padres $\mathbf{p} \in \mathbb{N}^{10}$ tras la exploración completa del árbol desde la raíz $1$.
+
+   **Solución:**
+
+   Registrando para cada nodo alcanzado el vértice predecesor en el árbol alternante:
+
+   * $p(1) = 1$ (raíz)
+   * $p(7) = 1$ (alcanzado desde 1)
+   * $p(2) = 7$ (alcanzado por arista saturada $\{7,2\}$)
+   * $p(8) = 2$ (alcanzado desde 2)
+   * $p(3) = 8$ (alcanzado por arista saturada $\{8,3\}$)
+   * $p(6) = 1$ (alcanzado desde 1)
+   * $p(9) = 3$ (alcanzado desde 3)
+   * Nodos no alcanzados desde la raíz 1: $p(4) = 0, p(5) = 0, p(10) = 0$.
+
+   Vector de antecesores:
+   $$
+   \mathbf{p}^T = (1, 7, 8, 0, 0, 1, 1, 2, 3, 0)
+   $$
+
+---
+
+4. Desenrollar mediante el vector $\mathbf{p}$ todas las cadenas incrementales que alcanzan vértices expuestos, seleccionar una cadena $\mu$ y ejecutar la transferencia para obtener un nuevo emparejamiento aumentado $K_2$ de cardinal 4.
+
+   **Solución:**
+
+   Vértices expuestos alcanzados por el árbol: $6$ y $9$.
+
+   * **Cadena 1 (desde 6)**:
+     $$6 \longleftrightarrow p(6) = 1 \implies \mu_1 = (6, 1)$$
+
+   * **Cadena 2 (desde 9)**:
+     $$9 \longleftrightarrow p(9) = 3 \longleftrightarrow p(3) = 8 \longleftrightarrow p(8) = 2 \longleftrightarrow p(2) = 7 \longleftrightarrow p(7) = 1 \implies \mu_2 = (9, 3, 8, 2, 7, 1)$$
+
+   Seleccionamos la cadena elemental $\mu_1 = (1, 6)$ (arista directa $\{1,6\}$).
+   Aplicamos la transferencia:
+   $$
+   K_2 = K_1 \cup \bigl\{ \{1,6\} \bigr\} = \bigl\{ \{1,6\}, \, \{2,7\}, \, \{3,8\}, \, \{5,10\} \bigr\}, \quad |K_2| = 4
+   $$
+
+---
+
+5. Aplicar una segunda fase del algoritmo de árbol alternante sobre los vértices expuestos restantes hasta certificar la existencia de un emparejamiento perfecto de cardinal 5 o demostrar maximalidad.
+
+   **Solución:**
+
+   Respecto de $K_2$, los únicos vértices expuestos restantes son $4 \in V_1$ y $9 \in V_2$.
+   Inicializamos un nuevo árbol alternante con raíz en $i_0 = 4$:
+
+   * $Y^0 = \{4\}, T = \emptyset$.
+   * Desde $4 \in Y^0$, aristas fuera de $K_2$:
+     - Vecino $8 \in V_2$ está saturado por $\{8,3\} \in K_2 \implies Y^1 = \{8\}, Y^0 = \{4, 3\}, T = \bigl\{ \{4,8\}, \{8,3\} \bigr\}$.
+     - Vecino $10 \in V_2$ está saturado por $\{10,5\} \in K_2 \implies Y^1 = \{8, 10\}, Y^0 = \{4, 3, 5\}, T = T \cup \bigl\{ \{4,10\}, \{10,5\} \bigr\}$.
+
+   * Desde $3 \in Y^0$:
+     - Vecino $9 \in V_2$ está expuesto ($sat(9) = 0$). ¡Se detecta cadena incremental!
+     Desenrollando el camino: $9 \leftarrow 3 \leftarrow 8 \leftarrow 4$, obtenemos:
+     $$
+     \mu = (4, 8, 3, 9)
+     $$
+
+   Ejecutamos la transferencia $K^* = K_2 \bigtriangleup \mu$:
+
+   * Aristas eliminadas: $\{3,8\}$.
+   * Aristas incorporadas: $\{4,8\}$ y $\{3,9\}$.
+   * Aristas conservadas: $\{1,6\}, \{2,7\}, \{5,10\}$.
+
+   $$
+   K^* = \bigl\{ \{1,6\}, \, \{2,7\}, \, \{3,9\}, \, \{4,8\}, \, \{5,10\} \bigr\}
+   $$
+   El cardinal es $|K^*| = 5 = 10/2$, alcanzando un **emparejamiento perfecto** en el grafo bipartito.
+
+---
+
+## Ejercicio 4: Algoritmo de Flor de Edmonds (Blossom Algorithm) y Ciclos Impares
+
+Considérese el grafo no dirigido no bipartito $G = (V, E)$ de $n = 7$ vértices $V = \{1, 2, 3, 4, 5, 6, 7\}$ con aristas:
+
+$$
+E = \bigl\{ \{1,2\}, \, \{2,3\}, \, \{3,4\}, \, \{4,5\}, \, \{5,1\}, \, \{3,6\}, \, \{6,7\} \bigr\}
+$$
+
+y el emparejamiento inicial $K = \bigl\{ \{1, 2\}, \, \{3, 4\} \bigr\}$ con $|K| = 2$.
+
+Se pide:
+
+1. Explicar por qué la presencia de ciclos impares en grafos generales no bipartitos impide la aplicación directa del algoritmo de árboles alternantes estándar de grafos bipartitos.
+
+   **Solución:**
+
+   En grafos bipartitos, todos los ciclos son de longitud par. Esta propiedad garantiza que la paridad de la distancia desde la raíz es un invariante determinista: los vértices en niveles pares siempre se alcanzan mediante aristas saturadas, y las aristas fuera del emparejamiento solo pueden conectar niveles pares con niveles impares.
+
+   En cambio, en un grafo general no bipartito con ciclos impares (por ejemplo, el ciclo de 5 vértices $C_5 = \{1, 2, 3, 4, 5\}$), dos vértices de la misma paridad en el árbol alternante ($i, j \in Y^0$) pueden ser adyacentes entre sí mediante una arista $\{i, j\} \in E$. Esto crea un ciclo alternante impar (denominado *flor* o *blossom*).
+   En una flor de longitud $2k+1$, existen simultáneamente dos caminos alternantes de distinta paridad hacia un mismo vértice. Esto provoca que el algoritmo estándar de árbol pueda clasificar erróneamente vértices pares como impares y viceversa, bloqueando la detección de cadenas incrementales auténticas. La técnica de contracción de Edmonds soluciona este obstáculo colapsando toda la flor en un único pseudonodo.
+
+---
+
+2. Iniciar el Algoritmo de Flor de Edmonds construyendo el árbol alternante desde el vértice expuesto $i_0 = 5$:
+   * Identificar la extensión del árbol mediante aristas saturadas (Paso C.2, Caso 2).
+   * Detectar la existencia de una arista $\{i, j\} \in E$ que une dos vértices pares $i, j \in Y^0$ y caracterizar la flor (ciclo impar) $W$ resultante (Paso C.2, Caso 1).
+
+   **Solución:**
+
+   * **Paso A**: $K = \bigl\{ \{1,2\}, \{3,4\} \bigr\}$. Vértices expuestos: $\{5, 6, 7\}$.
+
+   * **Paso B**: Hay 3 vértices expuestos ($> 1$) $\implies$ Ir al **Paso C**.
+
+   * **Paso C.1**: Seleccionamos la raíz expuesta $i_0 = 5$. Inicializamos el árbol: $Y = Y^0 = \{5\}$, $T = \emptyset$.
+
+   * **Paso C.2 (Extensión 1)**: Para $5 \in Y^0$, existe el vecino saturado $1 \notin Y$ (saturado por $\{1,2\} \in K$). Por Caso 2, añadimos $\{5,1\}$ y $\{1,2\}$ al árbol:
+     $$Y = \{1, 2, 5\}, \quad Y^0 = \{2, 5\}, \quad T = \bigl\{ \{5,1\}, \, \{1,2\} \bigr\}$$
+
+   * **Paso C.2 (Extensión 2)**: Para $5 \in Y^0$, existe el vecino saturado $4 \notin Y$ (saturado por $\{3,4\} \in K$). Por Caso 2, añadimos $\{5,4\}$ y $\{4,3\}$ al árbol:
+     $$Y = \{1, 2, 3, 4, 5\}, \quad Y^0 = \{2, 3, 5\}, \quad T = \bigl\{ \{5,1\}, \, \{1,2\}, \, \{5,4\}, \, \{4,3\} \bigr\}$$
+
+   * **Paso C.2 (Detección de Flor por Caso 1)**:
+     Evaluamos aristas entre vértices pares en $Y^0 = \{2, 3, 5\}$. Observamos que existe la arista $\{2, 3\} \in E$. Al conectar los vértices pares $2, 3 \in Y^0$, se detecta la **flor de 5 vértices**:
+     $$W = \{1, 2, 3, 4, 5\}$$
+
+---
+
+3. Realizar la contracción del ciclo impar $W$ en un supernodo $w$, especificando los conjuntos de vértices y aristas del grafo comprimido $G/W$.
+
+   **Solución:**
+
+   Comprimimos el subconjunto $W = \{1, 2, 3, 4, 5\}$ en el supernodo $w$:
+
+   * **Vértices de $G/W$**: $V' = (V \setminus W) \cup \{w\} = \{w, 6, 7\}$.
+
+   * **Aristas de $G/W$**:
+     - Aristas que no tocan $W$: $\{6, 7\}$.
+     - Aristas incidentes en $W$: la arista $\{3, 6\} \in E$ con $3 \in W, 6 \notin W$ se convierte en $\{w, 6\}$.
+     $$E/W = \bigl\{ \{w, 6\}, \, \{6, 7\} \bigr\}$$
+
+   En el grafo comprimido $G/W$, el árbol alternante se actualiza a $Y = Y^0 = \{w\}$, $T = \emptyset$ y el emparejamiento comprimido es $K = \emptyset$.
+
+---
+
+4. Explorar el grafo comprimido $G/W$, detectar la cadena incremental que conecta con el vértice expuesto $7$ y realizar la transferencia en $G/W$.
+
+   **Solución:**
+
+   * Desde $w \in Y^0$ en $G/W$, evaluamos vecinos fuera del árbol:
+     - Existe la arista $\{w, 6\}$ con $6$ saturado / expuesto: $6$ y $7$ están expuestos.
+     - Desde $w$, exploramos $\{w, 6\}$; como $6$ está expuesto, la cadena $w - 6 - 7$ se puede extender o podemos explorar:
+     - Paso C.2 (Caso 2/3): Desde $w \in Y^0$, la arista $\{w, 6\}$ conecta con el nodo expuesto $6 \implies$ Transferencia en $G/W$: $K = \bigl\{ \{w, 6\} \bigr\}$.
+     - Siguiente iteración desde $7 \in Y^0$: $7$ conecta con $6 \in Y$ (saturado por $\{w,6\}$) y alcanza $w \implies$ Cadena incremental en $G/W$: $\mu = (w, 6, 7)$ o transferencia directa con aristas $\{w,6\}, \{6,7\}$.
+     - De forma más directa, la cadena incremental en $G/W$ es $\mu' = (w, 6, 7)$ que conecta los vértices expuestos $w$ y $7$ a través de $\{w,6\}$ y $\{6,7\}$ (o transferencias sucesivas).
+     El emparejamiento resultante en $G/W$ contiene la arista $\{w, 6\}$ y satura al nodo $7$ mediante $\{6, 7\}$ (o la arista $\{3,6\}$).
+
+---
+
+5. Ejecutar la descompresión determinista de la flor $W$ aplicando el Teorema de Edmonds (1965) y reconstruir el emparejamiento óptimo final $K^*$ sobre el grafo original $G$, indicando su cardinalidad y si es perfecto.
+
+   **Solución:**
+
+   En $G/W$, tenemos el emparejamiento saturado con la arista $\{w, 6\}$ y $\{6, 7\}$ según la asignación:
+
+   * La arista $\{w, 6\}$ proviene originalmente de la arista $\{3, 6\} \in E$.
+   * En la flor $W = \{1, 2, 3, 4, 5\}$, el vértice $3$ queda saturado hacia el exterior mediante la arista $\{3, 6\}$.
+   * Aplicando la regla de descompresión de Edmonds, dejamos libre el vértice $3$ dentro de $W$ y saturamos los 4 vértices restantes $\{1, 2, 4, 5\}$ mediante un emparejamiento maximal de 2 aristas:
+     $$K_W = \bigl\{ \{1, 2\}, \, \{4, 5\} \bigr\} \quad \text{o} \quad \bigl\{ \{5, 1\}, \, \{3, 4\} \dots \bigr\}$$
+     Como $\{1,2\}$ y $\{4,5\}$ saturan exactamente a $\{1, 2, 4, 5\}$, ningún vértice de $W$ queda doblemente saturado.
+
+   Reconstruyendo la solución en el grafo original $G$:
+   $$
+   K^* = \bigl\{ \{1, 2\}, \, \{4, 5\}, \, \{3, 6\} \bigr\}
+   $$
+   *Cardinalidad*: $|K^*| = 3$.
+   *Evaluación*: En un grafo de $n = 7$ vértices (impar), el cardinal máximo posible es $\lfloor 7/2 \rfloor = 3$. Queda exactamente un vértice expuesto ($7$), por lo que $K^*$ es de **máximo cardinal global**.
+
+---
+
+## Ejercicio 5: Recubrimiento de Aristas, Dualidad de Gallai y Emparejamientos Ponderados
+
+Considérese el grafo simple conexo $G = (V, E)$ de $n = 6$ vértices $V = \{1, 2, 3, 4, 5, 6\}$ con los siguientes pesos $p(e)$ asignados a sus 8 aristas:
+
+$$
+\begin{aligned}
+& p(1,2) = 6, \quad p(1,3) = 4, \quad p(2,4) = 5, \quad p(3,4) = 7, \\
+& p(3,5) = 3, \quad p(4,6) = 8, \quad p(5,6) = 4, \quad p(2,5) = 2
+\end{aligned}
+$$
+
+Se pide:
+
+1. **Problema de Recubrimiento de Aristas y Teorema de Gallai**:
+   * Definir formalmente el concepto de recubrimiento de aristas (*edge cover*) $F \subseteq E$ y formular su problema de mínimo cardinal en Programación Entera.
+   * Enunciar el Teorema de Dualidad de Gallai (1959) demostrando la igualdad fundamental $|K_0| + |F_0| = n$, donde $K_0$ es un emparejamiento de máximo cardinal y $F_0$ es un recubrimiento de mínimo cardinal.
+   * A partir de un emparejamiento de máximo cardinal del grafo dado, construir constructivamente un recubrimiento de aristas de mínimo cardinal aplicando la regla de Gallai.
+
+   **Solución:**
+
+   * **Definición y Formulación de Recubrimiento de Aristas**:
+     Un recubrimiento de aristas de un grafo $G = (V, E)$ sin vértices aislados es un subconjunto $F \subseteq E$ tal que todo vértice $v \in V$ es incidente en al menos una arista de $F$. Su modelo en Programación Lineal Entera es:
+     $$
+     \begin{aligned}
+     \min_{y} \quad & \sum_{e \in E} y_e \\
+     \text{sujeto a} \quad & \sum_{e \in \delta(v)} y_e \ge 1, \quad \forall v \in V \\
+     & y_e \in \{0, 1\}, \quad \forall e \in E
+     \end{aligned}
+     $$
+
+   * **Demostración del Teorema de Gallai (1959)**:
+     Sea $K_0$ un emparejamiento de máximo cardinal en $G$ ($|K_0| = \alpha'(G)$). El número de vértices saturados por $K_0$ es $2|K_0|$, y el número de vértices expuestos es $n - 2|K_0|$.
+     Para cada vértice expuesto $v \in V_{exp}$, seleccionamos una arista arbitraria incidente en $v$, formando un conjunto de aristas adicionales $E_{add}$ con $|E_{add}| \le n - 2|K_0|$.
+     El conjunto $F = K_0 \cup E_{add}$ cubre a todos los vértices del grafo, por lo que es un recubrimiento válido de aristas cuyo cardinal satisface:
+     $$
+     |F| = |K_0| + (n - 2|K_0|) = n - |K_0|
+     $$
+     Por tanto, el recubrimiento mínimo $F_0$ satisface $|F_0| \le n - |K_0| \implies |K_0| + |F_0| \le n$.
+
+     Recíprocamente, sea $F_0$ un recubrimiento de mínimo cardinal ($|F_0| = \beta'(G)$). Al ser minimal, el subgrafo $(V, F_0)$ es un bosque sin ciclos de longitud $\ge 3$ formado por estrellas disjuntas de aristas. Seleccionando una arista de cada estrella, se obtiene un emparejamiento válido $K$ con cardinal $|K| = n - |F_0|$. Dado que $K_0$ es de máximo cardinal, $|K_0| \ge |K| = n - |F_0| \implies |K_0| + |F_0| \ge n$.
+     Combinando ambas desigualdades se obtiene la identidad exacta de Gallai:
+     $$
+     |K_0| + |F_0| = n \quad \blacksquare
+     $$
+
+   * **Construcción Constructiva**:
+     En el grafo dado de 6 vértices, un emparejamiento perfecto de cardinal 3 es $K_0 = \bigl\{ \{1,2\}, \{3,4\}, \{5,6\} \bigr\}$ con $|K_0| = 3$.
+     Como no quedan vértices expuestos ($V_{exp} = \emptyset$), el propio conjunto de aristas del emparejamiento es un recubrimiento de aristas válido:
+     $$F_0 = K_0 = \bigl\{ \{1,2\}, \, \{3,4\}, \, \{5,6\} \bigr\}$$
+     Su cardinal es $|F_0| = 3$, verificando $|K_0| + |F_0| = 3 + 3 = 6 = n$.
+
+---
+
+2. **Algoritmo de Emparejamiento de Peso Máximo por Cardinalidad Creciente**:
+   * Definir el coste reducido $\delta(L)$ de una cadena alternante respecto de un emparejamiento $K$.
+   * Partir de $K^0 = \emptyset$ y obtener iterativamente el emparejamiento de máximo peso para cardinales $m = 1$, $m = 2$ y $m = 3$, detallando en cada paso todas las cadenas alternantes candidatas y sus costes reducidos $\delta(L)$.
+   * Indicar el emparejamiento de peso máximo global $K^*$ y su valor total óptimo.
+
+   **Solución:**
+
+   * **Definición de Coste Reducido**:
+     Dada una cadena alternante $L$ respecto de $K$, su coste reducido es:
+     $$
+     \delta(L) = \sum_{e \in L \setminus K} p(e) - \sum_{e \in L \cap K} p(e)
+     $$
+
+   * **Ejecución del Algoritmo paso a paso**:
+
+     1. **Cardinal $m = 1$**:
+        Buscamos la arista con peso máximo en $E$:
+        $$e^* = \{4, 6\} \quad \text{con } p(4, 6) = 8$$
+        $$K^1 = \bigl\{ \{4, 6\} \bigr\}, \quad p(K^1) = 8$$
+
+     2. **Cardinal $m = 2$**:
+        Vértices expuestos respecto de $K^1$: $\{1, 2, 3, 5\}$.
+        Evaluamos aristas disjuntas con extremos en $\{1, 2, 3, 5\}$:
+
+        * $\{1, 2\}$: $\delta = p(1,2) = 6$.
+        * $\{1, 3\}$: $\delta = p(1,3) = 4$.
+        * $\{3, 5\}$: $\delta = p(3,5) = 3$.
+        * $\{2, 5\}$: $\delta = p(2,5) = 2$.
+        * Cadena alternante de 3 aristas pasando por $\{4,6\}$:
+          $3 - 4 - 6 - 5$: $\delta = p(3,4) + p(5,6) - p(4,6) = 7 + 4 - 8 = 3$.
+          $2 - 4 - 6 - 5$: $\delta = p(2,4) + p(5,6) - p(4,6) = 5 + 4 - 8 = 1$.
+
+        El coste reducido máximo es $\delta = 6$ correspondiente a la arista $\{1, 2\}$.
+        $$K^2 = K^1 \cup \bigl\{ \{1, 2\} \bigr\} = \bigl\{ \{1, 2\}, \, \{4, 6\} \bigr\}, \quad p(K^2) = 8 + 6 = 14$$
+
+     3. **Cardinal $m = 3$**:
+        Vértices expuestos respecto de $K^2 = \bigl\{ \{1, 2\}, \{4, 6\} \bigr\}$: $\{3, 5\}$.
+        Evaluamos todas las cadenas alternantes que conectan los vértices expuestos $3$ y $5$:
+
+        * **Cadena directa de 1 arista** ($L_A = 3 - 5$):
+          $$\delta(L_A) = p(3, 5) = 3 \implies p = 14 + 3 = 17$$
+
+        * **Cadena alternante de 3 aristas** ($L_B = 3 - 4 - 6 - 5$):
+          Entran $\{3,4\}$ y $\{5,6\}$; sale $\{4,6\} \in K^2$:
+          $$\delta(L_B) = [p(3,4) + p(5,6)] - p(4,6) = [7 + 4] - 8 = 3 \implies p = 14 + 3 = 17$$
+
+        * **Cadena alternante pasando por $\{1,2\}$** ($L_C = 3 - 1 - 2 - 5$):
+          Entran $\{1,3\}$ y $\{2,5\}$; sale $\{1,2\} \in K^2$:
+          $$\delta(L_C) = [p(1,3) + p(2,5)] - p(1,2) = [4 + 2] - 6 = 0 \implies p = 14 + 0 = 14$$
+
+        El coste reducido máximo es $\delta = 3$, obtenido tanto por $L_A$ como por $L_B$.
+        Seleccionando la transferencia con $L_A = \{3, 5\}$:
+        $$
+        K^3 = \bigl\{ \{1, 2\}, \, \{3, 5\}, \, \{4, 6\} \bigr\}, \quad p(K^3) = 6 + 3 + 8 = 17
+        $$
+        (O bien mediante $L_B$: $K'^3 = \bigl\{ \{1, 2\}, \, \{3, 4\}, \, \{5, 6\} \bigr\}$ con peso $6 + 7 + 4 = 17$).
+
+   * **Conclusión de Optimalidad Global**:
+     Al ser $K^3$ un emparejamiento perfecto (6 vértices saturados), el **emparejamiento de peso máximo global** es:
+     $$
+     K^* = \bigl\{ \{1, 2\}, \, \{3, 5\}, \, \{4, 6\} \bigr\} \quad \text{con peso óptimo total } p(K^*) = 17
+     $$

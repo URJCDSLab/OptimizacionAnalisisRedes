@@ -1,0 +1,339 @@
+# Ejercicios del Tema 7: problema del camino mínimo
+
+## Ejercicio 1: Ecuaciones de Bellman y ordenación topológica en DAGs
+
+Considérese el digrafo acíclico $G = (V, A, \mathbf{c})$ de $n = 6$ vértices $V = \{1, 2, 3, 4, 5, 6\}$ con costes de arcos dados por:
+
+$$
+\begin{aligned}
+A = \{ &(1,2): 3, \, (1,3): 6, \, (2,3): 2, \, (2,4): 5, \\
+&(3,4): 1, \, (3,5): 4, \, (4,5): 2, \, (4,6): 7, \, (5,6): 3 \}
+\end{aligned}
+$$
+
+Se pide:
+
+1. Verificar que la numeración de los vértices satisface la propiedad de ordenación topológica $i < j$ para todo $(i, j) \in A$.
+
+   **Solución:**
+
+   Comprobamos la desigualdad estrictamente creciente $i < j$ para los 9 arcos del digrafo:
+
+   * Arcos salientes del nodo 1: $(1,2) \implies 1 < 2$, $(1,3) \implies 1 < 3$.
+   * Arcos salientes del nodo 2: $(2,3) \implies 2 < 3$, $(2,4) \implies 2 < 4$.
+   * Arcos salientes del nodo 3: $(3,4) \implies 3 < 4$, $(3,5) \implies 3 < 5$.
+   * Arcos salientes del nodo 4: $(4,5) \implies 4 < 5$, $(4,6) \implies 4 < 6$.
+   * Arcos salientes del nodo 5: $(5,6) \implies 5 < 6$.
+
+   Puesto que todo arco $(i,j) \in A$ satisface $i < j$, la numeración de nodos coincide con una ordenación topológica válida, lo que garantiza la ausencia de ciclos dirigidos y permite resolver el problema en tiempo lineal $O(|V| + |A|)$.
+
+---
+
+2. Formular las ecuaciones de optimalidad de Bellman para el origen $s = 1$.
+
+   **Solución:**
+
+   Fijando la etiqueta del nodo origen en $u_1 = 0$, las ecuaciones de optimalidad de Bellman para cada nodo $j \in \{2, 3, 4, 5, 6\}$ en orden topológico resultan:
+   $$
+   \begin{aligned}
+   u_1 &= 0 \\
+   u_2 &= u_1 + c_{12} = 0 + 3 \\
+   u_3 &= \min \{ u_1 + c_{13}, \, u_2 + c_{23} \} \\
+   u_4 &= \min \{ u_2 + c_{24}, \, u_3 + c_{34} \} \\
+   u_5 &= \min \{ u_3 + c_{35}, \, u_4 + c_{45} \} \\
+   u_6 &= \min \{ u_4 + c_{46}, \, u_5 + c_{56} \}
+   \end{aligned}
+   $$
+
+---
+
+3. Resolver el sistema en tiempo lineal $O(|V| + |A|)$ obteniendo el vector de distancias mínimas $\mathbf{u} = (u_1, \dots, u_6)$ y el vector de predecesores $\text{Pred}$.
+
+   **Solución:**
+
+   Sustituyendo los valores de las etiquetas provisionales en orden topológico hacia adelante:
+
+   * **Nodo 1**: $u_1 = 0$, $\text{Pred}(1) = 1$.
+
+   * **Nodo 2**: $u_2 = u_1 + c_{12} = 0 + 3 = 3$, $\text{Pred}(2) = 1$.
+
+   * **Nodo 3**:
+     $$ u_3 = \min \{ u_1 + c_{13}, u_2 + c_{23} \} = \min \{ 0 + 6, 3 + 2 \} = \min \{6, 5\} = 5 $$
+     Como el mínimo se alcanza a través del nodo 2, fijamos $\text{Pred}(3) = 2$.
+
+   * **Nodo 4**:
+     $$ u_4 = \min \{ u_2 + c_{24}, u_3 + c_{34} \} = \min \{ 3 + 5, 5 + 1 \} = \min \{8, 6\} = 6 $$
+     Como el mínimo proviene de 3, fijamos $\text{Pred}(4) = 3$.
+
+   * **Nodo 5**:
+     $$ u_5 = \min \{ u_3 + c_{35}, u_4 + c_{45} \} = \min \{ 5 + 4, 6 + 2 \} = \min \{9, 8\} = 8 $$
+     Como el mínimo proviene de 4, fijamos $\text{Pred}(5) = 4$.
+
+   * **Nodo 6**:
+     $$ u_6 = \min \{ u_4 + c_{46}, u_5 + c_{56} \} = \min \{ 6 + 7, 8 + 3 \} = \min \{13, 11\} = 11 $$
+     Como el mínimo proviene de 5, fijamos $\text{Pred}(6) = 5$.
+
+   Los vectores de solución resultan:
+   $$ \mathbf{u}^* = (0, 3, 5, 6, 8, 11) $$
+   $$ \text{Pred}^* = (1, 1, 2, 3, 4, 5) $$
+
+---
+
+4. Trazar la arborescencia de caminos mínimos resultante desde el origen 1.
+
+   **Solución:**
+
+   Reconstruyendo la arborescencia desde el vector de predecesores $\text{Pred}^* = (1, 1, 2, 3, 4, 5)$:
+
+   * Ruta a nodo 2: $1 \to 2$ (coste 3).
+   * Ruta a nodo 3: $1 \to 2 \to 3$ (coste 5).
+   * Ruta a nodo 4: $1 \to 2 \to 3 \to 4$ (coste 6).
+   * Ruta a nodo 5: $1 \to 2 \to 3 \to 4 \to 5$ (coste 8).
+   * Ruta a nodo 6: $1 \to 2 \to 3 \to 4 \to 5 \to 6$ (coste 11).
+
+   La arborescencia óptima está formada por el conjunto de arcos $A_T = \{(1,2), (2,3), (3,4), (4,5), (5,6)\}$.
+
+---
+
+## Ejercicio 2: Algoritmo de Dijkstra paso a paso
+
+Dado el digrafo valorado con costes no negativos $G = (V, A, \mathbf{c})$ con $V = \{1, 2, 3, 4, 5\}$ y arcos:
+
+$$
+\begin{aligned}
+A = \{ &(1,2): 10, \, (1,4): 5, \, (2,3): 1, \, (2,4): 2, \\
+&(3,5): 4, \, (4,2): 3, \, (4,3): 9, \, (4,5): 2, \, (5,3): 6 \}
+\end{aligned}
+$$
+
+Se pide:
+
+1. Ejecutar el Algoritmo de Dijkstra paso a paso para hallar los caminos mínimos desde el nodo origen $1$ al resto de vértices.
+
+   **Solución:**
+
+   Inicializamos el procedimiento asignando $u_1 = 0$ al origen y $u_j = \infty$ para los demás nodos. El conjunto permanente inicial es $\mathcal{P} = \{1\}$ y el transitorio $\mathcal{T} = \{2, 3, 4, 5\}$.
+
+---
+
+2. Completar en cada iteración la tabla con los conjuntos de nodos permanentes $\mathcal{P}$, nodos transitorios $\mathcal{T}$, las etiquetas provisionales y definitivas $u_j$ y el vector de predecesores $\text{Pred}(j)$.
+
+   **Solución:**
+
+   **Tabla de Traza Detallada del Algoritmo de Dijkstra**:
+
+   | Iteración | Nodo Fijado $k$ | $u_k$ | Conjunto Permanente $\mathcal{P}$ | Conjunto Transitorio $\mathcal{T}$ | Etiquetas $(u_1, u_2, u_3, u_4, u_5)$ | Predecesores $\text{Pred}(1..5)$ | Explicación de Relajaciones |
+   | :---: | :---: | :---: | :--- | :--- | :--- | :--- | :--- |
+   | **Inicial** | — | — | $\{1\}$ | $\{2, 3, 4, 5\}$ | $(0, 10, \infty, 5, \infty)$ | $(1, 1, 1, 1, 1)$ | Relaja arcos salientes de 1: $(1,2)=10, (1,4)=5$. |
+   | **Iter 1** | $k=4$ | $5$ | $\{1, 4\}$ | $\{2, 3, 5\}$ | $(0, 8, 14, 5, 7)$ | $(1, 4, 4, 1, 4)$ | Relaja desde 4: $u_2=\min(10, 5+3)=8$; $u_3=\min(\infty, 5+9)=14$; $u_5=\min(\infty, 5+2)=7$. |
+   | **Iter 2** | $k=5$ | $7$ | $\{1, 4, 5\}$ | $\{2, 3\}$ | $(0, 8, 13, 5, 7)$ | $(1, 4, 5, 1, 4)$ | Relaja desde 5: $u_3=\min(14, 7+6)=13$. |
+   | **Iter 3** | $k=2$ | $8$ | $\{1, 4, 5, 2\}$ | $\{3\}$ | $(0, 8, 9, 5, 7)$ | $(1, 4, 2, 1, 4)$ | Relaja desde 2: $u_3=\min(13, 8+1)=9$. |
+   | **Iter 4** | $k=3$ | $9$ | $\{1, 2, 3, 4, 5\}$ | $\emptyset$ | $(0, 8, 9, 5, 7)$ | $(1, 4, 2, 1, 4)$ | Todos los nodos procesados $\implies$ **PARAR**. |
+
+---
+
+3. Dibujar la arborescencia óptima final identificando las rutas y sus costes.
+
+   **Solución:**
+
+   * **Vector de distancias óptimas**: $\mathbf{u}^* = (0, 8, 9, 5, 7)$.
+
+   * **Vector de predecesores**: $\text{Pred}^* = (1, 4, 2, 1, 4)$.
+
+   * **Rutas óptimas en detalle**:
+     * Ruta al nodo 4: $1 \to 4$ (distancia 5).
+     * Ruta al nodo 5: $1 \to 4 \to 5$ (distancia 7).
+     * Ruta al nodo 2: $1 \to 4 \to 2$ (distancia 8).
+     * Ruta al nodo 3: $1 \to 4 \to 2 \to 3$ (distancia 9).
+
+---
+
+## Ejercicio 3: Algoritmo de Bellman-Ford y detección de ciclos de coste negativo
+
+Considérese el digrafo $G = (V, A, \mathbf{c})$ de 4 vértices con los siguientes arcos, alguno de los cuales posee peso negativo:
+
+$$
+A = \{ (1,2): 4, \, (1,3): 5, \, (2,3): -3, \, (3,4): 4, \, (4,2): 1 \}
+$$
+
+Se pide:
+
+1. Desarrollar las iteraciones $m = 1, 2, 3, 4$ del Algoritmo de Bellman-Ford evaluando las etiquetas $u_j^m = \min \{ u_j^{m-1}, \min_k \{ u_k^{m-1} + c_{kj} \} \}$.
+
+   **Solución:**
+
+   Fijamos $u_1^0 = 0$ y $u_j^0 = \infty$ para $j \in \{2, 3, 4\}$:
+
+   * **Iteración $m = 1$ (Relajación de arcos desde el origen)**:
+     * $u_1^1 = 0$.
+     * $u_2^1 = \min \{\infty, u_1^0 + c_{12}\} = \min \{\infty, 0 + 4\} = 4$.
+     * $u_3^1 = \min \{\infty, u_1^0 + c_{13}\} = \min \{\infty, 0 + 5\} = 5$.
+     * $u_4^1 = \infty$.
+     * Vector $u^1 = (0, 4, 5, \infty)$.
+
+   * **Iteración $m = 2$ (Caminos de hasta 2 arcos)**:
+     * $u_2^2 = \min \{4, u_4^1 + c_{42}\} = \min \{4, \infty\} = 4$.
+     * $u_3^2 = \min \{5, u_2^1 + c_{23}\} = \min \{5, 4 + (-3)\} = \min \{5, 1\} = 1$.
+     * $u_4^2 = \min \{\infty, u_3^1 + c_{34}\} = \min \{\infty, 5 + 4\} = 9$.
+     * Vector $u^2 = (0, 4, 1, 9)$.
+
+   * **Iteración $m = 3$ (Caminos de hasta 3 arcos)**:
+     * $u_2^3 = \min \{4, u_4^2 + c_{42}\} = \min \{4, 9 + 1\} = 4$.
+     * $u_3^3 = \min \{1, u_2^2 + c_{23}\} = \min \{1, 4 - 3\} = 1$.
+     * $u_4^3 = \min \{9, u_3^2 + c_{34}\} = \min \{9, 1 + 4\} = 5$.
+     * Vector $u^3 = (0, 4, 1, 5)$.
+
+---
+
+2. Determinar si el algoritmo converge anticipadamente o si alcanza el límite $m = n - 1$.
+
+   **Solución:**
+
+   Evaluamos la iteración $m = 4$:
+
+   * $u_2^4 = \min \{4, u_4^3 + c_{42}\} = \min \{4, 5 + 1\} = 4$.
+   * $u_3^4 = \min \{1, u_2^3 + c_{23}\} = \min \{1, 4 - 3\} = 1$.
+   * $u_4^4 = \min \{5, u_3^3 + c_{34}\} = \min \{5, 1 + 4\} = 5$.
+   * Vector $u^4 = (0, 4, 1, 5)$.
+
+   Puesto que $u^4 = u^3 = (0, 4, 1, 5)$, el algoritmo converge exactamente en la iteración $m = 3 = n - 1$.
+
+---
+
+3. Evaluar la iteración $m = 4$ para comprobar si existen circuitos de coste negativo. Justificar analíticamente la respuesta.
+
+   **Solución:**
+
+   Al ser $u^4 = u^3$, ninguna etiqueta de nodo se reduce durante la iteración $m = n = 4$. Por el criterio de convergencia de Bellman-Ford, esto demuestra analíticamente que **la red no contiene ningún circuito de coste negativo** alcanzable desde el origen 1. La solución de distancias mínimas es $\mathbf{u}^* = (0, 4, 1, 5)$.
+
+---
+
+## Ejercicio 4: Formulación en Programación Lineal Primal-Dual
+
+Dada una red dirigida $G = (V, A, \mathbf{c})$ donde deseamos hallar el camino mínimo del nodo $s$ al nodo $t$:
+
+1. Escribir el modelo primal de flujo de coste mínimo de 1 unidad.
+
+   **Solución:**
+
+   $$
+   \begin{aligned}
+   \min \quad & \sum_{(i,j) \in A} c_{ij} x_{ij} \\
+   \text{s.a.} \quad & \sum_{j \mid (i,j) \in A} x_{ij} - \sum_{k \mid (k,i) \in A} x_{ki} = \begin{cases} 1 & \text{si } i = s \\ -1 & \text{si } i = t \\ 0 & \text{si } i \neq s, t \end{cases} \quad \forall i \in V \\
+   & x_{ij} \ge 0, \quad \forall (i,j) \in A
+   \end{aligned}
+   $$
+
+---
+
+2. Demostrar formalmente por qué la matriz de incidencia nodo-arco $\mathbf{A}$ es totalmente unimodular (TUM) y qué implicación tiene esto sobre las soluciones del programa lineal continuo.
+
+   **Solución:**
+
+   * **Estructura de $\mathbf{A}$**: Toda columna de $\mathbf{A}$ corresponde a un arco dirigido $(u, v)$ y posee exactamente dos entradas no nulas: $+1$ en la fila $u$ y $-1$ en la fila $v$.
+
+   * **Criterio de Heller-Tompkins**: Para cualquier subconjunto de filas $R \subseteq V$, la suma de las filas del subconjunto produce entradas en $\{-1, 0, 1\}$. Por inducción sobre el tamaño de las submatrices cuadradas $B$, $\det(B) \in \{-1, 0, 1\}$.
+
+   * **Implicación**: Dado que $\mathbf{A}$ es TUM y el vector de demandas $\mathbf{b} = (1, 0, \dots, 0, -1)^T$ es entero, todos los vértices del poliedro factible son enteros. En consecuencia, el programa lineal continuo relaja la condición de mecanicidad entera sin perder optimalidad: $x_{ij}^* \in \{0, 1\}$. $\blacksquare$
+
+---
+
+3. Formular el problema dual de programación lineal e interpretar físicamente las variables duales $u_i$ como potenciales nodales.
+
+   **Solución:**
+
+   Asociando la variable dual $u_i$ a la restricción de conservación de flujo del nodo $i \in V$, el problema dual de programación lineal se formula como:
+   $$
+   \begin{aligned}
+   \max \quad & u_t - u_s \\
+   \text{s.a.} \quad & u_j - u_i \le c_{ij}, \quad \forall (i, j) \in A \\
+   & u_i \in \mathbb{R}, \quad \forall i \in V
+   \end{aligned}
+   $$
+   Fijando el potencial arbitrario del origen en $u_s = 0$, las restricciones duales $u_j \le u_i + c_{ij}$ representan exactamente la condición de consistencia de Bellman. En el óptimo, $u_j^*$ coincide con la distancia geodésica mínima desde $s$ hasta el nodo $j$.
+
+---
+
+## Ejercicio 5: Algoritmo de Floyd-Warshall entre todos los pares
+
+Dado el digrafo de 4 vértices $V = \{1, 2, 3, 4\}$ con matriz de distancias directas inicial $D^{(0)}$:
+
+$$
+D^{(0)} = \begin{pmatrix}
+0 & 3 & 8 & \infty \\
+\infty & 0 & \infty & 1.7 \\
+\infty & 4 & 0 & \infty \\
+2 & \infty & -5 & 0
+\end{pmatrix}
+$$
+
+Se pide:
+
+1. Aplicar el Algoritmo de Floyd-Warshall calculando secuencialmente las matrices $D^{(1)}, D^{(2)}, D^{(3)}, D^{(4)}$.
+
+   **Solución:**
+
+   * **$D^{(0)}$ (Matriz Inicial)**:
+     $$
+     D^{(0)} = \begin{pmatrix} 0 & 3 & 8 & \infty \\ \infty & 0 & \infty & 1.7 \\ \infty & 4 & 0 & \infty \\ 2 & \infty & -5 & 0 \end{pmatrix}
+     $$
+
+   * **$D^{(1)}$ (Pivote nodo 1)**: Evaluamos $d_{ij}^{(1)} = \min \{ d_{ij}^{(0)}, d_{i1}^{(0)} + d_{1j}^{(0)} \}$.
+     * $d_{42}^{(1)} = \min \{\infty, d_{41}^{(0)} + d_{12}^{(0)}\} = \min \{\infty, 2 + 3\} = 5$.
+     * $d_{43}^{(1)} = \min \{-5, d_{41}^{(0)} + d_{13}^{(0)}\} = \min \{-5, 2 + 8\} = -5$.
+     $$
+     D^{(1)} = \begin{pmatrix} 0 & 3 & 8 & \infty \\ \infty & 0 & \infty & 1.7 \\ \infty & 4 & 0 & \infty \\ 2 & \mathbf{5} & -5 & 0 \end{pmatrix}
+     $$
+
+   * **$D^{(2)}$ (Pivote nodo 2)**: Evaluamos $d_{ij}^{(2)} = \min \{ d_{ij}^{(1)}, d_{i2}^{(1)} + d_{2j}^{(1)} \}$.
+     * $d_{14}^{(2)} = \min \{\infty, d_{12}^{(1)} + d_{24}^{(1)}\} = \min \{\infty, 3 + 1.7\} = 4.7$.
+     * $d_{34}^{(2)} = \min \{\infty, d_{32}^{(1)} + d_{24}^{(1)}\} = \min \{\infty, 4 + 1.7\} = 5.7$.
+     $$
+     D^{(2)} = \begin{pmatrix} 0 & 3 & 8 & \mathbf{4.7} \\ \infty & 0 & \infty & 1.7 \\ \infty & 4 & 0 & \mathbf{5.7} \\ 2 & 5 & -5 & 0 \end{pmatrix}
+     $$
+
+   * **$D^{(3)}$ (Pivote nodo 3)**: Evaluamos $d_{ij}^{(3)} = \min \{ d_{ij}^{(2)}, d_{i3}^{(2)} + d_{3j}^{(2)} \}$.
+     * $d_{42}^{(3)} = \min \{5, d_{43}^{(2)} + d_{32}^{(2)}\} = \min \{5, -5 + 4\} = -1$.
+     * $d_{44}^{(3)} = \min \{0, d_{43}^{(2)} + d_{34}^{(2)}\} = \min \{0, -5 + 5.7\} = 0$.
+     $$
+     D^{(3)} = \begin{pmatrix} 0 & 3 & 8 & 4.7 \\ \infty & 0 & \infty & 1.7 \\ \infty & 4 & 0 & 5.7 \\ 2 & \mathbf{-1} & -5 & 0 \end{pmatrix}
+     $$
+
+   * **$D^{(4)}$ (Pivote nodo 4 - Matriz Final)**: Evaluamos $d_{ij}^{(4)} = \min \{ d_{ij}^{(3)}, d_{i4}^{(3)} + d_{4j}^{(3)} \}$.
+     * $d_{13}^{(4)} = \min \{8, d_{14}^{(3)} + d_{43}^{(3)}\} = \min \{8, 4.7 + (-5)\} = -0.3$.
+     * $d_{21}^{(4)} = \min \{\infty, d_{24}^{(3)} + d_{41}^{(3)}\} = \min \{\infty, 1.7 + 2\} = 3.7$.
+     * $d_{23}^{(4)} = \min \{\infty, d_{24}^{(3)} + d_{43}^{(3)}\} = \min \{\infty, 1.7 + (-5)\} = -3.3$.
+     * $d_{31}^{(4)} = \min \{\infty, d_{34}^{(3)} + d_{41}^{(3)}\} = \min \{\infty, 5.7 + 2\} = 7.7$.
+     $$
+     D^{(4)} = \begin{pmatrix} 0 & 3 & \mathbf{-0.3} & 4.7 \\ \mathbf{3.7} & 0 & \mathbf{-3.3} & 1.7 \\ \mathbf{7.7} & 4 & 0 & 5.7 \\ 2 & -1 & -5 & 0 \end{pmatrix}
+     $$
+
+---
+
+2. Construir la matriz de reconstrucción de rutas $P^{(4)}$.
+
+   **Solución:**
+
+   La matriz de predecesores $P^{(4)}$ almacena el primer nodo intermedio a visitar al salir del origen:
+   $$
+   P^{(4)} = \begin{pmatrix}
+   1 & 2 & 4 & 2 \\
+   4 & 2 & 4 & 4 \\
+   4 & 2 & 3 & 4 \\
+   1 & 3 & 3 & 4
+   \end{pmatrix}
+   $$
+
+---
+
+3. Determinar la distancia mínima y el camino elemental óptimo para conectar el par de nodos $(3, 1)$.
+
+   **Solución:**
+
+   * **Distancia mínima**: $d(3, 1) = D_{31}^{(4)} = 7.7$.
+
+   * **Reconstrucción del camino**:
+     - Desde 3 hacia 1: $P_{31} = 4 \implies$ El camino comienza con $3 \to 4$.
+     - Desde 4 hacia 1: $P_{41} = 1 \implies$ La siguiente etapa es $4 \to 1$.
+
+   * **Camino óptimo resultante**: Secuencia de nodos $3 \to 4 \to 1$ con coste total $5.7 + 2 = 7.7$.

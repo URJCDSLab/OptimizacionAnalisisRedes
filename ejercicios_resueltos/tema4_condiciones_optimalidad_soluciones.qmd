@@ -1,0 +1,875 @@
+# Ejercicios del Tema 4: condiciones de optimalidad y KKT
+
+## Ejercicio 1: clasificación de puntos estacionarios sin restricciones
+
+Considerar la función real de dos variables:
+$$ f(x_1, x_2) = x_1^3 - 3x_1 x_2^2 + x_2^4 - 2x_2^2 $$
+
+1. **Puntos estacionarios (FONC)**: Encontrar todos los puntos estacionarios de la función resolviendo el sistema $\nabla f(x_1, x_2) = 0$.
+
+   **Solución:**
+
+Calculamos las derivadas parciales de primer orden:
+$$ \frac{\partial f}{\partial x_1} = 3x_1^2 - 3x_2^2 = 3(x_1^2 - x_2^2) = 0 $$
+$$ \frac{\partial f}{\partial x_2} = -6x_1 x_2 + 4x_2^3 - 4x_2 = 2x_2(-3x_1 + 2x_2^2 - 2) = 0 $$
+
+De la primera ecuación: $x_1^2 = x_2^2$, es decir, $x_1 = \pm x_2$.
+
+**Caso $x_1 = x_2$:** Sustituimos en la segunda ecuación:
+$$ 2x_2(-3x_2 + 2x_2^2 - 2) = 0 $$
+
+*   $x_2 = 0 \implies x_1 = 0$. Punto: $P_1 = (0, 0)$.
+*   $2x_2^2 - 3x_2 - 2 = 0 \implies x_2 = \frac{3 \pm \sqrt{9 + 16}}{4} = \frac{3 \pm 5}{4}$.
+    *   $x_2 = 2 \implies x_1 = 2$. Punto: $P_2 = (2, 2)$.
+    *   $x_2 = -1/2 \implies x_1 = -1/2$. Punto: $P_3 = (-1/2, -1/2)$.
+
+**Caso $x_1 = -x_2$:** Sustituimos en la segunda ecuación:
+$$ 2x_2(3x_2 + 2x_2^2 - 2) = 0 $$
+
+*   $x_2 = 0 \implies x_1 = 0$. Punto: $P_1 = (0, 0)$ (ya encontrado).
+*   $2x_2^2 + 3x_2 - 2 = 0 \implies x_2 = \frac{-3 \pm \sqrt{9 + 16}}{4} = \frac{-3 \pm 5}{4}$.
+    *   $x_2 = 1/2 \implies x_1 = -1/2$. Punto: $P_4 = (-1/2, 1/2)$.
+    *   $x_2 = -2 \implies x_1 = 2$. Punto: $P_5 = (2, -2)$.
+
+Los **cinco puntos estacionarios** son:
+$$ P_1 = (0, 0), \quad P_2 = (2, 2), \quad P_3 = (-1/2, -1/2), \quad P_4 = (-1/2, 1/2), \quad P_5 = (2, -2) $$
+
+---
+
+2. **Clasificación mediante condiciones de segundo orden (SONC/SOSC)**: Calcular la matriz hessiana y clasificar cada punto estacionario.
+
+   **Solución:**
+
+La matriz hessiana es:
+$$ \nabla^2 f(x_1, x_2) = \begin{pmatrix} 6x_1 & -6x_2 \\ -6x_2 & -6x_1 + 12x_2^2 - 4 \end{pmatrix} $$
+
+Evaluamos en cada punto estacionario. Para la clasificación, analizamos la traza ($\text{tr}$), el determinante ($\det$) y los autovalores:
+
+*   **$P_1 = (0, 0)$**:
+    $$ H(P_1) = \begin{pmatrix} 0 & 0 \\ 0 & -4 \end{pmatrix} $$
+    $\det(H) = 0$. El Hessiano es semidefinido negativo. La SOSC no se cumple (el determinante es nulo) y la SONC para mínimo exige $H \succeq 0$, que no se verifica. **Punto indeterminado** por condiciones de segundo orden (se requiere análisis de orden superior). Al evaluar la función en un entorno, $f(0, \epsilon) = \epsilon^4 - 2\epsilon^2 < 0 = f(0,0)$ para $\epsilon$ pequeño, mientras que $f(\epsilon, 0) = \epsilon^3$ cambia de signo. **Punto de silla**.
+
+*   **$P_2 = (2, 2)$**:
+    $$ H(P_2) = \begin{pmatrix} 12 & -12 \\ -12 & 32 \end{pmatrix} $$
+    $\det(H) = 12 \cdot 32 - 144 = 240 > 0$ y $H_{11} = 12 > 0$. Por la SOSC, $H \succ 0$. **Mínimo local estricto**.
+
+*   **$P_3 = (-1/2, -1/2)$**:
+    $$ H(P_3) = \begin{pmatrix} -3 & 3 \\ 3 & -1 \end{pmatrix} $$
+    $\det(H) = 3 - 9 = -6 < 0$. Los autovalores tienen signos opuestos. **Punto de silla**.
+
+*   **$P_4 = (-1/2, 1/2)$**:
+    $$ H(P_4) = \begin{pmatrix} -3 & -3 \\ -3 & -1 \end{pmatrix} $$
+    $\det(H) = 3 - 9 = -6 < 0$. Los autovalores tienen signos opuestos. **Punto de silla**.
+
+*   **$P_5 = (2, -2)$**:
+    $$ H(P_5) = \begin{pmatrix} 12 & 12 \\ 12 & 32 \end{pmatrix} $$
+    $\det(H) = 384 - 144 = 240 > 0$ y $H_{11} = 12 > 0$. Por la SOSC, $H \succ 0$. **Mínimo local estricto**.
+
+**Resumen de clasificación:**
+
+| Punto | $f(\bar{x})$ | $\det(H)$ | Clasificación |
+|-------|-------------|-----------|---------------|
+| $P_1 = (0, 0)$ | $0$ | $0$ | Punto de silla |
+| $P_2 = (2, 2)$ | $-8$ | $240 > 0$ | Mínimo local estricto |
+| $P_3 = (-1/2, -1/2)$ | $-3/16$ | $-6 < 0$ | Punto de silla |
+| $P_4 = (-1/2, 1/2)$ | $-3/16$ | $-6 < 0$ | Punto de silla |
+| $P_5 = (2, -2)$ | $-8$ | $240 > 0$ | Mínimo local estricto |
+
+---
+
+3. **Existencia de extremos globales**: Determinar si la función posee mínimo o máximo global.
+
+   **Solución:**
+
+La función $f(x_1, x_2) = x_1^3 - 3x_1 x_2^2 + x_2^4 - 2x_2^2$ no posee mínimo global ni máximo global en $\mathbb{R}^2$:
+
+*   Cuando $x_1 \to +\infty$ con $x_2 = 0$: $f(x_1, 0) = x_1^3 \to +\infty$.
+*   Cuando $x_1 \to -\infty$ con $x_2 = 0$: $f(x_1, 0) = x_1^3 \to -\infty$.
+
+La función es **no acotada** tanto superior como inferiormente, por lo que no posee extremos globales en $\mathbb{R}^2$. Los mínimos locales $P_2 = (2,2)$ y $P_5 = (2,-2)$ con $f = -8$ son los menores valores locales, pero no globales.
+
+```{python}
+import sympy as sp
+
+x1, x2 = sp.symbols('x1 x2')
+f = x1**3 - 3*x1*x2**2 + x2**4 - 2*x2**2
+
+# Gradiente
+grad = [sp.diff(f, v) for v in [x1, x2]]
+print("Gradiente:", grad)
+
+# Puntos estacionarios
+pts = sp.solve(grad, [x1, x2])
+print("\nPuntos estacionarios:")
+for p in pts:
+    print(f"  {p} -> f = {f.subs([(x1, p[0]), (x2, p[1])])}")
+
+# Hessiana en cada punto
+H = sp.Matrix([[sp.diff(f, x1, x1), sp.diff(f, x1, x2)],
+               [sp.diff(f, x2, x1), sp.diff(f, x2, x2)]])
+print("\nHessiana general:")
+sp.pprint(H)
+
+for p in pts:
+    Hp = H.subs([(x1, p[0]), (x2, p[1])])
+    print(f"\nH{p}: det = {Hp.det()}, eigenvals = {Hp.eigenvals()}")
+```
+
+---
+
+## Ejercicio 2: criterio de derivadas de orden superior (caso univariante)
+
+Considerar la función univariante:
+$$ f(x) = (x - 1)^2 (x + 1)^2 $$
+
+1. **Puntos estacionarios**: Encontrar todos los puntos estacionarios de $f$ en $\mathbb{R}$.
+
+   **Solución:**
+
+Expandimos la función para facilitar la derivación. Observamos que $f(x) = [(x-1)(x+1)]^2 = (x^2-1)^2 = x^4 - 2x^2 + 1$.
+
+Derivando:
+$$ f'(x) = 4x^3 - 4x = 4x(x^2 - 1) = 4x(x-1)(x+1) $$
+
+Igualando a cero: $f'(x) = 0 \implies x = 0, \quad x = 1, \quad x = -1$.
+
+Los **tres puntos estacionarios** son $\bar{x}_1 = -1$, $\bar{x}_2 = 0$ y $\bar{x}_3 = 1$.
+
+---
+
+2. **Criterio de derivadas de orden superior**: Aplicar el criterio para clasificar cada punto estacionario.
+
+   **Solución:**
+
+Calculamos las derivadas sucesivas:
+$$ f'(x) = 4x^3 - 4x, \qquad f''(x) = 12x^2 - 4, \qquad f'''(x) = 24x, \qquad f^{(4)}(x) = 24 $$
+
+*   **$\bar{x}_1 = -1$**:
+    *   $f'(-1) = 0$ (estacionario).
+    *   $f''(-1) = 12 - 4 = 8 > 0$.
+    *   La primera derivada no nula es $f''(-1) = 8 > 0$, de orden $n = 2$ (par).
+    *   Por el criterio: **mínimo local**. Valor: $f(-1) = 0$.
+
+*   **$\bar{x}_2 = 0$**:
+    *   $f'(0) = 0$ (estacionario).
+    *   $f''(0) = -4 < 0$.
+    *   La primera derivada no nula es $f''(0) = -4 < 0$, de orden $n = 2$ (par).
+    *   Por el criterio: **máximo local**. Valor: $f(0) = 1$.
+
+*   **$\bar{x}_3 = 1$**:
+    *   $f'(1) = 0$ (estacionario).
+    *   $f''(1) = 12 - 4 = 8 > 0$.
+    *   La primera derivada no nula es $f''(1) = 8 > 0$, de orden $n = 2$ (par).
+    *   Por el criterio: **mínimo local**. Valor: $f(1) = 0$.
+
+---
+
+3. **Clasificación final y extremos globales**: Identificar los extremos locales y globales.
+
+   **Solución:**
+
+*   $\bar{x}_1 = -1$ y $\bar{x}_3 = 1$ son **mínimos locales** con $f = 0$.
+*   $\bar{x}_2 = 0$ es un **máximo local** con $f = 1$.
+
+Dado que $f(x) = (x^2-1)^2 \ge 0$ para todo $x \in \mathbb{R}$, y el valor $f = 0$ se alcanza en $x = \pm 1$, estos dos puntos son también **mínimos globales**.
+
+El máximo local $\bar{x}_2 = 0$ con $f(0) = 1$ **no** es un máximo global, ya que $f(x) \to +\infty$ cuando $|x| \to \infty$.
+
+```{python}
+import sympy as sp
+
+x = sp.Symbol('x')
+f = (x - 1)**2 * (x + 1)**2
+
+# Derivadas sucesivas
+for k in range(1, 5):
+    dk = sp.diff(f, x, k)
+    print(f"f^({k})(x) = {sp.expand(dk)}")
+    for pt in [-1, 0, 1]:
+        print(f"  f^({k})({pt}) = {dk.subs(x, pt)}")
+```
+
+---
+
+## Ejercicio 3: conos de direcciones factibles y de descenso
+
+Considerar el problema de optimización:
+$$
+\begin{aligned}
+\min_{x_1, x_2 \in \mathbb{R}} \quad & f(x_1, x_2) = -x_1 - 2x_2 \\
+\text{sujeto a} \quad & g_1(x_1, x_2) = x_1^2 + x_2^2 - 4 \le 0 \\
+& g_2(x_1, x_2) = -x_1 \le 0
+\end{aligned}
+$$
+
+Se pide evaluar las condiciones de optimalidad basadas en conos de direcciones en los puntos $\bar{x}_A = (2, 0)^T$ y $\bar{x}_B = (0, 2)^T$.
+
+1. **Restricciones activas y gradientes**: Identificar las restricciones activas en cada punto.
+
+   **Solución:**
+
+**Punto $\bar{x}_A = (2, 0)^T$:**
+
+*   $g_1(2, 0) = 4 + 0 - 4 = 0$ → **activa**. $\nabla g_1(2,0) = (2 \cdot 2, 2 \cdot 0)^T = (4, 0)^T$.
+*   $g_2(2, 0) = -2 < 0$ → inactiva.
+*   Conjunto activo: $\mathcal{I}_A = \{1\}$.
+
+**Punto $\bar{x}_B = (0, 2)^T$:**
+
+*   $g_1(0, 2) = 0 + 4 - 4 = 0$ → **activa**. $\nabla g_1(0,2) = (0, 4)^T$.
+*   $g_2(0, 2) = 0$ → **activa**. $\nabla g_2(0,2) = (-1, 0)^T$.
+*   Conjunto activo: $\mathcal{I}_B = \{1, 2\}$.
+
+Además, el gradiente de la función objetivo es constante: $\nabla f = (-1, -2)^T$.
+
+---
+
+2. **Conos de descenso y de restricciones activas**: Determinar $\mathcal{D}_0(\bar{x})$ y $\mathcal{G}_0(\bar{x})$.
+
+   **Solución:**
+
+El cono analítico de descenso es:
+$$ \mathcal{D}_0(\bar{x}) = \{ d \mid \nabla f^T d < 0 \} = \{ d \mid -d_1 - 2d_2 < 0 \} = \{ d \mid d_1 + 2d_2 > 0 \} $$
+
+Este cono es el mismo en ambos puntos, ya que $\nabla f$ es constante.
+
+**En $\bar{x}_A = (2, 0)$** (solo $g_1$ activa):
+$$ \mathcal{G}_0(\bar{x}_A) = \{ d \mid \nabla g_1(\bar{x}_A)^T d < 0 \} = \{ d \mid 4d_1 < 0 \} = \{ d \mid d_1 < 0 \} $$
+
+**En $\bar{x}_B = (0, 2)$** ($g_1$ y $g_2$ activas):
+$$ \mathcal{G}_0(\bar{x}_B) = \{ d \mid \nabla g_1(\bar{x}_B)^T d < 0 \text{ y } \nabla g_2(\bar{x}_B)^T d < 0 \} = \{ d \mid 4d_2 < 0 \text{ y } -d_1 < 0 \} = \{ d \mid d_1 > 0, \ d_2 < 0 \} $$
+
+---
+
+3. **Comprobación de la condición necesaria de optimalidad**: Verificar si $\mathcal{D}_0 \cap \mathcal{G}_0 = \emptyset$.
+
+   **Solución:**
+
+**En $\bar{x}_A = (2, 0)$:**
+
+$\mathcal{D}_0 \cap \mathcal{G}_0 = \{ d \mid d_1 + 2d_2 > 0 \text{ y } d_1 < 0 \}$.
+
+Tomemos $d = (-1, 2)^T$: $d_1 + 2d_2 = -1 + 4 = 3 > 0$ y $d_1 = -1 < 0$. Este vector pertenece a ambos conos. Por tanto, **$\mathcal{D}_0 \cap \mathcal{G}_0 \neq \emptyset$** y la condición necesaria de optimalidad **no se satisface**. $\bar{x}_A$ **no** puede ser un óptimo local.
+
+**En $\bar{x}_B = (0, 2)$:**
+
+$\mathcal{D}_0 \cap \mathcal{G}_0 = \{ d \mid d_1 + 2d_2 > 0, \ d_1 > 0, \ d_2 < 0 \}$.
+
+Para que se cumpla simultáneamente $d_1 > 0$, $d_2 < 0$ y $d_1 + 2d_2 > 0$, necesitaríamos $d_1 > -2d_2 = 2|d_2|$. Pero al exigir $d_1 > 2|d_2|$ con $d_2 < 0$, necesitamos un desplazamiento en $x_1$ mayor que el doble del desplazamiento en $x_2$. Comprobemos: si $d = (\alpha, -\beta)$ con $\alpha, \beta > 0$, entonces $d_1 + 2d_2 = \alpha - 2\beta > 0 \implies \alpha > 2\beta$.
+
+Tomando, por ejemplo, $d = (3, -1)^T$: $d_1 + 2d_2 = 3 - 2 = 1 > 0$, $d_1 = 3 > 0$, $d_2 = -1 < 0$. Este vector satisface todas las condiciones, por lo que **$\mathcal{D}_0 \cap \mathcal{G}_0 \neq \emptyset$** y la condición necesaria **tampoco** se satisface en $\bar{x}_B$.
+
+En realidad, el mínimo de $f = -x_1 - 2x_2$ sujeto a estas restricciones no se encuentra en ninguno de estos dos puntos. El óptimo se sitúa en el interior del arco circular con $x_1 > 0$, concretamente en $\bar{x}^* = (2/\sqrt{5}, 4/\sqrt{5})^T$.
+
+---
+
+4. **Interpretación geométrica**: ¿Cuál de los dos puntos puede ser un óptimo local y por qué?
+
+   **Solución:**
+
+Ninguno de los dos puntos es un óptimo local, ya que en ambos la intersección de conos es no vacía:
+
+*   En $\bar{x}_A = (2,0)$: la dirección de descenso $d = (-1,2)^T$ (que apunta hacia el interior del disco y "sube" en $x_2$) es simultáneamente factible y de descenso. Geométricamente, al estar $\bar{x}_A$ en el ecuador del disco, moverse hacia arriba a lo largo de la frontera circular produce un fuerte descenso en $f$ (que depende más de $x_2$).
+
+*   En $\bar{x}_B = (0,2)$: la dirección $d = (3,-1)^T$ (entrar hacia el interior del disco con aumento de $x_1$) también es factible y produce descenso. Geométricamente, la función mejora moviéndose a lo largo de la frontera del disco hacia la zona de mayor $x_1$.
+
+El óptimo global se halla donde el gradiente $\nabla f = (-1,-2)^T$ es proporcional al gradiente de la restricción activa $\nabla g_1 = (2x_1, 2x_2)^T$, lo que nos lleva a $x_2 = 2x_1$ sobre el círculo, dando $\bar{x}^* = (2/\sqrt{5}, 4/\sqrt{5})^T \approx (0.894, 1.789)^T$ con $f(\bar{x}^*) = -2\sqrt{5} \approx -4.47$.
+
+```{python}
+import sympy as sp
+
+x1, x2 = sp.symbols('x1 x2')
+f = -x1 - 2*x2
+g1 = x1**2 + x2**2 - 4
+
+# El óptimo satisface nabla f + u1 * nabla g1 = 0
+u1 = sp.Symbol('u1', positive=True)
+eq1 = -1 + u1*2*x1  # df/dx1 + u1*dg1/dx1 = 0
+eq2 = -2 + u1*2*x2  # df/dx2 + u1*dg1/dx2 = 0
+eq3 = x1**2 + x2**2 - 4  # g1 = 0
+
+sol = sp.solve([eq1, eq2, eq3], [x1, x2, u1])
+print("Óptimo KKT:")
+for s in sol:
+    print(f"  x1={s[0]}, x2={s[1]}, u1={s[2]}, f={f.subs([(x1,s[0]),(x2,s[1])])}")
+```
+
+---
+
+## Ejercicio 4: condiciones de Fritz-John y fallo de LICQ
+
+Considerar el problema de optimización:
+$$
+\begin{aligned}
+\min_{x_1, x_2 \in \mathbb{R}} \quad & f(x_1, x_2) = x_1 + x_2 \\
+\text{sujeto a} \quad & g_1(x_1, x_2) = (x_1 - 1)^3 - x_2 \le 0 \\
+& g_2(x_1, x_2) = -x_2 \le 0
+\end{aligned}
+$$
+
+Se pide analizar el punto $\bar{x} = (1, 0)^T$.
+
+1. **Factibilidad y restricciones activas**: Verificar que $\bar{x}$ es factible.
+
+   **Solución:**
+
+Evaluamos las restricciones en $\bar{x} = (1, 0)^T$:
+
+*   $g_1(1, 0) = (1-1)^3 - 0 = 0$ → **activa**.
+*   $g_2(1, 0) = -0 = 0$ → **activa**.
+
+El punto $\bar{x} = (1, 0)^T$ es factible ($g_1 \le 0$ y $g_2 \le 0$), y **ambas restricciones son activas**, con $\mathcal{I} = \{1, 2\}$.
+
+---
+
+2. **Condiciones de Fritz-John**: Plantear el sistema.
+
+   **Solución:**
+
+Los gradientes en $\bar{x}$ son:
+$$ \nabla f(1, 0) = (1, 1)^T $$
+$$ \nabla g_1(1, 0) = \left(3(x_1-1)^2, -1\right)^T \bigg|_{(1,0)} = (0, -1)^T $$
+$$ \nabla g_2(1, 0) = (0, -1)^T $$
+
+Las condiciones de Fritz-John exigen la existencia de multiplicadores $u_0, u_1, u_2 \ge 0$, no todos nulos, tales que:
+$$ u_0 \nabla f + u_1 \nabla g_1 + u_2 \nabla g_2 = 0 $$
+
+Componente a componente:
+$$
+\begin{cases}
+u_0 \cdot 1 + u_1 \cdot 0 + u_2 \cdot 0 = 0 \\
+u_0 \cdot 1 + u_1 \cdot (-1) + u_2 \cdot (-1) = 0
+\end{cases}
+$$
+
+---
+
+3. **Resolución de los multiplicadores**: Resolver el sistema y analizar $u_0$.
+
+   **Solución:**
+
+De la primera ecuación: $u_0 = 0$.
+
+Sustituyendo en la segunda ecuación: $0 - u_1 - u_2 = 0 \implies u_1 + u_2 = 0$.
+
+Dado que $u_1 \ge 0$ y $u_2 \ge 0$, la única solución de $u_1 + u_2 = 0$ es $u_1 = u_2 = 0$. Pero esto contradice la condición de no trivialidad $(u_0, u_1, u_2) \neq (0,0,0)$.
+
+Sin embargo, revisando el sistema, la primera ecuación fuerza $u_0 = 0$, y la segunda da $u_1 + u_2 = 0$ con $u_1, u_2 \ge 0$, lo cual obliga a $u_1 = u_2 = 0$, resultando en la solución trivial. Esto indica que las condiciones de Fritz-John **no tienen solución no trivial con multiplicadores no negativos** en el sentido convencional.
+
+En realidad, la condición de Fritz-John sí se satisface formalmente para cualquier $(u_0, u_1, u_2) = (0, \alpha, -\alpha)$ si permitiéramos signos negativos, pero la formulación estándar FJ para mínimos exige $u_i \ge 0$, lo que hace que el sistema no tenga solución no trivial.
+
+Esto significa que $\bar{x} = (1,0)$ **no satisface las condiciones de Fritz-John** con multiplicadores no negativos, lo cual ocurre porque el punto no es un mínimo local (existen direcciones factibles de descenso). En efecto, $\bar{x}$ no es óptimo: tomando $x = (1-\epsilon, 0)$ para $\epsilon > 0$ pequeño, se cumple $g_1 = -\epsilon^3 \le 0$, $g_2 = 0 \le 0$ y $f = 1-\epsilon < 1 = f(\bar{x})$.
+
+**No es posible que $u_0 > 0$**, ya que la primera ecuación lo prohíbe directamente.
+
+---
+
+4. **Comprobación de LICQ e interpretación**: Analizar la independencia lineal de los gradientes.
+
+   **Solución:**
+
+Los gradientes de las restricciones activas en $\bar{x}$ son:
+$$ \nabla g_1(1, 0) = (0, -1)^T \qquad \text{y} \qquad \nabla g_2(1, 0) = (0, -1)^T $$
+
+Estos dos vectores son **linealmente dependientes** (de hecho, son idénticos). La condición LICQ **no se satisface** en $\bar{x} = (1, 0)$.
+
+**Interpretación:** El fallo de LICQ tiene una causa geométrica clara. La restricción $g_1 = (x_1-1)^3 - x_2 \le 0$ tiene un gradiente que se anula en su componente $x_1$ exactamente en $x_1 = 1$ (el exponente cúbico hace que la frontera tenga tangencia de tercer orden con la horizontal). Esto provoca que $\nabla g_1(1,0) = (0,-1)^T$, que es colineal con $\nabla g_2 = (0,-1)^T$.
+
+Cuando LICQ falla, las condiciones KKT no son aplicables como condiciones necesarias. Las condiciones de Fritz-John, siendo más generales, deberían capturar los candidatos, pero en este caso el punto no es un óptimo (existen direcciones factibles de descenso tangentes a la frontera cúbica).
+
+```{python}
+import sympy as sp
+
+x1, x2 = sp.symbols('x1 x2')
+g1 = (x1 - 1)**3 - x2
+g2 = -x2
+f = x1 + x2
+
+# Gradientes en (1, 0)
+print("nabla f(1,0) =", [sp.diff(f, v).subs([(x1,1),(x2,0)]) for v in [x1,x2]])
+print("nabla g1(1,0) =", [sp.diff(g1, v).subs([(x1,1),(x2,0)]) for v in [x1,x2]])
+print("nabla g2(1,0) =", [sp.diff(g2, v).subs([(x1,1),(x2,0)]) for v in [x1,x2]])
+
+# Verificar que (1,0) no es óptimo: evaluar f en (1-eps, 0)
+eps = sp.Symbol('epsilon', positive=True)
+x_test = (1 - eps, 0)
+print(f"\nf(1-eps, 0) = {f.subs([(x1, x_test[0]), (x2, x_test[1])])}")
+print(f"g1(1-eps, 0) = {g1.subs([(x1, x_test[0]), (x2, x_test[1])])}")
+```
+
+---
+
+## Ejercicio 5: resolución KKT completa con análisis por casos
+
+Considerar el problema de optimización:
+$$
+\begin{aligned}
+\min_{x_1, x_2 \in \mathbb{R}} \quad & f(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 1)^2 \\
+\text{sujeto a} \quad & g_1(x_1, x_2) = x_1^2 + x_2^2 - 4 \le 0 \\
+& g_2(x_1, x_2) = x_1 + x_2 - 1 \le 0
+\end{aligned}
+$$
+
+1. **Función lagrangiana y sistema KKT**: Construir el lagrangiano y plantear las condiciones KKT.
+
+   **Solución:**
+
+La función lagrangiana es:
+$$ L(x, u) = (x_1 - 3)^2 + (x_2 - 1)^2 + u_1(x_1^2 + x_2^2 - 4) + u_2(x_1 + x_2 - 1) $$
+
+Las condiciones KKT son:
+
+**Estacionariedad** ($\nabla_x L = 0$):
+$$
+\begin{cases}
+\frac{\partial L}{\partial x_1} = 2(x_1 - 3) + 2u_1 x_1 + u_2 = 0 \\[4pt]
+\frac{\partial L}{\partial x_2} = 2(x_2 - 1) + 2u_1 x_2 + u_2 = 0
+\end{cases}
+$$
+
+**Factibilidad primal:**
+$$ g_1(x) = x_1^2 + x_2^2 - 4 \le 0, \qquad g_2(x) = x_1 + x_2 - 1 \le 0 $$
+
+**Holgura complementaria:**
+$$ u_1 g_1(x) = 0, \qquad u_2 g_2(x) = 0 $$
+
+**Factibilidad dual:**
+$$ u_1 \ge 0, \qquad u_2 \ge 0 $$
+
+---
+
+2. **Resolución por casos**: Analizar los cuatro casos combinatorios.
+
+   **Solución:**
+
+**(a) Caso: $u_1 = 0$, $u_2 = 0$ (ambas inactivas):**
+
+El sistema de estacionariedad se reduce a:
+$$
+\begin{cases}
+2(x_1 - 3) = 0 \implies x_1 = 3 \\
+2(x_2 - 1) = 0 \implies x_2 = 1
+\end{cases}
+$$
+
+El candidato es $(3, 1)$. Verificamos factibilidad primal:
+$$ g_1(3, 1) = 9 + 1 - 4 = 6 > 0 \quad (\text{no factible}) $$
+
+**Descartado**: viola la factibilidad primal.
+
+**(b) Caso: $u_1 \neq 0$, $u_2 = 0$ (solo $g_1$ activa):**
+
+Holgura complementaria exige $g_1 = 0$: $x_1^2 + x_2^2 = 4$.
+
+El sistema de estacionariedad queda:
+$$
+\begin{cases}
+2(x_1 - 3) + 2u_1 x_1 = 0 \implies x_1(1 + u_1) = 3 \\
+2(x_2 - 1) + 2u_1 x_2 = 0 \implies x_2(1 + u_1) = 1
+\end{cases}
+$$
+
+Dividiendo: $\frac{x_1}{x_2} = 3$, es decir, $x_1 = 3x_2$. Sustituyendo en $x_1^2 + x_2^2 = 4$:
+$$ 9x_2^2 + x_2^2 = 4 \implies 10x_2^2 = 4 \implies x_2 = \pm \frac{2}{\sqrt{10}} $$
+
+*   $x_2 = \frac{2}{\sqrt{10}} \approx 0.632$, $x_1 = \frac{6}{\sqrt{10}} \approx 1.897$.
+    De $x_1(1+u_1) = 3$: $u_1 = \frac{3}{x_1} - 1 = \frac{3\sqrt{10}}{6} - 1 = \frac{\sqrt{10}}{2} - 1 \approx 0.581 > 0$. ✓
+    Factibilidad: $g_2 = x_1 + x_2 - 1 = \frac{8}{\sqrt{10}} - 1 \approx 1.53 > 0$. **No factible**. ✗
+
+*   $x_2 = -\frac{2}{\sqrt{10}}$, $x_1 = -\frac{6}{\sqrt{10}}$.
+    De $x_1(1+u_1) = 3$: $1+u_1 = \frac{3}{-6/\sqrt{10}} = -\frac{\sqrt{10}}{2} < 0$, por lo que $u_1 < 0$. ✗
+
+**Descartado** en ambos subcasos.
+
+**(c) Caso: $u_1 = 0$, $u_2 \neq 0$ (solo $g_2$ activa):**
+
+Holgura complementaria exige $g_2 = 0$: $x_1 + x_2 = 1$.
+
+El sistema de estacionariedad queda:
+$$
+\begin{cases}
+2(x_1 - 3) + u_2 = 0 \implies u_2 = -2(x_1 - 3) = 6 - 2x_1 \\
+2(x_2 - 1) + u_2 = 0 \implies u_2 = -2(x_2 - 1) = 2 - 2x_2
+\end{cases}
+$$
+
+Igualando: $6 - 2x_1 = 2 - 2x_2 \implies x_2 - x_1 = -2 \implies x_1 = x_2 + 2$.
+
+Sustituyendo en $x_1 + x_2 = 1$: $x_2 + 2 + x_2 = 1 \implies x_2 = -1/2$, $x_1 = 3/2$.
+
+*   $u_2 = 6 - 2(3/2) = 3 > 0$. ✓
+*   Factibilidad: $g_1(3/2, -1/2) = 9/4 + 1/4 - 4 = 10/4 - 4 = -3/2 < 0$. ✓
+
+**Candidato válido:** $\bar{x}_C = (3/2, -1/2)$ con $u_2 = 3$.
+
+Valor de la función objetivo: $f(3/2, -1/2) = (3/2 - 3)^2 + (-1/2 - 1)^2 = 9/4 + 9/4 = 9/2 = 4.5$.
+
+**(d) Caso: $u_1 \neq 0$, $u_2 \neq 0$ (ambas activas):**
+
+Ambas restricciones activas: $x_1^2 + x_2^2 = 4$ y $x_1 + x_2 = 1$.
+
+De $x_1 = 1 - x_2$: $(1-x_2)^2 + x_2^2 = 4 \implies 2x_2^2 - 2x_2 - 3 = 0$.
+$$ x_2 = \frac{2 \pm \sqrt{4 + 24}}{4} = \frac{2 \pm \sqrt{28}}{4} = \frac{1 \pm \sqrt{7}}{2} $$
+
+*   $x_2 = \frac{1 + \sqrt{7}}{2} \approx 1.823$, $x_1 = \frac{1 - \sqrt{7}}{2} \approx -0.823$.
+
+    De la estacionariedad:
+    $$ u_2 = -2(x_1 - 3) - 2u_1 x_1 \qquad \text{y} \qquad u_2 = -2(x_2 - 1) - 2u_1 x_2 $$
+    Igualando: $-2(x_1-3) - 2u_1 x_1 = -2(x_2-1) - 2u_1 x_2$
+    $$ -2x_1 + 6 - 2u_1 x_1 = -2x_2 + 2 - 2u_1 x_2 $$
+    $$ 2(x_2 - x_1) + 4 = 2u_1(x_1 - x_2) $$
+    $$ 2(x_2 - x_1)(1 + u_1) = -4 \implies u_1 = \frac{-4}{2(x_2 - x_1)} - 1 $$
+
+    Con $x_2 - x_1 = \sqrt{7}$: $u_1 = \frac{-2}{\sqrt{7}} - 1 \approx -1.756 < 0$. ✗
+
+*   $x_2 = \frac{1 - \sqrt{7}}{2} \approx -0.823$, $x_1 = \frac{1 + \sqrt{7}}{2} \approx 1.823$.
+
+    Con $x_2 - x_1 = -\sqrt{7}$: $u_1 = \frac{-2}{-\sqrt{7}} - 1 = \frac{2}{\sqrt{7}} - 1 \approx -0.244 < 0$. ✗
+
+**Descartado** en ambos subcasos: $u_1 < 0$.
+
+---
+
+3. **Verificación de factibilidad y signo de multiplicadores**: Resumen de candidatos válidos.
+
+   **Solución:**
+
+| Caso | $\bar{x}$ | $u_1$ | $u_2$ | Factible | $u_i \ge 0$ | Válido |
+|------|-----------|--------|--------|----------|-------------|--------|
+| (a) $u_1=u_2=0$ | $(3, 1)$ | $0$ | $0$ | ✗ | ✓ | ✗ |
+| (b) $g_1$ activa | $(6/\sqrt{10}, 2/\sqrt{10})$ | $0.58$ | $0$ | ✗ | ✓ | ✗ |
+| (c) $g_2$ activa | $(3/2, -1/2)$ | $0$ | $3$ | ✓ | ✓ | **✓** |
+| (d) Ambas activas | $(\frac{1\pm\sqrt{7}}{2}, \frac{1\mp\sqrt{7}}{2})$ | $<0$ | - | ✓ | ✗ | ✗ |
+
+El **único candidato KKT válido** es $\bar{x}_C = (3/2, -1/2)$.
+
+---
+
+4. **Mínimo global**: Clasificar el candidato.
+
+   **Solución:**
+
+El único candidato KKT válido es $\bar{x}_C = (3/2, -1/2)$ con $f(\bar{x}_C) = 9/2$.
+
+Para confirmar que es el mínimo global, observamos que:
+
+*   La función objetivo $f(x_1, x_2) = (x_1-3)^2 + (x_2-1)^2$ es estrictamente convexa (su hessiana es $2I \succ 0$).
+*   La restricción $g_1 = x_1^2 + x_2^2 - 4$ es convexa (cuadrática con hessiana $2I \succ 0$).
+*   La restricción $g_2 = x_1 + x_2 - 1$ es afín (convexa y cuasiconvexa).
+*   La región factible es la intersección de un disco y un semiplano, que es un conjunto convexo, cerrado y acotado (compacto).
+
+Al ser un problema de minimización convexa sobre un conjunto compacto, el teorema de suficiencia KKT garantiza que el candidato KKT es el **mínimo global**:
+$$ \bar{x}^* = (3/2, -1/2), \qquad f^* = 9/2 $$
+
+```{python}
+import sympy as sp
+
+x1, x2, u1, u2 = sp.symbols('x1 x2 u1 u2')
+f = (x1 - 3)**2 + (x2 - 1)**2
+g1 = x1**2 + x2**2 - 4
+g2 = x1 + x2 - 1
+
+L = f + u1*g1 + u2*g2
+dL1 = sp.diff(L, x1)
+dL2 = sp.diff(L, x2)
+
+# Caso c: u1=0, g2=0
+sol_c = sp.solve([dL1.subs(u1,0), dL2.subs(u1,0), g2], [x1, x2, u2])
+print("Caso (c):", sol_c)
+xc = sol_c[x1], sol_c[x2]
+print(f"f(3/2, -1/2) = {f.subs([(x1, xc[0]), (x2, xc[1])])}")
+print(f"g1(3/2, -1/2) = {g1.subs([(x1, xc[0]), (x2, xc[1])])}")
+```
+
+---
+
+## Ejercicio 6: KKT y condiciones de suficiencia bajo convexidad
+
+Considerar el problema de optimización:
+$$
+\begin{aligned}
+\min_{x_1, x_2 \in \mathbb{R}} \quad & f(x_1, x_2) = x_1^2 + x_2^2 \\
+\text{sujeto a} \quad & g_1(x_1, x_2) = -x_1 - x_2 + 1 \le 0
+\end{aligned}
+$$
+
+1. **Resolución KKT**: Plantear y resolver las condiciones KKT.
+
+   **Solución:**
+
+La función lagrangiana es $L = x_1^2 + x_2^2 + u_1(-x_1 - x_2 + 1)$.
+
+**Estacionariedad:**
+$$
+\begin{cases}
+2x_1 - u_1 = 0 \implies x_1 = u_1/2 \\
+2x_2 - u_1 = 0 \implies x_2 = u_1/2
+\end{cases}
+$$
+
+De las ecuaciones de estacionariedad: $x_1 = x_2 = u_1/2$.
+
+**Caso $u_1 = 0$ (restricción inactiva):** $x_1 = x_2 = 0$. Pero $g_1(0,0) = 1 > 0$: no factible. **Descartado**.
+
+**Caso $u_1 > 0$ (restricción activa, $g_1 = 0$):** $-x_1 - x_2 + 1 = 0 \implies x_1 + x_2 = 1$.
+Sustituyendo $x_1 = x_2$: $2x_1 = 1 \implies x_1 = x_2 = 1/2$, y $u_1 = 2x_1 = 1 > 0$. ✓
+
+El **candidato KKT** es $\bar{x} = (1/2, 1/2)$ con $u_1 = 1$ y $f(\bar{x}) = 1/2$.
+
+---
+
+2. **Convexidad de la función objetivo**: Verificar que $f$ es estrictamente convexa.
+
+   **Solución:**
+
+La hessiana de $f$ es:
+$$ \nabla^2 f = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix} = 2I $$
+
+Los autovalores son $\lambda_1 = \lambda_2 = 2 > 0$. La hessiana es definida positiva ($\nabla^2 f \succ 0$) para todo punto del dominio. Por lo tanto, $f$ es **estrictamente convexa** en $\mathbb{R}^2$.
+
+Una función estrictamente convexa es, en particular, pseudoconvexa: si $\nabla f(\bar{x})^T(y - \bar{x}) \ge 0$ entonces $f(y) \ge f(\bar{x})$, con igualdad solo si $y = \bar{x}$.
+
+---
+
+3. **Cuasiconvexidad de la restricción**: Verificar que $g_1$ es convexa y cuasiconvexa.
+
+   **Solución:**
+
+La restricción $g_1(x_1, x_2) = -x_1 - x_2 + 1$ es una función **afín** (lineal más constante). Toda función afín es simultáneamente convexa y cóncava, y por tanto también cuasiconvexa y cuasicóncava.
+
+Su hessiana es la matriz nula $\nabla^2 g_1 = 0$, que es trivialmente semidefinida positiva. Se cumple la condición requerida por el teorema de suficiencia.
+
+---
+
+4. **Aplicación del teorema de suficiencia KKT**: Demostrar que el candidato es mínimo global.
+
+   **Solución:**
+
+Aplicamos el teorema de suficiencia KKT:
+
+**Hipótesis:**
+
+1. $\bar{x} = (1/2, 1/2)$ satisface todas las condiciones KKT (verificado en el apartado 1).
+2. $f$ es pseudoconvexa (es estrictamente convexa, como se demostró en el apartado 2).
+3. La restricción activa $g_1$ es cuasiconvexa (es afín, como se verificó en el apartado 3).
+
+**Demostración:**
+
+Sea $x$ cualquier punto factible ($g_1(x) \le 0$). Como $g_1(\bar{x}) = 0$ (activa) y $g_1(x) \le 0$, se tiene:
+$$ g_1(x) \le g_1(\bar{x}) $$
+
+Por la cuasiconvexidad de $g_1$, los conjuntos de subnivel son convexos y se cumple que:
+$$ \nabla g_1(\bar{x})^T(x - \bar{x}) \le 0 $$
+
+Dado que $\nabla g_1 = (-1, -1)^T$ y $u_1 = 1 > 0$, por la condición de estacionariedad:
+$$ \nabla f(\bar{x}) = -u_1 \nabla g_1(\bar{x}) = (1, 1)^T $$
+
+Entonces:
+$$ \nabla f(\bar{x})^T(x - \bar{x}) = -u_1 \nabla g_1(\bar{x})^T(x - \bar{x}) \ge 0 $$
+
+(ya que $u_1 > 0$ y $\nabla g_1(\bar{x})^T(x - \bar{x}) \le 0$).
+
+Finalmente, como $f$ es pseudoconvexa y $\nabla f(\bar{x})^T(x - \bar{x}) \ge 0$, se concluye:
+$$ f(x) \ge f(\bar{x}) \qquad \forall x \text{ factible} $$
+
+Por tanto, $\bar{x} = (1/2, 1/2)$ es el **mínimo global** del problema, con $f^* = 1/2$. $\quad \blacksquare$
+
+---
+
+## Ejercicio 7: KKT con restricciones mixtas (igualdad y desigualdad)
+
+Considerar el problema de optimización:
+$$
+\begin{aligned}
+\min_{x_1, x_2 \in \mathbb{R}} \quad & f(x_1, x_2) = x_1^2 + 2x_2^2 \\
+\text{sujeto a} \quad & h_1(x_1, x_2) = x_1 + x_2 - 2 = 0 \\
+& g_1(x_1, x_2) = -x_1 \le 0
+\end{aligned}
+$$
+
+1. **Condiciones KKT generalizadas**: Plantear el sistema KKT con restricciones mixtas.
+
+   **Solución:**
+
+La función lagrangiana generalizada es:
+$$ L(x, u, v) = x_1^2 + 2x_2^2 + u_1(-x_1) + v_1(x_1 + x_2 - 2) $$
+
+Las condiciones KKT generalizadas son:
+
+**Estacionariedad** ($\nabla_x L = 0$):
+$$
+\begin{cases}
+2x_1 - u_1 + v_1 = 0 \\
+4x_2 + v_1 = 0
+\end{cases}
+$$
+
+**Factibilidad primal:**
+$$ h_1: x_1 + x_2 - 2 = 0, \qquad g_1: -x_1 \le 0 \ (\text{i.e., } x_1 \ge 0) $$
+
+**Holgura complementaria:**
+$$ u_1 \cdot (-x_1) = 0 $$
+
+**Factibilidad dual:**
+$$ u_1 \ge 0, \qquad v_1 \in \mathbb{R} \ (\text{libre}) $$
+
+---
+
+2. **Resolución por casos**: Analizar los dos casos.
+
+   **Solución:**
+
+**(a) Caso: $g_1$ inactiva ($x_1 > 0$, $u_1 = 0$):**
+
+El sistema se simplifica a:
+$$
+\begin{cases}
+2x_1 + v_1 = 0 \implies v_1 = -2x_1 \\
+4x_2 + v_1 = 0 \implies v_1 = -4x_2 \\
+x_1 + x_2 = 2
+\end{cases}
+$$
+
+De las dos primeras: $-2x_1 = -4x_2 \implies x_1 = 2x_2$.
+Sustituyendo en la igualdad: $2x_2 + x_2 = 2 \implies x_2 = 2/3$, $x_1 = 4/3$.
+
+*   $v_1 = -2 \cdot 4/3 = -8/3$.
+*   Comprobación: $x_1 = 4/3 > 0$. ✓ (la restricción de desigualdad es inactiva, como asumimos).
+
+**Candidato válido:** $\bar{x}_A = (4/3, 2/3)$ con $u_1 = 0$, $v_1 = -8/3$ y $f(\bar{x}_A) = 16/9 + 8/9 = 24/9 = 8/3 \approx 2.667$.
+
+**(b) Caso: $g_1$ activa ($x_1 = 0$, $u_1 \ge 0$):**
+
+El sistema queda:
+$$
+\begin{cases}
+0 - u_1 + v_1 = 0 \implies v_1 = u_1 \\
+4x_2 + v_1 = 0 \\
+0 + x_2 = 2 \implies x_2 = 2
+\end{cases}
+$$
+
+De la segunda: $v_1 = -4 \cdot 2 = -8$, y por tanto $u_1 = v_1 = -8 < 0$. ✗
+
+**Descartado**: $u_1 < 0$ viola la factibilidad dual.
+
+---
+
+3. **Verificación de factibilidad y condiciones de signo**: Resumen.
+
+   **Solución:**
+
+| Caso | $\bar{x}$ | $u_1$ | $v_1$ | Factible | $u_1 \ge 0$ | Válido |
+|------|-----------|--------|--------|----------|-------------|--------|
+| (a) $g_1$ inactiva | $(4/3, 2/3)$ | $0$ | $-8/3$ | ✓ | ✓ | **✓** |
+| (b) $g_1$ activa | $(0, 2)$ | $-8$ | $-8$ | ✓ | ✗ | ✗ |
+
+El único candidato KKT válido es $\bar{x}^* = (4/3, 2/3)$ con $f^* = 8/3$.
+
+Dado que $f$ es estrictamente convexa, $h_1$ es afín y $g_1$ es afín, el problema es convexo y el candidato KKT es el **mínimo global**:
+$$ \bar{x}^* = (4/3, 2/3), \qquad f^* = 8/3 \approx 2.667 $$
+
+---
+
+4. **Signo libre del multiplicador de igualdad**: Justificar por qué $v_1$ puede ser de cualquier signo.
+
+   **Solución:**
+
+El multiplicador $v_1$ asociado a la restricción de igualdad $h_1(x) = 0$ tiene **signo libre** ($v_1 \in \mathbb{R}$), a diferencia del multiplicador $u_1 \ge 0$ de la restricción de desigualdad. La razón fundamental es la siguiente:
+
+*   Una restricción de **desigualdad** $g_i(x) \le 0$ define una frontera que separa la región factible de la no factible. El multiplicador $u_i$ mide la "presión" de la restricción sobre el óptimo. Si la restricción se relaja (se mueve la frontera), la función objetivo solo puede mejorar o mantenerse igual, lo que impone un signo definido al multiplicador ($u_i \ge 0$ para minimización).
+
+*   Una restricción de **igualdad** $h_j(x) = 0$ confina el movimiento a una variedad (hipersuperficie). No existe una dirección "privilegiada" de relajación: la restricción puede violarse tanto en la dirección $h_j > 0$ como $h_j < 0$. Por tanto, el multiplicador $v_j$ puede ser positivo, negativo o nulo según la posición relativa del gradiente del objetivo respecto a la variedad de la restricción.
+
+En nuestro caso, $v_1 = -8/3 < 0$, lo cual es perfectamente válido. Esto indica que si relajáramos la igualdad $x_1 + x_2 = 2$ a $x_1 + x_2 = 2 + \epsilon$, el valor óptimo de $f$ disminuiría (mejoraría) en $|v_1| \cdot \epsilon$ unidades para $\epsilon > 0$ pequeño.
+
+```{python}
+import sympy as sp
+
+x1, x2, u1, v1 = sp.symbols('x1 x2 u1 v1')
+f = x1**2 + 2*x2**2
+L = f + u1*(-x1) + v1*(x1 + x2 - 2)
+
+dL1 = sp.diff(L, x1)
+dL2 = sp.diff(L, x2)
+h1 = x1 + x2 - 2
+
+# Caso (a): u1=0
+sol_a = sp.solve([dL1.subs(u1, 0), dL2, h1], [x1, x2, v1])
+print("Caso (a):", sol_a)
+print(f"f = {f.subs([(x1, sol_a[x1]), (x2, sol_a[x2])])}")
+
+# Caso (b): x1=0
+sol_b = sp.solve([dL1.subs(x1, 0), dL2, h1.subs(x1, 0)], [x2, u1, v1])
+print("\nCaso (b):", sol_b)
+```
+
+---
+
+## Ejercicio 8: análisis combinatorio de Fritz-John en región mixta
+
+1. **Caso A: Frontera Simétrica**
+
+   **Solución:**
+
+La región factible está delimitada por el círculo de radio $\sqrt{5}$ y la recta $x_1+x_2 = 3$. La intersección de ambas curvas ocurre en los puntos $(1,2)$ y $(2,1)$, que actúan como "esquinas" o vértices de la frontera. El gradiente del objetivo es $\nabla f = (2(x_1-3), 2(x_2-2))^T$.
+
+*   **Esquina $\bar{x} = (2,1)$**:
+    Las restricciones activas son $g_1$ y $g_2$. Los gradientes son $\nabla g_1 = (4,2)^T$ y $\nabla g_2 = (1,1)^T$, los cuales son linealmente independientes. El gradiente del objetivo es $\nabla f(2,1) = (-2,-2)^T$. La ecuación de Fritz-John es:
+    $$ u_0 \begin{pmatrix} -2 \\ -2 \end{pmatrix} + u_1 \begin{pmatrix} 4 \\ 2 \end{pmatrix} + u_2 \begin{pmatrix} 1 \\ 1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} $$
+    Para $u_0 = 1$ (KKT):
+    $$ \begin{cases} -2 + 4u_1 + u_2 = 0 \\ -2 + 2u_1 + u_2 = 0 \end{cases} \implies 2u_1 = 0 \implies u_1 = 0, \ u_2 = 2 \ge 0 $$
+    Al obtener multiplicadores no negativos ($u_1 = 0 \ge 0$, $u_2 = 2 \ge 0$), se satisfacen las condiciones KKT con $u_0 = 1$, siendo este punto un candidato a mínimo local (el óptimo global).
+
+*   **Esquina $\bar{x} = (1,2)$**:
+    Las restricciones activas son también $g_1$ y $g_2$, con gradientes $\nabla g_1 = (2,4)^T$ y $\nabla g_2 = (1,1)^T$. El gradiente del objetivo es $\nabla f(1,2) = (-4,0)^T$. Planteando la ecuación dual:
+    $$ u_0 \begin{pmatrix} -4 \\ 0 \end{pmatrix} + u_1 \begin{pmatrix} 2 \\ 4 \end{pmatrix} + u_2 \begin{pmatrix} 1 \\ 1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} $$
+    Si intentamos resolver para $u_0 = 1$ (KKT):
+    $$ \begin{cases} -4 + 2u_1 + u_2 = 0 \\ 4u_1 + u_2 = 0 \end{cases} \implies -2u_1 = 4 \implies u_1 = -2 < 0 $$
+    Al resultar $u_1 < 0$, el punto se descarta como mínimo bajo las condiciones KKT. Si intentamos resolver con $u_0 = 0$, dado que los gradientes activos son linealmente independientes, la única solución es $u_1 = u_2 = 0$, lo que infringe la condición de no trivialidad. Por tanto, el punto $(1,2)$ no verifica Fritz-John.
+
+---
+
+2. **Caso B: Frontera Asimétrica**
+
+   **Solución:**
+
+Modificamos la restricción lineal a $g_2(x) = x_1 + 2x_2 - 4 \le 0$. La intersección de la recta y el círculo en el primer cuadrante ocurre en el punto $\bar{x} = (2,1)$.
+
+*   **Esquina $\bar{x} = (2,1)$**:
+    Las restricciones activas son $g_1$ y $g_2$, con gradientes linealmente independientes $\nabla g_1 = (4,2)^T$ y $\nabla g_2 = (1,2)^T$. El gradiente del objetivo es $\nabla f(2,1) = (-2,-2)^T$. La ecuación de Fritz-John:
+    $$ u_0 \begin{pmatrix} -2 \\ -2 \end{pmatrix} + u_1 \begin{pmatrix} 4 \\ 2 \end{pmatrix} + u_2 \begin{pmatrix} 1 \\ 2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} $$
+    Para $u_0 = 1$:
+    $$ \begin{cases} -2 + 4u_1 + u_2 = 0 \\ -2 + 2u_1 + 2u_2 = 0 \end{cases} \implies 3u_1 - 1 = 0 \implies u_1 = 1/3 \ge 0, \ u_2 = 2/3 \ge 0 $$
+    Al ser ambos multiplicadores strictly positivos, el punto satisface las condiciones KKT con $u_0 = 1$ y es candidato a mínimo local.
+
+*   **Esquina $\bar{x} = (0,2)$**:
+    Las restricciones activas son la frontera lineal $g_2$ y el eje de ordenadas $g_3 = -x_1 \le 0$. Los gradientes activos son $\nabla g_2 = (1,2)^T$ y $\nabla g_3 = (-1,0)^T$. El gradiente del objetivo es $\nabla f(0,2) = (-6,0)^T$. Planteando la ecuación dual:
+    $$ u_0 \begin{pmatrix} -6 \\ 0 \end{pmatrix} + u_2 \begin{pmatrix} 1 \\ 2 \end{pmatrix} + u_3 \begin{pmatrix} -1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} $$
+    Para $u_0 = 1$, la segunda fila exige $2u_2 = 0 \implies u_2 = 0$. Sustituyendo en la primera fila: $-6 - u_3 = 0 \implies u_3 = -6 < 0$, descartando el punto. Si fijamos $u_0 = 0$, la independencia de los gradientes activos obliga a $u_2 = u_3 = 0$, por lo que tampoco verifica Fritz-John.
+
+```{python}
+import sympy as sp
+
+x1, x2, u0, u1, u2, u3 = sp.symbols('x1 x2 u0 u1 u2 u3')
+f = (x1 - 3)**2 + (x2 - 2)**2
+g1 = x1**2 + x2**2 - 5
+g2_a = x1 + x2 - 3
+g2_b = x1 + 2*x2 - 4
+g3 = -x1
+
+# Verificación Caso A en (2,1)
+grad_f = sp.Matrix([sp.diff(f, x1), sp.diff(f, x2)]).subs([(x1, 2), (x2, 1)])
+grad_g1 = sp.Matrix([sp.diff(g1, x1), sp.diff(g1, x2)]).subs([(x1, 2), (x2, 1)])
+grad_g2 = sp.Matrix([sp.diff(g2_a, x1), sp.diff(g2_a, x2)]).subs([(x1, 2), (x2, 1)])
+
+eq_a = u0 * grad_f + u1 * grad_g1 + u2 * grad_g2
+sol_a = sp.solve(eq_a.subs(u0, 1), [u1, u2])
+print("Caso A en (2,1):", sol_a)
+
+# Verificación Caso B en (2,1)
+grad_g2_b = sp.Matrix([sp.diff(g2_b, x1), sp.diff(g2_b, x2)]).subs([(x1, 2), (x2, 1)])
+eq_b = u0 * grad_f + u1 * grad_g1 + u2 * grad_g2_b
+sol_b = sp.solve(eq_b.subs(u0, 1), [u1, u2])
+print("Caso B en (2,1):", sol_b)
+```

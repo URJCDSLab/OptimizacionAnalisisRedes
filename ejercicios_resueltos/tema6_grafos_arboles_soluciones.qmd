@@ -1,0 +1,545 @@
+# Ejercicios del Tema 6: grafos y árboles soporte de mínimo peso
+
+## Ejercicio 1: fundamentos de grafos, digrafos y lema de la suma de grados
+
+Considerar la red dirigida $G_D = (V, A)$ sobre el conjunto de $6$ vértices $V = \{1, 2, 3, 4, 5, 6\}$ con la siguiente colección de $10$ arcos orientados:
+
+$$ A = \{(1,2), (1,3), (2,3), (2,4), (3,4), (3,5), (4,5), (4,6), (5,6), (6,1)\} $$
+
+Se pide:
+
+1. Dibujar el esquema conceptual de la red dirigida y calcular para cada nodo $v \in V$ su grado de entrada $\deg^-(v)$, su grado de salida $\deg^+(v)$ y su grado total $\deg(v)$.
+
+   **Solución:**
+
+   Analizamos sistemáticamente cada nodo $v \in V$ contabilizando de forma explícita sus arcos de entrada (cuyo destino es $v$) y de salida (cuyo origen es $v$):
+
+   * **Nodo 1**:
+     * Arcos de entrada: $\{(6,1)\} \implies \deg^-(1) = 1$.
+     * Arcos de salida: $\{(1,2), (1,3)\} \implies \deg^+(1) = 2$.
+     * Grado total: $\deg(1) = \deg^-(1) + \deg^+(1) = 1 + 2 = 3$.
+
+   * **Nodo 2**:
+     * Arcos de entrada: $\{(1,2)\} \implies \deg^-(2) = 1$.
+     * Arcos de salida: $\{(2,3), (2,4)\} \implies \deg^+(2) = 2$.
+     * Grado total: $\deg(2) = 1 + 2 = 3$.
+
+   * **Nodo 3**:
+     * Arcos de entrada: $\{(1,3), (2,3)\} \implies \deg^-(3) = 2$.
+     * Arcos de salida: $\{(3,4), (3,5)\} \implies \deg^+(3) = 2$.
+     * Grado total: $\deg(3) = 2 + 2 = 4$.
+
+   * **Nodo 4**:
+     * Arcos de entrada: $\{(2,4), (3,4)\} \implies \deg^-(4) = 2$.
+     * Arcos de salida: $\{(4,5), (4,6)\} \implies \deg^+(4) = 2$.
+     * Grado total: $\deg(4) = 2 + 2 = 4$.
+
+   * **Nodo 5**:
+     * Arcos de entrada: $\{(3,5), (4,5)\} \implies \deg^-(5) = 2$.
+     * Arcos de salida: $\{(5,6)\} \implies \deg^+(5) = 1$.
+     * Grado total: $\deg(5) = 2 + 1 = 3$.
+
+   * **Nodo 6**:
+     * Arcos de entrada: $\{(4,6), (5,6)\} \implies \deg^-(6) = 2$.
+     * Arcos de salida: $\{(6,1)\} \implies \deg^+(6) = 1$.
+     * Grado total: $\deg(6) = 2 + 1 = 3$.
+
+---
+
+2. Verificar numéricamente la versión para digrafos del *Handshaking Lemma*: $\sum_{v \in V} \deg^+(v) = \sum_{v \in V} \deg^-(v) = m$.
+
+   **Solución:**
+
+   Sumamos vectorialmente la totalidad de los grados de salida y de entrada de los 6 vértices:
+   $$ \sum_{v=1}^6 \deg^+(v) = \deg^+(1) + \deg^+(2) + \deg^+(3) + \deg^+(4) + \deg^+(5) + \deg^+(6) = 2 + 2 + 2 + 2 + 1 + 1 = 10 $$
+   $$ \sum_{v=1}^6 \deg^-(v) = \deg^-(1) + \deg^-(2) + \deg^-(3) + \deg^-(4) + \deg^-(5) + \deg^-(6) = 1 + 1 + 2 + 2 + 2 + 2 = 10 $$
+
+   Puesto que la red posee exactamente $m = 10$ arcos orientados, se verifica rigurosamente la identidad teórica del *Handshaking Lemma*:
+   $$ \sum_{v \in V} \deg^+(v) = \sum_{v \in V} \deg^-(v) = m = 10 $$
+
+---
+
+3. Si el sentido de los arcos se ignora para construir el grafo no dirigido subyacente $G = (V, E)$, calcular el grado $\deg(v)$ de cada vértice en $G$ y comprobar que $\sum_{v \in V} \deg(v) = 2m$.
+
+   **Solución:**
+
+   En el grafo no dirigido subyacente $G = (V, E)$, la dirección de paso desaparece y el grado $\deg_G(v)$ coincide con el número total de aristas incidentes en cada vértice:
+
+   * $\deg_G(1) = 3$
+   * $\deg_G(2) = 3$
+   * $\deg_G(3) = 4$
+   * $\deg_G(4) = 4$
+   * $\deg_G(5) = 3$
+   * $\deg_G(6) = 3$
+
+   Calculamos la suma total de los grados en $G$:
+   $$ \sum_{v \in V} \deg_G(v) = 3 + 3 + 4 + 4 + 3 + 3 = 20 $$
+
+   Puesto que $m = 10$, comprobamos la formulación clásica del *Handshaking Lemma* no dirigido:
+   $$ 2m = 2(10) = 20 \implies \sum_{v \in V} \deg_G(v) = 2m $$
+
+---
+
+4. Para el subconjunto de nodos $A = \{2, 3, 4\}$, evaluar analíticamente la incidencia exterior $w^+(A)$, la incidencia interior $w^-(A)$ y el corte total $w(A)$.
+
+   **Solución:**
+
+   Consideramos el subconjunto de nodos $A = \{2, 3, 4\}$ y su complemento exógeno $V \setminus A = \{1, 5, 6\}$.
+
+   * **Incidencia exterior $w^+(A)$**: Formada por todos los arcos $(u, v)$ cuyo origen reside en $A$ ($u \in \{2,3,4\}$) y cuyo destino pertenece al exterior $V \setminus A$ ($v \in \{1,5,6\}$):
+     * Evaluando los arcos de $2$: $(2,3) \in A \times A$, $(2,4) \in A \times A \implies$ Ninguno sale a $V \setminus A$.
+     * Evaluando los arcos de $3$: $(3,4) \in A \times A$, $(3,5) \implies$ Arco $(3,5)$ sale a $V \setminus A$.
+     * Evaluando los arcos de $4$: $(4,5)$ y $(4,6) \implies$ Salen a $V \setminus A$.
+     * Por tanto:
+       $$ w^+(A) = \{(3,5), (4,5), (4,6)\} $$
+
+   * **Incidencia interior $w^-(A)$**: Formada por todos los arcos $(u, v)$ cuyo origen está en $V \setminus A$ ($u \in \{1,5,6\}$) y su destino entra a $A$ ($v \in \{2,3,4\}$):
+     * Evaluando arcos desde $1$: $(1,2)$ y $(1,3) \implies$ Entran a $A$.
+     * Evaluando arcos desde $5$: $(5,6) \implies$ Permanece en $V \setminus A$.
+     * Evaluando arcos desde $6$: $(6,1) \implies$ Permanece en $V \setminus A$.
+     * Por tanto:
+       $$ w^-(A) = \{(1,2), (1,3)\} $$
+
+   * **Corte total $w(A)$**: Unión disjunta de la incidencia exterior e interior:
+     $$ w(A) = w^+(A) \cup w^-(A) = \{(1,2), (1,3), (3,5), (4,5), (4,6)\} $$
+
+---
+
+## Ejercicio 2: tipología de grafos, subgrafos y grafos complementarios
+
+Considérese el grafo simple no dirigido $G = (V, E)$ de $n = 6$ vértices con conjunto de aristas $E = \{\{1,2\}, \{1,3\}, \{2,3\}, \{3,4\}, \{4,5\}, \{4,6\}, \{5,6\}\}$.
+
+Se pide:
+
+1. Clasificar el grafo $G$: determinar si es simple, completo, regular o bipartito. Justificar analíticamente la respuesta utilizando el Teorema de caracterización de grafos bipartitos (ausencia de ciclos impares).
+
+   **Solución:**
+
+   * **Simple**: Sí. No contiene bucles autodirigidos $(\{v,v\} \notin E)$ ni aristas múltiples entre un mismo par de vértices.
+
+   * **Completo**: No. El grafo contiene $m = 7$ aristas, mientras que un grafo completo de 6 vértices $K_6$ requiere $\binom{6}{2} = \frac{6 \times 5}{2} = 15$ aristas.
+
+   * **Regular**: No. La secuencia de grados de los vértices es $\deg(1)=2, \deg(2)=2, \deg(3)=3, \deg(4)=3, \deg(5)=2, \deg(6)=2$, los cuales no son idénticos.
+
+   * **Bipartito**: No. Por el **Teorema de caracterización de grafos bipartitos**, un grafo es bipartito si y solo si no contiene ningún ciclo de longitud impar. En $G$, los vértices $\{1, 2, 3\}$ forman el triangulo simple $C_3 = \{\{1,2\}, \{2,3\}, \{3,1\}\}$, que es un ciclo impar de longitud 3. Por consiguiente, **$G$ no es bipartito**.
+
+---
+
+2. Construir el subgrafo inducido por el subconjunto de vértices $S = \{1, 2, 3, 4\}$, denotado por $G[S]$. Indicar su número de aristas y si es un clan (*clique*).
+
+   **Solución:**
+
+   El subgrafo inducido $G[S]$ se construye seleccionando los nodos $S = \{1, 2, 3, 4\}$ y **todas** las aristas de $E$ cuyas dos extremidades pertenezcan a $S$:
+   $$ E[S] = \{\{u,v\} \in E \mid u, v \in S\} = \{\{1,2\}, \{1,3\}, \{2,3\}, \{3,4\}\} $$
+
+   El subgrafo inducido $G[S]$ contiene $m(G[S]) = 4$ aristas. **No es un clan (*clique*)**, pues para constituir un clan completo de 4 vértices ($K_4$) debería contener la totalidad de sus $\binom{4}{2} = 6$ aristas posibles, faltándole las aristas $\{1,4\}$ y $\{2,4\}$.
+
+---
+
+3. Obtener el grafo complementario $\bar{G} = (V, \bar{E})$ y verificar numéricamente que el número de aristas satisface la relación $m(G) + m(\bar{G}) = \binom{n}{2}$.
+
+   **Solución:**
+
+   El grafo complementario $\bar{G} = (V, \bar{E})$ mantiene el mismo conjunto de vértices $V$, y su conjunto de aristas $\bar{E}$ incluye todas las aristas no presentes en $G$:
+   $$ \bar{E} = \{\{1,4\}, \{1,5\}, \{1,6\}, \{2,4\}, \{2,5\}, \{2,6\}, \{3,5\}, \{3,6\}\} $$
+
+   Contabilizamos las aristas complementarias: $m(\bar{G}) = 8$. Comprobamos la relación de cobertura completa del grafo completo $K_6$:
+   $$ m(G) + m(\bar{G}) = 7 + 8 = 15 = \binom{6}{2} $$
+
+---
+
+4. Calcular el grado de cada vértice en $\bar{G}$ y comprobar que $\deg_{\bar{G}}(v) = n - 1 - \deg_G(v)$ para todo $v \in V$.
+
+   **Solución:**
+
+   Calculamos numéricamente los grados de cada vértice en $\bar{G}$:
+
+   * $\deg_{\bar{G}}(1) = 6 - 1 - \deg_G(1) = 5 - 2 = 3$ (vecinos en $\bar{G}$: $\{4, 5, 6\}$)
+   * $\deg_{\bar{G}}(2) = 6 - 1 - \deg_G(2) = 5 - 2 = 3$ (vecinos en $\bar{G}$: $\{4, 5, 6\}$)
+   * $\deg_{\bar{G}}(3) = 6 - 1 - \deg_G(3) = 5 - 3 = 2$ (vecinos en $\bar{G}$: $\{5, 6\}$)
+   * $\deg_{\bar{G}}(4) = 6 - 1 - \deg_G(4) = 5 - 3 = 2$ (vecinos en $\bar{G}$: $\{1, 2\}$)
+   * $\deg_{\bar{G}}(5) = 6 - 1 - \deg_G(5) = 5 - 2 = 3$ (vecinos en $\bar{G}$: $\{1, 2, 3\}$)
+   * $\deg_{\bar{G}}(6) = 6 - 1 - \deg_G(6) = 5 - 2 = 3$ (vecinos en $\bar{G}$: $\{1, 2, 3\}$)
+
+   La suma de grados en $\bar{G}$ es $3 + 3 + 2 + 2 + 3 + 3 = 16 = 2(8) = 2m(\bar{G})$, verificando la consistencia del modelo.
+
+---
+
+## Ejercicio 3: recorridos, cadenas, caminos y métricas de red
+
+En un grafo no dirigido $G = (V, E)$ sobre $7$ vértices $V = \{1, 2, 3, 4, 5, 6, 7\}$, se analizan diversas secuencias de vértices y aristas:
+
+1. Clasificar rigurosamente las siguientes secuencias como cadena o camino, indicando en cada caso si son **elementales** (sin repetición de vértices) o **simples** (sin repetición de aristas):
+
+   **Solución:**
+
+   *   $\mu_1 = (1, 2, 3, 5, 6)$ pasando por $\{\{1,2\}, \{2,3\}, \{3,5\}, \{5,6\}\}$:
+       * Vértices visitados: $\{1, 2, 3, 5, 6\}$ (todos distintos $\implies$ **elemental**).
+       * Aristas recorridas: todas distintas $\implies$ **simple**.
+
+       * **Conclusión**: Es una **cadena elemental y simple**.
+   *   $\mu_2 = (1, 2, 4, 3, 2, 5)$ pasando por $\{\{1,2\}, \{2,4\}, \{4,3\}, \{3,2\}, \{2,5\}\}$:
+       * Vértices visitados: el vértice 2 se repite dos veces ($1 \to 2$ y $3 \to 2 \to 5$) $\implies$ **no elemental**.
+       * Aristas recorridas: los 5 pares son distintos $\implies$ **simple**.
+
+       * **Conclusión**: Es una **cadena simple pero no elemental**.
+   *   $\mu_3 = (1, 2, 3, 1, 2, 4)$ pasando por $\{\{1,2\}, \{2,3\}, \{3,1\}, \{1,2\}, \{2,4\}\}$:
+       * Vértices visitados: los vértices 1 y 2 se repiten $\implies$ **no elemental**.
+       * Aristas recorridas: la arista $\{1,2\}$ se recorre dos veces $\implies$ **no simple**.
+
+       * **Conclusión**: Es una **cadena ni elemental ni simple** (recorrido general).
+
+---
+
+2. Supóngase que las excentricidades de los nodos son $e(1)=3, e(2)=2, e(3)=2, e(4)=3, e(5)=3, e(6)=4, e(7)=4$. Determinar el **radio** $R(G)$, el **diámetro** $\text{diam}(G)$ y el **centro** del grafo.
+
+   **Solución:**
+
+   * **Radio $R(G)$**: Es la excentricidad mínima de la red:
+     $$ R(G) = \min_{v \in V} e(v) = \min\{3, 2, 2, 3, 3, 4, 4\} = 2 $$
+
+   * **Diámetro $\text{diam}(G)$**: Es la excentricidad máxima de la red:
+     $$ \text{diam}(G) = \max_{v \in V} e(v) = \max\{3, 2, 2, 3, 3, 4, 4\} = 4 $$
+
+   * **Centro del grafo $C(G)$**: Formado por el conjunto de vértices cuyo valor de excentricidad alcanza la cota mínima del radio $R(G) = 2$:
+     $$ C(G) = \{v \in V \mid e(v) = R(G) = 2\} = \{2, 3\} $$
+
+---
+
+## Ejercicio 4: estructura de árboles, bosques y caracterizaciones equivalentes
+
+Considerar un grafo no dirigido $G = (V, E)$ con $n = 8$ vértices y $m = 12$ aristas.
+
+Se pide:
+
+1. Verificar si $G$ puede ser un árbol. Si no es un árbol, determinar cuántas aristas deben eliminarse como mínimo para obtener un árbol soporte $T$.
+
+   **Solución:**
+
+   Un árbol sobre $n$ vértices se define como un grafo conexo y acíclico que satisface estrictamente la relación $m = n - 1$. Para un conjunto de $n = 8$ vértices, todo árbol debe contener exactamente:
+   $$ m_{árbol} = 8 - 1 = 7 \text{ aristas} $$
+
+   Dado que el grafo analizado posee $m = 12 > 7$ aristas, **$G$ no puede ser un árbol** (contiene ciclos cerrados obligatoriamente). El número de aristas que deben eliminarse como mínimo para destruir todos los ciclos y extraer un árbol soporte $T$ coincide con el número ciclomático (o rango del ciclo $\mu(G)$):
+   $$ \mu(G) = m - n + 1 = 12 - 8 + 1 = 5 \text{ aristas} $$
+
+---
+
+2. Demostrar rigurosamente que en todo árbol con $n \ge 2$ vértices existen al menos dos vértices de grado 1 (nodos hoja).
+
+   **Solución:**
+
+   *Demostración*:
+   Sea $T = (V, E)$ un árbol con $n \ge 2$ vértices y $m = n - 1$ aristas. Aplicando el *Handshaking Lemma*:
+   $$ \sum_{v \in V} \deg(v) = 2m = 2(n - 1) = 2n - 2 $$
+
+   Al ser $T$ conexo y $n \ge 2$, no existen vértices aislados, de modo que $\deg(v) \ge 1$ para todo $v \in V$.
+
+   Supóngase por contradicción que $T$ tuviera a lo sumo un único nodo hoja (un único vértice con $\deg(v) = 1$). En tal caso, los restantes $n - 1$ vértices tendrían un grado de al menos 2 ($\deg(v) \ge 2$). Evaluando la suma total de los grados:
+   $$ \sum_{v \in V} \deg(v) \ge 1 + 2(n - 1) = 1 + 2n - 2 = 2n - 1 $$
+
+   Comparando ambas expresiones obtenemos la desigualdad absurda:
+   $$ 2n - 2 \ge 2n - 1 \implies -2 \ge -1 \quad (\text{CONTRADICCIÓN}) $$
+
+   Por consiguiente, todo árbol con $n \ge 2$ vértices debe poseer obligatoriamente al menos **dos vértices de grado 1 (hojas)**. $\blacksquare$
+
+---
+
+3. Probar analíticamente la equivalencia entre dos caracterizaciones fundamentales de un árbol: (a) $G$ es conexo y acíclico, y (b) entre todo par de vértices $u, v \in V$ existe un único camino simple.
+
+   **Solución:**
+
+   *Demostración de la equivalencia $(a) \iff (b)$*:
+
+   * **Implicación $(a) \implies (b)$**: Supóngase que $G$ es conexo y acíclico.
+     * Al ser $G$ conexo, existe al menos un camino simple entre cualquier par de vértices $u, v \in V$.
+     * Si existieran dos caminos simples distintos $P_1$ y $P_2$ entre $u$ y $v$, tomando el primer punto de divergencia y el primer punto de reencuentro se construiría un ciclo simple cerrado en $G$, lo cual contradice que $G$ es acíclico. Por tanto, el camino simple es único.
+
+   * **Implicación $(b) \implies (a)$**: Supóngase que entre todo par $u, v$ existe un único camino simple.
+     * La existencia de camino garantiza inmediatamente la conexidad de $G$.
+     * Si existiera un ciclo $C$ en $G$, cualquier par de vértices en el ciclo estaría conectado por al menos dos caminos simples alternativos (en ambos sentidos del ciclo), contradiciendo la unicidad de caminos. Por tanto, $G$ debe ser acíclico. $\blacksquare$
+
+---
+
+4. Para un árbol $T$ de $6$ nodos $V = \{1, 2, 3, 4, 5, 6\}$ con aristas $E_T = \{\{1,2\}, \{1,3\}, \{2,4\}, \{2,5\}, \{3,6\}\}$, escribir su representación por **vector de padres o predecesores** $\beta$ tomando como nodo raíz el vértice $r = 1$.
+
+   **Solución:**
+
+   Enraizando el árbol en el nodo $r = 1$, la jerarquía de ascendencia asigna a cada vértice su predecesor directo $\beta_i$:
+
+   * Nodo $1$ (Raíz principal): $\beta_1 = 0$.
+   * Nodo $2$ (Hijo directo de 1): $\beta_2 = 1$.
+   * Nodo $3$ (Hijo directo de 1): $\beta_3 = 1$.
+   * Nodo $4$ (Hijo directo de 2): $\beta_4 = 2$.
+   * Nodo $5$ (Hijo directo de 2): $\beta_5 = 2$.
+   * Nodo $6$ (Hijo directo de 3): $\beta_6 = 3$.
+
+   El vector de padres resulta:
+   $$ \beta = (0, 1, 1, 2, 2, 3) $$
+
+---
+
+## Ejercicio 5: planaridad, fórmula de Euler y teorema de Kuratowski
+
+Análisis topológico de la propiedad de planaridad en grafos.
+
+Se pide:
+
+1. Enunciar la **Fórmula Planar de Euler** ($n - m + r = 2$) para un grafo conexo planar y demostrar analíticamente que en todo grafo planar simple con $n \ge 3$ vértices se cumple la desigualdad $m \le 3n - 6$.
+
+   **Solución:**
+
+   *Demostración*:
+   En una representación planar de un grafo simple con $n \ge 3$, cada región plana $R_j$ está delimitada por un contorno cerrado de al menos 3 aristas (al no existir bucles ni aristas dobles). Al sumar los bordes de las $r$ regiones, cada arista pertenece como máximo al contorno de 2 regiones:
+   $$ 2m = \sum_{j=1}^r \text{bordes}(R_j) \ge 3r \implies r \le \frac{2}{3}m $$
+
+   Sustituyendo esta desigualdad en la Fórmula Planar de Euler ($n - m + r = 2$):
+   $$ n - m + \frac{2}{3}m \ge 2 \implies n - \frac{1}{3}m \ge 2 \implies \frac{1}{3}m \le n - 2 \implies m \le 3n - 6 $$
+
+---
+
+2. Demostrar que si un grafo planar simple no contiene triángulos (su cintura es $g \ge 4$), la cota de aristas se estrecha a $m \le 2n - 4$.
+
+   **Solución:**
+
+   Al no contener ciclos de longitud 3, la frontera mínima de cualquier región abarca al menos 4 aristas ($g \ge 4$):
+   $$ 2m = \sum_{j=1}^r \text{bordes}(R_j) \ge 4r \implies r \le \frac{1}{2}m $$
+
+   Sustituyendo en la Fórmula de Euler ($n - m + r = 2$):
+   $$ n - m + \frac{1}{2}m \ge 2 \implies n - \frac{1}{2}m \ge 2 \implies \frac{1}{2}m \le n - 2 \implies m \le 2n - 4 $$
+
+---
+
+3. Aplicar las desigualdades anteriores para demostrar analíticamente que:
+   * El grafo completo $K_5$ (5 vértices, 10 aristas) **no es planar**.
+   * El grafo bipartito completo $K_{3,3}$ (6 vértices, 9 aristas) **no es planar**.
+
+   **Solución:**
+
+   * **Grafo $K_5$**: Posee $n = 5$ vértices y $m = \binom{5}{2} = 10$ aristas. Evaluando $m \le 3n - 6$:
+     $$ 3(5) - 6 = 9 \implies 10 \le 9 \quad (\text{FALSO}) $$
+     Por tanto, **$K_5$ no es planar**.
+
+   * **Grafo $K_{3,3}$**: Al ser bipartito completo, no contiene ciclos impares (su cintura es $g = 4$). Posee $n = 6$ vértices y $m = 3 \times 3 = 9$ aristas. Evaluando la cota para grafos sin triángulos $m \le 2n - 4$:
+     $$ 2(6) - 4 = 8 \implies 9 \le 8 \quad (\text{FALSO}) $$
+     Por tanto, **$K_{3,3}$ no es planar**.
+
+---
+
+4. Enunciar el **Teorema de Kuratowski** y explicar cómo la presencia de un subgrafo homeomórfico a $K_5$ o $K_{3,3}$ demuestra la no planaridad del Grafo de Petersen.
+
+   **Solución:**
+
+   * **Teorema de Kuratowski (1930)**: Un grafo $G$ es planar si y solo si no contiene ningún subgrafo homeomórfico (obtenido por eliminación o subdivisión elemental de aristas) a $K_5$ o $K_{3,3}$.
+
+   * **Grafo de Petersen**: Contiene $n = 10$ vértices y $m = 15$ aristas. Aunque cumple numéricamente la cota $15 \le 3(10) - 6 = 24$, la eliminación de vértices y la contracción de caminos revela la presencia de un subgrafo homeomórfico a $K_{3,3}$, lo que demuestra por el Teorema de Kuratowski que **el Grafo de Petersen no es planar**.
+
+---
+
+## Ejercicio 6: Algoritmo de Kruskal, matroides y propiedad del corte
+
+Considérese una red no dirigida valorada de 6 vértices $V = \{A, B, C, D, E, F\}$ con las siguientes 10 aristas valoradas:
+
+$$
+\begin{aligned}
+E = \{ &(A,B, 3), (A,C, 1), (A,D, 4), (B,C, 2), (B,E, 5), \\
+&(C,D, 6), (C,E, 3), (C,F, 7), (D,F, 2), (E,F, 4) \}
+\end{aligned}
+$$
+
+Se pide:
+
+1. Formular matemáticamente el problema del Árbol Soporte de Mínimo Peso (MST) como un problema de optimización combinatoria.
+
+   **Solución:**
+
+   Sea $\mathcal{T}$ la familia de todos los subconjuntos de aristas $T \subseteq E$ que constituyen un árbol soporte del grafo conexo $G = (V, E)$. El problema de optimización combinatoria se formula como:
+   $$
+   \begin{aligned}
+   \min_{T \subseteq E} \quad & d(T) = \sum_{e \in T} w(e) \\
+   \text{sujeto a} \quad & |T| = n - 1 = 5 \\
+   & T \text{ es acíclico}
+   \end{aligned}
+   $$
+
+---
+
+2. Aplicar paso a paso el Algoritmo de Kruskal, indicando el orden de evaluación de las aristas, las componentes conexas disjuntas (*Union-Find*) tras cada incorporación y las aristas descartadas por formar ciclo.
+
+   **Solución:**
+
+   Ordenamos la totalidad de las 10 aristas por peso estrictamente creciente:
+   $$ (A,C: 1), (B,C: 2), (D,F: 2), (A,B: 3), (C,E: 3), (A,D: 4), (E,F: 4), (B,E: 5), (C,D: 6), (C,F: 7) $$
+
+   **Tabla de Traza Detallada del Algoritmo de Kruskal**:
+
+   | Paso | Arista Evaluada $e$ | Peso $w(e)$ | ¿Forma Ciclo en $T$? | Decisión | Componentes Conexas Resultantes |
+   | :---: | :---: | :---: | :---: | :---: | :--- |
+   | **1** | $(A,C)$ | 1 | No | **ACEPTADA** | $\{A,C\}, \{B\}, \{D\}, \{E\}, \{F\}$ |
+   | **2** | $(B,C)$ | 2 | No | **ACEPTADA** | $\{A,B,C\}, \{D\}, \{E\}, \{F\}$ |
+   | **3** | $(D,F)$ | 2 | No | **ACEPTADA** | $\{A,B,C\}, \{D,F\}, \{E\}$ |
+   | **4** | $(A,B)$ | 3 | **Sí** ($A-B-C$) | **DESCARTADA** | $\{A,B,C\}, \{D,F\}, \{E\}$ |
+   | **5** | $(C,E)$ | 3 | No | **ACEPTADA** | $\{A,B,C,E\}, \{D,F\}$ |
+   | **6** | $(A,D)$ | 4 | No | **ACEPTADA** | $\{A,B,C,D,E,F\}$ (Conexo) |
+
+   El algoritmo finaliza al haber seleccionado $n - 1 = 5$ aristas.
+
+---
+
+3. Calcular el peso total del árbol soporte de mínimo peso $d(T)$.
+
+   **Solución:**
+
+   El conjunto de aristas del MST es $T = \{(A,C), (B,C), (D,F), (C,E), (A,D)\}$. Su peso total acumulado es:
+   $$ d(T) = 1 + 2 + 2 + 3 + 4 = 12 $$
+
+---
+
+4. Utilizar la **Propiedad del Corte (*Cut Property*)** para justificar analíticamente por qué la arista $(A,C)$ pertenece obligatoriamente a todo MST de la red.
+
+   **Solución:**
+
+   Considerando la partición de corte $S = \{A\}$ y $V \setminus S = \{B, C, D, E, F\}$, las aristas que cruzan el corte son:
+   $$ w(\{A\}) = \{(A,C): 1, (A,B): 3, (A,D): 4\} $$
+
+   Puesto que $(A,C)$ posee un peso de 1, estrictamente menor que las demás aristas del corte ($1 < 3 < 4$), por la **Propiedad del Corte** la arista $(A,C)$ pertenece obligatoriamente a **todo** árbol soporte de mínimo peso de la red.
+
+---
+
+5. Determinar si el MST hallado es único o si existen árboles soporte de mínimo peso alternativos.
+
+   **Solución:**
+
+   En el Paso 6 existía la arista alternativa $(E,F)$ con peso 4. Si en lugar de incorporar $(A,D)$ seleccionamos $(E,F)$, se obtiene el árbol alternativo:
+   $$ T' = \{(A,C), (B,C), (D,F), (C,E), (E,F)\} $$
+   Su peso total es $d(T') = 1 + 2 + 2 + 3 + 4 = 12$. Por tanto, **el MST no es único**.
+
+---
+
+## Ejercicio 7: Algoritmo de Prim, árboles de caminos mínimos y comparativa con el problema del camino mínimo (Dijkstra)
+
+Para la misma red no dirigida valorada de 6 vértices $V = \{A, B, C, D, E, F\}$ del Ejercicio 6:
+
+Se pide:
+
+1. Ejecutar paso a paso el Algoritmo de Prim eligiendo como nodo raíz inicial $v_1 = A$. Detallar para cada iteración $i=1, \dots, 5$ el conjunto de vértices visitados $P$, las aristas del corte $w(P)$ y la arista de peso mínimo seleccionada.
+
+   **Solución:**
+
+   **Tabla de Traza Detallada del Algoritmo de Prim (Raíz $v_1 = A$)**:
+
+   | Iteración | Nodos Visitados $P$ | Aristas del Corte $w(P)$ | Arista Seleccionada (Peso Mínimo) | Nuevo Nodo Añadido | Peso Acumulado |
+   | :---: | :--- | :--- | :---: | :---: | :---: |
+   | **0** | $\{A\}$ | $\{(A,B):3, (A,C):1, (A,D):4\}$ | — | $A$ | 0 |
+   | **1** | $\{A,C\}$ | $\{(A,B):3, (A,D):4, (C,B):2, (C,D):6, (C,E):3, (C,F):7\}$ | $(A,C)$ (Peso 1) | $C$ | 1 |
+   | **2** | $\{A,B,C\}$ | $\{(A,D):4, (B,E):5, (C,D):6, (C,E):3, (C,F):7\}$ | $(B,C)$ (Peso 2) | $B$ | 3 |
+   | **3** | $\{A,B,C,E\}$ | $\{(A,D):4, (B,E):5, (C,D):6, (C,F):7, (E,F):4\}$ | $(C,E)$ (Peso 3) | $E$ | 6 |
+   | **4** | $\{A,B,C,D,E\}$| $\{(C,F):7, (D,F):2, (E,F):4\}$ | $(A,D)$ (Peso 4) | $D$ | 10 |
+   | **5** | $\{A,B,C,D,E,F\}$| — | $(D,F)$ (Peso 2) | $F$ | **12** |
+
+---
+
+2. Verificar que el árbol resultante y su peso acumulado coinciden exactamente con la solución de Kruskal.
+
+   **Solución:**
+
+   El conjunto de aristas seleccionadas por el algoritmo de Prim es $T = \{(A,C), (B,C), (C,E), (A,D), (D,F)\}$. Su peso total es $1 + 2 + 3 + 4 + 2 = 12$, coincidiendo con el valor obtenido mediante el algoritmo de Kruskal.
+
+---
+
+3. Ejecutar nuevamente Prim cambiando el nodo raíz inicial a $v_1 = F$. Justificar la invariancia del peso total del MST.
+
+   **Solución:**
+
+   Iniciando en $v_1 = F$:
+
+   * Iteración 1: $P=\{F\}$, selecciona $(D,F)$ de peso 2 $\implies P=\{D,F\}$.
+   * Iteración 2: $P=\{D,F\}$, selecciona $(A,D)$ de peso 4 $\implies P=\{A,D,F\}$.
+   * Iteración 3: $P=\{A,D,F\}$, selecciona $(A,C)$ de peso 1 $\implies P=\{A,C,D,F\}$.
+   * Iteración 4: $P=\{A,C,D,F\}$, selecciona $(B,C)$ de peso 2 $\implies P=\{A,B,C,D,F\}$.
+   * Iteración 5: Selecciona $(C,E)$ de peso 3 $\implies P=V$.
+
+   El peso total alcanzado es $2 + 4 + 1 + 2 + 3 = 12$. Esto demuestra que el peso del MST es un **invariante estructural del grafo**, independiente de la raíz elegida.
+
+---
+
+4. **Análisis Conceptual**: Explicar la diferencia fundamental entre un Árbol Soporte de Mínimo Peso (MST) y un Árbol de Caminos Mínimos (SPT, obtenido con Dijkstra desde un origen). Construir un contraejemplo numérico de 3 nodos donde el MST no coincida con el SPT.
+
+   **Solución:**
+
+   * **Diferencia Fundamental**:
+
+     * **MST (Árbol Soporte de Mínimo Peso)**: Minimiza el peso total global sumando todas las aristas de la estructura: $\min \sum_{e \in T} w(e)$.
+
+     * **SPT (Árbol de Caminos Mínimos)**: Minimiza la distancia acumulada individual desde la raíz $s$ a cada uno de los nodos: $\min d_T(s, v), \forall v \in V$.
+
+   * **Contraejemplo Numérico**:
+     Considérese el grafo triángulo $V = \{A, B, C\}$ con aristas $w(A,B) = 2, w(A,C) = 2, w(B,C) = 1$.
+
+     * **MST**: Aristas $\{(B,C), (A,B)\}$ con peso total $1 + 2 = 3$. En este árbol, la distancia de $A$ a $C$ es $d(A,B) + d(B,C) = 2 + 1 = 3$.
+
+     * **SPT desde raíz $A$**: Aristas $\{(A,B), (A,C)\}$ con peso total $2 + 2 = 4$. La distancia de $A$ a $C$ es 2.
+
+     * **Conclusión**: El MST y el SPT de raíz $A$ son árboles distintos y no coinciden.
+
+---
+
+## Ejercicio 8: aplicación en aprendizaje no supervisado: clustering basado en MST
+
+Análisis teórico y numérico del clustering jerárquico basado en la partición del MST.
+
+Se pide:
+
+1. Explicar el procedimiento algorítmico para segmentar un conjunto de $N$ observaciones en $\mathbb{R}^d$ en $k$ clústeres inconexos a partir del MST de la matriz de desemejanza.
+
+   **Solución:**
+
+   1. Formar el grafo completo valorado $G = (V, E, \mathbf{d})$, donde cada nodo representa un punto $p_i \in \mathbb{R}^d$ y el peso $d(p_i, p_j)$ es su distancia de desemejanza.
+   2. Calcular el árbol soporte de mínimo peso $T$ sobre $G$ (contiene $N - 1$ aristas).
+   3. Ordenar las $N - 1$ aristas de $T$ por peso decreciente.
+   4. Eliminar las $k - 1$ aristas de mayor longitud. Las $k$ componentes conexas disjuntas resultantes constituyen los $k$ clústeres finales.
+
+---
+
+2. Analizar teóricamente la función de calidad $F(T \setminus E_k) = \min_{e \in E_k} w(e)$ basada en la maximización de la distancia inter-clúster (*Single-Linkage*).
+
+   **Solución:**
+
+   La retirada de las $k - 1$ aristas más largas del MST maximiza implícitamente la separación mínima entre clústeres distintos. Por la propiedad del corte del MST, la distancia mínima entre cualquier punto del clúster $C_i$ y cualquier punto del clúster $C_j$ coincide con el peso de la arista eliminada que los unía, garantizando la optimalidad de la partición bajo el criterio *Single-Linkage*.
+
+---
+
+3. Comparar el comportamiento del clustering basado en MST frente al algoritmo $k$-medias ($WCSS$), argumentando por qué el MST es capaz de separar clústeres con geometrías no convexas (como anillos concéntricos o serpentinas).
+
+   **Solución:**
+
+   El algoritmo de $k$-medias presupone la existencia de clústeres esféricos convexos delimitados por centroides, dividiendo el espacio mediante hiperplanos de Voronoi. Ante estructuras geométricas entrelazadas no convexas (como anillos o espirales), $k$-medias fracasa al cortar los anillos. En cambio, el MST conecta cada punto con su vecino más cercano en el espacio geodésico; al eliminar las aristas más largas, se separan limpiamente los anillos concéntricos sin importar su no convexidad.
+
+---
+
+4. **Ejercicio Numérico**: Considérense 6 puntos en $\mathbb{R}^2$: $p_1=(0,0), p_2=(1,0), p_3=(0,1), p_4=(5,5), p_5=(6,5), p_6=(5,6)$. Construir el MST utilizando la distancia euclídea y obtener la partición en $k = 2$ clústeres eliminando la arista de mayor peso.
+
+   **Solución:**
+
+   Calculamos la matriz de distancias euclídeas $d(p_i, p_j) = \sqrt{(x_i - x_j)^2 + (y_i - y_j)^2}$:
+
+   * Intra-Grupo 1 $\{p_1, p_2, p_3\}$:
+     * $d(p_1, p_2) = 1$
+     * $d(p_1, p_3) = 1$
+     * $d(p_2, p_3) = \sqrt{1^2 + 1^2} = \sqrt{2} \approx 1.414$
+   * Intra-Grupo 2 $\{p_4, p_5, p_6\}$:
+     * $d(p_4, p_5) = 1$
+     * $d(p_4, p_6) = 1$
+     * $d(p_5, p_6) = \sqrt{1^2 + 1^2} = \sqrt{2} \approx 1.414$
+   * Distancia inter-grupo mínima: entre $p_3(0,1)$ y $p_4(5,5)$:
+     $$ d(p_3, p_4) = \sqrt{(5-0)^2 + (5-1)^2} = \sqrt{25 + 16} = \sqrt{41} \approx 6.403 $$
+
+   **Construcción del MST**:
+
+   * Aristas seleccionadas: $T = \{(p_1,p_2): 1, (p_1,p_3): 1, (p_4,p_5): 1, (p_4,p_6): 1, (p_3,p_4): 6.403\}$.
+   * Para $k = 2$ clústeres, se elimina la arista de mayor peso $e_{max} = (p_3, p_4)$ con peso $6.403$.
+
+   * **Partición resultante en $k = 2$ clústeres**:
+
+     * **Clúster 1**: $\{p_1, p_2, p_3\} = \{(0,0), (1,0), (0,1)\}$
+
+     * **Clúster 2**: $\{p_4, p_5, p_6\} = \{(5,5), (6,5), (5,6)\}$

@@ -169,6 +169,12 @@ format:
     include-in-header:
       text: |
         \usepackage{xcolor}
+        \definecolor{firebrick}{HTML}{B22222}
+        \definecolor{midnightblue}{HTML}{191970}
+        \definecolor{goldenrod}{HTML}{DAA520}
+        \definecolor{dodgerblue}{HTML}{0284C7}
+        \definecolor{forestgreen}{HTML}{16A34A}
+        \definecolor{emerald}{HTML}{059669}
         \usepackage{tcolorbox}
         \tcbuselibrary{skins, breakable}
         \usepackage{framed}

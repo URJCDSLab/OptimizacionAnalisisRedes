@@ -1,0 +1,594 @@
+# Ejercicios del Tema 10: rutas eulerianas, hamiltonianas y problemas de rutas
+
+## Ejercicio 1: Grafos Eulerianos, Teorema de Euler y Algoritmo Constructivo de Cadenas
+
+Considérese el grafo simple no dirigido y conexo $G = (V, E)$ de $n = 7$ vértices $V = \{1, 2, 3, 4, 5, 6, 7\}$ con el siguiente conjunto de 11 aristas:
+
+$$
+\begin{aligned}
+E = \bigl\{ & \{1, 2\}, \, \{1, 3\}, \, \{2, 3\}, \, \{2, 4\}, \, \{2, 5\}, \, \{3, 4\}, \\
+& \{3, 5\}, \, \{4, 6\}, \, \{5, 6\}, \, \{4, 7\}, \, \{5, 7\} \bigr\}
+\end{aligned}
+$$
+
+cuya secuencia de grados nodales es:
+
+$$
+d(1) = 2, \quad d(2) = 4, \quad d(3) = 4, \quad d(4) = 4, \quad d(5) = 4, \quad d(6) = 2, \quad d(7) = 2
+$$
+
+Se pide:
+
+1. **Demostración de paridad**: Demostrar formalmente que en cualquier grafo euleriano no dirigido conexo, todos sus vértices deben tener obligatoriamente grado par, analizando el comportamiento de las aristas incidentes en cada paso de un circuito cerrado.
+
+   **Solución:**
+
+   Sea $G = (V, E)$ un grafo conexo que admite un circuito euleriano cerrado $C = (v_0, e_1, v_1, e_2, \dots, e_m, v_0)$ que recorre cada arista $e \in E$ exactamente una vez.
+
+   Analicemos la contribución del recorrido $C$ al grado de cada vértice $v \in V$:
+
+   * **Vértices intermedios ($v \ne v_0$)**: Cada vez que el circuito cerrado pasa por el vértice $v$, entra a través de una arista incidente $e_{in} \in \delta(v)$ y sale obligatoriamente mediante una arista incidente distinta $e_{out} \in \delta(v)$. Cada tránsito aporta exactamente $+2$ al número de aristas incidentes utilizadas en $v$. Si el recorrido visita el vértice $v$ un número $k_v \in \mathbb{N}$ de veces, el número total de aristas incidentes en $v$ utilizadas por el circuito es $2 k_v$.
+
+   * **Vértice inicial y final ($v_0$)**: El circuito se inicia saliendo de $v_0$ mediante la primera arista $e_1$, y concluye entrando a $v_0$ mediante la última arista $e_m$. Este par inicial-final aporta $+2$ al grado. Si adicionalmente el circuito visita $v_0$ como nodo intermedio $k_{v_0}$ veces, el número total de aristas incidentes utilizadas es $2 + 2 k_{v_0} = 2(k_{v_0} + 1)$.
+
+   Dado que por hipótesis el circuito euleriano recorre **todas** las aristas de $E$ sin omitir ni repetir ninguna, el grado de cada vértice $v \in V$ coincide exactamente con el número de aristas incidentes utilizadas en la secuencia:
+   $$
+   d(v) = 2 k_v \in 2\mathbb{N}, \quad \forall v \in V
+   $$
+   Por tanto, la paridad par en todos los vértices es una condición matemáticamente necesaria. $\blacksquare$
+
+---
+
+2. **Caracterización de Euler**: Aplicar el Teorema de Euler para certificar si el grafo $G$ admite un circuito euleriano cerrado.
+
+   **Solución:**
+
+   El **Teorema de Euler (1736)** establece que un grafo no dirigido $G = (V, E)$ admite un circuito euleriano cerrado si y solo si se verifican simultáneamente dos condiciones:
+
+   1. El grafo es conexo (salvo posibles vértices aislados de grado 0).
+   2. Todos los vértices tienen grado estrictamente par: $d(v) \equiv 0 \pmod 2, \; \forall v \in V$.
+
+   Evaluando el grafo $G$:
+
+   * **Conectividad**: Existe camino entre cualquier par de vértices (el grafo consta de una única componente conexa con $|V| = 7$).
+
+   * **Paridad de grados**:
+     $$
+     d(1) = 2, \quad d(2) = 4, \quad d(3) = 4, \quad d(4) = 4, \quad d(5) = 4, \quad d(6) = 2, \quad d(7) = 2
+     $$
+     Dado que todos los grados pertenecen a $\{2, 4\}$, todos los vértices son pares.
+
+   *Conclusión*: Por el Teorema de Euler, el grafo $G$ es estrictamente euleriano y admite al menos un circuito euleriano cerrado.
+
+---
+
+3. **Traza del algoritmo constructivo**: Desarrollar paso a paso el algoritmo constructivo de cadenas eulerianas.
+
+   **Solución:**
+
+   El algoritmo constructivo (basado en el método de descomposición de Hierholzer) descompone el grafo euleriano en una unión de ciclos simples disjuntos en aristas y los fusiona iterativamente:
+
+   * **Paso 1 (Ciclo inicial $C_1$)**:
+     Partiendo del vértice $1$, trazamos un ciclo simple en $G$:
+     $$
+     C_1 = (1, 2, 3, 1)
+     $$
+     Aristas utilizadas: $E(C_1) = \bigl\{ \{1, 2\}, \, \{2, 3\}, \, \{3, 1\} \bigr\}$ (3 aristas).
+     Grafo residual de aristas no visitadas: $E_1 = E \setminus E(C_1)$ ($11 - 3 = 8$ aristas).
+
+   * **Paso 2 (Detección de contacto y ciclo secundario $C_2$)**:
+     En el ciclo $C_1$, el vértice $2$ tiene aristas incidentes no utilizadas en $E_1$: $\{2, 4\}$ y $\{2, 5\}$.
+     Iniciamos una búsqueda desde el vértice $2$ en el grafo residual $E_1$:
+     $$
+     C_2 = (2, 4, 6, 5, 2)
+     $$
+     Aristas utilizadas: $E(C_2) = \bigl\{ \{2, 4\}, \, \{4, 6\}, \, \{6, 5\}, \, \{5, 2\} \bigr\}$ (4 aristas).
+
+   * **Paso 3 (Fusión intercalada $C_1 \oplus C_2$)**:
+     Insertamos el ciclo $C_2$ en la posición del vértice $2$ dentro de $C_1$:
+     $$
+     C_{12} = (1, \, \mathbf{2, 4, 6, 5, 2}, \, 3, 1)
+     $$
+     Aristas residuales restantes: $E_2 = E_1 \setminus E(C_2)$ ($8 - 4 = 4$ aristas):
+     $$
+     E_2 = \bigl\{ \{3, 4\}, \, \{4, 7\}, \, \{7, 5\}, \, \{5, 3\} \bigr\}
+     $$
+
+   * **Paso 4 (Tercer ciclo $C_3$ y fusión final)**:
+     En el circuito acumulado $C_{12}$, el vértice $3$ dispone de aristas pendientes en $E_2$.
+     Trazamos el ciclo simple desde $3$:
+     $$
+     C_3 = (3, 4, 7, 5, 3)
+     $$
+     Aristas utilizadas: $E(C_3) = \bigl\{ \{3, 4\}, \, \{4, 7\}, \, \{7, 5\}, \, \{5, 3\} \bigr\}$ (4 aristas).
+     El grafo residual queda vacío: $E \setminus (E(C_1) \cup E(C_2) \cup E(C_3)) = \emptyset$.
+
+   * **Paso 5 (Fusión definitiva)**:
+     Insertamos $C_3$ en el vértice $3$ del circuito $C_{12}$:
+     $$
+     C^* = (1, 2, 4, 6, 5, 2, \, \mathbf{3, 4, 7, 5, 3}, \, 1)
+     $$
+
+   *Resultado*: La secuencia cerrada $(1, 2, 4, 6, 5, 2, 3, 4, 7, 5, 3, 1)$ recorre las 11 aristas de $G$ exactamente una vez, constituyendo un circuito euleriano válido.
+
+---
+
+4. **Generalización a digrafos y caminos abiertos**:
+
+   **Solución:**
+
+   * **Digrafos eulerianos**: Un grafo dirigido conexo (en el sentido débil) admite un circuito euleriano dirigido cerrado si y solo si es balanceado en todos sus vértices, es decir, el grado de entrada coincide con el grado de salida en cada nodo:
+     $$
+     d^-(v) = d^+(v), \quad \forall v \in V
+     $$
+
+   * **Trayectorias eulerianas abiertas (semieulerianas)**: Un grafo no dirigido conexo admite un camino euleriano abierto (que recorre todas las aristas comenzando en un vértice $u$ y finalizando en otro vértice $v \ne u$) si y solo si exactamente **dos vértices tienen grado impar** ($d(u)$ y $d(v)$ impares) y todos los demás vértices $w \in V \setminus \{u, v\}$ tienen grado estrictamente par. En tal caso, el recorrido se inicia obligatoriamente en uno de los vértices impares y concluye en el otro.
+
+---
+
+## Ejercicio 2: Problema del Cartero Chino (CPP) y Matching de Nodos Impares
+
+Considérese la red vial no dirigida y ponderada $G = (V, E, \mathbf{c})$ de $n = 8$ vértices $V = \{1, 2, 3, 4, 5, 6, 7, 8\}$ con las 12 aristas y costes asociados siguientes:
+
+$$
+\begin{aligned}
+& c(1,2) = 4, \quad c(1,3) = 6, \quad c(2,3) = 3, \quad c(2,4) = 5, \\
+& c(2,5) = 7, \quad c(3,5) = 8, \quad c(4,6) = 4, \quad c(4,7) = 6, \\
+& c(5,6) = 5, \quad c(5,7) = 3, \quad c(6,8) = 7, \quad c(7,8) = 4
+\end{aligned}
+$$
+
+Se pide:
+
+1. **Identificación de paridades y vértices impares**: Calcular el grado de cada vértice $d(v)$ y determinar el conjunto de vértices con grado impar $V_{odd} \subset V$. Justificar analíticamente por qué $|V_{odd}|$ es siempre un número par.
+
+   **Solución:**
+
+   Calculamos el grado de cada vértice contando sus aristas incidentes:
+
+   * $d(1) = 2$ (aristas $\{1,2\}, \{1,3\}$) $\to$ Par
+   * $d(2) = 4$ (aristas $\{1,2\}, \{2,3\}, \{2,4\}, \{2,5\}$) $\to$ Par
+   * $d(3) = 3$ (aristas $\{1,3\}, \{2,3\}, \{3,5\}$) $\to$ **Impar**
+   * $d(4) = 3$ (aristas $\{2,4\}, \{4,6\}, \{4,7\}$) $\to$ **Impar**
+   * $d(5) = 4$ (aristas $\{2,5\}, \{3,5\}, \{5,6\}, \{5,7\}$) $\to$ Par
+   * $d(6) = 3$ (aristas $\{4,6\}, \{5,6\}, \{6,8\}$) $\to$ **Impar**
+   * $d(7) = 3$ (aristas $\{4,7\}, \{5,7\}, \{7,8\}$) $\to$ **Impar**
+   * $d(8) = 2$ (aristas $\{6,8\}, \{7,8\}$) $\to$ Par
+
+   El conjunto de vértices impares es:
+   $$
+   V_{odd} = \{3, 4, 6, 7\}, \quad |V_{odd}| = 4
+   $$
+
+   *Demostración de paridad de $|V_{odd}|$*:
+   Por el **Lema del Apretón de Manos** de Euler, la suma de los grados de todos los vértices es igual al doble del número de aristas:
+   $$
+   \sum_{v \in V} d(v) = 2|E|
+   $$
+   Descomponiendo la suma entre vértices de grado par ($V_{even}$) e impar ($V_{odd}$):
+   $$
+   \sum_{v \in V_{even}} d(v) + \sum_{v \in V_{odd}} d(v) = 2|E| \implies \sum_{v \in V_{odd}} d(v) = 2|E| - \sum_{v \in V_{even}} d(v)
+   $$
+   Como $2|E|$ es par y la suma de números pares es par, la suma $\sum_{v \in V_{odd}} d(v)$ debe ser un número par. Dado que cada término $d(v)$ en esta suma es impar, una suma de enteros impares solo puede resultar par si el número de sumandos es par. Por tanto, $|V_{odd}|$ es necesariamente par. $\blacksquare$
+
+---
+
+2. **Matriz de distancias mínimas en $V_{odd}$**: Calcular la distancia más corta $d_G(u, v)$ para cada par de vértices en $V_{odd}$.
+
+   **Solución:**
+
+   Aplicando el algoritmo de Dijkstra para los 4 vértices impares $\{3, 4, 6, 7\}$:
+
+   * **Par $\{3, 4\}$**:
+     * Camino $(3, 2, 4)$: coste $c(3,2) + c(2,4) = 3 + 5 = 8$.
+     * $d_G(3, 4) = 8$.
+
+   * **Par $\{3, 6\}$**:
+     * Camino $(3, 2, 4, 6)$: coste $3 + 5 + 4 = 12$.
+     * Camino $(3, 5, 6)$: coste $8 + 5 = 13$.
+     * $d_G(3, 6) = 12$.
+
+   * **Par $\{3, 7\}$**:
+     * Camino $(3, 5, 7)$: coste $c(3,5) + c(5,7) = 8 + 3 = 11$.
+     * Camino $(3, 2, 5, 7)$: coste $3 + 7 + 3 = 13$.
+     * $d_G(3, 7) = 11$.
+
+   * **Par $\{4, 6\}$**:
+     * Arista directa $\{4, 6\}$: coste $4$.
+     * $d_G(4, 6) = 4$.
+
+   * **Par $\{4, 7\}$**:
+     * Arista directa $\{4, 7\}$: coste $6$.
+     * $d_G(4, 7) = 6$.
+
+   * **Par $\{6, 7\}$**:
+     * Camino $(6, 5, 7)$: coste $c(6,5) + c(5,7) = 5 + 3 = 8$.
+     * Camino $(6, 8, 7)$: coste $c(6,8) + c(7,8) = 7 + 4 = 11$.
+     * $d_G(6, 7) = 8$.
+
+   La matriz simétrica de distancias mínimas sobre $V_{odd}$ es:
+   $$
+   \mathbf{D}_{odd} = \begin{pmatrix}
+   - & 8 & 12 & 11 \\
+   8 & - & 4 & 6 \\
+   12 & 4 & - & 8 \\
+   11 & 6 & 8 & -
+   \end{pmatrix}
+   $$
+
+---
+
+3. **Emparejamiento perfecto de peso mínimo**: Construir el grafo completo auxiliar $K_4$, evaluar todos los emparejamientos perfectos posibles y seleccionar el óptimo $M^*$.
+
+   **Solución:**
+
+   En un grafo completo $K_4$ existen exactamente $(4-1)!! = 3 \times 1 = 3$ emparejamientos perfectos posibles:
+
+   1. **Emparejamiento $M_1 = \bigl\{ \{3, 4\}, \, \{6, 7\} \bigr\}$**:
+      $$
+      \text{Coste}(M_1) = d_G(3, 4) + d_G(6, 7) = 8 + 8 = 16
+      $$
+
+   2. **Emparejamiento $M_2 = \bigl\{ \{3, 6\}, \, \{4, 7\} \bigr\}$**:
+      $$
+      \text{Coste}(M_2) = d_G(3, 6) + d_G(4, 7) = 12 + 6 = 18
+      $$
+
+   3. **Emparejamiento $M_3 = \bigl\{ \{3, 7\}, \, \{4, 6\} \bigr\}$**:
+      $$
+      \text{Coste}(M_3) = d_G(3, 7) + d_G(4, 6) = 11 + 4 = 15
+      $$
+
+   *Resultado*: El emparejamiento perfecto de peso mínimo es $M^* = M_3 = \bigl\{ \{3, 7\}, \, \{4, 6\} \bigr\}$ con coste mínimo $\text{Coste}(M^*) = 15$.
+
+---
+
+4. **Eulerización y coste óptimo del CPP**:
+
+   **Solución:**
+
+   * **Aristas duplicadas para eulerizar el grafo**:
+     * Para el par $\{3, 7\}$: se duplican las aristas del camino mínimo $(3, 5, 7)$, es decir, $\{3, 5\}$ (coste 8) y $\{5, 7\}$ (coste 3).
+     * Para el par $\{4, 6\}$: se duplica la arista $\{4, 6\}$ (coste 4).
+
+   * **Coste total de la red original**:
+     $$
+     \sum_{e \in E} c(e) = 4 + 6 + 3 + 5 + 7 + 8 + 4 + 6 + 5 + 3 + 7 + 4 = 62
+     $$
+
+   * **Coste de la ruta óptima del Cartero Chino**:
+     $$
+     c(CPP) = \sum_{e \in E} c(e) + \text{Coste}(M^*) = 62 + 15 = 77
+     $$
+
+   * **Trazado de la ruta euleriana óptima cerrada desde el depósito 1**:
+     En el multigrafo eulerizado $G^*$ (donde $\{3,5\}$, $\{5,7\}$ y $\{4,6\}$ aparecen por duplicado), un recorrido euleriano cerrado óptimo es:
+     $$
+     (1, 2, 4, 6, 8, 7, 5, 6, \mathbf{4, 6}, 4, 7, \mathbf{5, 7}, 5, \mathbf{3, 5}, 3, 2, 5, 2, 3, 1)
+     $$
+     donde las aristas duplicadas aparecen marcadas en negrita, logrando recorrer todas las calles de la red al menos una vez con distancia mínima $77$.
+
+---
+
+## Ejercicio 3: Grafos Hamiltonianos, Condiciones de Dirac, Ore y Clausura de Bondy-Chvátal
+
+Considérese el grafo simple no dirigido $G = (V, E)$ de $n = 6$ vértices $V = \{1, 2, 3, 4, 5, 6\}$ con el siguiente conjunto de 9 aristas:
+
+$$
+E = \bigl\{ \{1, 2\}, \, \{1, 3\}, \, \{1, 4\}, \, \{2, 3\}, \, \{2, 5\}, \, \{3, 4\}, \, \{3, 6\}, \, \{4, 5\}, \, \{5, 6\} \bigr\}
+$$
+
+Se pide:
+
+1. **Condición de Dirac (1952)**:
+
+   **Solución:**
+
+   Calculamos los grados nodales:
+
+   * $d(1) = 3$ ($\{1,2\}, \{1,3\}, \{1,4\}$)
+   * $d(2) = 3$ ($\{1,2\}, \{2,3\}, \{2,5\}$)
+   * $d(3) = 4$ ($\{1,3\}, \{2,3\}, \{3,4\}, \{3,6\}$)
+   * $d(4) = 3$ ($\{1,4\}, \{3,4\}, \{4,5\}$)
+   * $d(5) = 3$ ($\{2,5\}, \{4,5\}, \{5,6\}$)
+   * $d(6) = 2$ ($\{3,6\}, \{5,6\}$)
+
+   El **Teorema de Dirac** exige que $d(v) \ge \frac{n}{2} = \frac{6}{2} = 3$ para todo $v \in V$.
+   Como $d(6) = 2 < 3$, el vértice 6 incumple la hipótesis. Por consiguiente, el Teorema de Dirac **no es aplicable** y no permite garantizar la existencia de un ciclo hamiltoniano.
+
+---
+
+2. **Condición de Ore (1960)**:
+
+   **Solución:**
+
+   El **Teorema de Ore** establece que si para todo par de vértices no adyacentes $\{u, v\} \notin E$ se verifica $d(u) + d(v) \ge n = 6$, entonces $G$ es hamiltoniano.
+
+   Evaluamos los pares de vértices no adyacentes en $G$:
+
+   * $\{1, 5\} \notin E \implies d(1) + d(5) = 3 + 3 = 6 \ge 6$ (Cumple)
+   * $\{1, 6\} \notin E \implies d(1) + d(6) = 3 + 2 = 5 < 6$ (**Falla**)
+   * $\{2, 4\} \notin E \implies d(2) + d(4) = 3 + 3 = 6 \ge 6$ (Cumple)
+   * $\{2, 6\} \notin E \implies d(2) + d(6) = 3 + 2 = 5 < 6$ (**Falla**)
+   * $\{4, 6\} \notin E \implies d(4) + d(6) = 3 + 2 = 5 < 6$ (**Falla**)
+
+   Como existen pares no adyacentes cuya suma de grados es estrictamente menor que $6$, la condición de Ore **no se satisface** globalmente en $G$.
+
+---
+
+3. **Clausura de Bondy-Chvátal (1976)**:
+
+   **Solución:**
+
+   La clausura $[G]$ de un grafo $G$ de orden $n$ se construye añadiendo recursivamente una arista $\{u, v\}$ entre pares no adyacentes tales que $d(u) + d(v) \ge n$, actualizando los grados tras cada adición hasta que no sea posible añadir más aristas.
+
+   * **Iteración 1**:
+     Pares con $d(u) + d(v) \ge 6$:
+
+     * Añadimos $\{1, 5\}$ ($d(1)+d(5) = 6$).
+     * Añadimos $\{2, 4\}$ ($d(2)+d(4) = 6$).
+     Grados actualizados:
+     $$
+     d(1) = 4, \quad d(2) = 4, \quad d(3) = 4, \quad d(4) = 4, \quad d(5) = 4, \quad d(6) = 2
+     $$
+
+   * **Iteración 2**:
+     Reevaluamos los pares no adyacentes restantes con el vértice $6$:
+
+     * $\{1, 6\} \notin E \implies d(1) + d(6) = 4 + 2 = 6 \ge 6 \implies$ añadimos $\{1, 6\}$.
+     * $\{2, 6\} \notin E \implies d(2) + d(6) = 4 + 2 = 6 \ge 6 \implies$ añadimos $\{2, 6\}$.
+     * $\{4, 6\} \notin E \implies d(4) + d(6) = 4 + 2 = 6 \ge 6 \implies$ añadimos $\{4, 6\}$.
+     Grados actualizados tras incorporar estas 3 aristas:
+     $$
+     d(1) = 5, \quad d(2) = 5, \quad d(3) = 4, \quad d(4) = 5, \quad d(5) = 4, \quad d(6) = 5
+     $$
+
+   * **Iteración 3**:
+     Todos los vértices están conectados entre sí, por lo que la clausura obtenida es el grafo completo:
+     $$
+     [G] = K_6
+     $$
+
+   *Teorema de Bondy-Chvátal*: Un grafo $G$ es hamiltoniano si y solo si su clausura $[G]$ es hamiltoniana. Dado que $[G] = K_6$ es completo (y por tanto trivialmente hamiltoniano), se concluye rigurosamente que el grafo original $G$ **es hamiltoniano**.
+
+   Un ciclo hamiltoniano explícito en $G$ es:
+   $$
+   (1, 4, 5, 6, 3, 2, 1)
+   $$
+
+---
+
+4. **Discusión sobre necesidad vs. suficiencia**:
+
+   **Solución:**
+
+   Las condiciones de Dirac, Ore y Bondy-Chvátal son **condiciones suficientes, pero no necesarias** para la existencia de ciclos hamiltonianos.
+
+   *Contraejemplo*: Considérese el ciclo simple $C_n$ con $n \ge 5$ (por ejemplo, $C_5$).
+
+   * $C_5$ es trivialmente hamiltoniano (él mismo es un ciclo que visita todos los vértices).
+   * Sin embargo, todos sus vértices tienen grado regular $d(v) = 2$.
+   * Condición de Dirac: $d(v) = 2 < 2.5 = 5/2$ (falla).
+   * Condición de Ore: para cualquier par no adyacente, $d(u) + d(v) = 2 + 2 = 4 < 5$ (falla).
+   * Clausura de Bondy-Chvátal: no se puede añadir ninguna arista, por lo que $[C_5] = C_5 \ne K_5$.
+
+   Este contraejemplo demuestra que un grafo puede ser perfectamente hamiltoniano a pesar de no cumplir ninguna de las condiciones basadas en cotas de grado o clausuras densas.
+
+---
+
+## Ejercicio 4: Modelos de Programación Lineal Entera (PLE) para el Problema del Viajante de Comercio (TSP)
+
+Considérese el Problema del Viajante de Comercio (TSP) definido sobre una red dirigida completa $G = (V, A)$ con conjunto de vértices $V = \{1, 2, \dots, n\}$ y matriz de costes de desplazamiento $C = (c_{ij})$.
+
+Se pide:
+
+1. **Modelo 1 por etapas**:
+
+   **Solución:**
+
+   Definimos la variable de decisión binaria tridimensional:
+   $$
+   x_{ijk} = \begin{cases} 1 & \text{si el arco } (i, j) \in A \text{ se recorre en la etapa } k \in \{1, \dots, n\} \\ 0 & \text{en caso contrario} \end{cases}
+   $$
+
+   La formulación matemática del Modelo 1 es:
+   $$
+   \begin{aligned}
+   \min_{x} \quad & \sum_{i=1}^n \sum_{j=1, j \ne i}^n \sum_{k=1}^n c_{ij} x_{ijk} \\
+   \text{sujeto a} \quad & \sum_{j=1, j \ne i}^n \sum_{k=1}^n x_{ijk} = 1, \quad \forall i \in V \quad \text{(cada ciudad se visita exactamente una vez)} \\
+   & \sum_{i=1}^n \sum_{j=1, j \ne i}^n x_{ijk} = 1, \quad \forall k \in \{1, \dots, n\} \quad \text{(en cada etapa se realiza un único desplazamiento)} \\
+   & \sum_{i=1, i \ne j}^n x_{ijk} = \sum_{l=1, l \ne j}^n x_{jl, k+1}, \quad \forall j \in V, \, \forall k \in \{1, \dots, n-1\} \quad \text{(continuidad espacial de etapas)} \\
+   & \sum_{i=1, i \ne j}^n x_{ijn} = \sum_{l=1, l \ne j}^n x_{jl1}, \quad \forall j \in V \quad \text{(cierre cíclico de la última a la primera etapa)} \\
+   & x_{ijk} \in \{0, 1\}, \quad \forall (i, j) \in A, \, \forall k \in \{1, \dots, n\}
+   \end{aligned}
+   $$
+
+   *Dimensión del modelo*: Dispone de $n^2(n-1) = O(n^3)$ variables binarias y $O(n^2)$ restricciones, lo que provoca una explosión dimensional que limita su uso a instancias pequeñas.
+
+---
+
+2. **Modelo 2 de Dantzig-Fulkerson-Johnson (DFJ)**:
+
+   **Solución:**
+
+   Con variables binarias estándar $x_{ij} \in \{0, 1\}$ (indicando si el arco $(i, j)$ forma parte del tour):
+   $$
+   \begin{aligned}
+   \min_{x} \quad & \sum_{i=1}^n \sum_{j=1, j \ne i}^n c_{ij} x_{ij} \\
+   \text{sujeto a} \quad & \sum_{j=1, j \ne i}^n x_{ij} = 1, \quad \forall i \in V \quad \text{(grado de salida unitario)} \\
+   & \sum_{i=1, i \ne j}^n x_{ij} = 1, \quad \forall j \in V \quad \text{(grado de entrada unitario)} \\
+   & \sum_{i \in S} \sum_{j \in S, j \ne i} x_{ij} \le |S| - 1, \quad \forall S \subset V, \, 2 \le |S| \le n-1 \quad \text{(SECs)} \\
+   & x_{ij} \in \{0, 1\}, \quad \forall i \ne j
+   \end{aligned}
+   $$
+
+   *Número de restricciones SEC*: El número de subconjuntos no triviales $S \subset V$ con $2 \le |S| \le n-1$ es:
+   $$
+   \sum_{k=2}^{n-1} \binom{n}{k} = 2^n - \binom{n}{0} - \binom{n}{1} - \binom{n}{n} = 2^n - n - 2
+   $$
+   Al considerar la simetría complementaria ($S$ vs $V \setminus S$), la familia de cortes tiene un orden exponencial $O(2^n)$.
+   
+   *Resolución práctica*: Es imposible inyectar $2^n$ restricciones a priori para $n \ge 30$. Por ello, se resuelve inicialmente la relajación de asignación ($x_{ij} \in [0, 1]$ con restricciones nodales). Al encontrar una solución entera con subciclos, se detecta el subconjunto $S$ desconectado y se añade dinámicamente su restricción SEC mediante **generación perezosa de planos de corte** (*branch-and-cut*).
+
+---
+
+3. **Modelo 3 de Miller-Tucker-Zemlin (MTZ)**:
+
+   **Solución:**
+
+   El modelo MTZ sustituye las $O(2^n)$ restricciones SEC por variables continuas de orden de visita $u_i \in [1, n-1]$ para $i \in \{2, \dots, n\}$ (fijando el depósito en el nodo 1 con $u_1 = 0$):
+   $$
+   \begin{aligned}
+   \min_{x, u} \quad & \sum_{i=1}^n \sum_{j=1, j \ne i}^n c_{ij} x_{ij} \\
+   \text{sujeto a} \quad & \sum_{j=1, j \ne i}^n x_{ij} = 1, \quad \forall i \in V \\
+   & \sum_{i=1, i \ne j}^n x_{ij} = 1, \quad \forall j \in V \\
+   & u_i - u_j + n x_{ij} \le n - 1, \quad \forall i, j \in \{2, \dots, n\}, \, i \ne j \\
+   & 1 \le u_i \le n - 1, \quad \forall i \in \{2, \dots, n\} \\
+   & x_{ij} \in \{0, 1\}, \quad \forall i \ne j
+   \end{aligned}
+   $$
+
+   *Demostración analítica de eliminación de subciclos*:
+   Supongamos que existe una solución factible que contiene un subciclo disjunto $C = (v_1, v_2, \dots, v_k, v_1)$ de longitud $k \ge 2$ que **no pasa por el depósito $1$** (es decir, $v_r \in \{2, \dots, n\}$ para todo $r = 1, \dots, k$).
+   
+   Para cada arco $(v_r, v_{r+1})$ del subciclo, se tiene $x_{v_r, v_{r+1}} = 1$. Sustituyendo en la restricción MTZ:
+   $$
+   u_{v_r} - u_{v_{r+1}} + n(1) \le n - 1 \implies u_{v_r} - u_{v_{r+1}} \le -1
+   $$
+   Sumando estas $k$ desigualdades a lo largo de todos los arcos del ciclo $C$:
+   $$
+   \sum_{r=1}^k (u_{v_r} - u_{v_{r+1}}) \le \sum_{r=1}^k (-1)
+   $$
+   El término de la izquierda es una suma telescópica que se anula idénticamente:
+   $$
+   (u_{v_1} - u_{v_2}) + (u_{v_2} - u_{v_3}) + \dots + (u_{v_k} - u_{v_1}) = 0
+   $$
+   Por tanto, obtenemos la contradicción:
+   $$
+   0 \le -k
+   $$
+   Como $k \ge 2$, $-k \le -2$, lo cual es absurdo ($0 \le -2$). En consecuencia, no puede existir ningún subciclo cerrado que no contenga al nodo $1$. $\blacksquare$
+
+   *Comparativa*: El modelo MTZ añade únicamente $(n-1)(n-2) = O(n^2)$ restricciones lineales compactas, permitiendo resolver el problema directamente en cualquier solver estándar sin necesidad de generadores de cortes dinámicos.
+
+---
+
+## Ejercicio 5: Algoritmo de Aproximación de Christofides, Heurística 2-Opt y Taxonomía del VRP
+
+Considérese un problema del Viajante de Comercio métrico simétrico definido sobre $n = 5$ vértices $V = \{1, 2, 3, 4, 5\}$ con matriz de distancias euclídeas:
+
+$$
+\mathbf{D} = \begin{pmatrix}
+0 & 2 & 4 & 5 & 3 \\
+2 & 0 & 3 & 4 & 4 \\
+4 & 3 & 0 & 2 & 3 \\
+5 & 4 & 2 & 0 & 2 \\
+3 & 4 & 3 & 2 & 0
+\end{pmatrix}
+$$
+
+Se pide:
+
+1. **Algoritmo de aproximación de Christofides**:
+
+   **Solución:**
+
+   * **Paso 1: Árbol Soporte de Mínimo Peso ($T_{MST}$)**:
+     Ordenamos las aristas por coste no decreciente:
+
+     * $\{1, 2\} = 2$ (se añade)
+     * $\{3, 4\} = 2$ (se añade)
+     * $\{4, 5\} = 2$ (se añade)
+     * $\{1, 5\} = 3$ (se añade, conectando $\{1, 2\}$ con $\{3, 4, 5\}$)
+     El árbol soporte mínimo es $T_{MST} = \bigl\{ \{1, 2\}, \, \{1, 5\}, \, \{4, 5\}, \, \{3, 4\} \bigr\}$ con coste:
+     $$
+     c(T_{MST}) = 2 + 3 + 2 + 2 = 9
+     $$
+
+   * **Paso 2: Vértices de grado impar en $T_{MST}$**:
+     * $d_T(1) = 2$ (aristas $\{1,2\}, \{1,5\}$) $\to$ Par
+     * $d_T(2) = 1$ (arista $\{1,2\}$) $\to$ **Impar**
+     * $d_T(3) = 1$ (arista $\{3,4\}$) $\to$ **Impar**
+     * $d_T(4) = 2$ (aristas $\{3,4\}, \{4,5\}$) $\to$ Par
+     * $d_T(5) = 2$ (aristas $\{1,5\}, \{4,5\}$) $\to$ Par
+     El conjunto de vértices impares es $V_{odd} = \{2, 3\}$.
+
+   * **Paso 3: Emparejamiento perfecto de peso mínimo en $V_{odd}$**:
+     Al haber únicamente dos vértices impares, el único emparejamiento perfecto es la arista directa:
+     $$
+     M^* = \bigl\{ \{2, 3\} \bigr\}, \quad c(M^*) = D(2, 3) = 3
+     $$
+
+   * **Paso 4: Multigrafo euleriano y tour hamiltoniano**:
+     Unimos el árbol y el matching:
+     $$
+     H = T_{MST} \cup M^* = \bigl\{ \{1, 2\}, \, \{2, 3\}, \, \{3, 4\}, \, \{4, 5\}, \, \{5, 1\} \bigr\}
+     $$
+     Como todos los vértices en $H$ tienen grado 2, $H$ forma directamente un ciclo hamiltoniano cerrado simple:
+     $$
+     T_{Christofides} = (1, 2, 3, 4, 5, 1)
+     $$
+     Coste del tour obtenido:
+     $$
+     c(T_{Christofides}) = 2 + 3 + 2 + 2 + 3 = 12
+     $$
+
+   * **Demostración de la cota de aproximación $3/2$**:
+     1. Sea $T^*$ el tour óptimo del TSP. Al eliminar cualquier arista de $T^*$, obtenemos un camino soporte que por definición de MST satisface:
+        $$
+        c(T_{MST}) < c(T^*)
+        $$
+
+     2. Consideremos el ciclo óptimo $T^*$ restringido a los vértices $V_{odd}$ mediante atajos (*shortcuts*). Por la desigualdad triangular, $c(T^*_{odd}) \le c(T^*)$. El ciclo par $T^*_{odd}$ se puede descomponer en dos emparejamientos perfectos disjuntos $M_1$ y $M_2$ tales que $c(M_1) + c(M_2) = c(T^*_{odd}) \le c(T^*)$. Por tanto:
+        $$
+        c(M^*) \le \min(c(M_1), c(M_2)) \le \frac{1}{2} c(T^*)
+        $$
+
+     3. Sumando ambas cotas:
+        $$
+        c(T_{Christofides}) \le c(T_{MST}) + c(M^*) < c(T^*) + \frac{1}{2} c(T^*) = \frac{3}{2} c(T^*)
+        $$
+     El algoritmo de Christofides garantiza que la solución dista a lo sumo un $50\%$ del óptimo global en cualquier métrica. $\blacksquare$
+
+---
+
+2. **Heurística de mejora local 2-Opt**:
+
+   **Solución:**
+
+   * **Tour inicial**: $T_0 = (1, 3, 2, 4, 5, 1)$.
+     $$
+     c(T_0) = D(1,3) + D(3,2) + D(2,4) + D(4,5) + D(5,1) = 4 + 3 + 4 + 2 + 3 = 16
+     $$
+
+   * **Movimiento 2-Opt**: Sustituimos el par de aristas $(\{1, 3\}, \{2, 4\})$ por el par $(\{1, 2\}, \{3, 4\})$.
+     Variación neta de coste:
+     $$
+     \Delta c = \bigl[ D(1, 2) + D(3, 4) \bigr] - \bigl[ D(1, 3) + D(2, 4) \bigr] = (2 + 2) - (4 + 4) = 4 - 8 = -4 < 0
+     $$
+
+   * **Inversión de subcamino**: El subcamino intermedio $(3, 2)$ se invierte a $(2, 3)$, resultando el nuevo tour admisible:
+     $$
+     T_1 = (1, 2, 3, 4, 5, 1)
+     $$
+     Coste actualizado: $c(T_1) = 16 - 4 = 12$.
+
+---
+
+3. **Taxonomía del Problema de Rutas de Vehículos (VRP)**:
+
+   **Solución:**
+
+   * **Clasificación topológica de servicio**:
+
+     * **Rutas por Arcos (*Arc Routing*)**: La demanda de servicio se distribuye de forma continua a lo largo de las aristas de la red. Ejemplos industriales: recogida de basuras calle a calle, quitanieves, pintura de señalización vial e inspección de tendidos eléctricos o canalizaciones (CPP, RPP, CARP).
+
+     * **Rutas por Nodos (*Node Routing*)**: La demanda está concentrada en clientes discretos localizados en los vértices del grafo. Ejemplos industriales: distribución de paquetería de comercio electrónico, abastecimiento de supermercados y transporte escolar (TSP, CVRP, VRPTW).
+
+   * **Las 6 dimensiones operativas clave**:
+     1. *Composición de flota*: Homogénea (vehículos idénticos) vs. heterogénea (distintas capacidades y costes operativos).
+     2. *Configuración de depósitos*: Monodepósito (un único centro logístico) vs. multidepósito (red territorial coordinada).
+     3. *Naturaleza de la demanda*: Determinista (conocida antes de la ruta) vs. estocástica o dinámica (solicitudes en tiempo real).
+     4. *Modalidad de transporte*: Entrega pura, recogida pura, o recogida y entrega simultánea (*Pick-up and Delivery Problem*, PDP).
+     5. *Ventanas temporales*: Sin restricción horaria vs. ventanas de tiempo rígidas o flexibles para cada cliente.
+     6. *Criterios de optimización*: Minimización de distancia/coste, reducción del número de vehículos necesarios o balanceo de carga de trabajo.

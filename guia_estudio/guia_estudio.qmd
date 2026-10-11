@@ -25,11 +25,11 @@ El diseño pedagógico del curso conjuga el rigor deductivo formal (teoremas de 
 ## Ficha técnica de la asignatura
 
 * **Asignatura**: Optimización y Análisis de Redes
-* **Titulación**: Grado en Matemáticas / Dobles Grados afines
+* **Titulación**: Grado en Matemáticas (Mención en Matemática Aplicada y Computación) / Dobles Grados afines
 * **Centro**: Escuela Técnica Superior de Ingeniería Informática (ETSII), Universidad Rey Juan Carlos
 * **Créditos ECTS**: 6.0 ECTS (150 horas totales de dedicación del estudiante)
-* **Carácter**: Formación de especialidad / Obligatoria de rama
-* **Temporalidad**: Segundo cuatrimestre (15 semanas lectivas)
+* **Carácter**: Asignatura optativa de cuarto curso (4.º curso)
+* **Temporalidad**: Segundo cuatrimestre, 4.º curso (15 semanas lectivas)
 * **Idioma de impartición**: Castellano
 * **Prerrequisitos recomendados**: Álgebra Lineal, Cálculo Diferencial e Integral en Varias Variables, Fundamentos de Programación e Introducción a la Optimización Lineal.
 
@@ -65,321 +65,477 @@ La asignatura se articula en torno a un modelo de aprendizaje activo y equilibra
 
 # Cronograma y plan de trabajo semanal
 
-El programa docente se estructura cronológicamente a lo largo de las 15 semanas lectivas del cuatrimestre, dividido en dos grandes bloques temáticos complementarios:
+El programa docente se estructura cronológicamente a lo largo de las 15 semanas lectivas del cuatrimestre, dividido en dos grandes bloques temáticos complementarios. Para cada sesión presencial de teoría y laboratorio se detallan los contenidos cubiertos, los objetivos didácticos formulados según la taxonomía de Bloom, las actividades planificadas, los materiales específicos a emplear y la recomendación cuantitativa de trabajo autónomo personal. Las referencias a secciones teóricas corresponden a la numeración interna del bloque de Apuntes Teóricos (Parte II), fácilmente accesibles a través del Índice General del volumen o mediante la búsqueda del tema correspondiente:
 
 ---
 
 ## BLOQUE I: Optimización Matemática y Ciencia de Datos (Semanas 1 a 10)
 
 ### SEMANA 1: Fundamentos y Modelado Matemático de la Optimización
-**Contenidos teóricos (Tema 1)**:
 
-* Naturaleza de la optimización: variables de decisión, parámetros, funciones objetivo y regiones factibles.
-* Clasificación taxonómica: problemas continuos vs. discretos, lineales vs. no lineales, convexos vs. no convexos.
-* Repaso estructurado de álgebra lineal numérica y cálculo diferencial multivariante.
+Esta primera semana introduce el marco conceptual de la optimización matemática, sentando las bases analíticas del modelado formal y configurando el entorno de programación científica en Python.
 
-**Sesión de laboratorio en Python**:
+**Sesión 1.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Configuración del entorno científico (`Anaconda`, entornos virtuales `conda`, `VS Code` y `Jupyter`).
-* Manipulación vectorial, cálculo matricial y álgebra lineal numérica con **NumPy**.
+* *Contenidos cubiertos*: Naturaleza de la optimización matemática, variables de decisión, parámetros del sistema, funciones objetivo y regiones factibles. Taxonomía de problemas (continuos frente a discretos, lineales frente a no lineales, convexos frente a no convexos). Repaso sistemático de álgebra lineal numérica, normas vectoriales y cálculo diferencial multivariante.
+* *Objetivos de aprendizaje*:
+  1. **Identificar** y **formular** matemáticamente los elementos constitutivos de un problema de optimización a partir de una descripción en lenguaje natural.
+  2. **Clasificar** problemas de optimización atendiendo a su linealidad, diferenciabilidad y geometría admisible.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 1, "Fundamentos de la Optimización Matemática", Secciones 1.1 a 1.4.
+  * **Diapositivas de clase**: Presentación del Tema 1, diapositivas 1 a 15.
+* *Actividades planificadas*: Exposición magistral interactiva sobre modelización matemática formal y deducción de propiedades de normas vectoriales en pizarra.
+* *Recomendación de trabajo autónomo (3.0 h)*: Lectura reflexiva y analítica del Tema 1 en los apuntes teóricos, centrando el estudio en las definiciones de normas, conjuntos de nivel y operadores diferenciales.
 
-**Objetivos de aprendizaje**:
+**Sesión 1.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Identificar** y **formular** matemáticamente los elementos constitutivos de un problema de optimización.
-2. **Manipular** matrices, gradientes y normas vectoriales de forma eficiente en Python.
+* *Contenidos cubiertos*: Configuración del entorno de desarrollo científico (`Anaconda`, entorno virtual `oar_env`, `VS Code` y `Jupyter`). Manipulación vectorial, cálculo matricial y álgebra lineal computacional con **NumPy**.
+* *Objetivos de aprendizaje*:
+  1. **Configurar** y **gestionar** entornos virtuales reproducibles para computación científica en Python.
+  2. **Manipular** vectores, matrices, normas y gradientes numéricos de forma vectorizada y eficiente.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio1_fundamentos_numpy.ipynb` y script auxiliar `verificar_entorno.py`.
+  * **Colección de ejercicios**: Bloque 1 de problemas (Ejercicios 1.1 a 1.6: formalización de modelos y cálculo multivariante).
+  * **Entorno de software**: Python 3.11, NumPy, Jupyter Notebook.
+* *Actividades planificadas*: Configuración guiada del entorno virtual del curso e implementación de rutinas numéricas vectorizadas con NumPy en el laboratorio.
+* *Recomendación de trabajo autónomo (3.0 h)*: Finalización de los ejercicios prácticos del cuaderno de laboratorio 1 y resolución individual de los problemas 1.1 a 1.6 de la colección de ejercicios.
 
 ---
 
-### SEMANA 2: Optimización No Lineal Sin Restricciones
-**Contenidos teóricos (Tema 2)**:
+### SEMANA 2: Optimización No Lineal Sin Restricciones: Condiciones de Optimalidad
 
-* Caracterización analítica de óptimos locales y globales en $\mathbb{R}^n$.
-* Condiciones necesarias de primer orden (puntos estacionarios).
-* Condiciones necesarias y suficientes de segundo orden mediante matrices Hessianas.
-* Concepto de dirección de descenso y velocidad de convergencia.
+Se profundiza en el análisis analítico de funciones diferenciables en varias variables, deduciendo las condiciones necesarias y suficientes de optimalidad y programando el método del descenso de gradiente.
 
-**Sesión de laboratorio en Python**:
+**Sesión 2.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Programación modular del algoritmo de **Descenso de Gradiente (Gradient Descent)**.
-* Análisis del efecto de la tasa de aprendizaje (*learning rate*) en funciones cuadráticas mal condicionadas.
+* *Contenidos cubiertos*: Caracterización analítica de óptimos locales y globales en $\mathbb{R}^n$. Teorema de Fermat multivariante y condición necesaria de primer orden (puntos estacionarios). Condiciones necesarias y suficientes de segundo orden mediante la matriz Hessiana. Direcciones de descenso y ángulo respecto al vector gradiente.
+* *Objetivos de aprendizaje*:
+  1. **Calcular** puntos estacionarios de funciones diferenciables multivariantes.
+  2. **Clasificar** extremos locales analizando el carácter definido de la matriz Hessiana.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 2, "Optimización No Lineal Sin Restricciones", Secciones 2.1 a 2.4.
+  * **Diapositivas de clase**: Presentación del Tema 2 (Parte I), diapositivas 1 a 35.
+* *Actividades planificadas*: Deducción formal de las condiciones de segundo orden a partir del desarrollo de Taylor de orden 2 y discusión geométrica de la ortogonalidad del gradiente a las curvas de nivel.
+* *Recomendación de trabajo autónomo (3.0 h)*: Estudio analítico de la demostración del Teorema de segundo orden y resolución manual de puntos críticos en funciones polinómicas y racionales.
 
-**Objetivos de aprendizaje**:
+**Sesión 2.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Calcular** y **clasificar** puntos críticos de funciones no lineales mediante su matriz Hessiana.
-2. **Implementar** el descenso de gradiente básico y evaluar su trayectoria en el espacio de parámetros.
+* *Contenidos cubiertos*: Implementación algorítmica modular del método de **Descenso de Gradiente (Gradient Descent)**. Análisis empírico de la velocidad de convergencia, oscilaciones y sensibilidad a la tasa de aprendizaje (*learning rate*) en funciones cuadráticas mal condicionadas.
+* *Objetivos de aprendizaje*:
+  1. **Programar** el algoritmo de descenso de gradiente modular con criterios de parada por norma del gradiente y número máximo de iteraciones.
+  2. **Evaluar** experimentalmente el impacto del número de condición de la matriz Hessiana sobre la trayectoria de convergencia.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio2_descenso_gradiente.ipynb`.
+  * **Colección de ejercicios**: Bloque 2 de problemas (Ejercicios 2.1 a 2.5: cálculo de gradientes y clasificación espectral de Hessianos).
+  * **Entorno de software**: Python 3.11, NumPy, Matplotlib.
+* *Actividades planificadas*: Programación guiada del bucle iterativo de descenso de gradiente y experimentación con distintas tasas de aprendizaje en funciones elípticas.
+* *Recomendación de trabajo autónomo (3.0 h)*: Completar el análisis de convergencia en el cuaderno de laboratorio 2 y resolver los problemas 2.1 a 2.5 del Bloque 2.
 
 ---
 
 ### SEMANA 3: Algoritmos de Descenso y Visualización Avanzada
-**Contenidos teóricos (Tema 2)**:
 
-* Métodos de búsqueda lineal unidimensional: regla de Armijo y condiciones de Wolfe.
-* El **Método de Newton**: convergencia cuadrática y coste computacional del cálculo e inversión del Hessiano.
-* Introducción a métodos cuasi-Newton (BFGS) y gradiente conjugado.
+Esta semana se estudian los métodos de orden superior y las técnicas de búsqueda lineal inexacta, culminando con la visualización tridimensional y el uso de optimizadores de referencia en `scipy.optimize`.
 
-**Sesión de laboratorio en Python**:
+**Sesión 3.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Visualización de trayectorias de optimización y curvas de nivel en 2D y superficies 3D con **Matplotlib**.
-* Uso profesional de solvers de optimización sin restricciones en **`scipy.optimize`** (`minimize`).
+* *Contenidos cubiertos*: Métodos de búsqueda lineal unidimensional inexacta (condición de descenso suficiente de Armijo y condiciones de curvatura de Wolfe). El **Método de Newton** en optimización multidimensional, velocidad de convergencia cuadrática local y coste de cálculo e inversión del Hessiano. Introducción a métodos cuasi-Newton (actualización BFGS) y direcciones conjugadas.
+* *Objetivos de aprendizaje*:
+  1. **Comparar** la velocidad de convergencia lineal del gradiente frente a la convergencia cuadrática de Newton.
+  2. **Aplicar** las condiciones de Armijo y Wolfe para garantizar el descenso monótono y evitar pasos espurios.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 2, "Optimización No Lineal Sin Restricciones", Secciones 2.5 a 2.8.
+  * **Diapositivas de clase**: Presentación del Tema 2 (Parte II), diapositivas 36 a 74.
+* *Actividades planificadas*: Demostración formal del paso de Newton, análisis de modificaciones para matrices indefinidas (regularización de Levenberg-Marquardt) y derivación de la actualización BFGS.
+* *Recomendación de trabajo autónomo (3.0 h)*: Lectura reflexiva sobre métodos cuasi-Newton y deducción manual de un paso de Newton multidimensional.
 
-**Objetivos de aprendizaje**:
+**Sesión 3.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Comparar** la convergencia lineal del gradiente frente a la convergencia cuadrática de Newton.
-2. **Generar** representaciones gráficas tridimensionales rigurosas de paisajes de coste y trayectorias de descenso.
-
----
-
-### SEMANA 4: Análisis Convexo I - Conjuntos Convexos
-**Contenidos teóricos (Tema 3)**:
-
-* Definición geométrica y algebraica de conjunto convexo y combinaciones convexas.
-* Envoltura convexa (*convex hull*) y conos convexos.
-* Familias canónicas: hiperplanos, semiespacios, poliedros, normas y elipsoides.
-* Teoremas de separación de convexos e hiperplanos de soporte.
-* Operaciones que preservan la convexidad de conjuntos (intersección, transformaciones afines).
-
-**Sesión de laboratorio en Python**:
-
-* Representación y verificación computacional de poliedros formados por intersección de semiespacios.
-* Cálculo computacional de envolturas convexas en 2D y 3D utilizando `scipy.spatial`.
-
-**Objetivos de aprendizaje**:
-
-1. **Demostrar** rigurosamente la convexidad de conjuntos matemáticos parametrizados.
-2. **Aplicar** teoremas de separación para verificar la disyunción entre regiones convexas.
+* *Contenidos cubiertos*: Visualización avanzada de funciones de coste en dos dimensiones (curvas de nivel) y tres dimensiones (superficies de nivel) con trayectorias de descenso superpuestas en Matplotlib. Uso profesional de optimizadores en **`scipy.optimize`** (`minimize`).
+* *Objetivos de aprendizaje*:
+  1. **Generar** representaciones visuales avanzadas en 2D y 3D de paisajes de optimización no lineales.
+  2. **Integrar** y **comparar** métodos numéricos (BFGS, CG, Nelder-Mead) resolviendo la función de Rosenbrock con `scipy.optimize`.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio3_newton_scipy.ipynb`.
+  * **Colección de ejercicios**: Bloque 2 de problemas (Ejercicios 2.6 a 2.10: iteraciones de Newton y convergencia).
+  * **Entorno de software**: Python 3.11, SciPy (`scipy.optimize`), Matplotlib.
+* *Actividades planificadas*: Implementación de gráficos interactivos de curvas de nivel con trayectorias de optimizadores y benchmarking empírico de tiempos de cómputo.
+* *Recomendación de trabajo autónomo (3.0 h)*: Redacción del informe comparativo de optimizadores en el cuaderno 3 y resolución de los ejercicios 2.6 a 2.10 del Bloque 2.
 
 ---
 
-### SEMANA 5: Análisis Convexo II - Funciones Convexas
-**Contenidos teóricos (Tema 3)**:
+### SEMANA 4: Análisis Convexo I: Conjuntos Convexos
 
-* Definición de función convexa, estrictamente convexa y fuertemente convexa.
-* Caracterización mediante el epígrafe (*epigraph*) y conjuntos de subnivel.
-* Condiciones diferenciales de primer orden (subgradientes y plano tangente inferior).
-* Condiciones de segundo orden: semidefinición positiva de la matriz Hessiana ($\nabla^2 f(x) \succeq 0$).
-* Teorema fundamental: equivalencia entre óptimos locales y globales en dominios convexos.
+Se introduce la geometría convexa como base matemática fundamental de la optimización moderna, estudiando la estructura de conjuntos, conos y los teoremas de separación.
 
-**Sesión de laboratorio en Python**:
+**Sesión 4.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Verificación numérica de la convexidad de funciones multivariantes mediante análisis espectral de Hessianos.
-* Experimentación de la desigualdad de Jensen en distribuciones empíricas.
+* *Contenidos cubiertos*: Definición geométrica y algebraica de conjunto convexo. Combinaciones convexas y envoltura convexa (*convex hull*). Conos convexos y cono dual. Familias canónicas de conjuntos convexos (hiperplanos, semiespacios, poliedros, bolas euclídeas y elipsoides). Teoremas fundamentales del Hiperplano Separador y de Soporte. Operaciones que preservan convexidad.
+* *Objetivos de aprendizaje*:
+  1. **Demostrar** rigurosamente la convexidad de conjuntos matemáticos parametrizados.
+  2. **Aplicar** los teoremas de separación para verificar analíticamente la disyunción entre regiones convexas.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 3, "Análisis Convexo", Secciones 3.1 a 3.4.
+  * **Diapositivas de clase**: Presentación del Tema 3 (Parte I), diapositivas 1 a 36.
+* *Actividades planificadas*: Demostración analítica del Lema de Proyección sobre conjuntos convexos cerrados y deducción del Teorema del Hiperplano Separador estricto.
+* *Recomendación de trabajo autónomo (3.0 h)*: Estudio detallado de las demostraciones de separación y caracterización analítica de conos duales de conjuntos poliédricos.
 
-**Objetivos de aprendizaje**:
+**Sesión 4.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Analizar** la convexidad de funciones multivariables mediante criterios de primer y segundo orden.
-2. **Comprender** y **explicar** por qué la convexidad elimina el riesgo de quedar atrapado en óptimos locales espurios.
+* *Contenidos cubiertos*: Representación y verificación computacional de poliedros definidos por intersección de semiespacios lineales. Cálculo de envolturas convexas en dos y tres dimensiones utilizando `scipy.spatial`.
+* *Objetivos de aprendizaje*:
+  1. **Calcular** y **visualizar** envolturas convexas a partir de nubes de puntos sintéticas y reales en Python.
+  2. **Comprobar** la acotación y factibilidad geométrica de poliedros mediante álgebra lineal computacional.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio4_conjuntos_convexos.ipynb`.
+  * **Colección de ejercicios**: Bloque 3 de problemas (Ejercicios 3.1 a 3.6: demostraciones de conjuntos convexos y separación).
+  * **Entorno de software**: Python 3.11, SciPy (`scipy.spatial`), NumPy, Matplotlib.
+* *Actividades planificadas*: Cálculo práctico de envolturas convexas tridimensionales con visualización interactiva y comprobación de pertenencia de puntos a poliedros.
+* *Recomendación de trabajo autónomo (3.0 h)*: Finalización de los ejercicios del cuaderno 4 y resolución completa de los problemas 3.1 a 3.6 de la colección de ejercicios.
+
+---
+
+### SEMANA 5: Análisis Convexo II: Funciones Convexas
+
+Se abordan las funciones convexas, sus caracterizaciones diferenciales y el resultado central que garantiza la coincidencia entre óptimos locales y globales.
+
+**Sesión 5.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
+
+* *Contenidos cubiertos*: Definición formal de función convexa, estrictamente convexa y fuertemente convexa. Caracterización por epígrafe (*epigraph*) y conjuntos de subnivel. Condiciones diferenciales de primer orden (subgradientes y plano tangente inferior). Condiciones de segundo orden: semidefinición positiva de la matriz Hessiana ($\nabla^2 f(x) \succeq 0$). Teorema fundamental de equivalencia entre mínimos locales y globales. Desigualdad de Jensen.
+* *Objetivos de aprendizaje*:
+  1. **Caracterizar** la convexidad de funciones escalares y multivariantes mediante criterios diferenciales de primer y segundo orden.
+  2. **Demostrar** que en un problema de optimización convexa todo mínimo local es automáticamente mínimo global.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 3, "Análisis Convexo", Secciones 3.5 a 3.8.
+  * **Diapositivas de clase**: Presentación del Tema 3 (Parte II), diapositivas 37 a 70.
+* *Actividades planificadas*: Demostración rigurosa del teorema de equivalencia entre óptimos locales y globales, análisis de operaciones que preservan convexidad de funciones y prueba de la desigualdad de Jensen.
+* *Recomendación de trabajo autónomo (3.0 h)*: Asimilación de las reglas de composición convexa (composición atomística) y cálculo analítico de subgradientes en funciones no diferenciables.
+
+**Sesión 5.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
+
+* *Contenidos cubiertos*: Verificación numérica continua de convexidad mediante análisis espectral de autovalores del Hessiano. Verificación computacional y empírica de la desigualdad de Jensen en distribuciones muestrales.
+* *Objetivos de aprendizaje*:
+  1. **Implementar** rutinas computacionales en Python para evaluar la semidefinición positiva de matrices hessianas sobre dominios continuos.
+  2. **Simular** empíricamente el cumplimiento de la desigualdad de Jensen y trazar epígrafes de funciones convexas.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio5_funciones_convexas.ipynb`.
+  * **Colección de ejercicios**: Bloque 3 de problemas (Ejercicios 3.7 a 3.12: funciones convexas, Hessianos y desigualdades).
+  * **Entorno de software**: Python 3.11, NumPy, SciPy, Matplotlib.
+* *Actividades planificadas*: Programación de pruebas espectrales de matrices y trazado de curvas de subnivel de funciones cuadráticas y racionales.
+* *Recomendación de trabajo autónomo (3.0 h)*: Completar las conclusiones del cuaderno de laboratorio 5 y resolver los ejercicios 3.7 a 3.12 de la colección de problemas.
 
 ---
 
 ### SEMANA 6: Optimización con Restricciones y Condiciones KKT
-**Contenidos teóricos (Tema 4)**:
 
-* Formulación general de problemas no lineales con restricciones de igualdad y desigualdad.
-* Geometría de las restricciones y conos de direcciones factibles y de descenso.
-* Cualificación de restricciones: condición de independencia lineal de gradientes (LICQ) y condición de Mangasarian-Fromovitz (MFCQ).
-* Teorema de las **condiciones de Karush-Kuhn-Tucker (KKT)**: primal factibilidad, dual factibilidad, holgura complementaria y estacionariedad.
-* Suficiencia de KKT bajo hipótesis de convexidad.
+Se estudia la teoría de la optimización con restricciones no lineales de igualdad y desigualdad, deduciendo las condiciones de Karush-Kuhn-Tucker (KKT).
 
-**Sesión de laboratorio en Python**:
+**Sesión 6.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Resolución analítica y comprobación numérica de sistemas no lineales KKT.
-* Visualización gráfica de conos de gradientes activos y multiplicadores de Lagrange en 2D.
+* *Contenidos cubiertos*: Formulación estándar de problemas con restricciones de igualdad y desigualdad. Geometría de las restricciones y conos de direcciones factibles y de descenso. Cualificación de restricciones: condición de independencia lineal de gradientes (LICQ) y condición de Mangasarian-Fromovitz (MFCQ). Teorema de las **condiciones de Karush-Kuhn-Tucker (KKT)**: primal factibilidad, dual factibilidad, holgura complementaria y estacionariedad. Suficiencia de KKT bajo convexidad.
+* *Objetivos de aprendizaje*:
+  1. **Formular** y **resolver** analíticamente el sistema algebraico de condiciones KKT.
+  2. **Verificar** la cualificación de restricciones en puntos frontera comprobando la condición LICQ.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 4, "Optimización con Restricciones y Dualidad", Secciones 4.1 a 4.4.
+  * **Diapositivas de clase**: Presentación del Tema 4 (Parte I), diapositivas 1 a 38.
+* *Actividades planificadas*: Deducción formal de las condiciones KKT mediante conos polares y el Lema de Farkas, con análisis geométrico de restricciones activas e inactivas.
+* *Recomendación de trabajo autónomo (3.0 h)*: Estudio analítico de la demostración de suficiencia de KKT bajo hipótesis de convexidad y resolución manual de sistemas KKT con restricciones cuadráticas.
 
-**Objetivos de aprendizaje**:
+**Sesión 6.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Formular** y **resolver** analíticamente las ecuaciones de KKT en problemas con restricciones no lineales.
-2. **Interpretar** el significado geométrico y físico de las restricciones activas e inactivas.
+* *Contenidos cubiertos*: Resolución analítica asistida por ordenador de sistemas KKT no lineales con cálculo simbólico (`sympy`) y numérico. Visualización gráfica en 2D de conos de gradientes de restricciones activas y vectores de multiplicadores de Lagrange.
+* *Objetivos de aprendizaje*:
+  1. **Resolver** sistemas algebraicos no lineales de KKT mediante herramientas de cálculo computacional.
+  2. **Interpretar** geométricamente el papel de los multiplicadores de Lagrange ortogonales a la frontera activa.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio6_condiciones_kkt.ipynb`.
+  * **Colección de ejercicios**: Bloque 4 de problemas (Ejercicios 4.1 a 4.6: resolución detallada de sistemas KKT).
+  * **Entorno de software**: Python 3.11, SymPy (cálculo simbólico), NumPy, Matplotlib.
+* *Actividades planificadas*: Resolución de problemas cuadráticos con restricciones lineales en SymPy y trazado 2D de las curvas de nivel junto con las direcciones de las restricciones activas.
+* *Recomendación de trabajo autónomo (3.0 h)*: Finalización de los ejercicios del cuaderno 6 y realización de los problemas 4.1 a 4.6 del Bloque 4.
 
 ---
 
-### SEMANA 7: Dualidad Lagrangiana
-**Contenidos teóricos (Tema 4)**:
+### SEMANA 7: Dualidad Lagrangiana y Teoremas de Dualidad
 
-* Construcción formal de la función Lagrangiana y de la función dual de Lagrange $g(\lambda, \mu)$.
-* Concavidad intrínseca de la función dual.
-* El problema Dual de Lagrange y la propiedad de **Dualidad Débil** (salto dual o *duality gap*).
-* Teoremas de **Dualidad Fuerte** y condiciones de cualificación de Slater para problemas convexos.
-* Interpretación económica y análisis de sensibilidad de los multiplicadores duales (precios sombra).
+Se introduce el marco de la dualidad lagrangiana, el salto de dualidad, las condiciones de Slater y el análisis de sensibilidad mediante precios sombra.
 
-**Sesión de laboratorio en Python**:
+**Sesión 7.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Construcción numérica y trazado de la función dual $g(\lambda)$ en problemas cuadráticos.
-* Verificación empírica de la dualidad fuerte y convergencia primal-dual.
+* *Contenidos cubiertos*: Construcción formal de la función Lagrangiana y de la función dual de Lagrange $g(\lambda, \mu)$. Concavidad intrínseca de la función dual. Formulación del problema Dual de Lagrange. Propiedad de **Dualidad Débil** y salto de dualidad (*duality gap*). Teoremas de **Dualidad Fuerte** y condición de cualificación de Slater para problemas convexos. Interpretación económica y análisis de sensibilidad de los multiplicadores duales (precios sombra).
+* *Objetivos de aprendizaje*:
+  1. **Derivar** analíticamente la función dual de Lagrange asociada a un problema primal dado.
+  2. **Evaluar** la existencia de dualidad fuerte mediante la verificación de la condición de Slater.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 4, "Optimización con Restricciones y Dualidad", Secciones 4.5 a 4.8.
+  * **Diapositivas de clase**: Presentación del Tema 4 (Parte II), diapositivas 39 a 72.
+* *Actividades planificadas*: Demostración formal del teorema de dualidad débil y deducción geométrica del salto dual mediante conjuntos epígrafes de perturbación.
+* *Recomendación de trabajo autónomo (3.0 h)*: Asimilación del concepto de precio sombra como derivada direccional del valor óptimo respecto al término independiente de las restricciones.
 
-**Objetivos de aprendizaje**:
+**Sesión 7.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Construir** la función dual de Lagrange y formular el problema dual asociado a un problema primal dado.
-2. **Evaluar** la existencia de dualidad fuerte mediante la condición de Slater.
+* *Contenidos cubiertos*: Construcción numérica y trazado computacional de la función dual de Lagrange en problemas cuadráticos. Verificación empírica de la dualidad fuerte y convergencia primal-dual.
+* *Objetivos de aprendizaje*:
+  1. **Trazar** numéricamente funciones duales cóncavas a partir de la minimización del lagrangiano.
+  2. **Verificar** computacionalmente la convergencia de los valores óptimos primal y dual en problemas convexos.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio7_dualidad_lagrangiana.ipynb`.
+  * **Colección de ejercicios**: Bloque 4 de problemas (Ejercicios 4.7 a 4.12: funciones duales y análisis de sensibilidad).
+  * **Entorno de software**: Python 3.11, NumPy, SciPy, Matplotlib.
+* *Actividades planificadas*: Experimentación con perturbaciones de las restricciones para validar numéricamente la relación entre multiplicadores duales y tasas de variación del óptimo.
+* *Recomendación de trabajo autónomo (3.0 h)*: Completar el cuaderno de laboratorio 7 y resolver los problemas 4.7 a 4.12 de la colección de ejercicios.
 
 ---
 
 ### SEMANA 8: Programación Convexa Disciplinada y CVXPY
-**Contenidos teóricos (Tema 4)**:
 
-* Jerarquía de problemas convexos: Programación Lineal (LP), Programación Cuadrática (QP), Programación Cuadrática con Restricciones Cuadráticas (QCQP) y Conos de Segundo Orden (SOCP).
-* Principios de la **Programación Convexa Disciplinada (DCP)**: reglas de composición atomística y análisis de curvatura.
+Se estudia el modelado computacional formal de la optimización convexa, presentando la jerarquía de problemas canónicos y la librería declarativa CVXPY.
 
-**Sesión de laboratorio en Python**:
+**Sesión 8.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Introducción exhaustiva a la librería **CVXPY**.
-* Formulación declarativa de variables, parámetros, restricciones y funciones objetivo.
-* Resolución de problemas LP y QP, inspección del estado de los solvers y recuperación de variables primales y multiplicadores duales.
+* *Contenidos cubiertos*: Jerarquía estructural de problemas convexos (Programación Lineal LP, Programación Cuadrática QP, Programación Cuadrática con Restricciones Cuadráticas QCQP y Conos de Segundo Orden SOCP). Principios formales de la **Programación Convexa Disciplinada (DCP)**: reglas de composición atomística, monotonicidad y análisis de curvatura.
+* *Objetivos de aprendizaje*:
+  1. **Clasificar** problemas convexos dentro de la jerarquía canónica de programación matemática.
+  2. **Modelar** problemas respetando estrictamente el conjunto de reglas de la programación convexa disciplinada.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 4, "Optimización con Restricciones y Dualidad", Secciones 4.9 a 4.12.
+  * **Diapositivas de clase**: Presentación del Tema 4 (Parte III), diapositivas 73 a 106.
+* *Actividades planificadas*: Exposición sobre grafos de computación en DCP, transformaciones epígrafes y conversión a formas cónicas estándar para solvers interiores.
+* *Recomendación de trabajo autónomo (3.0 h)*: Consulta de la documentación oficial de CVXPY y análisis de las reglas de composición de funciones convexas no decrecientes.
 
-**Objetivos de aprendizaje**:
+**Sesión 8.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Traducir** modelos matemáticos abstractos a código ejecutable en CVXPY respetando las reglas DCP.
-2. **Interpretar** los certificados de optimalidad o infactibilidad devueltos por el solver.
-
----
-
-### SEMANA 9: Aplicaciones a Ciencia de Datos I - Regresión y SVM Lineal
-**Contenidos teóricos (Tema 5)**:
-
-* Formulación matricial de la regresión lineal por mínimos cuadrados ordinarios (OLS).
-* Regularización y selección de variables: regresión Ridge ($L_2$) y regresión Lasso ($L_1$).
-* Fundamentación del aprendizaje estadístico: clasificación binaria e hiperplanos separadores.
-* **Máquinas de Vectores de Soporte (SVM)**: formulación matemática de margen máximo para datos linealmente separables.
-
-**Sesión de laboratorio en Python**:
-
-* Implementación y comparación de modelos de regresión OLS, Ridge y Lasso en CVXPY.
-* Formulación y resolución del clasificador SVM lineal de margen duro en CVXPY.
-* Visualización gráfica del hiperplano de separación, márgenes y vectores de soporte.
-
-**Objetivos de aprendizaje**:
-
-1. **Formular** problemas canónicos de aprendizaje automático como problemas de optimización convexa.
-2. **Calcular** e **ilustrar** los vectores de soporte críticos que definen la frontera de decisión.
+* *Contenidos cubiertos*: Introducción a la librería **CVXPY**. Declaración formal de variables, parámetros, restricciones y funciones objetivo. Resolución de problemas LP y QP, inspección de estados de convergencia del solver y recuperación de soluciones primales y multiplicadores duales.
+* *Objetivos de aprendizaje*:
+  1. **Traducir** modelos matemáticos declarativos a código ejecutable en CVXPY respetando las reglas DCP.
+  2. **Interpretar** y **recuperar** certificados de optimalidad y valores de variables duales devueltos por el optimizador.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio8_cvxpy_dcp.ipynb`.
+  * **Colección de ejercicios**: Bloque 4 de problemas (Ejercicios 4.13 a 4.18: formulación matricial canónica de LP, QP y SOCP).
+  * **Entorno de software**: Python 3.11, CVXPY (solvers ECOS, OSQP, Clarabel).
+* *Actividades planificadas*: Taller interactivo de formulación en CVXPY resolviendo problemas de optimización de carteras de inversión de Markowitz con restricciones de varianza.
+* *Recomendación de trabajo autónomo (3.0 h)*: Finalización de los ejercicios del cuaderno 8 y realización de los problemas 4.13 a 4.18 del Bloque 4.
 
 ---
 
-### SEMANA 10: Aplicaciones a Ciencia de Datos II - SVM Generalizada y Dualidad
-**Contenidos teóricos (Tema 5)**:
+### SEMANA 9: Aplicaciones a Ciencia de Datos I: Regresión y SVM Lineal
 
-* Clasificación con solapamiento: margen blando y variables de holgura $\xi_i$.
-* Parámetro de regularización $C$ y compromiso sesgo-varianza (*bias-variance tradeoff*).
-* Formulación dual de SVM con variables multiplicadoras $\alpha_i$ acotadas en $[0, C]$.
-* El **truco del Kernel (Kernel Trick)**: funciones de base radial (RBF) y núcleos polinomiales en espacios de Hilbert de dimensión infinita.
+Se conectan los fundamentos de la optimización convexa con el aprendizaje automático, estudiando la regresión regularizada y las máquinas de vectores de soporte de margen duro.
 
-**Sesión de laboratorio en Python**:
+**Sesión 9.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Resolución del clasificador SVM dual no lineal en CVXPY.
-* Comparativa de rendimiento y tiempo de cómputo frente a la implementación de `scikit-learn` (`sklearn.svm.SVC`).
-* Evaluación cruzada y ajuste de hiperparámetros ($C, \gamma$).
+* *Contenidos cubiertos*: Formulación matricial de la regresión lineal por mínimos cuadrados ordinarios (OLS). Regularización y selección de variables: regresión Ridge ($L_2$) y regresión Lasso ($L_1$). Fundamentos del aprendizaje estadístico supervisado: clasificación binaria e hiperplanos separadores. **Máquinas de Vectores de Soporte (SVM)**: formulación matemática de margen máximo para datos linealmente separables (margen duro).
+* *Objetivos de aprendizaje*:
+  1. **Formular** problemas canónicos de regresión y clasificación como optimización convexa cuadrática.
+  2. **Diferenciar** el efecto de la regularización $L_1$ inductora de dispersión frente a la regularización $L_2$ de contracción suave.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 5, "Aplicaciones a Ciencia de Datos y Aprendizaje Automático", Secciones 5.1 a 5.4.
+  * **Diapositivas de clase**: Presentación del Tema 5 (Parte I), diapositivas 1 a 40.
+* *Actividades planificadas*: Deducción matemática de la relación entre el ancho geométrico del margen ($2/\|w\|$) y el problema cuadrático primal de SVM en pizarra.
+* *Recomendación de trabajo autónomo (3.0 h)*: Estudio analítico de la deducción de la solución cerrada de Ridge y de la no diferenciabilidad en el origen de la regularización Lasso.
 
-**Objetivos de aprendizaje**:
+**Sesión 9.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Diferenciar** y **derivar** las formulaciones primal y dual de las Máquinas de Vectores de Soporte.
-2. **Aplicar** transformaciones por kernels para resolver problemas de clasificación no linealmente separables.
+* *Contenidos cubiertos*: Implementación y comparación de modelos de regresión OLS, Ridge y Lasso en CVXPY. Formulación y resolución del clasificador SVM lineal de margen duro en CVXPY. Visualización gráfica del hiperplano de separación, márgenes y vectores de soporte.
+* *Objetivos de aprendizaje*:
+  1. **Programar** modelos de regresión regularizada y clasificación lineal de margen duro en CVXPY.
+  2. **Identificar** gráfica y numéricamente los vectores de soporte críticos que definen la frontera de decisión.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio9_regresion_svm_duro.ipynb`.
+  * **Colección de ejercicios**: Bloque 5 de problemas (Ejercicios 5.1 a 5.5: formulaciones de regularización y margen máximo).
+  * **Entorno de software**: Python 3.11, CVXPY, NumPy, Matplotlib, Scikit-Learn (generación de datasets sintéticos).
+* *Actividades planificadas*: Práctica de clasificación sobre conjuntos de datos sintéticos y trazado 2D de hiperplanos de margen máximo en Matplotlib.
+* *Recomendación de trabajo autónomo (3.0 h)*: Completar el análisis de regularización en el cuaderno 9 y resolver los ejercicios 5.1 a 5.5 del Bloque 5.
+
+---
+
+### SEMANA 10: Aplicaciones a Ciencia de Datos II: SVM Generalizada, Dualidad y Kernels
+
+Se concluye el Bloque I con el clasificador SVM de margen blando, su formulación dual y la extensión a fronteras no lineales mediante el truco del Kernel.
+
+**Sesión 10.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
+
+* *Contenidos cubiertos*: Clasificación con solapamiento: formulación de margen blando mediante variables de holgura $\xi_i$. Hiperparámetro de penalización $C$ y compromiso sesgo-varianza. Formulación dual de SVM con multiplicadores de Lagrange $\alpha_i$ en una caja $[0, C]$. El **truco del Kernel (Kernel Trick)**: funciones de base radial (RBF) y núcleos polinomiales en espacios de Hilbert de dimensión infinita. Teorema de Mercer.
+* *Objetivos de aprendizaje*:
+  1. **Derivar** rigurosamente el problema dual de las Máquinas de Vectores de Soporte a partir de las condiciones KKT del problema primal con holguras.
+  2. **Aplicar** transformaciones por núcleos para resolver problemas de clasificación no linealmente separables.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 5, "Aplicaciones a Ciencia de Datos y Aprendizaje Automático", Secciones 5.5 a 5.8.
+  * **Diapositivas de clase**: Presentación del Tema 5 (Parte II), diapositivas 41 a 82.
+* *Actividades planificadas*: Demostración de las condiciones de holgura complementaria en el dual de SVM y cálculo explícito de matrices de Gram para kernels RBF.
+* *Recomendación de trabajo autónomo (3.0 h)*: Estudio reflexivo sobre la clasificación de puntos (interiores, de margen y violaciones) a partir del valor de sus multiplicadores duales $\alpha_i$.
+
+**Sesión 10.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
+
+* *Contenidos cubiertos*: Resolución del problema dual de SVM no lineal en CVXPY. Benchmarking comparativo de precisión y tiempo de ejecución frente a `scikit-learn` (`sklearn.svm.SVC`). Validación cruzada y ajuste de hiperparámetros ($C, \gamma$).
+* *Objetivos de aprendizaje*:
+  1. **Implementar** el clasificador dual de SVM con kernels en CVXPY.
+  2. **Contrastar** la formulación matemática directa en CVXPY con librerías optimizadas de producción en ciencia de datos.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio10_svm_dual_kernels.ipynb`.
+  * **Colección de ejercicios**: Bloque 5 de problemas (Ejercicios 5.6 a 5.10: deducción del dual de SVM y matrices de Gram).
+  * **Entorno de software**: Python 3.11, CVXPY, Scikit-Learn, Matplotlib.
+* *Actividades planificadas*: Taller de ajuste de hiperparámetros sobre conjuntos de datos no separables con fronteras circulares y espirales.
+* *Recomendación de trabajo autónomo (3.0 h)*: Entrega del cuaderno 10, resolución de los problemas 5.6 a 5.10 del Bloque 5 y repaso integral de los temas 1 a 5 para el Examen Parcial 1.
 
 ---
 
 ## BLOQUE II: Optimización y Análisis de Redes (Semanas 11 a 15)
 
 ### SEMANA 11: Teoría de Grafos, Estructuras y Árboles Soporte
-**Contenidos teóricos (Tema 6)**:
 
-* Elementos formales de teoría de grafos: grafos no dirigidos, digrafos, multigrafos y grafos bipartitos.
-* Representaciones algebraicas: matriz de adyacencia, matriz de incidencia y matriz Laplaciana.
-* Conectividad: caminos, componentes conexas, conjuntos de corte y árboles.
-* **Árboles Soporte de Mínimo Peso (MST)**: algoritmo de Kruskal y algoritmo de Prim.
+Se inicia el Bloque II adentrándose en la teoría de redes y grafos, sus representaciones matriciales y los árboles soporte de mínimo peso.
 
-**Sesión de laboratorio en Python**:
+**Sesión 11.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Modelado y manipulación de topologías de red con **NetworkX**.
-* Cálculo de métricas estructurales (grados, densidades, componentes conexas).
-* Implementación y comparación de algoritmos MST sobre grafos sintéticos y redes reales.
+* *Contenidos cubiertos*: Elementos formales de teoría de grafos: grafos no dirigidos $\{u, v\}$, digrafos ordenados $(u, v)$, multigrafos y grafos bipartitos. Representaciones algebraicas: matriz de adyacencia, matriz de incidencia y matriz Laplaciana. Conectividad: caminos, componentes conexas, conjuntos de corte y árboles. **Árboles Soporte de Mínimo Peso (MST)**: algoritmo voraz de Kruskal y algoritmo de Prim. Demostración de corrección mediante la propiedad fundamental del corte.
+* *Objetivos de aprendizaje*:
+  1. **Representar** formalmente redes y topologías complejas mediante matrices algebraicas (adyacencia, incidencia y Laplaciana).
+  2. **Calcular** el árbol generador de coste mínimo aplicando con rigor los algoritmos de Kruskal y Prim.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 6, "Introducción a la Teoría de Redes y Grafos", Secciones 6.1 a 6.5.
+  * **Diapositivas de clase**: Presentación del Tema 6, diapositivas 1 a 55.
+* *Actividades planificadas*: Demostración analítica de la propiedad del corte para árboles generadores y análisis del espectro de la matriz Laplaciana en la conectividad algebraica.
+* *Recomendación de trabajo autónomo (3.0 h)*: Estudio analítico de la prueba de corrección de Kruskal y deducción de la complejidad con estructuras Union-Find.
 
-**Objetivos de aprendizaje**:
+**Sesión 11.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Representar** infraestructuras de transporte y redes complejas mediante estructuras formales de grafos.
-2. **Calcular** el árbol generador de coste mínimo de una red valorada aplicando algoritmos voraces (*greedy*).
+* *Contenidos cubiertos*: Modelado, construcción y manipulación de topologías de red con **NetworkX**. Cálculo de métricas estructurales (distribución de grados, coeficientes de agrupamiento, densidades y componentes conexas). Implementación y comparación de algoritmos MST sobre grafos sintéticos y redes geográficas reales.
+* *Objetivos de aprendizaje*:
+  1. **Utilizar** la librería NetworkX para la manipulación y análisis cuantitativo de redes complejas en Python.
+  2. **Calcular** y **visualizar** árboles generadores de coste mínimo sobre redes de infraestructura real.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio11_grafos_networkx_mst.ipynb`.
+  * **Colección de ejercicios**: Bloque 6 de problemas (Ejercicios 6.1 a 6.8: propiedades de árboles y cálculo manual de MST).
+  * **Entorno de software**: Python 3.11, NetworkX, Matplotlib.
+* *Actividades planificadas*: Construcción interactiva de grafos aleatorios y redes de transporte en NetworkX y trazado visual del árbol soporte mínimo superpuesto.
+* *Recomendación de trabajo autónomo (3.0 h)*: Finalización del cuaderno 11 y resolución de los ejercicios 6.1 a 6.8 de la colección de problemas.
 
 ---
 
 ### SEMANA 12: Algoritmos de Caminos Mínimos
-**Contenidos teóricos (Tema 7)**:
 
-* El Problema del Camino Mínimo (*Shortest Path Problem*) y principio de subestructura óptima.
-* **Algoritmo de Dijkstra** para redes con pesos no negativos (implementación con montículos binarios).
-* **Algoritmo de Bellman-Ford**: tratamiento de aristas negativas y detección de ciclos absorbentes negativos.
-* **Algoritmo de Floyd-Warshall**: caminos mínimos entre todos los pares de vértices mediante programación dinámica.
-* Caminos en digrafos acíclicos dirigidos (DAGs) y ordenación topológica.
+Se abordan los algoritmos clásicos y eficientes de caminos mínimos en grafos valorados y sus aplicaciones a problemas de enrutamiento y finanzas.
 
-**Sesión de laboratorio en Python**:
+**Sesión 12.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Implementación y análisis de eficiencia de Dijkstra frente a Bellman-Ford en NetworkX.
-* Detección de oportunidades de arbitraje financiero modeladas como ciclos de coste negativo en digrafos.
-* Renderizado visual de rutas geodésicas sobre redes viarias.
+* *Contenidos cubiertos*: El Problema del Camino Mínimo (*Shortest Path Problem*) y principio de subestructura óptima de Bellman. **Algoritmo de Dijkstra** para redes con pesos no negativos e implementación con montículos binarios. **Algoritmo de Bellman-Ford**: tratamiento de pesos negativos y detección de ciclos absorbentes de coste negativo. **Algoritmo de Floyd-Warshall**: caminos mínimos entre todos los pares de vértices mediante programación dinámica. Caminos en digrafos acíclicos dirigidos (DAGs) y ordenación topológica.
+* *Objetivos de aprendizaje*:
+  1. **Seleccionar** y **aplicar** el algoritmo de caminos mínimos óptimo en función de la topología de la red y del signo de los costes.
+  2. **Modelar** problemas no espaciales (arbitraje financiero, planificación temporal) como búsquedas de caminos mínimos.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 7, "Caminos Mínimos en Redes", Secciones 7.1 a 7.6.
+  * **Diapositivas de clase**: Presentación del Tema 7, diapositivas 1 a 48.
+* *Actividades planificadas*: Deducción formal de las ecuaciones de Bellman y demostración analítica de la corrección de los algoritmos de Dijkstra y Floyd-Warshall.
+* *Recomendación de trabajo autónomo (3.0 h)*: Estudio reflexivo sobre la detección de ciclos de coste negativo y análisis de complejidad temporal y espacial en grafos densos y dispersos.
 
-**Objetivos de aprendizaje**:
+**Sesión 12.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Seleccionar** y **aplicar** el algoritmo de caminos mínimos óptimo en función de la topología y signos de los pesos de la red.
-2. **Modelar** problemas no espaciales (arbitraje, planificación de proyectos) como búsquedas de caminos mínimos.
+* *Contenidos cubiertos*: Implementación y análisis comparativo de eficiencia entre Dijkstra y Bellman-Ford en NetworkX. Detección de oportunidades de arbitraje en mercados financieros modeladas como ciclos de coste negativo sobre grafos dirigidos de tipos de cambio. Visualización de rutas geodésicas sobre redes viarias.
+* *Objetivos de aprendizaje*:
+  1. **Programar** detectores de ciclos negativos aplicando transformaciones logarítmicas de tipos de cambio en Python.
+  2. **Trazar** visualmente caminos geodésicos sobre grafos dirigidos y mapas reales con NetworkX.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio12_caminos_minimos.ipynb`.
+  * **Colección de ejercicios**: Bloque 7 de problemas (Ejercicios 7.1 a 7.8: trazado paso a paso de Dijkstra, Bellman-Ford y Floyd-Warshall).
+  * **Entorno de software**: Python 3.11, NetworkX, Matplotlib.
+* *Actividades planificadas*: Implementación de la rutina de arbitraje financiero en divisas y cálculo computacional de matrices de distancias de todos los pares.
+* *Recomendación de trabajo autónomo (3.0 h)*: Completar el análisis de arbitraje en el cuaderno 12 y resolver los ejercicios 7.1 a 7.8 del Bloque 7.
 
 ---
 
 ### SEMANA 13: Problemas de Flujo en Redes
-**Contenidos teóricos (Tema 8)**:
 
-* Redes de transporte con capacidades: leyes de conservación de flujo y capacidad residual.
-* **Problema del Flujo Máximo**: algoritmo de Ford-Fulkerson, algoritmo de Edmonds-Karp y cortes en redes.
-* **Teorema del Flujo Máximo - Corte Mínimo (Max-Flow Min-Cut)**.
-* **Problema del Flujo a Coste Mínimo (Min-Cost Flow)** y algoritmo del Símplex de Redes.
-* Teorema de integradidad de flujos.
+Se analizan los modelos de redes capacitadas, el teorema fundamental de corte mínimo y los flujos a coste mínimo.
 
-**Sesión de laboratorio en Python**:
+**Sesión 13.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Resolución de problemas de flujo máximo y corte mínimo con solvers de NetworkX (`maximum_flow`, `minimum_cut`).
-* Modelado de redes de abastecimiento y distribución logística con costes lineales en CVXPY y NetworkX.
+* *Contenidos cubiertos*: Redes de transporte con capacidades: leyes de conservación de flujo de Kirchhoff y redes residuales. **Problema del Flujo Máximo**: algoritmos de caminos de aumento (Ford-Fulkerson y Edmonds-Karp). Cortes en redes y capacidad de un corte. **Teorema del Flujo Máximo - Corte Mínimo (Max-Flow Min-Cut)**. **Problema del Flujo a Coste Mínimo (Min-Cost Flow)** y formulación de programación lineal. Teorema de integridad de flujos y matriz de incidencia totalmente unimodular.
+* *Objetivos de aprendizaje*:
+  1. **Calcular** la capacidad máxima de transporte de una red determinando el corte mínimo saturado que actúa como cuello de botella.
+  2. **Demostrar** la total unimodularidad de la matriz de incidencia de digrafos y la integridad inherente de las soluciones.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 8, "Flujos en Redes", Secciones 8.1 a 8.6.
+  * **Diapositivas de clase**: Presentación del Tema 8, diapositivas 1 a 45.
+* *Actividades planificadas*: Demostración rigurosa del Teorema Max-Flow Min-Cut y desarrollo en pizarra del etiquetado de vértices y actualización de redes residuales.
+* *Recomendación de trabajo autónomo (3.0 h)*: Asimilación de la prueba de convergencia polinomial $O(V E^2)$ de Edmonds-Karp y formulación algebraica de modelos de transbordo.
 
-**Objetivos de aprendizaje**:
+**Sesión 13.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Calcular** la capacidad máxima de transporte de una red identificando el cuello de botella o corte mínimo saturado.
-2. **Formular** y **resolver** problemas de transbordo y distribución mediante flujos a coste mínimo.
+* *Contenidos cubiertos*: Resolución de problemas de flujo máximo y corte mínimo con solvers de NetworkX (`maximum_flow`, `minimum_cut`). Modelado de redes de abastecimiento y distribución logística con capacidades y costes lineales en CVXPY y NetworkX.
+* *Objetivos de aprendizaje*:
+  1. **Formular** y **resolver** problemas de flujo a coste mínimo y transporte multiescalón mediante optimización lineal en CVXPY.
+  2. **Visualizar** redes residuales, arcos saturados y cuellos de botella en NetworkX.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio13_flujos_redes.ipynb`.
+  * **Colección de ejercicios**: Bloque 8 de problemas (Ejercicios 8.1 a 8.8: resolución tabular de Ford-Fulkerson y formulación de transbordos).
+  * **Entorno de software**: Python 3.11, NetworkX, CVXPY.
+* *Actividades planificadas*: Simulación interactiva de cuellos de botella en redes de suministro logístico y contraste de soluciones entre NetworkX y CVXPY.
+* *Recomendación de trabajo autónomo (3.0 h)*: Entrega de los ejercicios del cuaderno 13 y resolución de los problemas 8.1 a 8.8 de la colección de problemas.
 
 ---
 
 ### SEMANA 14: Problemas de Emparejamiento (Matching) y Asignación
-**Contenidos teóricos (Tema 9)**:
 
-* Emparejamientos en grafos: emparejamiento maximal, máximo y emparejamiento perfecto.
-* Emparejamiento en grafos bipartitos: Teorema de Hall y Teorema de Kőnig.
-* El **Algoritmo Húngaro** (Kuhn-Munkres) para el problema clásico de asignación de tareas.
-* Emparejamiento en grafos generales no bipartitos: **Algoritmo de las Flores de Edmonds** (*Blossom Algorithm*) y contracción de ciclos impares.
-* Teorema de estructura y descomposición de Gallai-Edmonds.
+Se estudia la teoría combinatoria de emparejamientos en grafos bipartitos y generales, desde el Algoritmo Húngaro hasta las flores de Edmonds.
 
-**Sesión de laboratorio en Python**:
+**Sesión 14.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Resolución de problemas de emparejamiento bipartito y asignación ponderada en NetworkX y `scipy.optimize.linear_sum_assignment`.
-* Implementación y experimentación del algoritmo de Edmonds para matching máximo general.
+* *Contenidos cubiertos*: Emparejamientos en grafos: emparejamiento maximal, máximo y perfecto. Emparejamiento en grafos bipartitos: Teorema del Matrimonio de Hall y Teorema de Kőnig. El **Algoritmo Húngaro** (Kuhn-Munkres) para el problema clásico de asignación de tareas con costes. Emparejamiento en grafos generales no bipartitos: **Algoritmo de las Flores de Edmonds** (*Blossom Algorithm*) y contracción de ciclos impares. Teorema de estructura y descomposición de Gallai-Edmonds.
+* *Objetivos de aprendizaje*:
+  1. **Formular** problemas de asignación de recursos, turnos y personal como emparejamientos óptimos en grafos bipartitos y generales.
+  2. **Comprender** el mecanismo de contracción de flores (*blossoms*) para resolver emparejamientos en grafos generales en tiempo polinomial.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 9, "Emparejamientos y Asignación en Grafos", Secciones 9.1 a 9.6.
+  * **Diapositivas de clase**: Presentación del Tema 9, diapositivas 1 a 42.
+* *Actividades planificadas*: Deducción del teorema de Kőnig a partir de flujos en redes, interpretación dual del Algoritmo Húngaro como potenciales de nodo y análisis de caminos alternantes.
+* *Recomendación de trabajo autónomo (3.0 h)*: Estudio de la demostración del Teorema de Hall y análisis del papel de los ciclos alternantes impares en grafos no bipartitos.
 
-**Objetivos de aprendizaje**:
+**Sesión 14.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Formular** problemas de asignación de recursos, personal y frecuencias como emparejamientos óptimos.
-2. **Comprender** el mecanismo de contracción de flores (*blossoms*) para resolver emparejamientos en grafos generales en tiempo polinomial.
+* *Contenidos cubiertos*: Resolución de problemas de emparejamiento bipartito y asignación ponderada en NetworkX y `scipy.optimize.linear_sum_assignment`. Implementación y experimentación del algoritmo de Edmonds para matching máximo general sobre grafos arbitrarios.
+* *Objetivos de aprendizaje*:
+  1. **Resolver** computacionalmente problemas de emparejamiento óptimo ponderado y cardinal con librerías científicas en Python.
+  2. **Aplicar** modelos de matching a casos reales (asignación de residentes médicos y programas de donación cruzada de órganos).
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio14_matching_asignacion.ipynb`.
+  * **Colección de ejercicios**: Bloque 9 de problemas (Ejercicios 9.1 a 9.7: cálculo manual del algoritmo Húngaro y contracción de flores).
+  * **Entorno de software**: Python 3.11, NetworkX, SciPy (`scipy.optimize`), Matplotlib.
+* *Actividades planificadas*: Implementación de la asignación óptima de tareas y visualización gráfica de flores contraídas y caminos aumentantes en NetworkX.
+* *Recomendación de trabajo autónomo (3.0 h)*: Finalización del cuaderno 14 y resolución de los problemas 9.1 a 9.7 del Bloque 9.
 
 ---
 
 ### SEMANA 15: Rutas en Redes, TSP, VRP y Síntesis Final
-**Contenidos teóricos (Tema 10)**:
 
-* Recorridos eulerianos: Teorema de Euler-Hierholzer y **Problema del Cartero Chino (CPP)** mediante eulerización por matching mínimo.
-* Ciclos hamiltonianos: complejidad $\mathcal{NP}$-completa, condiciones necesarias (2-conexidad) y suficientes (Dirac, Ore, clausura de Bondy-Chvátal).
-* **Problema del Viajante de Comercio (TSP)**: formulaciones de programación lineal entera (etapas $x_{ijk}$, subtours DFJ y compacta MTZ).
-* Heurísticas de búsqueda local (2-Opt) y **Algoritmo de aproximación de Christofides** con cota 1.5 en grafos métricos.
-* Introducción a la taxonomía y dimensiones operativas de los **Problemas de Rutas de Vehículos (VRP)**.
+Se cierra el curso con los problemas clásicos de diseño de rutas en redes, abordando la frontera entre problemas polinomiales y NP-duros.
 
-**Sesión de laboratorio en Python**:
+**Sesión 15.1: Teoría y Fundamentos Matemáticos (2.0 h presenciales)**
 
-* Implementación del algoritmo del Cartero Chino con NetworkX.
-* Programación del modelo compacto MTZ en CVXPY y resolución con solvers MIP.
-* Implementación de la heurística 2-Opt y del algoritmo de aproximación de Christofides.
+* *Contenidos cubiertos*: Recorridos eulerianos: Teorema de Euler-Hierholzer y **Problema del Cartero Chino (CPP)** resuelto mediante eulerización por matching de mínimo peso. Ciclos hamiltonianos: complejidad $\mathcal{NP}$-completa, condiciones necesarias (2-conexidad) y condiciones suficientes (teoremas de Dirac y Ore, clausura de Bondy-Chvátal). **Problema del Viajante de Comercio (TSP)**: formulaciones de programación lineal entera (etapas $x_{ijk}$, eliminación de subtours DFJ y formulación compacta MTZ). Heurísticas de búsqueda local (2-Opt) y **Algoritmo de aproximación de Christofides** con factor 1.5 en grafos métricos. Introducción a los **Problemas de Rutas de Vehículos (VRP)**.
+* *Objetivos de aprendizaje*:
+  1. **Diferenciar** con precisión la frontera de complejidad computacional entre problemas eulerianos (polinomiales) y hamiltonianos ($\mathcal{NP}$-duros).
+  2. **Formular** modelos de programación lineal entera para diseño de rutas óptimas seleccionando la técnica adecuada de eliminación de subtours.
+  3. **Demostrar** la cota de aproximación 3/2 del algoritmo de Christofides sobre grafos métricos.
+* *Materiales específicos a emplear*:
+  * **Apuntes teóricos (Parte II)**: Tema 10, "Rutas en Redes: Recorridos Eulerianos, Hamiltonianos y Rutas de Vehículos", Secciones 10.1 a 10.7.
+  * **Diapositivas de clase**: Presentación del Tema 10, diapositivas 1 a 52.
+* *Actividades planificadas*: Demostración analítica de la cota de Christofides combinando árboles soporte mínimos y matchings perfectos, y análisis de la formulación entera MTZ en pizarra.
+* *Recomendación de trabajo autónomo (3.0 h)*: Estudio de la formulación compacta MTZ y repaso comparativo general de todas las estructuras y algoritmos estudiados a lo largo del curso.
 
-**Objetivos de aprendizaje**:
+**Sesión 15.2: Laboratorio Computacional y Resolución Práctica (2.0 h presenciales)**
 
-1. **Diferenciar** con precisión la frontera de complejidad computacional entre problemas eulerianos (polinomiales) y hamiltonianos ($\mathcal{NP}$-duros).
-2. **Implementar** modelos de programación lineal entera y heurísticas con garantías formales para problemas de diseño de rutas de transporte.
+* *Contenidos cubiertos*: Implementación del algoritmo del Cartero Chino con NetworkX. Programación de la formulación compacta MTZ en CVXPY y resolución con solvers de programación entera mixta (MIP). Implementación de la heurística de mejora 2-Opt y del algoritmo de aproximación de Christofides.
+* *Objetivos de aprendizaje*:
+  1. **Implementar** modelos de programación entera mixta y heurísticas con garantías formales para problemas de transporte a gran escala en Python.
+  2. **Resolver** instancias de rutas de recogida de residuos urbanos y distribución logística comparando tiempos y calidad de soluciones.
+* *Materiales específicos a emplear*:
+  * **Cuaderno y scripts de laboratorio**: `laboratorio15_rutas_tsp_vrp.ipynb`.
+  * **Colección de ejercicios**: Bloque 10 de problemas (Ejercicios 10.1 a 10.8: eulerización, formulaciones MTZ y algoritmo de Christofides).
+  * **Entorno de software**: Python 3.11, NetworkX, CVXPY (solvers MIP como GLPK/CBC o SCIP), Matplotlib.
+* *Actividades planificadas*: Taller de síntesis computacional resolviendo problemas de rutas en grafos geográficos reales y benchmarking entre solvers exactos y heurísticas 2-Opt.
+* *Recomendación de trabajo autónomo (3.0 h)*: Entrega del cuaderno 15, resolución de los problemas 10.1 a 10.8 del Bloque 10 y preparación integral para el Examen Parcial 2.
 
 ---
 

@@ -1,0 +1,267 @@
+---
+title: "Práctica Evaluable: Mapeo de Características y Kernel Trick en SVM (Solución del profesor)"
+subtitle: "Optimización Convexa en Aprendizaje Automático"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+    html-math-method: katex
+lang: es
+---
+
+# Introducción y generación del conjunto de datos
+
+El objetivo de esta práctica es analizar el comportamiento de las Máquinas de Vectores de Soporte (SVM) en problemas de clasificación no lineal y no separable. Compararemos dos enfoques:
+
+1. **Enfoque Primal**: Propuesta e implementación manual de una función de mapeo explícita $\phi: \mathbb{R}^2 \to \mathbb{R}^k$.
+2. **Enfoque Dual**: Uso del *kernel trick* (Kernel Gaussiano/RBF) para trabajar en un espacio implícito de dimensión infinita.
+
+A continuación, ejecutamos el código para generar y visualizar el conjunto de datos de trabajo.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+import cvxpy as cp
+
+# Semilla para reproducibilidad
+np.random.seed(42)
+
+# Generar datos en 2D
+n_samples = 200
+X = np.random.uniform(-2, 2, (n_samples, 2))
+
+# Frontera parabólica x2 = 0.8 * x1^2 - 0.7 con ruido gaussiano
+ruido = np.random.normal(0, 0.45, n_samples)
+y_val = X[:, 1] - (0.8 * X[:, 0]**2 - 0.7) + ruido
+Y = np.where(y_val >= 0, 1, -1)
+
+# Visualización del conjunto de datos
+plt.figure(figsize=(8, 6))
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1', color='blue', alpha=0.7)
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1', color='red', alpha=0.7)
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.title('Conjunto de Datos No Lineal y No Separable')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.show()
+```
+
+# Parte 1: Propuesta del mapeo explícito $\phi(\mathbf{x})$
+
+## Ejercicio 1.1: Justificación geométrica
+
+Observa la distribución espacial de los puntos en la gráfica anterior.
+
+- **Pregunta**: ¿Qué tipo de curva separa aproximadamente las dos clases?
+  - **Respuesta**: La frontera entre ambas clases sigue una forma parabólica cuadrática de la forma $x_2 \approx 0.8 x_1^2 - 0.7$.
+- **Propuesta**: Definimos una función de mapeo polinomial cuadrática $\phi: \mathbb{R}^2 \to \mathbb{R}^3$:
+
+$$\phi(x_1, x_2) = (x_1, x_2, x_1^2)$$
+
+Al incorporar la característica cuadrática $x_1^2$, la frontera de separación $x_2 - 0.8 x_1^2 + 0.7 = 0$ se convierte en un plano lineal en $\mathbb{R}^3$ definido por $w_1 z_1 + w_2 z_2 + w_3 z_3 + b = 0$.
+
+## Ejercicio 1.2: Implementación del mapeo
+
+Implementamos en Python la función `phi(X)` que aplica la transformación cuadrática a la matriz de características `X`:
+
+```{python}
+def phi(X):
+    """
+    Transforma la matriz X de dimensión (n, 2) a (n, 3)
+    añadiendo el término cuadrático x1^2.
+    """
+    return np.column_stack((X[:, 0], X[:, 1], X[:, 0]**2))
+
+X_transformed = phi(X)
+print("Forma de X_transformed:", X_transformed.shape)
+```
+
+# Parte 2: Formulación primal soft-margin en el espacio transformado
+
+Usando los datos transformados $\mathbf{X}_{\text{transformed}} = \phi(\mathbf{X})$, resolvemos el problema primal con margen suave (*Soft-Margin*):
+
+$$
+\begin{aligned}
+\min_{\mathbf{w}, b, \boldsymbol{\xi}} \quad & \frac{1}{2} \|\mathbf{w}\|_2^2 + C \sum_{i=1}^n \xi_i \\
+\text{sujeto a} \quad & y_i (\mathbf{w}^T \phi(\mathbf{x}_i) + b) \geq 1 - \xi_i, \quad i = 1, \ldots, n \\
+& \xi_i \geq 0, \quad i = 1, \ldots, n
+\end{aligned}
+$$
+
+## Ejercicio 2.1: Resolución con CVXPY
+
+Fijamos $C = 0.5$, definimos y resolvemos el problema de optimización en CVXPY:
+
+```{python}
+C = 0.5
+n, d = X_transformed.shape
+
+w = cp.Variable(d)
+b = cp.Variable()
+xi = cp.Variable(n)
+
+objective = cp.Minimize(0.5 * cp.square(cp.norm(w)) + C * cp.sum(xi))
+constraints = [
+    cp.multiply(Y, X_transformed @ w + b) >= 1 - xi,
+    xi >= 0
+]
+
+prob = cp.Problem(objective, constraints)
+prob.solve()
+
+w_opt = w.value
+b_opt = b.value
+
+print("Valor óptimo de w:", w_opt)
+print("Valor óptimo de b:", b_opt)
+```
+
+## Ejercicio 2.2: Visualización de la frontera de decisión en $\mathbb{R}^2$
+
+Representamos en el espacio bidimensional original el límite de decisión proyectado y calculamos la exactitud (*accuracy*):
+
+```{python}
+# Crear malla de puntos en 2D
+x1_min, x1_max = X[:, 0].min() - 0.5, X[:, 0].max() + 0.5
+x2_min, x2_max = X[:, 1].min() - 0.5, X[:, 1].max() + 0.5
+xx1, xx2 = np.meshgrid(np.linspace(x1_min, x1_max, 200), np.linspace(x2_min, x2_max, 200))
+X_grid = np.c_[xx1.ravel(), xx2.ravel()]
+X_grid_phi = phi(X_grid)
+
+# Predicción en la malla
+Z_primal = (X_grid_phi @ w_opt + b_opt).reshape(xx1.shape)
+predicciones_primal = np.sign(X_transformed @ w_opt + b_opt)
+acc_primal = np.mean(predicciones_primal == Y)
+
+plt.figure(figsize=(9, 6))
+plt.contourf(xx1, xx2, Z_primal, levels=[-np.inf, 0, np.inf], colors=['#fee2e2', '#dbeafe'], alpha=0.6)
+plt.contour(xx1, xx2, Z_primal, levels=[0], colors='black', linewidths=2.0)
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1', color='blue', alpha=0.8)
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1', color='red', alpha=0.8)
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.title(f'Frontera Primal con $\phi(x)$ (Accuracy = {acc_primal:.2%})')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.show()
+```
+
+# Parte 3: Formulación dual y kernel trick (RBF)
+
+Ahora utilizaremos la formulación dual con el *kernel trick* utilizando un kernel Gaussiano (RBF):
+
+$$K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|_2^2)$$
+
+El problema dual a resolver es:
+
+$$
+\begin{aligned}
+\min_{\boldsymbol{\alpha}} \quad & \frac{1}{2} \boldsymbol{\alpha}^T \mathbf{H} \boldsymbol{\alpha} - \mathbf{1}^T \boldsymbol{\alpha} \\
+\text{sujeto a} \quad & \mathbf{y}^T \boldsymbol{\alpha} = 0 \\
+& 0 \leq \alpha_i \leq C, \quad i = 1, \ldots, n
+\end{aligned}
+$$
+
+donde $H_{ij} = y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$.
+
+## Ejercicio 3.1: Construcción de la matriz de Gram y resolución
+
+Calculamos la matriz $\mathbf{H}$ para $\gamma = 1.0$ y resolvemos el problema dual con CVXPY utilizando $C = 0.5$:
+
+```{python}
+gamma = 1.0
+C = 0.5
+
+# Matriz de distancias cuadráticas euclídeas
+sq_dists = np.sum(X**2, axis=1).reshape(-1, 1) + np.sum(X**2, axis=1) - 2 * (X @ X.T)
+K_rbf = np.exp(-gamma * sq_dists)
+H = (Y.reshape(-1, 1) @ Y.reshape(1, -1)) * K_rbf
+
+# Problema dual en CVXPY
+alpha = cp.Variable(n)
+obj_dual = cp.Minimize(0.5 * cp.quad_form(alpha, cp.psd_wrap(H)) - cp.sum(alpha))
+constraints_dual = [
+    Y @ alpha == 0,
+    alpha >= 0,
+    alpha <= C
+]
+
+prob_dual = cp.Problem(obj_dual, constraints_dual)
+prob_dual.solve()
+alpha_opt = alpha.value
+
+print("Suma de alpha_i:", np.sum(alpha_opt))
+```
+
+## Ejercicio 3.2: Clasificación de vectores de soporte (condiciones KKT)
+
+Identificamos los vectores soporte utilizando un umbral de tolerancia $\epsilon = 10^{-4}$:
+
+```{python}
+tol = 1e-4
+sv_free = (alpha_opt > tol) & (alpha_opt < C - tol)
+sv_bounded = np.abs(alpha_opt - C) < tol
+all_sv = (alpha_opt > tol)
+
+# Calcular el término de sesgo b a partir de los vectores de soporte libres
+b_rbf_list = []
+for idx in np.where(sv_free)[0]:
+    b_k = Y[idx] - np.sum(alpha_opt * Y * K_rbf[:, idx])
+    b_rbf_list.append(b_k)
+
+b_rbf = np.mean(b_rbf_list) if len(b_rbf_list) > 0 else 0.0
+
+print(f"Vectores de soporte en el margen (0 < alpha < C): {np.sum(sv_free)}")
+print(f"Vectores de soporte que violan el margen (alpha = C): {np.sum(sv_bounded)}")
+print(f"Sesgo b estimado: {b_rbf:.4f}")
+```
+
+## Ejercicio 3.3: Visualización de la frontera dual
+
+Dibujamos el límite de decisión obtenido con el kernel RBF e hipermarcamos los vectores de soporte:
+
+```{python}
+# Calcular decisión en la malla X_grid
+sq_dists_grid = np.sum(X_grid**2, axis=1).reshape(-1, 1) + np.sum(X**2, axis=1) - 2 * (X_grid @ X.T)
+K_grid = np.exp(-gamma * sq_dists_grid)
+Z_rbf = (K_grid @ (alpha_opt * Y) + b_rbf).reshape(xx1.shape)
+
+predicciones_rbf = np.sign(K_rbf @ (alpha_opt * Y) + b_rbf)
+acc_rbf = np.mean(predicciones_rbf == Y)
+
+plt.figure(figsize=(10, 7))
+plt.contourf(xx1, xx2, Z_rbf, levels=[-np.inf, 0, np.inf], colors=['#fee2e2', '#dbeafe'], alpha=0.6)
+plt.contour(xx1, xx2, Z_rbf, levels=[0], colors='black', linewidths=2.0)
+
+# Muestras
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1', color='blue', alpha=0.5)
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1', color='red', alpha=0.5)
+
+# Vectores soporte destacados
+plt.scatter(X[sv_free][:, 0], X[sv_free][:, 1], s=120, facecolors='none', edgecolors='green', linewidths=2, label='SV en el margen (0 < alpha < C)')
+plt.scatter(X[sv_bounded][:, 0], X[sv_bounded][:, 1], s=120, facecolors='none', edgecolors='purple', linewidths=2, label='SV viola margen (alpha = C)')
+
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.title(f'Frontera Dual con Kernel RBF $\gamma={gamma}$ (Accuracy = {acc_rbf:.2%})')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.show()
+```
+
+# Parte 4: Discusión comparativa
+
+Responde brevemente a las siguientes preguntas razonando las respuestas:
+
+1. **Comparación de fronteras**:
+   - *Respuesta*: El mapeo explícito $\phi(\mathbf{x}) = (x_1, x_2, x_1^2)$ genera una parábola rígida en $\mathbb{R}^2$. En cambio, el Kernel RBF genera una frontera suave y curvada que se adapta mejor a las irregularidades locales producidas por el ruido.
+2. **Ventajas del dual**:
+   - *Respuesta*: El Kernel RBF trabaja en un espacio de características de dimensión infinita sin necesidad de calcular ni almacenar vectores transformados de alta dimensión. Evita la maldición de la dimensionalidad y simplifica la computación a evaluar productos escalares implícitos en $\mathbf{H}$.
+3. **Efecto de los parámetros**:
+   - *Respuesta*: Si incrementamos $\gamma$ a un valor muy elevado (ej. $\gamma = 50$), la función Gaussiana se vuelve muy estrecha. La frontera rodeará cada punto individualmente creando "islas" de decisión muy complejas, lo que provocará **sobreajuste (*overfitting*)** y una pérdida drástica en la capacidad de generalización del modelo.

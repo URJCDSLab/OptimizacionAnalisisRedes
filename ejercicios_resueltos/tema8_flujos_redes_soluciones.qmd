@@ -1,0 +1,341 @@
+# Ejercicios del Tema 8: flujos en redes
+
+## Ejercicio 1: Formulación en Programación Lineal y Propiedades del Flujo Máximo
+
+Considérese la red de transporte dirigida $G = (V, U, \mathbf{c})$ de $n = 5$ vértices $V = \{s, 1, 2, 3, t\}$ con las siguientes capacidades acotadas en sus 7 arcos:
+
+$$
+c_{s1} = 8, \quad c_{s2} = 6, \quad c_{12} = 3, \quad c_{13} = 4, \quad c_{23} = 2, \quad c_{1t} = 5, \quad c_{3t} = 7
+$$
+
+Se pide:
+
+1. Formular el programa lineal primal de flujo máximo $\max f_0$ definiendo la matriz de incidencia nodo-arco $\mathbf{A}$ y el sistema de conservación de flujo para vértices intermedios $\mathbf{A} \mathbf{x} = \mathbf{0}$.
+
+   **Solución:**
+
+   Definimos como variables de decisión los caudales circulantes $x_{ij} \ge 0$ en cada arco $(i, j) \in U$ y el valor total de flujo transmitido $f_0 \ge 0$. El programa lineal primal se establece como:
+
+   $$
+   \begin{aligned}
+   \max_{x, f_0} \quad & f_0 \\
+   \text{sujeto a} \quad & -x_{s1} - x_{s2} = -f_0 \quad &(i = s) \\
+   & x_{s1} - x_{12} - x_{13} - x_{1t} = 0 \quad &(i = 1) \\
+   & x_{s2} + x_{12} - x_{23} = 0 \quad &(i = 2) \\
+   & x_{13} + x_{23} - x_{3t} = 0 \quad &(i = 3) \\
+   & x_{1t} + x_{3t} = f_0 \quad &(i = t) \\
+   & 0 \le x_{s1} \le 8, \quad 0 \le x_{s2} \le 6, \quad 0 \le x_{12} \le 3 \\
+   & 0 \le x_{13} \le 4, \quad 0 \le x_{23} \le 2, \quad 0 \le x_{1t} \le 5, \quad 0 \le x_{3t} \le 7
+   \end{aligned}
+   $$
+
+   La matriz de incidencia nodo-arco $\mathbf{A} \in \mathbb{R}^{5 \times 7}$ se estructura asignando $+1$ al nodo de origen de cada arco y $-1$ a su nodo de destino.
+
+---
+
+2. Formular el problema dual continuo e interpretar físicamente las variables duales nodales $u_i \in \mathbb{R}$ y los multiplicadores de capacidad $w_{ij} \ge 0$.
+
+   **Solución:**
+
+   Asociando la variable dual $u_i$ a la restricción de conservación de flujo en el nodo $i \in V$ (fijando el potencial del sumidero en $u_t = 0 \implies u_s = 1$) y los multiplicadores $w_{ij} \ge 0$ a las restricciones de capacidad $x_{ij} \le c_{ij}$, las restricciones duales asociadas a los arcos $u_j - u_i + w_{ij} \ge 0$ se expresan como:
+
+   $$
+   \begin{aligned}
+   \min_{u, w} \quad & 8 w_{s1} + 6 w_{s2} + 3 w_{12} + 4 w_{13} + 2 w_{23} + 5 w_{1t} + 7 w_{3t} \\
+   \text{sujeto a} \quad & u_1 - u_s + w_{s1} \ge 0 \implies u_1 + w_{s1} \ge 1 \quad &(\text{arco } (s,1)) \\
+   & u_2 - u_s + w_{s2} \ge 0 \implies u_2 + w_{s2} \ge 1 \quad &(\text{arco } (s,2)) \\
+   & u_2 - u_1 + w_{12} \ge 0 \quad &(\text{arco } (1,2)) \\
+   & u_3 - u_1 + w_{13} \ge 0 \quad &(\text{arco } (1,3)) \\
+   & u_3 - u_2 + w_{23} \ge 0 \quad &(\text{arco } (2,3)) \\
+   & u_t - u_1 + w_{1t} \ge 0 \implies -u_1 + w_{1t} \ge 0 \quad &(\text{arco } (1,t)) \\
+   & u_t - u_3 + w_{3t} \ge 0 \implies -u_3 + w_{3t} \ge 0 \quad &(\text{arco } (3,t)) \\
+   & w_{ij} \ge 0, \quad u_i \in \{0, 1\}
+   \end{aligned}
+   $$
+
+   **Interpretación física**: Las variables duales nodales $u_i \in \{0, 1\}$ definen la pertenencia a los conjuntos de la partición del corte $(S, T)$ con $S = \{i \mid u_i = 1\}$ y $T = \{j \mid u_j = 0\}$. Las variables $w_{ij} = \max\{0, u_i - u_j\} = 1$ identifican a los arcos salientes $w^+(S)$ del corte de capacidad mínima.
+
+---
+
+3. Demostrar algebraicamente por el Teorema de Dualidad Fuerte la equivalencia exacta $f_0^* = C(w^+(S))$, justificando por qué el Teorema del Flujo Máximo - Corte Mínimo es la manifestación directa de la dualidad lineal.
+
+   **Solución:**
+
+   Por el **Teorema de Dualidad Fuerte de la Programación Lineal**, si el programa lineal primal admite una solución óptima acotada $f_0^*$, el programa dual posee una solución óptima $w^*$ cuyo valor objetivo coincide exactamente con el primal:
+
+   $$
+   f_0^* = \sum_{(i,j) \in U} c_{ij} w_{ij}^*
+   $$
+
+   En la solución óptima dual, los multiplicadores satisfacen $w_{ij}^* = 1$ si y solo si el arco $(i, j)$ cruza desde el conjunto alcanzable $S$ hasta el conjunto no alcanzable $T$ ($(i,j) \in w^+(S)$), y $w_{ij}^* = 0$ en caso contrario. La función objetivo dual coincide numéricamente con la capacidad total del corte $C(S, T) = \sum_{(i,j) \in w^+(S)} c_{ij}$. Esto demuestra que **el Teorema del Flujo Máximo - Corte Mínimo es la interpretación geométrica directa de la dualidad fuerte en redes**. $\blacksquare$
+
+---
+
+4. Resolver analíticamente el modelo obteniendo la asignación óptima de flujos $x_{ij}^*$, el valor del flujo máximo $f_0^*$ y la partición del corte de capacidad mínima $(S, T)$.
+
+   **Solución:**
+
+   Trazamos las iteraciones de aumento de flujo:
+
+   * **Camino 1** ($\mu_1 = s \to 1 \to t$): Capacidad residual $\Delta_1 = \min(c_{s1}, c_{1t}) = \min(8, 5) = 5$. Asignamos $x_{s1} = 5, x_{1t} = 5$ (saturado).
+
+   * **Camino 2** ($\mu_2 = s \to 1 \to 3 \to t$): Capacidad disponible en $(s, 1)$ es $8 - 5 = 3$. Capacidad residual $\Delta_2 = \min(3, c_{13}, c_{3t}) = \min(3, 4, 7) = 3$. Asignamos $x_{s1} = 8$ (saturado), $x_{13} = 3, x_{3t} = 3$.
+
+   * **Camino 3** ($\mu_3 = s \to 2 \to 23 \to 3 \to t$): Capacidad residual $\Delta_3 = \min(c_{s2}, c_{23}, c_{3t}-3) = \min(6, 2, 7-3) = 2$. Asignamos $x_{s2} = 2, x_{23} = 2$ (saturado), $x_{3t} = 3 + 2 = 5$.
+
+   **Solución Primal Óptima**:
+   $$f_0^* = 5 + 3 + 2 = 10$$
+   $$x_{s1}^* = 8, \quad x_{s2}^* = 2, \quad x_{12}^* = 0, \quad x_{13}^* = 3, \quad x_{23}^* = 2, \quad x_{1t}^* = 5, \quad x_{3t}^* = 5$$
+
+   **Corte de Capacidad Mínima**:
+   En el grafo residual final, los nodos alcanzables desde $s$ son $S = \{s, 2\}$ y los no alcanzables son $T = \{1, 3, t\}$. Los arcos salientes que cruzan de $S$ a $T$ componen el corte $w^+(S) = \{(s, 1), (2, 3)\}$. Su capacidad total es:
+   $$C(S, T) = c_{s1} + c_{23} = 8 + 2 = 10 = f_0^*$$
+
+---
+
+## Ejercicio 2: Algoritmo de Etiquetado Dinámico de Ford-Fulkerson paso a paso
+
+Dada la red de transporte dirigida $G = (V, U, \mathbf{c})$ con 5 vértices $V = \{s, a, b, c, t\}$ y capacidades acotadas:
+
+$$
+c_{sa} = 5, \quad c_{sb} = 4, \quad c_{ab} = 2, \quad c_{ac} = 4, \quad c_{bc} = 1, \quad c_{at} = 3, \quad c_{ct} = 6
+$$
+
+Se pide:
+
+1. Iniciar el procedimiento desde la solución de flujo nulo $\mathbf{f}^0 = \mathbf{0}$ para $f_0 = 0$.
+
+   **Solución:**
+
+   Fijamos la asignación inicial de flujo nulo $\mathbf{f}^0 = \mathbf{0}$ en los 7 arcos. El caudal circulante inicial es $f_0 = 0$.
+
+---
+
+2. Desarrollar paso a paso cada iteración del algoritmo de etiquetado dinámico de Ford-Fulkerson, indicando en cada paso el camino de aumento seleccionado en el grafo residual $G(\mathbf{f}^k)$, la capacidad residual $\Delta_k$ y la actualización de marcas $[\pm i, \Delta(j)]$.
+
+   **Solución:**
+
+   **Tabla de Traza Detallada del Algoritmo de Ford-Fulkerson**:
+
+   | Iteración | Camino de Aumento $\mu_k$ | Marcas de Etiquetado Generadas $[\pm i, \Delta_j]$ | Incremento $\Delta_k$ | Flujos Actualizados $f_{ij}^k$ | Caudal $f_0$ |
+   | :---: | :---: | :--- | :---: | :--- | :---: |
+   | **0** | — | Marca $s: [-, \infty]$ | — | Todos $f_{ij}^0 = 0$ | 0 |
+   | **1** | $s \to a \to t$ | $a: [+s, 5]$, $t: [+a, 3]$ | $\min(5, 3) = 3$ | $f_{sa}^1 = 3$, $f_{at}^1 = 3$ (Saturado) | 3 |
+   | **2** | $s \to a \to c \to t$ | $a: [+s, 2]$, $c: [+a, 2]$, $t: [+c, 2]$ | $\min(2, 4, 6) = 2$ | $f_{sa}^2 = 5$ (Sat), $f_{ac}^2 = 2$, $f_{ct}^2 = 2$ | 5 |
+   | **3** | $s \to b \to c \to t$ | $b: [+s, 4]$, $c: [+b, 1]$, $t: [+c, 1]$ | $\min(4, 1, 4) = 1$ | $f_{sb}^3 = 1$, $f_{bc}^3 = 1$ (Sat), $f_{ct}^3 = 3$ | **6** |
+
+---
+
+3. Identificar la iteración de parada por imposibilidad de etiquetar el sumidero $t$.
+
+   **Solución:**
+
+   * **Iteración 4 (Proceso de Parada)**:
+     * Asignamos la marca inicial $[-, \infty]$ al nodo fuente $s$.
+     * El arco $(s, a)$ está totalmente saturado ($f_{sa} = 5 = c_{sa}$) $\implies$ el nodo $a$ no puede ser etiquetado.
+     * El arco $(s, b)$ dispone de capacidad residual $4 - 1 = 3 \implies$ etiquetamos $b$ con $[+s, 3]$.
+     * Desde el nodo $b$, el único arco saliente $(b, c)$ está completamente saturado ($f_{bc} = 1 = c_{bc}$). No existen arcos inversos cargados desde $b$.
+     * Ningún otro vértice puede recibir marca. El sumidero $t$ **no resulta alcanzable**.
+
+     * **Criterio de Parada**: Se concluye el algoritmo garantizando que el flujo $f_0^* = 6$ es máximo.
+
+---
+
+4. Caracterizar el conjunto de nodos alcanzables $S = N$ y determinar los arcos que componen el corte de capacidad mínima $w^+(S)$ con su capacidad total.
+
+   **Solución:**
+
+   El conjunto de nodos etiquetados en la iteración final es $S = N = \{s, b\}$. El conjunto complementario no alcanzable es $T = V \setminus N = \{a, c, t\}$.
+
+   Los arcos que cruzan desde el subconjunto $S$ al subconjunto $T$ constituyen el corte de capacidad mínima:
+   $$w^+(S) = \{(s, a), (b, c)\}$$
+
+   Evaluamos la capacidad total del corte $C(S, T)$:
+   $$C(S, T) = c_{sa} + c_{bc} = 5 + 1 = 6 = f_0^*$$
+
+   Se confirma numéricamente la identidad exacta del Teorema de Flujo Máximo - Corte Mínimo ($f_0^* = C(S, T) = 6$).
+
+---
+
+## Ejercicio 3: Criterios de Optimalidad y Eliminación de Circuitos Negativos en Flujo de Coste Mínimo
+
+Considérese la red de 4 vértices $V = \{s, 1, 2, t\}$ con arcos, capacidades $c_{ij}$ y costes unitarios de transporte $p_{ij} \in \mathbb{R}$:
+
+$$
+(s, 1): c_{s1}=3, p_{s1}=2; \quad (s, 2): c_{s2}=2, p_{s2}=4; \quad (1, 2): c_{12}=2, p_{12}=-3;
+$$
+$$
+(2, 1): c_{21}=1, p_{21}=1; \quad (1, t): c_{1t}=3, p_{1t}=1; \quad (2, t): c_{2t}=2, p_{2t}=2
+$$
+
+Se pide:
+
+1. Probar la validez del Teorema 1 de optimalidad: un flujo de valor $\nu$ es de coste mínimo si y solo si $G(\mathbf{f})$ no contiene circuitos incrementales de coste negativo.
+
+   **Solución:**
+
+   Por el **Teorema 1**, cualquier modificación factible de un flujo $\mathbf{f}$ manteniendo constante el caudal $\nu$ se expresa como una combinación lineal de circulaciones cíclicas $\mathbf{f}' - \mathbf{f} = \sum \alpha_k \mathbf{\mu}^k$. Si la red residual $G(\mathbf{f})$ contiene un circuito orientado $C$ con coste residual estricto $p(C) = \sum_{u \in C^+} p_u - \sum_{u \in C^-} p_u < 0$, hacer circular $\delta > 0$ unidades a lo largo de $C$ reduce el coste total en $\delta \cdot p(C) < 0$ manteniendo constante el volumen circulante $\nu$, lo que contradice la optimalidad de $\mathbf{f}$. Recíprocamente, si no existen circuitos negativos en $G(\mathbf{f})$, ninguna modificación cíclica puede reducir el coste, demostrando la optimalidad global. $\blacksquare$
+
+---
+
+2. Dada la solución compatible inicial de prueba $\mathbf{f}^0$ con $f_{s2}^0 = 2, f_{21}^0 = 1, f_{1t}^0 = 2$ (y cero en el resto), construir su grafo residual $G(\mathbf{f}^0)$ e identificar un circuito residual de coste negativo $C_1$.
+
+   **Solución:**
+
+   Calculamos el coste total acumulado de la solución inicial $\mathbf{f}^0$ para un caudal de $\nu = 2$ unidades:
+   $$C(\mathbf{f}^0) = 2(p_{s2}) + 1(p_{21}) + 2(p_{1t}) = 2(4) + 1(1) + 2(1) = 8 + 1 + 2 = 11$$
+
+   Construimos el grafo residual $G(\mathbf{f}^0)$:
+
+   * Arco $(s, 2)$ saturado ($f=2=c$) $\implies$ genera el arco inverso $(2, s)$ con peso $-p_{s2} = -4$.
+   * Arco $(2, 1)$ totalmente cargado ($f=1=c$) $\implies$ genera el arco inverso $(1, 2)$ con peso $-p_{21} = -1$.
+   * Arco $(1, 2)$ sin flujo ($f=0$) $\implies$ mantiene el arco directo $(1, 2)$ con peso $p_{12} = -3$.
+   * Arco $(s, 1)$ libre ($f=0$) $\implies$ directo $(s, 1)$ peso $2$.
+   * Arco $(1, t)$ parcialmente cargado ($f=2 < 3$) $\implies$ directo $(1, t)$ peso $1$, e inverso $(t, 1)$ peso $-1$.
+
+   Evaluando los circuitos cerrados en $G(\mathbf{f}^0)$, identificamos el circuito $C_1 = 1 \to 2 \to 1$ formado por el arco directo $(1, 2)$ y el arco inverso $(1, 2)$ de deshacer $f_{21}$:
+   $$p(C_1) = p_{12} + (-p_{21}) = (-3) + (-1) = -4 < 0$$
+
+---
+
+3. Calcular la capacidad residual máxima $\delta_1$ del circuito $C_1$, hacer circular dicho flujo y calcular la reducción exacta de coste total $C(\mathbf{f}^1) - C(\mathbf{f}^0)$.
+
+   **Solución:**
+
+   La capacidad residual del circuito $C_1$ viene dada por la menor capacidad sobrante en sus arcos de avance y retorno:
+   $$\delta_1 = \min \{ c_{12} - f_{12}^0, \, f_{21}^0 \} = \min \{ 2 - 0, \, 1 \} = 1 \text{ unidad}$$
+
+   Actualizamos los flujos incrementando en 1 unidad el arco $(1, 2)$ y cancelando completamente el flujo inverso en $(2, 1)$:
+   $$f_{12}^1 = 0 + 1 = 1, \quad f_{21}^1 = 1 - 1 = 0$$
+
+   El coste total de la nueva distribución de flujo $\mathbf{f}^1$ resulta:
+   $$C(\mathbf{f}^1) = 2(p_{s2}) + 1(p_{12}) + 2(p_{1t}) = 2(4) + 1(-3) + 2(1) = 8 - 3 + 2 = 7$$
+
+   La variación de coste total coincide exactamente con el producto del flujo circulado por el peso del ciclo:
+   $$C(\mathbf{f}^1) - C(\mathbf{f}^0) = 7 - 11 = -4 = \delta_1 \cdot p(C_1) = 1 \cdot (-4)$$
+
+---
+
+4. Demostrar que el nuevo flujo $\mathbf{f}^1$ no contiene circuitos de coste negativo en $G(\mathbf{f}^1)$.
+
+   **Solución:**
+
+   En la red residual $G(\mathbf{f}^1)$, al haberse cancelado totalmente $f_{21}^1 = 0$, el arco inverso $(1, 2)$ con peso $-1$ desaparece. Se comprueba que ningún otro circuito en $G(\mathbf{f}^1)$ posee peso negativo. Por el **Teorema 1**, el flujo $\mathbf{f}^1$ es globalmente óptimo para el caudal $\nu = 2$ con un coste mínimo de $C^* = 7$.
+
+---
+
+## Ejercicio 4: Crecimiento Iterativo por Caminos Mínimos (Teorema 2)
+
+Dada la red de transporte dirigida de 5 nodos $V = \{s, a, b, c, t\}$ con capacidades $c_{ij}$ y costes unitarios $p_{ij}$:
+
+$$
+(s, a): c_{sa}=3, p_{sa}=3; \quad (s, b): c_{sb}=3, p_{sb}=1; \quad (a, c): c_{ac}=2, p_{ac}=2;
+$$
+$$
+(b, c): c_{bc}=2, p_{bc}=5; \quad (b, t): c_{bt}=4, p_{bt}=2; \quad (c, t): c_{ct}=3, p_{ct}=1
+$$
+
+Se desea transmitir un caudal total de $\nu = 4$ unidades desde la fuente $s$ al sumidero $t$ al menor coste posible.
+
+Se pide:
+
+1. Partir del flujo óptimo inicial $\mathbf{f}^0 = \mathbf{0}$ para $\nu_0 = 0$.
+
+   **Solución:**
+
+   Iniciamos la búsqueda fijando la solución de flujo nulo $\mathbf{f}^0 = \mathbf{0}$ con caudal circulante $f_0 = 0$ y coste $C(\mathbf{f}^0) = 0$. Al ser todos los costes unitarios no negativos ($p_{ij} \ge 0$), por el Teorema 1 no existen ciclos iniciales de coste negativo, garantizando que $\mathbf{f}^0$ es óptimo para $\nu_0 = 0$.
+
+---
+
+2. Encontrar en cada iteración la cadena de incremento de coste residual mínimo desde $s$ a $t$ en el grafo de distancias residual $G(\mathbf{f}^k)$.
+
+   **Solución:**
+
+   * **Iteración 1 (Caudal $0 \to 3$)**:
+     * Evaluamos la longitud de las cadenas orientadas en $G(\mathbf{f}^0)$:
+       * $\mu_1 = s \to b \to t$: Coste residual $p(\mu_1) = p_{sb} + p_{bt} = 1 + 2 = 3$.
+       * $\mu_2 = s \to a \to c \to t$: Coste residual $p(\mu_2) = 3 + 2 + 1 = 6$.
+       * $\mu_3 = s \to b \to c \to t$: Coste residual $p(\mu_3) = 1 + 5 + 1 = 7$.
+     * El camino de longitud mínima en el grafo de distancias residual es $\mu_1 = s \to b \to t$ con coste unitario 3.
+
+---
+
+3. Calcular el incremento óptimo $\Delta_k = \min \{ c(\mu_k), \nu - f_0 \}$ y actualizar el flujo y los arcos inversos.
+
+   **Solución:**
+
+   * Capacidad residual de la cadena $\mu_1$: $c(\mu_1) = \min \{c_{sb} - f_{sb}^0, c_{bt} - f_{bt}^0\} = \min(3 - 0, 4 - 0) = 3$.
+   * Incremento óptimo: $\Delta_1 = \min \{3, 4 - 0\} = 3$ unidades.
+   * Flujo actualizado $\mathbf{f}^1$: $f_{sb}^1 = 3$ (saturado), $f_{bt}^1 = 3$. Caudal circulante $f_0 = 3$.
+   * Coste acumulado: $C(\mathbf{f}^1) = 0 + 3 \times 3 = 9$.
+
+---
+
+4. Construir la tabla completa de evoluciones de caudal $f_0$, coste acumulado $C(\mathbf{f}^k)$ y verificación de optimalidad para el volumen objetivo $\nu = 4$.
+
+   **Solución:**
+
+   * **Iteración 2 (Caudal $3 \to 4$)**:
+     * Al estar $(s, b)$ saturado en $G(\mathbf{f}^1)$, la arista directa no está disponible. El siguiente camino de coste residual mínimo en $G(\mathbf{f}^1)$ es $\mu_2 = s \to a \to c \to t$ con coste $p(\mu_2) = 3 + 2 + 1 = 6$.
+     * Capacidad residual de $\mu_2$: $c(\mu_2) = \min(3, 2, 3) = 2$.
+     * Incremento compatible: $\Delta_2 = \min \{2, 4 - 3\} = 1$ unidad.
+     * Flujo actualizado $\mathbf{f}^2$: $f_{sa}^2 = 1, f_{ac}^2 = 1, f_{ct}^2 = 1$. Caudal $f_0 = 3 + 1 = 4 = \nu$.
+     * Coste acumulado final: $C(\mathbf{f}^2) = 9 + 1(6) = 15$.
+
+   **Tabla de Resumen Algorítmico**:
+
+   | Iteración $k$ | Camino Mínimo $\mu_k$ | Coste Residual $p(\mu_k)$ | Incremento $\Delta_k$ | Caudal Acumulado $f_0$ | Coste Total $C(\mathbf{f}^k)$ |
+   | :---: | :---: | :---: | :---: | :---: | :---: |
+   | **0** | Inicial ($\mathbf{f}^0 = \mathbf{0}$) | — | — | 0 | 0 |
+   | **1** | $s \to b \to t$ | 3 | 3 | 3 | 9 |
+   | **2** | $s \to a \to c \to t$ | 6 | 1 | 4 | **15** |
+
+   **Solución Óptima Final para $\nu = 4$**:
+   $$f_{sb}^* = 3, \quad f_{bt}^* = 3, \quad f_{sa}^* = 1, \quad f_{ac}^* = 1, \quad f_{ct}^* = 1$$
+   $$C^* = 15$$
+
+---
+
+## Ejercicio 5: El Problema del Transbordo y Reducción Unificada de Problemas de Redes
+
+Considérese el problema de transbordo en una red dirigida $G = (V, U)$ con $n$ nodos, $m$ arcos, balances nodales $b_i \in \mathbb{R}$ y capacidades $\ell_{ij} \le f_{ij} \le c_{ij}$.
+
+Se pide:
+
+1. Demostrar analíticamente que si la red está en equilibrio ($\sum_{i=1}^n b_i = 0$), el sistema de ecuaciones de conservación de flujo $\mathbf{A} \mathbf{f} = \mathbf{b}$ posee rango $n - 1$.
+
+   **Solución:**
+
+   Sumando la totalidad de las $n$ filas de la matriz de incidencia nodo-arco $\mathbf{A}$, observamos que cada columna $u = (i, j)$ contiene exactamente dos entradas no nulas: $+1$ en la fila $i$ y $-1$ en la fila $j$. La suma por columnas es idénticamente cero, lo que implica que las filas de $\mathbf{A}$ son linealmente dependientes. Al estar la red en equilibrio ($\sum_{i=1}^n b_i = 0$), cualquier restricción de conservación puede expresarse como combinación lineal de las restantes $n - 1$, demostrando que $\text{rango}(\mathbf{A}) = n - 1$. $\blacksquare$
+
+---
+
+2. Formular la matriz de incidencia nodo-arco $\mathbf{A}$ y mostrar su estructura de unos y menos unos (+1 en arcos salientes, -1 en arcos entrantes).
+
+   **Solución:**
+
+   La matriz de incidencia nodo-arco $\mathbf{A} \in \mathbb{R}^{n \times m}$ se define formalmente como:
+
+   $$
+   a_{i, u} = \begin{cases} 
+   +1 & \text{si el arco } u = (i, j) \text{ sale del nodo } i \\
+   -1 & \text{si el arco } u = (k, i) \text{ entra al nodo } i \\
+   0 & \text{en otro caso}
+   \end{cases}
+   $$
+
+---
+
+3. Demostrar formalmente la reducción unificada de un problema de Transporte bipartito a un modelo de Transbordo equivalente introduciendo nodos intermedios de paso.
+
+   **Solución:**
+
+   En un problema de transporte bipartito estándar se definen $m$ orígenes con ofertas $a_i > 0$ y $n$ destinos con demandas $d_j > 0$. Para reducirlo a un modelo de transbordo unificado sobre $G = (V, U)$, basta fijar $V = I \cup J$, definiendo los balances $b_i = a_i > 0$ para $i \in I$ y $b_j = -d_j < 0$ para $j \in J$. El sistema de conservación $\sum_j f_{ij} - \sum_k f_{ki} = b_i$ se reduce exactamente a las ecuaciones de oferta $\sum_j f_{ij} = a_i$ y demanda $\sum_i f_{ij} = d_j$, demostrando que el problema de transporte es un caso particular del transbordo. $\blacksquare$
+
+---
+
+4. Explicar cómo la propiedad de unimodularidad total (TUM) de la matriz de incidencia $\mathbf{A}$ garantiza soluciones enteras óptimas $\mathbf{f}^* \in \mathbb{Z}^m$ siempre que los balances nodales $b_i$ y las cotas de capacidad $\ell_{ij}, c_{ij}$ sean enteros.
+
+   **Solución:**
+
+   Una matriz $\mathbf{A}$ es **Totalmente Unimodular (TUM)** si el determinante de cualquier submatriz cuadrada resulta $0, +1$ o $-1$. Dado que cada columna de $\mathbf{A}$ posee a lo sumo dos elementos no nulos ($+1$ y $-1$), $\mathbf{A}$ cumple el criterio de Heller-Tompkins y es TUM. Por la regla de Cramer, las soluciones en los vértices del poliedro factible vienen dadas por $\mathbf{f} = \mathbf{B}^{-1} \mathbf{b}$. Al tener las submatrices determinantes $\det(\mathbf{B}) = \pm 1$, la matriz inversa contiene únicamente elementos enteros, lo que garantiza que las soluciones óptimas continuas de Programación Lineal son **estrictamente enteras** ($\mathbf{f}^* \in \mathbb{Z}^m$), prescindiendo del uso de algoritmos de optimización entera Branch & Bound. $\blacksquare$

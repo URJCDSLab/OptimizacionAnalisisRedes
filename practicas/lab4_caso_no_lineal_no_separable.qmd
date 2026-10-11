@@ -1,0 +1,523 @@
+---
+title: "Laboratorio 4: Clasificador SVM no lineal no separable (Primal Soft-Margin con φ)"
+subtitle: "Optimización Convexa en Aprendizaje Automático"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
+date: last-modified
+format:
+  html:
+    theme: cerulean
+    toc: true
+    number-sections: true
+    css: ../estilos_html.css
+    embed-resources: true
+    html-math-method: katex
+lang: es
+---
+
+# Generar un conjunto de datos
+
+En este caso, abordaremos la clasificación de datos no lineales y no separables. Aplicaremos una transformación específica para mapear los datos a un espacio de mayor dimensión y luego buscaremos un hiperplano que maximice la separación entre las clases en este nuevo espacio.
+
+Para ilustrar la separación de clases en un caso no lineal, generamos un conjunto de datos donde las clases no son linealmente separables en su espacio original. Este conjunto de datos simula una situación común en problemas de clasificación donde existe un solapamiento entre las clases.
+
+## Proceso de creación del conjunto de datos
+
+1. **Generación de Puntos Aleatorios**: Creamos un conjunto de puntos distribuidos aleatoriamente en un espacio bidimensional.
+
+2. **Definición de Etiquetas Según una Circunferencia**: Asignamos etiquetas a los puntos basándonos en su posición relativa a una circunferencia de radio definido. Los puntos ubicados fuera de la circunferencia reciben una etiqueta, mientras que los puntos dentro reciben otra.
+
+3. **Ajuste de Puntos para Crear Solapamiento**: Para simular un escenario más realista y desafiante, ajustamos los puntos de ambas clases para que se alejen del centro, creando así un área de solapamiento entre las clases.
+
+4. **Visualización del Conjunto de Datos**: Presentamos los datos en un gráfico de dispersión para visualizar la distribución y el solapamiento de las clases. Esta visualización nos ayuda a entender la complejidad de separar las clases y la necesidad de estrategias más sofisticadas para la clasificación.
+
+Este enfoque nos prepara para explorar técnicas avanzadas de clasificación que pueden manejar la separación en escenarios no lineales y con solapamiento entre clases.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Configurar la semilla para reproducibilidad
+np.random.seed(1234)
+
+# Generar datos aleatorios
+X = np.random.randn(200, 2)
+
+# Definir el radio de la circunferencia
+radius = 1.5
+
+# Asignar etiquetas basadas en la posición relativa a la circunferencia
+Y = np.array([1 if (x[0]**2 + x[1]**2) >= radius**2 else -1 for x in X])
+
+# Ajustar los puntos para que exista solapamiento
+X[Y == 1] *= 1.5  # Alejar los puntos de la clase +1 del centro
+X[Y == -1] *= 1.75  # Alejar los puntos de la clase -1 del centro
+
+# Visualizar los datos
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1 (fuera)')
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1 (dentro)')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.legend()
+plt.title('Conjunto de Datos Separable No Linealmente')
+plt.axis('equal')  # Asegurar que los ejes tengan la misma escala
+plt.show()
+```
+
+# Transformar los datos
+
+Sin embargo, ¿qué sucedería si aumentamos la dimensión? Podemos convertir cada vector bidimensional en uno tridimensional. Por ejemplo, podemos crear un mapeo polinomial con la función $\phi: \mathbb{R}^2 \to \mathbb{R}^3$ definida por:
+
+
+
+$$\phi(x_1, x_2) = (x_1^2, x_2^2, \sqrt{2} x_1 x_2)$$
+
+
+
+Este mapeo eleva al cuadrado cada una de las dos dimensiones originales y añade un tercer término que es el producto de las dos dimensiones originales, escalado por $\sqrt{2}$. Esta transformación nos permite visualizar y trabajar con los datos en un espacio de mayor dimensión, donde podrían ser más fácilmente separables linealmente.
+
+## Definir una función de mapeo $\phi$ para transformar los datos
+
+La función $\phi$ es esencial para transformar los datos del espacio original a un espacio de mayor dimensión. Esta transformación es un paso clave para clasificar datos que no son linealmente separables en su espacio original. La elección de $\phi$ depende de las características específicas del conjunto de datos y de la naturaleza del problema de clasificación.
+
+```{python}
+def phi(X):
+    """Función de mapeo a tres dimensiones."""
+    return np.array([X[:, 0]**2, X[:, 1]**2, np.sqrt(2)*X[:, 0]*X[:, 1]]).T
+
+X_transformed = phi(X)
+```
+
+# Visualización de datos en el espacio transformado
+
+Una vez transformados los datos utilizando la función $\phi$, es útil visualizar cómo se distribuyen en el nuevo espacio de características. Esto nos puede dar una idea intuitiva de cómo la transformación ha afectado la separabilidad de las clases.
+
+Utilizamos `plotly` para crear una visualización 3D interactiva de los datos transformados. En esta visualización, representamos los puntos de la clase +1 y la clase -1 en diferentes colores para observar cómo se distribuyen en el espacio tridimensional generado por $\phi$.
+
+Esta visualización nos ayuda a entender mejor la estructura del espacio de características transformado y cómo se puede encontrar un hiperplano que separe eficazmente las clases en este espacio.
+
+## Requisitos para la visualización
+
+Para que esta visualización funcione correctamente, se deben cumplir los siguientes requisitos:
+
+1. **Instalación de Plotly**: Asegúrate de tener instalado `plotly` en tu entorno. Puedes instalarlo utilizando `pip install plotly`.
+
+2. **Entorno de Jupyter**: Esta visualización está diseñada para funcionar en un entorno Jupyter Notebook o JupyterLab.
+
+3. **Compatibilidad del Navegador**: Como `plotly` genera visualizaciones interactivas basadas en JavaScript, asegúrate de utilizar un navegador web compatible y que JavaScript esté habilitado.
+
+4. **Conexión a Internet**: Si estás utilizando versiones de `plotly` que requieren conexión a Internet para cargar los scripts de JavaScript, asegúrate de estar conectado.
+
+Estos requisitos garantizarán que puedas visualizar y interactuar con los datos transformados de manera efectiva, lo que te ayudará a entender mejor la estructura del espacio de características transformado y cómo se puede encontrar un hiperplano que separe eficazmente las clases en este espacio.
+
+```{python}
+import plotly.io as pio
+pio.renderers.default = 'notebook_connected'
+import plotly.graph_objects as go
+
+# Definir el ancho y alto deseados para la figura
+ancho_figura = 800  # Ancho en píxeles
+alto_figura = 600   # Alto en píxeles
+
+# Datos para el gráfico
+pos_points = X_transformed[Y == 1]
+neg_points = X_transformed[Y == -1]
+
+# Crear trazas para los puntos
+trace1 = go.Scatter3d(x=pos_points[:, 0], y=pos_points[:, 1], z=pos_points[:, 2], 
+                      mode='markers', marker=dict(size=5), name='Clase +1')
+trace2 = go.Scatter3d(x=neg_points[:, 0], y=neg_points[:, 1], z=neg_points[:, 2], 
+                      mode='markers', marker=dict(size=5), name='Clase -1')
+
+# Crear y mostrar la figura
+fig = go.Figure(data=[trace1, trace2])
+
+fig.update_layout(autosize=True, 
+    scene=dict(
+        xaxis=dict(range=[-10, 10]),
+        yaxis=dict(range=[-10, 10]),
+        zaxis=dict(range=[-10, 10]),
+        aspectmode='cube'
+    ),
+      # Establecer el ancho de la figura
+    height=550,  # Establecer el alto de la figura
+)
+fig.show()
+```
+
+Podemos comprobar que este tipo de transformación puede ser útil para hacer que datos que no son linealmente separables en su espacio original (como los puntos dentro y fuera de una circunferencia) sean linealmente separables en un espacio de mayor dimensión.
+
+# Formulación del problema primal con $\phi$: Caso de margen suave
+
+En situaciones donde los datos no son linealmente separables, es necesario recurrir a un enfoque de margen suave. Esto implica la introducción de una flexibilidad en la clasificación, permitiendo cierto grado de error para mejorar la generalización del modelo. Utilizamos la función $\phi$ para transformar cada vector bidimensional $(x_1, x_2)$ en un espacio tridimensional $(x_1^2, x_2^2, \sqrt{2} x_1 x_2)$, buscando un hiperplano que separe los datos transformados de manera óptima con cierta tolerancia a los errores de clasificación.
+
+## Formulación matemática del problema de margen suave
+
+El problema primal en el espacio transformado, considerando un margen suave, se formula como sigue:
+
+
+
+$$\begin{aligned}
+& \underset{\mathbf{w}}{\text{minimizar}}
+& &  \frac{1}{2} ||w||^2_2 + C \sum_{i=1}^n \xi_i\\
+& \text{sujeto a}
+& & y_i(\mathbf{w}^T\phi(\mathbf{x}_i) + b) \geq 1 - \xi_i \\
+& & &  \xi_i \geq 0, \; i = 1, \ldots, n
+\end{aligned}$$
+
+
+
+### Importancia de la transformación $\phi$ y el enfoque de margen suave
+
+La transformación $\phi$ permite abordar datos no lineales transformándolos a un espacio de mayor dimensión donde pueden ser linealmente separables. El enfoque de margen suave, representado por las variables de holgura $\xi_i$ y el parámetro de penalización $C$, introduce una flexibilidad que permite cierto grado de clasificación errónea. Esto es crucial para conjuntos de datos reales donde la separación perfecta es a menudo imposible debido al solapamiento de clases o al ruido en los datos.
+
+### Análisis de convexidad en el espacio transformado
+
+A pesar de la introducción del margen suave y la transformación $\phi$, el problema sigue siendo convexo. La función objetivo $\frac{1}{2} ||w||^2_2$ es convexa, y las restricciones, aunque ahora incorporan tanto la transformación $\phi$ como las variables de holgura $\xi_i$, se mantienen lineales en términos de $w$, $b$ y $\xi_i$. Esto asegura que el problema en su conjunto sea un problema de optimización convexa, permitiendo encontrar soluciones óptimas de manera eficiente.
+
+Esta formulación de margen suave es particularmente adecuada para escenarios del mundo real, donde la completa separabilidad de los datos es una excepción más que una regla.
+
+# Ejemplo de resolución
+
+## Definir variables de optimización
+
+En el proceso de encontrar un hiperplano de máxima separación en el espacio transformado, es esencial definir y ajustar ciertas variables de optimización. Estas variables son fundamentales para formular y resolver el problema de optimización.
+
+### Variables involucradas
+
+1. **Vector de Pesos `w`**: El vector de pesos `w` es crucial para definir la orientación del hiperplano en el espacio de características transformado. Este vector determinará cómo se separan las clases en el espacio de mayor dimensión.
+
+2. **Término de Sesgo `b`**: El término de sesgo `b` influye en la posición del hiperplano respecto al origen. Ajustar `b` permite desplazar el hiperplano para lograr la mejor separación posible entre las clases.
+
+3. **Variables de Holgura `xi`**: En un enfoque de margen suave, introducimos variables de holgura `xi` para manejar los datos que no pueden clasificarse perfectamente. Estas variables permiten cierta flexibilidad en la clasificación, lo que es especialmente útil para datos con solapamiento o ruido.
+
+4. **Parámetro de Regularización `C`**: El parámetro `C` controla el compromiso entre maximizar el margen y minimizar la clasificación errónea. Un valor más alto de `C` pone más énfasis en clasificar todos los ejemplos de entrenamiento correctamente, mientras que un valor más bajo aumenta la importancia del margen.
+
+```{python}
+# Formular el problema primal en el espacio transformado
+import cvxpy as cp
+
+n, d = X_transformed.shape
+w = cp.Variable(d)
+b = cp.Variable()
+xi = cp.Variable(n)
+C = 0.01
+```
+
+## Establecer el objetivo de optimización
+
+En el problema de optimización para encontrar el hiperplano de máxima separación, el objetivo principal es maximizar el margen entre las dos clases. Este objetivo se logra a través de una función objetivo compuesta, que incluye tanto la norma del vector de pesos como el término relacionado con las variables de holgura.
+
+### Componentes del objetivo de optimización
+
+1. **Norma del Vector de Pesos `w`**: La minimización de la norma cuadrada del vector de pesos `w` es esencial para lograr un hiperplano con un margen amplio. Un margen más grande mejora la capacidad de generalización del modelo, haciendo que sea más robusto a nuevas muestras.
+
+2. **Penalización de las Variables de Holgura `xi`**: Además de minimizar la norma de `w`, también incorporamos una penalización proporcional a la suma de las variables de holgura `xi`. Estas variables permiten cierta flexibilidad en la clasificación y ayudan a manejar los datos que no se ajustan perfectamente al margen.
+
+### Representación matemática
+
+La función objetivo se representa matemáticamente como:
+
+
+
+$$\underset{\mathbf{w}}{\text{minimizar}} \quad \frac{1}{2} ||\mathbf{w}||_2^2 + C \sum \xi_i$$
+
+
+
+Donde $||\mathbf{w}||_2$ denota la norma inducida por la distancia euclidia del vector de pesos y $C$ es el parámetro de regularización que equilibra entre el margen y la clasificación correcta de los ejemplos de entrenamiento.
+
+```{python}
+import cvxpy as cp
+objective = cp.Minimize(0.5 * cp.square(cp.norm(w)) + C * cp.sum(xi))
+```
+
+## Definir las restricciones
+
+En el problema de optimización para encontrar el hiperplano de máxima separación, las restricciones juegan un papel crucial. Estas aseguran que cada punto de datos sea clasificado correctamente, considerando la transformación realizada y el margen suave.
+
+### Naturaleza de las restricciones
+
+1. **Correcta Clasificación de los Datos**: Para cada punto de datos $\mathbf{x}_i$ con etiqueta $y_i$, se impone una restricción que garantiza que el punto esté en el lado correcto del hiperplano. Esto se logra asegurando que el producto escalar entre el vector de pesos `w` y la muestra transformada $\phi(\mathbf{x}_i)$, ajustado por el término de sesgo `b`, cumpla con un cierto umbral.
+
+2. **Restricciones de las Variables de Holgura `xi`**: Además de la correcta clasificación, las restricciones incluyen las variables de holgura `xi`, que permiten cierta flexibilidad en la clasificación y manejan los casos donde los puntos de datos no se ajustan perfectamente al margen.
+
+### Formulación de las restricciones
+
+Las restricciones se formulan como:
+
+
+
+$$y_i(\mathbf{w}^T\phi(\mathbf{x}_i) + b) \geq 1 - \xi_i, \quad \text{para todo } i$$
+
+
+
+
+
+$$\xi_i \geq 0, \; i = 1, \ldots, n$$
+
+
+
+Estas restricciones aseguran que cada muestra transformada sea clasificada correctamente con un margen suave, y que las variables de holgura no sean negativas.
+
+```{python}
+import cvxpy as cp
+constraints = [cp.multiply(Y, X_transformed @ w + b) >= 1 - xi, xi >= 0]
+```
+
+# Resolver el problema de optimización
+
+Una vez que hemos definido las variables, el objetivo y las restricciones, procedemos a resolver el problema de optimización. Este paso es crucial para encontrar los valores óptimos de `w` y `b` que definirán el hiperplano de máxima separación en el espacio transformado.
+
+## Proceso de resolución
+
+1. **Creación del Problema**: Utilizamos CVXPY para configurar el problema de optimización, incorporando el objetivo y las restricciones previamente definidos.
+
+2. **Búsqueda de la Solución Óptima**: Al llamar al método `solve` de CVXPY, el optimizador busca automáticamente la solución que minimiza la función objetivo mientras satisface todas las restricciones. Este proceso implica un cálculo numérico avanzado que puede manejar tanto la convexidad del problema como las complejidades introducidas por la transformación de los datos y el margen suave.
+
+3. **Recuperación de los Parámetros Óptimos**: Tras la resolución del problema, extraemos los valores óptimos de `w` y `b`. Estos valores son fundamentales para definir el hiperplano en el espacio transformado y, por ende, para la clasificación de los datos.
+
+### Implementación en Python
+
+La implementación en Python del proceso de resolución se realiza con la ayuda de la biblioteca `cvxpy`. Aquí está el código para configurar y resolver el problema, y para imprimir los valores óptimos encontrados:
+
+```{python}
+import cvxpy as cp
+prob = cp.Problem(objective, constraints)
+
+# Resolver el problema primal
+prob.solve()
+print(f"Valor óptimo de w: {w.value}")
+print(f"Valor óptimo de b: {b.value}")
+```
+
+## Visualizar el hiperplano resultante
+
+Una vez que hemos encontrado el hiperplano óptimo en el espacio transformado, es útil visualizar cómo este hiperplano clasifica los datos en el espacio original. Aunque el hiperplano se encuentra en un espacio de mayor dimensión, podemos proyectar su efecto en el espacio bidimensional original para entender mejor cómo separa las clases.
+
+La ecuación del hiperplano en el espacio transformado se adapta para su visualización en un gráfico bidimensional de la siguiente manera:
+
+1. **Predecir Etiquetas en el Espacio Transformado**: Utilizamos una función `predict` que aplica la predicción definida por el hiperplano (incluyendo `w` y `b`) a los datos transformados para predecir las etiquetas.
+
+2. **Crear una Malla de Puntos en el Espacio Original**: Generamos una malla de puntos que cubre el rango de los datos originales.
+
+3. **Transformar la Malla de Puntos**: Aplicamos la transformación $\phi$ a cada punto de la malla para llevarlos al espacio transformado.
+
+4. **Calcular las Predicciones para la Malla de Puntos**: Obtenemos las predicciones del modelo para esta malla transformada.
+
+5. **Visualizar el Límite de Decisión**: Dibujamos el límite de decisión en el espacio original utilizando las predicciones obtenidas. Esto nos muestra cómo el hiperplano en el espacio de mayor dimensión separa las clases en nuestro espacio original bidimensional.
+
+```{python}
+# Función para predecir etiquetas en el espacio transformado
+def predict(X):
+    return np.sign(X @ w.value + b.value)
+
+# Crear una malla de puntos en el espacio original
+x1_min, x1_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+x2_min, x2_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx1, xx2 = np.meshgrid(np.linspace(x1_min, x1_max, 200), np.linspace(x2_min, x2_max, 200))
+
+# Aplicar la transformación φ a la malla de puntos
+X_grid = np.c_[xx1.ravel(), xx2.ravel()]
+X_grid_transformed = phi(X_grid)
+
+# Calcular las predicciones para la malla de puntos
+Z = predict(X_grid_transformed)
+Z = Z.reshape(xx1.shape)
+
+# Configurar el tamaño de la figura
+plt.figure(figsize=(10, 8))
+
+# Visualizar el límite de decisión en el espacio original
+# Solo colorear el interior (donde Z == 1)
+plt.contourf(xx1, xx2, Z, levels=[-1, 0, 1], colors=['orange', 'white'], alpha=0.6)
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1')
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.legend()
+plt.title('Límite de Decisión en el Espacio Original')
+plt.axis('equal')
+plt.show()
+```
+
+## Visualizar el hiperplano resultante en el espacio transformado
+
+Después de transformar los datos y encontrar el hiperplano óptimo en el espacio transformado, podemos visualizar tanto los puntos de datos como el hiperplano en un espacio tridimensional. Esta visualización es útil para entender cómo el hiperplano separa las clases en el espacio transformado.
+
+### Desarrollo teórico para la representación del hiperplano
+
+La función de mapeo $\phi$ transforma los datos originales a un espacio de mayor dimensión, donde el hiperplano se define por la ecuación:
+
+
+
+$$w_0 \cdot x_1^2 + w_1 \cdot x_2^2 + w_2 \cdot \sqrt{2} x_1 x_2 + b = 0$$
+
+
+
+En esta ecuación:
+
+- $w_0$, $w_1$, y $w_2$ son los coeficientes del vector de pesos $\mathbf{w}$.
+- $x_1$ y $x_2$ son las coordenadas en el espacio original.
+- $b$ es el término de sesgo.
+
+Para visualizar este hiperplano en 3D, reorganizamos la ecuación para despejar el término $\sqrt{2} x_1 x_2$, que corresponde a la coordenada z en nuestra visualización:
+
+
+
+$$\sqrt{2} x_1 x_2 = -\frac{w_0 \cdot x_1^2 + w_1 \cdot x_2^2 + b}{w_2}$$
+
+
+
+### Creación de la visualización en 3D
+
+1. **Puntos de Datos en el Espacio Transformado**: Creamos dos conjuntos de puntos (trazas), uno para cada clase, usando los datos transformados. Estos puntos se representan en un espacio tridimensional para reflejar su nueva ubicación después de la transformación.
+
+2. **Representación del Hiperplano**: Calculamos los valores de la tercera dimensión (z) del hiperplano basándonos en los valores óptimos de $w$ y $b$ obtenidos. El hiperplano se representa como una superficie en el espacio 3D, lo que nos permite visualizar cómo separa efectivamente las dos clases.
+
+3. **Combinar Puntos y Hiperplano en una Figura**: Utilizamos Plotly para combinar las trazas de los puntos y la superficie del hiperplano en una única figura, lo que nos permite observar la relación entre los puntos de datos y el hiperplano.
+
+### Visualización con plotly
+
+Utilizamos Plotly, una biblioteca de gráficos interactivos, para crear una visualización 3D que muestre tanto los puntos de datos como el hiperplano. Esta herramienta nos permite explorar la disposición espacial de los puntos y ver cómo el hiperplano determina la clasificación en el espacio transformado.
+
+```{python}
+# Definir el ancho y alto deseados para la figura
+ancho_figura = 800  # Ancho en píxeles
+alto_figura = 600   # Alto en píxeles
+
+# Asumiendo que X_transformed, Y, w.value, y b.value ya están definidos
+# Aquí separas los puntos en positivos y negativos
+pos_points = X_transformed[Y == 1]
+neg_points = X_transformed[Y == -1]
+
+# Crear trazas para los puntos
+trace1 = go.Scatter3d(
+    x=pos_points[:, 0], y=pos_points[:, 1], z=pos_points[:, 2],
+    mode='markers', marker=dict(size=5), name='Clase +1'
+)
+trace2 = go.Scatter3d(
+    x=neg_points[:, 0], y=neg_points[:, 1], z=neg_points[:, 2],
+    mode='markers', marker=dict(size=5), name='Clase -1'
+)
+
+# Datos para el hiperplano
+xx, yy = np.meshgrid(
+    np.linspace(-20, 20, 50),
+    np.linspace(-20, 20, 50)
+)
+zz = -(w.value[0] * xx + w.value[1] * yy + b.value) / w.value[2]
+
+# Crear traza para el hiperplano
+hiperplano = go.Surface(x=xx, y=yy, z=zz, colorscale='Viridis', opacity=0.5, showscale=False)
+
+# Crear y configurar la figura
+fig = go.Figure(data=[trace1, trace2, hiperplano])
+
+fig.update_layout(
+    scene=dict(
+        xaxis=dict(range=[-10, 10]),
+        yaxis=dict(range=[-10, 10]),
+        zaxis=dict(range=[-10, 10]),
+        aspectmode='cube'
+    ),
+    width=ancho_figura,  # Establecer el ancho de la figura
+    height=alto_figura,  # Establecer el alto de la figura
+)
+
+# Mostrar la figura
+fig.show()
+```
+
+# Evaluar la calidad del modelo
+
+Para evaluar la calidad del modelo, calculamos la exactitud (*accuracy*), que mide el porcentaje de predicciones correctas realizadas por el modelo en comparación con las etiquetas reales. Este es un paso crucial para entender el rendimiento del modelo en los datos proporcionados.
+
+El proceso es el siguiente:
+
+1. Calcular las predicciones del modelo. Para cada punto de datos en `X`, calculamos la clasificación utilizando la función `predict`. Esto nos da una predicción de +1 o -1 para cada muestra.
+2. Comparar estas predicciones con las etiquetas reales `y` y calcular la exactitud como la media de las predicciones correctas.
+
+```{python}
+# Calcular las predicciones
+predicciones = predict(X_transformed)  # Esto dará +1 o -1 como predicciones
+
+# Calcular la exactitud
+accuracy = np.mean(predicciones == Y)  # Compara las predicciones con las etiquetas reales
+
+print("Accuracy del modelo:", accuracy)
+```
+
+# Visualización del efecto del parámetro de regularización $C$
+
+Para observar cómo diferentes valores del parámetro de regularización $C$ afectan la decisión de clasificación, visualizaremos la proyección de los hiperplanos resultantes para varios valores de $C$. Esto nos ayudará a entender la relación entre $C$ y la flexibilidad del modelo en cuanto a la clasificación y el margen.
+
+```{python}
+import cvxpy as cp
+# Valores de C para probar
+valores_C = [0.001, 0.01, 0.1, 10]
+colores = ['red', 'blue', 'green', 'purple']
+
+# Crear una malla de puntos en el espacio original
+x1_min, x1_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+x2_min, x2_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx1, xx2 = np.meshgrid(np.linspace(x1_min, x1_max, 200), np.linspace(x2_min, x2_max, 200))
+X_grid = np.c_[xx1.ravel(), xx2.ravel()]
+
+# Configurar el tamaño de la figura
+plt.figure(figsize=(10, 8))
+
+# Graficar los puntos de datos
+plt.scatter(X[Y == 1][:, 0], X[Y == 1][:, 1], label='Clase +1', edgecolor='k')
+plt.scatter(X[Y == -1][:, 0], X[Y == -1][:, 1], label='Clase -1', edgecolor='k')
+
+# Definir las coordenadas de la esquina donde se colocarán las etiquetas
+x_esquina = -4 # Coordenada x de la esquina (ajusta según tu gráfico)
+y_esquina = -4 # Coordenada y de la esquina (ajusta según tu gráfico)
+desplazamiento_y = 0.5  # Este es el desplazamiento vertical entre etiquetas
+
+# Resolver el problema de optimización para cada valor de C y visualizar el límite de decisión
+for idx, C in enumerate(valores_C):
+    # Definir las variables de optimización
+    w = cp.Variable(3)
+    b = cp.Variable()
+    xi = cp.Variable(len(X))
+
+    # Transformar los datos
+    X_transformed = phi(X)
+
+    # Función objetivo
+    objective = cp.Minimize(0.5 * cp.square(cp.norm(w)) + C * cp.sum(xi))
+
+    # Restricciones
+    constraints = [cp.multiply(Y, X_transformed @ w + b) >= 1 - xi, xi >= 0]
+
+    # Resolver el problema
+    prob = cp.Problem(objective, constraints)
+    prob.solve()
+
+    # Transformar la malla de puntos
+    X_grid_transformed = phi(X_grid)
+
+    # Calcular las predicciones para la malla de puntos
+    Z = np.sign(X_grid_transformed @ w.value + b.value)
+    Z = Z.reshape(xx1.shape)
+
+    # Visualizar el límite de decisión
+    contour = plt.contour(xx1, xx2, Z, levels=[-1, 0, 1], colors=colores[idx], alpha=0.8, linestyles=['--'])
+
+    # Ajustando la posición y para que las etiquetas no se superpongan
+    y_adjusted = y_esquina - idx * desplazamiento_y
+
+    # Almacenamos las predicciones
+    predicciones = np.sign(X_transformed @ w.value + b.value)
+    
+    # Colocar la etiqueta
+    plt.text(x_esquina, y_adjusted, f'C={C} (Accuracy={np.mean(predicciones == Y) })', color=colores[idx], fontsize=10)
+
+# Configurar leyendas y títulos
+plt.title('Límites de Decisión para Diferentes Valores de C en el Espacio Original')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.legend()
+plt.show()
+```
+

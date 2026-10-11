@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Ejercicios Resueltos del Tema 3: análisis convexo – Problemas de Optimización y Análisis de Redes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tema4_condiciones_optimalidad_soluciones.pdf" rel="next">
+<link href="./tema2_opt_no_lineal_soluciones.pdf" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tema3_analisis_convexo_soluciones.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ejercicios Resueltos del Tema 3: análisis convexo</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Problemas de Optimización y Análisis de Redes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema1_intro_soluciones.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Soluciones del Tema 1: Introducción a la investigación operativa</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema2_opt_no_lineal_soluciones.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ejercicios Resueltos del Tema 2: optimización no lineal y métodos numéricos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema3_analisis_convexo_soluciones.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ejercicios Resueltos del Tema 3: análisis convexo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tema4_condiciones_optimalidad_soluciones.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ejercicios Resueltos del Tema 4: condiciones de optimalidad y KKT</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ejercicio-1-combinaciones-convexas-y-conjuntos-convexos" id="toc-ejercicio-1-combinaciones-convexas-y-conjuntos-convexos" class="nav-link active" data-scroll-target="#ejercicio-1-combinaciones-convexas-y-conjuntos-convexos"><span class="header-section-number">3.1</span> Ejercicio 1: combinaciones convexas y conjuntos convexos</a></li>
+  <li><a href="#ejercicio-2-operaciones-algebraicas-que-preservan-la-convexidad" id="toc-ejercicio-2-operaciones-algebraicas-que-preservan-la-convexidad" class="nav-link" data-scroll-target="#ejercicio-2-operaciones-algebraicas-que-preservan-la-convexidad"><span class="header-section-number">3.2</span> Ejercicio 2: operaciones algebraicas que preservan la convexidad</a></li>
+  <li><a href="#ejercicio-3-puntos-extremos-y-teorema-de-minkowski-weyl" id="toc-ejercicio-3-puntos-extremos-y-teorema-de-minkowski-weyl" class="nav-link" data-scroll-target="#ejercicio-3-puntos-extremos-y-teorema-de-minkowski-weyl"><span class="header-section-number">3.3</span> Ejercicio 3: puntos extremos y teorema de Minkowski-Weyl</a></li>
+  <li><a href="#ejercicio-4-caracterización-de-primer-orden-de-funciones-convexas" id="toc-ejercicio-4-caracterización-de-primer-orden-de-funciones-convexas" class="nav-link" data-scroll-target="#ejercicio-4-caracterización-de-primer-orden-de-funciones-convexas"><span class="header-section-number">3.4</span> Ejercicio 4: caracterización de primer orden de funciones convexas</a></li>
+  <li><a href="#ejercicio-5-caracterización-de-segundo-orden-de-la-curvatura" id="toc-ejercicio-5-caracterización-de-segundo-orden-de-la-curvatura" class="nav-link" data-scroll-target="#ejercicio-5-caracterización-de-segundo-orden-de-la-curvatura"><span class="header-section-number">3.5</span> Ejercicio 5: caracterización de segundo orden de la curvatura</a></li>
+  <li><a href="#ejercicio-6-epígrafe-subgradientes-y-subdiferencial" id="toc-ejercicio-6-epígrafe-subgradientes-y-subdiferencial" class="nav-link" data-scroll-target="#ejercicio-6-epígrafe-subgradientes-y-subdiferencial"><span class="header-section-number">3.6</span> Ejercicio 6: epígrafe, subgradientes y subdiferencial</a></li>
+  <li><a href="#ejercicio-7-convexidad-generalizada-funciones-cuasiconvexas-y-pseudoconvexas" id="toc-ejercicio-7-convexidad-generalizada-funciones-cuasiconvexas-y-pseudoconvexas" class="nav-link" data-scroll-target="#ejercicio-7-convexidad-generalizada-funciones-cuasiconvexas-y-pseudoconvexas"><span class="header-section-number">3.7</span> Ejercicio 7: convexidad generalizada: funciones cuasiconvexas y pseudoconvexas</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ejercicios Resueltos del Tema 3: análisis convexo</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="ejercicio-1-combinaciones-convexas-y-conjuntos-convexos" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="ejercicio-1-combinaciones-convexas-y-conjuntos-convexos"><span class="header-section-number">3.1</span> Ejercicio 1: combinaciones convexas y conjuntos convexos</h2>
+<p>En la teoría de la optimización entera y lineal, la intersección de conjuntos convexos juega un papel fundamental al definir regiones factibles que combinan múltiples restricciones.</p>
+<p>Se pide:</p>
+<ol type="1">
+<li><p><strong>Demostrar analíticamente que la intersección de una familia arbitraria (posiblemente infinita) de conjuntos convexos <span class="math inline">\(\mathcal{S}_i \subseteq \mathbb{R}^n\)</span>, denotada por <span class="math inline">\(\mathcal{S} = \bigcap_{i \in I} \mathcal{S}_i\)</span>, es a su vez un conjunto convexo.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Queremos demostrar que la intersección <span class="math inline">\(\mathcal{S} = \bigcap_{i \in I} \mathcal{S}_i\)</span> de una familia arbitraria de conjuntos convexos <span class="math inline">\(\mathcal{S}_i \subseteq \mathbb{R}^n\)</span> es un conjunto convexo.</p>
+<p><strong>Demostración</strong>: 1. Sean <span class="math inline">\(x, y \in \mathcal{S}\)</span> dos puntos cualesquiera de la intersección, y sea <span class="math inline">\(\lambda \in [0, 1]\)</span>. 2. Por la definición de la intersección de conjuntos, si <span class="math inline">\(x, y \in \mathcal{S}\)</span>, entonces <span class="math inline">\(x \in \mathcal{S}_i\)</span> e <span class="math inline">\(y \in \mathcal{S}_i\)</span> para todo índice <span class="math inline">\(i \in I\)</span>. 3. Dado que cada conjunto <span class="math inline">\(\mathcal{S}_i\)</span> es convexo por hipótesis, cualquier combinación convexa de sus puntos también pertenece al conjunto. Por tanto, para todo <span class="math inline">\(\lambda \in [0, 1]\)</span> se cumple: <span class="math display">\[ \lambda x + (1 - \lambda)y \in \mathcal{S}_i, \quad \forall i \in I \]</span> 4. Al cumplirse esta pertenencia para todos los elementos de la familia (<span class="math inline">\(i \in I\)</span>), se deduce por definición de intersección que: <span class="math display">\[ \lambda x + (1 - \lambda)y \in \bigcap_{i \in I} \mathcal{S}_i = \mathcal{S} \]</span> 5. Como esta relación es válida para cualesquiera <span class="math inline">\(x, y \in \mathcal{S}\)</span> y cualquier <span class="math inline">\(\lambda \in [0, 1]\)</span>, el conjunto intersección <span class="math inline">\(\mathcal{S}\)</span> es <strong>convexo</strong>. <span class="math inline">\(\quad \blacksquare\)</span></p>
+<hr>
+<ol start="2" type="1">
+<li><p><strong>Mostrar mediante un contraejemplo gráfico o analítico en <span class="math inline">\(\mathbb{R}^2\)</span> que la unión de dos conjuntos convexos <span class="math inline">\(\mathcal{S}_1 \cup \mathcal{S}_2\)</span> no es necesariamente un conjunto convexo.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Queremos mostrar mediante un contraejemplo en <span class="math inline">\(\mathbb{R}^2\)</span> que la unión de dos conjuntos convexos <span class="math inline">\(\mathcal{S}_1 \cup \mathcal{S}_2\)</span> no es necesariamente convexa.</p>
+<p><strong>Contraejemplo</strong>: Sean los conjuntos convexos <span class="math inline">\(\mathcal{S}_1, \mathcal{S}_2 \subseteq \mathbb{R}^2\)</span> definidos como dos intervalos cerrados (segmentos de recta unidimensionales en el eje <span class="math inline">\(x\)</span>): <span class="math display">\[ \mathcal{S}_1 = \{ (x, 0)^T \in \mathbb{R}^2 \mid 0 \le x \le 1 \} \]</span> <span class="math display">\[ \mathcal{S}_2 = \{ (x, 0)^T \in \mathbb{R}^2 \mid 2 \le x \le 3 \} \]</span></p>
+<p>Ambos conjuntos son convexos por ser segmentos cerrados. Consideremos su unión <span class="math inline">\(\mathcal{U} = \mathcal{S}_1 \cup \mathcal{S}_2\)</span>. * Tomemos el punto <span class="math inline">\(a = (0.5, 0)^T \in \mathcal{S}_1 \subseteq \mathcal{U}\)</span>. * Tomemos el punto <span class="math inline">\(b = (2.5, 0)^T \in \mathcal{S}_2 \subseteq \mathcal{U}\)</span>. * Evaluemos su punto medio (combinación convexa con <span class="math inline">\(\lambda = 0.5\)</span>): <span class="math display">\[ c = 0.5a + 0.5b = 0.5(0.5, 0)^T + 0.5(2.5, 0)^T = (1.5, 0)^T \]</span></p>
+<p>El punto <span class="math inline">\(c = (1.5, 0)^T\)</span> no pertenece a <span class="math inline">\(\mathcal{S}_1\)</span> (puesto que <span class="math inline">\(1.5 &gt; 1\)</span>) y tampoco pertenece a <span class="math inline">\(\mathcal{S}_2\)</span> (ya que <span class="math inline">\(1.5 &lt; 2\)</span>). Por tanto, <span class="math inline">\(c \notin \mathcal{U}\)</span>.</p>
+<p>Dado que existen dos puntos en <span class="math inline">\(\mathcal{U}\)</span> cuya combinación convexa no pertenece a <span class="math inline">\(\mathcal{U}\)</span>, la unión <strong>no es un conjunto convexo</strong>. <span class="math inline">\(\quad \blacksquare\)</span></p>
+<hr>
+</section>
+<section id="ejercicio-2-operaciones-algebraicas-que-preservan-la-convexidad" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="ejercicio-2-operaciones-algebraicas-que-preservan-la-convexidad"><span class="header-section-number">3.2</span> Ejercicio 2: operaciones algebraicas que preservan la convexidad</h2>
+<p>Demostrar las siguientes propiedades relativas a la preservación de la convexidad de conjuntos bajo operaciones afines y algebraicas:</p>
+<ol type="1">
+<li><p><strong>Sean <span class="math inline">\(\mathcal{S}_1, \mathcal{S}_2 \subseteq \mathbb{R}^n\)</span> dos conjuntos convexos. Demostrar que su suma de Minkowski, definida como <span class="math inline">\(\mathcal{S}_1 + \mathcal{S}_2 = \{ x_1 + x_2 \mid x_1 \in \mathcal{S}_1, \ x_2 \in \mathcal{S}_2 \}\)</span>, es un conjunto convexo.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Queremos demostrar que la suma de Minkowski <span class="math inline">\(\mathcal{S}_1 + \mathcal{S}_2 = \{ x_1 + x_2 \mid x_1 \in \mathcal{S}_1, \ x_2 \in \mathcal{S}_2 \}\)</span> de dos conjuntos convexos <span class="math inline">\(\mathcal{S}_1, \mathcal{S}_2 \subseteq \mathbb{R}^n\)</span> es convexa.</p>
+<p><strong>Demostración</strong>: 1. Sean <span class="math inline">\(z_a, z_b \in \mathcal{S}_1 + \mathcal{S}_2\)</span> dos puntos arbitrarios de la suma, y sea <span class="math inline">\(\lambda \in [0, 1]\)</span>. 2. Por definición del conjunto suma, existen puntos <span class="math inline">\(x_a, x_b \in \mathcal{S}_1\)</span> e <span class="math inline">\(y_a, y_b \in \mathcal{S}_2\)</span> tales que: <span class="math display">\[ z_a = x_a + y_a \qquad \text{y} \qquad z_b = x_b + y_b \]</span> 3. Evaluamos la combinación convexa de <span class="math inline">\(z_a\)</span> y <span class="math inline">\(z_b\)</span>: <span class="math display">\[ \lambda z_a + (1 - \lambda)z_b = \lambda (x_a + y_a) + (1 - \lambda)(x_b + y_b) \]</span> 4. Agrupamos los términos correspondientes a cada uno de los conjuntos de procedencia: <span class="math display">\[ \lambda z_a + (1 - \lambda)z_b = \left[ \lambda x_a + (1 - \lambda)x_b \right] + \left[ \lambda y_a + (1 - \lambda)y_b \right] \]</span> 5. Puesto que <span class="math inline">\(\mathcal{S}_1\)</span> es convexo y <span class="math inline">\(x_a, x_b \in \mathcal{S}_1\)</span>, definimos la combinación <span class="math inline">\(x_c = \lambda x_a + (1 - \lambda)x_b \in \mathcal{S}_1\)</span>. 6. Puesto que <span class="math inline">\(\mathcal{S}_2\)</span> es convexo y <span class="math inline">\(y_a, y_b \in \mathcal{S}_2\)</span>, definimos la combinación <span class="math inline">\(y_c = \lambda y_a + (1 - \lambda)y_b \in \mathcal{S}_2\)</span>. 7. Por tanto, tenemos que: <span class="math display">\[ \lambda z_a + (1 - \lambda)z_b = x_c + y_c \]</span> Como <span class="math inline">\(x_c \in \mathcal{S}_1\)</span> e <span class="math inline">\(y_c \in \mathcal{S}_2\)</span>, se cumple que <span class="math inline">\(x_c + y_c \in \mathcal{S}_1 + \mathcal{S}_2\)</span>. 8. Queda demostrado que la suma de Minkowski <span class="math inline">\(\mathcal{S}_1 + \mathcal{S}_2\)</span> es <strong>convexa</strong>. <span class="math inline">\(\quad \blacksquare\)</span></p>
+<hr>
+<ol start="2" type="1">
+<li><p><strong>Sea <span class="math inline">\(\mathcal{S} \subseteq \mathbb{R}^n\)</span> un conjunto convexo, y sea <span class="math inline">\(f: \mathbb{R}^n \to \mathbb{R}^m\)</span> una transformación afín dada por <span class="math inline">\(f(x) = Ax + b\)</span>, donde <span class="math inline">\(A \in \mathbb{R}^{m \times n}\)</span> y <span class="math inline">\(b \in \mathbb{R}^m\)</span>. Demostrar que la imagen del conjunto, <span class="math inline">\(f(\mathcal{S}) = \{ Ax + b \mid x \in \mathcal{S} \}\)</span>, es un conjunto convexo en <span class="math inline">\(\mathbb{R}^m\)</span>.</strong>:</p>
+<p><strong>Solución:</strong> Queremos demostrar que la imagen de un conjunto convexo <span class="math inline">\(\mathcal{S} \subseteq \mathbb{R}^n\)</span> bajo la transformación afín <span class="math inline">\(f(x) = Ax + b\)</span> es convexa en <span class="math inline">\(\mathbb{R}^m\)</span>.</p></li>
+</ol>
+<p><strong>Demostración</strong>: 1. Sean <span class="math inline">\(y_a, y_b \in f(\mathcal{S})\)</span> dos puntos de la imagen, y sea <span class="math inline">\(\lambda \in [0, 1]\)</span>. 2. Por definición del conjunto imagen, existen preimágenes <span class="math inline">\(x_a, x_b \in \mathcal{S}\)</span> tales que: <span class="math display">\[ y_a = A x_a + b \qquad \text{y} \qquad y_b = A x_b + b \]</span> 3. Evaluamos la combinación convexa de los puntos imagen: <span class="math display">\[ \lambda y_a + (1 - \lambda)y_b = \lambda (A x_a + b) + (1 - \lambda)(A x_b + b) \]</span> 4. Expandimos y factorizamos por la matriz <span class="math inline">\(A\)</span> y por el vector constante <span class="math inline">\(b\)</span>: <span class="math display">\[ \lambda y_a + (1 - \lambda)y_b = A \left[ \lambda x_a + (1 - \lambda)x_b \right] + \left[ \lambda + (1 - \lambda) \right]b = A \left[ \lambda x_a + (1 - \lambda)x_b \right] + b \]</span> 5. Puesto que el dominio original <span class="math inline">\(\mathcal{S}\)</span> es un conjunto convexo y <span class="math inline">\(x_a, x_b \in \mathcal{S}\)</span>, definimos el punto <span class="math inline">\(x_c = \lambda x_a + (1 - \lambda)x_b \in \mathcal{S}\)</span>. 6. Por consiguiente: <span class="math display">\[ \lambda y_a + (1 - \lambda)y_b = A x_c + b = f(x_c) \]</span> Como <span class="math inline">\(x_c \in \mathcal{S}\)</span>, su transformación <span class="math inline">\(f(x_c)\)</span> pertenece por definición al conjunto imagen <span class="math inline">\(f(\mathcal{S})\)</span>. 7. Se concluye que el conjunto imagen <span class="math inline">\(f(\mathcal{S})\)</span> es <strong>convexo</strong>. <span class="math inline">\(\quad \blacksquare\)</span></p>
+<hr>
+</section>
+<section id="ejercicio-3-puntos-extremos-y-teorema-de-minkowski-weyl" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="ejercicio-3-puntos-extremos-y-teorema-de-minkowski-weyl"><span class="header-section-number">3.3</span> Ejercicio 3: puntos extremos y teorema de Minkowski-Weyl</h2>
+<p>Considerar el conjunto de puntos <span class="math inline">\(\mathcal{S} \subseteq \mathbb{R}^2\)</span> definido por la inecuación de la norma <span class="math inline">\(L_1\)</span>: <span class="math display">\[ \mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid |x| + |y| \le 1 \} \]</span></p>
+<p>Se pide:</p>
+<ol type="1">
+<li><p><strong>Dibujar o describir geométricamente el conjunto <span class="math inline">\(\mathcal{S}\)</span> en el plano real <span class="math inline">\(\mathbb{R}^2\)</span>, determinando si es un conjunto convexo y acotado (un politopo).</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>El conjunto <span class="math inline">\(\mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid |x| + |y| \le 1 \}\)</span> representa el <strong>círculo unidad bajo la norma <span class="math inline">\(L_1\)</span></strong> en <span class="math inline">\(\mathbb{R}^2\)</span>. * En el primer cuadrante (<span class="math inline">\(x, y \ge 0\)</span>), la frontera es la recta lineal <span class="math inline">\(x + y = 1\)</span>. * Replicando por simetría en los otros tres cuadrantes, el conjunto dibuja un <strong>cuadrado rotado de <span class="math inline">\(45^\circ\)</span></strong> (un rombo) centrado en el origen <span class="math inline">\((0,0)^T\)</span>, cuyos vértices se encuentran en los puntos coordenados <span class="math inline">\((1,0)^T\)</span>, <span class="math inline">\((0,1)^T\)</span>, <span class="math inline">\((-1,0)^T\)</span> y <span class="math inline">\((0,-1)^T\)</span>. * Al ser el círculo de una norma matemática, es de forma garantizada <strong>convexo y acotado</strong> (un politopo compacto).</p>
+<hr>
+<ol start="2" type="1">
+<li><p><strong>Identificar todos los puntos extremos (o vértices) del conjunto <span class="math inline">\(\mathcal{S}\)</span> aplicando la definición formal de punto extremo (aquellos puntos que no pueden expresarse como combinación convexa propia de otros dos puntos distintos del conjunto).</strong>:</p>
+<p><strong>Solución:</strong> Los <strong>puntos extremos</strong> de <span class="math inline">\(\mathcal{S}\)</span> son sus cuatro vértices: <span class="math display">\[ \mathcal{E} = \left\{ v_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, v_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}, v_3 = \begin{pmatrix} -1 \\ 0 \end{pmatrix}, v_4 = \begin{pmatrix} 0 \\ -1 \end{pmatrix} \right\} \]</span></p></li>
+</ol>
+<p><strong>Demostración formal para <span class="math inline">\(v_1 = (1, 0)^T\)</span></strong>: Supongamos por reducción al absurdo que <span class="math inline">\(v_1\)</span> no es un punto extremo. Entonces existirían dos puntos distintos <span class="math inline">\(a, b \in \mathcal{S}\)</span> (<span class="math inline">\(a \neq b\)</span>) y un parámetro <span class="math inline">\(\lambda \in (0, 1)\)</span> tales que: <span class="math display">\[ \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \lambda \begin{pmatrix} a_1 \\ a_2 \end{pmatrix} + (1 - \lambda)\begin{pmatrix} b_1 \\ b_2 \end{pmatrix} \]</span></p>
+<ol type="1">
+<li>Para la primera coordenada se tiene: <span class="math display">\[ 1 = \lambda a_1 + (1 - \lambda)b_1 \]</span> Como <span class="math inline">\(a, b \in \mathcal{S}\)</span>, se cumple que <span class="math inline">\(|a_1| \le |a_1| + |a_2| \le 1 \implies a_1 \le 1\)</span>. Análogamente, <span class="math inline">\(b_1 \le 1\)</span>.</li>
+<li>Para que una combinación convexa estricta (<span class="math inline">\(\lambda \in (0,1)\)</span>) de dos números menores o iguales a 1 resulte exactamente en 1, es matemáticamente obligatorio que ambos números sean iguales a 1: <span class="math display">\[ a_1 = 1 \qquad \text{y} \qquad b_1 = 1 \]</span></li>
+<li>Sustituyendo en la restricción del conjunto <span class="math inline">\(|x| + |y| \le 1\)</span>:
+<ul>
+<li>Para <span class="math inline">\(a\)</span>: <span class="math inline">\(|1| + |a_2| \le 1 \implies 1 + |a_2| \le 1 \implies a_2 = 0\)</span>.</li>
+<li>Para <span class="math inline">\(b\)</span>: <span class="math inline">\(|1| + |b_2| \le 1 \implies 1 + |b_2| \le 1 \implies b_2 = 0\)</span>.</li>
+</ul></li>
+<li>Esto implica que <span class="math inline">\(a = (1, 0)^T\)</span> y <span class="math inline">\(b = (1, 0)^T\)</span>, lo cual contradice la hipótesis de partida de que <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span> eran puntos distintos (<span class="math inline">\(a \neq b\)</span>).</li>
+<li>Por lo tanto, <span class="math inline">\(v_1 = (1, 0)^T\)</span> es un <strong>punto extremo</strong>. Por simetría en los cuadrantes, se demuestra idénticamente la propiedad para <span class="math inline">\(v_2, v_3\)</span> y <span class="math inline">\(v_4\)</span>. <span class="math inline">\(\quad \blacksquare\)</span></li>
+</ol>
+<hr>
+<ol start="3" type="1">
+<li><p><strong>Demostrar que cualquier punto interior o de la frontera de <span class="math inline">\(\mathcal{S}\)</span> (por ejemplo, el punto <span class="math inline">\((0.2, 0.5)^T\)</span>) se puede expresar como una combinación convexa de sus puntos extremos, de acuerdo con el Teorema de Representación de Minkowski.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Queremos escribir el punto <span class="math inline">\(p = (0.2, 0.5)^T \in \mathcal{S}\)</span> como una combinación convexa de sus puntos extremos: <span class="math display">\[ p = \lambda_1 v_1 + \lambda_2 v_2 + \lambda_3 v_3 + \lambda_4 v_4 \]</span> con <span class="math inline">\(\lambda_i \ge 0\)</span> y <span class="math inline">\(\sum_{i=1}^4 \lambda_i = 1\)</span>.</p>
+<ol type="1">
+<li>Escribimos el sistema de ecuaciones coordenadas correspondientes: <span class="math display">\[ 0.2 = \lambda_1 (1) + \lambda_2 (0) + \lambda_3 (-1) + \lambda_4 (0) \implies \lambda_1 - \lambda_3 = 0.2 \]</span> <span class="math display">\[ 0.5 = \lambda_1 (0) + \lambda_2 (1) + \lambda_3 (0) + \lambda_4 (-1) \implies \lambda_2 - \lambda_4 = 0.5 \]</span> <span class="math display">\[ \lambda_1 + \lambda_2 + \lambda_3 + \lambda_4 = 1 \]</span></li>
+<li>Despejamos los pesos principales en función de los opuestos: <span class="math display">\[ \lambda_1 = 0.2 + \lambda_3 \qquad \text{y} \qquad \lambda_2 = 0.5 + \lambda_4 \]</span></li>
+<li>Sustituimos en la ecuación de suma de pesos unitaria: <span class="math display">\[ (0.2 + \lambda_3) + (0.5 + \lambda_4) + \lambda_3 + \lambda_4 = 1 \implies 0.7 + 2(\lambda_3 + \lambda_4) = 1 \implies \lambda_3 + \lambda_4 = 0.15 \]</span></li>
+<li>Asignamos un valor factible arbitrario para resolver el grado de libertad. Por ejemplo, elegimos <span class="math inline">\(\lambda_4 = 0\)</span>. Esto nos da: <span class="math display">\[ \lambda_3 = 0.15 \]</span> <span class="math display">\[ \lambda_1 = 0.2 + 0.15 = 0.35 \]</span> <span class="math display">\[ \lambda_2 = 0.5 + 0 = 0.50 \]</span> <span class="math display">\[ \lambda_4 = 0.00 \]</span></li>
+<li>Verificamos que todos los coeficientes son no negativos (<span class="math inline">\(\lambda_i \ge 0\)</span>) y suman 1 (<span class="math inline">\(0.35 + 0.50 + 0.15 + 0 = 1.0\)</span>).</li>
+<li>Comprobamos la combinación: <span class="math display">\[ 0.35 \begin{pmatrix} 1 \\ 0 \end{pmatrix} + 0.50 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + 0.15 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + 0 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0.35 - 0.15 \\ 0.50 \end{pmatrix} = \begin{pmatrix} 0.2 \\ 0.5 \end{pmatrix} = p \]</span> La representación es correcta y válida. <span class="math inline">\(\quad \blacksquare\)</span></li>
+</ol>
+<hr>
+</section>
+<section id="ejercicio-4-caracterización-de-primer-orden-de-funciones-convexas" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="ejercicio-4-caracterización-de-primer-orden-de-funciones-convexas"><span class="header-section-number">3.4</span> Ejercicio 4: caracterización de primer orden de funciones convexas</h2>
+<p>Sea <span class="math inline">\(f: \mathcal{S} \to \mathbb{R}\)</span> una función continuamente diferenciable sobre un conjunto abierto y convexo <span class="math inline">\(\mathcal{S} \subseteq \mathbb{R}^n\)</span>.</p>
+<p>Se pide:</p>
+<ol type="1">
+<li><p><strong>Demostrar analíticamente el teorema de caracterización de primer orden, el cual establece que <span class="math inline">\(f\)</span> es convexa en <span class="math inline">\(\mathcal{S}\)</span> si y solo si <span class="math inline">\(f(y) \ge f(x) + \nabla f(x)^T(y - x), \ \forall x, y \in \mathcal{S}\)</span>.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Queremos demostrar que la diferenciabilidad de primer orden caracteriza la convexidad mediante la desigualdad <span class="math inline">\(f(y) \ge f(x) + \nabla f(x)^T(y-x)\)</span>.</p>
+<p><strong>Demostración</strong>:</p>
+<ul>
+<li><strong>Implicación Directa (<span class="math inline">\(\implies\)</span>)</strong>:
+<ol type="1">
+<li>Asumimos que <span class="math inline">\(f\)</span> es convexa en el conjunto convexo <span class="math inline">\(\mathcal{S}\)</span>. Por tanto, para cualesquiera <span class="math inline">\(x, y \in \mathcal{S}\)</span> y cualquier <span class="math inline">\(\lambda \in (0, 1]\)</span>, se cumple: <span class="math display">\[ f(\lambda y + (1 - \lambda)x) \le \lambda f(y) + (1 - \lambda)f(x) \]</span></li>
+<li>Reescribimos el argumento de la izquierda como una perturbación en la dirección del vector <span class="math inline">\((y-x)\)</span>: <span class="math display">\[ f(x + \lambda(y - x)) \le f(x) + \lambda(f(y) - f(x)) \]</span></li>
+<li>Restamos <span class="math inline">\(f(x)\)</span> y dividimos entre el escalar estrictamente positivo <span class="math inline">\(\lambda &gt; 0\)</span>: <span class="math display">\[ \frac{f(x + \lambda(y - x)) - f(x)}{\lambda} \le f(y) - f(x) \]</span></li>
+<li>Aplicamos el límite cuando <span class="math inline">\(\lambda \to 0^+\)</span> en ambos lados. El lado izquierdo coincide con la definición de la derivada direccional en la dirección <span class="math inline">\((y-x)\)</span>, que para funciones diferenciables se escribe como el producto escalar con el gradiente: <span class="math display">\[ \lim_{\lambda \to 0^+} \frac{f(x + \lambda(y - x)) - f(x)}{\lambda} = \nabla f(x)^T(y - x) \]</span></li>
+<li>Por tanto, se obtiene: <span class="math display">\[ \nabla f(x)^T(y - x) \le f(y) - f(x) \implies f(y) \ge f(x) + \nabla f(x)^T(y - x) \quad \blacksquare \]</span></li>
+</ol></li>
+<li><strong>Implicación Inversa (<span class="math inline">\(\impliedby\)</span>)</strong>:
+<ol type="1">
+<li>Asumimos que la desigualdad de primer orden es válida para todos los puntos del dominio.</li>
+<li>Sean <span class="math inline">\(x_1, x_2 \in \mathcal{S}\)</span> dos puntos cualesquiera, <span class="math inline">\(\lambda \in [0, 1]\)</span>, y sea el punto intermedio <span class="math inline">\(z = \lambda x_1 + (1 - \lambda)x_2 \in \mathcal{S}\)</span>.</li>
+<li>Evaluamos la desigualdad de primer orden tomando a <span class="math inline">\(z\)</span> como punto de pivote:
+<ul>
+<li>Para <span class="math inline">\(y = x_1\)</span>: <span class="math inline">\(\quad f(x_1) \ge f(z) + \nabla f(z)^T(x_1 - z)\)</span></li>
+<li>Para <span class="math inline">\(y = x_2\)</span>: <span class="math inline">\(\quad f(x_2) \ge f(z) + \nabla f(z)^T(x_2 - z)\)</span></li>
+</ul></li>
+<li>Multiplicamos la primera ecuación por <span class="math inline">\(\lambda \ge 0\)</span>, la segunda por <span class="math inline">\((1-\lambda) \ge 0\)</span>, y las sumamos: <span class="math display">\[ \lambda f(x_1) + (1 - \lambda)f(x_2) \ge \lambda f(z) + (1 - \lambda)f(z) + \nabla f(z)^T \left[ \lambda(x_1 - z) + (1 - \lambda)(x_2 - z) \right] \]</span></li>
+<li>Simplificamos el término del corchete del producto escalar: <span class="math display">\[ \lambda x_1 - \lambda z + (1 - \lambda)x_2 - (1 - \lambda)z = \left[ \lambda x_1 + (1 - \lambda)x_2 \right] - \left[ \lambda + 1 - \lambda \right]z = z - z = 0 \]</span></li>
+<li>Por consiguiente, el término del gradiente se anula y obtenemos: <span class="math display">\[ \lambda f(x_1) + (1 - \lambda)f(x_2) \ge f(z) = f(\lambda x_1 + (1 - \lambda)x_2) \]</span> Lo cual demuestra que <span class="math inline">\(f\)</span> es una función <strong>convexa</strong>. <span class="math inline">\(\quad \blacksquare\)</span></li>
+</ol></li>
+</ul>
+<hr>
+<ol start="2" type="1">
+<li><p><strong>Utilizando la desigualdad anterior, demostrar que si <span class="math inline">\(f\)</span> es convexa en <span class="math inline">\(\mathcal{S}\)</span> y existe un punto <span class="math inline">\(x^* \in \mathcal{S}\)</span> tal que el gradiente se anula (<span class="math inline">\(\nabla f(x^*) = 0\)</span>), entonces <span class="math inline">\(x^*\)</span> es un mínimo global de la función en <span class="math inline">\(\mathcal{S}\)</span>.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Queremos demostrar que si <span class="math inline">\(f\)</span> es convexa y <span class="math inline">\(\nabla f(x^*) = 0\)</span>, entonces <span class="math inline">\(x^*\)</span> es un mínimo global.</p>
+<p><strong>Demostración</strong>: 1. Al ser <span class="math inline">\(f\)</span> una función convexa y diferenciable, se cumple la caracterización de primer orden demostrada en la sección anterior para cualquier punto <span class="math inline">\(y \in \mathcal{S}\)</span>: <span class="math display">\[ f(y) \ge f(x^*) + \nabla f(x^*)^T(y - x^*) \]</span> 2. Sustituimos la condición de punto crítico <span class="math inline">\(\nabla f(x^*) = 0\)</span>: <span class="math display">\[ f(y) \ge f(x^*) + 0^T(y - x^*) \implies f(y) \ge f(x^*), \quad \forall y \in \mathcal{S} \]</span> 3. Al ser el valor de la función en <span class="math inline">\(x^*\)</span> menor o igual al de cualquier otro punto <span class="math inline">\(y\)</span> del dominio <span class="math inline">\(\mathcal{S}\)</span>, <span class="math inline">\(x^*\)</span> es obligatoriamente un <strong>mínimo global</strong> de la función. <span class="math inline">\(\quad \blacksquare\)</span></p>
+<hr>
+</section>
+<section id="ejercicio-5-caracterización-de-segundo-orden-de-la-curvatura" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="ejercicio-5-caracterización-de-segundo-orden-de-la-curvatura"><span class="header-section-number">3.5</span> Ejercicio 5: caracterización de segundo orden de la curvatura</h2>
+<p>Estudiar analíticamente la convexidad o concavidad local y global de las siguientes funciones mediante el cálculo de sus matrices hessianas y el análisis de sus menores principales o autovalores:</p>
+<ol type="1">
+<li><p><strong><span class="math inline">\(f(x, y) = x^2 y^2 - x - y\)</span> definida sobre el dominio global <span class="math inline">\(\mathbb{R}^2\)</span>.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Dada la función <span class="math inline">\(f(x, y) = x^2 y^2 - x - y\)</span> en <span class="math inline">\(\mathbb{R}^2\)</span>:</p>
+<ol type="1">
+<li>Calculamos las primeras derivadas parciales: <span class="math display">\[ \frac{\partial f}{\partial x} = 2xy^2 - 1 \qquad \text{y} \qquad \frac{\partial f}{\partial y} = 2x^2 y - 1 \]</span></li>
+<li>Calculamos las segundas derivadas para construir la matriz hessiana: <span class="math display">\[ \frac{\partial^2 f}{\partial x^2} = 2y^2, \qquad \frac{\partial^2 f}{\partial y^2} = 2x^2, \qquad \frac{\partial^2 f}{\partial x \partial y} = 4xy \]</span> <span class="math display">\[ \nabla^2 f(x, y) = \begin{pmatrix} 2y^2 &amp; 4xy \\ 4xy &amp; 2x^2 \end{pmatrix} \]</span></li>
+<li>Analizamos los menores principales de la matriz:
+<ul>
+<li>Primer menor principal: <span class="math inline">\(\Delta_1 = 2y^2 \ge 0\)</span> (siempre no negativo).</li>
+<li>Segundo menor principal (determinante): <span class="math display">\[ \Delta_2 = \det(\nabla^2 f(x, y)) = (2y^2)(2x^2) - (4xy)^2 = 4x^2 y^2 - 16x^2 y^2 = -12x^2 y^2 \]</span></li>
+</ul></li>
+<li>Observamos que para cualquier punto del plano donde las coordenadas sean no nulas (<span class="math inline">\(x \neq 0\)</span> e <span class="math inline">\(y \neq 0\)</span>), el determinante es estrictamente negativo (<span class="math inline">\(\Delta_2 &lt; 0\)</span>).</li>
+<li>Al tener un determinante negativo en casi todo el plano, la matriz hessiana es <strong>indefinida</strong>. Por tanto, la función <strong>no es convexa ni cóncava</strong> de manera global en <span class="math inline">\(\mathbb{R}^2\)</span>.</li>
+</ol>
+<hr>
+<ol start="2" type="1">
+<li><p><strong><span class="math inline">\(f(x, y) = -\ln(4 - x^2 - y^2)\)</span> definida sobre el disco abierto <span class="math inline">\(\mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid x^2 + y^2 &lt; 4 \}\)</span>.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Dada la función <span class="math inline">\(f(x, y) = -\ln(4 - x^2 - y^2)\)</span> en el disco abierto <span class="math inline">\(\mathcal{S} = \{ (x, y) \in \mathbb{R}^2 \mid x^2 + y^2 &lt; 4 \}\)</span>:</p>
+<ol type="1">
+<li>Sea <span class="math inline">\(u(x, y) = 4 - x^2 - y^2\)</span>. En el dominio dado se cumple que <span class="math inline">\(u &gt; 0\)</span>.</li>
+<li>Calculamos el gradiente de la función aplicando la regla de la cadena: <span class="math display">\[ \frac{\partial f}{\partial x} = -\frac{1}{u}(-2x) = \frac{2x}{u} \qquad \text{y} \qquad \frac{\partial f}{\partial y} = \frac{2y}{u} \]</span></li>
+<li>Calculamos las segundas derivadas utilizando la regla del cociente: <span class="math display">\[ \frac{\partial^2 f}{\partial x^2} = \frac{2u - 2x(-2x)}{u^2} = \frac{2(4 - x^2 - y^2) + 4x^2}{u^2} = \frac{8 + 2x^2 - 2y^2}{u^2} \]</span> <span class="math display">\[ \frac{\partial^2 f}{\partial y^2} = \frac{2u - 2y(-2y)}{u^2} = \frac{8 - 2x^2 + 2y^2}{u^2} \]</span> <span class="math display">\[ \frac{\partial^2 f}{\partial x \partial y} = \frac{0 - 2x(-2y)}{u^2} = \frac{4xy}{u^2} \]</span></li>
+<li>Construimos la matriz Hessiana: <span class="math display">\[ \nabla^2 f(x, y) = \frac{2}{u^2} \begin{pmatrix} 4 + x^2 - y^2 &amp; 2xy \\ 2xy &amp; 4 - x^2 + y^2 \end{pmatrix} \]</span></li>
+<li>Evaluamos la positividad de los menores principales en el dominio <span class="math inline">\(\mathcal{S}\)</span>:
+<ul>
+<li><strong>Primer menor principal (<span class="math inline">\(\Delta_1\)</span>)</strong>: <span class="math display">\[ \Delta_1 = \frac{2}{u^2}(4 + x^2 - y^2) \]</span> Dado que estamos en el disco <span class="math inline">\(x^2 + y^2 &lt; 4\)</span>, se cumple que <span class="math inline">\(y^2 &lt; 4 - x^2\)</span>. Sustituyendo esta cota superior: <span class="math display">\[ 4 + x^2 - y^2 &gt; 4 + x^2 - (4 - x^2) = 2x^2 \ge 0 \implies \Delta_1 &gt; 0 \]</span></li>
+<li><strong>Segundo menor principal (Determinante <span class="math inline">\(\Delta_2\)</span>)</strong>: <span class="math display">\[ \Delta_2 = \frac{4}{u^4} \left[ (4 + x^2 - y^2)(4 - x^2 + y^2) - 4x^2 y^2 \right] \]</span> Utilizando la identidad de diferencia de cuadrados para los términos diagonalizados <span class="math inline">\((4 + (x^2 - y^2))(4 - (x^2 - y^2)) = 16 - (x^2 - y^2)^2\)</span>: <span class="math display">\[ \Delta_2 = \frac{4}{u^4} \left[ 16 - (x^2 - y^2)^2 - 4x^2 y^2 \right] = \frac{4}{u^4} \left[ 16 - (x^4 - 2x^2 y^2 + y^4) - 4x^2 y^2 \right] \]</span> <span class="math display">\[ \Delta_2 = \frac{4}{u^4} \left[ 16 - (x^4 + 2x^2 y^2 + y^4) \right] = \frac{4}{u^4} \left[ 16 - (x^2 + y^2)^2 \right] \]</span> Puesto que en el dominio se exige que <span class="math inline">\(x^2 + y^2 &lt; 4\)</span>, se deduce que su cuadrado es estrictamente menor a 16, es decir <span class="math inline">\((x^2+y^2)^2 &lt; 16\)</span>. Por tanto: <span class="math display">\[ 16 - (x^2 + y^2)^2 &gt; 0 \implies \Delta_2 &gt; 0 \]</span></li>
+</ul></li>
+<li>Dado que ambos menores principales son estrictamente positivos en todos los puntos del disco abierto, la matriz hessiana es definida positiva (<span class="math inline">\(\nabla^2 f(x, y) \succ 0\)</span>). Concluimos que la función es <strong>estrictamente convexa</strong> en <span class="math inline">\(\mathcal{S}\)</span>.</li>
+</ol>
+<hr>
+<ol start="3" type="1">
+<li><p><strong><span class="math inline">\(f(x, y, z) = x^2 + 2y^2 + 5z^2 + 2xy - 4yz - 2x + 6\)</span> definida sobre <span class="math inline">\(\mathbb{R}^3\)</span>.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Dada la función <span class="math inline">\(f(x, y, z) = x^2 + 2y^2 + 5z^2 + 2xy - 4yz - 2x + 6\)</span> en <span class="math inline">\(\mathbb{R}^3\)</span>:</p>
+<ol type="1">
+<li>Calculamos el gradiente analítico: <span class="math display">\[ \nabla f(x, y, z) = \begin{pmatrix} 2x + 2y - 2 \\ 4y + 2x - 4z \\ 10z - 4y \end{pmatrix} \]</span></li>
+<li>Derivamos de nuevo para obtener la matriz hessiana: <span class="math display">\[ \nabla^2 f(x, y, z) = \begin{pmatrix} 2 &amp; 2 &amp; 0 \\ 2 &amp; 4 &amp; -4 \\ 0 &amp; -4 &amp; 10 \end{pmatrix} \]</span></li>
+<li>Analizamos los menores principales de esta matriz constante:
+<ul>
+<li><strong>Menor principal 1</strong>: <span class="math inline">\(\Delta_1 = |2| = 2 &gt; 0\)</span>.</li>
+<li><strong>Menor principal 2</strong>: <span class="math display">\[ \Delta_2 = \det \begin{pmatrix} 2 &amp; 2 \\ 2 &amp; 4 \end{pmatrix} = (2)(4) - (2)(2) = 8 - 4 = 4 &gt; 0 \]</span></li>
+<li><strong>Menor principal 3 (Determinante total)</strong>: <span class="math display">\[ \Delta_3 = 2 \cdot \det \begin{pmatrix} 4 &amp; -4 \\ -4 &amp; 10 \end{pmatrix} - 2 \cdot \det \begin{pmatrix} 2 &amp; -4 \\ 0 &amp; 10 \end{pmatrix} + 0 \]</span> <span class="math display">\[ \Delta_3 = 2(40 - 16) - 2(20 - 0) = 2(24) - 40 = 48 - 40 = 8 &gt; 0 \]</span></li>
+</ul></li>
+<li>Dado que todos los menores principales de la hessiana son estrictamente positivos (<span class="math inline">\(\Delta_1 &gt; 0, \Delta_2 &gt; 0, \Delta_3 &gt; 0\)</span>), la matriz es definida positiva de forma global (<span class="math inline">\(\nabla^2 f \succ 0\)</span>).</li>
+<li>Por lo tanto, la función cuadrática es <strong>estrictamente convexa</strong> (y fuertemente convexa) en todo <span class="math inline">\(\mathbb{R}^3\)</span>.</li>
+</ol>
+<hr>
+</section>
+<section id="ejercicio-6-epígrafe-subgradientes-y-subdiferencial" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="ejercicio-6-epígrafe-subgradientes-y-subdiferencial"><span class="header-section-number">3.6</span> Ejercicio 6: epígrafe, subgradientes y subdiferencial</h2>
+<p>Sea la función real no diferenciable <span class="math inline">\(f: \mathbb{R} \to \mathbb{R}\)</span> definida por: <span class="math display">\[ f(x) = |x| + |x - 1| \]</span></p>
+<p>Se pide:</p>
+<ol type="1">
+<li><p><strong>Trazar la gráfica de la función <span class="math inline">\(f(x)\)</span> en el intervalo <span class="math inline">\([-1, 2]\)</span> y describir analíticamente su epígrafe <span class="math inline">\(\text{epi}(f)\)</span>.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Dada la función <span class="math inline">\(f(x) = |x| + |x-1|\)</span>:</p>
+<ol type="1">
+<li>Expresamos la función de forma analítica por intervalos eliminando los valores absolutos:
+<ul>
+<li><strong>Caso <span class="math inline">\(x \le 0\)</span></strong>: <span class="math inline">\(\quad f(x) = -x - (x - 1) = 1 - 2x\)</span>.</li>
+<li><strong>Caso <span class="math inline">\(0 &lt; x &lt; 1\)</span></strong>: <span class="math inline">\(\quad f(x) = x - (x - 1) = 1\)</span>.</li>
+<li><strong>Caso <span class="math inline">\(x \ge 1\)</span></strong>: <span class="math inline">\(\quad f(x) = x + (x - 1) = 2x - 1\)</span>.</li>
+</ul></li>
+<li>La gráfica dibuja una cubeta con pendientes laterales de <span class="math inline">\(-2\)</span> y <span class="math inline">\(+2\)</span> y un fondo plano horizontal a altura <span class="math inline">\(y=1\)</span> en el intervalo <span class="math inline">\([0, 1]\)</span>.</li>
+<li>El epígrafe de la función se define formalmente como el conjunto de puntos en el plano situados por encima de su gráfica: <span class="math display">\[ \text{epi}(f) = \{ (x, y) \in \mathbb{R}^2 \mid y \ge f(x) \} \]</span> <span class="math display">\[ \text{epi}(f) = \left\{ (x, y) \in \mathbb{R}^2 \ \middle|\  y \ge \begin{cases} 1 - 2x &amp; \text{si } x \le 0 \\ 1 &amp; \text{si } 0 &lt; x &lt; 1 \\ 2x - 1 &amp; \text{si } x \ge 1 \end{cases} \right\} \]</span></li>
+</ol>
+<hr>
+<ol start="2" type="1">
+<li><p><strong>Aplicar la definición de subgradiente para calcular el conjunto subdiferencial <span class="math inline">\(\partial f(x)\)</span> en los puntos <span class="math inline">\(x_0 = 0\)</span>, <span class="math inline">\(x_0 = 0.5\)</span> y <span class="math inline">\(x_0 = 1\)</span>.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>El subdifferential <span class="math inline">\(\partial f(x_0)\)</span> de una función convexa en un punto <span class="math inline">\(x_0\)</span> está acotado por las derivadas laterales izquierda (<span class="math inline">\(f'_{-}\)</span>) y derecha (<span class="math inline">\(f'_{+}\)</span>): <span class="math display">\[ \partial f(x_0) = [ f'_{-}(x_0), \ f'_{+}(x_0) ] \]</span></p>
+<ol type="1">
+<li><strong>En <span class="math inline">\(x_0 = 0.5\)</span></strong>: La función es diferenciable en este punto (está en el tramo plano constante).
+<ul>
+<li>Derivada izquierda y derecha: <span class="math inline">\(f'(0.5) = 0\)</span>.</li>
+<li>Por tanto, el subdiferencial contiene un único elemento (el gradiente ordinario): <span class="math display">\[ \partial f(0.5) = \{ 0 \} \]</span></li>
+</ul></li>
+<li><strong>En <span class="math inline">\(x_0 = 0\)</span></strong>: El punto es un vértice de no diferenciabilidad.
+<ul>
+<li>Derivada lateral izquierda: <span class="math inline">\(f'_{-}(0) = \lim_{h \to 0^-} \frac{(1-2h) - 1}{h} = -2\)</span>.</li>
+<li>Derivada lateral derecha: <span class="math inline">\(f'_{+}(0) = \lim_{h \to 0^+} \frac{1 - 1}{h} = 0\)</span>.</li>
+<li>Por lo tanto, el subdiferencial es el intervalo cerrado de pendientes intermedias: <span class="math display">\[ \partial f(0) = [-2, 0] \]</span></li>
+</ul></li>
+<li><strong>En <span class="math inline">\(x_0 = 1\)</span></strong>: Es el otro vértice de no diferenciabilidad de la cubeta.
+<ul>
+<li>Derivada lateral izquierda: <span class="math inline">\(f'_{-}(1) = \lim_{h \to 0^-} \frac{1 - 1}{h} = 0\)</span>.</li>
+<li>Derivada lateral derecha: <span class="math inline">\(f'_{+}(1) = \lim_{h \to 0^+} \frac{(2(1+h)-1) - 1}{h} = 2\)</span>.</li>
+<li>Por lo tanto, el subdiferencial es el intervalo: <span class="math display">\[ \partial f(1) = [0, 2] \]</span></li>
+</ul></li>
+</ol>
+<hr>
+<ol start="3" type="1">
+<li><p><strong>Explicar la relación entre el conjunto subdiferencial y la optimización no diferenciable. Comprobar si se cumple la condición de optimalidad global (<span class="math inline">\(0 \in \partial f(x^*)\)</span>) en el intervalo de puntos de mínimo de la función.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<ul>
+<li>En la optimización no diferenciable de funciones convexas, un punto <span class="math inline">\(x^*\)</span> es un <strong>mínimo global</strong> si y solo si el subgradiente nulo pertenece a su subdiferencial: <span class="math display">\[ 0 \in \partial f(x^*) \]</span></li>
+<li>Evaluamos la condición en los tres tramos de mínimos de la función cubeta (los cuales ocurren para todo el intervalo <span class="math inline">\([0, 1]\)</span>):
+<ul>
+<li>Para cualquier punto estrictamente interior <span class="math inline">\(x_0 \in (0, 1)\)</span>, se tiene <span class="math inline">\(\partial f(x_0) = \{ 0 \}\)</span>. Obviamente, <span class="math inline">\(0 \in \{ 0 \}\)</span>.</li>
+<li>En el extremo izquierdo <span class="math inline">\(x_0 = 0\)</span>, se tiene <span class="math inline">\(\partial f(0) = [-2, 0]\)</span>, donde el 0 pertenece al intervalo.</li>
+<li>En el extremo derecho <span class="math inline">\(x_0 = 1\)</span>, se tiene <span class="math inline">\(\partial f(1) = [0, 2]\)</span>, donde el 0 también pertenece al intervalo.</li>
+</ul></li>
+<li>De este modo, la condición de optimalidad de subgradiente identifica correctamente que todo el conjunto factible de mínimos globales de la función es el intervalo cerrado <span class="math inline">\([0, 1]\)</span>, donde el valor de la función es mínimo e igual a <span class="math inline">\(1\)</span>.</li>
+</ul>
+<hr>
+</section>
+<section id="ejercicio-7-convexidad-generalizada-funciones-cuasiconvexas-y-pseudoconvexas" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="ejercicio-7-convexidad-generalizada-funciones-cuasiconvexas-y-pseudoconvexas"><span class="header-section-number">3.7</span> Ejercicio 7: convexidad generalizada: funciones cuasiconvexas y pseudoconvexas</h2>
+<p>El análisis de la convexidad generalizada nos permite estudiar la unicidad del óptimo en funciones que no cumplen con la definición estricta de convexidad pero que conservan propiedades equivalentes para algoritmos de optimización.</p>
+<p>Se pide:</p>
+<ol type="1">
+<li><p><strong>Considerar la función cúbica <span class="math inline">\(f(x) = x^3 - 3x\)</span> en <span class="math inline">\(\mathbb{R}\)</span>. Identificar las regiones o intervalos donde la función es convexa, cóncava, cuasiconvexa y pseudoconvexa.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Dada la función cúbica <span class="math inline">\(f(x) = x^3 - 3x\)</span> en <span class="math inline">\(\mathbb{R}\)</span>:</p>
+<ol type="1">
+<li>Calculamos las derivadas: <span class="math display">\[ f'(x) = 3x^2 - 3 = 3(x - 1)(x + 1) \qquad \text{y} \qquad f''(x) = 6x \]</span></li>
+<li><strong>Convexidad y Concavidad</strong>:
+<ul>
+<li>Para <span class="math inline">\(x \ge 0\)</span>, la segunda derivada es no negativa (<span class="math inline">\(f''(x) \ge 0\)</span>). Por tanto, la función es <strong>convexa</strong> en el intervalo <span class="math inline">\([0, +\infty)\)</span>.</li>
+<li>Para <span class="math inline">\(x \le 0\)</span>, la segunda derivada es no positiva (<span class="math inline">\(f''(x) \le 0\)</span>). Por tanto, la función es <strong>cóncava</strong> en el intervalo <span class="math inline">\((-\infty, 0]\)</span>.</li>
+</ul></li>
+<li><strong>Cuasiconvexidad</strong>:
+<ul>
+<li>Una función real es cuasiconvex en un intervalo si sus conjuntos de nivel inferior son convexos, lo que equivale a exigir que la función sea <strong>unimodal</strong> (que decrezca hasta un punto y luego crezca, sin máximos locales intermedios).</li>
+<li>La función cúbica tiene un máximo local en <span class="math inline">\(x = -1\)</span> (con valor <span class="math inline">\(f(-1) = 2\)</span>) y un mínimo local en <span class="math inline">\(x = 1\)</span> (con valor <span class="math inline">\(f(1) = -2\)</span>).</li>
+<li>En el intervalo <span class="math inline">\([ -1, +\infty )\)</span>, la función decrece desde <span class="math inline">\(2\)</span> hasta el mínimo <span class="math inline">\(-2\)</span> en <span class="math inline">\(x=1\)</span> y luego crece monótonamente hasta <span class="math inline">\(+\infty\)</span>. Al ser unimodal en esta región, la función es <strong>cuasiconvexa</strong> en el intervalo <span class="math inline">\([ -1, +\infty )\)</span>.</li>
+</ul></li>
+<li><strong>Pseudoconvexidad</strong>:
+<ul>
+<li>En el intervalo <span class="math inline">\([ 1, +\infty )\)</span>, la función es estrictamente creciente y su derivada es no negativa. Cumple la condición de pseudoconvexidad, siendo de hecho <strong>estrictamente pseudoconvexa</strong> en <span class="math inline">\([1, +\infty)\)</span>.</li>
+</ul></li>
+</ol>
+<hr>
+<ol start="2" type="1">
+<li><p><strong>Considerar la función de campana inversa <span class="math inline">\(g(x) = \frac{-1}{x^2 + 1}\)</span> definida en <span class="math inline">\(\mathbb{R}\)</span>. Demostrar que <span class="math inline">\(g(x)\)</span> no es una función convexa sobre <span class="math inline">\(\mathbb{R}\)</span>, demostrar que <span class="math inline">\(g(x)\)</span> es cuasiconvexa y pseudoconvexa en todo <span class="math inline">\(\mathbb{R}\)</span>, y analizar qué consecuencias tiene para la convergencia de algoritmos de búsqueda local.</strong>:</p>
+<p><strong>Solución:</strong></p></li>
+</ol>
+<p>Dada la función <span class="math inline">\(g(x) = \frac{-1}{x^2 + 1}\)</span>:</p>
+<ul>
+<li><strong>Verificación de la Convexidad</strong>:
+<ol type="1">
+<li>Calculamos la primera derivada de la función: <span class="math display">\[ g'(x) = \frac{2x}{(x^2 + 1)^2} \]</span></li>
+<li>Calculamos la segunda derivada aplicando la regla de la derivada del cociente: <span class="math display">\[ g''(x) = \frac{2(x^2 + 1)^2 - 2x \cdot 2(x^2 + 1) \cdot 2x}{(x^2 + 1)^4} = \frac{2(x^2 + 1) - 8x^2}{(x^2 + 1)^3} = \frac{2 - 6x^2}{(x^2 + 1)^3} \]</span></li>
+<li>Evaluamos el signo de <span class="math inline">\(g''(x)\)</span>:
+<ul>
+<li>La derivada segunda es estrictamente positiva (<span class="math inline">\(g''(x) &gt; 0\)</span>) para <span class="math inline">\(|x| &lt; \frac{1}{\sqrt{3}}\)</span>.</li>
+<li>La derivada segunda es estrictamente negativa (<span class="math inline">\(g''(x) &lt; 0\)</span>) para <span class="math inline">\(|x| &gt; \frac{1}{\sqrt{3}}\)</span> (zonas laterales de la campana).</li>
+</ul></li>
+<li>Dado que la segunda derivada cambia de signo en el dominio, la función <strong>no es convexa</strong> de manera global en <span class="math inline">\(\mathbb{R}\)</span>.</li>
+</ol></li>
+<li><strong>Verificación de la Cuasiconvexidad</strong>:
+<ol type="1">
+<li>Analizamos el comportamiento de la primera derivada <span class="math inline">\(g'(x) = \frac{2x}{(x^2+1)^2}\)</span>:
+<ul>
+<li>Si <span class="math inline">\(x &lt; 0\)</span>, entonces <span class="math inline">\(g'(x) &lt; 0\)</span> (la función es estrictamente decreciente).</li>
+<li>Si <span class="math inline">\(x = 0\)</span>, entonces <span class="math inline">\(g'(x) = 0\)</span> (punto estacionario).</li>
+<li>Si <span class="math inline">\(x &gt; 0\)</span>, entonces <span class="math inline">\(g'(x) &gt; 0\)</span> (la función es estrictamente creciente).</li>
+</ul></li>
+<li>La función decrece monótonamente en <span class="math inline">\((-\infty, 0]\)</span> y crece monótonamente en <span class="math inline">\([0, +\infty)\)</span>. Al ser unimodal, sus conjuntos de nivel inferior son siempre intervalos convexos.</li>
+<li>Por lo tanto, <span class="math inline">\(g(x)\)</span> es <strong>cuasiconvexa</strong> en todo <span class="math inline">\(\mathbb{R}\)</span>.</li>
+</ol></li>
+<li><strong>Verificación de la Pseudoconvexidad</strong>:
+<ol type="1">
+<li>Comprobamos la definición de pseudoconvexidad, la cual exige que para cualquier par de puntos <span class="math inline">\(x, y \in \mathbb{R}\)</span>: <span class="math display">\[ g'(x)(y - x) \ge 0 \implies g(y) \ge g(x) \]</span></li>
+<li>Analizamos los casos de evaluación según el signo de la coordenada <span class="math inline">\(x\)</span>:
+<ul>
+<li><strong>Caso <span class="math inline">\(x = 0\)</span></strong>: La derivada es nula <span class="math inline">\(g'(0) = 0\)</span>. La condición del antecedente <span class="math inline">\(g'(0)(y - 0) = 0 \ge 0\)</span> se cumple siempre. La implicación requiere que <span class="math inline">\(g(y) \ge g(0) = -1\)</span> para todo <span class="math inline">\(y\)</span>, lo cual es cierto ya que <span class="math inline">\(-1\)</span> es el valor mínimo global de la función.</li>
+<li><strong>Caso <span class="math inline">\(x &gt; 0\)</span></strong>: En esta región la derivada es positiva <span class="math inline">\(g'(x) &gt; 0\)</span>. Por tanto, el antecedente <span class="math inline">\(g'(x)(y - x) \ge 0\)</span> exige que <span class="math inline">\(y - x \ge 0 \implies y \ge x\)</span>. Como la función es estrictamente creciente para valores positivos, si <span class="math inline">\(y \ge x\)</span> se cumple necesariamente que <span class="math inline">\(g(y) \ge g(x)\)</span>.</li>
+<li><strong>Caso <span class="math inline">\(x &lt; 0\)</span></strong>: Aquí la derivada es negativa <span class="math inline">\(g'(x) &lt; 0\)</span>. El antecedente <span class="math inline">\(g'(x)(y - x) \ge 0\)</span> exige entonces que <span class="math inline">\(y - x \le 0 \implies y \le x\)</span>. Como la función es estrictamente decreciente para valores negativos, si <span class="math inline">\(y \le x\)</span> (es decir, <span class="math inline">\(y\)</span> es más negativo que <span class="math inline">\(x\)</span>) el valor de la función es mayor, cumpliéndose <span class="math inline">\(g(y) \ge g(x)\)</span>.</li>
+</ul></li>
+<li>Al verificarse la implicación en todos los casos, la función <span class="math inline">\(g(x)\)</span> es <strong>pseudoconvexa</strong> en todo <span class="math inline">\(\mathbb{R}\)</span>.</li>
+</ol></li>
+<li><strong>Consecuencias Algorítmicas</strong>: La pseudoconvexidad garantiza que <strong>cualquier mínimo local o punto crítico estacionario es un mínimo global</strong>. Aunque la función no sea convexa (presentando zonas con curvatura cóncava en los laterales del dominio), si aplicamos un algoritmo de búsqueda local de primer orden (como el método del descenso de gradiente) partiendo de cualquier punto inicial <span class="math inline">\(x_0 \in \mathbb{R}\)</span>, el algoritmo se moverá en dirección opuesta al gradiente y tendrá la <strong>garantía de converger globalmente al mínimo único <span class="math inline">\(x^* = 0\)</span></strong>, sin quedar atrapado en ningún otro punto estacionario.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tema2_opt_no_lineal_soluciones.pdf" class="pagination-link" aria-label="Ejercicios Resueltos del Tema 2: optimización no lineal y métodos numéricos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ejercicios Resueltos del Tema 2: optimización no lineal y métodos numéricos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./tema4_condiciones_optimalidad_soluciones.pdf" class="pagination-link" aria-label="Ejercicios Resueltos del Tema 4: condiciones de optimalidad y KKT">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ejercicios Resueltos del Tema 4: condiciones de optimalidad y KKT</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
