@@ -3,7 +3,7 @@
 **Material docente en abierto de la Universidad Rey Juan Carlos**
 
 * **Título de la obra:** Optimización y Análisis de Redes (Libro de Texto y Material Docente Completo)
-* **Autores:** Víctor Aceña Gil y Antonio Alonso Ayuso
+* **Autores:** Víctor Aceña Gil, Antonio Alonso Ayuso, Javier Martínez Moguerza y Emilio López Cano
 * **Asignatura:** Optimización y Análisis de Redes (Asignatura optativa de 4.º curso)
 * **Titulación:** Grado en Matemáticas (Escuela Técnica Superior de Ingeniería Informática, Universidad Rey Juan Carlos)
 * **Créditos ECTS:** 6.0 ECTS (150 horas de dedicación total)
@@ -27,7 +27,7 @@ La obra cubre tanto los fundamentos teóricos, geométricos y analíticos de la 
 El contenido se distribuye de forma accesible en dos formatos complementarios:
 
 1. **Sitio web interactivo**: Publicado en el directorio `docs/`, permitiendo la consulta abierta en línea con reproductores interactivos para la ejecución paso a paso de animaciones y algoritmos.
-2. **Libro maestro unificado en PDF**: Obra editorial completa de 1.363 páginas que agrupa en un único volumen encuadernado digitalmente la guía de estudio, los apuntes teóricos, las diapositivas de clase, los enunciados de ejercicios, las soluciones analíticas desarrolladas y los cuadernos de laboratorio, disponible directamente en [`libro/Optimizacion_y_Analisis_de_Redes.pdf`](libro/Optimizacion_y_Analisis_de_Redes.pdf).
+2. **Libro maestro unificado en PDF**: Obra editorial completa de 1.365 páginas que agrupa en un único volumen encuadernado digitalmente la guía de estudio, los apuntes teóricos, las diapositivas de clase, los enunciados de ejercicios, las soluciones analíticas desarrolladas y los cuadernos de laboratorio, disponible directamente en [`libro/Optimizacion_y_Analisis_de_Redes.pdf`](libro/Optimizacion_y_Analisis_de_Redes.pdf).
 
 ---
 
@@ -86,7 +86,7 @@ El repositorio se organiza de forma modular a través de [Quarto](https://quarto
 
 * **Volumen Maestro Unificado (`libro/`)**:
   * Fusión editorial de las seis partes precedentes con portadillas de sección independientes, cálculo iterativo de páginas estables y marcadores PDF (*bookmarks*) jerárquicos.
-  * Documento en PDF: [`libro/Optimizacion_y_Analisis_de_Redes.pdf`](libro/Optimizacion_y_Analisis_de_Redes.pdf) (1.363 páginas).
+  * Documento en PDF: [`libro/Optimizacion_y_Analisis_de_Redes.pdf`](libro/Optimizacion_y_Analisis_de_Redes.pdf) (1.365 páginas).
 
 ---
 
@@ -146,7 +146,7 @@ Para un desglose exhaustivo de los prompts representativos, el registro de inter
 
 ## 6. Derechos de Autor y Licencia
 
-**Copyright © 2026 Víctor Aceña Gil y Antonio Alonso Ayuso.**
+**Copyright © 2026 Víctor Aceña Gil, Antonio Alonso Ayuso, Javier Martínez Moguerza, Emilio López Cano.**
 
 <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es"><img src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" alt="Licencia de Creative Commons" style="border-width:0"/></a>
 

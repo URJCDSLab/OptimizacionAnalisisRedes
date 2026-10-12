@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Víctor Aceña Gil - Antonio Alonso Ayuso">
+<meta name="author" content="DSLAB">
 
 <title>Laboratorio 6: grafos y árboles soporte de mínimo peso en Python</title>
 <style>
@@ -2392,14 +2392,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Autor/a</div>
     <div class="quarto-title-meta-contents">
-             <p>Víctor Aceña Gil - Antonio Alonso Ayuso </p>
+             <p>DSLAB </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">7 de agosto de 2026</p>
+      <p class="date">12 de octubre de 2026</p>
     </div>
   </div>
   
@@ -2512,7 +2512,7 @@ E = \{ &amp;(1,2, 7), (1,3, 5), (2,3, 9), (2,4, 8), (2,5, 7), \\
 <li>Verificar numéricamente el <em>Handshaking Lemma</em> (<span class="math inline">\(\sum_{v \in V} \deg(v) = 2m\)</span>), calculando además la densidad de la red, la distancia geodésica media entre todos los pares de nodos y el diámetro del grafo.</li>
 <li>Representar gráficamente la red con <code>Matplotlib</code> mostrando los nodos, las aristas y sus correspondientes pesos en etiquetas centradas.</li>
 </ol>
-<div id="bdab1d9b" class="cell" data-execution_count="1">
+<div id="8322d100" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
@@ -2529,7 +2529,7 @@ E = \{ &amp;(1,2, 7), (1,3, 5), (2,3, 9), (2,4, 8), (2,5, 7), \\
 <li>Imprimir el listado ordenado de aristas evaluadas, indicando en cada paso si la arista fue <strong>aceptada</strong> o <strong>descartada</strong> por formar un ciclo, junto con el peso total final acumulado <span class="math inline">\(d(T)\)</span>.</li>
 <li>Comparar el resultado con la solución generada por <code>nx.minimum_spanning_tree(G, algorithm=&#39;kruskal&#39;)</code> y representar gráficamente la red original destacando en azul cerúleo (<code>#0284c7</code>) las aristas pertenecientes al MST.</li>
 </ol>
-<div id="70a50a0c" class="cell" data-execution_count="2">
+<div id="ec1da83a" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
@@ -2546,7 +2546,7 @@ E = \{ &amp;(1,2, 7), (1,3, 5), (2,3, 9), (2,4, 8), (2,5, 7), \\
 <li>Comprobar la invariancia del peso total del MST ejecutando la función desde los 7 nodos raíz posibles (<span class="math inline">\(1, 2, \dots, 7\)</span>).</li>
 <li>Modificar ligeramente el peso de la arista <span class="math inline">\((3,6)\)</span> a <span class="math inline">\(weight = 15\)</span> (introduciendo empates de peso en la red) y verificar si la elección de distintos nodos raíz produce árboles soporte alternativos pero con idéntico peso óptimo.</li>
 </ol>
-<div id="b3e53474" class="cell" data-execution_count="3">
+<div id="cff0e41c" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
@@ -2555,17 +2555,17 @@ E = \{ &amp;(1,2, 7), (1,3, 5), (2,3, 9), (2,4, 8), (2,5, 7), \\
 <section id="ejercicio-4-aplicación-en-aprendizaje-no-supervisado-clustering-basado-en-mst-single-linkage" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="ejercicio-4-aplicación-en-aprendizaje-no-supervisado-clustering-basado-en-mst-single-linkage"><span class="header-section-number">3.4</span> Ejercicio 4: aplicación en aprendizaje no supervisado: clustering basado en MST (Single-Linkage)</h2>
 <p>El clustering basado en el MST elimina iterativamente las <span class="math inline">\(k-1\)</span> aristas de mayor peso del árbol soporte de mínimo peso para dividir un conjunto de datos <span class="math inline">\(n\)</span>-dimensional en <span class="math inline">\(k\)</span> clústeres inconexos. A diferencia del algoritmo <span class="math inline">\(k\)</span>-medias (que asume clústeres esféricos y convexos), el MST clustering es capaz de detectar estructuras con formas complejas no convexas (como anillos concéntricos o semicírculos entrelazados).</p>
-<p>Se dispone de un conjunto de datos sintetizado formado por dos lunas entrelazadas en <span class="math inline">\(\mathbb{R}^2\)</span> (<span class="math inline">\(150\)</span> puntos por luna, <span class="math inline">\(N = 300\)</span> en total).</p>
+<p>Se dispone de un conjunto de datos sintetizado formado por dos lunas entrelazadas en <span class="math inline">\(\mathbb{R}^2\)</span> (<span class="math inline">\(100\)</span> puntos por luna, <span class="math inline">\(N = 200\)</span> en total).</p>
 <section id="tareas-3" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="tareas-3"><span class="header-section-number">3.4.1</span> Tareas</h3>
 <ol type="1">
-<li>Generar la distribución de puntos 2D utilizando <code>sklearn.datasets.make_moons(n_samples=300, noise=0.07, random_state=42)</code>.</li>
-<li>Construir el grafo completo <span class="math inline">\(G_{completo}\)</span> donde cada punto sea un nodo y el peso de cada arista sea la distancia euclídea entre el par de puntos correspondiente.</li>
-<li>Obtener el MST del grafo completo y dividirlo en <span class="math inline">\(k=2\)</span> clústeres eliminando la arista de mayor peso del MST.</li>
+<li>Generar la distribución de puntos 2D utilizando <code>sklearn.datasets.make_moons(n_samples=200, noise=0.07, random_state=42)</code>.</li>
+<li>Construir la matriz de distancias euclídeas entre todos los pares de puntos y obtener el MST utilizando <code>scipy.sparse.csgraph.minimum_spanning_tree</code>.</li>
+<li>Convertir el MST a un grafo <code>NetworkX</code> con <code>nx.from_scipy_sparse_array</code> y dividirlo en <span class="math inline">\(k=2\)</span> clústeres eliminando la arista de mayor peso.</li>
 <li>Aplicar el algoritmo tradicional de <span class="math inline">\(k\)</span>-medias (<code>sklearn.cluster.KMeans(n_clusters=2)</code>) sobre los mismos puntos.</li>
 <li>Representar en una figura de dos paneles dispuestas en dos filas (<code>figsize=(8, 8)</code>) la partición obtenida por el <strong>MST Clustering</strong> (panel superior) y la partición obtenida por <strong>k-medias</strong> (panel inferior), analizando teóricamente por qué el MST logra separar las dos lunas mientras <span class="math inline">\(k\)</span>-medias fracasa.</li>
 </ol>
-<div id="14d04509" class="cell" data-execution_count="4">
+<div id="8fd9aba7" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>

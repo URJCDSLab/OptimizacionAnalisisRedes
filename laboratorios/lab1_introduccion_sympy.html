@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Víctor Aceña Gil - Antonio Alonso Ayuso">
+<meta name="author" content="DSLAB">
 
 <title>Laboratorio 1: introducción al modelado y cálculo simbólico con SymPy</title>
 <style>
@@ -2337,145 +2337,7 @@ window.Quarto = {
 };
 </script>
 
-<style type="text/css">
-.callout {
-border-radius: 0.25rem; 
-margin-bottom: 1.25rem; 
-padding: 0.5rem; 
-border-left-width: 0.5rem; 
-border-left-style: solid;
-}
-
-
-.callout-note, .callout-note p, .callout-note li {
-color: #172554; 
-}
-.callout-note {
-background-color: #f4f8fc;
-border-left-color: #3b82f6; 
-}
-.callout-note .callout-title, .callout-note .callout-title * {
-color: #0f172a !important; 
-font-weight: 700;
-}
-
-.callout-tip, .callout-tip p, .callout-tip li {
-color: #064e3b; 
-}
-.callout-tip {
-background-color: #f2f9f2;
-border-left-color: #10b981; 
-}
-.callout-tip .callout-title, .callout-tip .callout-title * {
-color: #022c22 !important; 
-font-weight: 700;
-}
-
-.callout-important, .callout-important p, .callout-important li {
-color: #450a0a; 
-}
-.callout-important {
-background-color: #fdf5f6;
-border-left-color: #ef4444; 
-}
-.callout-important .callout-title, .callout-important .callout-title * {
-color: #7f1d1d !important; 
-font-weight: 700;
-}
-
-.callout-caution, .callout-caution p, .callout-caution li {
-color: #451a03; 
-}
-.callout-caution {
-background-color: #fdf5f6;
-border-left-color: #f59e0b; 
-}
-.callout-caution .callout-title, .callout-caution .callout-title * {
-color: #78350f !important;
-font-weight: 700;
-}
-
-.callout-warning, .callout-warning p, .callout-warning li {
-color: #451a03; 
-}
-.callout-warning {
-background-color: #fefaf7;
-border-left-color: #f59e0b; 
-}
-.callout-warning .callout-title, .callout-warning .callout-title * {
-color: #78350f !important;
-font-weight: 700;
-}
-
-.quarto-title-meta .quarto-title-meta-heading {
-position: relative;
-text-indent: -9999px; 
-overflow: hidden;
-}
-.quarto-title-meta .quarto-title-meta-heading::before {
-position: absolute;
-top: 0;
-left: 0;
-text-indent: 0;
-font-size: 0.8rem;
-font-weight: 600;
-color: #6c757d;
-text-transform: uppercase;
-letter-spacing: 0.075em;
-}
-
-.quarto-title-meta > div:first-child .quarto-title-meta-heading::before {
-content: "Autores";
-}
-
-.quarto-title-meta > div:last-child .quarto-title-meta-heading::before {
-content: "Fecha de publicación";
-}
-
-.quarto-title-meta-heading:first-of-type::before {
-content: "Autores";
-}
-.quarto-title-meta-heading:last-of-type::before {
-content: "Fecha de publicación";
-}
-
-.quarto-title-meta .quarto-title-meta-heading {
-white-space: nowrap;
-height: auto;
-line-height: normal;
-}
-
-main.content p, main.content li {
-text-align: justify;
-text-justify: inter-word;
-}
-
-#TOC ul.collapse:has(a.active),
-#TOC li > a.active + ul.collapse {
-display: block !important;
-}
-
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6,
-main.content h1, main.content h2, main.content h3, main.content h4, main.content h5, main.content h6,
-section h1, section h2, section h3, section h4, section h5, section h6,
-div.level1 > h1, div.level2 > h2, div.level3 > h3, div.level4 > h4 {
-border-bottom: none !important;
-text-decoration: none !important;
-box-shadow: none !important;
-}
-
-hr, main.content hr, section hr, .hr {
-display: none !important;
-border: none !important;
-height: 0 !important;
-margin: 0 !important;
-}
-section, .section, .level1, .level2, .level3 {
-border-top: none !important;
-border-bottom: none !important;
-}
-</style>
+<link href="data:text/css,%0A%2Ecallout%20%7B%0Aborder%2Dradius%3A%200%2E25rem%3B%20%0Amargin%2Dbottom%3A%201%2E25rem%3B%20%0Apadding%3A%200%2E5rem%3B%20%0Aborder%2Dleft%2Dwidth%3A%200%2E5rem%3B%20%0Aborder%2Dleft%2Dstyle%3A%20solid%3B%0A%7D%0A%0A%0A%2Ecallout%2Dnote%2C%20%2Ecallout%2Dnote%20p%2C%20%2Ecallout%2Dnote%20li%20%7B%0Acolor%3A%20%23172554%3B%20%0A%7D%0A%2Ecallout%2Dnote%20%7B%0Abackground%2Dcolor%3A%20%23f4f8fc%3B%0Aborder%2Dleft%2Dcolor%3A%20%233b82f6%3B%20%0A%7D%0A%2Ecallout%2Dnote%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dnote%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%230f172a%20%21important%3B%20%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Ecallout%2Dtip%2C%20%2Ecallout%2Dtip%20p%2C%20%2Ecallout%2Dtip%20li%20%7B%0Acolor%3A%20%23064e3b%3B%20%0A%7D%0A%2Ecallout%2Dtip%20%7B%0Abackground%2Dcolor%3A%20%23f2f9f2%3B%0Aborder%2Dleft%2Dcolor%3A%20%2310b981%3B%20%0A%7D%0A%2Ecallout%2Dtip%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dtip%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%23022c22%20%21important%3B%20%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Ecallout%2Dimportant%2C%20%2Ecallout%2Dimportant%20p%2C%20%2Ecallout%2Dimportant%20li%20%7B%0Acolor%3A%20%23450a0a%3B%20%0A%7D%0A%2Ecallout%2Dimportant%20%7B%0Abackground%2Dcolor%3A%20%23fdf5f6%3B%0Aborder%2Dleft%2Dcolor%3A%20%23ef4444%3B%20%0A%7D%0A%2Ecallout%2Dimportant%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dimportant%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%237f1d1d%20%21important%3B%20%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Ecallout%2Dcaution%2C%20%2Ecallout%2Dcaution%20p%2C%20%2Ecallout%2Dcaution%20li%20%7B%0Acolor%3A%20%23451a03%3B%20%0A%7D%0A%2Ecallout%2Dcaution%20%7B%0Abackground%2Dcolor%3A%20%23fdf5f6%3B%0Aborder%2Dleft%2Dcolor%3A%20%23f59e0b%3B%20%0A%7D%0A%2Ecallout%2Dcaution%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dcaution%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%2378350f%20%21important%3B%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Ecallout%2Dwarning%2C%20%2Ecallout%2Dwarning%20p%2C%20%2Ecallout%2Dwarning%20li%20%7B%0Acolor%3A%20%23451a03%3B%20%0A%7D%0A%2Ecallout%2Dwarning%20%7B%0Abackground%2Dcolor%3A%20%23fefaf7%3B%0Aborder%2Dleft%2Dcolor%3A%20%23f59e0b%3B%20%0A%7D%0A%2Ecallout%2Dwarning%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dwarning%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%2378350f%20%21important%3B%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%20%2Equarto%2Dtitle%2Dmeta%2Dheading%20%7B%0Aposition%3A%20relative%3B%0Atext%2Dindent%3A%20%2D9999px%3B%20%0Aoverflow%3A%20hidden%3B%0A%7D%0A%2Equarto%2Dtitle%2Dmeta%20%2Equarto%2Dtitle%2Dmeta%2Dheading%3A%3Abefore%20%7B%0Aposition%3A%20absolute%3B%0Atop%3A%200%3B%0Aleft%3A%200%3B%0Atext%2Dindent%3A%200%3B%0Afont%2Dsize%3A%200%2E8rem%3B%0Afont%2Dweight%3A%20600%3B%0Acolor%3A%20%236c757d%3B%0Atext%2Dtransform%3A%20uppercase%3B%0Aletter%2Dspacing%3A%200%2E075em%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%20%3E%20div%3Afirst%2Dchild%20%2Equarto%2Dtitle%2Dmeta%2Dheading%3A%3Abefore%20%7B%0Acontent%3A%20%22Autores%22%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%20%3E%20div%3Alast%2Dchild%20%2Equarto%2Dtitle%2Dmeta%2Dheading%3A%3Abefore%20%7B%0Acontent%3A%20%22Fecha%20de%20publicaci%C3%B3n%22%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%2Dheading%3Afirst%2Dof%2Dtype%3A%3Abefore%20%7B%0Acontent%3A%20%22Autores%22%3B%0A%7D%0A%2Equarto%2Dtitle%2Dmeta%2Dheading%3Alast%2Dof%2Dtype%3A%3Abefore%20%7B%0Acontent%3A%20%22Fecha%20de%20publicaci%C3%B3n%22%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%20%2Equarto%2Dtitle%2Dmeta%2Dheading%20%7B%0Awhite%2Dspace%3A%20nowrap%3B%0Aheight%3A%20auto%3B%0Aline%2Dheight%3A%20normal%3B%0A%7D%0A%0Amain%2Econtent%20p%2C%20main%2Econtent%20li%20%7B%0Atext%2Dalign%3A%20justify%3B%0Atext%2Djustify%3A%20inter%2Dword%3B%0A%7D%0A%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%2C%0A%2Eh1%2C%20%2Eh2%2C%20%2Eh3%2C%20%2Eh4%2C%20%2Eh5%2C%20%2Eh6%2C%0Amain%2Econtent%20h1%2C%20main%2Econtent%20h2%2C%20main%2Econtent%20h3%2C%20main%2Econtent%20h4%2C%20main%2Econtent%20h5%2C%20main%2Econtent%20h6%2C%0Asection%20h1%2C%20section%20h2%2C%20section%20h3%2C%20section%20h4%2C%20section%20h5%2C%20section%20h6%2C%0Adiv%2Elevel1%20%3E%20h1%2C%20div%2Elevel2%20%3E%20h2%2C%20div%2Elevel3%20%3E%20h3%2C%20div%2Elevel4%20%3E%20h4%20%7B%0Aborder%2Dbottom%3A%20none%20%21important%3B%0Atext%2Ddecoration%3A%20none%20%21important%3B%0Abox%2Dshadow%3A%20none%20%21important%3B%0A%7D%0A%0Ahr%2C%20main%2Econtent%20hr%2C%20section%20hr%2C%20%2Ehr%20%7B%0Adisplay%3A%20none%20%21important%3B%0Aborder%3A%20none%20%21important%3B%0Aheight%3A%200%20%21important%3B%0Amargin%3A%200%20%21important%3B%0A%7D%0A%0A%0A%2Ecallout%2Dimportant%20%2Ecallout%2Dicon%2Dcontainer%20%7B%0Abackground%2Dcolor%3A%20%23fee2e2%20%21important%3B%20%0A%7D%0A%2Ecallout%2Dtip%20%2Ecallout%2Dicon%2Dcontainer%20%7B%0Abackground%2Dcolor%3A%20%23d1fae5%20%21important%3B%20%0A%7D%0A%2Ecallout%2Dnote%20%2Ecallout%2Dicon%2Dcontainer%20%7B%0Abackground%2Dcolor%3A%20%23dbeafe%20%21important%3B%20%0A%7D%0A%2Ecallout%2Dwarning%20%2Ecallout%2Dicon%2Dcontainer%2C%0A%2Ecallout%2Dcaution%20%2Ecallout%2Dicon%2Dcontainer%20%7B%0Abackground%2Dcolor%3A%20%23fef3c7%20%21important%3B%20%0A%7D%0A%2Ecallout%2Dheader%20%7B%0Adisplay%3A%20flex%20%21important%3B%0Aalign%2Ditems%3A%20center%20%21important%3B%0Amargin%2Dbottom%3A%200%2E4rem%20%21important%3B%0Apadding%3A%200%20%21important%3B%0A%7D%0A%2Ecallout%2Dtitle%2Dcontainer%20%7B%0Adisplay%3A%20flex%20%21important%3B%0Aalign%2Ditems%3A%20center%20%21important%3B%0Aline%2Dheight%3A%201%2E25%20%21important%3B%0Amargin%3A%200%20%21important%3B%0Apadding%3A%200%20%21important%3B%0Aflex%3A%201%201%20auto%20%21important%3B%0A%7D%0A%2Ecallout%2Dtitle%20%7B%0Amargin%3A%200%20%21important%3B%0Apadding%3A%200%20%21important%3B%0Afont%2Dsize%3A%201%2E02rem%20%21important%3B%0Afont%2Dweight%3A%20700%20%21important%3B%0Aline%2Dheight%3A%201%2E25%20%21important%3B%0A%7D%0A%2Ecallout%2Dicon%2Dcontainer%20%7B%0Adisplay%3A%20inline%2Dflex%20%21important%3B%0Aalign%2Ditems%3A%20center%20%21important%3B%0Ajustify%2Dcontent%3A%20center%20%21important%3B%0Awidth%3A%201%2E65rem%20%21important%3B%0Aheight%3A%201%2E65rem%20%21important%3B%0Amin%2Dwidth%3A%201%2E65rem%20%21important%3B%0Aborder%2Dradius%3A%2050%25%20%21important%3B%0Amargin%3A%200%200%2E65rem%200%200%20%21important%3B%0Apadding%3A%200%20%21important%3B%0Aalign%2Dself%3A%20center%20%21important%3B%0Aflex%2Dshrink%3A%200%20%21important%3B%0A%7D%0A%2Ecallout%2Dicon%20%7B%0Awidth%3A%201%2E0rem%20%21important%3B%0Aheight%3A%201%2E0rem%20%21important%3B%0Adisplay%3A%20inline%2Dblock%20%21important%3B%0Abackground%2Drepeat%3A%20no%2Drepeat%20%21important%3B%0Abackground%2Dposition%3A%20center%20%21important%3B%0Abackground%2Dsize%3A%20contain%20%21important%3B%0A%7D%0A%2Ecallout%2Dicon%3A%3Abefore%20%7B%0Acontent%3A%20%22%22%20%21important%3B%0Adisplay%3A%20none%20%21important%3B%0A%7D%0A%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22objetivos%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523dc2626%22%3E%3Cpath%20d%3D%22M12%203L1%209l11%206%209%2D4%2E91V17h2V9L12%203zm0%208%2E47L4%2E24%209%2012%205%2E5%2019%2E76%209%2012%2011%2E47zM5%2013%2E18v4c0%202%2E5%203%2E13%204%2E5%207%204%2E5s7%2D2%207%2D4%2E5v%2D4l%2D7%203%2E82%2D7%2D3%2E82z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22teorema%22%5D%20%2Ecallout%2Dicon%2C%0A%2Ecallout%2Dimportant%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523b91c1c%22%3E%3Cpath%20d%3D%22M18%202H6c%2D1%2E1%200%2D2%20%2E9%2D2%202v16c0%201%2E1%2E9%202%202%202h12c1%2E1%200%202%2D%2E9%202%2D2V4c0%2D1%2E1%2D%2E9%2D2%2D2%2D2zm0%2018H6V4h2v8l2%2E5%2D1%2E5L13%2012V4h5v16z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22lema%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25231d4ed8%22%3E%3Cpath%20d%3D%22M20%2E5%2011H19V7c0%2D1%2E1%2D%2E9%2D2%2D2%2D2h%2D4V3%2E5C13%202%2E12%2011%2E88%201%2010%2E5%201S8%202%2E12%208%203%2E5V5H4c%2D1%2E1%200%2D1%2E99%2E9%2D1%2E99%202v3%2E8H3%2E5c1%2E4%200%202%2E5%201%2E1%202%2E5%202%2E5s%2D1%2E1%202%2E5%2D2%2E5%202%2E5H2v4c0%201%2E1%2E9%202%202%202h3%2E8v%2D1%2E5c0%2D1%2E4%201%2E1%2D2%2E5%202%2E5%2D2%2E5s2%2E5%201%2E1%202%2E5%202%2E5V21H17c1%2E1%200%202%2D%2E9%202%2D2v%2D4h1%2E5c1%2E4%200%202%2E5%2D1%2E1%202%2E5%2D2%2E5s%2D1%2E1%2D2%2E5%2D2%2E5%2D2%2E5z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22corolario%22%5D%20%2Ecallout%2Dicon%2C%0A%2Ecallout%5Bdata%2Dkind%3D%22proposicion%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25232563eb%22%3E%3Cpath%20d%3D%22M12%202L9%2E5%209%2E5%202%2012l7%2E5%202%2E5L12%2022l2%2E5%2D7%2E5L22%2012l%2D7%2E5%2D2%2E5L12%202zm6%2012l%2D1%2E25%203%2E75L13%2019l3%2E75%201%2E25L18%2024l1%2E25%2D3%2E75L23%2019l%2D3%2E75%2D1%2E25L18%2014z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22definicion%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25231e40af%22%3E%3Cpath%20d%3D%22M18%202H6c%2D1%2E1%200%2D2%20%2E9%2D2%202v16c0%201%2E1%2E9%202%202%202h12c1%2E1%200%202%2D%2E9%202%2D2V4c0%2D1%2E1%2D%2E9%2D2%2D2%2D2zM6%204h5v8l%2D2%2E5%2D1%2E5L6%2012V4z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22ejemplo%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523065f46%22%3E%3Cpath%20d%3D%22M3%2017%2E25V21h3%2E75L17%2E81%209%2E94l%2D3%2E75%2D3%2E75L3%2017%2E25zM20%2E71%207%2E04c%2E39%2D%2E39%2E39%2D1%2E02%200%2D1%2E41l%2D2%2E34%2D2%2E34c%2D%2E39%2D%2E39%2D1%2E02%2D%2E39%2D1%2E41%200l%2D1%2E83%201%2E83%203%2E75%203%2E75%201%2E83%2D1%2E83z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%2Dtip%5Bdata%2Dkind%3D%22ejemplo%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523047857%22%3E%3Cpath%20d%3D%22M3%2017%2E25V21h3%2E75L17%2E81%209%2E94l%2D3%2E75%2D3%2E75L3%2017%2E25zM20%2E71%207%2E04c%2E39%2D%2E39%2E39%2D1%2E02%200%2D1%2E41l%2D2%2E34%2D2%2E34c%2D%2E39%2D%2E39%2D1%2E02%2D%2E39%2D1%2E41%200l%2D1%2E83%201%2E83%203%2E75%203%2E75%201%2E83%2D1%2E83z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%2Dtip%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523047857%22%3E%3Cpath%20d%3D%22M3%2017%2E25V21h3%2E75L17%2E81%209%2E94l%2D3%2E75%2D3%2E75L3%2017%2E25zM20%2E71%207%2E04c%2E39%2D%2E39%2E39%2D1%2E02%200%2D1%2E41l%2D2%2E34%2D2%2E34c%2D%2E39%2D%2E39%2D1%2E02%2D%2E39%2D1%2E41%200l%2D1%2E83%201%2E83%203%2E75%203%2E75%201%2E83%2D1%2E83z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22advertencia%22%5D%20%2Ecallout%2Dicon%2C%0A%2Ecallout%2Dwarning%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%2C%0A%2Ecallout%2Dcaution%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523b45309%22%3E%3Cpath%20d%3D%22M1%2021h22L12%202%201%2021zm12%2D3h%2D2v%2D2h2v2zm0%2D4h%2D2v%2D4h2v4z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22nota%22%5D%20%2Ecallout%2Dicon%2C%0A%2Ecallout%2Dnote%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25231e40af%22%3E%3Cpath%20d%3D%22M12%202C6%2E48%202%202%206%2E48%202%2012s4%2E48%2010%2010%2010%2010%2D4%2E48%2010%2D10S17%2E52%202%2012%202zm1%2015h%2D2v%2D6h2v6zm0%2D8h%2D2V7h2v2z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22esquema%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25231e3a8a%22%3E%3Cpath%20d%3D%22M19%203h%2D4%2E18C14%2E4%201%2E84%2013%2E3%201%2012%201c%2D1%2E3%200%2D2%2E4%2E84%2D2%2E82%202H5c%2D1%2E1%200%2D2%20%2E9%2D2%202v14c0%201%2E1%2E9%202%202%202h14c1%2E1%200%202%2D%2E9%202%2D2V5c0%2D1%2E1%2D%2E9%2D2%2D2%2D2zm%2D7%200c%2E55%200%201%20%2E45%201%201s%2D%2E45%201%2D1%201%2D1%2D%2E45%2D1%2D1%20%2E45%2D1%201%2D1zm%2D2%2014H7v%2D2h3v2zm0%2D4H7v%2D2h3v2zm0%2D4H7V7h3v2zm7%208h%2D5v%2D2h5v2zm0%2D4h%2D5v%2D2h5v2zm0%2D4h%2D5V7h5v2z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecell%2Doutput%2Ddisplay%2C%0A%2Ehtml%2Dwidget%2C%0A%2Eplotly%2Dgraph%2Ddiv%2C%0A%2Ejs%2Dplotly%2Dplot%2C%0Adiv%2Ecell%2Doutput%2Ddisplay%20%7B%0Aoverflow%2Dx%3A%20hidden%20%21important%3B%0Amax%2Dwidth%3A%20100%25%20%21important%3B%0A%7D%0A%2Ecell%2Doutput%2Ddisplay%20%2Eplotly%2C%0A%2Eplotly%2Dgraph%2Ddiv%20%7B%0Awidth%3A%20100%25%20%21important%3B%0Amax%2Dwidth%3A%20100%25%20%21important%3B%0A%7D%0A" rel="stylesheet">
 </head>
 
 <body class="quarto-light">
@@ -2528,14 +2390,14 @@ border-bottom: none !important;
     <div>
     <div class="quarto-title-meta-heading">Autor/a</div>
     <div class="quarto-title-meta-contents">
-             <p>Víctor Aceña Gil - Antonio Alonso Ayuso </p>
+             <p>DSLAB </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">9 de julio de 2026</p>
+      <p class="date">12 de octubre de 2026</p>
     </div>
   </div>
   
@@ -2561,7 +2423,7 @@ border-bottom: none !important;
 <p>Para asegurar que dispones de las librerías necesarias en tu entorno de Python, puedes instalarlas ejecutando:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install autograd sympy numpy</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A continuación, importamos los módulos que utilizaremos:</p>
-<div id="7039645a" class="cell" data-execution_count="1">
+<div id="075071af" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autograd <span class="im">import</span> grad, hessian</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
@@ -2579,7 +2441,7 @@ border-bottom: none !important;
 <section id="enfoque-numérico-con-autograd" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="enfoque-numérico-con-autograd"><span class="header-section-number">3.1.1</span> Enfoque numérico con Autograd</h3>
 <p>Autograd realiza diferenciación automática a partir de la definición estándar de la función en Python:</p>
-<div id="b0918d39" class="cell" data-execution_count="2">
+<div id="1a9cc1c5" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f_num(x):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">5</span><span class="op">*</span>x <span class="op">+</span> <span class="dv">10</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2596,7 +2458,7 @@ border-bottom: none !important;
 <section id="enfoque-simbólico-con-sympy" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="enfoque-simbólico-con-sympy"><span class="header-section-number">3.1.2</span> Enfoque simbólico con SymPy</h3>
 <p>SymPy construye un árbol de expresión analítica sobre una variable simbólica para realizar derivación formal:</p>
-<div id="d9b00eb0" class="cell" data-execution_count="3">
+<div id="1841c71b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir la variable simbólica</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sp.symbols(<span class="st">&#39;x&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2628,7 +2490,7 @@ El gradiente simbólico evaluado en x0 es: 5</code></pre>
 </ul>
 <section id="implementación-con-autograd" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="implementación-con-autograd"><span class="header-section-number">3.2.1</span> Implementación con Autograd</h3>
-<div id="e0d05f4b" class="cell" data-execution_count="4">
+<div id="524f7210" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plano_num(x): </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">5</span><span class="op">*</span>x[<span class="dv">0</span>] <span class="op">+</span> <span class="dv">10</span><span class="op">*</span>x[<span class="dv">1</span>] <span class="op">+</span> <span class="dv">4</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2646,27 +2508,31 @@ Hessiana numérica en x0:
  [[0. 0.]
  [0. 0.]]</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\vacek\anaconda3\envs\oar_env\Lib\site-packages\autograd\tracer.py:16: UserWarning: Output seems independent of input.
+  warnings.warn(&quot;Output seems independent of input.&quot;)</code></pre>
+</div>
 </div>
 </section>
 <section id="implementación-con-sympy" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="implementación-con-sympy"><span class="header-section-number">3.2.2</span> Implementación con SymPy</h3>
-<div id="8b4af0a7" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir variables simbólicas</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> sp.symbols(<span class="st">&#39;x1 x2&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Definir la función</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>f_plano_sym <span class="op">=</span> <span class="dv">5</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">10</span><span class="op">*</span>x2 <span class="op">+</span> <span class="dv">4</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Calcular gradiente (como matriz columna de derivadas parciales)</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>grad_plano_sym <span class="op">=</span> sp.Matrix([sp.diff(f_plano_sym, var) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Calcular matriz hessiana</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>hess_plano_sym <span class="op">=</span> sp.hessian(f_plano_sym, (x1, x2))</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Evaluar en x0 = (1, 2)</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>eval_dict <span class="op">=</span> {x1: <span class="fl">1.0</span>, x2: <span class="fl">2.0</span>}</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente simbólico en x0:&quot;</span>, grad_plano_sym.subs(eval_dict))</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Hessiana simbólica en x0:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_plano_sym.subs(eval_dict))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="88284ece" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir variables simbólicas</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> sp.symbols(<span class="st">&#39;x1 x2&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Definir la función</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>f_plano_sym <span class="op">=</span> <span class="dv">5</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">10</span><span class="op">*</span>x2 <span class="op">+</span> <span class="dv">4</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Calcular gradiente (como matriz columna de derivadas parciales)</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>grad_plano_sym <span class="op">=</span> sp.Matrix([sp.diff(f_plano_sym, var) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Calcular matriz hessiana</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>hess_plano_sym <span class="op">=</span> sp.hessian(f_plano_sym, (x1, x2))</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Evaluar en x0 = (1, 2)</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>eval_dict <span class="op">=</span> {x1: <span class="fl">1.0</span>, x2: <span class="fl">2.0</span>}</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente simbólico en x0:&quot;</span>, grad_plano_sym.subs(eval_dict))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Hessiana simbólica en x0:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_plano_sym.subs(eval_dict))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Gradiente simbólico en x0: Matrix([[5], [10]])
 Hessiana simbólica en x0:
@@ -2678,22 +2544,22 @@ Hessiana simbólica en x0:
 <section id="funciones-paramétricas-con-sympy" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="funciones-paramétricas-con-sympy"><span class="header-section-number">3.3</span> Funciones paramétricas con SymPy</h2>
 <p>Una gran ventaja del cálculo simbólico es la capacidad de trabajar con parámetros sin asignarles valores de antemano. Consideremos el plano con coeficientes genéricos <span class="math inline">\(a\)</span> y <span class="math inline">\(b\)</span>: <span class="math display">\[ f(x_1, x_2) = a x_1 + b x_2 + 4 \]</span></p>
-<div id="9299048d" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir variables y parámetros simbólicos</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x1, x2, a, b <span class="op">=</span> sp.symbols(<span class="st">&#39;x1 x2 a b&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>f_param <span class="op">=</span> a<span class="op">*</span>x1 <span class="op">+</span> b<span class="op">*</span>x2 <span class="op">+</span> <span class="dv">4</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular gradiente y hessiano analíticos genéricos</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>grad_param <span class="op">=</span> sp.Matrix([sp.diff(f_param, var) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>hess_param <span class="op">=</span> sp.hessian(f_param, (x1, x2))</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente analítico genérico:</span><span class="ch">\n</span><span class="st">&quot;</span>, grad_param)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Hessiana analítica genérica:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_param)</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar en el punto x0 = (1, 2) con parámetros a = 5, b = 10</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>res_grad <span class="op">=</span> grad_param.subs({x1: <span class="dv">1</span>, x2: <span class="dv">2</span>, a: <span class="dv">5</span>, b: <span class="dv">10</span>})</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Gradiente sustituyendo parámetros:&quot;</span>, res_grad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6398b58d" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir variables y parámetros simbólicos</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x1, x2, a, b <span class="op">=</span> sp.symbols(<span class="st">&#39;x1 x2 a b&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>f_param <span class="op">=</span> a<span class="op">*</span>x1 <span class="op">+</span> b<span class="op">*</span>x2 <span class="op">+</span> <span class="dv">4</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular gradiente y hessiano analíticos genéricos</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>grad_param <span class="op">=</span> sp.Matrix([sp.diff(f_param, var) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>hess_param <span class="op">=</span> sp.hessian(f_param, (x1, x2))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Gradiente analítico genérico:</span><span class="ch">\n</span><span class="st">&quot;</span>, grad_param)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Hessiana analítica genérica:</span><span class="ch">\n</span><span class="st">&quot;</span>, hess_param)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar en el punto x0 = (1, 2) con parámetros a = 5, b = 10</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>res_grad <span class="op">=</span> grad_param.subs({x1: <span class="dv">1</span>, x2: <span class="dv">2</span>, a: <span class="dv">5</span>, b: <span class="dv">10</span>})</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Gradiente sustituyendo parámetros:&quot;</span>, res_grad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Gradiente analítico genérico:
  Matrix([[a], [b]])
@@ -2715,15 +2581,15 @@ Gradiente sustituyendo parámetros: Matrix([[5], [10]])</code></pre>
 <li><p><strong>Cóncava</strong>: La matriz hessiana es semidefinida negativa (<span class="math inline">\(\mathbf{H}_f(\mathbf{x}) \preceq 0\)</span>) para todo <span class="math inline">\(\mathbf{x}\)</span>. Sus autovalores son no positivos (<span class="math inline">\(\lambda_i \le 0\)</span>).</p></li>
 </ul>
 <p>Podemos utilizar NumPy para hallar numéricamente los autovalores a partir del hessiano simbólico convertido:</p>
-<div id="570e1d6b" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una función auxiliar para obtener autovalores numéricos</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcular_autovalores(matriz_sympy, punto_dict<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> punto_dict:</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        mat_eval <span class="op">=</span> matriz_sympy.subs(punto_dict)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        mat_eval <span class="op">=</span> matriz_sympy</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    mat_np <span class="op">=</span> np.array(mat_eval).astype(np.float64)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.linalg.eigvals(mat_np)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="08dd2367" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una función auxiliar para obtener autovalores numéricos</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcular_autovalores(matriz_sympy, punto_dict<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> punto_dict:</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        mat_eval <span class="op">=</span> matriz_sympy.subs(punto_dict)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        mat_eval <span class="op">=</span> matriz_sympy</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    mat_np <span class="op">=</span> np.array(mat_eval).astype(np.float64)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.linalg.eigvals(mat_np)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="ejercicios-de-laboratorio-propuestos" class="level1" data-number="5">
@@ -2737,9 +2603,9 @@ Gradiente sustituyendo parámetros: Matrix([[5], [10]])</code></pre>
 <li><p>Empleando <strong>Autograd</strong>.</p></li>
 <li><p>Empleando <strong>SymPy</strong>.</p></li>
 </ol>
-<div id="0b283662" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="99826198" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="ejercicio-2-estudio-de-convexidad-multivariante-constante" class="level2" data-number="5.2">
@@ -2752,9 +2618,9 @@ Gradiente sustituyendo parámetros: Matrix([[5], [10]])</code></pre>
 <li><p>Convierte la matriz a NumPy y calcula sus autovalores.</p></li>
 <li><p>Con base en el signo de los autovalores, concluye si la función es convexa, cóncava o indefinida.</p></li>
 </ol>
-<div id="2d54c87a" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="2c906868" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="ejercicio-3-convexidad-de-funciones-no-cuadráticas-dominio-factible" class="level2" data-number="5.3">
@@ -2765,17 +2631,17 @@ Gradiente sustituyendo parámetros: Matrix([[5], [10]])</code></pre>
 <li><p>Dado que los elementos de la matriz dependen de las variables, la convexidad varía en distintas regiones del espacio. Encuentra analíticamente la región o conjunto de puntos <span class="math inline">\((x_1, x_2)\)</span> donde la función es <strong>cóncava</strong> (es decir, donde el menor principal de primer orden y el determinante alternan de signo: <span class="math inline">\(M_1 \le 0\)</span> y <span class="math inline">\(M_2 \ge 0\)</span>).</p></li>
 <li><p>Utiliza la función <code>sp.solve</code> para hallar la región correspondiente de la variable <span class="math inline">\(x_2\)</span> en función de <span class="math inline">\(x_1\)</span>.</p></li>
 </ol>
-<div id="06d69f92" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="0b446038" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="ejercicio-4-convexidad-constante-en-3d" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="ejercicio-4-convexidad-constante-en-3d"><span class="header-section-number">5.4</span> Ejercicio 4: convexidad constante en 3D</h2>
 <p>Determina si la función: <span class="math display">\[ f(\mathbf{x}) = x^2 + 3y^2 + z^2 + xy - 4z - 5x + 14 \]</span> es estrictamente convexa en su dominio calculando los autovalores de su matriz hessiana con SymPy y NumPy.</p>
-<div id="4455a83c" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8936bc17" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe tu solución aquí:</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>

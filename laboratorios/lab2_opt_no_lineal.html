@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Víctor Aceña Gil - Antonio Alonso Ayuso">
+<meta name="author" content="DSLAB">
 
 <title>Laboratorio 2: optimización no lineal con Python</title>
 <style>
@@ -2337,145 +2337,7 @@ window.Quarto = {
 };
 </script>
 
-<style type="text/css">
-.callout {
-border-radius: 0.25rem; 
-margin-bottom: 1.25rem; 
-padding: 0.5rem; 
-border-left-width: 0.5rem; 
-border-left-style: solid;
-}
-
-
-.callout-note, .callout-note p, .callout-note li {
-color: #172554; 
-}
-.callout-note {
-background-color: #f4f8fc;
-border-left-color: #3b82f6; 
-}
-.callout-note .callout-title, .callout-note .callout-title * {
-color: #0f172a !important; 
-font-weight: 700;
-}
-
-.callout-tip, .callout-tip p, .callout-tip li {
-color: #064e3b; 
-}
-.callout-tip {
-background-color: #f2f9f2;
-border-left-color: #10b981; 
-}
-.callout-tip .callout-title, .callout-tip .callout-title * {
-color: #022c22 !important; 
-font-weight: 700;
-}
-
-.callout-important, .callout-important p, .callout-important li {
-color: #450a0a; 
-}
-.callout-important {
-background-color: #fdf5f6;
-border-left-color: #ef4444; 
-}
-.callout-important .callout-title, .callout-important .callout-title * {
-color: #7f1d1d !important; 
-font-weight: 700;
-}
-
-.callout-caution, .callout-caution p, .callout-caution li {
-color: #451a03; 
-}
-.callout-caution {
-background-color: #fdf5f6;
-border-left-color: #f59e0b; 
-}
-.callout-caution .callout-title, .callout-caution .callout-title * {
-color: #78350f !important;
-font-weight: 700;
-}
-
-.callout-warning, .callout-warning p, .callout-warning li {
-color: #451a03; 
-}
-.callout-warning {
-background-color: #fefaf7;
-border-left-color: #f59e0b; 
-}
-.callout-warning .callout-title, .callout-warning .callout-title * {
-color: #78350f !important;
-font-weight: 700;
-}
-
-.quarto-title-meta .quarto-title-meta-heading {
-position: relative;
-text-indent: -9999px; 
-overflow: hidden;
-}
-.quarto-title-meta .quarto-title-meta-heading::before {
-position: absolute;
-top: 0;
-left: 0;
-text-indent: 0;
-font-size: 0.8rem;
-font-weight: 600;
-color: #6c757d;
-text-transform: uppercase;
-letter-spacing: 0.075em;
-}
-
-.quarto-title-meta > div:first-child .quarto-title-meta-heading::before {
-content: "Autores";
-}
-
-.quarto-title-meta > div:last-child .quarto-title-meta-heading::before {
-content: "Fecha de publicación";
-}
-
-.quarto-title-meta-heading:first-of-type::before {
-content: "Autores";
-}
-.quarto-title-meta-heading:last-of-type::before {
-content: "Fecha de publicación";
-}
-
-.quarto-title-meta .quarto-title-meta-heading {
-white-space: nowrap;
-height: auto;
-line-height: normal;
-}
-
-main.content p, main.content li {
-text-align: justify;
-text-justify: inter-word;
-}
-
-#TOC ul.collapse:has(a.active),
-#TOC li > a.active + ul.collapse {
-display: block !important;
-}
-
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6,
-main.content h1, main.content h2, main.content h3, main.content h4, main.content h5, main.content h6,
-section h1, section h2, section h3, section h4, section h5, section h6,
-div.level1 > h1, div.level2 > h2, div.level3 > h3, div.level4 > h4 {
-border-bottom: none !important;
-text-decoration: none !important;
-box-shadow: none !important;
-}
-
-hr, main.content hr, section hr, .hr {
-display: none !important;
-border: none !important;
-height: 0 !important;
-margin: 0 !important;
-}
-section, .section, .level1, .level2, .level3 {
-border-top: none !important;
-border-bottom: none !important;
-}
-</style>
+<link href="data:text/css,%0A%2Ecallout%20%7B%0Aborder%2Dradius%3A%200%2E25rem%3B%20%0Amargin%2Dbottom%3A%201%2E25rem%3B%20%0Apadding%3A%200%2E5rem%3B%20%0Aborder%2Dleft%2Dwidth%3A%200%2E5rem%3B%20%0Aborder%2Dleft%2Dstyle%3A%20solid%3B%0A%7D%0A%0A%0A%2Ecallout%2Dnote%2C%20%2Ecallout%2Dnote%20p%2C%20%2Ecallout%2Dnote%20li%20%7B%0Acolor%3A%20%23172554%3B%20%0A%7D%0A%2Ecallout%2Dnote%20%7B%0Abackground%2Dcolor%3A%20%23f4f8fc%3B%0Aborder%2Dleft%2Dcolor%3A%20%233b82f6%3B%20%0A%7D%0A%2Ecallout%2Dnote%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dnote%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%230f172a%20%21important%3B%20%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Ecallout%2Dtip%2C%20%2Ecallout%2Dtip%20p%2C%20%2Ecallout%2Dtip%20li%20%7B%0Acolor%3A%20%23064e3b%3B%20%0A%7D%0A%2Ecallout%2Dtip%20%7B%0Abackground%2Dcolor%3A%20%23f2f9f2%3B%0Aborder%2Dleft%2Dcolor%3A%20%2310b981%3B%20%0A%7D%0A%2Ecallout%2Dtip%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dtip%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%23022c22%20%21important%3B%20%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Ecallout%2Dimportant%2C%20%2Ecallout%2Dimportant%20p%2C%20%2Ecallout%2Dimportant%20li%20%7B%0Acolor%3A%20%23450a0a%3B%20%0A%7D%0A%2Ecallout%2Dimportant%20%7B%0Abackground%2Dcolor%3A%20%23fdf5f6%3B%0Aborder%2Dleft%2Dcolor%3A%20%23ef4444%3B%20%0A%7D%0A%2Ecallout%2Dimportant%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dimportant%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%237f1d1d%20%21important%3B%20%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Ecallout%2Dcaution%2C%20%2Ecallout%2Dcaution%20p%2C%20%2Ecallout%2Dcaution%20li%20%7B%0Acolor%3A%20%23451a03%3B%20%0A%7D%0A%2Ecallout%2Dcaution%20%7B%0Abackground%2Dcolor%3A%20%23fdf5f6%3B%0Aborder%2Dleft%2Dcolor%3A%20%23f59e0b%3B%20%0A%7D%0A%2Ecallout%2Dcaution%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dcaution%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%2378350f%20%21important%3B%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Ecallout%2Dwarning%2C%20%2Ecallout%2Dwarning%20p%2C%20%2Ecallout%2Dwarning%20li%20%7B%0Acolor%3A%20%23451a03%3B%20%0A%7D%0A%2Ecallout%2Dwarning%20%7B%0Abackground%2Dcolor%3A%20%23fefaf7%3B%0Aborder%2Dleft%2Dcolor%3A%20%23f59e0b%3B%20%0A%7D%0A%2Ecallout%2Dwarning%20%2Ecallout%2Dtitle%2C%20%2Ecallout%2Dwarning%20%2Ecallout%2Dtitle%20%2A%20%7B%0Acolor%3A%20%2378350f%20%21important%3B%0Afont%2Dweight%3A%20700%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%20%2Equarto%2Dtitle%2Dmeta%2Dheading%20%7B%0Aposition%3A%20relative%3B%0Atext%2Dindent%3A%20%2D9999px%3B%20%0Aoverflow%3A%20hidden%3B%0A%7D%0A%2Equarto%2Dtitle%2Dmeta%20%2Equarto%2Dtitle%2Dmeta%2Dheading%3A%3Abefore%20%7B%0Aposition%3A%20absolute%3B%0Atop%3A%200%3B%0Aleft%3A%200%3B%0Atext%2Dindent%3A%200%3B%0Afont%2Dsize%3A%200%2E8rem%3B%0Afont%2Dweight%3A%20600%3B%0Acolor%3A%20%236c757d%3B%0Atext%2Dtransform%3A%20uppercase%3B%0Aletter%2Dspacing%3A%200%2E075em%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%20%3E%20div%3Afirst%2Dchild%20%2Equarto%2Dtitle%2Dmeta%2Dheading%3A%3Abefore%20%7B%0Acontent%3A%20%22Autores%22%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%20%3E%20div%3Alast%2Dchild%20%2Equarto%2Dtitle%2Dmeta%2Dheading%3A%3Abefore%20%7B%0Acontent%3A%20%22Fecha%20de%20publicaci%C3%B3n%22%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%2Dheading%3Afirst%2Dof%2Dtype%3A%3Abefore%20%7B%0Acontent%3A%20%22Autores%22%3B%0A%7D%0A%2Equarto%2Dtitle%2Dmeta%2Dheading%3Alast%2Dof%2Dtype%3A%3Abefore%20%7B%0Acontent%3A%20%22Fecha%20de%20publicaci%C3%B3n%22%3B%0A%7D%0A%0A%2Equarto%2Dtitle%2Dmeta%20%2Equarto%2Dtitle%2Dmeta%2Dheading%20%7B%0Awhite%2Dspace%3A%20nowrap%3B%0Aheight%3A%20auto%3B%0Aline%2Dheight%3A%20normal%3B%0A%7D%0A%0Amain%2Econtent%20p%2C%20main%2Econtent%20li%20%7B%0Atext%2Dalign%3A%20justify%3B%0Atext%2Djustify%3A%20inter%2Dword%3B%0A%7D%0A%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%2C%0A%2Eh1%2C%20%2Eh2%2C%20%2Eh3%2C%20%2Eh4%2C%20%2Eh5%2C%20%2Eh6%2C%0Amain%2Econtent%20h1%2C%20main%2Econtent%20h2%2C%20main%2Econtent%20h3%2C%20main%2Econtent%20h4%2C%20main%2Econtent%20h5%2C%20main%2Econtent%20h6%2C%0Asection%20h1%2C%20section%20h2%2C%20section%20h3%2C%20section%20h4%2C%20section%20h5%2C%20section%20h6%2C%0Adiv%2Elevel1%20%3E%20h1%2C%20div%2Elevel2%20%3E%20h2%2C%20div%2Elevel3%20%3E%20h3%2C%20div%2Elevel4%20%3E%20h4%20%7B%0Aborder%2Dbottom%3A%20none%20%21important%3B%0Atext%2Ddecoration%3A%20none%20%21important%3B%0Abox%2Dshadow%3A%20none%20%21important%3B%0A%7D%0A%0Ahr%2C%20main%2Econtent%20hr%2C%20section%20hr%2C%20%2Ehr%20%7B%0Adisplay%3A%20none%20%21important%3B%0Aborder%3A%20none%20%21important%3B%0Aheight%3A%200%20%21important%3B%0Amargin%3A%200%20%21important%3B%0A%7D%0A%0A%0A%2Ecallout%2Dimportant%20%2Ecallout%2Dicon%2Dcontainer%20%7B%0Abackground%2Dcolor%3A%20%23fee2e2%20%21important%3B%20%0A%7D%0A%2Ecallout%2Dtip%20%2Ecallout%2Dicon%2Dcontainer%20%7B%0Abackground%2Dcolor%3A%20%23d1fae5%20%21important%3B%20%0A%7D%0A%2Ecallout%2Dnote%20%2Ecallout%2Dicon%2Dcontainer%20%7B%0Abackground%2Dcolor%3A%20%23dbeafe%20%21important%3B%20%0A%7D%0A%2Ecallout%2Dwarning%20%2Ecallout%2Dicon%2Dcontainer%2C%0A%2Ecallout%2Dcaution%20%2Ecallout%2Dicon%2Dcontainer%20%7B%0Abackground%2Dcolor%3A%20%23fef3c7%20%21important%3B%20%0A%7D%0A%2Ecallout%2Dheader%20%7B%0Adisplay%3A%20flex%20%21important%3B%0Aalign%2Ditems%3A%20center%20%21important%3B%0Amargin%2Dbottom%3A%200%2E4rem%20%21important%3B%0Apadding%3A%200%20%21important%3B%0A%7D%0A%2Ecallout%2Dtitle%2Dcontainer%20%7B%0Adisplay%3A%20flex%20%21important%3B%0Aalign%2Ditems%3A%20center%20%21important%3B%0Aline%2Dheight%3A%201%2E25%20%21important%3B%0Amargin%3A%200%20%21important%3B%0Apadding%3A%200%20%21important%3B%0Aflex%3A%201%201%20auto%20%21important%3B%0A%7D%0A%2Ecallout%2Dtitle%20%7B%0Amargin%3A%200%20%21important%3B%0Apadding%3A%200%20%21important%3B%0Afont%2Dsize%3A%201%2E02rem%20%21important%3B%0Afont%2Dweight%3A%20700%20%21important%3B%0Aline%2Dheight%3A%201%2E25%20%21important%3B%0A%7D%0A%2Ecallout%2Dicon%2Dcontainer%20%7B%0Adisplay%3A%20inline%2Dflex%20%21important%3B%0Aalign%2Ditems%3A%20center%20%21important%3B%0Ajustify%2Dcontent%3A%20center%20%21important%3B%0Awidth%3A%201%2E65rem%20%21important%3B%0Aheight%3A%201%2E65rem%20%21important%3B%0Amin%2Dwidth%3A%201%2E65rem%20%21important%3B%0Aborder%2Dradius%3A%2050%25%20%21important%3B%0Amargin%3A%200%200%2E65rem%200%200%20%21important%3B%0Apadding%3A%200%20%21important%3B%0Aalign%2Dself%3A%20center%20%21important%3B%0Aflex%2Dshrink%3A%200%20%21important%3B%0A%7D%0A%2Ecallout%2Dicon%20%7B%0Awidth%3A%201%2E0rem%20%21important%3B%0Aheight%3A%201%2E0rem%20%21important%3B%0Adisplay%3A%20inline%2Dblock%20%21important%3B%0Abackground%2Drepeat%3A%20no%2Drepeat%20%21important%3B%0Abackground%2Dposition%3A%20center%20%21important%3B%0Abackground%2Dsize%3A%20contain%20%21important%3B%0A%7D%0A%2Ecallout%2Dicon%3A%3Abefore%20%7B%0Acontent%3A%20%22%22%20%21important%3B%0Adisplay%3A%20none%20%21important%3B%0A%7D%0A%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22objetivos%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523dc2626%22%3E%3Cpath%20d%3D%22M12%203L1%209l11%206%209%2D4%2E91V17h2V9L12%203zm0%208%2E47L4%2E24%209%2012%205%2E5%2019%2E76%209%2012%2011%2E47zM5%2013%2E18v4c0%202%2E5%203%2E13%204%2E5%207%204%2E5s7%2D2%207%2D4%2E5v%2D4l%2D7%203%2E82%2D7%2D3%2E82z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22teorema%22%5D%20%2Ecallout%2Dicon%2C%0A%2Ecallout%2Dimportant%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523b91c1c%22%3E%3Cpath%20d%3D%22M18%202H6c%2D1%2E1%200%2D2%20%2E9%2D2%202v16c0%201%2E1%2E9%202%202%202h12c1%2E1%200%202%2D%2E9%202%2D2V4c0%2D1%2E1%2D%2E9%2D2%2D2%2D2zm0%2018H6V4h2v8l2%2E5%2D1%2E5L13%2012V4h5v16z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22lema%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25231d4ed8%22%3E%3Cpath%20d%3D%22M20%2E5%2011H19V7c0%2D1%2E1%2D%2E9%2D2%2D2%2D2h%2D4V3%2E5C13%202%2E12%2011%2E88%201%2010%2E5%201S8%202%2E12%208%203%2E5V5H4c%2D1%2E1%200%2D1%2E99%2E9%2D1%2E99%202v3%2E8H3%2E5c1%2E4%200%202%2E5%201%2E1%202%2E5%202%2E5s%2D1%2E1%202%2E5%2D2%2E5%202%2E5H2v4c0%201%2E1%2E9%202%202%202h3%2E8v%2D1%2E5c0%2D1%2E4%201%2E1%2D2%2E5%202%2E5%2D2%2E5s2%2E5%201%2E1%202%2E5%202%2E5V21H17c1%2E1%200%202%2D%2E9%202%2D2v%2D4h1%2E5c1%2E4%200%202%2E5%2D1%2E1%202%2E5%2D2%2E5s%2D1%2E1%2D2%2E5%2D2%2E5%2D2%2E5z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22corolario%22%5D%20%2Ecallout%2Dicon%2C%0A%2Ecallout%5Bdata%2Dkind%3D%22proposicion%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25232563eb%22%3E%3Cpath%20d%3D%22M12%202L9%2E5%209%2E5%202%2012l7%2E5%202%2E5L12%2022l2%2E5%2D7%2E5L22%2012l%2D7%2E5%2D2%2E5L12%202zm6%2012l%2D1%2E25%203%2E75L13%2019l3%2E75%201%2E25L18%2024l1%2E25%2D3%2E75L23%2019l%2D3%2E75%2D1%2E25L18%2014z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22definicion%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25231e40af%22%3E%3Cpath%20d%3D%22M18%202H6c%2D1%2E1%200%2D2%20%2E9%2D2%202v16c0%201%2E1%2E9%202%202%202h12c1%2E1%200%202%2D%2E9%202%2D2V4c0%2D1%2E1%2D%2E9%2D2%2D2%2D2zM6%204h5v8l%2D2%2E5%2D1%2E5L6%2012V4z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22ejemplo%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523065f46%22%3E%3Cpath%20d%3D%22M3%2017%2E25V21h3%2E75L17%2E81%209%2E94l%2D3%2E75%2D3%2E75L3%2017%2E25zM20%2E71%207%2E04c%2E39%2D%2E39%2E39%2D1%2E02%200%2D1%2E41l%2D2%2E34%2D2%2E34c%2D%2E39%2D%2E39%2D1%2E02%2D%2E39%2D1%2E41%200l%2D1%2E83%201%2E83%203%2E75%203%2E75%201%2E83%2D1%2E83z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%2Dtip%5Bdata%2Dkind%3D%22ejemplo%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523047857%22%3E%3Cpath%20d%3D%22M3%2017%2E25V21h3%2E75L17%2E81%209%2E94l%2D3%2E75%2D3%2E75L3%2017%2E25zM20%2E71%207%2E04c%2E39%2D%2E39%2E39%2D1%2E02%200%2D1%2E41l%2D2%2E34%2D2%2E34c%2D%2E39%2D%2E39%2D1%2E02%2D%2E39%2D1%2E41%200l%2D1%2E83%201%2E83%203%2E75%203%2E75%201%2E83%2D1%2E83z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%2Dtip%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523047857%22%3E%3Cpath%20d%3D%22M3%2017%2E25V21h3%2E75L17%2E81%209%2E94l%2D3%2E75%2D3%2E75L3%2017%2E25zM20%2E71%207%2E04c%2E39%2D%2E39%2E39%2D1%2E02%200%2D1%2E41l%2D2%2E34%2D2%2E34c%2D%2E39%2D%2E39%2D1%2E02%2D%2E39%2D1%2E41%200l%2D1%2E83%201%2E83%203%2E75%203%2E75%201%2E83%2D1%2E83z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22advertencia%22%5D%20%2Ecallout%2Dicon%2C%0A%2Ecallout%2Dwarning%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%2C%0A%2Ecallout%2Dcaution%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%2523b45309%22%3E%3Cpath%20d%3D%22M1%2021h22L12%202%201%2021zm12%2D3h%2D2v%2D2h2v2zm0%2D4h%2D2v%2D4h2v4z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22nota%22%5D%20%2Ecallout%2Dicon%2C%0A%2Ecallout%2Dnote%3Anot%28%5Bdata%2Dkind%5D%29%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25231e40af%22%3E%3Cpath%20d%3D%22M12%202C6%2E48%202%202%206%2E48%202%2012s4%2E48%2010%2010%2010%2010%2D4%2E48%2010%2D10S17%2E52%202%2012%202zm1%2015h%2D2v%2D6h2v6zm0%2D8h%2D2V7h2v2z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecallout%5Bdata%2Dkind%3D%22esquema%22%5D%20%2Ecallout%2Dicon%20%7B%0Abackground%2Dimage%3A%20url%28%27data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22%25231e3a8a%22%3E%3Cpath%20d%3D%22M19%203h%2D4%2E18C14%2E4%201%2E84%2013%2E3%201%2012%201c%2D1%2E3%200%2D2%2E4%2E84%2D2%2E82%202H5c%2D1%2E1%200%2D2%20%2E9%2D2%202v14c0%201%2E1%2E9%202%202%202h14c1%2E1%200%202%2D%2E9%202%2D2V5c0%2D1%2E1%2D%2E9%2D2%2D2%2D2zm%2D7%200c%2E55%200%201%20%2E45%201%201s%2D%2E45%201%2D1%201%2D1%2D%2E45%2D1%2D1%20%2E45%2D1%201%2D1zm%2D2%2014H7v%2D2h3v2zm0%2D4H7v%2D2h3v2zm0%2D4H7V7h3v2zm7%208h%2D5v%2D2h5v2zm0%2D4h%2D5v%2D2h5v2zm0%2D4h%2D5V7h5v2z%22%2F%3E%3C%2Fsvg%3E%27%29%20%21important%3B%0A%7D%0A%0A%2Ecell%2Doutput%2Ddisplay%2C%0A%2Ehtml%2Dwidget%2C%0A%2Eplotly%2Dgraph%2Ddiv%2C%0A%2Ejs%2Dplotly%2Dplot%2C%0Adiv%2Ecell%2Doutput%2Ddisplay%20%7B%0Aoverflow%2Dx%3A%20hidden%20%21important%3B%0Amax%2Dwidth%3A%20100%25%20%21important%3B%0A%7D%0A%2Ecell%2Doutput%2Ddisplay%20%2Eplotly%2C%0A%2Eplotly%2Dgraph%2Ddiv%20%7B%0Awidth%3A%20100%25%20%21important%3B%0Amax%2Dwidth%3A%20100%25%20%21important%3B%0A%7D%0A" rel="stylesheet">
 </head>
 
 <body class="quarto-light">
@@ -2539,14 +2401,14 @@ border-bottom: none !important;
     <div>
     <div class="quarto-title-meta-heading">Autor/a</div>
     <div class="quarto-title-meta-contents">
-             <p>Víctor Aceña Gil - Antonio Alonso Ayuso </p>
+             <p>DSLAB </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">9 de julio de 2026</p>
+      <p class="date">12 de octubre de 2026</p>
     </div>
   </div>
   
@@ -2668,7 +2530,7 @@ border-bottom: none !important;
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="obtención-de-soluciones-duales-multiplicadores-de-lagrange"><span class="header-section-number">2.3.2</span> Obtención de Soluciones Duales (Multiplicadores de Lagrange)</h3>
 <p>En la teoría de la optimización, las <strong>variables duales</strong> (o multiplicadores de Lagrange/KKT asociados a las restricciones) nos indican la sensibilidad del valor óptimo de la función objetivo ante pequeñas variaciones en los límites de las restricciones (también llamados <em>precios sombra</em>).</p>
 <p>CVXPY recupera de forma nativa e inmediata estas variables duales:</p>
-<div id="7650b2c1" class="cell" data-execution_count="1">
+<div id="1c80b431" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir variables</span></span>
@@ -2754,7 +2616,7 @@ border-bottom: none !important;
 <li>Imprime en cada iteración: el número de iteración, el punto <span class="math inline">\((x^{(k)}, y^{(k)})\)</span> y el valor de la función objetivo <span class="math inline">\(f(x^{(k)}, y^{(k)})\)</span>.</li>
 <li>Reflexiona: ¿El algoritmo ha llegado al mínimo global exacto <span class="math inline">\((0,0)\)</span> en 10 iteraciones? ¿Por qué?</li>
 </ol>
-<div id="d4fbfa18" class="cell" data-execution_count="2">
+<div id="7832b7b9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2791,7 +2653,7 @@ border-bottom: none !important;
 <li>Para ambos casos, utiliza el método <code>&#39;BFGS&#39;</code> e inicializa en <span class="math inline">\(x^{(0)} = (2, 2)^T\)</span>.</li>
 <li>Imprime el informe completo de optimización de ambos casos. Compare los valores finales de <code>nfev</code> (evaluaciones de la función) y <code>njev</code> (evaluaciones del gradiente) de cada caso y con los de tu método manual. ¿Qué diferencias observas?</li>
 </ol>
-<div id="3c4952dd" class="cell" data-execution_count="3">
+<div id="100de4b6" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2828,7 +2690,7 @@ border-bottom: none !important;
 <li>Resuelve el problema utilizando <strong><code>scipy.optimize.minimize</code></strong> con el método <code>&#39;SLSQP&#39;</code>. Define correctamente las cotas de no negatividad (<code>bounds</code>) y la restricción principal como un diccionario (recuerda que SciPy asume que las restricciones de desigualdad son de la forma <span class="math inline">\(g(x) \ge 0\)</span>).</li>
 <li>Compara los resultados de ambos códigos con tu cálculo analítico. ¿Coinciden el punto óptimo y el multiplicador de Lagrange obtenido? Explica los resultados.</li>
 </ol>
-<div id="8e655e14" class="cell" data-execution_count="4">
+<div id="aeeaeeb9" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Resolución con CVXPY</span></span>

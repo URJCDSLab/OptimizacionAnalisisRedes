@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Víctor Aceña Gil - Antonio Alonso Ayuso">
+<meta name="author" content="DSLAB">
 
 <title>Laboratorio 9: Emparejamientos en redes en Python</title>
 <style>
@@ -2390,14 +2390,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Autor/a</div>
     <div class="quarto-title-meta-contents">
-             <p>Víctor Aceña Gil - Antonio Alonso Ayuso </p>
+             <p>DSLAB </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">22 de agosto de 2026</p>
+      <p class="date">12 de octubre de 2026</p>
     </div>
   </div>
   
@@ -2475,7 +2475,7 @@ window.Quarto = {
 <li>Construir el grafo bipartito correspondiente en <code>NetworkX</code> asignando las aristas con sus respectivos pesos de coste.</li>
 <li>Resolver el problema de emparejamiento de peso máximo sobre una matriz transformada <span class="math inline">\(M_{max} - \mathbf{C}\)</span> para validar la correspondencia dual entre ambas librerías.</li>
 </ol>
-<div id="d54eebc3" class="cell" data-execution_count="1">
+<div id="3c6a7943" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
@@ -2505,7 +2505,7 @@ window.Quarto = {
 <li>Identificar el conjunto de aristas óptimas seleccionadas, su cardinal (<span class="math inline">\(|K^*| = 4\)</span>) y el peso total acumulado.</li>
 <li>Representar gráficamente el grafo con <code>matplotlib</code> y <code>nx.draw_networkx</code>, coloreando en color verde y grosor destacado las aristas pertenecientes al emparejamiento óptimo <span class="math inline">\(K^*\)</span> y en gris las aristas no seleccionadas.</li>
 </ol>
-<div id="66b8dc88" class="cell" data-execution_count="2">
+<div id="7c98c406" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
@@ -2532,7 +2532,7 @@ E = \bigl\{ &amp; \{1,2\}, \, \{2,12\}, \, \{2,3\}, \, \{2,11\}, \, \{3,4\}, \, 
 \]</span></p></li>
 <li><p>Visualizar la solución en <code>matplotlib</code>, mostrando el emparejamiento de máximo cardinal (arriba) y el recubrimiento de aristas mínimo (abajo).</p></li>
 </ol>
-<div id="6a399b43" class="cell" data-execution_count="3">
+<div id="d555343e" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
@@ -2549,7 +2549,7 @@ E = \bigl\{ &amp; \{1,2\}, \, \{2,12\}, \, \{2,3\}, \, \{2,11\}, \, \{3,4\}, \, 
 <li>Resolver la relajación continua con <code>scipy.optimize.linprog</code> y verificar que la solución fraccionaria asigna <span class="math inline">\(x_e = 0.5\)</span> a todas las aristas, alcanzando un valor objetivo fraccionario de <span class="math inline">\(2.5\)</span>.</li>
 <li>Analizar la brecha de integrabilidad <span class="math inline">\(\Delta = 2.5 - 2.0 = 0.5\)</span> y explicar por qué los ciclos impares inducen soluciones semienteras en la relajación lineal que justifican el uso del Algoritmo de Edmonds o de planos de corte de flores (<em>blossom inequalities</em>).</li>
 </ol>
-<div id="3f98dd46" class="cell" data-execution_count="4">
+<div id="dd779764" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>

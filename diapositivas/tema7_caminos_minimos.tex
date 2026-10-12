@@ -179,15 +179,15 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={Tema 7: Problema del camino mínimo},
-  pdfauthor={Víctor Aceña Gil - Antonio Alonso Ayuso},
+  pdfauthor={DSLAB},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 
 \title{Tema 7: Problema del camino mínimo}
 \subtitle{Optimización y Análisis de Redes}
-\author{Víctor Aceña Gil - Antonio Alonso Ayuso}
-\date{2026-08-23}
+\author{DSLAB}
+\date{2026-10-12}
 
 \begin{document}
 \frame{\titlepage}
@@ -262,7 +262,7 @@ existencia}\label{definiciuxf3n-formal-y-condiciones-de-existencia}
 
 \begin{frame}{Definición formal de red valorada}
 \phantomsection\label{definiciuxf3n-formal-de-red-valorada}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Red valorada y coste acumulado de un camino}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Red valorada y coste acumulado de un camino}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Sea un digrafo conexo valorado \(G = (V, U, \mathbf{d})\) con
 \(V = \{1, \dots, n\}\) y \(|U| = m\):
@@ -283,7 +283,7 @@ Sea un digrafo conexo valorado \(G = (V, U, \mathbf{d})\) con
 
 \begin{frame}{Matriz de distancias directas}
 \phantomsection\label{matriz-de-distancias-directas}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Matriz de distancias directas}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Matriz de distancias directas}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 La \textbf{matriz de distancias directas}
 \(D \in \overline{\mathbb{R}}^{n \times n}\) contiene las conexiones
@@ -370,7 +370,7 @@ d_u & \text{si } u = (i, j) \in U \\
 \end{column}
 
 \begin{column}{0.45\linewidth}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Diferencia fundamental con el MST}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Diferencia fundamental con el MST}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 A diferencia del MST (solución siempre finita), el camino mínimo con
 arcos negativos puede presentar \textbf{divergencia a \(-\infty\)}.
@@ -405,7 +405,7 @@ arcos negativos puede presentar \textbf{divergencia a \(-\infty\)}.
 
 \begin{frame}{Condición de existencia de solución óptima finita}
 \phantomsection\label{condiciuxf3n-de-existencia-de-soluciuxf3n-uxf3ptima-finita}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Condición de existencia de solución óptima finita}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-important-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Condición de existencia de solución óptima finita}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Dada una red dirigida \(G = (V, U, \mathbf{d})\) y dos vértices
 \(s, t \in V\), existe una solución óptima finita al problema del camino
@@ -429,7 +429,7 @@ Bellman}\label{ecuaciones-de-optimalidad-de-bellman}
 
 \begin{frame}{Principio de Optimalidad de Bellman (1957)}
 \phantomsection\label{principio-de-optimalidad-de-bellman-1957}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Principio de Optimalidad de Bellman}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Principio de Optimalidad de Bellman}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Una secuencia óptima de decisiones que resuelve un problema de
 optimización multietapa debe cumplir la propiedad de que, cualquiera que
@@ -454,7 +454,7 @@ subpolítica óptima)}
 
 \begin{frame}{Ecuaciones de optimalidad de Bellman}
 \phantomsection\label{ecuaciones-de-optimalidad-de-bellman-1}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Ecuaciones de optimalidad de Bellman}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-important-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Ecuaciones de optimalidad de Bellman}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 En una red dirigida sin circuitos de coste negativo, las distancias
 mínimas \(u_j\) desde el origen \(s = 1\) a los vértices
@@ -556,7 +556,7 @@ u_j &= \min_{k \neq j} \{ u_k + d_{kj} \}, \quad \forall j = 2, \dots, n
 
 \begin{frame}{Proposición: Arborescencia asociada a Bellman}
 \phantomsection\label{proposiciuxf3n-arborescencia-asociada-a-bellman}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Construcción de la arborescencia soporte}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Construcción de la arborescencia soporte}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Las ecuaciones de optimalidad de Bellman:
 
@@ -669,7 +669,7 @@ topológica}\label{redes-sin-circuitos-dags-y-ordenaciuxf3n-topoluxf3gica}
 
 \begin{frame}{Caracterización de digrafos acíclicos (DAGs)}
 \phantomsection\label{caracterizaciuxf3n-de-digrafos-acuxedclicos-dags}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Caracterización mediante ordenación topológica}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Caracterización mediante ordenación topológica}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Un digrafo \(G = (V, U)\) no tiene circuitos dirigidos si y sólo si
 existe una numeración de sus \(n\) vértices \(v_1, v_2, \dots, v_n\) tal
@@ -726,7 +726,7 @@ que para todo arco dirigidos \((i, j) \in U\) se cumple:
 
 \begin{frame}{Esquema del algoritmo de ordenación topológica}
 \phantomsection\label{esquema-del-algoritmo-de-ordenaciuxf3n-topoluxf3gica}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de numeración topológica}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de numeración topológica}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Dada la red dirigida \(G = (V, U)\) con \(n = |V|\) vértices:
 
@@ -816,7 +816,7 @@ Dijkstra}\label{redes-con-pesos-no-negativos-algoritmo-de-dijkstra}
 
 \begin{frame}{Filosofía del Algoritmo de Dijkstra (1959)}
 \phantomsection\label{filosofuxeda-del-algoritmo-de-dijkstra-1959}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Estrategia voraz de etiquetado permanente}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Estrategia voraz de etiquetado permanente}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Para redes con costes no negativos (\(d_{ij} \ge 0\)), se dividen los
 vértices en dos conjuntos:
@@ -844,7 +844,7 @@ vértices en dos conjuntos:
 
 \begin{frame}{Definición de cota provisional \(u_j^P\)}
 \phantomsection\label{definiciuxf3n-de-cota-provisional-u_jp}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Cota de distancia provisional}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Cota de distancia provisional}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Dado el subconjunto permanente \(\mathcal{P}\), la cota \(u_j^P\)
 asociada a un nodo \(j \in \mathcal{T}\) representa la longitud del
@@ -868,7 +868,7 @@ u_j^P \equiv \text{distancia mínima de } 1 \text{ a } j \text{ pasando solo por
 
 \begin{frame}{Esquema del Algoritmo de Dijkstra}
 \phantomsection\label{esquema-del-algoritmo-de-dijkstra}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Dijkstra}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Dijkstra}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Dada la red con costes no negativos \(d_{ij} \ge 0\):
 
@@ -915,7 +915,7 @@ Dada la red con costes no negativos \(d_{ij} \ge 0\):
 
 \begin{frame}{Correctitud del Algoritmo de Dijkstra}
 \phantomsection\label{correctitud-del-algoritmo-de-dijkstra}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Correctitud del algoritmo de Dijkstra}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-important-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Correctitud del algoritmo de Dijkstra}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Si \(d_{ij} \ge 0\) para todo \((i, j) \in U\), la etiqueta \(u_k\)
 asignada por el Algoritmo de Dijkstra en el momento en que un nodo \(k\)
@@ -1139,7 +1139,7 @@ Bellman-Ford}\label{redes-con-pesos-negativos-algoritmo-de-bellman-ford}
 
 \begin{frame}{Concepto: Aproximación por número de arcos (1956-1959)}
 \phantomsection\label{concepto-aproximaciuxf3n-por-nuxfamero-de-arcos-1956-1959}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Aproximación iterativa por longitud de arcos}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Aproximación iterativa por longitud de arcos}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Para redes que contienen arcos con costes negativos (sin circuitos
 negativos), el \textbf{Algoritmo de Bellman-Ford} define:
@@ -1164,7 +1164,7 @@ negativos), el \textbf{Algoritmo de Bellman-Ford} define:
 
 \begin{frame}{Esquema del Algoritmo de Bellman-Ford (I: Inicialización)}
 \phantomsection\label{esquema-del-algoritmo-de-bellman-ford-i-inicializaciuxf3n}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Bellman-Ford --- Paso 1: Inicialización}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Bellman-Ford --- Paso 1: Inicialización}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Dada una red valorada dirigida \(G = (V, U, \mathbf{d})\) con
 \(n = |V|\) vértices:
@@ -1189,7 +1189,7 @@ Dada una red valorada dirigida \(G = (V, U, \mathbf{d})\) con
 
 \begin{frame}{Esquema del Algoritmo de Bellman-Ford (II: Relajación)}
 \phantomsection\label{esquema-del-algoritmo-de-bellman-ford-ii-relajaciuxf3n}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Bellman-Ford --- Paso 2: Relajación de arcos}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Bellman-Ford --- Paso 2: Relajación de arcos}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 \begin{itemize}
 \tightlist
@@ -1218,7 +1218,7 @@ Dada una red valorada dirigida \(G = (V, U, \mathbf{d})\) con
 
 \begin{frame}{Esquema del Algoritmo de Bellman-Ford (III: Parada)}
 \phantomsection\label{esquema-del-algoritmo-de-bellman-ford-iii-parada}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Bellman-Ford --- Paso 3: Criterios de Parada}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Bellman-Ford --- Paso 3: Criterios de Parada}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 \begin{itemize}
 \item
@@ -1387,7 +1387,7 @@ Relajación de \(u_4\) \\
 
 \begin{frame}{Detección de circuitos de coste negativo}
 \phantomsection\label{detecciuxf3n-de-circuitos-de-coste-negativo}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Criterio de detección de circuitos de coste negativo}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-important-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Criterio de detección de circuitos de coste negativo}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Existe un circuito de coste negativo accesible desde el origen si y sólo
 si en la iteración \(m = n\):
@@ -1408,7 +1408,7 @@ si en la iteración \(m = n\):
 
 \begin{frame}{Esquema: Algoritmo de Bellman-Ford adaptado}
 \phantomsection\label{esquema-algoritmo-de-bellman-ford-adaptado}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo adaptado para detección de circuitos negativos}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo adaptado para detección de circuitos negativos}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Dada una red valorada general \(G = (V, U, \mathbf{d})\) con \(n = |V|\)
 vértices:
@@ -1496,7 +1496,7 @@ Primal-Dual}\label{formulaciuxf3n-en-programaciuxf3n-lineal-primal-dual}
 
 \begin{frame}{Teorema: Total Unimodularidad e Integridad (TUM)}
 \phantomsection\label{teorema-total-unimodularidad-e-integridad-tum}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Total Unimodularidad de la matriz de incidencia}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-important-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-important-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-important-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-important-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Total Unimodularidad de la matriz de incidencia}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 La matriz de incidencia nodo-arco
 \(\mathbf{A} \in \{-1, 0, 1\}^{n \times m}\) de cualquier digrafo es
@@ -1656,7 +1656,7 @@ nodos}\label{caminos-muxednimos-entre-todos-los-pares-de-nodos}
 
 \begin{frame}{Álgebra Min-Suma o Tropical (Definición y Operador)}
 \phantomsection\label{uxe1lgebra-min-suma-o-tropical-definiciuxf3n-y-operador}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Producto matricial Min-Suma}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Producto matricial Min-Suma}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Dadas dos matrices \(A, B \in \overline{\mathbb{R}}^{n \times n}\), se
 define el \textbf{producto matricial Min-Suma} \(C = A \otimes B\) en el
@@ -1685,7 +1685,7 @@ Bellman-Ford}
 \phantomsection\label{potencias-matriciales-dm-y-paralelismo-con-bellman-ford}
 \begin{columns}[T]
 \begin{column}{0.52\linewidth}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Relación de recurrencia en álgebra Min-Suma}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Relación de recurrencia en álgebra Min-Suma}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 La componente \((d_{ij})^m\) de \(D^m = D^{m-1} \otimes D\) contiene la
 \textbf{distancia mínima entre \(i\) y \(j\) en a lo sumo \(m\) arcos}:
@@ -1871,7 +1871,7 @@ D\^{}(3)}
 
 \begin{frame}{Algoritmo de Floyd-Warshall (1959-1962)}
 \phantomsection\label{algoritmo-de-floyd-warshall-1959-1962}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Relación de recurrencia de Programación Dinámica}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Relación de recurrencia de Programación Dinámica}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Sea \(d_{ij}^{(k)}\) la distancia mínima de \(i\) a \(j\) utilizando
 como vértices intermedios exclusivamente elementos del subconjunto
@@ -1893,7 +1893,7 @@ d_{ij}^{(k)} = \min \left\{ d_{ij}^{(k-1)}, \ d_{ik}^{(k-1)} + d_{kj}^{(k-1)} \r
 
 \begin{frame}{Esquema del Algoritmo de Floyd-Warshall}
 \phantomsection\label{esquema-del-algoritmo-de-floyd-warshall}
-\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Floyd-Warshall}, titlerule=0mm, opacitybacktitle=0.6, left=2mm, rightrule=.15mm, colback=white, colframe=quarto-callout-note-color-frame, toprule=.15mm, opacityback=0, coltitle=black, breakable, colbacktitle=quarto-callout-note-color!10!white, bottomtitle=1mm, leftrule=.75mm, bottomrule=.15mm, toptitle=1mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, toptitle=1mm, colback=white, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, breakable, coltitle=black, opacityback=0, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Algoritmo de Floyd-Warshall}, rightrule=.15mm, arc=.35mm, leftrule=.75mm, left=2mm, toprule=.15mm, bottomtitle=1mm, opacitybacktitle=0.6]
 
 Dada la matriz de distancias \(D^{(0)} = D\) y la matriz de predecesores
 \(P^{(0)}\) con \(P_{ij} = j\):
