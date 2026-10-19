@@ -2398,7 +2398,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">12 de octubre de 2026</p>
+      <p class="date">19 de octubre de 2026</p>
     </div>
   </div>
   
@@ -2435,8 +2435,8 @@ window.Quarto = {
 <p>Para funciones univariantes o multivariantes diferenciables, el primer paso es encontrar los puntos estacionarios resolviendo el sistema no lineal <span class="math inline">\(\nabla f(\mathbf{x}) = \mathbf{0}\)</span>. En <code>SymPy</code>, esto se realiza definiendo las variables simbólicas y aplicando <code>sp.solve</code> sobre el gradiente de la función:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir variables y función</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> sp.symbols(<span class="st">&#39;x y&#39;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definir variables simbólicas reales y función</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> sp.symbols(<span class="st">&#39;x y&#39;</span>, real<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> x<span class="op">**</span><span class="dv">3</span> <span class="op">+</span> y<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x<span class="op">*</span>y</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Calcular gradiente</span></span>
@@ -2450,14 +2450,31 @@ window.Quarto = {
 </section>
 <section id="verificación-de-licq-en-problemas-restringidos" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="verificación-de-licq-en-problemas-restringidos"><span class="header-section-number">2.2</span> Verificación de LICQ en problemas restringidos</h2>
-<p>La cualificación de restricciones <strong>LICQ</strong> (<em>Linear Independence Constraint Qualification</em>) exige que los gradientes de las restricciones activas en el punto de estudio sean linealmente independientes. Computacionalmente, esto equivale a comprobar que la matriz cuyas columnas son dichos gradientes tiene rango completo (igual al número de restricciones activas):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suponiendo que grad_g1 y grad_g2 son los vectores columna activos</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sp.Matrix.hstack(grad_g1, grad_g2)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>rango <span class="op">=</span> A.rank()</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> rango <span class="op">==</span> A.shape[<span class="dv">1</span>]:</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Se cumple LICQ&quot;</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Falla LICQ: los gradientes son dependientes&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La cualificación de restricciones <strong>LICQ</strong> (<em>Linear Independence Constraint Qualification</em>) exige que los gradientes de las restricciones activas en el punto de estudio sean linealmente independientes. Computacionalmente, esto equivale a comprobar que la matriz cuyas columnas son dichos gradientes tiene rango completo (igual al número de restricciones activas). Por ejemplo, dadas dos restricciones <span class="math inline">\(g_1(x_1, x_2) = x_1^2 + x_2^2 - 1 \le 0\)</span> y <span class="math inline">\(g_2(x_1, x_2) = x_1 + x_2 - 1 \le 0\)</span> activas en el punto <span class="math inline">\(\mathbf{x}^* = (1, 0)\)</span>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Definición simbólica de restricciones</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>x1, x2 <span class="op">=</span> sp.symbols(<span class="st">&#39;x1 x2&#39;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>g1 <span class="op">=</span> x1<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> x2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span>  <span class="co"># Restricción g1(x) &lt;= 0</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>g2 <span class="op">=</span> x1 <span class="op">+</span> x2 <span class="op">-</span> <span class="dv">1</span>        <span class="co"># Restricción g2(x) &lt;= 0</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Punto de estudio (1, 0) donde ambas restricciones están activas (g1 = 0, g2 = 0)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>punto <span class="op">=</span> {x1: <span class="dv">1</span>, x2: <span class="dv">0</span>}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Gradientes de las restricciones activas evaluados en el punto como vectores columna</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>grad_g1 <span class="op">=</span> sp.Matrix([sp.diff(g1, var).subs(punto) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>grad_g2 <span class="op">=</span> sp.Matrix([sp.diff(g2, var).subs(punto) <span class="cf">for</span> var <span class="kw">in</span> (x1, x2)])</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Matriz jacobiana de restricciones activas y cálculo de rango</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sp.Matrix.hstack(grad_g1, grad_g2)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>rango <span class="op">=</span> A.rank()</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Matriz de gradientes activos A:</span><span class="ch">\n</span><span class="st">&quot;</span>, A)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Rango de A: </span><span class="sc">{</span>rango<span class="sc">}</span><span class="ss">, Número de restricciones activas: </span><span class="sc">{</span>A<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> rango <span class="op">==</span> A.shape[<span class="dv">1</span>]:</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Se cumple LICQ: los gradientes son linealmente independientes&quot;</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Falla LICQ: los gradientes son dependientes&quot;</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Si LICQ falla en un óptimo local, no se garantiza la existencia de multiplicadores KKT válidos (<span class="math inline">\(u_0 = 1\)</span>), y es necesario formular el sistema generalizado de Fritz-John con <span class="math inline">\(u_0 = 0\)</span>.</p>
 <hr>
 </section>
@@ -2475,7 +2492,7 @@ window.Quarto = {
 <li>Convierte la hessiana a una matriz numérica en cada punto estacionario, calcula sus autovalores empleando <code>NumPy</code> y clasifica cada uno de los puntos (mínimo local, máximo local o punto de ensilladura).</li>
 <li>Razona si alguno de los mínimos locales hallados es también un mínimo global.</li>
 </ol>
-<div id="d90e4c3d" class="cell" data-execution_count="1">
+<div id="1a393848" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -2499,7 +2516,7 @@ g_2(x_1, x_2) &amp;= -x_2 \le 0
 <li>Escribe el sistema de ecuaciones duales generalizado de Fritz-John: <span class="math display">\[ u_0 \nabla f(\bar{\mathbf{x}}) + u_1 \nabla g_1(\bar{\mathbf{x}}) + u_2 \nabla g_2(\bar{\mathbf{x}}) = \mathbf{0} \]</span> con <span class="math inline">\(u_0, u_1, u_2 \ge 0\)</span>.</li>
 <li>Resuelve el sistema para <span class="math inline">\(u_0 = 1\)</span> (KKT) e interpreta el resultado. Si no tiene solución, resuelve para <span class="math inline">\(u_0 = 0\)</span> y determina el valor de los multiplicadores. ¿Qué implicaciones tiene el fallo de LICQ?</li>
 </ol>
-<div id="117b51e9" class="cell" data-execution_count="2">
+<div id="2f925966" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -2522,12 +2539,12 @@ g_3(x) &amp;= -x_2 \le 0
 <li>Plantea el sistema de condiciones de optimalidad de primer orden KKT (<span class="math inline">\(\nabla_x L = \mathbf{0}\)</span>).</li>
 <li>Implementa un script con bucles en Python que recorra de forma sistemática los 8 casos combinatorios posibles derivados del estado de activación de las 3 restricciones:
 <ul>
-<li>Para cada caso, resuelve el sistema de ecuaciones lineales en variables <span class="math inline">\(x_1, x_2\)</span> y los multiplicadores activos <span class="math inline">\(u_i\)</span> correspondientes (fijando a cero los multiplicadores de restricciones inactivas).</li>
+<li>Para cada caso, resuelve el sistema de ecuaciones algebraicas no lineales en variables <span class="math inline">\(x_1, x_2\)</span> y los multiplicadores activos <span class="math inline">\(u_i\)</span> correspondientes (fijando a cero los multiplicadores de restricciones inactivas).</li>
 <li>Comprueba de manera programática en cada caso si el punto obtenido satisface la <strong>factibilidad primal</strong> (<span class="math inline">\(g_k(x) \le 0, \forall k\)</span>) y la <strong>factibilidad dual</strong> (<span class="math inline">\(u_i \ge 0\)</span> para los multiplicadores activos).</li>
 </ul></li>
 <li>Imprime únicamente la solución o soluciones KKT válidas resultantes y descarta el resto.</li>
 </ol>
-<div id="4f973446" class="cell" data-execution_count="3">
+<div id="812e193f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -2545,7 +2562,7 @@ g_3(x) &amp;= -x_2 \le 0
 <li>Imprime el punto óptimo hallado <span class="math inline">\(\mathbf{x}^* = (x_1^*, x_2^*)^T\)</span> y comprueba si coincide con el candidato KKT válido obtenido en el Ejercicio 3.</li>
 <li>Recupera los multiplicadores de Lagrange asociados a las restricciones circular y de no negatividad empleando la propiedad <code>.dual_value</code>. Compáralos cuantitativamente con los multiplicadores analíticos hallados en el Ejercicio 3.</li>
 </ol>
-<div id="f0d63607" class="cell" data-execution_count="4">
+<div id="c6c8dd92" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tu código aquí:</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

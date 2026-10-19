@@ -39,8 +39,8 @@ Para funciones univariantes o multivariantes diferenciables, el primer paso es e
 ```python
 import sympy as sp
 
-# 1. Definir variables y función
-x, y = sp.symbols('x y')
+# 1. Definir variables simbólicas reales y función
+x, y = sp.symbols('x y', real=True)
 f = x**3 + y**3 - 3*x*y
 
 # 2. Calcular gradiente
@@ -56,14 +56,31 @@ Posteriormente, evaluamos la matriz hessiana $\nabla^2 f(\mathbf{x})$ obtenida m
 ---
 
 ## Verificación de LICQ en problemas restringidos
-La cualificación de restricciones **LICQ** (*Linear Independence Constraint Qualification*) exige que los gradientes de las restricciones activas en el punto de estudio sean linealmente independientes. Computacionalmente, esto equivale a comprobar que la matriz cuyas columnas son dichos gradientes tiene rango completo (igual al número de restricciones activas):
+La cualificación de restricciones **LICQ** (*Linear Independence Constraint Qualification*) exige que los gradientes de las restricciones activas en el punto de estudio sean linealmente independientes. Computacionalmente, esto equivale a comprobar que la matriz cuyas columnas son dichos gradientes tiene rango completo (igual al número de restricciones activas). Por ejemplo, dadas dos restricciones $g_1(x_1, x_2) = x_1^2 + x_2^2 - 1 \le 0$ y $g_2(x_1, x_2) = x_1 + x_2 - 1 \le 0$ activas en el punto $\mathbf{x}^* = (1, 0)$:
 
 ```python
-# Suponiendo que grad_g1 y grad_g2 son los vectores columna activos
+import sympy as sp
+
+# 1. Definición simbólica de restricciones
+x1, x2 = sp.symbols('x1 x2')
+g1 = x1**2 + x2**2 - 1  # Restricción g1(x) <= 0
+g2 = x1 + x2 - 1        # Restricción g2(x) <= 0
+
+# 2. Punto de estudio (1, 0) donde ambas restricciones están activas (g1 = 0, g2 = 0)
+punto = {x1: 1, x2: 0}
+
+# 3. Gradientes de las restricciones activas evaluados en el punto como vectores columna
+grad_g1 = sp.Matrix([sp.diff(g1, var).subs(punto) for var in (x1, x2)])
+grad_g2 = sp.Matrix([sp.diff(g2, var).subs(punto) for var in (x1, x2)])
+
+# 4. Matriz jacobiana de restricciones activas y cálculo de rango
 A = sp.Matrix.hstack(grad_g1, grad_g2)
 rango = A.rank()
+
+print("Matriz de gradientes activos A:\n", A)
+print(f"Rango de A: {rango}, Número de restricciones activas: {A.shape[1]}")
 if rango == A.shape[1]:
-    print("Se cumple LICQ")
+    print("Se cumple LICQ: los gradientes son linealmente independientes")
 else:
     print("Falla LICQ: los gradientes son dependientes")
 ```
@@ -135,7 +152,7 @@ $$
    *(Nota: Por simplicidad didáctica de los subíndices simbólicos, usa $u_1, u_2, u_3$ correspondientes a $g_1, g_2, g_3$)*.
 2. Plantea el sistema de condiciones de optimalidad de primer orden KKT ($\nabla_x L = \mathbf{0}$).
 3. Implementa un script con bucles en Python que recorra de forma sistemática los 8 casos combinatorios posibles derivados del estado de activación de las 3 restricciones:
-   * Para cada caso, resuelve el sistema de ecuaciones lineales en variables $x_1, x_2$ y los multiplicadores activos $u_i$ correspondientes (fijando a cero los multiplicadores de restricciones inactivas).
+   * Para cada caso, resuelve el sistema de ecuaciones algebraicas no lineales en variables $x_1, x_2$ y los multiplicadores activos $u_i$ correspondientes (fijando a cero los multiplicadores de restricciones inactivas).
    * Comprueba de manera programática en cada caso si el punto obtenido satisface la **factibilidad primal** ($g_k(x) \le 0, \forall k$) y la **factibilidad dual** ($u_i \ge 0$ para los multiplicadores activos).
 4. Imprime únicamente la solución o soluciones KKT válidas resultantes y descarta el resto.
 
