@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -60,7 +60,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -147,7 +147,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Optimización y Análisis de Redes</a> 
     </div>
@@ -318,7 +320,7 @@ window.Quarto = {
 <section id="prefacio" class="level1 unnumbered">
 <h1 class="unnumbered">Prefacio</h1><p><img src="images/DSLab_logo_2.png" title="Optimización y Análisis de Redes" class="quarto-cover-image nolightbox img-fluid"></p>
 <p>La optimización matemática y el análisis de redes constituyen dos de las ramas más dinámicas y aplicadas de las matemáticas modernas. En un mundo cada vez más interconectado y dependiente del análisis cuantitativo para la toma de decisiones, la capacidad de modelar sistemas complejos, optimizar recursos limitados y analizar la topología de flujos de información se ha convertido en una competencia fundamental para matemáticos, científicos de datos y profesionales de la investigación operativa. Este libro está diseñado para proporcionar una comprensión profunda, rigurosa y estructurada de estas técnicas, sirviendo de guía de estudio para la asignatura de <strong>Optimización y Análisis de Redes</strong> en el <strong>Grado en Matemáticas</strong>.</p>
-<p>A lo largo de diez capítulos organizados en dos bloques temáticos, exploraremos un recorrido metodológico completo. En el <strong>Bloque I (Optimización no lineal)</strong>, nos sumergiremos en la optimización continua, analizando algoritmos univariantes y multivariantes (descenso, Newton, BFGS), el formalismo teórico del análisis convexo, y las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) aplicadas a la Programación Lineal y Cuadrática (Símplex de Wolfe). En el <strong>Bloque II (Optimización en redes)</strong>, trasladaremos nuestro enfoque a las estructuras discretas de grafos, estudiando la propiedad de Total Unimodularidad (TUM), árboles soporte mínimos, caminos mínimos primal-duales con potenciales nodales, flujos en redes (Max-Flow Min-Cut), emparejamientos y asignación óptima (algoritmo Húngaro y Blossom de Edmonds), y problemas de rutas eulerianas, hamiltonianas, el problema del viajante (TSP) y la taxonomía del VRP.</p>
+<p>A lo largo de diez capítulos organizados en dos bloques temáticos, exploraremos un recorrido metodológico completo. En el <strong>Bloque I (Optimización no lineal)</strong>, cuya estructura conceptual y secuenciación metodológica toman como principal referente la clásica y rigurosa obra de Bazaraa, Sherali y Shetty <span class="citation" data-cites="bazaraa2013nonlinear">(<a href="references.html#ref-bazaraa2013nonlinear" role="doc-biblioref">Bazaraa, Sherali, y Shetty 2013</a>)</span>, nos sumergiremos en la optimización continua, analizando algoritmos univariantes y multivariantes (descenso, Newton, BFGS), el formalismo teórico del análisis convexo, y las condiciones de optimalidad de Karush-Kuhn-Tucker (KKT) aplicadas a la Programación Lineal y Cuadrática (Símplex de Wolfe). En el <strong>Bloque II (Optimización en redes)</strong>, trasladaremos nuestro enfoque a las estructuras discretas de grafos, estudiando la propiedad de Total Unimodularidad (TUM), árboles soporte mínimos, caminos mínimos primal-duales con potenciales nodales, flujos en redes (Max-Flow Min-Cut), emparejamientos y asignación óptima (algoritmo Húngaro y Blossom de Edmonds), y problemas de rutas eulerianas, hamiltonianas, el problema del viajante (TSP) y la taxonomía del VRP.</p>
 <p>El objetivo de este texto es doble: por un lado, asentar los fundamentos algebraicos, analíticos y geométricos que justifican la existencia y propiedades de los óptimos y los flujos, y por otro, dotar al lector de las herramientas de modelización para estructurar y resolver de forma eficiente problemas del mundo real. Al finalizar esta obra, habrás adquirido un criterio sólido para analizar la complejidad de un problema de decisión, seleccionar el algoritmo idóneo para su resolución e interpretar los resultados con sentido crítico.</p>
 <section id="filosofía-pedagógica-del-volumen" class="level2">
 <h2 class="anchored" data-anchor-id="filosofía-pedagógica-del-volumen">Filosofía pedagógica del volumen</h2>
@@ -380,6 +382,9 @@ window.Quarto = {
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-bazaraa2013nonlinear" class="csl-entry" role="listitem">
+Bazaraa, Mokhtar S, Hanif D Sherali, y Chitharanjan M Shetty. 2013. <em>Nonlinear Programming: Theory and Algorithms</em>. John Wiley &amp; Sons.
+</div>
 <div id="ref-hillier2010investigacion" class="csl-entry" role="listitem">
 Hillier, Frederick S, y Gerald J Lieberman. 2010. <em>Introducción a la Investigación de Operaciones</em>. 9na ed. McGraw-Hill.
 </div>
