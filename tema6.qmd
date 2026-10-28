@@ -273,9 +273,9 @@ Cuando la trayectoria respeta la dirección de todas las flechas y no repite ele
 
 ![Camino mu2[p, t] elemental y simple con todos los arcos en sentido directo](images/cadena_ejemplo_mu2.png){#fig-cadena-mu2 fig-align="center" width="55%"}
 
-Es posible que un recorrido no repita ningún arco pero sí vuelva a pasar por un vértice previamente visitado. La cadena $\mu^3[m, p] = \{(m, p); (p, f); (f, s); (p, s); (p, t)\}$, de longitud $q=5$, es **no elemental y sí simple**. Como refleja la @fig-cadena-mu3, la trayectoria visita dos veces el nodo $p$ ($m \to p \to f \to s \to p \to t$), pero mantiene la simplicidad al no duplicar ninguno de sus 5 arcos.
+Es posible que un recorrido no repita ningún arco pero sí vuelva a pasar por un vértice previamente visitado. La cadena $\mu^3[m, t] = \{(m, p); (p, f); (f, s); (p, s); (p, t)\}$, de longitud $q=5$, es **no elemental y sí simple**. Como refleja la @fig-cadena-mu3, la trayectoria visita dos veces el nodo $p$ ($m \to p \to f \to s \to p \to t$), pero mantiene la simplicidad al no duplicar ninguno de sus 5 arcos.
 
-![Cadena mu3[m, p] no elemental y sí simple con visita duplicada al nodo p](images/cadena_ejemplo_mu3.png){#fig-cadena-mu3 fig-align="center" width="55%"}
+![Cadena mu3[m, t] no elemental y sí simple con visita duplicada al nodo p](images/cadena_ejemplo_mu3.png){#fig-cadena-mu3 fig-align="center" width="55%"}
 
 Por último, cuando un recorrido duplica tanto nodos como conexiones, pierde ambas propiedades. La cadena $\mu^4 = \{(l, f); (f, s); (p, s); (p, f); (f, s); (s, t)\}$, de longitud $q=6$, es **ni elemental ni simple**. Como muestra la @fig-cadena-mu4, el arco $(f, s)$ se transita dos veces en instantes distintos del recorrido.
 

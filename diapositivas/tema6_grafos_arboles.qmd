@@ -252,24 +252,26 @@ Dado un digrafo $G = (V, U)$ y un subconjunto propio de nodos $A \subset V$:
 ## Ejemplo: Corte e incidencias para A = {2, 3}
 
 ::: {.columns}
-::: {.column width="55%"}
+::: {.column width="54%"}
 Para el subconjunto de nodos $A = \{2, 3\}$:
 
 * **Incidencia exterior** (salientes de $A$):
-  $$\textcolor{firebrick}{w^+(A) = \{(2,4), (3,1), (3,5)\}}$$
+  $$\color{#b91c1c}{w^+(A) = \{(2,4), (3,1), (3,5)\}}$$
+
 * **Incidencia interior** (entrantes a $A$):
-  $$\textcolor{dodgerblue}{w^-(A) = \{(1,2), (4,3)\}}$$
+  $$\color{#0284c7}{w^-(A) = \{(1,2), (4,3)\}}$$
+
 * **Corte total** (frontera cruzada):
   $$
   \begin{aligned}
-  w(A) = \{ &\textcolor{dodgerblue}{(1,2)}, \textcolor{firebrick}{(2,4)}, \textcolor{firebrick}{(3,1)}, \\
-            &\textcolor{firebrick}{(3,5)}, \textcolor{dodgerblue}{(4,3)} \}
+  w(A) &= \color{#b91c1c}{w^+(A)} \cup \color{#0284c7}{w^-(A)} \\
+       &= \{\color{#0284c7}{(1,2)}, \color{#b91c1c}{(2,4)}, \color{#b91c1c}{(3,1)}, \color{#b91c1c}{(3,5)}, \color{#0284c7}{(4,3)}\}
   \end{aligned}
   $$
 :::
 
-::: {.column width="45%"}
-![](../images/incidencia_corte_conjuntos.png)
+::: {.column width="46%"}
+![](../images/incidencia_corte_conjuntos.png){width="100%" fig-align="center"}
 :::
 :::
 
@@ -492,7 +494,7 @@ Dado un digrafo $G = (V, U)$ o grafo $G = (V, E)$:
 
 ::: {.columns}
 ::: {.column width="50%"}
-* **Cadena $\mu^3[m, p]$ de longitud $q=5$**:
+* **Cadena $\mu^3[m, t]$ de longitud $q=5$**:
   $$
   \begin{aligned}
   \mu^3 = \{ &(m, p), (p, f), (f, s), \\
