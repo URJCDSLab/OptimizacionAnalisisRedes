@@ -98,8 +98,8 @@ Un **digrafo** $G = (V, U)$ consiste en un conjunto de vértices $V$ y un conjun
 ::: {.columns}
 ::: {.column width="55%"}
 * **Modelado de infraestructuras**: Los nodos representan aeropuertos y los arcos representan vuelos directos de ida sin escala.
-* **Nodos de la red**: Aeropuertos $V = \{\text{MAD}, \text{BCN}, \text{PAR}, \text{LON}\}$.
-* **Arcos antiparalelos**: $(\text{PAR}, \text{BCN})$ y $(\text{BCN}, \text{PAR})$ permiten tránsito bidireccional.
+* **Nodos de la red**: Aeropuertos $V = \{\text{MAD}, \text{LON}, \text{PAR}, \text{FRA}, \text{SIN}, \text{TOK}\}$.
+* **Arcos antiparalelos**: $(\text{PAR}, \text{FRA})$ y $(\text{FRA}, \text{PAR})$ permiten tránsito bidireccional.
 :::
 
 ::: {.column width="45%"}
@@ -175,6 +175,7 @@ Dado un grafo $G = (V, E)$ o digrafo $G = (V, U)$ y un nodo $i \in V$:
 * **Grado total**:
   $$d(i) = d^+(i) + d^-(i)$$
   Número total de arcos o aristas incidentes en el nodo $i$.
+
 * **Nodo pendiente o hoja**: Nodo con grado total exactamente igual a 1 ($d(i) = 1$).
 * **Nodo aislado**: Nodo desprovisto de conexiones incidentes ($d(i) = 0$).
 :::
@@ -435,7 +436,7 @@ $$
 
 ::: {.callout-warning title="Diferencia conceptual fundamental" data-kind="advertencia"}
 * **Cadena $\mu$**: Secuencia de arcos adyacentes $\mu = (u_1, u_2, \dots, u_q)$ entre dos nodos que **no exige respetar la orientación de las flechas** (se pueden transitar en cualquier sentido). Caracteriza la **conectividad sintáctica/topológica**.
-* **Camino $P$**: Secuencia de arcos orientados donde **todos los arcos se transitan strictly a favor de su sentido** ($u_k$ finaliza donde $u_{k+1}$ comienza). Caracteriza la **posibilidad real de transporte o flujo**.
+* **Camino $P$**: Secuencia de arcos orientados donde **todos los arcos se transitan estrictamente a favor de su sentido** ($u_k$ finaliza donde $u_{k+1}$ comienza). Caracteriza la **posibilidad real de transporte o flujo**.
 * **En redes no dirigidas**, las nociones de cadena y camino resultan formalmente equivalentes.
 :::
 
@@ -542,8 +543,8 @@ Evaluación sobre un grafo no dirigido de 5 vértices $V = \{1, 2, 3, 4, 5\}$:
    * Visita 5 vértices distintos sin repetir ninguno $\implies$ **Elemental y simple**.
 2. **Cadena $\mu_2 = \{\{1,2\}, \{2,3\}, \{3,4\}, \{4,2\}, \{2,5\}\}$**:
    * Recorre 5 aristas distintas sin repetir ninguna, pero visita el nodo 2 dos veces $\implies$ **Simple pero no elemental**.
-3. **Cadena $\mu_3 = \{\{1,2\}, \{2,4\}, \{4,3\}, \{3,2\}, \{2,1\}\}$**:
-   * Repite el nodo 2 y duplica la arista $\{1,2\}$ $\implies$ **Ni elemental ni simple**.
+3. **Cadena $\mu_3 = \{\{1,2\}, \{2,4\}, \{4,3\}, \{3,2\}, \{1,2\}\}$**:
+   * Repite el nodo 2 y duplica la arista $\{1,2\}$ (aparece al inicio y al final) $\implies$ **Ni elemental ni simple**.
 
 ---
 
@@ -733,6 +734,8 @@ Para todo grafo conexo $G = (V, E)$ con $n > 1$:
 
 ## Grafos bipartitos y Bipartitos completos
 
+::: {.columns}
+::: {.column width="56%"}
 ::: {.callout-note title="Definición: Grafo bipartito y bipartito completo" data-kind="definicion"}
 Un grafo $G = (V, E)$ es **bipartito** si su conjunto de vértices admite una partición en dos subconjuntos disjuntos:
 $$
@@ -742,9 +745,13 @@ tal que toda arista conecta un vértice de $V_1$ con un vértice de $V_2$.
 
 * **Bipartito Completo $K_{n_1, n_2}$**: Contiene todas las $n_1 \cdot n_2$ aristas entre $V_1$ y $V_2$.
 :::
+:::
 
+::: {.column width="44%"}
 ::: {.callout-important title="Caracterización" data-kind="teorema"}
 Un grafo es bipartito $\iff$ **no contiene ningún ciclo de longitud impar**.
+:::
+:::
 :::
 
 ---
@@ -981,6 +988,7 @@ $$
 
 * **Almacenamiento lineal eficiente**:
   Para optimizar el uso de memoria y la velocidad de cómputo, las matrices se sustituyen por dos vectores unidimensionales de dimensión reducida:
+
   * **Vector $\beta$** (dimensión $m$): Almacena los nodos de destino.
   * **Vector $\alpha$** (dimensión $n+1$): Almacena los punteros de inicio.
 
@@ -995,6 +1003,7 @@ $$
 
 * **Vector $\alpha$** (dimensión $n+1$):
   Punteros que indican la posición en $\beta$ donde comienzan los arcos salientes de cada nodo $i$.
+
   * **Condición de cierre**: $\alpha(n+1) = m + 1$.
 :::
 
@@ -1073,6 +1082,7 @@ $$
 ::: {.column width="50%"}
 * **Listas enlazadas recíprocas**:
   En grafos no dirigidos $G = (V, E)$, cada arista no dirigida $\{u, v\}$ genera dos entradas recíprocas en las estructuras enlazadas:
+
   * El nodo $v$ se añade a la lista $\text{Adj}[u]$.
   * Simétricamente, el nodo $u$ se incorpora a la lista $\text{Adj}[v]$.
 
@@ -1195,7 +1205,7 @@ Evaluación de pesos acumulados sobre la red de 5 vértices:
 
 ## Teorema: Propiedad del Corte (Cut Property)
 
-::: {.callout-important title="Teorema: Propiedad del Corte (Cut Property)" data-kind="teorema"}
+::: {.callout-important title="Propiedad del Corte (Cut Property)" data-kind="teorema"}
 Sea $(G, \mathbf{d})$ una red valorada conexa no dirigida. Dado cualquier subconjunto propio de vértices $S \subset V$, si la arista $e^* = \{u, v\}$ con $u \in S, v \in V \setminus S$ es la arista de **peso estrictamente mínimo** que cruza el corte $w(S)$, entonces la arista $e^*$ **pertenece obligatoriamente a todo Árbol Soporte de Mínimo Peso** de $G$.
 :::
 
@@ -1274,7 +1284,7 @@ Dada una red no dirigida valorada $G = (V, E, \mathbf{d})$ con $n = |V| > 1$ vé
 ## Ejemplo Kruskal: Estado inicial ($k=0$)
 
 * **Vértices de la red**: $V = \{1, 2, 3, 4, 5, 6\}$ ($n=6$).
-* **Árbol parcial vacíos**: $T = \emptyset$.
+* **Árbol parcial vacío**: $T = \emptyset$.
 * **Estructura de subconjuntos disjuntos iniciales**:
   $$
   \{1\}, \, \{2\}, \, \{3\}, \, \{4\}, \, \{5\}, \, \{6\}
