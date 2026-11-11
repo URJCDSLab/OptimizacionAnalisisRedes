@@ -1,7 +1,7 @@
 ---
 title: "Tema 7: Problema del camino mínimo"
 subtitle: "Optimización y Análisis de Redes"
-author: "DSLAB"
+author: "Víctor Aceña Gil - Antonio Alonso Ayuso"
 date: last-modified
 format:
   revealjs:
@@ -12,6 +12,7 @@ format:
     embed-resources: true
     width: 1280
     height: 720
+    margin: 0.05
 ---
 
 ## Objetivos de aprendizaje
@@ -87,7 +88,7 @@ $$
 
 * **Tarifas de arcos (en €)**:
   * Desde $M$: $(M, L): 20$, $(M, F): 40$, $(M, P): 27$.
-  * Conexiones intercontinentales: $(L, F): 10$, $(F, P): 11$, $(P, F): 9$.
+  * Conexiones intraeuropeas: $(L, F): 10$, $(F, P): 11$, $(P, F): 9$.
   * Vuelos a Asia: $(F, S): 90$, $(P, S): 100$, $(P, T): 150$.
   * Tramo final: $(S, T): 35$.
 :::
@@ -271,12 +272,12 @@ permiten construir de forma **única** la arborescencia de caminos mínimos con 
   * **Londres ($L$)**:
     $$ \small u_L = \min \{ u_M + 20 \} = 20 $$
   * **París ($P$)**:
-    $$ \small u_P = \min \{ u_M + 27, \, u_F + 9 \} = \min \{ 27, 39 \} = 27 $$
+    $$ \small u_P = \min \{ u_M + 27, \, u_F + 11 \} = \min \{ 27, 41 \} = 27 $$
   * **Frankfurt ($F$)**:
     $$ \small
     \begin{aligned}
-    u_F &= \min \{ u_M + 40, \, u_L + 10, \, u_P + 11 \} \\
-        &= \min \{ 40, 30, 38 \} = 30
+    u_F &= \min \{ u_M + 40, \, u_L + 10, \, u_P + 9 \} \\
+        &= \min \{ 40, 30, 36 \} = 30
     \end{aligned}
     $$
 :::
@@ -324,10 +325,10 @@ permiten construir de forma **única** la arborescencia de caminos mínimos con 
 
 ## Caracterización de digrafos acíclicos (DAGs)
 
-::: {.callout-note title="Caracterización mediante ordenación topológica" data-kind="proposicion"}
-Un digrafo $G = (V, U)$ no tiene circuitos dirigidos si y sólo si existe una numeración de sus $n$ vértices $v_1, v_2, \dots, v_n$ tal que para todo arco dirigidos $(i, j) \in U$ se cumple:
+::: {.callout-note title="Caracterización mediante ordenación topológica" data-kind="corolario"}
+Un digrafo $G = (V, U)$ no tiene circuitos dirigidos si y sólo si existe una numeración de sus $n$ vértices $v_1, v_2, \dots, v_n$ tal que para todo arco $(v_i, v_j) \in U$ se cumple:
 
-$$i < j$$
+$$(v_i, v_j) \in U \implies i < j$$
 :::
 
 * **Consecuencia matemática**:
@@ -364,8 +365,8 @@ Dada la red dirigida $G = (V, U)$ con $n = |V|$ vértices:
 
 1. **Paso 0**: Hacer $k \leftarrow 1$, $V' \leftarrow V$, $U' \leftarrow U$.
 2. **Paso 1**: Seleccionar un nodo fuente $i \in V'$ con grado de entrada $d^-(i) = 0$ en $U'$.
-3. **Paso 2**: Asignar al nodo $i$ el orden $k$. Eliminar $i$ y sus arcos incidentes:
-   $$V' \leftarrow V' \setminus \{i\}, \quad U' \leftarrow U' \setminus \{ (i, j) \}$$
+3. **Paso 2**: Asignar al nodo $i$ el orden $k$. Eliminar $i$ y todos los arcos salientes de $i$:
+   $$V' \leftarrow V' \setminus \{i\}, \quad U' \leftarrow U' \setminus \{ (i, j) \in U' : j \in V' \}$$
 4. **Paso 3**: Si $k = n$, **parar**. En otro caso, hacer $k \leftarrow k + 1$ y regresar al Paso 1.
 :::
 
@@ -468,6 +469,10 @@ Dada la red con costes no negativos $d_{ij} \ge 0$:
 Si $d_{ij} \ge 0$ para todo $(i, j) \in U$, la etiqueta $u_k$ asignada por el Algoritmo de Dijkstra en el momento en que un nodo $k$ pasa a ser permanente ($\mathcal{P} \leftarrow \mathcal{P} \cup \{k\}$) es la **distancia mínima exacta** desde el origen $1$ al nodo $k$.
 :::
 
+---
+
+## Correctitud del Algoritmo de Dijkstra: Interpretación
+
 * **Interpretación y fundamento de la no negatividad**:
   * Como $d_{ij} \ge 0$, la función de distancia a lo largo de cualquier camino es **monótona no decreciente**.
   * Ningún camino que atraviese un nodo transitorio $y \in \mathcal{T}$ puede ofrecer un coste menor que la etiqueta mínima $u_k = \min_{j \in \mathcal{T}} \{ u_j \}$.
@@ -482,9 +487,6 @@ Si $d_{ij} \ge 0$ para todo $(i, j) \in U$, la etiqueta $u_k$ asignada por el Al
 | **Matriz de distancias** | $O(n^2)$ | Redes densas ($m \approx n^2$) |
 | **Heap binario (Min-Heap)** | $O(m \log n)$ | Redes dispersas ($m \ll n^2$) |
 | **Fibonacci Heap** | **$O(m + n \log n)$** | Máxima eficiencia teórica |
-
-* **Justificación de la voracidad**:
-  Si $d_{ij} \ge 0$, ningún nodo en $\mathcal{T}$ puede ofrecer un camino más corto hacia $k$ que la propia cota actual $u_k = \min_{j \in \mathcal{T}} \{ u_j \}$.
 
 ---
 
@@ -514,8 +516,8 @@ Si $d_{ij} \ge 0$ para todo $(i, j) \in U$, la etiqueta $u_k$ asignada por el Al
 
 * **Iteración 1**:
   * Mínimo en $\mathcal{T}$: $k = 3$ con $u_3 = 30 \implies \mathcal{P} = \{1, 3\}$, $\mathcal{T} = \{2, 4, 5\}$.
-  * Relajación de vecinos de 3:
-    * $u_2 \leftarrow \min \{100, 30 + 20\} = 50$ ($\text{Pred}(2) = 3$).
+  * Relajación desde $k = 3$ (el arco $(2, 3)$ tiene dirección de $2$ a $3$, por lo que $d_{32} = \infty$):
+    * $u_2 \leftarrow \min \{100, 30 + \infty\} = 100$ ($\text{Pred}(2) = 1$).
     * $u_4 \leftarrow \min \{\infty, 30 + 10\} = 40$ ($\text{Pred}(4) = 3$).
     * $u_5 \leftarrow \min \{\infty, 30 + 60\} = 90$ ($\text{Pred}(5) = 3$).
 
@@ -525,27 +527,29 @@ Si $d_{ij} \ge 0$ para todo $(i, j) \in U$, la etiqueta $u_k$ asignada por el Al
 
 * **Iteración 2**:
   * Mínimo en $\mathcal{T}$: $k = 4$ con $u_4 = 40 \implies \mathcal{P} = \{1, 3, 4\}$, $\mathcal{T} = \{2, 5\}$.
-  * Vecinos de 4: (arco $(4,2)$ peso 15: $40+15=55 > 50$, sin cambio; $(4,5)$ peso 50: $40+50=90$, sin cambio).
+  * Relajación de vecinos de 4:
+    * $u_2 \leftarrow \min \{100, 40 + 15\} = 55$ ($\text{Pred}(2) = 4$).
+    * $u_5 \leftarrow \min \{90, 40 + 50\} = 90$ ($\text{Pred}(5) = 4$, se actualiza en caso de empate).
 
 * **Iteración 3**:
-  * Mínimo en $\mathcal{T}$: $k = 2$ con $u_2 = 50 \implies \mathcal{P} = \{1, 3, 4, 2\}$, $\mathcal{T} = \{5\}$.
+  * Mínimo en $\mathcal{T}$: $k = 2$ con $u_2 = 55 \implies \mathcal{P} = \{1, 3, 4, 2\}$, $\mathcal{T} = \{5\}$. El vecino $3$ ya es permanente, sin cambios.
 
 * **Iteración 4**:
-  * Mínimo en $\mathcal{T}$: $k = 5$ con $u_5 = 90 \implies \mathcal{P} = \{1, 2, 3, 4, 5\}$, $\mathcal{T} = \emptyset$. **PARADA**.
+  * Mínimo en $\mathcal{T}$: $k = 5$ con $u_5 = 90 \implies \mathcal{P} = \{1, 3, 4, 2, 5\}$, $\mathcal{T} = \emptyset$. **PARADA**.
 
 ---
 
 ## Ejemplo Dijkstra: Tabla resumen de desarrollo
 
-| Etapa $k$ | Nodo Permanetizado | $u_k$ | Conjunto $\mathcal{P}$ | Etiquetas $(u_1, u_2, u_3, u_4, u_5)$ | Predecesores $\text{Pred}(1..5)$ |
+| Etapa $k$ | Nodo hecho permanente | $u_k$ | Conjunto $\mathcal{P}$ | Etiquetas $(u_1, u_2, u_3, u_4, u_5)$ | Predecesores $\text{Pred}(1..5)$ |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Inicio** | $1$ | $0$ | $\{1\}$ | $(0, 100, 30, \infty, \infty)$ | $(1, 1, 1, 1, 1)$ |
-| **Iter 1** | $3$ | $30$ | $\{1, 3\}$ | $(0, 50, 30, 40, 90)$ | $(1, 3, 1, 3, 3)$ |
-| **Iter 2** | $4$ | $40$ | $\{1, 3, 4\}$ | $(0, 50, 30, 40, 90)$ | $(1, 3, 1, 3, 3)$ |
-| **Iter 3** | $2$ | $50$ | $\{1, 3, 4, 2\}$ | $(0, 50, 30, 40, 90)$ | $(1, 3, 1, 3, 3)$ |
-| **Iter 4** | $5$ | $90$ | $\{1, 3, 4, 2, 5\}$ | $(0, 50, 30, 40, 90)$ | $(1, 3, 1, 3, 3)$ |
+| **Iter 1** | $3$ | $30$ | $\{1, 3\}$ | $(0, 100, 30, \mathbf{40}, \mathbf{90})$ | $(1, 1, 1, \mathbf{3}, \mathbf{3})$ |
+| **Iter 2** | $4$ | $40$ | $\{1, 3, 4\}$ | $(0, \mathbf{55}, 30, 40, 90)$ | $(1, \mathbf{4}, 1, 3, \mathbf{4})$ |
+| **Iter 3** | $2$ | $55$ | $\{1, 3, 4, 2\}$ | $(0, 55, 30, 40, 90)$ | $(1, 4, 1, 3, 4)$ |
+| **Iter 4** | $5$ | $90$ | $\{1, 3, 4, 2, 5\}$ | $(0, 55, 30, 40, 90)$ | $(1, 4, 1, 3, 4)$ |
 
-* **Arborescencia Óptima**: $\{ (1,3), (3,4), (3,2), (3,5) \}$.
+* **Arborescencia Óptima**: $\{ (1,3), (3,4), (4,2), (4,5) \}$.
 
 ---
 
@@ -567,13 +571,20 @@ Para redes que contienen arcos con costes negativos (sin circuitos negativos), e
   $$u_j^m = \min \left\{ u_j^{m-1}, \ \min_{k \neq j} \{ u_k^{m-1} + d_{kj} \} \right\}, \quad m = 1, \dots, n-1$$
 :::
 
-* **Complejidad**: $O(|V| \cdot |U|) = O(n^3)$ para redes densas.
+---
+
+## Concepto: Aproximación por número de arcos (Interpretación)
+
+* **Interpretación y propiedades de la recurrencia**:
+  * En cada etapa $m$, se compara el mejor camino de a lo sumo $m-1$ arcos ($u_j^{m-1}$) con los caminos de $m$ arcos que llegan a $j$ desde un predecesor $k$.
+  * Todo camino elemental sin ciclos posee como máximo $n-1$ arcos.
+  * **Complejidad computacional**: $O(|V| \cdot |U|) = O(n^3)$ para redes densas.
 
 ---
 
 ## Esquema del Algoritmo de Bellman-Ford (I: Inicialización)
 
-::: {.callout-note title="Algoritmo de Bellman-Ford — Paso 1: Inicialización" data-kind="esquema"}
+::: {.callout-note title="Algoritmo de Bellman-Ford: Paso 1 (Inicialización)" data-kind="esquema"}
 Dada una red valorada dirigida $G = (V, U, \mathbf{d})$ con $n = |V|$ vértices:
 
 * **Paso 1 (Inicialización para $m = 1$)**:
@@ -593,7 +604,7 @@ Dada una red valorada dirigida $G = (V, U, \mathbf{d})$ con $n = |V|$ vértices:
 
 ## Esquema del Algoritmo de Bellman-Ford (II: Relajación)
 
-::: {.callout-note title="Algoritmo de Bellman-Ford — Paso 2: Relajación de arcos" data-kind="esquema"}
+::: {.callout-note title="Algoritmo de Bellman-Ford: Paso 2 (Relajación de arcos)" data-kind="esquema"}
 * **Paso 2 (Iteración de relajación)**:
   * Incrementar la longitud máxima permitida del camino: $m \leftarrow m + 1$.
   * Para cada nodo $j = 2, \dots, n$, evaluar si es más ventajoso mantener la cota anterior o acceder a $j$ pasando por un nodo intermedio $k$:
@@ -607,7 +618,7 @@ Dada una red valorada dirigida $G = (V, U, \mathbf{d})$ con $n = |V|$ vértices:
 
 ## Esquema del Algoritmo de Bellman-Ford (III: Parada)
 
-::: {.callout-note title="Algoritmo de Bellman-Ford — Paso 3: Criterios de Parada" data-kind="esquema"}
+::: {.callout-note title="Algoritmo de Bellman-Ford: Paso 3 (Criterios de Parada)" data-kind="esquema"}
 * **Paso 3 (Criterio de Parada y Convergencia)**:
 
   * **Parada Anticipada (Estabilidad)**:
@@ -620,8 +631,14 @@ Dada una red valorada dirigida $G = (V, U, \mathbf{d})$ con $n = |V|$ vértices:
     Si $m < n - 1$ y $u^m \neq u^{m-1}$, **regresar al Paso 2**.
 :::
 
+---
+
+## Esquema del Algoritmo de Bellman-Ford: Interpretación de Parada
+
 * **Interpretación teórica**:
-  Cualquier camino simple entre dos nodos contiene a lo sumo $n-1$ arcos. Si la red no posee circuitos de coste negativo, la solución óptima se alcanza en $m \le n-1$ iteraciones.
+  * Cualquier camino simple entre dos nodos en una red de $n$ vértices contiene a lo sumo $n-1$ arcos.
+  * Si la red no posee circuitos de coste negativo, la solución óptima se alcanza en a lo sumo $m \le n-1$ iteraciones.
+  * Una iteración adicional $m = n$ permite verificar la estabilidad de las etiquetas y descartar la existencia de circuitos negativos.
 
 ---
 
@@ -658,14 +675,14 @@ Dada una red valorada dirigida $G = (V, U, \mathbf{d})$ con $n = |V|$ vértices:
 
 ## Ejemplo Bellman-Ford: Desarrollo iterativo m=3 y m=4
 
-* **Iteración $m=3$**:
+* **Iteración $m = 3$ (Criterio límite $m = n - 1 = 3$)**:
   * $u_2^3 = \min \{ 5, u_3^2 + d_{32}, u_4^2 + d_{42} \} = \min \{ 5, 2+\infty, 3 - 3 \} = 0$ ($\text{Pred}(2) = 4$).
   * $u_3^3 = \min \{ 2, u_2^2 + d_{23}, u_4^2 + d_{43} \} = \min \{ 2, 5+3, 3+6 \} = 2$.
   * $u_4^3 = \min \{ 3, u_2^2 + d_{24}, u_3^2 + d_{34} \} = \min \{ 3, 5+4, 2+1 \} = 3$.
-  * Vector resultante: $u^3 = (0, 0, 2, 3)$, $\text{Pred} = (1, 4, 1, 3)$.
+  * Vector resultante: $u^3 = (0, 0, 2, 3)$, $\text{Pred} = (1, 4, 1, 3)$. Con $n = 4$, el criterio límite detiene el cálculo en $m = n - 1 = 3$.
 
-* **Iteración $m=4$**:
-  * $u^4 = (0, 0, 2, 3) = u^3 \implies$ **CONVERGENCIA ALCANZADA**.
+* **Iteración $m = 4 = n$ (Comprobación de circuitos negativos)**:
+  * $u^4 = (0, 0, 2, 3) = u^3 \implies$ **No existen circuitos de coste negativo** (solución óptima verificada).
 
 ---
 
@@ -675,8 +692,8 @@ Dada una red valorada dirigida $G = (V, U, \mathbf{d})$ con $n = |V|$ vértices:
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **$m=1$** | $0$ | $5$ | $2$ | $\infty$ | $(1, 1, 1, 1)$ | Inicialización |
 | **$m=2$** | $0$ | $5$ | $2$ | $3$ | $(1, 1, 1, 3)$ | Relajación de $u_4$ |
-| **$m=3$** | $0$ | **$0$** | $2$ | $3$ | $(1, 4, 1, 3)$ | Relajación de $u_2$ vía $(4,2)$ |
-| **$m=4$** | $0$ | $0$ | $2$ | $3$ | $(1, 4, 1, 3)$ | $u^4 = u^3 \implies$ **Parada** |
+| **$m=3$** | $0$ | **$0$** | $2$ | $3$ | $(1, 4, 1, 3)$ | Relajación de $u_2$ vía $(4,2)$ (Límite $m = n-1$) |
+| **$m=4$** | $0$ | $0$ | $2$ | $3$ | $(1, 4, 1, 3)$ | Comprobación $m = n$: $u^4 = u^3$ (sin circuitos negativos) |
 
 * **Distancias Óptimas**: $\mathbf{u}^* = (0, 0, 2, 3)$.
 * **Arborescencia**: $\{ (1,3), (3,4), (4,2) \}$.
@@ -743,19 +760,19 @@ Dada una red valorada general $G = (V, U, \mathbf{d})$ con $n = |V|$ vértices:
 
 ## Modelo Primal: Flujo de coste mínimo continuo
 
-* **Planteamiento**: Enviar 1 unidad de flujo desde el origen $s$ al destino $t$ al menor coste.
-
-* **Variables de decisión**: $x_{ij} \in \{0, 1\}$ (1 si el arco $(i,j)$ forma parte del camino mínimo, 0 en otro caso).
+* **Planteamiento**: Enviar 1 unidad de flujo desde el origen $s$ al destino $t$ al menor coste, con variables $x_{ij} \in \{0, 1\}$.
 
 $$
 \begin{aligned}
 \min_{\mathbf{x}} \quad & \sum_{(i,j) \in U} d_{ij} x_{ij} \\
-\text{sujeto a} \quad & \sum_{k \mid (s,k) \in U} x_{sk} = 1 \quad (\text{Salida del nodo origen } s) \\
-& \sum_{k \mid (k,t) \in U} x_{kt} = 1 \quad (\text{Entrada al nodo destino } t) \\
-& \sum_{i \mid (i,k) \in U} x_{ik} = \sum_{j \mid (k,j) \in U} x_{kj}, \quad \forall k \neq s, t \quad (\text{Conservación de flujo}) \\
+\text{sujeto a} \quad & \sum_{k \mid (s,k) \in U} x_{sk} = 1 \\
+& \sum_{k \mid (k,t) \in U} x_{kt} = 1 \\
+& \sum_{i \mid (i,k) \in U} x_{ik} = \sum_{j \mid (k,j) \in U} x_{kj}, \quad \forall k \neq s, t \\
 & x_{ij} \ge 0, \quad \forall (i, j) \in U
 \end{aligned}
 $$
+
+* **Significado de las restricciones**: Salida unitaria del nodo origen $s$, entrada unitaria al nodo destino $t$ y conservación de flujo en cada nodo intermedio $k \neq s, t$.
 
 ---
 
@@ -796,8 +813,8 @@ $$
   $$x_{ij}^* \left( d_{ij} - (u_j^* - u_i^*) \right) = 0, \quad \forall (i, j) \in U$$
 
 * **Significado geométrico de la dualidad**:
-  * **Arco en la ruta óptima ($x_{ij}^* = 1$)**: La restricción dual se satisface con **igualdad estricta**: $u_j^* - u_i^* = d_{ij}$.
-  * **Arco no utilizado ($x_{ij}^* = 0$)**: La diferencia de potencial entre extremos no supera la distancia directa: $u_j^* - u_i^* < d_{ij}$.
+  * **Arco en la ruta óptima ($x_{ij}^* = 1$)**: La restricción dual se satisface **con igualdad**: $u_j^* - u_i^* = d_{ij}$.
+  * **Arco no utilizado ($x_{ij}^* = 0$)**: La diferencia de potencial entre extremos no supera la distancia directa: $u_j^* - u_i^* \le d_{ij}$.
 
 ---
 
@@ -914,11 +931,9 @@ $$
 ::: {.columns}
 ::: {.column width="50%"}
 * **Convergencia y Complejidad Secuencial**:
-  * **Cota de finitud en $D^{n-1}$**:
-    Cualquier camino simple en una red de $n$ vértices contiene a lo sumo $n-1$ arcos.
+  * **Cota de finitud en $D^{n-1}$**: Cualquier camino simple en una red de $n$ vértices contiene a lo sumo $n-1$ arcos.
   * **Convergencia**: Sin circuitos de coste negativo, el algoritmo converge en $D^{n-1}$.
-  * **Complejidad Secuencial**:
-    $n-1$ productos matriciales $\implies \mathbf{O(n^4)}$.
+  * **Complejidad Secuencial**: $n-1$ productos matriciales $\implies \mathbf{O(n^4)}$.
 :::
 
 ::: {.column width="50%"}
@@ -932,7 +947,7 @@ $$
 
 ---
 
-## Ejemplo: Multiplicación de matrices min-suma — Matriz D^(1)
+## Ejemplo: Multiplicación de matrices min-suma: Matriz D^(1)
 
 ::: {.columns}
 ::: {.column width="42%"}
@@ -956,7 +971,7 @@ $$
 
 ---
 
-## Ejemplo: Multiplicación de matrices min-suma — Matriz D^(2)
+## Ejemplo: Multiplicación de matrices min-suma: Matriz D^(2)
 
 ::: {.columns}
 ::: {.column width="42%"}
@@ -964,7 +979,7 @@ $$
 :::
 
 ::: {.column width="58%"}
-* **Iteración 2 ($D^{(2)} = D^{(1)} \otimes D^{(1)}$ - 2 arcos o menos)**:
+* **Iteración 2 ($D^{(2)} = D^{(1)} \otimes D^{(1)}$, 2 arcos o menos)**:
   $$ \small
   D^{(2)} = \begin{pmatrix}
   0 & 4 & 5 & \textcolor{forestgreen}{\mathbf{4}} \\
@@ -977,12 +992,13 @@ $$
 * **Relajaciones destacadas**:
   * $(d_{14})^2 = \min \{ 6, \ 5 + (-1) \} = \textcolor{forestgreen}{\mathbf{4}}$ (vía $1 \to 3 \to 4$).
   * $(d_{23})^2 = \min \{ \infty, \ -3 + 5 \} = \textcolor{forestgreen}{\mathbf{2}}$ (vía $2 \to 1 \to 3$).
+  * $(d_{24})^2 = \min \{ 7, \ -3 + 6 \} = \textcolor{forestgreen}{\mathbf{3}}$ (vía $2 \to 1 \to 4$).
 :::
 :::
 
 ---
 
-## Ejemplo: Multiplicación de matrices min-suma — Matriz D^(3)
+## Ejemplo: Multiplicación de matrices min-suma: Matriz D^(3)
 
 ::: {.columns}
 ::: {.column width="42%"}
@@ -990,7 +1006,7 @@ $$
 :::
 
 ::: {.column width="58%"}
-* **Iteración 3 ($D^{(3)} = D^{(2)} \otimes D^{(1)}$ - 3 arcos o menos)**:
+* **Iteración 3 ($D^{(3)} = D^{(2)} \otimes D^{(1)}$, 3 arcos o menos)**:
   $$ \small
   D^{(3)} = \begin{pmatrix}
   0 & 4 & 5 & 4 \\
@@ -1000,7 +1016,8 @@ $$
   \end{pmatrix}
   $$
 
-* **Relajación de $(d_{24})^3$**: $\min \{ 3, \ -3 + 4 \} = \textcolor{forestgreen}{\mathbf{1}}$ (vía $2 \to 1 \to 3 \to 4$).
+* **Relajación de $(d_{24})^3$**:
+  $$(d_{24})^3 = \min \{ 3, \ 2 + (-1) \} = \textcolor{forestgreen}{\mathbf{1}} \quad (\text{vía } 2 \to 1 \to 3 \to 4)$$
 
 * **Convergencia final**:
   Al ser $n = 4$, el algoritmo finaliza en $D^{(n-1)} = D^{(3)}$.
@@ -1027,7 +1044,7 @@ $$
 ## Esquema del Algoritmo de Floyd-Warshall
 
 ::: {.callout-note title="Algoritmo de Floyd-Warshall" data-kind="esquema"}
-Dada la matriz de distancias $D^{(0)} = D$ y la matriz de predecesores $P^{(0)}$ con $P_{ij} = j$:
+Dada la matriz de distancias $D^{(0)} = D$ y la **matriz de sucesores** $P^{(0)}$ con $P_{ij} = j$ (donde $P_{ij}$ guarda el primer nodo tras $i$ en el camino hacia $j$):
 
 1. **Bucle externo**: Para $k = 1, 2, \dots, n$:
 2. **Bucles internos**: Para $i = 1, 2, \dots, n$:
@@ -1238,11 +1255,11 @@ Dada la matriz de distancias $D^{(0)} = D$ y la matriz de predecesores $P^{(0)}$
 
 ## Ejemplo Floyd-Warshall: Reconstrucción de la ruta óptima (4, 2)
 
-* **Matriz de predecesores final $P^{(5)}$**:
+* **Matriz de sucesores final $P^{(5)}$** (donde $P_{ij}$ indica el primer nodo tras $i$):
   $$\text{Para el par }(4, 2): \quad P_{42} = 5$$
 
 * **Traza de reconstrucción**:
-  1. De 4 a 2: El primer paso intermedio pasa por el nodo 5 $\implies$ segmento $4 \to 5$.
+  1. De 4 a 2: El primer nodo sucesor tras 4 es el nodo 5 ($P_{42} = 5$) $\implies$ segmento $4 \to 5$.
   2. De 5 a 2: Inspeccionar $P_{52} = 2 \implies$ segmento directo $5 \to 2$.
 
 * **Ruta elemental óptima**:

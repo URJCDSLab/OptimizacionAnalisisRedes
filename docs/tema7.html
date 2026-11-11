@@ -661,9 +661,9 @@ u_j &amp;= \min_{k \neq j} \{ u_k + d_{kj} \}, \quad \forall j \neq 1
 \begin{aligned}
 u_M &amp;= 0 \\
 u_L &amp;= \min \{ u_M + d_{ML} \} = \min \{ 0 + 20 \} = 20 \\
-u_P &amp;= \min \{ u_M + d_{MP}, u_F + d_{FP} \} = \min \{ 0 + 27, 30 + 9 \} = 27 \\
+u_P &amp;= \min \{ u_M + d_{MP}, u_F + d_{FP} \} = \min \{ 0 + 27, 30 + 11 \} = \min \{ 27, 41 \} = 27 \\
 u_F &amp;= \min \{ u_M + d_{MF}, u_L + d_{LF}, u_P + d_{PF} \} \\
-    &amp;= \min \{ 0 + 40, 20 + 10, 27 + 11 \} = \min \{ 40, 30, 38 \} = 30 \\
+    &amp;= \min \{ 0 + 40, 20 + 10, 27 + 9 \} = \min \{ 40, 30, 36 \} = 30 \\
 u_S &amp;= \min \{ u_F + d_{FS}, u_P + d_{PS} \} = \min \{ 30 + 90, 27 + 100 \} = \min \{ 120, 127 \} = 120 \\
 u_T &amp;= \min \{ u_P + d_{PT}, u_S + d_{ST} \} = \min \{ 27 + 150, 120 + 35 \} = \min \{ 177, 155 \} = 155
 \end{aligned}
@@ -1184,12 +1184,12 @@ m &amp;= 3
 \begin{aligned}
 u_2^4 &amp;= \min \{ u_2^3, \min \{ u_3^3 + d_{32}, u_4^3 + d_{42} \} \} = \min \{ 0, \min \{ 2 + \infty, 3 - 3 \} \} = 0 = u_2^3 \\
 u_3^4 &amp;= \min \{ u_3^3, \min \{ u_2^3 + d_{23}, u_4^3 + d_{43} \} \} = \min \{ 2, \min \{ 0 + 3, 3 + 6 \} \} = 2 = u_3^3 \\
-u_4^4 &amp;= \min \{ u_4^3, \min \{ u_2^3 + d_{24}, u_3^3 + d_{34} \} \} = \min \{ 3, \min \{ 0 + 4, 2 + 1 \} \} = 3 = u_4^2 \\
+u_4^4 &amp;= \min \{ u_4^3, \min \{ u_2^3 + d_{24}, u_3^3 + d_{34} \} \} = \min \{ 3, \min \{ 0 + 4, 2 + 1 \} \} = 3 = u_4^3 \\
 m &amp;= 4
 \end{aligned}
 \]</span></p></li>
 </ul>
-<p>Como <span class="math inline">\(u^4 = u^3 = (0, 0, 2, 3)\)</span>, se alcanza la <strong>convergencia y parada anticipada</strong>.</p>
+<p>Con <span class="math inline">\(n = 4\)</span>, el criterio límite detiene el procedimiento en <span class="math inline">\(m = n - 1 = 3\)</span>, donde ya se dispone de las distancias mínimas. La iteración <span class="math inline">\(m = 4 = n\)</span> no forma parte del cálculo de distancias, sino que actúa como <strong>comprobación de ausencia de circuitos negativos</strong>: como <span class="math inline">\(u^4 = u^3 = (0, 0, 2, 3)\)</span>, el teorema de detección garantiza que la red no contiene circuitos de coste negativo accesibles desde el origen.</p>
 <p>Al finalizar el procedimiento iterativo, se obtienen las distancias geodésicas y los predecesores óptimos:</p>
 <ul>
 <li><strong>Vector de distancias mínimas</strong>: <span class="math inline">\(\mathbf{u} = (u_1, u_2, u_3, u_4) = (0, 0, 2, 3)\)</span>.</li>
@@ -1396,7 +1396,7 @@ x_{ij} = \begin{cases}
 <li><strong>Potenciales Nodales</strong>: Las variables duales <span class="math inline">\(u_i\)</span> representan <strong>potenciales o tensiones nodales</strong> en la red.</li>
 <li><strong>Fijación de Referencia</strong>: Dado que el sistema dual presenta un grado de libertad adicional (es invariante ante sumas constantes <span class="math inline">\(u_i + C\)</span>), al fijar el origen <span class="math inline">\(u_s = 0\)</span>, la variable dual óptima <span class="math inline">\(u_j^*\)</span> coincide exactamente con la <strong>distancia mínima <span class="math inline">\(d(s, j)\)</span></strong> desde <span class="math inline">\(s\)</span> hasta <span class="math inline">\(j\)</span>.</li>
 <li><strong>Restricción de Consistencia</strong>: La condición <span class="math inline">\(u_j - u_i \le d_{ij}\)</span> establece que la diferencia de potencial entre dos nodos adyacentes no puede superar la distancia directa del arco que los une.</li>
-<li><strong>Holgura Complementaria</strong>: Si el arco <span class="math inline">\((i, j)\)</span> forma parte del camino mínimo óptimo (<span class="math inline">\(x_{ij}^* = 1\)</span>), la restricción dual correspondiente se activa con igualdad estricta: <span class="math inline">\(u_j^* - u_i^* = d_{ij}\)</span>.</li>
+<li><strong>Holgura Complementaria</strong>: Si el arco <span class="math inline">\((i, j)\)</span> forma parte del camino mínimo óptimo (<span class="math inline">\(x_{ij}^* = 1\)</span>), la restricción dual correspondiente se activa con igualdad: <span class="math inline">\(u_j^* - u_i^* = d_{ij}\)</span>. Si el arco no se utiliza (<span class="math inline">\(x_{ij}^* = 0\)</span>), se cumple la desigualdad débil <span class="math inline">\(u_j^* - u_i^* \le d_{ij}\)</span> (pudiendo darse también la igualdad cuando existen caminos mínimos alternativos).</li>
 </ul>
 </div>
 </div>
@@ -1564,7 +1564,7 @@ D^{(3)} = \begin{pmatrix}
 \infty &amp; \infty &amp; 0 &amp; -1 \\
 \infty &amp; \infty &amp; \infty &amp; 0
 \end{pmatrix}
-\]</span> <em>Observación</em>: La primera fila de <span class="math inline">\(D^{(3)}\)</span> coincide exactamente con el resultado obtenido al ejecutar el algoritmo de Bellman-Ford con origen en el nodo 1.</p>
+\]</span> <em>Observación</em>: Para el término <span class="math inline">\((d_{24})^3 = \min \{ 3, \min \{ -3+6, 0+7, 2+(-1) \} \} = \min \{ 3, 1 \} = \textcolor{forestgreen}{\mathbf{1}}\)</span> (donde el sumando <span class="math inline">\(2+(-1)\)</span> proviene de <span class="math inline">\((d_{23})^2 + d_{34}\)</span> vía el camino <span class="math inline">\(2 \to 1 \to 3 \to 4\)</span>). Asimismo, la primera fila de <span class="math inline">\(D^{(3)}\)</span> coincide exactamente con el resultado obtenido al ejecutar el algoritmo de Bellman-Ford con origen en el nodo 1.</p>
 <p>Puesto que <span class="math inline">\(n = 4\)</span>, el algoritmo se detiene formalmente en <span class="math inline">\(D^{(n-1)} = D^{(3)}\)</span> o en la iteración donde la matriz de distancias permanezca invariante (<span class="math inline">\(D^{(m)} = D^{(m-1)}\)</span>).</p>
 </div>
 </div>
@@ -1605,7 +1605,7 @@ d_{ij}^{(k)} = \min \left\{ d_{ij}^{(k-1)}, \ d_{ik}^{(k-1)} + d_{kj}^{(k-1)} \r
 <p><span class="math display">\[
 n \times n^2 = O(n^3)
 \]</span></p>
-<p>Adicionalmente, en cada iteración se puede ir registrando de forma paralela la matriz de predecesores <span class="math inline">\(P^{(k)}\)</span> para posibilitar la reconstrucción explícita de los caminos mínimos.</p>
+<p>Adicionalmente, en cada iteración se puede ir registrando de forma paralela la <strong>matriz de sucesores</strong> <span class="math inline">\(P^{(k)}\)</span> (donde <span class="math inline">\(P_{ij}^{(k)}\)</span> almacena el primer nodo después de <span class="math inline">\(i\)</span> en el camino mínimo hacia <span class="math inline">\(j\)</span>) para posibilitar la reconstrucción explícita de los caminos mínimos.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de Floyd-Warshall" data-kind="esquema">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1616,7 +1616,7 @@ n \times n^2 = O(n^3)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Dada la matriz de distancias directas <span class="math inline">\(D^{(0)} = D\)</span> y la matriz de predecesores iniciales <span class="math inline">\(P^{(0)}\)</span> con <span class="math inline">\(P_{ij} = j\)</span> para todo <span class="math inline">\((i, j) \in U\)</span>:</p>
+<p>Dada la matriz de distancias directas <span class="math inline">\(D^{(0)} = D\)</span> y la matriz de sucesores iniciales <span class="math inline">\(P^{(0)}\)</span> con <span class="math inline">\(P_{ij} = j\)</span> para todo <span class="math inline">\((i, j) \in U\)</span>:</p>
 <ol type="1">
 <li><strong>Bucle externo (Nodo pivote intermedio <span class="math inline">\(k\)</span>)</strong>: Para <span class="math inline">\(k = 1, 2, \dots, n\)</span>:</li>
 <li><strong>Bucles internos (Par origen-destino <span class="math inline">\(i, j\)</span>)</strong>: Para <span class="math inline">\(i = 1, 2, \dots, n\)</span>: Para <span class="math inline">\(j = 1, 2, \dots, n\)</span>:
