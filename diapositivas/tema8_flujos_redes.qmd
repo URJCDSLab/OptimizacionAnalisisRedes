@@ -61,7 +61,7 @@ donde $w^+(i)$ son los arcos salientes del nodo $i$ y $w^-(i)$ los arcos entrant
 Para evitar cualquier confusión entre los nombres de los arcos y los valores numéricos del flujo:
 
 1. **Identificador del Arco**: Los $m$ arcos del digrafo se etiquetan como $u_1, u_2, \dots, u_m \in U$ (o por pares ordenados $u = (i, j)$).
-2. **Identificador de Vectores (Superíndices)**: Los distintos vectores de flujo o de ciclo se denotan en negrita mediante **superíndices** ($\mathbf{f}^1, \mathbf{f}^2, \mathbf{f}^3$; $\mathbf{\mu}^1, \mathbf{\mu}^2$).
+2. **Identificador de Vectores (Superíndices)**: Los distintos vectores de flujo o de ciclo se denotan en negrita mediante **superíndices** ($\mathbf{f}^1, \mathbf{f}^2, \mathbf{f}^3$ y $\mathbf{\mu}^1, \mathbf{\mu}^2$).
 3. **Componentes Escalares de Arco (Subíndices)**: El caudal por el arco $u_k$ se denota mediante el **subíndice** $f_{u_k}$ (o $f_{ij}$). En los gráficos, se especifica el arco y su valor ($u_k: f_{u_k}$).
 :::
 
@@ -120,14 +120,13 @@ Evaluación de los siguientes dos vectores de flujo en la misma red:
 
 ## Lema: Flujo nulo en árboles
 
-::: {.callout-note title="Flujo nulo en árboles" data-kind="lema"}
+::: {.callout-note title="Lema: Flujo nulo en árboles" data-kind="lema"}
 Un flujo definido sobre un árbol (digrafo conexo acíclico) es necesariamente el **flujo nulo** ($\mathbf{f} = \mathbf{0}$).
 :::
 
-* **Demostración inductiva**:
-  * Todo árbol de $n$ vértices posee $n - 1$ arcos y contiene al menos una hoja $x_1$ de grado 1.
-  * Sea $u$ el único arco incidente en $x_1$. Por conservación, $f_u = 0$.
-  * Retirando inductivamente la hoja $x_1$, se deduce que todas las componentes son nulas: $f_u = 0, \forall u \in U$.
+* **Intuición estructural**:
+  * Todo árbol contiene nodos hoja de grado 1 cuyo único arco incidente no puede equilibrarse con caudal distinto de cero.
+  * Al no existir trayectorias cerradas por las que pueda retornar el caudal, ningún flujo no nulo puede sostenerse en una red acíclica.
 
 * **Conclusión fundamental**: La presencia de **ciclos cerrados es estrictamente necesaria** para sostener circulaciones no nulas en una red.
 
@@ -135,7 +134,7 @@ Un flujo definido sobre un árbol (digrafo conexo acíclico) es necesariamente e
 
 ## Lema: Estructura vectorial del espacio de flujos
 
-::: {.callout-note title="Estructura vectorial del espacio de flujos" data-kind="lema"}
+::: {.callout-note title="Lema: Estructura vectorial del espacio de flujos" data-kind="lema"}
 Cualquier combinación lineal de flujos es un flujo. En consecuencia, el conjunto de flujos definidos sobre un digrafo $G = (V, U)$ forma un espacio vectorial.
 :::
 
@@ -236,21 +235,22 @@ $$
   <img src="../images/ciclos_vectores_ejemplo.png" style="width:60% !important; max-width:60% !important; margin:0 auto; display:block;" alt="Digrafo de referencia para vectores de ciclos" />
 </div>
 
-* Digrafo de 5 nodos y 7 arcos utilizado para la evaluación de los vectores característicos de ciclos $\mathbf{\mu}_1 \dots \mathbf{\mu}_5$.
+* Digrafo de 5 nodos y 7 arcos utilizado para la evaluación de los vectores característicos de ciclos $\mathbf{\mu}^1 \dots \mathbf{\mu}^5$.
 
 ---
 
 ## Ejemplo: Vectores característicos de ciclos
 
-Considérese el digrafo de referencia de 5 nodos $s, b, c, d, t$ y 7 arcos. Se identifican los siguientes ciclos $\mathbf{\mu}_k \in \mathbb{R}^7$:
+Considérese el digrafo de referencia de 5 nodos $s, b, c, d, t$ y 7 arcos. Se identifican los siguientes ciclos $\mathbf{\mu}^k \in \mathbb{R}^7$:
 
-* $\mathbf{\mu}_1 = (1, 1, 1, 0, 0, 0, 0)^T$: Ciclo orientado $s \to b \to c \to s$ (arcos $1, 2, 3$).
-* $\mathbf{\mu}_2 = (0, -1, 0, 1, 1, 0, 0)^T$: Ciclo $b \to d \to c \to b$ (arcos $4, 5$ y opuesto de $2$).
-* $\mathbf{\mu}_3 = (1, 0, 1, 1, 1, 0, 0)^T$: Ciclo exterior $s \to b \to d \to c \to s$.
-* $\mathbf{\mu}_5 = (-1, -1, -1, 0, 0, 0, 0)^T$: Ciclo inverso al ciclo $\mathbf{\mu}_1$.
+* $\mathbf{\mu}^1 = (1, 1, 1, 0, 0, 0, 0)^T$: Ciclo orientado $s \to b \to c \to s$ (arcos $1, 2, 3$).
+* $\mathbf{\mu}^2 = (0, -1, 0, 1, 1, 0, 0)^T$: Ciclo $b \to d \to c \to b$ (arcos $4, 5$ y opuesto de $2$).
+* $\mathbf{\mu}^3 = (1, 0, 1, 1, 1, 0, 0)^T$: Ciclo exterior $s \to b \to d \to c \to s$.
+* $\mathbf{\mu}^4 = (-1, 0, -1, -1, 0, 1, 1)^T$: Ciclo perimetral exterior en sentido opuesto $s \to c \to t \to d \to b \to s$ (arcos $u_6, u_7$ directos y $u_1, u_3, u_4$ inversos).
+* $\mathbf{\mu}^5 = (-1, -1, -1, 0, 0, 0, 0)^T$: Ciclo inverso al ciclo $\mathbf{\mu}^1$.
 
 * **Relaciones lineales**:
-  $$\mathbf{\mu}_1 = -\mathbf{\mu}_5, \qquad \mathbf{\mu}_3 = \mathbf{\mu}_1 + \mathbf{\mu}_2$$
+  $$\mathbf{\mu}^1 = -\mathbf{\mu}^5, \qquad \mathbf{\mu}^3 = \mathbf{\mu}^1 + \mathbf{\mu}^2$$
 
 ---
 
@@ -266,7 +266,7 @@ Considérese el digrafo de referencia de 5 nodos $s, b, c, d, t$ y 7 arcos. Se i
 
 ## Proposición: Los ciclos son flujos
 
-::: {.callout-note title="Los ciclos son flujos" data-kind="corolario"}
+::: {.callout-note title="Proposición: Los ciclos son flujos" data-kind="corolario"}
 El vector característico $\mathbf{\mu}$ asociado a cualquier ciclo en un digrafo es un flujo.
 :::
 
@@ -279,7 +279,7 @@ El vector característico $\mathbf{\mu}$ asociado a cualquier ciclo en un digraf
 
 ## Corolario: Variación de flujo mediante ciclos
 
-::: {.callout-note title="Variación de flujo mediante ciclos" data-kind="corolario"}
+::: {.callout-note title="Corolario: Variación de flujo mediante ciclos" data-kind="corolario"}
 Dado un flujo $\mathbf{f}$ en un digrafo $G$ y un ciclo $\mathbf{\mu}$, el vector resultante de sumar a $\mathbf{f}$ el vector asociado al ciclo multiplicado por una constante $\alpha \in \mathbb{R}$ ($\mathbf{f}' = \mathbf{f} + \alpha \mathbf{\mu}$) es también un flujo en $G$.
 :::
 
@@ -302,7 +302,7 @@ Dado un digrafo $G = (V, U)$, un conjunto de flujos $\{\mathbf{f}^1, \mathbf{f}^
 ::: {.callout-important title="Base fundamental de ciclos" data-kind="teorema"}
 Sea $G = (V, U)$ un digrafo conexo con $n$ vértices y $m$ arcos, y sea $H = (V, T)$ un árbol soporte de $G$ (formado por $n - 1$ arcos).
 
-Al añadir a $T$ cualquier arco fuera del árbol $u \in U \setminus T$, se forma un único ciclo elemental $\mu^u$ en $G$ tal que $\mu^u_u = 1$. El conjunto de ciclos $H = \{\mu^u \mid u \in U \setminus T\}$ constituye una **base del espacio vectorial de flujos** del digrafo $G$.
+Al añadir a $T$ cualquier arco fuera del árbol $u \in U \setminus T$, se forma un único ciclo elemental $\mu^u$ en $G$ tal que $\mu^u_u = 1$. El conjunto de ciclos $B = \{\mu^u \mid u \in U \setminus T\}$ constituye una **base del espacio vectorial de flujos** del digrafo $G$.
 :::
 
 * **Aclaración teórica**: El número de vectores de ciclo necesarios para generar cualquier circulación en el digrafo queda determinado exclusivamente por la cantidad de arcos fuera del árbol soporte ($\nu(G) = m - n + 1$).
@@ -323,7 +323,7 @@ $$
 
 ---
 
-## Ejemplo: Base de ciclos - Planteamiento y Pasos
+## Ejemplo: Base de ciclos - Planteamiento y pasos
 
 Considérese el digrafo de $n = 5$ nodos y $m = 7$ arcos. Su número ciclomático es $\nu(G) = 7 - 5 + 1 = 3$.
 
@@ -345,9 +345,7 @@ Considérese el digrafo de $n = 5$ nodos y $m = 7$ arcos. Su número ciclomátic
 ## Ejemplo: Animación interactiva con controles
 
 ::: {.content-visible when-format="html"}
-<div style="text-align:center;">
-  <iframe src="../images/base_ciclos_descomposicion_player.html" width="100%" height="480px" style="border:none; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" scrolling="no"></iframe>
-</div>
+<iframe src="../images/base_ciclos_descomposicion_player.html" style="width:100%; height:520px; border:none; display:block; margin:0 auto;" scrolling="no"></iframe>
 :::
 
 ---
@@ -420,7 +418,7 @@ Evaluación de dos particiones sobre la red de 5 nodos y 7 arcos:
 ## Ejemplo: Evaluación de vectores de cociclo (Parte 2)
 
 2. **Subconjunto $A_2 = \{b, d\}$**:
-   * Nodos $b, d$ en la región superior ($A_2$) y $a, c, e$ en la inferior ($V \setminus A_2$).
+   * Nodos diagonalmente opuestos $b$ (superior izquierdo) y $d$ (inferior derecho) en $A_2$, separados de $V \setminus A_2 = \{a, c, e\}$.
    * Arcos salientes $w^+(A_2)$: $u_2=(b,c)$ y $u_4=(d,e) \implies \theta_{u_2} = 1, \theta_{u_4} = 1$.
    * Arcos entrantes $w^-(A_2)$: $u_1=(a,b)$, $u_3=(c,d)$ y $u_6=(e,b) \implies \theta_{u_1} = -1, \theta_{u_3} = -1, \theta_{u_6} = -1$.
    * Arcos no incidentes: $u_5, u_7 \implies \theta = 0$.
@@ -459,7 +457,7 @@ Evaluación de dos particiones sobre la red de 5 nodos y 7 arcos:
 
 ## Lema: Coloración de arcos de Minty
 
-::: {.callout-note title="Coloración de arcos de Minty" data-kind="lema"}
+::: {.callout-note title="Lema: Coloración de arcos de Minty" data-kind="lema"}
 Sea $G = (V, U)$ un digrafo conexo cuyos arcos se encuentran coloreados con cuatro opciones: **negro** ($N$), **verde** ($V$), **rojo** ($R$) o **sin color** ($0$), existiendo al menos un arco negro $u_0 \in U$.
 
 Entonces se cumple **una y solo una** de las dos aseveraciones:
@@ -470,7 +468,7 @@ Entonces se cumple **una y solo una** de las dos aseveraciones:
 
 ---
 
-## Demostración constructiva de Minty (Algoritmo)
+## Algoritmo constructivo de Minty (Etiquetado)
 
 * **Sea el arco negro $u_0 = (t, s)$**:
   * **Paso 1: Etiquetado inicial**: Asignar $p(s) = s$. El resto $p(j) = 0$.
@@ -494,15 +492,15 @@ Entonces se cumple **una y solo una** de las dos aseveraciones:
 
 ---
 
-## Ejemplo Minty - Caso A y Caso B
+## Ejemplo Minty: Caso A y caso B
 
 * **Caso A: Generación de un Ciclo** (Gráfico Izquierdo)
-  * Arco negro $u_0 = (b, c)$. Arco $(e, b)$ en **rojo**; $(e, c), (d, c), (d, e), (a, e)$ en **verde**.
+  * Arco negro $u_0 = (b, c)$. Arco $(e, b)$ en **rojo**, mientras que $(e, c), (d, c), (d, e), (a, e)$ en **verde**.
   * Propagación: $p(c)=c \to p(e)=c \to p(d)=c \to p(b)=e$.
   * Se alcanza $b \implies$ Ciclo $\mu = \{(e, b), (e, c), (b, c)\}$.
 
 * **Caso B: Generación de un Cociclo** (Gráfico Derecho)
-  * Arco negro $u_0 = (b, c)$. Arcos $(e, b), (e, c), (c, d)$ en **verde**; $(d, e), (a, b)$ en **negro**.
+  * Arco negro $u_0 = (b, c)$. Arcos $(e, b), (e, c), (c, d)$ en **verde** y $(d, e), (a, b)$ en **negro**.
   * Propagación: $p(c)=c \to p(e)=c$. Los arcos salientes verdes no admiten marca $\implies p(b)=0$.
   * Cociclo $w(A)$ sobre $A = \{c, e\}$ con $u_0 \in w^-(A)$.
 
@@ -630,17 +628,15 @@ $$
 
 ---
 
-## Ejemplo: Compatibilidad y saturación (Análisis)
+## Ejemplo: Compatibilidad y saturación (análisis)
 
 Considérese la red de 6 nodos $V = \{s, b, c, d, e, t\}$ con flujo de retorno $f_0 = 8$:
 
-* **Flujo compatible base**: Todos los arcos satisfacen $0 \le f_u \le c_u$.
-  * Arco $(s, b)$: $f_{sb} = 5 \le c_{sb} = 5 \implies$ **Arco saturado**.
-  * Arco $(b, c)$: $f_{bc} = 2 \le c_{bc} = 3 \implies$ **Arco no saturado**.
+* **Flujo compatible base**: En el flujo compatible base, $(s, b)$ está saturado ($5 \le 5$), $(b, c)$ no saturado ($2 \le 3$), $(c, d)$ lleva $f_{cd} = 3 \le 4$, $(d, e)$ lleva $f_{de} = 2 \le 3$ y $(e, c)$ lleva $f_{ec} = 0 \le 1$.
 
 * **Intento de modificación por ciclo**: Añadir 2 unidades por el ciclo $c \to d \to e \to c$:
-  * Arco $(c, d)$: $f_{cd} = 1 + 2 = 3 > c_{cd} = 1 \implies$ **Violación de capacidad**.
-  * Arco $(d, e)$: $f_{de} = 4 + 2 = 6 > c_{de} = 3 \implies$ **Violación de capacidad**.
+  * Arco $(c, d)$: $f_{cd} = 3 + 2 = 5 > c_{cd} = 4 \implies$ **Violación de capacidad**.
+  * Arcos $(d, e)$ y $(e, c)$: $f_{de} = 2 + 2 = 4 > c_{de} = 3$ y $f_{ec} = 0 + 2 = 2 > c_{ec} = 1$.
 
 * **Conclusión**: El incremento por este ciclo destruye la compatibilidad del flujo.
 
@@ -679,7 +675,7 @@ Considérese la red de 6 nodos $V = \{s, b, c, d, e, t\}$ con flujo de retorno $
 
 ---
 
-## Ejemplo: Asignación de tareas (Transformación)
+## Ejemplo: Asignación de tareas (transformación)
 
 * **Transformación a Red de Transporte**:
   1. Nodo fuente $s$ conectado a cada empleado $E_i$ con $c_{s E_i} = 1$ (1 tarea por empleado).
@@ -826,7 +822,7 @@ $$
 
 ## Proposición: Acotación del flujo por la capacidad del corte
 
-::: {.callout-note title="Acotación del flujo por la capacidad del corte" data-kind="corolario"}
+::: {.callout-note title="Proposición: Acotación del flujo por la capacidad del corte" data-kind="corolario"}
 Para cualquier $(s, t)$-flujo compatible $\mathbf{f}$ y cualquier $(s, t)$-corte $w^+(N)$, el valor del flujo está acotado superiormente por la capacidad del corte:
 
 $$
@@ -883,7 +879,7 @@ Evaluación de los tres cortes sobre la red de 6 nodos:
 
 ## Corolario: Criterio de optimalidad simultánea
 
-::: {.callout-note title="Criterio de optimalidad de flujo máximo y corte mínimo" data-kind="corolario"}
+::: {.callout-note title="Corolario: Criterio de optimalidad de flujo máximo y corte mínimo" data-kind="corolario"}
 Si un flujo compatible $\mathbf{f}$ y un $(s, t)$-corte $w^+(N)$ satisfacen $f_0 = c(w^+(N))$, entonces $\mathbf{f}$ es el **flujo máximo** de $s$ a $t$ y $w^+(N)$ es el **corte de mínima capacidad**.
 :::
 
@@ -893,7 +889,7 @@ Si un flujo compatible $\mathbf{f}$ y un $(s, t)$-corte $w^+(N)$ satisfacen $f_0
 
 ## Corolario: Existencia y acotación de solución
 
-::: {.callout-note title="Existencia de solución finita" data-kind="corolario"}
+::: {.callout-note title="Corolario: Existencia de solución finita" data-kind="corolario"}
 El problema del flujo máximo de $s$ a $t$ tiene solución finita si y sólo si no existe un camino orientado de $s$ a $t$ formado íntegramente por arcos de capacidad infinita ($c_u = \infty, \forall u \in \mu$).
 :::
 
@@ -921,7 +917,7 @@ $$
 
 ---
 
-## Ejemplo Minty: Planteamiento y Coloración de Arcos
+## Ejemplo Minty: Planteamiento y coloración de arcos
 
 * Considérese la red de 6 nodos $V = \{s, 1, 2, 3, 4, t\}$ con flujo $f_0 = 10$ y retorno $u_0 = (t, s)$:
 * **Reglas de coloración según caudales actuales**:
@@ -932,7 +928,7 @@ $$
 
 ---
 
-## Ejemplo Minty: Gráfico y Marcado de Vértices
+## Ejemplo Minty: Gráfico y marcado de vértices
 
 <div style="text-align:center;">
   <img src="../images/minty_demostracion_red59.png" style="width:60% !important; max-width:60% !important; margin:0 auto; display:block;" alt="Aplicación del marcado de Minty sobre red en flujo óptimo" />
@@ -941,11 +937,11 @@ $$
 * **Propagación del marcado desde la fuente**:
   * Inicio: $S = \{s\}$.
   * Vía arcos rojos salientes $(s,1)$ y $(s,3) \implies S = \{s, 1, 3\}$.
-  * Arcos salientes de $1$ y $3$ son verdes (bloqueados); entrantes son negros $\implies$ Marcado final $S = \{s, 1, 3\}$.
+  * Arcos salientes de $1$ y $3$ son verdes (bloqueados), mientras que los entrantes son negros $\implies$ Marcado final $S = \{s, 1, 3\}$.
 
 ---
 
-## Ejemplo Minty: Verificación de Optimalidad
+## Ejemplo Minty: Verificación de optimalidad
 
 * **Análisis de la partición $S = \{s, 1, 3\}$**:
   * El sumidero $t \notin S \implies$ No existe cadena incremental de $s$ a $t$.
@@ -959,7 +955,7 @@ $$
 
 ---
 
-## Ejemplo Minty: Análisis de Sensibilidad (Red62)
+## Ejemplo Minty: Análisis de sensibilidad (Red62)
 
 <div style="text-align:center;">
   <img src="../images/minty_demostracion_red62.png" style="width:55% !important; max-width:55% !important; margin:0 auto; display:block;" alt="Evaluación del marcado cuando c14 se incrementa" />
@@ -974,7 +970,7 @@ $$
 ## Algoritmo de Ford-Fulkerson: Introducción
 
 * **Orígenes y fundamento**:
-  * Publicado en 1956 por L. R. Ford (1927–2017) y D. R. Fulkerson (1924–1976).
+  * Publicado en 1956 por L. R. Ford (1927-2017) y D. R. Fulkerson (1924-1976).
   * Denominado también **algoritmo del camino de aumento**.
 
 * **Idea central**:
@@ -1013,7 +1009,7 @@ $$
 
 ---
 
-## Ejemplo: Construcción del Grafo Incremental (Reglas)
+## Ejemplo: Construcción del grafo incremental (reglas)
 
 * Red de 6 nodos $V = \{s, 2, 3, 4, 5, t\}$ con flujo de valor $f_0 = 3$:
 
@@ -1024,7 +1020,7 @@ $$
 
 ---
 
-## Ejemplo: Grafo Incremental (Saturados y Nulos)
+## Ejemplo: Grafo incremental (saturados y nulos)
 
 * **Arcos a capacidad máxima ($f_u = c_u$)**:
   * Para el arco $(s,3)$ con $f=2, c=2 \implies$ no admite incremento ($u^+$ no existe). Genera únicamente el arco inverso $(3,s)$ con peso $\ell = 2$.
@@ -1034,7 +1030,7 @@ $$
 
 ---
 
-## Ejemplo: Gráfico de la Red Residual
+## Ejemplo: Gráfico de la red residual
 
 <div style="text-align:center;">
   <img src="../images/red_incremental_ejemplo.png" style="width:75% !important; max-width:75% !important; margin:0 auto; display:block;" alt="Transformación de red de transporte a grafo incremental" />
@@ -1044,7 +1040,7 @@ $$
 
 ---
 
-## Esquema: Algoritmo por Red Residual (Pasos 1 y 2)
+## Esquema: Algoritmo por red residual (pasos 1 y 2)
 
 * **Paso 1 (Inicialización)**:
   * Hacer $k = 0$. Determinar un flujo inicial compatible $\mathbf{f}^0 = \mathbf{0}$ ($f_0^0 = 0$).
@@ -1056,7 +1052,7 @@ $$
 
 ---
 
-## Esquema: Algoritmo por Red Residual (Paso 3)
+## Esquema: Algoritmo por red residual (paso 3)
 
 * **Paso 3 (Aumento de Flujo y Actualización)**:
   * Cuello de botella en la cadena incremental:
@@ -1067,7 +1063,7 @@ $$
 
 ---
 
-## Ejemplo Ford-Fulkerson: Planteamiento y Red Inicial
+## Ejemplo Ford-Fulkerson: Planteamiento y red inicial
 
 * **Red de 6 nodos** $V = \{s, 2, 3, 4, 5, t\}$ con fuente $s$, sumidero $t$ y capacidades:
   * $c_{s2}=3, \quad c_{s3}=2, \quad c_{32}=1, \quad c_{24}=2$
@@ -1078,7 +1074,7 @@ $$
 
 ---
 
-## Ejemplo Ford-Fulkerson: Iteración 1 (Búsqueda)
+## Ejemplo Ford-Fulkerson: Iteración 1 (búsqueda)
 
 * **Construcción de la Red Residual $G(\mathbf{f}^0)$**:
   * Al ser $\mathbf{f}^0 = \mathbf{0}$, $G(\mathbf{f}^0)$ contiene únicamente los arcos directos $u^+$ con capacidades residuales $\ell_{u^+} = c_u$.
@@ -1091,7 +1087,7 @@ $$
 
 ---
 
-## Ejemplo Ford-Fulkerson: Iteración 1 (Actualización)
+## Ejemplo Ford-Fulkerson: Iteración 1 (actualización)
 
 * **Actualización del vector de flujo $\mathbf{f}^1$**:
   * $f_{s2}^1 = 0 + 2 = 2$
@@ -1103,7 +1099,7 @@ $$
 
 ---
 
-## Ejemplo Ford-Fulkerson: Iteración 2 (Búsqueda)
+## Ejemplo Ford-Fulkerson: Iteración 2 (búsqueda)
 
 * **Construcción de la Red Residual $G(\mathbf{f}^1)$**:
   * Al estar saturado el arco $(2,4)$, solo genera en $G(\mathbf{f}^1)$ el arco inverso $(4,2)$ con peso $\ell = 2$.
@@ -1117,7 +1113,7 @@ $$
 
 ---
 
-## Ejemplo Ford-Fulkerson: Iteración 2 (Actualización)
+## Ejemplo Ford-Fulkerson: Iteración 2 (actualización)
 
 * **Actualización del vector de flujo $\mathbf{f}^2$**:
   * $f_{s3}^2 = 0 + 2 = 2 \implies$ Arco $(s,3)$ **saturado** (verde)
@@ -1129,7 +1125,7 @@ $$
 
 ---
 
-## Ejemplo Ford-Fulkerson: Iteración 3 (Criterio de Parada)
+## Ejemplo Ford-Fulkerson: Iteración 3 (criterio de parada)
 
 * **Evaluación de la Red Residual $G(\mathbf{f}^2)$**:
   * Todos los arcos salientes desde la fuente $s$ a través de $3$ están saturados.
@@ -1141,7 +1137,7 @@ $$
 
 ---
 
-## Ejemplo Ford-Fulkerson: Corte de Capacidad Mínima
+## Ejemplo Ford-Fulkerson: Corte de capacidad mínima
 
 * **Nodos alcanzables desde la fuente $s$ en $G(\mathbf{f}^2)$**:
   $$N = \{s, 2\}$$
@@ -1155,17 +1151,15 @@ $$
 
 ---
 
-## Ejemplo Ford-Fulkerson: Reproductor Interactivo
+## Ejemplo Ford-Fulkerson: Reproductor interactivo
 
 ::: {.content-visible when-format="html"}
-<div style="text-align:center;">
-  <iframe src="../images/ford_fulkerson_completo_player.html" width="100%" height="480px" style="border:none; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" scrolling="no"></iframe>
-</div>
+<iframe src="../images/ford_fulkerson_completo_player.html" style="width:100%; height:520px; border:none; display:block; margin:0 auto;" scrolling="no"></iframe>
 :::
 
 ---
 
-## Ejemplo Ford-Fulkerson: Código de Colores
+## Ejemplo Ford-Fulkerson: Código de colores
 
 * **Significado visual de la simbología en los gráficos**:
   * **Arcos en naranja ($\color{#f97316}{\rightarrow}$)**: Camino aumentante seleccionado en la iteración actual.
@@ -1176,14 +1170,14 @@ $$
 
 ---
 
-## Algoritmo por Etiquetado de Vértices: Motivación
+## Algoritmo por etiquetado de vértices: Motivación
 
 * **Operación directa sobre la red original**:
   * Evita la necesidad de construir e ilustrar explícitamente la red residual $G(\mathbf{f})$ en cada iteración.
   * Emplea una **regla de etiquetado dinámico** que opera asignando marcas directamente sobre los vértices de la red.
 
 * **Marca de la fuente**:
-  * Se asigna inicialmente $\text{Etiqueta}(s) = (\text{–}, \, \color{#0284c7}{\delta_s = +\infty})$ y se propaga la información de cuello de botella a los nodos vecinos no explorados.
+  * Se asigna inicialmente $\text{Etiqueta}(s) = (-, \, \color{#0284c7}{\delta_s = +\infty})$ y se propaga la información de cuello de botella a los nodos vecinos no explorados.
 
 ---
 
@@ -1196,7 +1190,7 @@ $$
 \text{Etiqueta}(j) = (\color{#0f172a}{\pm i}, \, \color{#0284c7}{\delta_j})
 $$
 
-1. **Procedencia ($\color{#0f172a}{\pm i}$)**: Nodo antecedente $i$ (ya etiquetado). Marca **$\color{#16a34a}{+i}$** indica arco directo saliente $(i, j)$ con $f_{ij} < c_{ij}$; marca **$\color{firebrick}{-i}$** indica arco inverso entrante $(j, i)$ con $f_{ji} > 0$.
+1. **Procedencia ($\color{#0f172a}{\pm i}$)**: Nodo antecedente $i$ (ya etiquetado). La marca **$\color{#16a34a}{+i}$** indica arco directo saliente $(i, j)$ con $f_{ij} < c_{ij}$, y la marca **$\color{firebrick}{-i}$** indica arco inverso entrante $(j, i)$ con $f_{ji} > 0$.
 2. **Capacidad disponible ($\color{#0284c7}{\delta_j}$)**: Caudal máximo incremental transmisible desde $s$ hasta $j$.
 :::
 
@@ -1226,9 +1220,9 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Esquema: Algoritmo por Etiquetado (Pasos 1 a 4)
+## Esquema: Algoritmo por etiquetado (pasos 1 a 4)
 
-* **Paso 1 (Inicialización)**: Asignar flujo inicial $\mathbf{f} = \mathbf{0}$. Etiquetar fuente $s$ como $(\text{–}, \, \color{#0284c7}{+\infty})$.
+* **Paso 1 (Inicialización)**: Asignar flujo inicial $\mathbf{f} = \mathbf{0}$. Etiquetar fuente $s$ como $(-, \, \color{#0284c7}{+\infty})$.
 * **Paso 2 (Evaluación)**: Comprobar si todos los nodos etiquetados han sido explorados.
 * **Paso 3 (Propagación)**: Etiquetar nodos adyacentes posibles mediante la **Regla 1** (directos) y **Regla 2** (inversos).
 * **Paso 4 (Verificación del Sumidero)**:
@@ -1237,7 +1231,7 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Esquema: Algoritmo por Etiquetado (Pasos 5 y 6)
+## Esquema: Algoritmo por etiquetado (pasos 5 y 6)
 
 * **Paso 5 (Modificación del Flujo)**:
   * Rastrear desde $t$ hacia atrás mediante los antecedentes:
@@ -1250,7 +1244,7 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Relación entre Etiquetado de Vértices y BFS
+## Relación entre etiquetado de vértices y BFS
 
 * **Búsqueda en Anchura (BFS)**:
   * La propagación de marcas por niveles explora la red en anchura desde la fuente $s$.
@@ -1261,7 +1255,7 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Planteamiento y Capacidades
+## Ejemplo etiquetado: Planteamiento y capacidades
 
 * **Red de 8 nodos** $V = \{s, 1, 2, 3, 4, 5, 6, t\}$ con capacidades entre paréntesis:
   * $c_{s1} = 7$, $c_{s2} = 2$, $c_{12} = 1$, $c_{13} = 5$, $c_{32} = 3$, $c_{34} = 2$
@@ -1271,10 +1265,10 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Iteración 1 (Marcado de Nodos)
+## Ejemplo etiquetado: Iteración 1 (marcado de nodos)
 
 * **Propagación de marcas desde la fuente $s$**:
-  * Etiqueta inicial: $\text{Etiqueta}(s) = (\text{–}, \, \color{#0284c7}{\delta_s = +\infty})$.
+  * Etiqueta inicial: $\text{Etiqueta}(s) = (-, \, \color{#0284c7}{\delta_s = +\infty})$.
   * Desde $s$: etiquetar $1$ con $(\color{#16a34a}{+s}, \, \color{#0284c7}{7})$ y $2$ con $(\color{#16a34a}{+s}, \, \color{#0284c7}{2})$.
   * Desde $2$: etiquetar $4$ con $(\color{#16a34a}{+2}, \, \color{#0284c7}{\min\{2, 4\} = 2})$.
   * Desde $4$: etiquetar $6$ con $(\color{#16a34a}{+4}, \, \color{#0284c7}{\min\{2, 5\} = 2})$.
@@ -1282,7 +1276,7 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Iteración 1 (Aumento y Actualización)
+## Ejemplo etiquetado: Iteración 1 (aumento y actualización)
 
 * **Camino de aumento detectado**:
   $$\mu_1 = (s \to 2 \to 4 \to 6 \to t) \quad \text{con } \Delta_1 = \color{#0284c7}{\delta_t = 2}$$
@@ -1294,10 +1288,10 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Iteración 2 (Marcado de Nodos)
+## Ejemplo etiquetado: Iteración 2 (marcado de nodos)
 
 * **Propagación de marcas (Arco $(s,2)$ saturado, no permite etiquetar $2$)**:
-  * Etiqueta en $s$: $(\text{–}, \, \color{#0284c7}{+\infty})$.
+  * Etiqueta en $s$: $(-, \, \color{#0284c7}{+\infty})$.
   * Desde $s$: etiquetar $1$ con $(\color{#16a34a}{+s}, \, \color{#0284c7}{7})$.
   * Desde $1$: etiquetar $3$ con $(\color{#16a34a}{+1}, \, \color{#0284c7}{\min\{7, 5\} = 5})$ y $2$ con $(\color{#16a34a}{+1}, \, \color{#0284c7}{\min\{7, 1\} = 1})$.
   * Desde $3$: etiquetar $5$ con $(\color{#16a34a}{+3}, \, \color{#0284c7}{\min\{5, 4\} = 4})$ y $4$ con $(\color{#16a34a}{+3}, \, \color{#0284c7}{\min\{5, 2\} = 2})$.
@@ -1305,7 +1299,7 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Iteración 2 (Aumento y Actualización)
+## Ejemplo etiquetado: Iteración 2 (aumento y actualización)
 
 * **Camino de aumento detectado**:
   $$\mu_2 = (s \to 1 \to 3 \to 5 \to t) \quad \text{con } \Delta_2 = \color{#0284c7}{\delta_t = 3}$$
@@ -1317,22 +1311,51 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Iteraciones 3 y 4 (Resumen)
+## Ejemplo etiquetado: Iteración 3 (marcado de nodos)
 
-* **Iteración 3**:
-  * Camino de aumento: $s \to 1 \to 3 \to 4 \to 6 \to t$ con $\Delta_3 = 2$.
-  * $f_0^3 = 5 + 2 = 7$. Arcos $(3,4)$ y $(1,3)$ quedan saturados.
+* **Exploración desde la fuente**:
 
-* **Iteración 4**:
-  * Búsqueda por vías alternativas y actualización de caudales residuales.
-  * Flujo circulante total acumulado: $f_0^4 = 7$.
+  * Etiqueta en $s$: $(-, \, \color{#0284c7}{+\infty})$.
+  * Desde $s$ se marca el nodo $1$ por el arco $(s,1)$: $1:(+s, \, 4)$.
+  * Desde $1$ se alcanzan $3:(+1, \, 2)$ y $2:(+1, \, 1)$.
+  * Desde $3$ se marcan $5:(+3, \, 1)$ y $4:(+3, \, 2)$.
+  * Desde $5$ se alcanza $6:(+5, \, 1)$ y finalmente el sumidero $t:(+6, \, 1)$.
+
+## Ejemplo etiquetado: Iteración 3 (aumento y actualización)
+
+* **Camino de aumento**: $\mu_3 = (s \to 1 \to 3 \to 5 \to 6 \to t)$ con incremento $\Delta_3 = 1$.
+
+* **Actualización de flujos**:
+
+  * $f_{s1} = 4$, $f_{13} = 4$, $f_{56} = 1$, $f_{6t} = 3$.
+  * El arco $(3,5)$ queda saturado con $f_{35} = 4$.
+  * Flujo circulante acumulado: $f_0^3 = 6$.
+
+## Ejemplo etiquetado: Iteración 4 (marcado de nodos)
+
+* **Exploración alternativa tras saturarse $(3,5)$**:
+
+  * Etiqueta en $s$: $(-, \, \color{#0284c7}{+\infty})$, y desde allí $1:(+s, \, 3)$.
+  * Desde $1$ se etiquetan $3:(+1, \, 1)$ y $2:(+1, \, 1)$.
+  * Al estar $(3,5)$ saturado, desde $3$ se avanza por $(3,4)$ hacia $4:(+3, \, 1)$ y después $6:(+4, \, 1)$.
+  * Desde $6$ puede etiquetarse $5:(-6, \, 1)$ mediante arco inverso y alcanzarse el sumidero $t:(+6, \, 1)$.
+
+## Ejemplo etiquetado: Iteración 4 (aumento y actualización)
+
+* **Camino de aumento**: $\mu_4 = (s \to 1 \to 3 \to 4 \to 6 \to t)$ con incremento $\Delta_4 = 1$.
+
+* **Actualización de flujos**:
+
+  * $f_{s1} = 5$, $f_{34} = 1$, $f_{46} = 3$, $f_{6t} = 4$.
+  * El arco $(1,3)$ queda saturado con $f_{13} = 5$.
+  * Flujo circulante acumulado: $f_0^4 = 7$.
 
 ---
 
-## Ejemplo Etiquetado: Iteración 5 (Marcado de Nodos)
+## Ejemplo etiquetado: Iteración 5 (marcado de nodos)
 
 * **Propagación de marcas ($f_{s1} = 5, f_{s2} = 2, f_{13} = 5$)**:
-  * Etiqueta en $s$: $(\text{–}, \, \color{#0284c7}{+\infty})$.
+  * Etiqueta en $s$: $(-, \, \color{#0284c7}{+\infty})$.
   * Desde $s$: etiquetar $1$ con $(\color{#16a34a}{+s}, \, \color{#0284c7}{7 - 5 = 2})$.
   * Desde $1$: mediante $(1,2)$ etiquetamos $2$ con $(\color{#16a34a}{+1}, \, \color{#0284c7}{\min\{2, 1\} = 1})$.
   * Desde $2$: mediante $(2,4)$ etiquetamos $4$ con $(\color{#16a34a}{+2}, \, \color{#0284c7}{\min\{1, 4 - 2\} = 1})$.
@@ -1341,7 +1364,7 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Iteración 5 (Aumento y Actualización)
+## Ejemplo etiquetado: Iteración 5 (aumento y actualización)
 
 * **Camino de aumento detectado**:
   $$\mu_5 = (s \to 1 \to 2 \to 4 \to 6 \to t) \quad \text{con } \Delta_5 = \color{#0284c7}{\delta_t = 1}$$
@@ -1354,10 +1377,10 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Iteración 6 (Criterio de Parada)
+## Ejemplo etiquetado: Iteración 6 (criterio de parada)
 
 * **Propagación de marcas**:
-  * Etiqueta en $s$: $(\text{–}, \, \color{#0284c7}{+\infty})$.
+  * Etiqueta en $s$: $(-, \, \color{#0284c7}{+\infty})$.
   * Desde $s$: el arco $(s,2)$ está saturado ($f_{s2} = 2$). Etiquetar $1$ con $(\color{#16a34a}{+s}, \, \color{#0284c7}{7 - 6 = 1})$.
   * Desde $1$: el arco $(1,3)$ está saturado ($f_{13} = 5$) y el arco $(1,2)$ está saturado ($f_{12} = 1$). No es posible etiquetar ningún nodo adicional desde $1$.
 
@@ -1365,7 +1388,7 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Corte Mínimo Resultante
+## Ejemplo etiquetado: Corte mínimo resultante
 
 * **Solución Óptima**:
   * Valor del flujo máximo: $f_0^* = 8$.
@@ -1381,17 +1404,15 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Ejemplo Etiquetado: Reproductor Interactivo
+## Ejemplo etiquetado: Reproductor interactivo
 
 ::: {.content-visible when-format="html"}
-<div style="text-align:center;">
-  <iframe src="../images/ford_fulkerson_etiquetado_player.html" width="100%" height="480px" style="border:none; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" scrolling="no"></iframe>
-</div>
+<iframe src="../images/ford_fulkerson_etiquetado_player.html" style="width:100%; height:520px; border:none; display:block; margin:0 auto;" scrolling="no"></iframe>
 :::
 
 ---
 
-## Ejemplo Etiquetado: Simbología y Código de Colores
+## Ejemplo etiquetado: Simbología y código de colores
 
 * **Significado visual de la simbología en los gráficos**:
   * **Arcos en naranja ($\color{#f97316}{\rightarrow}$)**: Camino de aumento seleccionado en la iteración actual.
@@ -1404,7 +1425,7 @@ Sea $i \in V$ etiquetado con $(\cdot, \, \color{#0284c7}{\delta_i})$ y sea $j \i
 
 ---
 
-## Teorema: Cota y Complejidad de Edmonds-Karp (1972)
+## Teorema: Cota y complejidad de Edmonds-Karp (1972)
 
 ::: {.callout-important title="Cota y complejidad de Edmonds-Karp y Dinitz (1970 / 1972)" data-kind="teorema"}
 Si en el algoritmo de Ford-Fulkerson cada incremento de flujo se realiza seleccionando sistemáticamente la cadena de aumento que posea el **menor número de arcos** en el grafo residual $G(\mathbf{f})$ (garantizado mediante BFS), el flujo máximo se alcanza en no más de:
@@ -1418,7 +1439,7 @@ incrementos de flujo.
 
 ---
 
-## Importancia Teórica de Edmonds-Karp
+## Importancia teórica de Edmonds-Karp
 
 * **Garantía de Convergencia Polinomial**:
   * La propagación de marcas por niveles BFS en cada iteración requiere $O(m)$ operaciones.
@@ -1430,7 +1451,7 @@ incrementos de flujo.
 
 ---
 
-## Formulación Primal del Flujo Máximo
+## Formulación primal del flujo máximo
 
 * **El problema del flujo máximo como programa lineal**:
   * Sea $(G = (V, U), \mathbf{c})$ una red de transporte con fuente $s$ y sumidero $t$.
@@ -1447,7 +1468,7 @@ incrementos de flujo.
 
 ---
 
-## Construcción del Modelo Dual
+## Construcción del modelo dual
 
 * **Asignación de variables duales**:
   * Variable $u_i \in \mathbb{R}$ por la conservación nodal en $i \in V$ (potencial nodal).
@@ -1459,7 +1480,7 @@ incrementos de flujo.
 
 ---
 
-## Fijación del Potencial de Referencia
+## Fijación del potencial de referencia
 
 ::: {.callout-note title="Fijación de potencial de referencia" data-kind="nota"}
 Como la suma global de ecuaciones de conservación nodal es idénticamente nula ($\sum_{i \in V} b_i = 0$), el sistema primal contiene 1 ecuación redundante.
@@ -1470,7 +1491,7 @@ $$u_s - u_t = 1 \implies u_s = 1$$
 
 ---
 
-## Formulación Dual del Flujo Máximo
+## Formulación dual del flujo máximo
 
 ::: {.callout-note title="Modelo lineal dual" data-kind="definicion"}
 Teniendo en cuenta la normalización de potenciales $u_s = 1, u_t = 0$, el problema dual de programación lineal se formula como:
@@ -1487,7 +1508,7 @@ $$
 
 ---
 
-## Interpretación Combinatoria del Modelo Dual
+## Interpretación combinatoria del modelo dual
 
 * **Discretización binaria en vértices óptimos**:
   * En las soluciones básicas óptimas del dual, $u_i \in \{0, 1\}$ y $w_{ij} \in \{0, 1\}$.
@@ -1500,7 +1521,7 @@ $$
 
 ---
 
-## Interpretación de Dualidad Fuerte
+## Interpretación de dualidad fuerte
 
 ::: {.callout-note title="Interpretación combinatoria y dualidad fuerte" data-kind="nota"}
 Por el **Teorema de Dualidad Fuerte de la Programación Lineal**, el valor óptimo del modelo primal $\max f_0^*$ coincide exactamente con el valor óptimo del modelo dual $\min \sum c_{ij} w_{ij} = C(w^+(N))$.
@@ -1510,7 +1531,7 @@ Esto demuestra algebraicamente que **el Teorema de Flujo Máximo - Corte Mínimo
 
 ---
 
-## Ejemplo Dualidad: Red de 3 Nodos
+## Ejemplo dualidad: Red de 3 nodos
 
 * Considérese la red de 3 nodos $V = \{s, 1, t\}$ con arcos y capacidades:
   * $c_{s1} = 3, \quad c_{st} = 2, \quad c_{1t} = 4$
@@ -1521,7 +1542,7 @@ Esto demuestra algebraicamente que **el Teorema de Flujo Máximo - Corte Mínimo
 
 ---
 
-## Ejemplo Dualidad: Planteamiento Primal y Dual
+## Ejemplo dualidad: Planteamiento primal y dual
 
 * **Modelo Primal**:
   $$\begin{aligned} \max_{x, f_0} \quad & f_0 \\ \text{s.a.} \quad & -x_{s1} - x_{st} = -f_0, \quad x_{s1} - x_{1t} = 0, \quad x_{st} + x_{1t} = f_0 \\ & 0 \le x_{s1} \le 3, \quad 0 \le x_{st} \le 2, \quad 0 \le x_{1t} \le 4 \end{aligned}$$
@@ -1531,7 +1552,7 @@ Esto demuestra algebraicamente que **el Teorema de Flujo Máximo - Corte Mínimo
 
 ---
 
-## Ejemplo Dualidad: Solución Óptima Primal y Dual
+## Ejemplo dualidad: Solución óptima primal y dual
 
 * **Solución Primal Óptima**:
   * Flujo máximo $f_0^* = 5$ con $x_{s1}^* = 3$, $x_{st}^* = 2$, $x_{1t}^* = 3$.
@@ -1544,7 +1565,7 @@ Esto demuestra algebraicamente que **el Teorema de Flujo Máximo - Corte Mínimo
 
 ---
 
-## Ejemplo Dualidad: Representación de la Solución
+## Ejemplo dualidad: Representación de la solución
 
 <div style="text-align:center;">
   <img src="../images/red_flujo_maximo_dualidad_solucion.png" style="width:60% !important; max-height:360px !important; margin:0 auto; display:block;" alt="Solución óptima primal y dual en red de 3 nodos" />
@@ -1554,7 +1575,7 @@ Esto demuestra algebraicamente que **el Teorema de Flujo Máximo - Corte Mínimo
 
 # Problema de flujo a coste mínimo
 
-## Introducción al Flujo a Coste Mínimo
+## Introducción al flujo a coste mínimo
 
 * **Más allá del flujo máximo**:
   * En logística y transporte no solo importa enviar la máxima cantidad, sino el **coste unitario de transporte** $p_{ij} \in \mathbb{R}$ por cada unidad circulante.
@@ -1566,7 +1587,7 @@ $$\min_{f} \sum_{(i,j) \in U} p_{ij} f_{ij}$$
 
 ---
 
-## Planteamiento: Asignación de Tareas con Costes
+## Planteamiento: Asignación de tareas con costes
 
 * **Escenario industrial**:
   * $n$ máquinas $m_1 \dots m_n$ y $n$ tareas $t_1 \dots t_n$.
@@ -1579,7 +1600,7 @@ $$\min_{f} \sum_{(i,j) \in U} p_{ij} f_{ij}$$
 
 ---
 
-## Asignación Bipartita en Red
+## Asignación bipartita en red
 
 <div style="text-align:center;">
   <img src="../images/red_problema_asignacion_bipartita.png" style="width:65% !important; max-height:360px !important; margin:0 auto; display:block;" alt="Red de asignación de tareas a máquinas" />
@@ -1589,9 +1610,9 @@ $$\min_{f} \sum_{(i,j) \in U} p_{ij} f_{ij}$$
 
 ---
 
-## Formulación del Flujo a Coste Mínimo
+## Formulación del flujo a coste mínimo
 
-::: {.callout-note title="Modelo PL del Flujo a Coste Mínimo" data-kind="definicion"}
+::: {.callout-note title="Modelo PL del flujo a coste mínimo" data-kind="definicion"}
 Dada una red $(G = (V, U), \mathbf{c})$, costes unitarios $p_{ij} \in \mathbb{R}$ y un caudal total requerido $f_0 = \nu$:
 
 $$
@@ -1605,7 +1626,7 @@ $$
 
 ---
 
-## Ejemplo Coste Mínimo: Red de 5 Nodos
+## Ejemplo coste mínimo: Red de 5 nodos
 
 * Red de 5 nodos $V = \{s, a, b, c, t\}$ con caudal requerido $\nu = 4$.
 * Capacidades en azul $(c_{ij})$ y costes unitarios en rojo $[p_{ij}]$:
@@ -1616,7 +1637,7 @@ $$
 
 ---
 
-## Ejemplo Coste Mínimo: Comparación de Soluciones Factibles
+## Ejemplo coste mínimo: Comparación de soluciones factibles
 
 <div style="text-align:center;">
   <img src="../images/comparacion_flujos_coste_minimo.png" style="width:70% !important; max-height:360px !important; margin:0 auto; display:block;" alt="Comparación de flujos compatibles A y B" />
@@ -1626,7 +1647,7 @@ $$
 
 ---
 
-## Ejemplo Coste Mínimo: Evaluación de Flujos fA y fB
+## Ejemplo coste mínimo: Evaluación de flujos fA y fB
 
 * **Flujo Compatible $\mathbf{f}^A$** (en rojo):
   * Asignación: $f_{sa}^A=1, f_{sb}^A=3, f_{ac}^A=1, f_{bc}^A=1, f_{bt}^A=2, f_{ct}^A=2$.
@@ -1638,7 +1659,7 @@ $$
 
 ---
 
-## Ejemplo Coste Mínimo: Análisis del Ciclo de Diferencia
+## Ejemplo coste mínimo: Análisis del ciclo de diferencia
 
 * **Diferencia entre soluciones**:
   * $\mathbf{\mu}^1 = \mathbf{f}^A - \mathbf{f}^B = (-1, 1, -1, 1, 0, 0) \implies$ Circuito cerrado $s \to b \to c \to a \to s$.
@@ -1651,7 +1672,7 @@ $$
 
 ---
 
-## Ejemplo Coste Mínimo: Evaluación de Cadenas desde Flujo Nulo
+## Ejemplo coste mínimo: Evaluación de cadenas desde flujo nulo
 
 * Evaluamos las 3 cadenas orientadas simples de $s$ a $t$ en la red nula $\mathbf{f}^0 = \mathbf{0}$:
   1. **Cadena 1** ($s \to a \to c \to t$): Coste unitario $3 + 2 + 1 = 6$.
@@ -1660,7 +1681,7 @@ $$
 
 ---
 
-## Ejemplo Coste Mínimo: Solución Óptima Absoluta
+## Ejemplo coste mínimo: Solución óptima absoluta
 
 * **Cadena de coste mínimo**:
   * $s \to b \to t$ con coste unitario 3 y capacidad residual $\min(4, 4) = 4$.
@@ -1673,7 +1694,7 @@ $$
 
 ---
 
-## Coste y Capacidad Residual de Cadenas
+## Coste y capacidad residual de cadenas
 
 * **Coste Total Residual de una Cadena $\mu$**:
   $$p(\mu) = \sum_{u \in \mu^+} p_u - \sum_{u \in \mu^-} p_u$$
@@ -1683,7 +1704,7 @@ $$
 
 ---
 
-## Teorema: Optimalidad por Ausencia de Circuitos Negativos
+## Teorema: Optimalidad por ausencia de circuitos negativos
 
 ::: {.callout-important title="Optimalidad por ausencia de circuitos incrementales de coste negativo" data-kind="teorema"}
 Un flujo compatible $\mathbf{f}$ de valor $f_0 = \nu$ es de **coste mínimo** si y solo si la red residual $G(\mathbf{f})$ **no contiene ningún circuito incremental de coste total negativo** (sin incluir el arco ficticio de retorno $(t, s)$).
@@ -1693,7 +1714,7 @@ Un flujo compatible $\mathbf{f}$ de valor $f_0 = \nu$ es de **coste mínimo** si
 
 ---
 
-## Teorema: Incrementos por Caminos de Coste Mínimo
+## Teorema: Incrementos por caminos de coste mínimo
 
 ::: {.callout-important title="Incrementos por caminos de coste mínimo" data-kind="teorema"}
 Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se incrementa el flujo en $\delta$ unidades a lo largo de la cadena incremental de $s$ a $t$ que posea el **coste total residual mínimo** en $G(\mathbf{f})$, el flujo resultante es de coste mínimo para el nuevo caudal $\nu + \delta$.
@@ -1703,7 +1724,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Estrategia Algorítmica de Resolución Iterativa
+## Estrategia algorítmica de resolución iterativa
 
 ::: {.callout-note title="Estrategia algorítmica de resolución iterativa" data-kind="nota"}
 1. **Determinación del Flujo Inicial**:
@@ -1714,7 +1735,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Correspondencia de Circuitos Negativos en G(f)
+## Correspondencia de circuitos negativos en G(f)
 
 * **Red residual $G(\mathbf{f})$ como grafo de distancias**:
   * Cada arco en $G(\mathbf{f})$ lleva asignado el coste residual $p_u$ (si es directo) o $-p_u$ (si es inverso).
@@ -1724,7 +1745,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Esquema: Algoritmo de Flujo a Coste Mínimo (Pasos 1 y 2)
+## Esquema: Algoritmo de flujo a coste mínimo (pasos 1 y 2)
 
 * **Paso 1 (Inicialización)**:
   * Obtener un flujo compatible inicial $\mathbf{f}$ (típicamente $\mathbf{f}^0 = \mathbf{0}$ para $\nu = 0$).
@@ -1736,7 +1757,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Esquema: Algoritmo de Flujo a Coste Mínimo (Paso 3)
+## Esquema: Algoritmo de flujo a coste mínimo (paso 3)
 
 * **Paso 3 (Aumento del valor del flujo)**:
   * Si $f_0 = \nu \implies$ **PARAR**: Solución óptima alcanzada.
@@ -1748,7 +1769,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza Coste Mínimo: Planteamiento de la Red
+## Ejemplo traza coste mínimo: Planteamiento de la red
 
 * Red de 5 nodos $V = \{s, a, b, c, t\}$ con 7 arcos dirigidos $(c_{ij})[p_{ij}]$:
   * $(s,a): (3)[3]$, $(s,b): (2)[3]$, $(a,c): (2)[-1]$, $(a,t): (4)[-1]$
@@ -1759,7 +1780,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Paso 1 (Inicialización con Flujo Nulo)
+## Ejemplo traza: Paso 1 (inicialización con flujo nulo)
 
 * **Solución inicial de flujo nulo**:
   * $\mathbf{f}^0 = \mathbf{0}$ para caudal circulante $f_0 = 0$.
@@ -1770,7 +1791,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Paso 2.1 y 2.2 (Detección del Circuito Negativo)
+## Ejemplo traza: Paso 2.1 y 2.2 (detección del circuito negativo)
 
 * **Construcción del Grafo Residual $G(\mathbf{f}^0)$**:
   * Al ser $\mathbf{f}^0 = \mathbf{0}$, todos los arcos admiten $c_{ij} > 0$. Los pesos unitarios en $G(\mathbf{f}^0)$ son:
@@ -1784,7 +1805,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Paso 2.3 y 2.4 (Eliminación del Circuito Negativo)
+## Ejemplo traza: Paso 2.3 y 2.4 (eliminación del circuito negativo)
 
 * **Incremento de flujo a lo largo de $C_1$**:
   * Asignamos 2 unidades en $C_1 \implies f_{ac}^1 = 2, f_{cb}^1 = 2, f_{ba}^1 = 2$.
@@ -1798,7 +1819,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Paso 3 - Iteración 1 (Camino Mínimo s -> a -> t)
+## Ejemplo traza: Paso 3 - Iteración 1 (camino mínimo s -> a -> t)
 
 * **Caudal actual $f_0 = 0 < 5 = \nu$**:
   * Buscamos en $G(\mathbf{f}^1)$ el camino de longitud residual mínima de $s$ a $t$.
@@ -1813,7 +1834,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Paso 3 - Iteración 1 (Actualización f0 = 3)
+## Ejemplo traza: Paso 3 - Iteración 1 (actualización f0 = 3)
 
 * **Actualización del vector de flujo $\mathbf{f}^2$**:
   * Asignamos $\Delta_1 = 3$ unidades en $\mu_1$: $f_{sa}^2 = 3$ (saturado), $f_{at}^2 = 3$.
@@ -1826,7 +1847,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Paso 3 - Iteración 2 (Camino Mínimo s -> b -> c -> a -> t)
+## Ejemplo traza: Paso 3 - Iteración 2 (camino mínimo s -> b -> c -> a -> t)
 
 * **Caudal actual $f_0 = 3 < 5 = \nu$**:
   * Buscamos en $G(\mathbf{f}^2)$ el camino de longitud residual mínima de $s$ a $t$.
@@ -1834,7 +1855,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 * **Detección del Camino Mínimo $\mu_2 = s \to b \to c \to a \to t$**:
   * La trayectoria utiliza los arcos directos $(s,b)$ y $(a,t)$, y los arcos inversos $(c,b)$ y $(a,c)$.
   * Coste residual total de la trayectoria:
-    $$p(\mu_2) = p_{sb} + (-p_{cb}) + (-p_{ac}) + p_{at} = 3 + (-1) + 1 + (-1) = 2 \quad (\text{o } 4 \text{ sin cancelación})$$
+    $$p(\mu_2) = p_{sb} - p_{cb} - p_{ac} + p_{at} = 3 + (-1) + 1 + (-1) = 2$$
 
 * **Cálculo de la capacidad residual e incremento**:
   * $c(\mu_2) = \min \{ c_{sb}-0, \, f_{cb}^2, \, f_{ac}^2, \, c_{at}-3 \} = \min \{2, 2, 2, 1\} = 1$ unidad.
@@ -1842,7 +1863,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Paso 3 - Iteración 2 (Actualización f0 = 4)
+## Ejemplo traza: Paso 3 - Iteración 2 (actualización f0 = 4)
 
 * **Actualización del vector de flujo $\mathbf{f}^3$**:
   * Flujo directo aumenta en 1 unidad: $f_{sb}^3 = 1$, $f_{at}^3 = 4$ (saturado).
@@ -1855,7 +1876,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Paso 3 - Iteración 3 (Camino Mínimo s -> b -> c -> t)
+## Ejemplo traza: Paso 3 - Iteración 3 (camino mínimo s -> b -> c -> t)
 
 * **Caudal actual $f_0 = 4 < 5 = \nu$**:
   * Buscamos en $G(\mathbf{f}^3)$ el camino de longitud residual mínima de $s$ a $t$.
@@ -1871,7 +1892,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Paso 3 - Iteración 3 (Actualización f0 = 5 y Parada)
+## Ejemplo traza: Paso 3 - Iteración 3 (actualización f0 = 5 y parada)
 
 * **Actualización final de flujos**:
   * $f_{sb}^* = 1 + 1 = 2$ (saturando el arco $(s,b)$).
@@ -1884,7 +1905,7 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Solución Óptima Final y Coste Mínimo Total
+## Ejemplo traza: Solución óptima final y coste mínimo total
 
 * **Distribución de flujo óptima final para $\nu = 5$ unidades**:
   $$f_{sa}^* = 3, \quad f_{sb}^* = 2, \quad f_{ba}^* = 2, \quad f_{ac}^* = 1, \quad f_{cb}^* = 0, \quad f_{at}^* = 4, \quad f_{ct}^* = 1$$
@@ -1900,17 +1921,15 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 
 ---
 
-## Ejemplo Traza: Reproductor Interactivo
+## Ejemplo traza: Reproductor interactivo
 
 ::: {.content-visible when-format="html"}
-<div style="text-align:center;">
-  <iframe src="../images/flujo_coste_minimo_paso1_player.html" width="100%" height="480px" style="border:none; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" scrolling="no"></iframe>
-</div>
+<iframe src="../images/flujo_coste_minimo_paso1_player.html" style="width:100%; height:520px; border:none; display:block; margin:0 auto;" scrolling="no"></iframe>
 :::
 
 # El problema del transbordo
 
-## El Problema del Transbordo: Introducción
+## El problema del transbordo: Introducción
 
 * **Extensión a redes complejas**:
   * Generaliza el flujo de coste mínimo de un par $(s, t)$ a redes con **múltiples nodos de oferta y demanda**.
@@ -1919,13 +1938,13 @@ Dado un flujo $\mathbf{f}$ de valor $\nu$ que es de coste mínimo, si se increme
 * **Clasificación de balances nodales ($b_i$)**:
   * **Oferta ($b_i > 0$)**: El nodo genera o dispone de $b_i$ unidades de mercancía.
   * **Demanda ($b_i < 0$)**: El nodo requiere o consume $|b_i|$ unidades de mercancía.
-  * **Transbordo ($b_i = 0$)**: El nodo no produce ni consume; punto intermedio de paso ($\sum f_{in} = \sum f_{out}$).
+  * **Transbordo ($b_i = 0$)**: El nodo no produce ni consume mercancía, actuando como punto intermedio de paso ($\sum f_{in} = \sum f_{out}$).
 
-* **Hipótesis de Equilibrio Global**: $\sum_{i=1}^n b_i = 0$
+* **Hipótesis de equilibrio global**: $\sum_{i \in V} b_i = 0$
 
 ---
 
-## Modelo Matemático del Transbordo
+## Modelo matemático del transbordo
 
 ::: {.callout-note title="Modelo lineal del problema del transbordo" data-kind="definicion"}
 Dada una red dirigida $G = (V, U)$ con capacidades $[\ell_{ij}, c_{ij}]$ y costes unitarios $p_{ij}$:
@@ -1941,7 +1960,7 @@ $$
 
 ---
 
-## El Transbordo como Marco Unificador
+## El transbordo como marco unificador
 
 1. **Problema de Transporte**: Nodos divididos estrictamente en orígenes ($b_i > 0$) y destinos ($b_i < 0$), sin nodos de transbordo.
 2. **Problema de Asignación**: Caso de transporte bipartito con $b_i = +1$, $b_j = -1$ y capacidades unitarias.

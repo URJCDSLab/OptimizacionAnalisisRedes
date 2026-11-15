@@ -17,7 +17,7 @@ Al finalizar este capítulo, serás capaz de:
 
 ## Estructura algebraica de flujos, ciclos y cociclos
 
-El análisis cualitativo y cuantitativo de las redes de flujo requiere establecer una representación matemática rigurosa basada en el álgebra lineal sobre la topología del digrafo. Los flujos en una red no son simples colecciones arbitrarias de números asignados a las conexiones; responden a leyes físicas y topológicas estrictas de conservación local en los vértices (análogas a las leyes de Kirchhoff en circuitos eléctricos o a la ecuación de continuidad en dinámica de fluidos).
+El análisis cualitativo y cuantitativo de las redes de flujo requiere establecer una representación matemática rigurosa basada en el álgebra lineal sobre la topología del digrafo. Los flujos en una red no son simples colecciones arbitrarias de números asignados a las conexiones, sino que responden a leyes físicas y topológicas estrictas de conservación local en los vértices (análogas a las leyes de Kirchhoff en circuitos eléctricos o a la ecuación de continuidad en dinámica de fluidos).
 
 Para formalizar este comportamiento, representamos la red como un digrafo conexo $G = (V, U)$ formado por un conjunto de $n = |V|$ vértices y $m = |U|$ arcos dirigidos.
 
@@ -35,7 +35,7 @@ donde $w^+(i)$ representa el conjunto de arcos salientes del nodo $i$ y $w^-(i)$
 Para evitar cualquier confusión entre los nombres de los arcos y los valores numéricos del flujo:
 
 1. **Identificador del Arco**: Los $m$ arcos del digrafo se etiquetan como $u_1, u_2, \dots, u_m \in U$ (o bien por el par ordenado de sus vértices $u = (i, j)$).
-2. **Identificador de Vectores (Superíndices)**: Los distintos vectores de flujo o de ciclo se denotan en negrita utilizando **superíndices** (por ejemplo, $\mathbf{f}^1, \mathbf{f}^2, \mathbf{f}^3$ para vectores de flujo; $\mathbf{\mu}^1, \mathbf{\mu}^2$ para vectores de ciclo).
+2. **Identificador de Vectores (Superíndices)**: Los distintos vectores de flujo o de ciclo se denotan en negrita utilizando **superíndices** (por ejemplo, $\mathbf{f}^1, \mathbf{f}^2, \mathbf{f}^3$ para vectores de flujo y $\mathbf{\mu}^1, \mathbf{\mu}^2$ para vectores de ciclo).
 3. **Componentes Escalares de Arco (Subíndices)**: El caudal que circula por el arco $u_k$ se denota mediante el **subíndice** $f_{u_k}$ (o $f_{ij}$), correspondiente a la $k$-ésima entrada del vector $\mathbf{f}$. En los gráficos de la red, las etiquetas especifican explícitamente el arco y su valor ($u_k: f_{u_k}$).
 :::
 
@@ -139,20 +139,20 @@ $$
 :::
 
 ::: {.callout-tip title="Ejemplo: Vectores característicos de ciclos y relaciones lineales" data-kind="ejemplo" collapse="true"}
-Considérese el digrafo de referencia de 5 nodos $s, b, c, d, t$ y 7 arcos dirigidos de la @fig-ciclos-vectores. Se pueden identificar diversos ciclos y sus correspondientes vectores característicos $\mathbf{\mu}_k \in \mathbb{R}^7$:
+Considérese el digrafo de referencia de 5 nodos $s, b, c, d, t$ y 7 arcos dirigidos de la @fig-ciclos-vectores. Se pueden identificar diversos ciclos y sus correspondientes vectores característicos $\mathbf{\mu}^k \in \mathbb{R}^7$:
 
-* $\mathbf{\mu}_1 = (1, 1, 1, 0, 0, 0, 0)^T$: Ciclo orientado $s \to b \to c \to s$ (formado por los arcos $1, 2, 3$).
-* $\mathbf{\mu}_2 = (0, -1, 0, 1, 1, 0, 0)^T$: Ciclo $b \to d \to c \to b$ (formado por los arcos $4, 5$ y el opuesto de $2$).
-* $\mathbf{\mu}_3 = (1, 0, 1, 1, 1, 0, 0)^T$: Ciclo exterior $s \to b \to d \to c \to s$.
-* $\mathbf{\mu}_4 = (-1, -1, -1, 0, -1, -1, -1)^T$: Ciclo global en sentido opuesto.
-* $\mathbf{\mu}_5 = (-1, -1, -1, 0, 0, 0, 0)^T$: Ciclo inverso al ciclo $\mathbf{\mu}_1$.
+* $\mathbf{\mu}^1 = (1, 1, 1, 0, 0, 0, 0)^T$: Ciclo orientado $s \to b \to c \to s$ (formado por los arcos $1, 2, 3$).
+* $\mathbf{\mu}^2 = (0, -1, 0, 1, 1, 0, 0)^T$: Ciclo $b \to d \to c \to b$ (formado por los arcos $4, 5$ y el opuesto de $2$).
+* $\mathbf{\mu}^3 = (1, 0, 1, 1, 1, 0, 0)^T$: Ciclo exterior $s \to b \to d \to c \to s$.
+* $\mathbf{\mu}^4 = (-1, 0, -1, -1, 0, 1, 1)^T$: Ciclo perimetral exterior en sentido opuesto $s \to c \to t \to d \to b \to s$ (arcos $u_6, u_7$ directos y $u_1, u_3, u_4$ inversos).
+* $\mathbf{\mu}^5 = (-1, -1, -1, 0, 0, 0, 0)^T$: Ciclo inverso al ciclo $\mathbf{\mu}^1$.
 
 ![Digrafo de referencia para la evaluación de vectores característicos de ciclos](images/ciclos_vectores_ejemplo.png){#fig-ciclos-vectores fig-align="center" width="65%"}
 
 Analizando las componentes de los vectores característicos, se comprueban de forma inmediata las siguientes relaciones lineales entre los ciclos:
 
 $$
-\mathbf{\mu}_1 = -\mathbf{\mu}_5, \qquad \mathbf{\mu}_3 = \mathbf{\mu}_1 + \mathbf{\mu}_2
+\mathbf{\mu}^1 = -\mathbf{\mu}^5, \qquad \mathbf{\mu}^3 = \mathbf{\mu}^1 + \mathbf{\mu}^2
 $$
 
 Esta propiedad demuestra que las combinaciones lineales de ciclos generan nuevos vectores característicos de ciclos, lo que fundamenta la estructura de espacio vectorial del conjunto de flujos.
@@ -188,10 +188,10 @@ La propiedad de independencia lineal garantiza que ninguno de los flujos de la b
 ::: {.callout-important title="Teorema: Base fundamental de ciclos" data-kind="teorema"}
 Sea $G = (V, U)$ un digrafo conexo con $n$ vértices y $m$ arcos, y sea $H = (V, T)$ un árbol soporte de $G$ (formado por $n - 1$ arcos).
 
-Al añadir a $T$ cualquier arco fuera del árbol $u \in U \setminus T$, se forma un único ciclo elemental $\mu^u$ en $G$ tal que $\mu^u_u = 1$. El conjunto de ciclos $H = \{\mu^u \mid u \in U \setminus T\}$ constituye una **base del espacio vectorial de flujos** del digrafo $G$.
+Al añadir a $T$ cualquier arco fuera del árbol $u \in U \setminus T$, se forma un único ciclo elemental $\mu^u$ en $G$ tal que $\mu^u_u = 1$. El conjunto de ciclos $B = \{\mu^u \mid u \in U \setminus T\}$ constituye una **base del espacio vectorial de flujos** del digrafo $G$.
 
 *Demostración*:
-Debemos probar que el conjunto de ciclos $H$ es linealmente independiente y generador:
+Debemos probar que el conjunto de ciclos $B$ es linealmente independiente y generador:
 
 1. **Independencia lineal**: Cada arco fuera del árbol $u \in U \setminus T$ pertenece a un único ciclo de la base (aquel generado por el propio arco $u$). Por tanto, la componente $\mu^u_u = 1$ mientras que $\mu^{u'}_u = 0$ para cualquier otro $u' \in U \setminus T$. La matriz construida con los vectores de la base contiene una submatriz identidad de dimensión $|U \setminus T| = m - n + 1$, lo que garantiza independencia lineal.
 2. **Carácter generador**: Sea un flujo arbitrario $\mathbf{f} = (f_1, \dots, f_m)^T$. Definimos el vector $\mathbf{g} = \mathbf{f} - \sum_{u \in U \setminus T} f_u \mathbf{\mu}^u$. Como $\mathbf{g}$ es combinación lineal de flujos, $\mathbf{g}$ es un flujo. Para cualquier arco $u \in U \setminus T$, la componente $g_u = f_u - f_u (1) = 0$. Por tanto, el flujo $\mathbf{g}$ tiene componentes nulas en todos los arcos de $U \setminus T$. Esto implica que $\mathbf{g}$ es un flujo definido únicamente sobre el árbol $T$. Por el Lema de Flujo Nulo en Árboles, se deduce que $\mathbf{g} = \mathbf{0}$, demostrando que $\mathbf{f} = \sum_{u \in U \setminus T} f_u \mathbf{\mu}^u$. $\blacksquare$
@@ -237,7 +237,7 @@ $$
 $$
 
 ::: {.content-visible when-format="pdf"}
-![Construcción paso a paso de los tres ciclos fundamentales $\{\mathbf{\mu}^2, \mathbf{\mu}^3, \mathbf{\mu}^6\}$ de la base de flujos](images/base_ciclos_tres_pasos.png){#fig-base-ciclos-tres-pasos fig-align="center" width="85%"}
+![Construcción paso a paso de los tres ciclos fundamentales $\{\mathbf{\mu}^2, \mathbf{\mu}^3, \mathbf{\mu}^6\}$ de la base de flujos](images/base_ciclos_tres_pasos.png){#fig-base-ciclos-descomposicion-animado fig-align="center" width="85%"}
 :::
 
 ::: {.content-visible when-format="html"}
@@ -275,7 +275,7 @@ Animación interactiva paso a paso de la generación de la base fundamental de c
 :::
 ::::
 
-### Cociclos y Lema de Coloración de Arcos de Minty
+### Cociclos y lema de coloración de arcos de Minty
 
 Mientras que los ciclos representan circulaciones internas cerradas que conservan el flujo localmente sin alterar los balances netos externos, los **cociclos** (o cortes topológicos) representan la estructura dual: barreras globales que separan el conjunto de vértices en dos regiones disjuntas $A$ y $V \setminus A$. Los cociclos condicionan la capacidad global de transporte de la red y determinan la existencia de embotellamientos o cuellos de botella.
 
@@ -319,13 +319,13 @@ Considérese el digrafo de $n = 5$ nodos y $m = 7$ arcos analizado previamente. 
    En esta primera partición, los nodos $a, b, e$ se encuentran en la región izquierda (destacados en **azul cerúleo**) y los nodos $c, d$ en la región derecha (en **slate oscuro**). Analizamos los 7 arcos del digrafo uno a uno:
 
    * Arcos internos a $A_1$: Los arcos $u_1=(a,b)$, $u_5=(e,a)$ y $u_6=(e,b)$ conectan vértices que pertenecen ambos a $A_1$. No cruzan la frontera y por tanto reciben el valor $\theta_{u_1} = \theta_{u_5} = \theta_{u_6} = 0$.
-   * Arcos salientes de $A_1$: El arco $u_2=(b,c)$ parte de $b \in A_1$ y llega a $c \notin A_1$; de igual modo, el arco $u_7=(e,c)$ parte de $e \in A_1$ y llega a $c \notin A_1$. Ambos son arcos directos o salientes: $w^+(A_1) = \{u_2, u_7\}$, asignándoles el valor $+1$ ($\theta_{u_2} = 1, \theta_{u_7} = 1$).
+   * Arcos salientes de $A_1$: El arco $u_2=(b,c)$ parte de $b \in A_1$ y llega a $c \notin A_1$, y de igual modo el arco $u_7=(e,c)$ parte de $e \in A_1$ y llega a $c \notin A_1$. Ambos son arcos directos o salientes: $w^+(A_1) = \{u_2, u_7\}$, asignándoles el valor $+1$ ($\theta_{u_2} = 1, \theta_{u_7} = 1$).
    * Arcos entrantes a $A_1$: El arco $u_4=(d,e)$ parte de $d \notin A_1$ e ingresa a $e \in A_1$. Es un arco inverso o entrante: $w^-(A_1) = \{u_4\}$, asignándole el valor $-1$ ($\theta_{u_4} = -1$).
    * Arcos externos a $A_1$: El arco $u_3=(c,d)$ conecta dos vértices fuera de $A_1$, por lo que $\theta_{u_3} = 0$.
    * Vector característico de $w(A_1)$: $\mathbf{\theta}^1 = (0;\, 1;\, 0;\, -1;\, 0;\, 0;\, 1)^T$.
 
 2. **Subconjunto $A_2 = \{b, d\}$ (Subgráfico Derecho)**:
-   En esta segunda partición, los nodos $b, d$ forman la región superior (destacados en **azul cerúleo**) y los nodos $a, c, e$ forman la región inferior (en **slate oscuro**):
+   En esta segunda partición, los nodos diagonalmente opuestos $b$ (superior izquierdo) y $d$ (inferior derecho), destacados en **azul cerúleo**, conforman $A_2$, separados de $V \setminus A_2 = \{a, c, e\}$ (en **slate oscuro**):
 
    * Arcos salientes de $A_2$: Los arcos $u_2=(b,c)$ (sale de $b \in A_2$ hacia $c$) y $u_4=(d,e)$ (sale de $d \in A_2$ hacia $e$) cruzan la frontera hacia afuera: $w^+(A_2) = \{u_2, u_4\}$, asignándoles el valor $+1$ ($\theta_{u_2} = 1, \theta_{u_4} = 1$).
    * Arcos entrantes a $A_2$: Los arcos $u_1=(a,b)$ (entra desde $a$ a $b \in A_2$), $u_3=(c,d)$ (entra desde $c$ a $d \in A_2$) y $u_6=(e,b)$ (entra desde $e$ a $b \in A_2$) cruzan la frontera hacia adentro: $w^-(A_2) = \{u_1, u_3, u_6\}$, asignándoles el valor $-1$ ($\theta_{u_1} = -1, \theta_{u_3} = -1, \theta_{u_6} = -1$).
@@ -390,7 +390,7 @@ Al finalizar el proceso de etiquetado, se presenta una y solo una de las siguien
 
 El procedimiento constructivo anterior demuestra que las tres reglas de propagación de etiquetas garantizan siempre una dicotomía estricta. Para visualizar de forma clara cómo el algoritmo busca la cadena de antecedentes y cómo el color de cada arco determina la ruta de etiquetado o la detención del proceso, consideremos la aplicación completa del Lema sobre una red de 5 nodos en dos escenarios alternativos de coloración.
 
-::: {.callout-tip title="Ejemplo: Aplicación del Lema de Coloración de Minty" data-kind="ejemplo" collapse="true"}
+::: {.callout-tip title="Ejemplo: Aplicación del lema de coloración de Minty" data-kind="ejemplo" collapse="true"}
 Considérese la red de 5 nodos $V = \{a, b, c, d, e\}$ ilustrada en la @fig-minty-ejemplo-casos, con arco negro de referencia $u_0 = (b, c)$. Se evalúan las dos coloraciones posibles para ilustrar los dos casos alternativos del lema:
 
 1. **Caso A: Generación de un Ciclo (Gráfico Izquierdo)**
@@ -497,10 +497,10 @@ Considérese la red de transporte de 6 nodos $V = \{s, b, c, d, e, t\}$ ilustrad
 
 Evaluamos las condiciones de compatibilidad en los arcos de la red:
 
-1. **Flujo compatible base**: En el estado ilustrado, todos los arcos satisfacen $0 \le f_u \le c_u$. Por ejemplo, el arco $(s, b)$ transita con $f_{sb} = 5 \le c_{sb} = 5$ (arco saturado), mientras que $(b, c)$ transita con $f_{bc} = 2 \le c_{bc} = 3$ (no saturado).
-2. **Evaluación de una modificación por ciclo**: Supóngase que intentamos incrementar el flujo enviando 2 unidades adicionales a lo largo del circuito cerrado $c \to d \to e \to c$ (destacado en **rojo teja** en la figura).
-   * En el arco $(c, d)$, el flujo aumentaría de $f_{cd} = 1$ a $1 + 2 = 3$. Sin embargo, su capacidad es $c_{cd} = 1$, por lo que $3 > 1$ violando la restricción de capacidad.
-   * De igual modo, en $(d, e)$ el flujo pasaría a $4 + 2 = 6 > c_{de} = 3$, e $(e, c)$ pasaría a $2 + 2 = 4 > c_{ec} = 1$.
+1. **Flujo compatible base**: En el flujo compatible de partida (análogo al empleado en el análisis de cortes), todos los arcos satisfacen $0 \le f_u \le c_u$. Por ejemplo, el arco $(s, b)$ transita con $f_{sb} = 5 \le c_{sb} = 5$ (arco saturado), mientras que $(b, c)$ transita con $f_{bc} = 2 \le c_{bc} = 3$ (no saturado), $(c, d)$ con $f_{cd} = 3 \le c_{cd} = 4$, $(d, e)$ con $f_{de} = 2 \le c_{de} = 3$ y $(e, c)$ con $f_{ec} = 0 \le c_{ec} = 1$.
+2. **Evaluación de una modificación por ciclo**: Supóngase que intentamos incrementar el flujo base enviando 2 unidades adicionales a lo largo del circuito cerrado $c \to d \to e \to c$ (en la @fig-red-flujo-saturacion-ejemplo se muestran en **rojo teja** los caudales resultantes tras sumar $+2$).
+   * En el arco $(c, d)$, el flujo aumentaría de $f_{cd} = 3$ a $3 + 2 = 5$. Sin embargo, su capacidad es $c_{cd} = 4$, por lo que $5 > 4$ violando la restricción de capacidad.
+   * De igual modo, en $(d, e)$ el flujo pasaría de $2$ a $2 + 2 = 4 > c_{de} = 3$, y en $(e, c)$ pasaría de $0$ a $0 + 2 = 2 > c_{ec} = 1$.
 
 *Conclusión*: La adición de dicho ciclo destruye la compatibilidad del flujo al exceder las capacidades límite de los arcos.
 
@@ -523,7 +523,7 @@ Analizando la red, aunque la fuente $s$ puede inyectar hasta $100 + 100 = 200$ v
 
 Además de sistemas de transporte físico, el problema del flujo máximo permite resolver de forma elegante problemas de optimización combinatoria y asignación de personal.
 
-::: {.callout-tip title="Ejemplo: Asignación óptima de tareas a empleados (Emparejamiento Bipartito)" data-kind="ejemplo" collapse="true"}
+::: {.callout-tip title="Ejemplo: Asignación óptima de tareas a empleados (emparejamiento bipartito)" data-kind="ejemplo" collapse="true"}
 En una oficina hay tres empleados ($E_1, E_2, E_3$) y tres tareas ($T_1, T_2, T_3$). Cada tarea requiere unos conocimientos específicos que no todos los empleados poseen. Las compatibilidades se representan en el digrafo bipartito de la @fig-asignacion-tareas-ejemplo (izquierda):
 
 * $E_1$ es compatible con $T_1, T_2$.
@@ -777,7 +777,7 @@ Considérese la red de 6 nodos $V = \{s, 1, 2, 3, 4, t\}$ equipada con el arco d
    * Arco de retorno $u_0 = (t, s)$ con $f_0 = 10, c_0 = \infty$: **Negro** (admite aumento).
    * Arco $(3, 1)$ con $f_{31} = 0, c_{31} = 5$: **Negro** ($0 = f_{31} < c_{31}$).
    * Arcos a capacidad máxima: $(1,2)$ con $4,(4)$, $(1,4)$ con $1,(1)$, $(3,4)$ con $5,(5)$, y $(4,2)$ con $2,(2)$: **Verdes** ($0 < f_u = c_u$).
-   * Arcos a capacidad intermedia: $(s,1)$ con $5,(6)$, $(s,3)$ with $5,(7)$, $(2,t)$ con $6,(7)$, y $(4,t)$ con $4,(6)$: **Rojos** ($0 < f_u < c_u$).
+   * Arcos a capacidad intermedia: $(s,1)$ con $5,(6)$, $(s,3)$ con $5,(7)$, $(2,t)$ con $6,(7)$, y $(4,t)$ con $4,(6)$: **Rojos** ($0 < f_u < c_u$).
 
 ![Aplicación de la regla de coloración de Minty sobre una red de transporte en flujo óptimo de valor $f_0 = 10$](images/minty_demostracion_red59.png){#fig-minty-demostracion-red59 fig-align="center" width="75%"}
 
@@ -836,7 +836,7 @@ La clave del algoritmo radica en que un flujo compatible $\mathbf{f}$ admite un 
 
 El procedimiento sistemático para resolver cualquier problema de flujo máximo mediante la red residual se resume en la siguiente especificación paso a paso:
 
-::: {.callout-note title="Esquema: Algoritmo de Ford-Fulkerson por Red Incremental" data-kind="esquema"}
+::: {.callout-note title="Esquema: Algoritmo de Ford-Fulkerson por red incremental" data-kind="esquema"}
 * **Paso 1 (Inicialización)**: Hacer $k = 0$. Determinar un flujo inicial compatible $\mathbf{f}^0 = (f_0^0, f_1^0, \dots, f_m^0)^T$ (típicamente el flujo trivial nulo $\mathbf{f}^0 = \mathbf{0}$).
 
 * **Paso 2 (Construcción y Búsqueda)**: Definir la red incremental $G(\mathbf{f}^k) = (V, U(\mathbf{f}^k))$. Buscar un camino orientado $\mu^k$ desde $s$ hasta $t$ en $G(\mathbf{f}^k)$.
@@ -859,7 +859,7 @@ El procedimiento sistemático para resolver cualquier problema de flujo máximo 
   Hacer $k \leftarrow k + 1$ y regresar al Paso 2.
 :::
 
-::: {.callout-tip title="Ejemplo: Resolución completa paso a paso del Algoritmo de Ford-Fulkerson desde flujo nulo" data-kind="ejemplo" collapse="true"}
+::: {.callout-tip title="Ejemplo: Resolución completa paso a paso del algoritmo de Ford-Fulkerson desde flujo nulo" data-kind="ejemplo" collapse="true"}
 Considérese la red de 6 nodos $V = \{s, 2, 3, 4, 5, t\}$ con fuente $s$, sumidero $t$ y capacidades de arcos asociadas:
 
 $$
@@ -910,6 +910,10 @@ Se aplica el algoritmo de Ford-Fulkerson por red incremental partiendo del flujo
 * Capacidad del corte:
   $$ C(w^+(N)) = c_{s3} + c_{24} = 2 + 2 = 4 = f_0^* $$
 
+::: {.content-visible when-format="pdf"}
+![Resolución completa paso a paso del algoritmo de Ford-Fulkerson por red incremental residual y corte mínimo resultante](images/ford_fulkerson_completo_pasos.png){#fig-ford-fulkerson-completo-animado fig-align="center" width="95%"}
+:::
+
 ::: {.content-visible when-format="html"}
 ::: {#fig-ford-fulkerson-completo-animado}
 <img id="ford-fulkerson-completo-preview"
@@ -959,7 +963,7 @@ Una vez analizada la fundamentación teórica y la traza explícita mediante la 
 
 El algoritmo de Ford-Fulkerson se puede plantear de forma más sencilla e intuitiva sin necesidad de construir explícitamente el grafo incremental $G(\mathbf{f})$ en cada iteración. Para ello, se emplea una **regla de etiquetado dinámico de vértices** que opera directamente sobre la red de transporte original.
 
-Inicialmente se asigna una etiqueta a la fuente $s$, $\text{Etiqueta}(s) = (\text{–}, \, \textcolor{dodgerblue}{\delta_s = +\infty})$, y paso a paso se propagan marcas y etiquetas al resto de vértices no explorados.
+Inicialmente se asigna una etiqueta a la fuente $s$, $\text{Etiqueta}(s) = (-, \, \textcolor{dodgerblue}{\delta_s = +\infty})$, y paso a paso se propagan marcas y etiquetas al resto de vértices no explorados.
 
 ::: {.callout-note title="Definición: Estructura de las etiquetas de vértices" data-kind="definicion"}
 La etiqueta asignada a un nodo $j$ presenta dos componentes diferenciadas:
@@ -996,8 +1000,8 @@ Como se ilustra en la @fig-reglas-etiquetado-ford-fulkerson, la propagación de 
 * **Si al final del proceso el sumidero $t$ resulta etiquetado**: Se ha alcanzado con éxito el destino a través de una cadena de aumento $\mu[s, t]$. El valor de la etiqueta del sumidero $\Delta = \textcolor{dodgerblue}{\delta_t}$ determina la cantidad exacta en la que se debe incrementar el flujo circulante $f_0$.
 * **Si no es posible etiquetar el sumidero $t$ ($t \notin S$)**: **PARAR**. Se ha alcanzado el **flujo máximo** $f_0^*$. El conjunto de nodos etiquetados $N = S$ define de forma inmediata el **corte de capacidad mínima** $w^+(N)$.
 
-::: {.callout-note title="Esquema: Algoritmo de Ford-Fulkerson por Etiquetado de Vértices" data-kind="esquema"}
-1. **Paso 1 (Inicialización)**: Asignar un flujo inicial compatible $\mathbf{f} = \mathbf{0}$ (o un flujo compatible conocido). Etiquetar la fuente $s$ con la marca inicial $(\text{–}, \, \textcolor{dodgerblue}{\delta_s = +\infty})$.
+::: {.callout-note title="Esquema: Algoritmo de Ford-Fulkerson por etiquetado de vértices" data-kind="esquema"}
+1. **Paso 1 (Inicialización)**: Asignar un flujo inicial compatible $\mathbf{f} = \mathbf{0}$ (o un flujo compatible conocido). Etiquetar la fuente $s$ con la marca inicial $(-, \, \textcolor{dodgerblue}{\delta_s = +\infty})$.
 
 2. **Paso 2 (Evaluación de Exploración)**: ¿Todos los vértices etiquetados han sido totalmente explorados?
    * **SÍ**: Ir al **Paso 6**.
@@ -1019,13 +1023,13 @@ Como se ilustra en la @fig-reglas-etiquetado-ford-fulkerson, la propagación de 
       $$ f_{ki} \leftarrow f_{ki} - \Delta $$
 
    4. Retroceder al nodo antecedente: $k \leftarrow i$. ¿Es $i = s$?
-      * **SÍ**: Incrementar el flujo de retorno $f_0 \leftarrow f_0 + \Delta$, borrar todas las etiquetas de los nodos excepto la de la fuente $s$ $(\text{–}, \, \textcolor{dodgerblue}{+\infty})$ e ir al **Paso 2**.
+      * **SÍ**: Incrementar el flujo de retorno $f_0 \leftarrow f_0 + \Delta$, borrar todas las etiquetas de los nodos excepto la de la fuente $s$ $(-, \, \textcolor{dodgerblue}{+\infty})$ e ir al **Paso 2**.
       * **NO**: Regresar al **Subpaso 5.2**.
 
 6. **Paso 6 (Optimalidad y Parada)**: El flujo actual $\mathbf{f}^*$ es el **flujo máximo**. El subconjunto de vértices que han quedado etiquetados $N = S$ define el **corte de capacidad mínima** $w^+(N)$.
 :::
 
-::: {.callout-tip title="Ejemplo: Traza paso a paso del Algoritmo de Ford-Fulkerson por etiquetado de vértices" data-kind="ejemplo" collapse="true"}
+::: {.callout-tip title="Ejemplo: Traza paso a paso del algoritmo de Ford-Fulkerson por etiquetado de vértices" data-kind="ejemplo" collapse="true"}
 Considérese la red de transporte de 8 nodos $V = \{s, 1, 2, 3, 4, 5, 6, t\}$ equipada con las capacidades entre paréntesis $c_u$:
 
 * $c_{s1} = 7$, $c_{s2} = 2$, $c_{12} = 1$, $c_{13} = 5$, $c_{32} = 3$, $c_{34} = 2$, $c_{35} = 4$, $c_{24} = 4$, $c_{46} = 5$, $c_{56} = 3$, $c_{5t} = 3$, $c_{6t} = 6$.
@@ -1035,7 +1039,7 @@ Se aplica el algoritmo de Ford-Fulkerson por etiquetado partiendo del flujo nulo
 **Iteración 1**:
 
 * **Propagación de etiquetas**:
-  * Etiqueta inicial en el origen: $\text{Etiqueta}(s) = (\text{–}, \, \textcolor{dodgerblue}{\delta_s = +\infty})$.
+  * Etiqueta inicial en el origen: $\text{Etiqueta}(s) = (-, \, \textcolor{dodgerblue}{\delta_s = +\infty})$.
   * Desde $s$: etiquetar $1$ con $(\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7})$ y $2$ con $(\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{2})$.
   * Desde $2$: etiquetar $4$ con $(\textcolor{forestgreen}{+2}, \, \textcolor{dodgerblue}{\min\{2, 4\} = 2})$.
   * Desde $4$: etiquetar $6$ con $(\textcolor{forestgreen}{+4}, \, \textcolor{dodgerblue}{\min\{2, 5\} = 2})$.
@@ -1049,7 +1053,7 @@ Se aplica el algoritmo de Ford-Fulkerson por etiquetado partiendo del flujo nulo
 **Iteración 2**:
 
 * **Propagación de etiquetas**:
-  * Etiqueta inicial en $s$: $(\text{–}, \, \textcolor{dodgerblue}{+\infty})$. (El arco $(s,2)$ está saturado, no permite etiquetar $2$).
+  * Etiqueta inicial en $s$: $(-, \, \textcolor{dodgerblue}{+\infty})$. (El arco $(s,2)$ está saturado, no permite etiquetar $2$).
   * Desde $s$: etiquetar $1$ con $(\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7})$.
   * Desde $1$: etiquetar $3$ con $(\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{7, 5\} = 5})$ y $2$ con $(\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{7, 1\} = 1})$.
   * Desde $3$: etiquetar $5$ con $(\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{5, 4\} = 4})$ y $4$ con $(\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{5, 2\} = 2})$.
@@ -1060,10 +1064,40 @@ Se aplica el algoritmo de Ford-Fulkerson por etiquetado partiendo del flujo nulo
   * $f_{5t} \leftarrow 0 + 3 = 3$ (el arco $(5,t)$ queda **saturado**, pasando a verde).
   * Flujo total circulante de retorno: $f_0^2 = 2 + 3 = 5$.
 
+**Iteración 3**:
+
+* **Propagación de etiquetas**:
+  * Etiqueta inicial en $s$: $(-, \, \textcolor{dodgerblue}{+\infty})$.
+  * Desde $s$: etiquetar $1$ con $(\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7 - 3 = 4})$ (el arco $(s,2)$ permanece saturado).
+  * Desde $1$: etiquetar $3$ con $(\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{4, 5 - 3\} = 2})$ y $2$ con $(\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{4, 1\} = 1})$.
+  * Desde $3$: etiquetar $5$ con $(\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{2, 4 - 3\} = 1})$ y $4$ con $(\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{2, 2\} = 2})$.
+  * Desde $5$: etiquetar $6$ con $(\textcolor{forestgreen}{+5}, \, \textcolor{dodgerblue}{\min\{1, 3\} = 1})$.
+  * Desde $6$: etiquetar el sumidero $t$ con $(\textcolor{forestgreen}{+6}, \, \textcolor{dodgerblue}{\min\{1, 6 - 2\} = 1})$.
+* **Camino aumentante**: $\mu_3 = (s \to 1 \to 3 \to 5 \to 6 \to t)$ con incremento de flujo $\Delta_3 = \textcolor{dodgerblue}{\delta_t = 1}$.
+* **Actualización de flujos ($\mathbf{f}^3$)**:
+  * $f_{s1} \leftarrow 3 + 1 = 4$, $f_{13} \leftarrow 3 + 1 = 4$, $f_{56} \leftarrow 0 + 1 = 1$, $f_{6t} \leftarrow 2 + 1 = 3$.
+  * $f_{35} \leftarrow 3 + 1 = 4$ (el arco $(3,5)$ queda **saturado**, pasando a verde).
+  * Flujo total circulante de retorno: $f_0^3 = 5 + 1 = 6$.
+
+**Iteración 4**:
+
+* **Propagación de etiquetas**:
+  * Etiqueta inicial en $s$: $(-, \, \textcolor{dodgerblue}{+\infty})$.
+  * Desde $s$: etiquetar $1$ con $(\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7 - 4 = 3})$.
+  * Desde $1$: etiquetar $3$ con $(\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{3, 5 - 4\} = 1})$ y $2$ con $(\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{3, 1\} = 1})$.
+  * Desde $3$: el arco $(3,5)$ está saturado ($f_{35} = 4 = c_{35}$), por lo que se etiqueta $4$ con $(\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{1, 2\} = 1})$.
+  * Desde $4$: etiquetar $6$ con $(\textcolor{forestgreen}{+4}, \, \textcolor{dodgerblue}{\min\{1, 5 - 2\} = 1})$.
+  * Desde $6$: por el arco entrante $(5,6)$ con flujo positivo ($f_{56} = 1 > 0$) se etiqueta $5$ de forma inversa con $(\textcolor{firebrick}{-6}, \, \textcolor{dodgerblue}{\min\{1, 1\} = 1})$, y por $(6,t)$ se etiqueta el sumidero $t$ con $(\textcolor{forestgreen}{+6}, \, \textcolor{dodgerblue}{\min\{1, 6 - 3\} = 1})$.
+* **Camino aumentante**: $\mu_4 = (s \to 1 \to 3 \to 4 \to 6 \to t)$ con incremento de flujo $\Delta_4 = \textcolor{dodgerblue}{\delta_t = 1}$.
+* **Actualización de flujos ($\mathbf{f}^4$)**:
+  * $f_{s1} \leftarrow 4 + 1 = 5$, $f_{34} \leftarrow 0 + 1 = 1$, $f_{46} \leftarrow 2 + 1 = 3$, $f_{6t} \leftarrow 3 + 1 = 4$.
+  * $f_{13} \leftarrow 4 + 1 = 5$ (el arco $(1,3)$ queda **saturado**, pasando a verde).
+  * Flujo total circulante de retorno: $f_0^4 = 6 + 1 = 7$.
+
 **Iteración 5**:
 
 * **Propagación de etiquetas**:
-  * Etiqueta inicial en $s$: $(\text{–}, \, \textcolor{dodgerblue}{+\infty})$.
+  * Etiqueta inicial en $s$: $(-, \, \textcolor{dodgerblue}{+\infty})$.
   * Desde $s$: el arco $(s,2)$ está saturado ($f_{s2} = 2 = c_{s2}$). Etiquetar $1$ con $(\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7 - 5 = 2})$.
   * Desde $1$: el arco $(1,3)$ está saturado ($f_{13} = 5 = c_{13}$). Mediante $(1,2)$ etiquetamos $2$ con $(\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{2, 1\} = 1})$.
   * Desde $2$: mediante $(2,4)$ etiquetamos $4$ con $(\textcolor{forestgreen}{+2}, \, \textcolor{dodgerblue}{\min\{1, 4 - 2\} = 1})$.
@@ -1079,7 +1113,7 @@ Se aplica el algoritmo de Ford-Fulkerson por etiquetado partiendo del flujo nulo
 **Iteración 6 (Criterio de Parada)**:
 
 * **Propagación de etiquetas**:
-  * Etiqueta inicial en $s$: $(\text{–}, \, \textcolor{dodgerblue}{+\infty})$.
+  * Etiqueta inicial en $s$: $(-, \, \textcolor{dodgerblue}{+\infty})$.
   * Desde $s$: el arco $(s,2)$ está saturado. Etiquetar $1$ con $(\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7 - 6 = 1})$.
   * Desde $1$: el arco $(1,3)$ está saturado ($f_{13} = 5 = c_{13}$) y el arco $(1,2)$ está saturado ($f_{12} = 1 = c_{12}$). No es posible etiquetar ningún nodo adicional desde $1$.
   * **Fin del algoritmo**: El sumidero $t$ **no resulta etiquetado** ($t \notin S$).
@@ -1091,6 +1125,10 @@ Se aplica el algoritmo de Ford-Fulkerson por etiquetado partiendo del flujo nulo
 * **Corte de capacidad mínima**: $w^+(N) = \{(s, 2), (1, 3), (1, 2)\}$.
 * **Capacidad del corte**:
   $$ C(w^+(N)) = c_{s2} + c_{13} + c_{12} = 2 + 5 + 1 = 8 = f_0^* $$
+
+::: {.content-visible when-format="pdf"}
+![Traza paso a paso del algoritmo de Ford-Fulkerson mediante propagación de etiquetas de vértices y corte mínimo resultante](images/ford_fulkerson_etiquetado_pasos.png){#fig-ford-fulkerson-etiquetado-animado fig-align="center" width="95%"}
+:::
 
 ::: {.content-visible when-format="html"}
 ::: {#fig-ford-fulkerson-etiquetado-animado}
@@ -1261,7 +1299,7 @@ Considérese la red de transporte de 5 nodos $V = \{s, a, b, c, t\}$ representad
 
 ![Red de transporte de 5 nodos para el problema de flujo a coste mínimo](images/red_flujo_coste_minimo_ejemplo.png){#fig-red-flujo-coste-minimo-ejemplo fig-align="center" width="70%"}
 
-Supóngase que se desea enviar un flujo total prefijado de $\nu = 4$ unidades desde la fuente $s$ al sumidero $t$. Como se ilustra en la @fig-comparacion-flujos-coste-minimo, existen múltiples asignaciones compatibles de flujo. Analicemos dos soluciones factibles particulares, $\mathbf{f}^A$ (destacada en rojo) y $\mathbf{f}^B$ (destacada en azul), cuyos costes totales $c_A = 19$ y $c_B = 18$ se desglosan en la recuadros superiores derechos de la figura:
+Supóngase que se desea enviar un flujo total prefijado de $\nu = 4$ unidades desde la fuente $s$ al sumidero $t$. Como se ilustra en la @fig-comparacion-flujos-coste-minimo, existen múltiples asignaciones compatibles de flujo. Analicemos dos soluciones factibles particulares, $\mathbf{f}^A$ (destacada en rojo) y $\mathbf{f}^B$ (destacada en azul), cuyos costes totales $c_A = 19$ y $c_B = 18$ se desglosan en los recuadros superiores derechos de la figura:
 
 ![Comparación de dos flujos compatibles A y B de valor caudal 4 con sus costes totales y caracterización del ciclo de diferencia](images/comparacion_flujos_coste_minimo.png){#fig-comparacion-flujos-coste-minimo fig-align="center" width="75%"}
 
@@ -1338,7 +1376,7 @@ La combinación didáctica de ambos teoremas proporciona el esquema general de r
 2. **Crecimiento Iterativo por Caminos Mínimos (Teorema 2)**: A partir del flujo óptimo inicial, se calcula iterativamente la cadena de coste residual mínimo desde $s$ hasta $t$ y se incrementa el flujo en $\delta$ unidades. Por el Teorema 2, cada paso garantiza la optimalidad del nuevo caudal $\nu + \delta$, repitiendo la búsqueda hasta alcanzar el volumen objetivo $\nu$ prefijado en el problema.
 :::
 
-### Algoritmo de Flujo a Coste Mínimo (Grafo de distancias)
+### Algoritmo de flujo a coste mínimo (grafo de distancias)
 
 El problema de hallar cadenas incrementales de coste mínimo en la red inicial se traduce operacionalmente en encontrar **caminos de longitud mínima** entre la fuente $s$ y el sumidero $t$ en el grafo de distancias residual $G(\mathbf{f})$. Una vez obtenido el camino más corto, el siguiente paso consiste en determinar el incremento máximo de flujo compatible a lo largo de sus arcos. La detección temprana de circuitos negativos en este grafo permite asegurar que el estado inicial del sistema es coherente con los principios de optimalidad descritos anteriormente.
 
@@ -1346,7 +1384,7 @@ El problema de hallar cadenas incrementales de coste mínimo en la red inicial s
 Cualquier circuito de longitud total estrictamente negativa en el grafo residual $G(\mathbf{f})$ se corresponde de forma unívoca con un **ciclo incremental de coste negativo** en la red de transporte original.
 :::
 
-::: {.callout-note title="Esquema: Algoritmo de Flujo a Coste Mínimo" data-kind="esquema"}
+::: {.callout-note title="Esquema: Algoritmo de flujo a coste mínimo" data-kind="esquema"}
 * **Paso 1: Inicialización**: Obtener un flujo compatible inicial $\mathbf{f}$ (habitualmente el flujo nulo $\mathbf{f}^0 = \mathbf{0}$ para $\nu = 0$).
 
 * **Paso 2: Eliminación de ciclos con coste negativo**:
@@ -1374,7 +1412,7 @@ Considérese la red de transporte de 5 nodos $V = \{s, a, b, c, t\}$ con 7 arcos
 * Arco 6: $(c, b)$ con capacidad $c_{cb} = 2$ y coste $p_{cb} = 1$.
 * Arco 7: $(c, t)$ con capacidad $c_{ct} = 5$ y coste $p_{ct} = 2$.
 
-Se desea transmitir un caudal total objetivo de $\nu = 5$ unidades desde la fuente $s$ al sumidero $t$ al menor coste total posible.
+Se desea transmitir un caudal total objetivo de $\nu = 5$ unidades desde la fuente $s$ al sumidero $t$ al menor coste total posible, siguiendo la evolución residual ilustrada paso a paso en la @fig-flujo-coste-minimo-paso1-animado.
 
 **Paso a paso de los cálculos e iteraciones**
 
@@ -1416,10 +1454,10 @@ Como el caudal actual $f_0 = 0$ es estrictamente menor que la meta $\nu = 5$, ap
   1. **Paso 3.1 (Camino Mínimo en $G(\mathbf{f}^1)$)**: Buscamos en $G(\mathbf{f}^1)$ el camino de longitud residual mínima entre $s$ y $t$. Se encuentra el camino mínimo $\mu_1 = s \to a \to t$ con coste residual $p(\mu_1) = p_{sa} + p_{at} = 3 + (-1) = 2$.
   2. **Paso 3.2 (Capacidad residual e incremento)**: Capacidad residual de la cadena $c(\mu_1) = \min \{ 3 - 0, \, 4 - 0 \} = 3$ unidades. Incremento de flujo: $\Delta_1 = \min \{ 3, \, 5 - 0 \} = 3$ unidades.
   3. **Paso 3.3 (Actualización de flujos)**: Asignamos $\Delta_1 = 3$ unidades a lo largo de $\mu_1$: $f_{sa}^2 = 3, f_{at}^2 = 3$. El caudal circulante alcanza $f_0 = 3$. Coste acumulado: $C(\mathbf{f}^2) = -4 + 3(2) = 2$.
-  4. **Paso 3.4 (Nuevo Grafo Residual $G(\mathbf{f}^2)$)**: El arco $(s, a)$ queda saturado ($f_{sa} = 3 = c_{sa}$), generando el arco inverso $(a, s)$ con peso $-3$. El arco $(a, t)$ está parcialmente cargado ($f_{at} = 3 < 4$), manteniendo el arco directo $(a, t)$ con peso $-1$ en el grafo azul (y $+1$ al recorrerlo en la figura del camino) y el arco inverso $(t, a)$ con peso $+1$.
+  4. **Paso 3.4 (Nuevo Grafo Residual $G(\mathbf{f}^2)$)**: El arco $(s, a)$ queda saturado ($f_{sa} = 3 = c_{sa}$), generando el arco inverso $(a, s)$ con peso $-3$. El arco $(a, t)$ está parcialmente cargado ($f_{at} = 3 < 4$), manteniendo el arco directo $(a, t)$ con peso $-1$ en la red residual y el arco inverso $(t, a)$ con peso $+1$.
 
 * **Segunda iteración del Paso 3 (Caudal $f_0 = 3 \to 4$)**:
-  1. **Paso 3.5 (Camino Mínimo en $G(\mathbf{f}^2)$)**: Como $f_0 = 3 < 5 = \nu$, buscamos el siguiente camino residual mínimo entre $s$ y $t$. Se encuentra el camino mínimo $\mu_2 = s \to b \to c \to a \to t$ con coste residual $p(\mu_2) = p_{sb} + p(b,c) + p(c,a) + p(a,t) = 3 + (-1) + 1 + 1 = 4$ (o 2 neto por cancelación de flujo en arcos inversos).
+  1. **Paso 3.5 (Camino Mínimo en $G(\mathbf{f}^2)$)**: Como $f_0 = 3 < 5 = \nu$, buscamos el siguiente camino residual mínimo entre $s$ y $t$. Se encuentra el camino mínimo $\mu_2 = s \to b \to c \to a \to t$ con coste residual $p(\mu_2) = p_{sb} - p_{cb} - p_{ac} + p_{at} = 3 + (-1) + 1 + (-1) = 2$.
   2. **Paso 3.6 (Capacidad residual e incremento)**: Capacidad residual disponible:
      $$c(\mu_2) = \min \{ c_{sb} - f_{sb}^2, \, f_{cb}^2, \, f_{ac}^2, \, c_{at} - f_{at}^2 \} = \min \{ 2 - 0, \, 2, \, 2, \, 4 - 3 \} = 1 \text{ unidad}$$
 
@@ -1429,9 +1467,9 @@ Como el caudal actual $f_0 = 0$ es estrictamente menor que la meta $\nu = 5$, ap
   4. **Paso 3.8 (Nuevo Grafo Residual $G(\mathbf{f}^3)$)**: Al estar $(a, t)$ saturado ($f_{at} = 4$), desaparece su arco directo y únicamente permanece el inverso $(t, a)$ con peso $+1$. Los arcos $(s, b)$, $(a, c)$ y $(b, c)$ están parcialmente cargados ($f=1 < c=2$), generando dobles arcos.
 
 * **Tercera iteración del Paso 3 (Caudal $f_0 = 4 \to 5$)**:
-  1. **Paso 3.9 (Camino Mínimo en $G(\mathbf{f}^3)$)**: Como $f_0 = 4 < 5 = \nu$, buscamos el camino residual mínimo entre $s$ y $t$. Se encuentra el camino mínimo $\mu_3 = s \to b \to c \to t$ con coste residual $p(\mu_3) = p_{sb} + p(b,c) + p_{ct} = 3 + (-1) + 2 = 4$.
+  1. **Paso 3.9 (Camino Mínimo en $G(\mathbf{f}^3)$)**: Como $f_0 = 4 < 5 = \nu$, buscamos el camino residual mínimo entre $s$ y $t$. Se encuentra el camino mínimo $\mu_3 = s \to b \to c \to t$ con coste residual $p(\mu_3) = p_{sb} - p_{cb} + p_{ct} = 3 + (-1) + 2 = 4$.
   2. **Paso 3.10 (Capacidad residual e incremento final)**: Capacidad residual disponible:
-     $$c(\mu_3) = \min \{ c_{sb} - f_{sb}^3, \, c_{cb} - f_{cb}^3, \, c_{ct} - f_{ct}^3 \} = \min \{ 2 - 1, \, 2 - 1, \, 5 - 0 \} = 1 \text{ unidad}$$
+     $$c(\mu_3) = \min \{ c_{sb} - f_{sb}^3, \, f_{cb}^3, \, c_{ct} - f_{ct}^3 \} = \min \{ 2 - 1, \, 1, \, 5 - 0 \} = 1 \text{ unidad}$$
 
      Incremento final: $\Delta_3 = \min \{ 1, \, 5 - 4 \} = 1$ unidad.
 
@@ -1452,6 +1490,10 @@ El **Coste Mínimo Óptimo Total** resultante es:
 $$C^* = 3(3) + 2(3) + 2(-2) + 1(-1) + 0(1) + 4(-1) + 1(2) = 9 + 6 - 4 - 1 + 0 - 4 + 2 = 8$$
 
 **Reproductor interactivo de la traza algorítmica**
+
+::: {.content-visible when-format="pdf"}
+![Evolución residual y pasos clave del algoritmo de flujo a coste mínimo hasta alcanzar el óptimo $C^*=8$](images/flujo_coste_minimo_pasos.png){#fig-flujo-coste-minimo-paso1-animado fig-align="center" width="95%"}
+:::
 
 ::: {.content-visible when-format="html"}
 ::: {#fig-flujo-coste-minimo-paso1-animado}
@@ -1500,18 +1542,18 @@ Dada una red dirigida $G = (V, U)$ con $|V| = n$ nodos y $|U| = m$ arcos, defini
 * **Disponibilidad o recurso en los nodos**: $b_i$ representa el balance neto de mercancía en el nodo $i \in V$:
   * **Nodo de Oferta ($b_i > 0$)**: El nodo genera o dispone de $b_i$ unidades de mercancía.
   * **Nodo de Demanda ($b_i < 0$)**: El nodo requiere o consume $|b_i|$ unidades de mercancía.
-  * **Nodo de Transbordo ($b_i = 0$)**: El nodo no produce ni consume mercancía; todo el flujo que entra debe salir.
+  * **Nodo de Transbordo ($b_i = 0$)**: El nodo no produce ni consume mercancía, por lo que todo el flujo que entra debe salir.
 
 **Hipótesis de Equilibrio**: Se asume que la red está en equilibrio, de forma que la oferta total generada es exactamente igual a la demanda total requerida:
 
-$$\sum_{i=1}^n b_i = 0$$
+$$\sum_{i \in V} b_i = 0$$
 
 El modelo de Programación Lineal del problema del transbordo se formula como:
 
 $$
 \begin{aligned}
-\min_{f \ge 0} \quad & \sum_{i=1}^n \sum_{j=1}^n p_{ij} f_{ij} \\
-\text{sujeto a} \quad & \sum_{j=1}^n f_{ij} - \sum_{k=1}^n f_{ki} = b_i, \quad \forall i \in V \\
+\min_{f \ge 0} \quad & \sum_{(i,j) \in U} p_{ij} f_{ij} \\
+\text{sujeto a} \quad & \sum_{j \mid (i,j) \in U} f_{ij} - \sum_{k \mid (k,i) \in U} f_{ki} = b_i, \quad \forall i \in V \\
 & \ell_{ij} \le f_{ij} \le c_{ij}, \quad \forall (i, j) \in U
 \end{aligned}
 $$

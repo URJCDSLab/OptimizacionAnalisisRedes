@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,7 +59,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-0687a6949ae11671cfb8b930681aab34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -149,9 +149,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Optimización y Análisis de Redes</a> 
     </div>
@@ -277,7 +275,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#ciclos-y-su-relación-con-los-flujos" id="toc-ciclos-y-su-relación-con-los-flujos" class="nav-link" data-scroll-target="#ciclos-y-su-relación-con-los-flujos"><span class="header-section-number">8.1.1</span> Ciclos y su relación con los flujos</a></li>
   <li><a href="#bases-de-flujos-y-número-ciclomático" id="toc-bases-de-flujos-y-número-ciclomático" class="nav-link" data-scroll-target="#bases-de-flujos-y-número-ciclomático"><span class="header-section-number">8.1.2</span> Bases de flujos y número ciclomático</a></li>
-  <li><a href="#cociclos-y-lema-de-coloración-de-arcos-de-minty" id="toc-cociclos-y-lema-de-coloración-de-arcos-de-minty" class="nav-link" data-scroll-target="#cociclos-y-lema-de-coloración-de-arcos-de-minty"><span class="header-section-number">8.1.3</span> Cociclos y Lema de Coloración de Arcos de Minty</a></li>
+  <li><a href="#cociclos-y-lema-de-coloración-de-arcos-de-minty" id="toc-cociclos-y-lema-de-coloración-de-arcos-de-minty" class="nav-link" data-scroll-target="#cociclos-y-lema-de-coloración-de-arcos-de-minty"><span class="header-section-number">8.1.3</span> Cociclos y lema de coloración de arcos de Minty</a></li>
   <li><a href="#ortogonalidad-fundamental-entre-ciclos-y-cociclos" id="toc-ortogonalidad-fundamental-entre-ciclos-y-cociclos" class="nav-link" data-scroll-target="#ortogonalidad-fundamental-entre-ciclos-y-cociclos"><span class="header-section-number">8.1.4</span> Ortogonalidad fundamental entre ciclos y cociclos</a></li>
   </ul></li>
   <li><a href="#el-problema-del-flujo-máximo" id="toc-el-problema-del-flujo-máximo" class="nav-link" data-scroll-target="#el-problema-del-flujo-máximo"><span class="header-section-number">8.2</span> El problema del flujo máximo</a>
@@ -293,7 +291,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#planteamiento-y-formulación-del-flujo-compatible-a-coste-mínimo" id="toc-planteamiento-y-formulación-del-flujo-compatible-a-coste-mínimo" class="nav-link" data-scroll-target="#planteamiento-y-formulación-del-flujo-compatible-a-coste-mínimo"><span class="header-section-number">8.3.1</span> Planteamiento y formulación del flujo compatible a coste mínimo</a></li>
   <li><a href="#teoremas-de-optimalidad-y-caracterización-de-circuitos" id="toc-teoremas-de-optimalidad-y-caracterización-de-circuitos" class="nav-link" data-scroll-target="#teoremas-de-optimalidad-y-caracterización-de-circuitos"><span class="header-section-number">8.3.2</span> Teoremas de optimalidad y caracterización de circuitos</a></li>
-  <li><a href="#algoritmo-de-flujo-a-coste-mínimo-grafo-de-distancias" id="toc-algoritmo-de-flujo-a-coste-mínimo-grafo-de-distancias" class="nav-link" data-scroll-target="#algoritmo-de-flujo-a-coste-mínimo-grafo-de-distancias"><span class="header-section-number">8.3.3</span> Algoritmo de Flujo a Coste Mínimo (Grafo de distancias)</a></li>
+  <li><a href="#algoritmo-de-flujo-a-coste-mínimo-grafo-de-distancias" id="toc-algoritmo-de-flujo-a-coste-mínimo-grafo-de-distancias" class="nav-link" data-scroll-target="#algoritmo-de-flujo-a-coste-mínimo-grafo-de-distancias"><span class="header-section-number">8.3.3</span> Algoritmo de flujo a coste mínimo (grafo de distancias)</a></li>
   </ul></li>
   <li><a href="#el-problema-del-transbordo" id="toc-el-problema-del-transbordo" class="nav-link" data-scroll-target="#el-problema-del-transbordo"><span class="header-section-number">8.4</span> El problema del transbordo</a></li>
   </ul>
@@ -346,7 +344,7 @@ window.Quarto = {
 </div>
 <section id="estructura-algebraica-de-flujos-ciclos-y-cociclos" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="estructura-algebraica-de-flujos-ciclos-y-cociclos"><span class="header-section-number">8.1</span> Estructura algebraica de flujos, ciclos y cociclos</h2>
-<p>El análisis cualitativo y cuantitativo de las redes de flujo requiere establecer una representación matemática rigurosa basada en el álgebra lineal sobre la topología del digrafo. Los flujos en una red no son simples colecciones arbitrarias de números asignados a las conexiones; responden a leyes físicas y topológicas estrictas de conservación local en los vértices (análogas a las leyes de Kirchhoff en circuitos eléctricos o a la ecuación de continuidad en dinámica de fluidos).</p>
+<p>El análisis cualitativo y cuantitativo de las redes de flujo requiere establecer una representación matemática rigurosa basada en el álgebra lineal sobre la topología del digrafo. Los flujos en una red no son simples colecciones arbitrarias de números asignados a las conexiones, sino que responden a leyes físicas y topológicas estrictas de conservación local en los vértices (análogas a las leyes de Kirchhoff en circuitos eléctricos o a la ecuación de continuidad en dinámica de fluidos).</p>
 <p>Para formalizar este comportamiento, representamos la red como un digrafo conexo <span class="math inline">\(G = (V, U)\)</span> formado por un conjunto de <span class="math inline">\(n = |V|\)</span> vértices y <span class="math inline">\(m = |U|\)</span> arcos dirigidos.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Definición: Flujo en un digrafo y conservación" data-kind="definicion">
 <div class="callout-header d-flex align-content-center">
@@ -378,7 +376,7 @@ window.Quarto = {
 <p>Para evitar cualquier confusión entre los nombres de los arcos y los valores numéricos del flujo:</p>
 <ol type="1">
 <li><strong>Identificador del Arco</strong>: Los <span class="math inline">\(m\)</span> arcos del digrafo se etiquetan como <span class="math inline">\(u_1, u_2, \dots, u_m \in U\)</span> (o bien por el par ordenado de sus vértices <span class="math inline">\(u = (i, j)\)</span>).</li>
-<li><strong>Identificador de Vectores (Superíndices)</strong>: Los distintos vectores de flujo o de ciclo se denotan en negrita utilizando <strong>superíndices</strong> (por ejemplo, <span class="math inline">\(\mathbf{f}^1, \mathbf{f}^2, \mathbf{f}^3\)</span> para vectores de flujo; <span class="math inline">\(\mathbf{\mu}^1, \mathbf{\mu}^2\)</span> para vectores de ciclo).</li>
+<li><strong>Identificador de Vectores (Superíndices)</strong>: Los distintos vectores de flujo o de ciclo se denotan en negrita utilizando <strong>superíndices</strong> (por ejemplo, <span class="math inline">\(\mathbf{f}^1, \mathbf{f}^2, \mathbf{f}^3\)</span> para vectores de flujo y <span class="math inline">\(\mathbf{\mu}^1, \mathbf{\mu}^2\)</span> para vectores de ciclo).</li>
 <li><strong>Componentes Escalares de Arco (Subíndices)</strong>: El caudal que circula por el arco <span class="math inline">\(u_k\)</span> se denota mediante el <strong>subíndice</strong> <span class="math inline">\(f_{u_k}\)</span> (o <span class="math inline">\(f_{ij}\)</span>), correspondiente a la <span class="math inline">\(k\)</span>-ésima entrada del vector <span class="math inline">\(\mathbf{f}\)</span>. En los gráficos de la red, las etiquetas especifican explícitamente el arco y su valor (<span class="math inline">\(u_k: f_{u_k}\)</span>).</li>
 </ol>
 </div>
@@ -556,13 +554,13 @@ Figura&nbsp;8.3: Clasificación de arcos en un ciclo <span class="math inline">\
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Considérese el digrafo de referencia de 5 nodos <span class="math inline">\(s, b, c, d, t\)</span> y 7 arcos dirigidos de la <a href="#fig-ciclos-vectores" class="quarto-xref">Figura&nbsp;<span>8.4</span></a>. Se pueden identificar diversos ciclos y sus correspondientes vectores característicos <span class="math inline">\(\mathbf{\mu}_k \in \mathbb{R}^7\)</span>:</p>
+<p>Considérese el digrafo de referencia de 5 nodos <span class="math inline">\(s, b, c, d, t\)</span> y 7 arcos dirigidos de la <a href="#fig-ciclos-vectores" class="quarto-xref">Figura&nbsp;<span>8.4</span></a>. Se pueden identificar diversos ciclos y sus correspondientes vectores característicos <span class="math inline">\(\mathbf{\mu}^k \in \mathbb{R}^7\)</span>:</p>
 <ul>
-<li><span class="math inline">\(\mathbf{\mu}_1 = (1, 1, 1, 0, 0, 0, 0)^T\)</span>: Ciclo orientado <span class="math inline">\(s \to b \to c \to s\)</span> (formado por los arcos <span class="math inline">\(1, 2, 3\)</span>).</li>
-<li><span class="math inline">\(\mathbf{\mu}_2 = (0, -1, 0, 1, 1, 0, 0)^T\)</span>: Ciclo <span class="math inline">\(b \to d \to c \to b\)</span> (formado por los arcos <span class="math inline">\(4, 5\)</span> y el opuesto de <span class="math inline">\(2\)</span>).</li>
-<li><span class="math inline">\(\mathbf{\mu}_3 = (1, 0, 1, 1, 1, 0, 0)^T\)</span>: Ciclo exterior <span class="math inline">\(s \to b \to d \to c \to s\)</span>.</li>
-<li><span class="math inline">\(\mathbf{\mu}_4 = (-1, -1, -1, 0, -1, -1, -1)^T\)</span>: Ciclo global en sentido opuesto.</li>
-<li><span class="math inline">\(\mathbf{\mu}_5 = (-1, -1, -1, 0, 0, 0, 0)^T\)</span>: Ciclo inverso al ciclo <span class="math inline">\(\mathbf{\mu}_1\)</span>.</li>
+<li><span class="math inline">\(\mathbf{\mu}^1 = (1, 1, 1, 0, 0, 0, 0)^T\)</span>: Ciclo orientado <span class="math inline">\(s \to b \to c \to s\)</span> (formado por los arcos <span class="math inline">\(1, 2, 3\)</span>).</li>
+<li><span class="math inline">\(\mathbf{\mu}^2 = (0, -1, 0, 1, 1, 0, 0)^T\)</span>: Ciclo <span class="math inline">\(b \to d \to c \to b\)</span> (formado por los arcos <span class="math inline">\(4, 5\)</span> y el opuesto de <span class="math inline">\(2\)</span>).</li>
+<li><span class="math inline">\(\mathbf{\mu}^3 = (1, 0, 1, 1, 1, 0, 0)^T\)</span>: Ciclo exterior <span class="math inline">\(s \to b \to d \to c \to s\)</span>.</li>
+<li><span class="math inline">\(\mathbf{\mu}^4 = (-1, 0, -1, -1, 0, 1, 1)^T\)</span>: Ciclo perimetral exterior en sentido opuesto <span class="math inline">\(s \to c \to t \to d \to b \to s\)</span> (arcos <span class="math inline">\(u_6, u_7\)</span> directos y <span class="math inline">\(u_1, u_3, u_4\)</span> inversos).</li>
+<li><span class="math inline">\(\mathbf{\mu}^5 = (-1, -1, -1, 0, 0, 0, 0)^T\)</span>: Ciclo inverso al ciclo <span class="math inline">\(\mathbf{\mu}^1\)</span>.</li>
 </ul>
 <div id="fig-ciclos-vectores" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -576,7 +574,7 @@ Figura&nbsp;8.4: Digrafo de referencia para la evaluación de vectores caracter�
 </div>
 <p>Analizando las componentes de los vectores característicos, se comprueban de forma inmediata las siguientes relaciones lineales entre los ciclos:</p>
 <p><span class="math display">\[
-\mathbf{\mu}_1 = -\mathbf{\mu}_5, \qquad \mathbf{\mu}_3 = \mathbf{\mu}_1 + \mathbf{\mu}_2
+\mathbf{\mu}^1 = -\mathbf{\mu}^5, \qquad \mathbf{\mu}^3 = \mathbf{\mu}^1 + \mathbf{\mu}^2
 \]</span></p>
 <p>Esta propiedad demuestra que las combinaciones lineales de ciclos generan nuevos vectores característicos de ciclos, lo que fundamenta la estructura de espacio vectorial del conjunto de flujos.</p>
 </div>
@@ -650,8 +648,8 @@ Figura&nbsp;8.5: Vectores de flujo <span class="math inline">\(\mathbf{f}^2\)</s
 </div>
 <div class="callout-body-container callout-body">
 <p>Sea <span class="math inline">\(G = (V, U)\)</span> un digrafo conexo con <span class="math inline">\(n\)</span> vértices y <span class="math inline">\(m\)</span> arcos, y sea <span class="math inline">\(H = (V, T)\)</span> un árbol soporte de <span class="math inline">\(G\)</span> (formado por <span class="math inline">\(n - 1\)</span> arcos).</p>
-<p>Al añadir a <span class="math inline">\(T\)</span> cualquier arco fuera del árbol <span class="math inline">\(u \in U \setminus T\)</span>, se forma un único ciclo elemental <span class="math inline">\(\mu^u\)</span> en <span class="math inline">\(G\)</span> tal que <span class="math inline">\(\mu^u_u = 1\)</span>. El conjunto de ciclos <span class="math inline">\(H = \{\mu^u \mid u \in U \setminus T\}\)</span> constituye una <strong>base del espacio vectorial de flujos</strong> del digrafo <span class="math inline">\(G\)</span>.</p>
-<p><em>Demostración</em>: Debemos probar que el conjunto de ciclos <span class="math inline">\(H\)</span> es linealmente independiente y generador:</p>
+<p>Al añadir a <span class="math inline">\(T\)</span> cualquier arco fuera del árbol <span class="math inline">\(u \in U \setminus T\)</span>, se forma un único ciclo elemental <span class="math inline">\(\mu^u\)</span> en <span class="math inline">\(G\)</span> tal que <span class="math inline">\(\mu^u_u = 1\)</span>. El conjunto de ciclos <span class="math inline">\(B = \{\mu^u \mid u \in U \setminus T\}\)</span> constituye una <strong>base del espacio vectorial de flujos</strong> del digrafo <span class="math inline">\(G\)</span>.</p>
+<p><em>Demostración</em>: Debemos probar que el conjunto de ciclos <span class="math inline">\(B\)</span> es linealmente independiente y generador:</p>
 <ol type="1">
 <li><strong>Independencia lineal</strong>: Cada arco fuera del árbol <span class="math inline">\(u \in U \setminus T\)</span> pertenece a un único ciclo de la base (aquel generado por el propio arco <span class="math inline">\(u\)</span>). Por tanto, la componente <span class="math inline">\(\mu^u_u = 1\)</span> mientras que <span class="math inline">\(\mu^{u'}_u = 0\)</span> para cualquier otro <span class="math inline">\(u' \in U \setminus T\)</span>. La matriz construida con los vectores de la base contiene una submatriz identidad de dimensión <span class="math inline">\(|U \setminus T| = m - n + 1\)</span>, lo que garantiza independencia lineal.</li>
 <li><strong>Carácter generador</strong>: Sea un flujo arbitrario <span class="math inline">\(\mathbf{f} = (f_1, \dots, f_m)^T\)</span>. Definimos el vector <span class="math inline">\(\mathbf{g} = \mathbf{f} - \sum_{u \in U \setminus T} f_u \mathbf{\mu}^u\)</span>. Como <span class="math inline">\(\mathbf{g}\)</span> es combinación lineal de flujos, <span class="math inline">\(\mathbf{g}\)</span> es un flujo. Para cualquier arco <span class="math inline">\(u \in U \setminus T\)</span>, la componente <span class="math inline">\(g_u = f_u - f_u (1) = 0\)</span>. Por tanto, el flujo <span class="math inline">\(\mathbf{g}\)</span> tiene componentes nulas en todos los arcos de <span class="math inline">\(U \setminus T\)</span>. Esto implica que <span class="math inline">\(\mathbf{g}\)</span> es un flujo definido únicamente sobre el árbol <span class="math inline">\(T\)</span>. Por el Lema de Flujo Nulo en Árboles, se deduce que <span class="math inline">\(\mathbf{g} = \mathbf{0}\)</span>, demostrando que <span class="math inline">\(\mathbf{f} = \sum_{u \in U \setminus T} f_u \mathbf{\mu}^u\)</span>. <span class="math inline">\(\blacksquare\)</span></li>
@@ -731,7 +729,7 @@ Figura&nbsp;8.6: Animación interactiva paso a paso de la generación de la base
 </div>
 </section>
 <section id="cociclos-y-lema-de-coloración-de-arcos-de-minty" class="level3" data-number="8.1.3">
-<h3 data-number="8.1.3" class="anchored" data-anchor-id="cociclos-y-lema-de-coloración-de-arcos-de-minty"><span class="header-section-number">8.1.3</span> Cociclos y Lema de Coloración de Arcos de Minty</h3>
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="cociclos-y-lema-de-coloración-de-arcos-de-minty"><span class="header-section-number">8.1.3</span> Cociclos y lema de coloración de arcos de Minty</h3>
 <p>Mientras que los ciclos representan circulaciones internas cerradas que conservan el flujo localmente sin alterar los balances netos externos, los <strong>cociclos</strong> (o cortes topológicos) representan la estructura dual: barreras globales que separan el conjunto de vértices en dos regiones disjuntas <span class="math inline">\(A\)</span> y <span class="math inline">\(V \setminus A\)</span>. Los cociclos condicionan la capacidad global de transporte de la red y determinan la existencia de embotellamientos o cuellos de botella.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Definición: Cociclo (Corte)" data-kind="definicion">
 <div class="callout-header d-flex align-content-center">
@@ -804,12 +802,12 @@ Figura&nbsp;8.7: Ilustración de un cociclo <span class="math inline">\(w(A)\)</
 <li><p><strong>Subconjunto <span class="math inline">\(A_1 = \{a, b, e\}\)</span> (Subgráfico Izquierdo)</strong>: En esta primera partición, los nodos <span class="math inline">\(a, b, e\)</span> se encuentran en la región izquierda (destacados en <strong>azul cerúleo</strong>) y los nodos <span class="math inline">\(c, d\)</span> en la región derecha (en <strong>slate oscuro</strong>). Analizamos los 7 arcos del digrafo uno a uno:</p>
 <ul>
 <li>Arcos internos a <span class="math inline">\(A_1\)</span>: Los arcos <span class="math inline">\(u_1=(a,b)\)</span>, <span class="math inline">\(u_5=(e,a)\)</span> y <span class="math inline">\(u_6=(e,b)\)</span> conectan vértices que pertenecen ambos a <span class="math inline">\(A_1\)</span>. No cruzan la frontera y por tanto reciben el valor <span class="math inline">\(\theta_{u_1} = \theta_{u_5} = \theta_{u_6} = 0\)</span>.</li>
-<li>Arcos salientes de <span class="math inline">\(A_1\)</span>: El arco <span class="math inline">\(u_2=(b,c)\)</span> parte de <span class="math inline">\(b \in A_1\)</span> y llega a <span class="math inline">\(c \notin A_1\)</span>; de igual modo, el arco <span class="math inline">\(u_7=(e,c)\)</span> parte de <span class="math inline">\(e \in A_1\)</span> y llega a <span class="math inline">\(c \notin A_1\)</span>. Ambos son arcos directos o salientes: <span class="math inline">\(w^+(A_1) = \{u_2, u_7\}\)</span>, asignándoles el valor <span class="math inline">\(+1\)</span> (<span class="math inline">\(\theta_{u_2} = 1, \theta_{u_7} = 1\)</span>).</li>
+<li>Arcos salientes de <span class="math inline">\(A_1\)</span>: El arco <span class="math inline">\(u_2=(b,c)\)</span> parte de <span class="math inline">\(b \in A_1\)</span> y llega a <span class="math inline">\(c \notin A_1\)</span>, y de igual modo el arco <span class="math inline">\(u_7=(e,c)\)</span> parte de <span class="math inline">\(e \in A_1\)</span> y llega a <span class="math inline">\(c \notin A_1\)</span>. Ambos son arcos directos o salientes: <span class="math inline">\(w^+(A_1) = \{u_2, u_7\}\)</span>, asignándoles el valor <span class="math inline">\(+1\)</span> (<span class="math inline">\(\theta_{u_2} = 1, \theta_{u_7} = 1\)</span>).</li>
 <li>Arcos entrantes a <span class="math inline">\(A_1\)</span>: El arco <span class="math inline">\(u_4=(d,e)\)</span> parte de <span class="math inline">\(d \notin A_1\)</span> e ingresa a <span class="math inline">\(e \in A_1\)</span>. Es un arco inverso o entrante: <span class="math inline">\(w^-(A_1) = \{u_4\}\)</span>, asignándole el valor <span class="math inline">\(-1\)</span> (<span class="math inline">\(\theta_{u_4} = -1\)</span>).</li>
 <li>Arcos externos a <span class="math inline">\(A_1\)</span>: El arco <span class="math inline">\(u_3=(c,d)\)</span> conecta dos vértices fuera de <span class="math inline">\(A_1\)</span>, por lo que <span class="math inline">\(\theta_{u_3} = 0\)</span>.</li>
 <li>Vector característico de <span class="math inline">\(w(A_1)\)</span>: <span class="math inline">\(\mathbf{\theta}^1 = (0;\, 1;\, 0;\, -1;\, 0;\, 0;\, 1)^T\)</span>.</li>
 </ul></li>
-<li><p><strong>Subconjunto <span class="math inline">\(A_2 = \{b, d\}\)</span> (Subgráfico Derecho)</strong>: En esta segunda partición, los nodos <span class="math inline">\(b, d\)</span> forman la región superior (destacados en <strong>azul cerúleo</strong>) y los nodos <span class="math inline">\(a, c, e\)</span> forman la región inferior (en <strong>slate oscuro</strong>):</p>
+<li><p><strong>Subconjunto <span class="math inline">\(A_2 = \{b, d\}\)</span> (Subgráfico Derecho)</strong>: En esta segunda partición, los nodos diagonalmente opuestos <span class="math inline">\(b\)</span> (superior izquierdo) y <span class="math inline">\(d\)</span> (inferior derecho), destacados en <strong>azul cerúleo</strong>, conforman <span class="math inline">\(A_2\)</span>, separados de <span class="math inline">\(V \setminus A_2 = \{a, c, e\}\)</span> (en <strong>slate oscuro</strong>):</p>
 <ul>
 <li>Arcos salientes de <span class="math inline">\(A_2\)</span>: Los arcos <span class="math inline">\(u_2=(b,c)\)</span> (sale de <span class="math inline">\(b \in A_2\)</span> hacia <span class="math inline">\(c\)</span>) y <span class="math inline">\(u_4=(d,e)\)</span> (sale de <span class="math inline">\(d \in A_2\)</span> hacia <span class="math inline">\(e\)</span>) cruzan la frontera hacia afuera: <span class="math inline">\(w^+(A_2) = \{u_2, u_4\}\)</span>, asignándoles el valor <span class="math inline">\(+1\)</span> (<span class="math inline">\(\theta_{u_2} = 1, \theta_{u_4} = 1\)</span>).</li>
 <li>Arcos entrantes a <span class="math inline">\(A_2\)</span>: Los arcos <span class="math inline">\(u_1=(a,b)\)</span> (entra desde <span class="math inline">\(a\)</span> a <span class="math inline">\(b \in A_2\)</span>), <span class="math inline">\(u_3=(c,d)\)</span> (entra desde <span class="math inline">\(c\)</span> a <span class="math inline">\(d \in A_2\)</span>) y <span class="math inline">\(u_6=(e,b)\)</span> (entra desde <span class="math inline">\(e\)</span> a <span class="math inline">\(b \in A_2\)</span>) cruzan la frontera hacia adentro: <span class="math inline">\(w^-(A_2) = \{u_1, u_3, u_6\}\)</span>, asignándoles el valor <span class="math inline">\(-1\)</span> (<span class="math inline">\(\theta_{u_1} = -1, \theta_{u_3} = -1, \theta_{u_6} = -1\)</span>).</li>
@@ -878,13 +876,13 @@ Figura&nbsp;8.8: Evaluación de los vectores de cociclo <span class="math inline
 </div>
 </div>
 <p>El procedimiento constructivo anterior demuestra que las tres reglas de propagación de etiquetas garantizan siempre una dicotomía estricta. Para visualizar de forma clara cómo el algoritmo busca la cadena de antecedentes y cómo el color de cada arco determina la ruta de etiquetado o la detención del proceso, consideremos la aplicación completa del Lema sobre una red de 5 nodos en dos escenarios alternativos de coloración.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Aplicación del Lema de Coloración de Minty" data-kind="ejemplo">
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Aplicación del lema de coloración de Minty" data-kind="ejemplo">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejemplo: Aplicación del Lema de Coloración de Minty
+<span class="screen-reader-only">Tip</span>Ejemplo: Aplicación del lema de coloración de Minty
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1064,11 +1062,11 @@ f_0 = v(\mathbf{f}) = \sum_{j \in \Gamma^+(s)} f_{sj} = \sum_{j \in \Gamma^-(t)}
 <p>Considérese la red de transporte de 6 nodos <span class="math inline">\(V = \{s, b, c, d, e, t\}\)</span> ilustrada en la <a href="#fig-red-flujo-saturacion-ejemplo" class="quarto-xref">Figura&nbsp;<span>8.12</span></a>, equipada con el arco de retorno ficticio <span class="math inline">\(u_0 = (t, s)\)</span> llevando un flujo circulante de <span class="math inline">\(f_0 = 8\)</span> unidades (<span class="math inline">\(v(\mathbf{f}) = 8\)</span>).</p>
 <p>Evaluamos las condiciones de compatibilidad en los arcos de la red:</p>
 <ol type="1">
-<li><strong>Flujo compatible base</strong>: En el estado ilustrado, todos los arcos satisfacen <span class="math inline">\(0 \le f_u \le c_u\)</span>. Por ejemplo, el arco <span class="math inline">\((s, b)\)</span> transita con <span class="math inline">\(f_{sb} = 5 \le c_{sb} = 5\)</span> (arco saturado), mientras que <span class="math inline">\((b, c)\)</span> transita con <span class="math inline">\(f_{bc} = 2 \le c_{bc} = 3\)</span> (no saturado).</li>
-<li><strong>Evaluación de una modificación por ciclo</strong>: Supóngase que intentamos incrementar el flujo enviando 2 unidades adicionales a lo largo del circuito cerrado <span class="math inline">\(c \to d \to e \to c\)</span> (destacado en <strong>rojo teja</strong> en la figura).
+<li><strong>Flujo compatible base</strong>: En el flujo compatible de partida (análogo al empleado en el análisis de cortes), todos los arcos satisfacen <span class="math inline">\(0 \le f_u \le c_u\)</span>. Por ejemplo, el arco <span class="math inline">\((s, b)\)</span> transita con <span class="math inline">\(f_{sb} = 5 \le c_{sb} = 5\)</span> (arco saturado), mientras que <span class="math inline">\((b, c)\)</span> transita con <span class="math inline">\(f_{bc} = 2 \le c_{bc} = 3\)</span> (no saturado), <span class="math inline">\((c, d)\)</span> con <span class="math inline">\(f_{cd} = 3 \le c_{cd} = 4\)</span>, <span class="math inline">\((d, e)\)</span> con <span class="math inline">\(f_{de} = 2 \le c_{de} = 3\)</span> y <span class="math inline">\((e, c)\)</span> con <span class="math inline">\(f_{ec} = 0 \le c_{ec} = 1\)</span>.</li>
+<li><strong>Evaluación de una modificación por ciclo</strong>: Supóngase que intentamos incrementar el flujo base enviando 2 unidades adicionales a lo largo del circuito cerrado <span class="math inline">\(c \to d \to e \to c\)</span> (en la <a href="#fig-red-flujo-saturacion-ejemplo" class="quarto-xref">Figura&nbsp;<span>8.12</span></a> se muestran en <strong>rojo teja</strong> los caudales resultantes tras sumar <span class="math inline">\(+2\)</span>).
 <ul>
-<li>En el arco <span class="math inline">\((c, d)\)</span>, el flujo aumentaría de <span class="math inline">\(f_{cd} = 1\)</span> a <span class="math inline">\(1 + 2 = 3\)</span>. Sin embargo, su capacidad es <span class="math inline">\(c_{cd} = 1\)</span>, por lo que <span class="math inline">\(3 &gt; 1\)</span> violando la restricción de capacidad.</li>
-<li>De igual modo, en <span class="math inline">\((d, e)\)</span> el flujo pasaría a <span class="math inline">\(4 + 2 = 6 &gt; c_{de} = 3\)</span>, e <span class="math inline">\((e, c)\)</span> pasaría a <span class="math inline">\(2 + 2 = 4 &gt; c_{ec} = 1\)</span>.</li>
+<li>En el arco <span class="math inline">\((c, d)\)</span>, el flujo aumentaría de <span class="math inline">\(f_{cd} = 3\)</span> a <span class="math inline">\(3 + 2 = 5\)</span>. Sin embargo, su capacidad es <span class="math inline">\(c_{cd} = 4\)</span>, por lo que <span class="math inline">\(5 &gt; 4\)</span> violando la restricción de capacidad.</li>
+<li>De igual modo, en <span class="math inline">\((d, e)\)</span> el flujo pasaría de <span class="math inline">\(2\)</span> a <span class="math inline">\(2 + 2 = 4 &gt; c_{de} = 3\)</span>, y en <span class="math inline">\((e, c)\)</span> pasaría de <span class="math inline">\(0\)</span> a <span class="math inline">\(0 + 2 = 2 &gt; c_{ec} = 1\)</span>.</li>
 </ul></li>
 </ol>
 <p><em>Conclusión</em>: La adición de dicho ciclo destruye la compatibilidad del flujo al exceder las capacidades límite de los arcos.</p>
@@ -1118,13 +1116,13 @@ Figura&nbsp;8.13: Red de tráfico urbano con capacidades de vehículos por minut
 </div>
 </div>
 <p>Además de sistemas de transporte físico, el problema del flujo máximo permite resolver de forma elegante problemas de optimización combinatoria y asignación de personal.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Asignación óptima de tareas a empleados (Emparejamiento Bipartito)" data-kind="ejemplo">
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Asignación óptima de tareas a empleados (emparejamiento bipartito)" data-kind="ejemplo">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejemplo: Asignación óptima de tareas a empleados (Emparejamiento Bipartito)
+<span class="screen-reader-only">Tip</span>Ejemplo: Asignación óptima de tareas a empleados (emparejamiento bipartito)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1482,7 +1480,7 @@ c(w^+(N)) = \sum_{u \in w^+(N)} c_u = \sum_{u \in w^+(N)} f_u = f_0 \quad \black
 <li>Arco de retorno <span class="math inline">\(u_0 = (t, s)\)</span> con <span class="math inline">\(f_0 = 10, c_0 = \infty\)</span>: <strong>Negro</strong> (admite aumento).</li>
 <li>Arco <span class="math inline">\((3, 1)\)</span> con <span class="math inline">\(f_{31} = 0, c_{31} = 5\)</span>: <strong>Negro</strong> (<span class="math inline">\(0 = f_{31} &lt; c_{31}\)</span>).</li>
 <li>Arcos a capacidad máxima: <span class="math inline">\((1,2)\)</span> con <span class="math inline">\(4,(4)\)</span>, <span class="math inline">\((1,4)\)</span> con <span class="math inline">\(1,(1)\)</span>, <span class="math inline">\((3,4)\)</span> con <span class="math inline">\(5,(5)\)</span>, y <span class="math inline">\((4,2)\)</span> con <span class="math inline">\(2,(2)\)</span>: <strong>Verdes</strong> (<span class="math inline">\(0 &lt; f_u = c_u\)</span>).</li>
-<li>Arcos a capacidad intermedia: <span class="math inline">\((s,1)\)</span> con <span class="math inline">\(5,(6)\)</span>, <span class="math inline">\((s,3)\)</span> with <span class="math inline">\(5,(7)\)</span>, <span class="math inline">\((2,t)\)</span> con <span class="math inline">\(6,(7)\)</span>, y <span class="math inline">\((4,t)\)</span> con <span class="math inline">\(4,(6)\)</span>: <strong>Rojos</strong> (<span class="math inline">\(0 &lt; f_u &lt; c_u\)</span>).</li>
+<li>Arcos a capacidad intermedia: <span class="math inline">\((s,1)\)</span> con <span class="math inline">\(5,(6)\)</span>, <span class="math inline">\((s,3)\)</span> con <span class="math inline">\(5,(7)\)</span>, <span class="math inline">\((2,t)\)</span> con <span class="math inline">\(6,(7)\)</span>, y <span class="math inline">\((4,t)\)</span> con <span class="math inline">\(4,(6)\)</span>: <strong>Rojos</strong> (<span class="math inline">\(0 &lt; f_u &lt; c_u\)</span>).</li>
 </ul></li>
 </ol>
 <div id="fig-minty-demostracion-red59" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1587,13 +1585,13 @@ Figura&nbsp;8.19: Transformación de una red de transporte con flujo <span class
 </div>
 <p>La clave del algoritmo radica en que un flujo compatible <span class="math inline">\(\mathbf{f}\)</span> admite un incremento en su valor <span class="math inline">\(f_0\)</span> <strong>si y sólo si existe un camino orientado <span class="math inline">\(\mu[s, t]\)</span> desde la fuente <span class="math inline">\(s\)</span> hasta el sumidero <span class="math inline">\(t\)</span> en el grafo incremental <span class="math inline">\(G(\mathbf{f})\)</span></strong>.</p>
 <p>El procedimiento sistemático para resolver cualquier problema de flujo máximo mediante la red residual se resume en la siguiente especificación paso a paso:</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de Ford-Fulkerson por Red Incremental" data-kind="esquema">
+<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de Ford-Fulkerson por red incremental" data-kind="esquema">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esquema: Algoritmo de Ford-Fulkerson por Red Incremental
+<span class="screen-reader-only">Nota</span>Esquema: Algoritmo de Ford-Fulkerson por red incremental
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1614,13 +1612,13 @@ f_u^k, &amp; \text{si } u \notin \mu^k(+) \cup \mu^k(-) \text{ y } u \neq (t, s)
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Resolución completa paso a paso del Algoritmo de Ford-Fulkerson desde flujo nulo" data-kind="ejemplo">
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Resolución completa paso a paso del algoritmo de Ford-Fulkerson desde flujo nulo" data-kind="ejemplo">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-44-contents" aria-controls="callout-44" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejemplo: Resolución completa paso a paso del Algoritmo de Ford-Fulkerson desde flujo nulo
+<span class="screen-reader-only">Tip</span>Ejemplo: Resolución completa paso a paso del algoritmo de Ford-Fulkerson desde flujo nulo
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1717,7 +1715,7 @@ Figura&nbsp;8.20: Ejecución interactiva completa de 10 fotogramas del Algoritmo
 <section id="algoritmo-de-ford-fulkerson-por-etiquetado-de-vértices" class="level3" data-number="8.2.5">
 <h3 data-number="8.2.5" class="anchored" data-anchor-id="algoritmo-de-ford-fulkerson-por-etiquetado-de-vértices"><span class="header-section-number">8.2.5</span> Algoritmo de Ford-Fulkerson por etiquetado de vértices</h3>
 <p>El algoritmo de Ford-Fulkerson se puede plantear de forma más sencilla e intuitiva sin necesidad de construir explícitamente el grafo incremental <span class="math inline">\(G(\mathbf{f})\)</span> en cada iteración. Para ello, se emplea una <strong>regla de etiquetado dinámico de vértices</strong> que opera directamente sobre la red de transporte original.</p>
-<p>Inicialmente se asigna una etiqueta a la fuente <span class="math inline">\(s\)</span>, <span class="math inline">\(\text{Etiqueta}(s) = (\text{–}, \, \textcolor{dodgerblue}{\delta_s = +\infty})\)</span>, y paso a paso se propagan marcas y etiquetas al resto de vértices no explorados.</p>
+<p>Inicialmente se asigna una etiqueta a la fuente <span class="math inline">\(s\)</span>, <span class="math inline">\(\text{Etiqueta}(s) = (-, \, \textcolor{dodgerblue}{\delta_s = +\infty})\)</span>, y paso a paso se propagan marcas y etiquetas al resto de vértices no explorados.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Definición: Estructura de las etiquetas de vértices" data-kind="definicion">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1775,18 +1773,18 @@ Figura&nbsp;8.21: Reglas de etiquetado de vértices en el algoritmo de Ford-Fulk
 <li><strong>Si al final del proceso el sumidero <span class="math inline">\(t\)</span> resulta etiquetado</strong>: Se ha alcanzado con éxito el destino a través de una cadena de aumento <span class="math inline">\(\mu[s, t]\)</span>. El valor de la etiqueta del sumidero <span class="math inline">\(\Delta = \textcolor{dodgerblue}{\delta_t}\)</span> determina la cantidad exacta en la que se debe incrementar el flujo circulante <span class="math inline">\(f_0\)</span>.</li>
 <li><strong>Si no es posible etiquetar el sumidero <span class="math inline">\(t\)</span> (<span class="math inline">\(t \notin S\)</span>)</strong>: <strong>PARAR</strong>. Se ha alcanzado el <strong>flujo máximo</strong> <span class="math inline">\(f_0^*\)</span>. El conjunto de nodos etiquetados <span class="math inline">\(N = S\)</span> define de forma inmediata el <strong>corte de capacidad mínima</strong> <span class="math inline">\(w^+(N)\)</span>.</li>
 </ul>
-<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de Ford-Fulkerson por Etiquetado de Vértices" data-kind="esquema">
+<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de Ford-Fulkerson por etiquetado de vértices" data-kind="esquema">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esquema: Algoritmo de Ford-Fulkerson por Etiquetado de Vértices
+<span class="screen-reader-only">Nota</span>Esquema: Algoritmo de Ford-Fulkerson por etiquetado de vértices
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p><strong>Paso 1 (Inicialización)</strong>: Asignar un flujo inicial compatible <span class="math inline">\(\mathbf{f} = \mathbf{0}\)</span> (o un flujo compatible conocido). Etiquetar la fuente <span class="math inline">\(s\)</span> con la marca inicial <span class="math inline">\((\text{–}, \, \textcolor{dodgerblue}{\delta_s = +\infty})\)</span>.</p></li>
+<li><p><strong>Paso 1 (Inicialización)</strong>: Asignar un flujo inicial compatible <span class="math inline">\(\mathbf{f} = \mathbf{0}\)</span> (o un flujo compatible conocido). Etiquetar la fuente <span class="math inline">\(s\)</span> con la marca inicial <span class="math inline">\((-, \, \textcolor{dodgerblue}{\delta_s = +\infty})\)</span>.</p></li>
 <li><p><strong>Paso 2 (Evaluación de Exploración)</strong>: ¿Todos los vértices etiquetados han sido totalmente explorados?</p>
 <ul>
 <li><strong>SÍ</strong>: Ir al <strong>Paso 6</strong>.</li>
@@ -1805,7 +1803,7 @@ Figura&nbsp;8.21: Reglas de etiquetado de vértices en el algoritmo de Ford-Fulk
 <li><p>Si la etiqueta del vértice <span class="math inline">\(k\)</span> es <span class="math inline">\((\textcolor{firebrick}{-i}, \, \delta_k)\)</span>, reducir el flujo del arco inverso: <span class="math display">\[ f_{ki} \leftarrow f_{ki} - \Delta \]</span></p></li>
 <li><p>Retroceder al nodo antecedente: <span class="math inline">\(k \leftarrow i\)</span>. ¿Es <span class="math inline">\(i = s\)</span>?</p>
 <ul>
-<li><strong>SÍ</strong>: Incrementar el flujo de retorno <span class="math inline">\(f_0 \leftarrow f_0 + \Delta\)</span>, borrar todas las etiquetas de los nodos excepto la de la fuente <span class="math inline">\(s\)</span> <span class="math inline">\((\text{–}, \, \textcolor{dodgerblue}{+\infty})\)</span> e ir al <strong>Paso 2</strong>.</li>
+<li><strong>SÍ</strong>: Incrementar el flujo de retorno <span class="math inline">\(f_0 \leftarrow f_0 + \Delta\)</span>, borrar todas las etiquetas de los nodos excepto la de la fuente <span class="math inline">\(s\)</span> <span class="math inline">\((-, \, \textcolor{dodgerblue}{+\infty})\)</span> e ir al <strong>Paso 2</strong>.</li>
 <li><strong>NO</strong>: Regresar al <strong>Subpaso 5.2</strong>.</li>
 </ul></li>
 </ol></li>
@@ -1813,13 +1811,13 @@ Figura&nbsp;8.21: Reglas de etiquetado de vértices en el algoritmo de Ford-Fulk
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Traza paso a paso del Algoritmo de Ford-Fulkerson por etiquetado de vértices" data-kind="ejemplo">
+<div class="callout callout-style-default callout-tip callout-titled" title="Ejemplo: Traza paso a paso del algoritmo de Ford-Fulkerson por etiquetado de vértices" data-kind="ejemplo">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejemplo: Traza paso a paso del Algoritmo de Ford-Fulkerson por etiquetado de vértices
+<span class="screen-reader-only">Tip</span>Ejemplo: Traza paso a paso del algoritmo de Ford-Fulkerson por etiquetado de vértices
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1834,7 +1832,7 @@ Figura&nbsp;8.21: Reglas de etiquetado de vértices en el algoritmo de Ford-Fulk
 <ul>
 <li><strong>Propagación de etiquetas</strong>:
 <ul>
-<li>Etiqueta inicial en el origen: <span class="math inline">\(\text{Etiqueta}(s) = (\text{–}, \, \textcolor{dodgerblue}{\delta_s = +\infty})\)</span>.</li>
+<li>Etiqueta inicial en el origen: <span class="math inline">\(\text{Etiqueta}(s) = (-, \, \textcolor{dodgerblue}{\delta_s = +\infty})\)</span>.</li>
 <li>Desde <span class="math inline">\(s\)</span>: etiquetar <span class="math inline">\(1\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7})\)</span> y <span class="math inline">\(2\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{2})\)</span>.</li>
 <li>Desde <span class="math inline">\(2\)</span>: etiquetar <span class="math inline">\(4\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+2}, \, \textcolor{dodgerblue}{\min\{2, 4\} = 2})\)</span>.</li>
 <li>Desde <span class="math inline">\(4\)</span>: etiquetar <span class="math inline">\(6\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+4}, \, \textcolor{dodgerblue}{\min\{2, 5\} = 2})\)</span>.</li>
@@ -1852,7 +1850,7 @@ Figura&nbsp;8.21: Reglas de etiquetado de vértices en el algoritmo de Ford-Fulk
 <ul>
 <li><strong>Propagación de etiquetas</strong>:
 <ul>
-<li>Etiqueta inicial en <span class="math inline">\(s\)</span>: <span class="math inline">\((\text{–}, \, \textcolor{dodgerblue}{+\infty})\)</span>. (El arco <span class="math inline">\((s,2)\)</span> está saturado, no permite etiquetar <span class="math inline">\(2\)</span>).</li>
+<li>Etiqueta inicial en <span class="math inline">\(s\)</span>: <span class="math inline">\((-, \, \textcolor{dodgerblue}{+\infty})\)</span>. (El arco <span class="math inline">\((s,2)\)</span> está saturado, no permite etiquetar <span class="math inline">\(2\)</span>).</li>
 <li>Desde <span class="math inline">\(s\)</span>: etiquetar <span class="math inline">\(1\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7})\)</span>.</li>
 <li>Desde <span class="math inline">\(1\)</span>: etiquetar <span class="math inline">\(3\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{7, 5\} = 5})\)</span> y <span class="math inline">\(2\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{7, 1\} = 1})\)</span>.</li>
 <li>Desde <span class="math inline">\(3\)</span>: etiquetar <span class="math inline">\(5\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{5, 4\} = 4})\)</span> y <span class="math inline">\(4\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{5, 2\} = 2})\)</span>.</li>
@@ -1866,11 +1864,49 @@ Figura&nbsp;8.21: Reglas de etiquetado de vértices en el algoritmo de Ford-Fulk
 <li>Flujo total circulante de retorno: <span class="math inline">\(f_0^2 = 2 + 3 = 5\)</span>.</li>
 </ul></li>
 </ul>
+<p><strong>Iteración 3</strong>:</p>
+<ul>
+<li><strong>Propagación de etiquetas</strong>:
+<ul>
+<li>Etiqueta inicial en <span class="math inline">\(s\)</span>: <span class="math inline">\((-, \, \textcolor{dodgerblue}{+\infty})\)</span>.</li>
+<li>Desde <span class="math inline">\(s\)</span>: etiquetar <span class="math inline">\(1\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7 - 3 = 4})\)</span> (el arco <span class="math inline">\((s,2)\)</span> permanece saturado).</li>
+<li>Desde <span class="math inline">\(1\)</span>: etiquetar <span class="math inline">\(3\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{4, 5 - 3\} = 2})\)</span> y <span class="math inline">\(2\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{4, 1\} = 1})\)</span>.</li>
+<li>Desde <span class="math inline">\(3\)</span>: etiquetar <span class="math inline">\(5\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{2, 4 - 3\} = 1})\)</span> y <span class="math inline">\(4\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{2, 2\} = 2})\)</span>.</li>
+<li>Desde <span class="math inline">\(5\)</span>: etiquetar <span class="math inline">\(6\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+5}, \, \textcolor{dodgerblue}{\min\{1, 3\} = 1})\)</span>.</li>
+<li>Desde <span class="math inline">\(6\)</span>: etiquetar el sumidero <span class="math inline">\(t\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+6}, \, \textcolor{dodgerblue}{\min\{1, 6 - 2\} = 1})\)</span>.</li>
+</ul></li>
+<li><strong>Camino aumentante</strong>: <span class="math inline">\(\mu_3 = (s \to 1 \to 3 \to 5 \to 6 \to t)\)</span> con incremento de flujo <span class="math inline">\(\Delta_3 = \textcolor{dodgerblue}{\delta_t = 1}\)</span>.</li>
+<li><strong>Actualización de flujos (<span class="math inline">\(\mathbf{f}^3\)</span>)</strong>:
+<ul>
+<li><span class="math inline">\(f_{s1} \leftarrow 3 + 1 = 4\)</span>, <span class="math inline">\(f_{13} \leftarrow 3 + 1 = 4\)</span>, <span class="math inline">\(f_{56} \leftarrow 0 + 1 = 1\)</span>, <span class="math inline">\(f_{6t} \leftarrow 2 + 1 = 3\)</span>.</li>
+<li><span class="math inline">\(f_{35} \leftarrow 3 + 1 = 4\)</span> (el arco <span class="math inline">\((3,5)\)</span> queda <strong>saturado</strong>, pasando a verde).</li>
+<li>Flujo total circulante de retorno: <span class="math inline">\(f_0^3 = 5 + 1 = 6\)</span>.</li>
+</ul></li>
+</ul>
+<p><strong>Iteración 4</strong>:</p>
+<ul>
+<li><strong>Propagación de etiquetas</strong>:
+<ul>
+<li>Etiqueta inicial en <span class="math inline">\(s\)</span>: <span class="math inline">\((-, \, \textcolor{dodgerblue}{+\infty})\)</span>.</li>
+<li>Desde <span class="math inline">\(s\)</span>: etiquetar <span class="math inline">\(1\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7 - 4 = 3})\)</span>.</li>
+<li>Desde <span class="math inline">\(1\)</span>: etiquetar <span class="math inline">\(3\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{3, 5 - 4\} = 1})\)</span> y <span class="math inline">\(2\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{3, 1\} = 1})\)</span>.</li>
+<li>Desde <span class="math inline">\(3\)</span>: el arco <span class="math inline">\((3,5)\)</span> está saturado (<span class="math inline">\(f_{35} = 4 = c_{35}\)</span>), por lo que se etiqueta <span class="math inline">\(4\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+3}, \, \textcolor{dodgerblue}{\min\{1, 2\} = 1})\)</span>.</li>
+<li>Desde <span class="math inline">\(4\)</span>: etiquetar <span class="math inline">\(6\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+4}, \, \textcolor{dodgerblue}{\min\{1, 5 - 2\} = 1})\)</span>.</li>
+<li>Desde <span class="math inline">\(6\)</span>: por el arco entrante <span class="math inline">\((5,6)\)</span> con flujo positivo (<span class="math inline">\(f_{56} = 1 &gt; 0\)</span>) se etiqueta <span class="math inline">\(5\)</span> de forma inversa con <span class="math inline">\((\textcolor{firebrick}{-6}, \, \textcolor{dodgerblue}{\min\{1, 1\} = 1})\)</span>, y por <span class="math inline">\((6,t)\)</span> se etiqueta el sumidero <span class="math inline">\(t\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+6}, \, \textcolor{dodgerblue}{\min\{1, 6 - 3\} = 1})\)</span>.</li>
+</ul></li>
+<li><strong>Camino aumentante</strong>: <span class="math inline">\(\mu_4 = (s \to 1 \to 3 \to 4 \to 6 \to t)\)</span> con incremento de flujo <span class="math inline">\(\Delta_4 = \textcolor{dodgerblue}{\delta_t = 1}\)</span>.</li>
+<li><strong>Actualización de flujos (<span class="math inline">\(\mathbf{f}^4\)</span>)</strong>:
+<ul>
+<li><span class="math inline">\(f_{s1} \leftarrow 4 + 1 = 5\)</span>, <span class="math inline">\(f_{34} \leftarrow 0 + 1 = 1\)</span>, <span class="math inline">\(f_{46} \leftarrow 2 + 1 = 3\)</span>, <span class="math inline">\(f_{6t} \leftarrow 3 + 1 = 4\)</span>.</li>
+<li><span class="math inline">\(f_{13} \leftarrow 4 + 1 = 5\)</span> (el arco <span class="math inline">\((1,3)\)</span> queda <strong>saturado</strong>, pasando a verde).</li>
+<li>Flujo total circulante de retorno: <span class="math inline">\(f_0^4 = 6 + 1 = 7\)</span>.</li>
+</ul></li>
+</ul>
 <p><strong>Iteración 5</strong>:</p>
 <ul>
 <li><strong>Propagación de etiquetas</strong>:
 <ul>
-<li>Etiqueta inicial en <span class="math inline">\(s\)</span>: <span class="math inline">\((\text{–}, \, \textcolor{dodgerblue}{+\infty})\)</span>.</li>
+<li>Etiqueta inicial en <span class="math inline">\(s\)</span>: <span class="math inline">\((-, \, \textcolor{dodgerblue}{+\infty})\)</span>.</li>
 <li>Desde <span class="math inline">\(s\)</span>: el arco <span class="math inline">\((s,2)\)</span> está saturado (<span class="math inline">\(f_{s2} = 2 = c_{s2}\)</span>). Etiquetar <span class="math inline">\(1\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7 - 5 = 2})\)</span>.</li>
 <li>Desde <span class="math inline">\(1\)</span>: el arco <span class="math inline">\((1,3)\)</span> está saturado (<span class="math inline">\(f_{13} = 5 = c_{13}\)</span>). Mediante <span class="math inline">\((1,2)\)</span> etiquetamos <span class="math inline">\(2\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+1}, \, \textcolor{dodgerblue}{\min\{2, 1\} = 1})\)</span>.</li>
 <li>Desde <span class="math inline">\(2\)</span>: mediante <span class="math inline">\((2,4)\)</span> etiquetamos <span class="math inline">\(4\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+2}, \, \textcolor{dodgerblue}{\min\{1, 4 - 2\} = 1})\)</span>.</li>
@@ -1890,7 +1926,7 @@ Figura&nbsp;8.21: Reglas de etiquetado de vértices en el algoritmo de Ford-Fulk
 <ul>
 <li><strong>Propagación de etiquetas</strong>:
 <ul>
-<li>Etiqueta inicial en <span class="math inline">\(s\)</span>: <span class="math inline">\((\text{–}, \, \textcolor{dodgerblue}{+\infty})\)</span>.</li>
+<li>Etiqueta inicial en <span class="math inline">\(s\)</span>: <span class="math inline">\((-, \, \textcolor{dodgerblue}{+\infty})\)</span>.</li>
 <li>Desde <span class="math inline">\(s\)</span>: el arco <span class="math inline">\((s,2)\)</span> está saturado. Etiquetar <span class="math inline">\(1\)</span> con <span class="math inline">\((\textcolor{forestgreen}{+s}, \, \textcolor{dodgerblue}{7 - 6 = 1})\)</span>.</li>
 <li>Desde <span class="math inline">\(1\)</span>: el arco <span class="math inline">\((1,3)\)</span> está saturado (<span class="math inline">\(f_{13} = 5 = c_{13}\)</span>) y el arco <span class="math inline">\((1,2)\)</span> está saturado (<span class="math inline">\(f_{12} = 1 = c_{12}\)</span>). No es posible etiquetar ningún nodo adicional desde <span class="math inline">\(1\)</span>.</li>
 <li><strong>Fin del algoritmo</strong>: El sumidero <span class="math inline">\(t\)</span> <strong>no resulta etiquetado</strong> (<span class="math inline">\(t \notin S\)</span>).</li>
@@ -2127,7 +2163,7 @@ Figura&nbsp;8.26: Red de transporte de 5 nodos para el problema de flujo a coste
 </figcaption>
 </figure>
 </div>
-<p>Supóngase que se desea enviar un flujo total prefijado de <span class="math inline">\(\nu = 4\)</span> unidades desde la fuente <span class="math inline">\(s\)</span> al sumidero <span class="math inline">\(t\)</span>. Como se ilustra en la <a href="#fig-comparacion-flujos-coste-minimo" class="quarto-xref">Figura&nbsp;<span>8.27</span></a>, existen múltiples asignaciones compatibles de flujo. Analicemos dos soluciones factibles particulares, <span class="math inline">\(\mathbf{f}^A\)</span> (destacada en rojo) y <span class="math inline">\(\mathbf{f}^B\)</span> (destacada en azul), cuyos costes totales <span class="math inline">\(c_A = 19\)</span> y <span class="math inline">\(c_B = 18\)</span> se desglosan en la recuadros superiores derechos de la figura:</p>
+<p>Supóngase que se desea enviar un flujo total prefijado de <span class="math inline">\(\nu = 4\)</span> unidades desde la fuente <span class="math inline">\(s\)</span> al sumidero <span class="math inline">\(t\)</span>. Como se ilustra en la <a href="#fig-comparacion-flujos-coste-minimo" class="quarto-xref">Figura&nbsp;<span>8.27</span></a>, existen múltiples asignaciones compatibles de flujo. Analicemos dos soluciones factibles particulares, <span class="math inline">\(\mathbf{f}^A\)</span> (destacada en rojo) y <span class="math inline">\(\mathbf{f}^B\)</span> (destacada en azul), cuyos costes totales <span class="math inline">\(c_A = 19\)</span> y <span class="math inline">\(c_B = 18\)</span> se desglosan en los recuadros superiores derechos de la figura:</p>
 <div id="fig-comparacion-flujos-coste-minimo" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-comparacion-flujos-coste-minimo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -2242,7 +2278,7 @@ p(\mu) = \sum_{u \in \mu^+} p_u - \sum_{u \in \mu^-} p_u
 </div>
 </section>
 <section id="algoritmo-de-flujo-a-coste-mínimo-grafo-de-distancias" class="level3" data-number="8.3.3">
-<h3 data-number="8.3.3" class="anchored" data-anchor-id="algoritmo-de-flujo-a-coste-mínimo-grafo-de-distancias"><span class="header-section-number">8.3.3</span> Algoritmo de Flujo a Coste Mínimo (Grafo de distancias)</h3>
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="algoritmo-de-flujo-a-coste-mínimo-grafo-de-distancias"><span class="header-section-number">8.3.3</span> Algoritmo de flujo a coste mínimo (grafo de distancias)</h3>
 <p>El problema de hallar cadenas incrementales de coste mínimo en la red inicial se traduce operacionalmente en encontrar <strong>caminos de longitud mínima</strong> entre la fuente <span class="math inline">\(s\)</span> y el sumidero <span class="math inline">\(t\)</span> en el grafo de distancias residual <span class="math inline">\(G(\mathbf{f})\)</span>. Una vez obtenido el camino más corto, el siguiente paso consiste en determinar el incremento máximo de flujo compatible a lo largo de sus arcos. La detección temprana de circuitos negativos en este grafo permite asegurar que el estado inicial del sistema es coherente con los principios de optimalidad descritos anteriormente.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Nota: Correspondencia de circuitos negativos" data-kind="nota">
 <div class="callout-header d-flex align-content-center">
@@ -2257,13 +2293,13 @@ p(\mu) = \sum_{u \in \mu^+} p_u - \sum_{u \in \mu^-} p_u
 <p>Cualquier circuito de longitud total estrictamente negativa en el grafo residual <span class="math inline">\(G(\mathbf{f})\)</span> se corresponde de forma unívoca con un <strong>ciclo incremental de coste negativo</strong> en la red de transporte original.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de Flujo a Coste Mínimo" data-kind="esquema">
+<div class="callout callout-style-default callout-note callout-titled" title="Esquema: Algoritmo de flujo a coste mínimo" data-kind="esquema">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Esquema: Algoritmo de Flujo a Coste Mínimo
+<span class="screen-reader-only">Nota</span>Esquema: Algoritmo de flujo a coste mínimo
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -2311,7 +2347,7 @@ p(\mu) = \sum_{u \in \mu^+} p_u - \sum_{u \in \mu^-} p_u
 <li>Arco 6: <span class="math inline">\((c, b)\)</span> con capacidad <span class="math inline">\(c_{cb} = 2\)</span> y coste <span class="math inline">\(p_{cb} = 1\)</span>.</li>
 <li>Arco 7: <span class="math inline">\((c, t)\)</span> con capacidad <span class="math inline">\(c_{ct} = 5\)</span> y coste <span class="math inline">\(p_{ct} = 2\)</span>.</li>
 </ul>
-<p>Se desea transmitir un caudal total objetivo de <span class="math inline">\(\nu = 5\)</span> unidades desde la fuente <span class="math inline">\(s\)</span> al sumidero <span class="math inline">\(t\)</span> al menor coste total posible.</p>
+<p>Se desea transmitir un caudal total objetivo de <span class="math inline">\(\nu = 5\)</span> unidades desde la fuente <span class="math inline">\(s\)</span> al sumidero <span class="math inline">\(t\)</span> al menor coste total posible, siguiendo la evolución residual ilustrada paso a paso en la <a href="#fig-flujo-coste-minimo-paso1-animado" class="quarto-xref">Figura&nbsp;<span>8.28</span></a>.</p>
 <p><strong>Paso a paso de los cálculos e iteraciones</strong></p>
 <p><strong>Paso 1: Inicialización</strong></p>
 <p>Se inicia el procedimiento fijando la solución de flujo nulo <span class="math inline">\(\mathbf{f}^0 = \mathbf{0}\)</span> para un valor de caudal circulante de <span class="math inline">\(f_0 = 0\)</span>. El coste acumulado inicial es <span class="math inline">\(C(\mathbf{f}^0) = \sum_{(i,j) \in U} p_{ij} f_{ij}^0 = 0\)</span>.</p>
@@ -2339,11 +2375,11 @@ p(\mu) = \sum_{u \in \mu^+} p_u - \sum_{u \in \mu^-} p_u
 <li><strong>Paso 3.1 (Camino Mínimo en <span class="math inline">\(G(\mathbf{f}^1)\)</span>)</strong>: Buscamos en <span class="math inline">\(G(\mathbf{f}^1)\)</span> el camino de longitud residual mínima entre <span class="math inline">\(s\)</span> y <span class="math inline">\(t\)</span>. Se encuentra el camino mínimo <span class="math inline">\(\mu_1 = s \to a \to t\)</span> con coste residual <span class="math inline">\(p(\mu_1) = p_{sa} + p_{at} = 3 + (-1) = 2\)</span>.</li>
 <li><strong>Paso 3.2 (Capacidad residual e incremento)</strong>: Capacidad residual de la cadena <span class="math inline">\(c(\mu_1) = \min \{ 3 - 0, \, 4 - 0 \} = 3\)</span> unidades. Incremento de flujo: <span class="math inline">\(\Delta_1 = \min \{ 3, \, 5 - 0 \} = 3\)</span> unidades.</li>
 <li><strong>Paso 3.3 (Actualización de flujos)</strong>: Asignamos <span class="math inline">\(\Delta_1 = 3\)</span> unidades a lo largo de <span class="math inline">\(\mu_1\)</span>: <span class="math inline">\(f_{sa}^2 = 3, f_{at}^2 = 3\)</span>. El caudal circulante alcanza <span class="math inline">\(f_0 = 3\)</span>. Coste acumulado: <span class="math inline">\(C(\mathbf{f}^2) = -4 + 3(2) = 2\)</span>.</li>
-<li><strong>Paso 3.4 (Nuevo Grafo Residual <span class="math inline">\(G(\mathbf{f}^2)\)</span>)</strong>: El arco <span class="math inline">\((s, a)\)</span> queda saturado (<span class="math inline">\(f_{sa} = 3 = c_{sa}\)</span>), generando el arco inverso <span class="math inline">\((a, s)\)</span> con peso <span class="math inline">\(-3\)</span>. El arco <span class="math inline">\((a, t)\)</span> está parcialmente cargado (<span class="math inline">\(f_{at} = 3 &lt; 4\)</span>), manteniendo el arco directo <span class="math inline">\((a, t)\)</span> con peso <span class="math inline">\(-1\)</span> en el grafo azul (y <span class="math inline">\(+1\)</span> al recorrerlo en la figura del camino) y el arco inverso <span class="math inline">\((t, a)\)</span> con peso <span class="math inline">\(+1\)</span>.</li>
+<li><strong>Paso 3.4 (Nuevo Grafo Residual <span class="math inline">\(G(\mathbf{f}^2)\)</span>)</strong>: El arco <span class="math inline">\((s, a)\)</span> queda saturado (<span class="math inline">\(f_{sa} = 3 = c_{sa}\)</span>), generando el arco inverso <span class="math inline">\((a, s)\)</span> con peso <span class="math inline">\(-3\)</span>. El arco <span class="math inline">\((a, t)\)</span> está parcialmente cargado (<span class="math inline">\(f_{at} = 3 &lt; 4\)</span>), manteniendo el arco directo <span class="math inline">\((a, t)\)</span> con peso <span class="math inline">\(-1\)</span> en la red residual y el arco inverso <span class="math inline">\((t, a)\)</span> con peso <span class="math inline">\(+1\)</span>.</li>
 </ol></li>
 <li><strong>Segunda iteración del Paso 3 (Caudal <span class="math inline">\(f_0 = 3 \to 4\)</span>)</strong>:
 <ol type="1">
-<li><p><strong>Paso 3.5 (Camino Mínimo en <span class="math inline">\(G(\mathbf{f}^2)\)</span>)</strong>: Como <span class="math inline">\(f_0 = 3 &lt; 5 = \nu\)</span>, buscamos el siguiente camino residual mínimo entre <span class="math inline">\(s\)</span> y <span class="math inline">\(t\)</span>. Se encuentra el camino mínimo <span class="math inline">\(\mu_2 = s \to b \to c \to a \to t\)</span> con coste residual <span class="math inline">\(p(\mu_2) = p_{sb} + p(b,c) + p(c,a) + p(a,t) = 3 + (-1) + 1 + 1 = 4\)</span> (o 2 neto por cancelación de flujo en arcos inversos).</p></li>
+<li><p><strong>Paso 3.5 (Camino Mínimo en <span class="math inline">\(G(\mathbf{f}^2)\)</span>)</strong>: Como <span class="math inline">\(f_0 = 3 &lt; 5 = \nu\)</span>, buscamos el siguiente camino residual mínimo entre <span class="math inline">\(s\)</span> y <span class="math inline">\(t\)</span>. Se encuentra el camino mínimo <span class="math inline">\(\mu_2 = s \to b \to c \to a \to t\)</span> con coste residual <span class="math inline">\(p(\mu_2) = p_{sb} - p_{cb} - p_{ac} + p_{at} = 3 + (-1) + 1 + (-1) = 2\)</span>.</p></li>
 <li><p><strong>Paso 3.6 (Capacidad residual e incremento)</strong>: Capacidad residual disponible: <span class="math display">\[c(\mu_2) = \min \{ c_{sb} - f_{sb}^2, \, f_{cb}^2, \, f_{ac}^2, \, c_{at} - f_{at}^2 \} = \min \{ 2 - 0, \, 2, \, 2, \, 4 - 3 \} = 1 \text{ unidad}\]</span></p>
 <p>Incremento de flujo compatible: <span class="math inline">\(\Delta_2 = \min \{ 1, \, 5 - 3 \} = 1\)</span> unidad.</p></li>
 <li><p><strong>Paso 3.7 (Actualización de flujos)</strong>: Aumenta el flujo directo en <span class="math inline">\((s, b)\)</span> y <span class="math inline">\((a, t)\)</span>: <span class="math inline">\(f_{sb}^3 = 1\)</span> y <span class="math inline">\(f_{at}^3 = 4\)</span> (saturado). Al recorrer en sentido inverso <span class="math inline">\((c, b)\)</span> y <span class="math inline">\((a, c)\)</span>, el flujo se reduce en 1 unidad: <span class="math inline">\(f_{cb}^3 = 1, f_{ac}^3 = 1\)</span>. El caudal circulante alcanza <span class="math inline">\(f_0 = 4\)</span>. Coste acumulado: <span class="math inline">\(C(\mathbf{f}^3) = 2 + 1(2) = 4\)</span>.</p></li>
@@ -2351,8 +2387,8 @@ p(\mu) = \sum_{u \in \mu^+} p_u - \sum_{u \in \mu^-} p_u
 </ol></li>
 <li><strong>Tercera iteración del Paso 3 (Caudal <span class="math inline">\(f_0 = 4 \to 5\)</span>)</strong>:
 <ol type="1">
-<li><p><strong>Paso 3.9 (Camino Mínimo en <span class="math inline">\(G(\mathbf{f}^3)\)</span>)</strong>: Como <span class="math inline">\(f_0 = 4 &lt; 5 = \nu\)</span>, buscamos el camino residual mínimo entre <span class="math inline">\(s\)</span> y <span class="math inline">\(t\)</span>. Se encuentra el camino mínimo <span class="math inline">\(\mu_3 = s \to b \to c \to t\)</span> con coste residual <span class="math inline">\(p(\mu_3) = p_{sb} + p(b,c) + p_{ct} = 3 + (-1) + 2 = 4\)</span>.</p></li>
-<li><p><strong>Paso 3.10 (Capacidad residual e incremento final)</strong>: Capacidad residual disponible: <span class="math display">\[c(\mu_3) = \min \{ c_{sb} - f_{sb}^3, \, c_{cb} - f_{cb}^3, \, c_{ct} - f_{ct}^3 \} = \min \{ 2 - 1, \, 2 - 1, \, 5 - 0 \} = 1 \text{ unidad}\]</span></p>
+<li><p><strong>Paso 3.9 (Camino Mínimo en <span class="math inline">\(G(\mathbf{f}^3)\)</span>)</strong>: Como <span class="math inline">\(f_0 = 4 &lt; 5 = \nu\)</span>, buscamos el camino residual mínimo entre <span class="math inline">\(s\)</span> y <span class="math inline">\(t\)</span>. Se encuentra el camino mínimo <span class="math inline">\(\mu_3 = s \to b \to c \to t\)</span> con coste residual <span class="math inline">\(p(\mu_3) = p_{sb} - p_{cb} + p_{ct} = 3 + (-1) + 2 = 4\)</span>.</p></li>
+<li><p><strong>Paso 3.10 (Capacidad residual e incremento final)</strong>: Capacidad residual disponible: <span class="math display">\[c(\mu_3) = \min \{ c_{sb} - f_{sb}^3, \, f_{cb}^3, \, c_{ct} - f_{ct}^3 \} = \min \{ 2 - 1, \, 1, \, 5 - 0 \} = 1 \text{ unidad}\]</span></p>
 <p>Incremento final: <span class="math inline">\(\Delta_3 = \min \{ 1, \, 5 - 4 \} = 1\)</span> unidad.</p></li>
 <li><p><strong>Paso 3.11 (Actualización de flujos y condición de parada)</strong>: Se incrementa el flujo en 1 unidad a lo largo de <span class="math inline">\(\mu_3\)</span>:</p>
 <ul>
@@ -2419,16 +2455,16 @@ Figura&nbsp;8.28: Animación interactiva de la traza completa de 15 fotogramas: 
 <ul>
 <li><strong>Nodo de Oferta (<span class="math inline">\(b_i &gt; 0\)</span>)</strong>: El nodo genera o dispone de <span class="math inline">\(b_i\)</span> unidades de mercancía.</li>
 <li><strong>Nodo de Demanda (<span class="math inline">\(b_i &lt; 0\)</span>)</strong>: El nodo requiere o consume <span class="math inline">\(|b_i|\)</span> unidades de mercancía.</li>
-<li><strong>Nodo de Transbordo (<span class="math inline">\(b_i = 0\)</span>)</strong>: El nodo no produce ni consume mercancía; todo el flujo que entra debe salir.</li>
+<li><strong>Nodo de Transbordo (<span class="math inline">\(b_i = 0\)</span>)</strong>: El nodo no produce ni consume mercancía, por lo que todo el flujo que entra debe salir.</li>
 </ul></li>
 </ul>
 <p><strong>Hipótesis de Equilibrio</strong>: Se asume que la red está en equilibrio, de forma que la oferta total generada es exactamente igual a la demanda total requerida:</p>
-<p><span class="math display">\[\sum_{i=1}^n b_i = 0\]</span></p>
+<p><span class="math display">\[\sum_{i \in V} b_i = 0\]</span></p>
 <p>El modelo de Programación Lineal del problema del transbordo se formula como:</p>
 <p><span class="math display">\[
 \begin{aligned}
-\min_{f \ge 0} \quad &amp; \sum_{i=1}^n \sum_{j=1}^n p_{ij} f_{ij} \\
-\text{sujeto a} \quad &amp; \sum_{j=1}^n f_{ij} - \sum_{k=1}^n f_{ki} = b_i, \quad \forall i \in V \\
+\min_{f \ge 0} \quad &amp; \sum_{(i,j) \in U} p_{ij} f_{ij} \\
+\text{sujeto a} \quad &amp; \sum_{j \mid (i,j) \in U} f_{ij} - \sum_{k \mid (k,i) \in U} f_{ki} = b_i, \quad \forall i \in V \\
 &amp; \ell_{ij} \le f_{ij} \le c_{ij}, \quad \forall (i, j) \in U
 \end{aligned}
 \]</span></p>
